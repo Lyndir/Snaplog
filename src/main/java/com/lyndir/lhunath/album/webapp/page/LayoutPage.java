@@ -94,7 +94,7 @@ public class LayoutPage extends WebPage {
 
         // User Summary.
         userSummary = new WebMarkupContainer( "userSummary" );
-        userSummary.add( new Label( "userTag", new AbstractReadOnlyModel<String>() {
+        userSummary.add( new Label( "userBadge", new AbstractReadOnlyModel<String>() {
 
             @Override
             public String getObject() {

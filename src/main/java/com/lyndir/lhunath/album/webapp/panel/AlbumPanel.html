@@ -28,6 +28,28 @@
 
     <body>
         <wicket:panel>
+            <h1 wicket:id="title">[Viewing lhunath's Album]</h1>
+            
+            <div id="viewer">
+                <div class="photo" wicket:id="photo">
+                    <div class="caption">
+                        <div class="highlight"></div>
+                        <div class="shadow"></div>
+                        <img src="images/resources/testphoto1.png" />
+                        Ophelia making music on christmas day.
+                    </div>
+                    <div class="t"></div>
+                    <div class="tr"></div>
+                    <div class="r"></div>
+                    <div class="br"></div>
+                    <div class="b"></div>
+                    <div class="bl"></div>
+                    <div class="l"></div>
+                    <div class="tl"></div>
+                </div>
+            </div>
+                        
+            <!-- Album Toolbar -->
             <ul class="toolbar">
                 <li class="start"></li>
                 <li class="end"></li>
@@ -40,8 +62,7 @@
                     <wicket:message key="toolAccess" /></a></li>
             </ul>
 
-            <h1 wicket:id="title">[Viewing lhunath's Album]</h1>
-            
+            <!-- Timeline Tool -->
             <div id="timelinePopup" class="popup">
                 <a id="timelinePopupClose" class="close ss_sprite ss_cancel"></a>
 
@@ -66,11 +87,6 @@
                         </ol>
                     </li>
                 </ol>
-            </div>
-            
-            <div id="browser" wicket:id="media">
-                <img wicket:id="thumb" />
-                <h3 wicket:id="date">[October 21th]</h3>
             </div>
 
         </wicket:panel>

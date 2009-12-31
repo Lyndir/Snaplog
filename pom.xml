@@ -116,11 +116,18 @@
 	<!-- DEPENDENCY MANAGEMENT -->
 	<dependencies>
 
-        <!-- JLIBS -->
+        <!-- jLibs -->
         <dependency>
             <groupId>com.lyndir.lhunath.jlibs</groupId>
             <artifactId>system</artifactId>
             <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- LinkID -->
+        <dependency>
+            <groupId>net.lin-k.safe-online</groupId>
+            <artifactId>safe-online-sdk</artifactId>
+            <version>1.10</version>
         </dependency>
 
         <!-- EXTERNAL DEPENDENCIES -->

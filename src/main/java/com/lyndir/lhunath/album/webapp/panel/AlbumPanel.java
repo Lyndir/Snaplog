@@ -16,13 +16,10 @@
 package com.lyndir.lhunath.album.webapp.panel;
 
 import java.text.MessageFormat;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
 
 import org.apache.wicket.behavior.AttributeAppender;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -30,7 +27,6 @@ import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 
 import com.lyndir.lhunath.album.messages.Messages;
-import com.lyndir.lhunath.album.model.MediaFile;
 import com.lyndir.lhunath.album.model.MediaService;
 import com.lyndir.lhunath.album.model.MediaTimeFrame;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
@@ -65,7 +61,7 @@ public class AlbumPanel extends Panel {
             public String getObject() {
 
                 // TODO: Unhardcode username.
-                return msgs.albumTitle( "lhunath" );
+                return msgs.albumTitle( "~", "lhunath" );
             }
         } ) );
 
@@ -124,20 +120,6 @@ public class AlbumPanel extends Panel {
             }
         } );
 
-        List<MediaFile> files = new LinkedList<MediaFile>( MediaService.getAllFiles() );
-        Collections.reverse( files );
-
-        add( new ListView<MediaFile>( "media", files ) {
-
-            @Override
-            protected void populateItem(ListItem<MediaFile> mediaItem) {
-
-                MediaFile mediaFile = mediaItem.getModelObject();
-
-                mediaItem.add( new Image( "thumb" ) );
-                mediaItem.add( new Label( "date", mediaFile.getDateString() ) );
-            }
-        } );
-
+        add( new WebMarkupContainer( "photo" ) );
     }
 }
