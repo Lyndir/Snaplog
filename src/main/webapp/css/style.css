@@ -1,0 +1,204 @@
+/**************** Copyright 2010, Lhunath (Maarten Billemont) *****************/
+
+
+/*******************************************************************************
+ * GLOBAL PROPERTIES *
+ */
+html {
+    background:         #4c4c4c url("../images/layout/canvas.png");
+}
+body {
+    background:         url("../images/layout/backdrop.png") repeat-x;
+    color:              white;
+}
+h1, h2, h3, h4, h5, h6 {
+    color:              #ddd;
+}
+a, a:link {
+    color:              white;
+    text-decoration:    underline;
+
+    cursor:             pointer;
+}
+a:hover {
+    color:              white;
+    text-decoration:    none;
+}
+
+
+/*******************************************************************************
+ * HEADER *
+ */
+#header {
+    background:         url("../images/layout/header.png") no-repeat;
+
+    height:             100px;
+    padding:            64px 0 0 400px;
+
+    color:              #edd;
+    font-size:          1.1em;
+}
+#header .summary {
+    float:              left;
+
+    height:             23px;
+    padding:            7px;
+}
+#header .tabs {
+    background:         url("../images/layout/separator.png") no-repeat top left;
+    float:              right;
+
+    height:             30px;
+    padding:            0;
+}
+#header .tabs li {
+    background:         url("../images/layout/separator.png") no-repeat top right;
+
+    display:            block;
+    float:              left;
+}
+#header .tabs li.right {
+    float:              right;
+}
+#header .tabs a {
+    display:            block;
+    width:              10em;
+    height:             23px;
+    padding-top:        7px;
+
+    border:             0 dashed transparent;
+    border-bottom-width:1px;
+
+    color:              inherit;
+    text-align:         center;
+    text-decoration:    none;
+}
+#header .tabs .active a {
+    font-weight:        bold;
+}
+#header .tabs .active a, #header .tabs a:hover {
+    border-color:       #8f0000;
+    color:              white;
+    border-bottom-style:solid;
+}
+#header .tabs:hover .active a {
+    border-color:       transparent;
+}
+#header .tabs a:hover {
+    border-color:       #8f0000 !important;
+}
+
+
+/*******************************************************************************
+ * TOOLBAR *
+ */
+.toolbar {
+    background:         url("../images/layout/toolbar.middle.png") repeat-x;
+
+    position:           absolute;
+    top:                100px;
+    right:              4em;
+    padding:            0;
+}
+.toolbar li {
+    float:              left;
+
+    list-style:         none;
+    padding:            5px 1em;
+}
+.toolbar li.start {
+    background:         url("../images/layout/toolbar.left.png") no-repeat top left;
+
+    width:              15px;
+    height:             35px;
+    padding:            0;
+}
+.toolbar li.end {
+    background:         url("../images/layout/toolbar.right.png") no-repeat top right;
+
+    float:              right;
+    width:              15px;
+    height:             35px;
+    padding:            0;
+}
+
+
+/*******************************************************************************
+ * POPUP *
+ */
+.popup {
+    background:         rgba(32, 32, 32, 0.95);
+    border:             2px outset #333;
+
+    display:            none;                       /* Defaults to invisible. */
+    position:           fixed;
+    top:                25%;
+    left:               15%;
+    width:              70%;
+    height:             60%;
+    padding:            2em 3em;
+    margin:             -2em -3em;
+
+    overflow:           auto;
+}
+.popup .close {
+    display:            block;
+    position:           fixed;
+    top:                25%;
+    right:              15%;
+    margin:             -1em -1.5em;
+}
+.popup h1 {
+    display:            inline-block;
+    margin:             0 0 1em 0;
+}
+.popup h1:first-letter {
+    font-size:          1.5em;
+}
+
+
+/*******************************************************************************
+ * TIMELINE *
+ */
+#timeline, #timeline ol {
+    display:            block;
+    margin-bottom:      24px;
+
+    font-size:          0;
+}
+#timeline li {
+    display:            inline-block;
+    margin:             0;
+    padding:            0;
+
+    list-style:         none;
+
+    font-size:          10px;
+}
+#timeline li a {
+    color:              inherit;
+    text-decoration:    none;
+}
+#timeline li.year,
+#timeline li.month {
+    margin:             0 2em;
+
+    font-weight:        bold;
+}
+#timeline li.year {
+    display:            block;
+}
+#timeline li.month {
+}
+#timeline li.day {
+    width:              3em;
+
+    border-bottom:      0 solid white;
+
+    text-align:         center;
+}
+#timeline h1 sub {
+    font-size:          0.3em;
+}
+
+

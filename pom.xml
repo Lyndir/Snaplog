@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- PROJECT METADATA -->
+    <parent>
+        <groupId>com.lyndir.lhunath</groupId>
+        <artifactId>lyndir</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+
+    <groupId>com.lyndir.lhunath.album</groupId>
+    <artifactId>album</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging>
+
+    <name>Album</name>
+    <url>http://gorillas.lyndir.com</url>
+    <inceptionYear>2009</inceptionYear>
+    <description>
+        A media album site.
+    </description>
+
+    <organization>
+        <name>Lhunath</name>
+        <url>http://www.lhunath.com</url>
+    </organization>
+
+
+    <!-- DEVELOPERS -->
+    <developers>
+        <developer>
+            <id>lhunath</id>
+            <name>Maarten Billemont</name>
+            <email>lhunath@gmail.com</email>
+            <roles>
+                <role>development</role>
+            </roles>
+            <timezone>+1</timezone>
+            <properties>
+                <jabber>lhunath@gmail.com</jabber>
+                <msn>lhunath@lyndir.com</msn>
+                <msn>15559107</msn>
+                <private-email>lhunath@gmail.com</private-email>
+            </properties>
+        </developer>
+    </developers>
+
+
+    <!-- CODE MANAGEMENT -->
+    <scm>
+        <url>http://album.lhunath.com</url>
+        <connection>${scm.git.pubbase}/Album.git</connection>
+        <developerConnection>${scm.git.devbase}/Album.git</developerConnection>
+    </scm>
+    <issueManagement>
+        <system>GitHub</system>
+        <url>http://album.lyndir.com/</url>
+    </issueManagement>
+
+
+    <!-- DEFAULT PROPERTIES -->
+    <properties>
+    </properties>
+
+	<!-- BUILD CONFIGURATION -->
+	<build>
+		<resources>
+			<resource>
+				<filtering>false</filtering>
+				<directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>raw</exclude>
+                </excludes>
+			</resource>
+			<resource>
+				<filtering>false</filtering>
+				<directory>src/main/java</directory>
+				<includes>
+					<include>**</include>
+				</includes>
+				<excludes>
+					<exclude>**/*.java</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<configuration>
+					<filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+					<webResources>
+						<resource>
+							<directory>${basedir}/src/main/webapp/WEB-INF</directory>
+							<targetPath>WEB-INF</targetPath>
+							<filtering>true</filtering>
+						</resource>
+					</webResources>
+				</configuration>
+			</plugin>
+            <plugin>
+                <groupId>org.mortbay.jetty</groupId>
+                <artifactId>maven-jetty-plugin</artifactId>
+                <version>6.1.15</version>
+                <configuration>
+                    <scanIntervalSeconds>2</scanIntervalSeconds>
+                </configuration>
+            </plugin>
+        </plugins>
+	</build>
+
+	<!-- DEPENDENCY MANAGEMENT -->
+	<dependencies>
+
+        <!-- JLIBS -->
+        <dependency>
+            <groupId>com.lyndir.lhunath.jlibs</groupId>
+            <artifactId>system</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
+
+        <!-- EXTERNAL DEPENDENCIES -->
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-extensions</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-ioc</artifactId>
+		</dependency>
+
+        <dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>joda-time</groupId>
+            <artifactId>joda-time</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+            <scope>test</scope>
+		</dependency>
+
+	</dependencies>
+
+
+</project>
+

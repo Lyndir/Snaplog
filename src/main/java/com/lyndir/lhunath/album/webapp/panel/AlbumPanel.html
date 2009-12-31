@@ -1,0 +1,79 @@
+<!DOCTYPE html PUBLIC "-//W5C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:wicket="http://wicket.sourceforge.net/">
+
+    <head>
+        <wicket:head>
+            <script type="text/javascript">
+
+                // Timeline
+                function timeline(action) {
+                    $('#timelinePopup').animate({height:action});
+                }
+
+                $(document).ready(function() {
+                    $('#toolTimeline').click(function () {
+                        timeline('toggle');
+                    });
+                    $('#timelinePopupClose').click(function () {
+                        timeline('hide');
+                    });
+                    $('[rel=yearLink]').click(function () {
+                        $(this).closest('li').find('ol').animate({opacity:'toggle', height:'toggle'});
+                    });
+                });
+            </script>
+        </wicket:head>
+    </head>
+
+    <body>
+        <wicket:panel>
+            <ul class="toolbar">
+                <li class="start"></li>
+                <li class="end"></li>
+
+                <li><a id="toolTimeline" class="ss_sprite ss_time">
+                    <wicket:message key="toolTimeline" /></a></li>
+                <li><a id="toolTags" class="ss_sprite ss_tag_green">
+                    <wicket:message key="toolTags" /></a></li>
+                <li><a id="toolAccess" class="ss_sprite ss_key">
+                    <wicket:message key="toolAccess" /></a></li>
+            </ul>
+
+            <h1 wicket:id="title">[Viewing lhunath's Album]</h1>
+            
+            <div id="timelinePopup" class="popup">
+                <a id="timelinePopupClose" class="close ss_sprite ss_cancel"></a>
+
+                <h1><wicket:message key="albumTimeline" /></h1>
+                <p><wicket:message key="albumTimelineInfo" /></p>
+
+                <ol id="timeline" class="clearfix">
+                    <li wicket:id="years" class="year">
+                        <h2><a rel="yearLink">
+                            <span wicket:id="name">[2010]</span>
+                            <sub wicket:id="photos">[(42 photos)]</sub>
+                        </a></h2>
+
+                        <ol>
+                            <li wicket:id="months" class="month">
+                                <h3 wicket:id="name">[October]</h3>
+
+                                <ol>
+                                    <li wicket:id="days" class="day"><span wicket:id="name">21</span></li>
+                                </ol>
+                            </li>
+                        </ol>
+                    </li>
+                </ol>
+            </div>
+            
+            <div id="browser" wicket:id="media">
+                <img wicket:id="thumb" />
+                <h3 wicket:id="date">[October 21th]</h3>
+            </div>
+
+        </wicket:panel>
+    </body>
+
+</html>
