@@ -12,16 +12,16 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <groupId>com.lyndir.lhunath.album</groupId>
-    <artifactId>album</artifactId>
+    <groupId>com.lyndir.lhunath.snaplog</groupId>
+    <artifactId>snaplog</artifactId>
     <version>1.0-SNAPSHOT</version>
     <packaging>war</packaging>
 
-    <name>Album</name>
+    <name>Snaplog</name>
     <url>http://gorillas.lyndir.com</url>
     <inceptionYear>2009</inceptionYear>
     <description>
-        A media album site.
+        A social photo network.
     </description>
 
     <organization>
@@ -52,13 +52,13 @@
 
     <!-- CODE MANAGEMENT -->
     <scm>
-        <url>http://album.lhunath.com</url>
-        <connection>${scm.git.pubbase}/Album.git</connection>
-        <developerConnection>${scm.git.devbase}/Album.git</developerConnection>
+        <url>http://snaplog.net</url>
+        <connection>${scm.git.pubbase}/snaplog.git</connection>
+        <developerConnection>${scm.git.devbase}/snaplog.git</developerConnection>
     </scm>
     <issueManagement>
-        <system>GitHub</system>
-        <url>http://album.lyndir.com/</url>
+        <system>Codaset</system>
+        <url>http://codaset.com/lhunath/snaplog</url>
     </issueManagement>
 
 
@@ -127,7 +127,7 @@
         <dependency>
             <groupId>net.lin-k.safe-online</groupId>
             <artifactId>safe-online-sdk</artifactId>
-            <version>1.10</version>
+            <version>1.9</version>
         </dependency>
 
         <!-- EXTERNAL DEPENDENCIES -->

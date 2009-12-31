@@ -38,7 +38,7 @@ a:hover {
     color:              #edd;
     font-size:          1.1em;
 }
-#header .summary {
+#header p {
     float:              left;
 
     height:             23px;

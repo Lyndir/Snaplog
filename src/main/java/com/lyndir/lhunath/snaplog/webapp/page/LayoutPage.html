@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:wicket="http://wicket.sourceforge.net/">
+
+    <head>
+        <title wicket:id="pageTitle">[Page Title]</title>
+
+        <link rel="icon" href="images/resources/favicon.png" type="image/x-png" />
+        <link rel="shortcut icon" href="images/resources/favicon.png" type="image/x-png" />
+        <meta http-equiv="Content-type" content="text/html;charset=UTF-8" />
+
+        <link rel="stylesheet" type="text/css" href="js/shadowbox-3.0/shadowbox.css" />
+        <link rel="stylesheet" type="text/css" href="css/blueprint/screen.css" media="screen, projection" />
+        <link rel="stylesheet" type="text/css" href="css/blueprint/print.css" media="print" />
+        <link rel="stylesheet" type="text/css" href="css/sprites.css" />
+        <!--[if lt IE 8]>
+          <link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection">
+        <![endif]-->
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+
+        <script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
+        <!--script type="text/javascript" src="http://www.lhunath.com/.jquery/jquery.timers.js"></script>
+        <script type="text/javascript" src="js/swfobject/swfobject.js"></script>
+        <script type="text/javascript" src="js/flowplayer/flowplayer-3.1.1.min.js"></script>
+        <script type="text/javascript" src="js/shadowbox-3.0/shadowbox.js"></script>
+        <script type="text/javascript">
+            // Google Analytics
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+        </script><script type="text/javascript">
+            // Shadowbox
+            Shadowbox.init({
+                players:        ["img","flv"]
+            });
+        </script-->
+    </head>
+
+    <body>
+        <div id="header">
+            <p wicket:id="userEntry">
+                <span wicket:id="userGuessWelcome">[Welcome back, ~lhunath]</span>.
+                <a wicket:id="userLogin"><wicket:message key="userLogin" /></a>
+            </p>
+            <p wicket:id="userSummary">
+                <wicket:message key="userWelcome" />
+                <span wicket:id="userBadge" class="userBadge">[~]</span><a wicket:id="userName">[lhunath]</a><wicket:enclosure>, 
+                    <a wicket:id="userMessages">[1 message]</a></wicket:enclosure><wicket:enclosure>, 
+                    <a wicket:id="userRequests">[1 request]</a></wicket:enclosure>,
+                    <a wicket:id="userLogout"><wicket:message key="userLogout" /></a>
+            </p>
+            <ul wicket:id="headTabsContainer" class="tabs">
+                <li wicket:id="headTabs">
+                    <a wicket:id="link">
+                        <span wicket:id="title">[Tab]</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <div class="container">
+            <div wicket:id="contentPanel" class="span-24 prepend-top">[Tab Contents]</div>
+
+            <!-- W3C, Valid XHTML 1.0 -->
+            <p class="span-24 last">
+                <a href="http://validator.w3.org/check?uri=referer">
+                    <img src="images/resources/valid-xhtml10.png" alt="Valid XHTML 1.0 Strict" />
+                </a>
+            </p>
+
+            <div id="footer" class="span-24 last">
+                <!-- Credits -->
+                <wicket:message key="credits" />
+                <a href="http://www.lhunath.com">Maarten Billemont</a>.
+            </div>
+        </div>
+    </body>
+
+</html>

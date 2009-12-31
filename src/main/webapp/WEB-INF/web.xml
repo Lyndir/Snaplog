@@ -6,6 +6,61 @@
 
     <display-name>${pom.name}</display-name>
 
+    <!-- Application Context Parameters -->
+	<context-param>
+		<param-name>WebappPath</param-name>
+        <param-value>/snaplog/</param-value>
+	</context-param>
+    <context-param>
+        <description>Path used to initiate a login process.</description>
+        <param-name>AuthenticationServicePath</param-name>
+        <param-value>/entry</param-value>
+    </context-param>
+	<context-param>
+		<description>Path used to initiate a single logout process.</description>
+		<param-name>LogoutServicePath</param-name>
+		<param-value>/logoutentry</param-value>
+	</context-param>
+	<context-param>
+		<description>Path used to finalize a logout request sent by the authentication webapp following a single logout process by another application.</description>
+		<param-name>LogoutExitServicePath</param-name>
+		<param-value>/logoutexit</param-value>
+	</context-param>
+    <context-param>
+        <param-name>ApplicationName</param-name>
+        <param-value>Snaplog</param-value>
+    </context-param>
+    <context-param>
+        <param-name>AuthenticationProtocol</param-name>
+        <param-value>SAML2</param-value>
+    </context-param>
+    <context-param>
+        <param-name>KeyStoreResource</param-name>
+        <param-value>snaplog.jks</param-value>
+    </context-param>
+    <context-param>
+        <param-name>KeyStoreType</param-name>
+        <param-value>jks</param-value>
+    </context-param>
+    <context-param>
+        <param-name>KeyStorePassword</param-name>
+        <param-value>secret</param-value>
+    </context-param>
+    <context-param>
+        <param-name>SingleSignOnEnabled</param-name>
+        <param-value>true</param-value>
+    </context-param>
+    <context-param>
+        <description>Landing page to finalize a login process.</description>
+        <param-name>LandingPage</param-name>
+        <param-value>/login</param-value>
+    </context-param>
+    <context-param>
+        <description>Landing page to finalize a logout process.</description>
+        <param-name>LogoutLandingPage</param-name>
+        <param-value>/logout</param-value>
+    </context-param>
+
     <!-- Application Event Listeners -->
     <!--listener>
         <listener-class>com.lyndir.lhunath.gorillas.listener.GorillasListener</listener-class>
@@ -30,5 +85,51 @@
 		<filter-name>WicketFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
-    
+   
+    <!-- Application Servlet Definitions And Mappings -->
+	<servlet>
+		<servlet-name>AuthLoginServlet</servlet-name>
+		<servlet-class>net.link.safeonline.sdk.auth.servlet.LoginServlet</servlet-class>
+
+		<init-param>
+			<param-name>ErrorPage</param-name>
+			<param-value>protocol-error</param-value>
+		</init-param>
+	</servlet>
+	<servlet>
+		<servlet-name>AuthLogoutServlet</servlet-name>
+		<servlet-class>net.link.safeonline.sdk.auth.servlet.LogoutServlet</servlet-class>
+
+		<init-param>
+			<param-name>LogoutPath</param-name>
+			<param-value>/applogout</param-value>
+		</init-param>
+		<init-param>
+			<param-name>ErrorPage</param-name>
+			<param-value>protocol-error</param-value>
+		</init-param>
+	</servlet>
+	<servlet>
+		<servlet-name>AppLogoutServlet</servlet-name>
+		<servlet-class>com.lyndir.lhunath.snaplog.webapp.servlet.LogoutServlet</servlet-class>
+
+		<init-param>
+			<param-name>LogoutExitPath</param-name>
+			<param-value>/logout</param-value>
+		</init-param>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>AuthLoginServlet</servlet-name>
+		<url-pattern>/login</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AuthLogoutServlet</servlet-name>
+		<url-pattern>/logout</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>AppLogoutServlet</servlet-name>
+		<url-pattern>/applogout</url-pattern>
+	</servlet-mapping>
+ 
 </web-app>
