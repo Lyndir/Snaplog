@@ -49,8 +49,9 @@ public class MessagesBundle extends EnumResourceBundle<String> {
         pageTitle("{0}{1}''s album"),
         credits("<b>Album</b> by"),
 
-        userWelcome("Welcome, {0}{1}"),
-        userWelcomeBack("Welcome back, {0}{1}"),
+        welcome("Welcome"),
+        userWelcome("Welcome {0}{1}"),
+        userWelcomeBack("Welcome back {0}{1}"),
         userNameUnknown("stranger"),
 
         userLogin("Sign in"),

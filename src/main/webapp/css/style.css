@@ -204,27 +204,22 @@ a:hover {
 
 
 /*******************************************************************************
- * PHOTO *
+ * BACKDROP *
  */
-#viewer {
-    text-align:         center;
-}
-#viewer .photo {
+.backdrop {
     display:            inline-block;
     position:           relative;
     padding:            4px 14px 14px 4px;
     font-size:          0;
 }
-#viewer .photo img {
+.backdrop img {
     border-bottom:      1px solid #111;
 
     display:            block;
     position:           relative;
     z-index:            1;
-    max-width:          600px;
-    max-height:         450px;
 }
-#viewer .photo .caption {
+.backdrop .caption {
     background:         #222;
     border:             1px solid #111;
 
@@ -234,25 +229,7 @@ a:hover {
     font-size:          14px;
     line-height:        2em;
 }
-#viewer .photo .highlight {
-    background:         url("../images/layout/photo.m.highlight.png") no-repeat top left;
-
-    position:           absolute;
-    z-index:            2;
-    left:               0;
-    width:              100%;
-    height:             100%;
-}
-#viewer .photo .shadow {
-    background:         url("../images/layout/photo.m.shadow.png") no-repeat top right;
-
-    position:           absolute;
-    z-index:            2;
-    right:              0;
-    width:              100%;
-    height:             100%;
-}
-#viewer .photo .t {
+.backdrop .t {
     background:         url("../images/layout/photo.t.png") repeat-x;
     clip:               rect(0 99999px 5px 50px);
 
@@ -262,7 +239,7 @@ a:hover {
     width:              100%;
     height:             5px;
 }
-#viewer .photo .tr {
+.backdrop .tr {
     background:         url("../images/layout/photo.tr.png") no-repeat;
 
     position:           absolute;
@@ -271,7 +248,7 @@ a:hover {
     width:              20px;
     height:             20px;
 }
-#viewer .photo .r {
+.backdrop .r {
     background:         url("../images/layout/photo.r.png") repeat-y;
     clip:               rect(40px 15px 99999px 0);
 
@@ -281,7 +258,7 @@ a:hover {
     width:              15px;
     height:             100%;
 }
-#viewer .photo .br {
+.backdrop .br {
     background:         url("../images/layout/photo.br.png") no-repeat;
 
     position:           absolute;
@@ -290,7 +267,7 @@ a:hover {
     width:              20px;
     height:             20px;
 }
-#viewer .photo .b {
+.backdrop .b {
     background:         url("../images/layout/photo.b.png") repeat-x;
     clip:               rect(0 99999px 15px 50px);
 
@@ -300,7 +277,7 @@ a:hover {
     width:              100%;
     height:             15px;
 }
-#viewer .photo .bl {
+.backdrop .bl {
     background:         url("../images/layout/photo.bl.png") no-repeat;
 
     position:           absolute;
@@ -309,7 +286,7 @@ a:hover {
     width:              30px;
     height:             20px;
 }
-#viewer .photo .l {
+.backdrop .l {
     background:         url("../images/layout/photo.l.png") repeat-y;
     clip:               rect(40px 15px 99999px 0);
 
@@ -319,7 +296,7 @@ a:hover {
     width:              15px;
     height:             100%;
 }
-#viewer .photo .tl {
+.backdrop .tl {
     background:         url("../images/layout/photo.tl.png") no-repeat;
 
     position:           absolute;
@@ -328,3 +305,33 @@ a:hover {
     width:              30px;
     height:             20px;
 }
+
+/*******************************************************************************
+ * PHOTO *
+ */
+#viewer {
+    text-align:         center;
+}
+#viewer .backdrop .highlight {
+    background:         url("../images/layout/photo.m.highlight.png") no-repeat top left;
+
+    position:           absolute;
+    z-index:            2;
+    left:               0;
+    width:              100%;
+    height:             100%;
+}
+#viewer .backdrop .shadow {
+    background:         url("../images/layout/photo.m.shadow.png") no-repeat top right;
+
+    position:           absolute;
+    z-index:            2;
+    right:              0;
+    width:              100%;
+    height:             100%;
+}
+.sized {
+    max-width:          600px;
+    max-height:         450px;
+}
+

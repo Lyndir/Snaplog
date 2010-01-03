@@ -26,6 +26,7 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.resource.loader.BundleStringResourceLoader;
 import org.apache.wicket.settings.IExceptionSettings;
 
+import com.lyndir.lhunath.snaplog.linkid.SnaplogWebappConfig;
 import com.lyndir.lhunath.snaplog.messages.MessagesBundle;
 import com.lyndir.lhunath.snaplog.webapp.error.AccessDeniedErrorPage;
 import com.lyndir.lhunath.snaplog.webapp.error.InternalErrorPage;
@@ -52,6 +53,8 @@ public class SnaplogWebApplication extends WebApplication {
     @Override
     protected void init() {
 
+        new SnaplogWebappConfig();
+
         getResourceSettings().addStringResourceLoader(
                                                        new BundleStringResourceLoader(
                                                                MessagesBundle.class.getCanonicalName() ) );
@@ -73,6 +76,8 @@ public class SnaplogWebApplication extends WebApplication {
                 return markupParser;
             }
         } );
+
+        addPreComponentOnBeforeRenderListener( new AuthenticationListener() );
     }
 
     /**

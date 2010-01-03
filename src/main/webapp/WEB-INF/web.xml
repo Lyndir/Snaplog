@@ -28,7 +28,7 @@
 	</context-param>
     <context-param>
         <param-name>ApplicationName</param-name>
-        <param-value>Snaplog</param-value>
+        <param-value>snaplog</param-value>
     </context-param>
     <context-param>
         <param-name>AuthenticationProtocol</param-name>
@@ -73,7 +73,7 @@
 
 		<init-param>
 			<param-name>applicationClassName</param-name>
-			<param-value>com.lyndir.lhunath.album.webapp.SnaplogWebApplication</param-value>
+			<param-value>com.lyndir.lhunath.snaplog.webapp.SnaplogWebApplication</param-value>
 		</init-param>
 		<init-param>
 			<param-name>configuration</param-name>

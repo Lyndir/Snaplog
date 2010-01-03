@@ -131,19 +131,6 @@ public class LayoutPage extends WebPage {
                 return SnaplogSession.get().getActiveUser() != null;
             }
         };
-        userEntry.add( new Label( "userWelcome", new AbstractReadOnlyModel<String>() {
-
-            @Override
-            public String getObject() {
-
-                User user = SnaplogSession.get().getActiveUser();
-
-                if (user == null)
-                    return msgs.userWelcome( ' ', msgs.userNameUnknown() );
-
-                return msgs.userWelcome( user.getBadge(), user.getName() );
-            }
-        } ) );
         userSummary.add( new Label( "userBadge", new AbstractReadOnlyModel<String>() {
 
             @Override

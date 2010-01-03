@@ -89,6 +89,32 @@
 		</resources>
 		<plugins>
 			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>keytool-maven-plugin</artifactId>
+				<!--executions>
+					<execution>
+						<phase>generate-resources</phase>
+						<goals>
+							<goal>clean</goal>
+							<goal>genkey</goal>
+						</goals>
+					</execution>
+				</executions-->
+				<configuration>
+					<keystore>
+                        ${project.build.directory}/classes/${pom.artifactId}.jks
+					</keystore>
+					<dname>
+						CN=snaplog.net
+						L=Sint-Amandsberg, ST=VL, O=Lhunath, C=BE
+					</dname>
+					<keypass>secret</keypass>
+					<storepass>secret</storepass>
+                    <alias>${pom.artifactId}</alias>
+					<verbose>true</verbose>
+				</configuration>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
@@ -127,7 +153,7 @@
         <dependency>
             <groupId>net.lin-k.safe-online</groupId>
             <artifactId>safe-online-sdk</artifactId>
-            <version>1.9</version>
+            <version>1.10-SNAPSHOT</version>
         </dependency>
 
         <!-- EXTERNAL DEPENDENCIES -->
