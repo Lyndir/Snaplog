@@ -13,13 +13,13 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.webapp.panel;
+package com.lyndir.lhunath.snaplog.webapp.tabs;
 
 import org.apache.wicket.markup.html.panel.Panel;
 
 
 /**
- * <h2>{@link WorkbenchPanel}<br>
+ * <h2>{@link WorkbenchTab}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
@@ -32,13 +32,13 @@ import org.apache.wicket.markup.html.panel.Panel;
  * 
  * @author lhunath
  */
-public class WorkbenchPanel extends Panel {
+public class WorkbenchTab extends Panel {
 
     /**
      * @param id
      *            The Wicket ID of this panel.
      */
-    public WorkbenchPanel(String id) {
+    public WorkbenchTab(String id) {
 
         super( id );
     }

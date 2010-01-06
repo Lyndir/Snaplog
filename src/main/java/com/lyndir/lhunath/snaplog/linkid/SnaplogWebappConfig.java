@@ -65,7 +65,7 @@ public class SnaplogWebappConfig extends WebappConfig {
     @Override
     public String authbase() {
 
-        return "https://sebeco-dev-10:8443/linkid-auth";
+        return "https://demo.linkid.be/linkid-auth";
     }
 
     /**
@@ -74,7 +74,7 @@ public class SnaplogWebappConfig extends WebappConfig {
     @Override
     public String webappPath(HttpServletRequest request) {
 
-        return request.getSession().getServletContext().getInitParameter( "WebappPath" );
+        return "/";
     }
 
     /**
@@ -83,6 +83,6 @@ public class SnaplogWebappConfig extends WebappConfig {
     @Override
     public String wsbase() {
 
-        return "https://sebeco-dev-10:8443/linkid-ws";
+        return "https://demo.linkid.be/safe-online-ws";
     }
 }

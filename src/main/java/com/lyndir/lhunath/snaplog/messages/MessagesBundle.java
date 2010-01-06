@@ -63,7 +63,6 @@ public class MessagesBundle extends EnumResourceBundle<String> {
         userRequestsPlural("{0} requests"),
 
         albumTab("Album"),
-        albumTitle("{0}{1}''s album"),
         albumTimeline("Timeline"),
         albumTimelineInfo("The timeline gives you a quick way to jump through an album chronologically.<br /><br />"
                           + "Snaps are categorized into the years, months and days that they were taken.  "

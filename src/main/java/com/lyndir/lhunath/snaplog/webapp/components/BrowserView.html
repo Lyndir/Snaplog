@@ -1,0 +1,44 @@
+<!DOCTYPE html PUBLIC "-//W5C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:wicket="http://wicket.sourceforge.net/">
+
+    <head>
+        <wicket:head>
+            <script type="text/javascript">
+
+                // Browser
+                $(document).ready(function() {
+                });
+
+            </script>
+        </wicket:head>
+    </head>
+
+    <body>
+        <wicket:panel>
+
+            <ul id="viewer">
+                <li wicket:id="photos">
+                    <div class="backdrop" >
+                        <a class="image" wicket:id="link" href="#viewer">
+                            <div class="highlight"></div>
+                            <div class="shadow"></div>
+                            <img wicket:id="photo" src="images/resources/testphoto1.png" />
+                            <span class="caption" wicket:id="caption">[Caption]</span>
+                        </a>
+                        <div class="t"></div>
+                        <div class="tr"></div>
+                        <div class="r"></div>
+                        <div class="br"></div>
+                        <div class="b"></div>
+                        <div class="bl"></div>
+                        <div class="l"></div>
+                        <div class="tl"></div>
+                    </div>
+                </li>
+            </ul>
+
+        </wicket:panel>
+    </body>
+
+</html>

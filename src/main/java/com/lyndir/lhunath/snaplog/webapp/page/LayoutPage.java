@@ -35,9 +35,9 @@ import com.lyndir.lhunath.snaplog.model.User;
 import com.lyndir.lhunath.snaplog.webapp.JavaScriptProvider;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.cookie.LastUserCookieManager;
-import com.lyndir.lhunath.snaplog.webapp.panel.AdministrationPanel;
-import com.lyndir.lhunath.snaplog.webapp.panel.AlbumPanel;
-import com.lyndir.lhunath.snaplog.webapp.panel.WorkbenchPanel;
+import com.lyndir.lhunath.snaplog.webapp.tabs.AdministrationTab;
+import com.lyndir.lhunath.snaplog.webapp.tabs.AlbumTab;
+import com.lyndir.lhunath.snaplog.webapp.tabs.WorkbenchTab;
 
 
 public class LayoutPage extends WebPage {
@@ -53,7 +53,7 @@ public class LayoutPage extends WebPage {
             @Override
             public Panel getPanel(String wicketId) {
 
-                return new AlbumPanel( wicketId );
+                return new AlbumTab( wicketId );
             }
         } );
         headTabsList.add( new AbstractTab( new Model<String>( msgs.workbenchTab() ) ) {
@@ -61,7 +61,7 @@ public class LayoutPage extends WebPage {
             @Override
             public Panel getPanel(String wicketId) {
 
-                return new WorkbenchPanel( wicketId );
+                return new WorkbenchTab( wicketId );
             }
         } );
         headTabsList.add( new AbstractTab( new Model<String>( msgs.administrationTab() ) ) {
@@ -69,7 +69,7 @@ public class LayoutPage extends WebPage {
             @Override
             public Panel getPanel(String wicketId) {
 
-                return new AdministrationPanel( wicketId );
+                return new AdministrationTab( wicketId );
             }
         } );
     }

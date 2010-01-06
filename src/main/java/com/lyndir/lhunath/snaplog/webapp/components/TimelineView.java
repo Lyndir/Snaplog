@@ -1,24 +1,9 @@
-/*
- *   Copyright 2009, Maarten Billemont
- *
- *   Licensed under the Apache License, Version 2.0 (the "License");
- *   you may not use this file except in compliance with the License.
- *   You may obtain a copy of the License at
- *
- *       http://www.apache.org/licenses/LICENSE-2.0
- *
- *   Unless required by applicable law or agreed to in writing, software
- *   distributed under the License is distributed on an "AS IS" BASIS,
- *   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *   See the License for the specific language governing permissions and
- *   limitations under the License.
- */
-package com.lyndir.lhunath.snaplog.webapp.panel;
+package com.lyndir.lhunath.snaplog.webapp.components;
 
 import java.text.MessageFormat;
+import java.util.List;
 
 import org.apache.wicket.behavior.AttributeAppender;
-import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
@@ -30,48 +15,35 @@ import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.model.MediaService;
 import com.lyndir.lhunath.snaplog.model.MediaTimeFrame;
-import com.lyndir.lhunath.snaplog.model.User;
-import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 
 
 /**
- * <h2>{@link AlbumPanel}<br>
- * <sub>The interface panel for browsing through the album content.</sub></h2>
+ * <h2>{@link TimelineView}<br>
+ * <sub>A timeline popup.</sub></h2>
  * 
  * <p>
- * <i>May 31, 2009</i>
+ * <i>Jan 4, 2010</i>
  * </p>
  * 
  * @author lhunath
  */
-public class AlbumPanel extends Panel {
+public class TimelineView extends Panel {
 
     static Messages msgs = LocalizerFactory.getLocalizer( Messages.class );
 
 
-    /**
-     * @param id
-     *            The Wicket ID of this panel.
-     */
-    public AlbumPanel(String id) {
+    public TimelineView(String id) {
 
         super( id );
 
-        add( new Label( "title", new AbstractReadOnlyModel<String>() {
+        add( new ListView<MediaTimeFrame>( "years", new AbstractReadOnlyModel<List<MediaTimeFrame>>() {
 
             @Override
-            public String getObject() {
+            public List<MediaTimeFrame> getObject() {
 
-                User user = SnaplogSession.get().getActiveUser();
-
-                if (user == null)
-                    return msgs.albumTitle( ' ', msgs.userNameUnknown() );
-
-                return msgs.albumTitle( user.getBadge(), user.getName() );
+                return MediaService.getTimeFrames();
             }
-        } ) );
-
-        add( new ListView<MediaTimeFrame>( "years", MediaService.getTimeFrames() ) {
+        } ) {
 
             @Override
             protected void populateItem(final ListItem<MediaTimeFrame> yearItem) {
@@ -125,7 +97,5 @@ public class AlbumPanel extends Panel {
                 } );
             }
         } );
-
-        add( new WebMarkupContainer( "photo" ) );
     }
 }

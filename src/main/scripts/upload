@@ -9,6 +9,6 @@ jetty_path=/usr/local/share/jetty
 
 emit "Deploying web application" --
     war=("$basedir/target/"*.war)
-    rsync "$war" "$host:$jetty_path/webapps/" && \
+    rsync -p --chmod=ugo=rX "$war" "$host:$jetty_path/webapps/" && \
     ssh "$host" "$(printf 'touch "$(grep -lF %q %q/contexts/*.xml)"' "${war##*/}" "$jetty_path")"
 emit -$?

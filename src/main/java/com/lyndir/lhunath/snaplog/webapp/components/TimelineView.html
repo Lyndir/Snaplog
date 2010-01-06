@@ -22,47 +22,14 @@
                         $(this).closest('li').find('ol').animate({opacity:'toggle', height:'toggle'});
                     });
                 });
+
             </script>
         </wicket:head>
     </head>
 
     <body>
         <wicket:panel>
-            <h1 wicket:id="title">[Viewing lhunath's Album]</h1>
-            
-            <div id="viewer">
-                <div class="backdrop" wicket:id="photo">
-                    <div class="caption">
-                        <div class="highlight"></div>
-                        <div class="shadow"></div>
-                        <img src="images/resources/testphoto1.png" />
-                        Ophelia making music on christmas day.
-                    </div>
-                    <div class="t"></div>
-                    <div class="tr"></div>
-                    <div class="r"></div>
-                    <div class="br"></div>
-                    <div class="b"></div>
-                    <div class="bl"></div>
-                    <div class="l"></div>
-                    <div class="tl"></div>
-                </div>
-            </div>
-                        
-            <!-- Album Toolbar -->
-            <ul class="toolbar">
-                <li class="start"></li>
-                <li class="end"></li>
 
-                <li><a id="toolTimeline" class="ss_sprite ss_time">
-                    <wicket:message key="toolTimeline" /></a></li>
-                <li><a id="toolTags" class="ss_sprite ss_tag_green">
-                    <wicket:message key="toolTags" /></a></li>
-                <li><a id="toolAccess" class="ss_sprite ss_key">
-                    <wicket:message key="toolAccess" /></a></li>
-            </ul>
-
-            <!-- Timeline Tool -->
             <div id="timelinePopup" class="popup">
                 <a id="timelinePopupClose" class="close ss_sprite ss_cancel"></a>
 
@@ -93,3 +60,4 @@
     </body>
 
 </html>
+

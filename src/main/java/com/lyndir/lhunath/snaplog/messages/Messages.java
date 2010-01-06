@@ -36,9 +36,6 @@ import com.lyndir.lhunath.lib.system.localization.UseKey;
 public interface Messages {
 
     @UseKey
-    String albumTitle(char albumOwnerBadge, String albumOwnerName);
-
-    @UseKey
     String albumTab();
 
     @UseKey

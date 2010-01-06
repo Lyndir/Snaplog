@@ -7,10 +7,6 @@
     <display-name>${pom.name}</display-name>
 
     <!-- Application Context Parameters -->
-	<context-param>
-		<param-name>WebappPath</param-name>
-        <param-value>/snaplog/</param-value>
-	</context-param>
     <context-param>
         <description>Path used to initiate a login process.</description>
         <param-name>AuthenticationServicePath</param-name>
@@ -77,7 +73,7 @@
 		</init-param>
 		<init-param>
 			<param-name>configuration</param-name>
-			<param-value>deployment</param-value>
+			<param-value>development</param-value>
 		</init-param>
 	</filter>
 

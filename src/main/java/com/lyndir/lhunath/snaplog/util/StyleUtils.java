@@ -1,5 +1,5 @@
 /*
- *   Copyright 2009, Maarten Billemont
+ *   Copyright 2010, Maarten Billemont
  *
  *   Licensed under the Apache License, Version 2.0 (the "License");
  *   you may not use this file except in compliance with the License.
@@ -13,13 +13,12 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.webapp.panel;
+package com.lyndir.lhunath.snaplog.util;
 
-import org.apache.wicket.markup.html.panel.Panel;
 
 
 /**
- * <h2>{@link CreditsPanel}<br>
+ * <h2>{@link StyleUtils}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
@@ -27,19 +26,11 @@ import org.apache.wicket.markup.html.panel.Panel;
  * </p>
  * 
  * <p>
- * <i>May 31, 2009</i>
+ * <i>Jan 5, 2010</i>
  * </p>
  * 
  * @author lhunath
  */
-public class CreditsPanel extends Panel {
+public class StyleUtils {
 
-    /**
-     * @param id
-     *            The Wicket ID of this panel.
-     */
-    public CreditsPanel(String id) {
-
-        super( id );
-    }
 }

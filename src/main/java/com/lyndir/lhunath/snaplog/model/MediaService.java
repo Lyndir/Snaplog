@@ -18,8 +18,8 @@ package com.lyndir.lhunath.snaplog.model;
 import java.io.File;
 import java.io.Serializable;
 import java.util.Collections;
+import java.util.Deque;
 import java.util.LinkedList;
-import java.util.List;
 
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.model.MediaTimeFrame.Type;
@@ -43,14 +43,14 @@ public class MediaService implements Serializable {
 
     private static final Logger               logger    = Logger.get( MediaService.class );
 
-    // private static final File originals = new File( "/home/lhunath/www/album/.orig" );
-    private static final File                 originals = new File( "/Users/lhunath/Pictures/album/.orig" );
+    private static final File                 originals = new File( "/home/lhunath/www/htdocs/album/.sized" );
+    // private static final File originals = new File( "/Users/lhunath/Pictures/album/.sized" );
 
     private static LinkedList<MediaFile>      allFiles;
     private static LinkedList<MediaTimeFrame> timeFrames;
 
 
-    public static List<MediaFile> getAllFiles() {
+    public static Deque<MediaFile> getAllFiles() {
 
         if (!originals.isDirectory())
             throw logger.err( "Originals directory does not exist at %s.", originals ).toError();
@@ -74,7 +74,7 @@ public class MediaService implements Serializable {
         return allFiles;
     }
 
-    public static List<MediaTimeFrame> getTimeFrames() {
+    public static LinkedList<MediaTimeFrame> getTimeFrames() {
 
         if (timeFrames != null)
             return timeFrames;
