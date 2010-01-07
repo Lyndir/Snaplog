@@ -126,9 +126,9 @@ a:hover {
 /*******************************************************************************
  * POPUP *
  */
-.popup {
+div.popup {
     background:         rgba(32, 32, 32, 0.95);
-    border:             2px outset #333;
+    /*border:             2px outset #333;*/
 
     display:            none;                       /* Defaults to invisible. */
     position:           fixed;
@@ -137,17 +137,13 @@ a:hover {
     left:               15%;
     width:              70%;
     height:             60%;
-    padding:            2em 3em;
-    margin:             -2em -3em;
-
-    overflow:           auto;
 }
 .popup .close {
     display:            block;
     position:           fixed;
     top:                25%;
     right:              15%;
-    margin:             -1em -1.5em;
+    margin:             -14px -34px;
 }
 .popup h1 {
     display:            inline-block;
@@ -189,7 +185,8 @@ a:hover {
 #timeline li.year {
     display:            block;
 }
-#timeline li.month {
+#timeline li.year ol {
+    display:            none;
 }
 #timeline li.day {
     width:              3em;
@@ -207,93 +204,130 @@ a:hover {
  * BACKDROP *
  */
 .backdrop {
+    border:             1px solid #111;
+
     display:            inline-block;
     position:           relative;
-    padding:            4px 14px 14px 4px;
-
-    font-size:          0;
+    margin:             5px 15px 15px 15px;
+}
+.backdrop div {
+    /*background: rgba(0, 128, 0, 0.9) !important;/**/
 }
 .backdrop .t {
     background:         url("../images/layout/photo.t.png") repeat-x;
-    clip:               rect(0 99999px 5px 50px);
+    clip:               rect(0 99999px 5px 20px);
 
     position:           absolute;
-    top:                0;
-    left:               -20px;
+    top:                -5px;
+    left:               -5px;
     width:              100%;
     height:             5px;
+
+    padding-left:       1px;
+    padding-right:      1px;
+    margin-left:        -1px;
+    margin-top:         -1px;
 }
 .backdrop .tr {
     background:         url("../images/layout/photo.tr.png") no-repeat;
 
     position:           absolute;
-    top:                0;
-    right:              0;
+    top:                -5px;
+    right:              -15px;
     width:              20px;
     height:             20px;
+
+    margin-top:         -1px;
+    margin-right:       -1px;
 }
 .backdrop .r {
     background:         url("../images/layout/photo.r.png") repeat-y;
-    clip:               rect(40px 15px 99999px 0);
+    clip:               rect(20px 15px 99999px 0);
 
     position:           absolute;
-    top:                -20px;
-    right:              0;
+    top:                -5px;
+    right:              -15px;
     width:              15px;
     height:             100%;
+
+    padding-top:        1px;
+    padding-bottom:     1px;
+    margin-top:         -1px;
+    margin-right:       -1px;
 }
 .backdrop .br {
     background:         url("../images/layout/photo.br.png") no-repeat;
 
     position:           absolute;
-    bottom:             0;
-    right:              0;
+    bottom:             -15px;
+    right:              -15px;
     width:              20px;
     height:             20px;
+
+    margin-bottom:      -1px;
+    margin-right:       -1px;
 }
 .backdrop .b {
     background:         url("../images/layout/photo.b.png") repeat-x;
-    clip:               rect(0 99999px 15px 50px);
+    clip:               rect(0 99999px 15px 20px);
 
     position:           absolute;
-    bottom:             0;
-    left:               -20px;
+    bottom:             -15px;
+    left:               -5px;
     width:              100%;
     height:             15px;
+
+    margin-bottom:      -1px;
+    margin-left:        -1px;
+    padding-left:       1px;
+    padding-right:      1px;
 }
 .backdrop .bl {
     background:         url("../images/layout/photo.bl.png") no-repeat;
 
     position:           absolute;
-    bottom:             0;
-    left:               0;
+    bottom:             -15px;
+    left:               -15px;
     width:              30px;
     height:             20px;
+
+    margin-bottom:      -1px;
+    margin-left:        -1px;
 }
 .backdrop .l {
     background:         url("../images/layout/photo.l.png") repeat-y;
-    clip:               rect(40px 15px 99999px 0);
+    clip:               rect(20px 15px 99999px 0);
 
     position:           absolute;
-    top:                -20px;
-    left:               0;
+    top:                -5px;
+    left:               -15px;
     width:              15px;
     height:             100%;
+
+    padding-top:        1px;
+    padding-bottom:     1px;
+    margin-top:         -1px;
+    margin-left:        -1px;
 }
 .backdrop .tl {
     background:         url("../images/layout/photo.tl.png") no-repeat;
 
     position:           absolute;
-    top:                0;
-    left:               0;
+    top:                -5px;
+    left:               -15px;
     width:              30px;
     height:             20px;
+
+    margin-top:         -1px;
+    margin-left:        -1px;
 }
 
 
 /*******************************************************************************
  * IMAGES *
  */
+#viewer .caption {
+}
 #viewer {
     text-align:         center;
 }
@@ -303,9 +337,11 @@ a:hover {
 #viewer li.thumb {
     display:            inline-block;
 }
+#viewer .backdrop:hover {
+    border-color:       #EEE;
+}
 .image {
     background:         #222;
-    border:             1px solid #111;
 
     display:            block;
     z-index:            1;
@@ -351,10 +387,14 @@ a:hover {
     bottom:             1em;
     left:               20%;
     width:              60%;
-    padding:            0.25em 1ex;
+    padding:            0.25em 1em;
+    margin:             -0.25em 0 0 -1em;
 }
 .thumb .caption {
     visibility:         hidden;
+    left:               0%;
+    width:              100%;
+    bottom:             -1em;
 }
 .thumb .image:hover .caption {
     visibility:         visible;
@@ -370,3 +410,15 @@ a:hover {
     max-height:         100px;
 }
 
+
+/*******************************************************************************
+ * UTILITIES *
+ */
+.scrollable {
+    display:            block;
+    width:              96%;
+    height:             92%;
+    padding:            2% 2%;
+
+    overflow:           auto;
+}

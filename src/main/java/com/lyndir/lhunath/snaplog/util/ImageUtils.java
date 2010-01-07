@@ -15,8 +15,6 @@
  */
 package com.lyndir.lhunath.snaplog.util;
 
-import java.awt.Graphics2D;
-import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.IOException;
@@ -26,6 +24,9 @@ import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
 import javax.imageio.ImageWriteParam;
 import javax.imageio.ImageWriter;
+
+import com.mortennobel.imagescaling.DimensionConstrain;
+import com.mortennobel.imagescaling.ResampleOp;
 
 
 /**
@@ -54,11 +55,7 @@ public class ImageUtils {
      */
     public static BufferedImage rescale(BufferedImage oldImage, int newMaxWidth, int newMaxHeight) {
 
-        int oldWidth = oldImage.getWidth();
-        int oldHeight = oldImage.getHeight();
-        float ratio = Math.min( (float) newMaxWidth / oldWidth, (float) newMaxHeight / oldHeight );
-
-        return rescale( oldImage, ratio );
+        return resize( oldImage, DimensionConstrain.createMaxDimension( newMaxWidth, newMaxHeight ) );
     }
 
     /**
@@ -72,12 +69,7 @@ public class ImageUtils {
      */
     public static BufferedImage rescale(BufferedImage oldImage, float ratio) {
 
-        int oldWidth = oldImage.getWidth();
-        int oldHeight = oldImage.getHeight();
-        int newWidth = (int) (oldWidth * ratio);
-        int newHeight = (int) (oldHeight * ratio);
-
-        return resize( oldImage, newWidth, newHeight );
+        return resize( oldImage, DimensionConstrain.createRelativeDimension( ratio ) );
     }
 
     /**
@@ -85,25 +77,18 @@ public class ImageUtils {
      * 
      * @param oldImage
      *            The image to resize.
-     * @param newWidth
-     *            The maximum width of the new image.
-     * @param newHeight
-     *            The maximum height of the new image.
+     * @param newDimension
+     *            The definition of the new image's dimensions.
      * @return The resized image.
      */
-    public static BufferedImage resize(BufferedImage oldImage, int newWidth, int newHeight) {
+    public static BufferedImage resize(BufferedImage oldImage, DimensionConstrain newDimension) {
 
-        int oldWidth = oldImage.getWidth();
-        int oldHeight = oldImage.getHeight();
+        // MultiStepRescaleOp resizeOperation = new MultiStepRescaleOp( newDimension,
+        // RenderingHints.VALUE_INTERPOLATION_BICUBIC );
+        ResampleOp resizeOperation = new ResampleOp( newDimension );
+        // resizeOperation.setUnsharpenMask( UnsharpenMask.Soft );
 
-        BufferedImage newImage = new BufferedImage( newWidth, newHeight, oldImage.getType() );
-        Graphics2D g = newImage.createGraphics();
-
-        g.setRenderingHint( RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY );
-        g.drawImage( oldImage, 0, 0, newWidth, newHeight, 0, 0, oldWidth, oldHeight, null );
-        g.dispose();
-
-        return newImage;
+        return resizeOperation.filter( oldImage, null );
     }
 
     /**

@@ -41,10 +41,17 @@ import com.lyndir.lhunath.snaplog.model.MediaTimeFrame.Type;
  */
 public class MediaService implements Serializable {
 
-    private static final Logger               logger    = Logger.get( MediaService.class );
+    private static final Logger               logger = Logger.get( MediaService.class );
 
-    private static final File                 originals = new File( "/home/lhunath/www/htdocs/album/.sized" );
-    // private static final File originals = new File( "/Users/lhunath/Pictures/album/.sized" );
+    private static final File                 originals;
+
+    static {
+        File file = new File( "/Users/lhunath/Pictures/album/.sized" );
+        if (!file.exists())
+            file = new File( "/home/lhunath/www/htdocs/album/.sized" );
+
+        originals = file;
+    }
 
     private static LinkedList<MediaFile>      allFiles;
     private static LinkedList<MediaTimeFrame> timeFrames;

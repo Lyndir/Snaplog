@@ -30,30 +30,40 @@
     <body>
         <wicket:panel>
 
-            <div id="timelinePopup" class="popup">
+            <div id="timelinePopup" class="backdrop popup">
                 <a id="timelinePopupClose" class="close ss_sprite ss_cancel"></a>
+                <div class="t"></div>
+                <div class="tr"></div>
+                <div class="r"></div>
+                <div class="br"></div>
+                <div class="b"></div>
+                <div class="bl"></div>
+                <div class="l"></div>
+                <div class="tl"></div>
 
-                <h1><wicket:message key="albumTimeline" /></h1>
-                <p><wicket:message key="albumTimelineInfo" /></p>
+                <div class="scrollable">
+                    <h1><wicket:message key="albumTimeline" /></h1>
+                    <p><wicket:message key="albumTimelineInfo" /></p>
 
-                <ol id="timeline" class="clearfix">
-                    <li wicket:id="years" class="year">
-                        <h2><a rel="yearLink">
-                            <span wicket:id="name">[2010]</span>
-                            <sub wicket:id="photos">[(42 photos)]</sub>
-                        </a></h2>
+                    <ol id="timeline" class="clearfix">
+                        <li wicket:id="years" class="year">
+                            <h2><a rel="yearLink">
+                                <span wicket:id="name">[2010]</span>
+                                <sub wicket:id="photos">[(42 photos)]</sub>
+                            </a></h2>
 
-                        <ol>
-                            <li wicket:id="months" class="month">
-                                <h3 wicket:id="name">[October]</h3>
+                            <ol>
+                                <li wicket:id="months" class="month">
+                                    <h3 wicket:id="name">[October]</h3>
 
-                                <ol>
-                                    <li wicket:id="days" class="day"><span wicket:id="name">21</span></li>
-                                </ol>
-                            </li>
-                        </ol>
-                    </li>
-                </ol>
+                                    <ol>
+                                        <li wicket:id="days" class="day"><span wicket:id="name">21</span></li>
+                                    </ol>
+                                </li>
+                            </ol>
+                        </li>
+                    </ol>
+                </div>
             </div>
 
         </wicket:panel>
