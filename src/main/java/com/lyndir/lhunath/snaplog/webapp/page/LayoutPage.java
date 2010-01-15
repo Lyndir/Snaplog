@@ -28,10 +28,10 @@ import org.apache.wicket.util.template.PackagedTextTemplate;
 import org.apache.wicket.util.template.TextTemplate;
 
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
+import com.lyndir.lhunath.snaplog.data.User;
 import com.lyndir.lhunath.snaplog.linkid.LinkIDLoginLink;
 import com.lyndir.lhunath.snaplog.linkid.LinkIDLogoutLink;
 import com.lyndir.lhunath.snaplog.messages.Messages;
-import com.lyndir.lhunath.snaplog.model.User;
 import com.lyndir.lhunath.snaplog.webapp.JavaScriptProvider;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.cookie.LastUserCookieManager;

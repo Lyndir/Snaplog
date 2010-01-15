@@ -13,47 +13,51 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.webapp;
+package com.lyndir.lhunath.snaplog.model.impl;
 
-import org.apache.wicket.Component;
-import org.apache.wicket.application.IComponentOnBeforeRenderListener;
+import java.util.HashMap;
+import java.util.Map;
 
 import com.google.inject.Inject;
 import com.lyndir.lhunath.snaplog.data.LinkID;
+import com.lyndir.lhunath.snaplog.data.User;
 import com.lyndir.lhunath.snaplog.model.UserService;
-import com.lyndir.lhunath.snaplog.util.WicketUtils;
+import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
 
 
 /**
- * <h2>{@link AuthenticationListener}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link UserServiceImpl}<br>
  * 
  * <p>
- * <i>Jan 2, 2010</i>
+ * <i>Jan 9, 2010</i>
  * </p>
  * 
  * @author lhunath
  */
-public class AuthenticationListener implements IComponentOnBeforeRenderListener {
+public class UserServiceImpl implements UserService {
 
-    UserService userService;
+    private static final Map<LinkID, User> users = new HashMap<LinkID, User>();
 
 
     @Inject
-    public AuthenticationListener(UserService userService) {
+    public UserServiceImpl() {
 
-        this.userService = userService;
+        users.put( SnaplogConstants.DEFAULT_USER.getLinkID(), SnaplogConstants.DEFAULT_USER );
     }
 
     /**
      * {@inheritDoc}
      */
-    public void onBeforeRender(Component component) {
+    public User registerUser(LinkID linkID, String name) {
 
-        String currentLinkID = WicketUtils.findLinkID();
-        if (currentLinkID == null)
-            SnaplogSession.get().setActiveUser( null );
-        else
-            SnaplogSession.get().setActiveUser( userService.findExistingUserWithLinkID( new LinkID( currentLinkID ) ) );
+        return users.put( linkID, new User( linkID, name ) );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public User findExistingUserWithLinkID(LinkID linkID) {
+
+        return users.get( linkID );
     }
 }

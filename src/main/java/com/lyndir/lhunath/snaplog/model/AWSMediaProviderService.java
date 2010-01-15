@@ -1,5 +1,5 @@
 /*
- *   Copyright 2009, Maarten Billemont
+ *   Copyright 2010, Maarten Billemont
  *
  *   Licensed under the Apache License, Version 2.0 (the "License");
  *   you may not use this file except in compliance with the License.
@@ -13,36 +13,23 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.webapp.cookie;
+package com.lyndir.lhunath.snaplog.model;
 
-import com.lyndir.lhunath.snaplog.data.User;
+import com.lyndir.lhunath.snaplog.data.Media;
+import com.lyndir.lhunath.snaplog.data.aws.S3Album;
+import com.lyndir.lhunath.snaplog.data.aws.S3Media;
 
 
 /**
- * <h2>{@link LastUserCookieManager}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link AWSMediaProviderService}<br>
+ * <sub>Service {@link Media} hosted at Amazon's S3.</sub></h2>
  * 
  * <p>
- * [description / usage].
- * </p>
- * 
- * <p>
- * <i>Dec 31, 2009</i>
+ * <i>Jan 10, 2010</i>
  * </p>
  * 
  * @author lhunath
  */
-public abstract class LastUserCookieManager {
+public interface AWSMediaProviderService extends MediaProviderService<S3Album, S3Media> {
 
-    public static User getLastUser() {
-
-        // TODO: Load the last user from the last-user cookie.
-
-        return null;
-    }
-
-    public static void rememberCurrentUser() {
-
-    // TODO: Write out the last-user cookie.
-    }
 }

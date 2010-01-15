@@ -19,7 +19,9 @@ import org.apache.wicket.Request;
 import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebSession;
 
-import com.lyndir.lhunath.snaplog.model.User;
+import com.google.common.base.Objects;
+import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.snaplog.data.User;
 
 
 /**
@@ -38,7 +40,9 @@ import com.lyndir.lhunath.snaplog.model.User;
  */
 public class SnaplogSession extends WebSession {
 
-    private User activeUser;
+    private static final Logger logger = Logger.get( SnaplogSession.class );
+
+    private User                activeUser;
 
 
     public SnaplogSession(Request request) {
@@ -64,6 +68,12 @@ public class SnaplogSession extends WebSession {
      *            The activeUser of this {@link SnaplogSession}.
      */
     public void setActiveUser(User activeUser) {
+
+        if (Objects.equal( getActiveUser(), activeUser ))
+            return;
+
+        logger.inf( "Session user identification changed from: %s, to: %s", //
+                getActiveUser(), activeUser );
 
         this.activeUser = activeUser;
     }

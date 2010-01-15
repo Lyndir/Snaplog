@@ -133,8 +133,22 @@
                 <artifactId>maven-jetty-plugin</artifactId>
                 <version>6.1.15</version>
                 <configuration>
+                    <contextPath>/</contextPath>
                     <scanIntervalSeconds>2</scanIntervalSeconds>
+                    <systemProperties> 
+                        <systemProperty> 
+                            <name>logback.configurationFile</name> 
+                            <value>${basedir}/target/classes/logback.xml</value> 
+                        </systemProperty> 
+                    </systemProperties> 
                 </configuration>
+                <dependencies>
+                    <dependency> 
+                        <groupId>ch.qos.logback</groupId> 
+                        <artifactId>logback-classic</artifactId> 
+                        <version>0.9.15</version> 
+                    </dependency> 
+                </dependencies> 
             </plugin>
         </plugins>
 	</build>
@@ -153,7 +167,7 @@
         <dependency>
             <groupId>net.lin-k.safe-online</groupId>
             <artifactId>safe-online-sdk</artifactId>
-            <version>1.11-SNAPSHOT</version>
+            <version>1.10</version>
         </dependency>
 
         <!-- EXTERNAL DEPENDENCIES -->
@@ -169,6 +183,10 @@
 			<groupId>org.apache.wicket</groupId>
 			<artifactId>wicket-ioc</artifactId>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.wicket</groupId>
+			<artifactId>wicket-guice</artifactId>
+		</dependency>
 
         <dependency>
 			<groupId>com.google.collections</groupId>
@@ -176,21 +194,33 @@
 		</dependency>
 
         <dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
+            <groupId>net.java.dev.jets3t</groupId>
+            <artifactId>jets3t</artifactId>
         </dependency>
         <dependency>
             <groupId>joda-time</groupId>
             <artifactId>joda-time</artifactId>
         </dependency>
         <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
+            <groupId>com.mortennobel</groupId>
+            <artifactId>java-image-scaling</artifactId>
         </dependency>
 
         <dependency>
-            <groupId>com.mortennobel</groupId>
-            <artifactId>java-image-scaling</artifactId>
+            <groupId>com.google.inject.extensions</groupId>
+            <artifactId>guice-servlet</artifactId>
+        </dependency>
+        <dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>log4j-over-slf4j</artifactId>
         </dependency>
 
 		<dependency>
@@ -200,23 +230,6 @@
 		</dependency>
 
 	</dependencies>
-
-    <repositories>
-
-		<repository>
-			<id>nexus</id>
-			<name>Nexus</name>
-			<url>http://buildserver:7070/nexus/content/groups/public
-			</url>
-			<snapshots>
-				<enabled>false</enabled>
-			</snapshots>
-			<releases>
-				<enabled>true</enabled>
-			</releases>
-		</repository>
-
-    </repositories>
 
 </project>
 

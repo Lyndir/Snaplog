@@ -11,10 +11,12 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 
+import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
+import com.lyndir.lhunath.snaplog.data.MediaTimeFrame;
 import com.lyndir.lhunath.snaplog.messages.Messages;
-import com.lyndir.lhunath.snaplog.model.MediaService;
-import com.lyndir.lhunath.snaplog.model.MediaTimeFrame;
+import com.lyndir.lhunath.snaplog.model.AlbumService;
+import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
 
 
 /**
@@ -31,6 +33,9 @@ public class TimelineView extends Panel {
 
     static Messages msgs = LocalizerFactory.getLocalizer( Messages.class );
 
+    @Inject
+    AlbumService    albumService;
+
 
     public TimelineView(String id) {
 
@@ -41,7 +46,7 @@ public class TimelineView extends Panel {
             @Override
             public List<MediaTimeFrame> getObject() {
 
-                return MediaService.getTimeFrames();
+                return albumService.getYears( SnaplogConstants.DEFAULT_ALBUM );
             }
         } ) {
 

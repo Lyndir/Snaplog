@@ -7,6 +7,7 @@
     </appender>
 
     <logger name="com.lyndir" level="DEBUG" />
+    <logger name="org.jets3t.service.impl" level="OFF" />
 
     <root level="info">
         <appender-ref ref="STDOUT" />

@@ -1,5 +1,5 @@
 /*
- *   Copyright 2009, Maarten Billemont
+ *   Copyright 2010, Maarten Billemont
  *
  *   Licensed under the Apache License, Version 2.0 (the "License");
  *   you may not use this file except in compliance with the License.
@@ -13,13 +13,14 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.webapp.cookie;
+package com.lyndir.lhunath.snaplog.data.aws;
 
+import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.User;
 
 
 /**
- * <h2>{@link LastUserCookieManager}<br>
+ * <h2>{@link S3Album}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
@@ -27,22 +28,16 @@ import com.lyndir.lhunath.snaplog.data.User;
  * </p>
  * 
  * <p>
- * <i>Dec 31, 2009</i>
+ * <i>Jan 10, 2010</i>
  * </p>
  * 
  * @author lhunath
  */
-public abstract class LastUserCookieManager {
+public class S3Album extends Album {
 
-    public static User getLastUser() {
+    public S3Album(User user, String name) {
 
-        // TODO: Load the last user from the last-user cookie.
-
-        return null;
+        super( user, name );
     }
 
-    public static void rememberCurrentUser() {
-
-    // TODO: Write out the last-user cookie.
-    }
 }

@@ -341,7 +341,7 @@ div.popup {
     border-color:       #EEE;
 }
 .image {
-    background:         #222;
+    background:         #222 url("../images/resources/loader.boxes.black.gif") no-repeat center center;
 
     display:            block;
     z-index:            1;
@@ -402,11 +402,15 @@ div.popup {
     font-size:          0.8em;
 }
 .sized img {
+    min-width:          330px;
     max-width:          600px;
+    min-height:         450px;
     max-height:         450px;
 }
 .thumb img {
+    min-width:          75px;
     max-width:          150px;
+    min-height:         100px;
     max-height:         100px;
 }
 

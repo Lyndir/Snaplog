@@ -22,7 +22,7 @@ import org.apache.commons.logging.LogFactory;
 
 
 /**
- * <h2>{@link LogoutServlet}<br>
+ * <h2>{@link AppLogoutServlet}<br>
  * <sub>Logout servlet.</sub></h2>
  * 
  * <p>
@@ -35,25 +35,26 @@ import org.apache.commons.logging.LogFactory;
  * 
  * @author wvdhaute
  */
-public class LogoutServlet extends AbstractInjectionServlet {
+public class AppLogoutServlet extends AbstractInjectionServlet {
 
-    private static final String LOGOUT_EXIT_PATH = "LogoutExitPath";
+    public static final String PATH                   = "/applogout";
+    public static final String PARAM_LOGOUT_EXIT_PATH = "LogoutExitPath";
 
-    private static final long serialVersionUID = 1L;
+    private static final long  serialVersionUID       = 1L;
 
-    private static final Log  LOG              = LogFactory.getLog(LogoutServlet.class);
+    private static final Log   LOG                    = LogFactory.getLog( AppLogoutServlet.class );
 
-    @Init(name = LOGOUT_EXIT_PATH)
-    private String            logoutExitPath;
+    @Init(name = PARAM_LOGOUT_EXIT_PATH)
+    private String             logoutExitPath;
 
 
     @Override
     public void invokeGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        LOG.debug("invoke get");
+        LOG.debug( "invoke get" );
 
-        LoginManager.invalidateSession(request);
-        response.sendRedirect(logoutExitPath);
+        LoginManager.invalidateSession( request );
+        response.sendRedirect( logoutExitPath );
     }
 }

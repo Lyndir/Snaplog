@@ -1,5 +1,5 @@
 /*
- *   Copyright 2009, Maarten Billemont
+ *   Copyright 2010, Maarten Billemont
  *
  *   Licensed under the Apache License, Version 2.0 (the "License");
  *   you may not use this file except in compliance with the License.
@@ -13,36 +13,25 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.webapp.cookie;
+package com.lyndir.lhunath.snaplog.model;
 
+import com.lyndir.lhunath.snaplog.data.LinkID;
 import com.lyndir.lhunath.snaplog.data.User;
 
 
 /**
- * <h2>{@link LastUserCookieManager}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link UserService}<br>
+ * <sub>Service to manage and access {@link User}s.</sub></h2>
  * 
  * <p>
- * [description / usage].
- * </p>
- * 
- * <p>
- * <i>Dec 31, 2009</i>
+ * <i>Jan 9, 2010</i>
  * </p>
  * 
  * @author lhunath
  */
-public abstract class LastUserCookieManager {
+public interface UserService {
 
-    public static User getLastUser() {
+    User registerUser(LinkID linkID, String name);
 
-        // TODO: Load the last user from the last-user cookie.
-
-        return null;
-    }
-
-    public static void rememberCurrentUser() {
-
-    // TODO: Write out the last-user cookie.
-    }
+    User findExistingUserWithLinkID(LinkID linkID);
 }

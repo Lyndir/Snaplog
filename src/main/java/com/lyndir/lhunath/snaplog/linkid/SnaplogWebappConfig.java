@@ -25,10 +25,6 @@ import net.link.safeonline.sdk.common.configuration.WebappConfig;
  * <sub>Configuration of the snaplog web application for linkID.</sub></h2>
  * 
  * <p>
- * [description / usage].
- * </p>
- * 
- * <p>
  * <i>Jan 1, 2010</i>
  * </p>
  * 

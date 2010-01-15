@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.model;
+package com.lyndir.lhunath.snaplog.data;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -45,13 +45,13 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
  */
 public class MediaTimeFrame extends LinkedList<MediaTimeFrame> implements Comparable<MediaTimeFrame> {
 
-    private static final Logger   logger = Logger.get( MediaTimeFrame.class );
+    private static final Logger logger = Logger.get( MediaTimeFrame.class );
 
-    private MediaTimeFrame        parent;
-    private Type                  type;
-    private Partial               typeTime;
+    private MediaTimeFrame      parent;
+    private Type                type;
+    private Partial             typeTime;
 
-    private LinkedList<MediaFile> files;
+    private LinkedList<Media>   files;
 
 
     public MediaTimeFrame(MediaTimeFrame parent, Type type, long timeMillis) {
@@ -59,15 +59,12 @@ public class MediaTimeFrame extends LinkedList<MediaTimeFrame> implements Compar
         if (type.getParentType() == null) {
             if (parent != null) {
                 logger.err( "Type %s permits no parent; given parent type was %s", //
-                            type,
-                            parent.type );
+                        type, parent.type );
                 throw logger.toError( IllegalArgumentException.class );
             }
         } else if (parent != null && parent.type != type.getParentType()) {
             logger.err( "Type %s requires parent type %s; given parent type was %s", //
-                        type,
-                        type.getParentType(),
-                        parent.type );
+                    type, type.getParentType(), parent.type );
             throw logger.toError( IllegalArgumentException.class );
         }
 
@@ -75,7 +72,7 @@ public class MediaTimeFrame extends LinkedList<MediaTimeFrame> implements Compar
         this.type = type;
 
         typeTime = new Partial( type.getDateType(), new LocalDateTime( timeMillis ).get( type.getDateType() ) );
-        files = new LinkedList<MediaFile>();
+        files = new LinkedList<Media>();
     }
 
     /**
@@ -84,13 +81,13 @@ public class MediaTimeFrame extends LinkedList<MediaTimeFrame> implements Compar
      * @param recurse
      *            <code>true</code>: retrieves all media belonging to this time frame and every time frame that is a
      *            part of it.
-     * @return An unmodifiable list of {@link MediaFile}s.
+     * @return An unmodifiable list of {@link Media}s.
      */
-    public List<MediaFile> getFiles(boolean recurse) {
+    public List<Media> getFiles(boolean recurse) {
 
-        List<MediaFile> list = files;
+        List<Media> list = files;
         if (recurse) {
-            list = new LinkedList<MediaFile>( files );
+            list = new LinkedList<Media>( files );
             for (MediaTimeFrame childFrame : this)
                 list.addAll( childFrame.getFiles( true ) );
         }
@@ -98,7 +95,7 @@ public class MediaTimeFrame extends LinkedList<MediaTimeFrame> implements Compar
         return Collections.unmodifiableList( list );
     }
 
-    public void addFile(MediaFile mediaFile) {
+    public void addFile(Media mediaFile) {
 
         files.add( mediaFile );
     }

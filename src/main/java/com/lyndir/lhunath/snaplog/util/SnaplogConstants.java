@@ -1,5 +1,5 @@
 /*
- *   Copyright 2009, Maarten Billemont
+ *   Copyright 2010, Maarten Billemont
  *
  *   Licensed under the Apache License, Version 2.0 (the "License");
  *   you may not use this file except in compliance with the License.
@@ -13,36 +13,31 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.webapp.cookie;
+package com.lyndir.lhunath.snaplog.util;
 
+import com.lyndir.lhunath.snaplog.data.Album;
+import com.lyndir.lhunath.snaplog.data.LinkID;
 import com.lyndir.lhunath.snaplog.data.User;
+import com.lyndir.lhunath.snaplog.data.aws.S3Album;
 
 
 /**
- * <h2>{@link LastUserCookieManager}<br>
+ * <h2>{@link SnaplogConstants}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
- * [description / usage].
- * </p>
- * 
- * <p>
- * <i>Dec 31, 2009</i>
+ * <i>Jan 10, 2010</i>
  * </p>
  * 
  * @author lhunath
  */
-public abstract class LastUserCookieManager {
+public abstract class SnaplogConstants {
 
-    public static User getLastUser() {
+    public static final User  DEFAULT_USER;
+    public static final Album DEFAULT_ALBUM;
 
-        // TODO: Load the last user from the last-user cookie.
-
-        return null;
-    }
-
-    public static void rememberCurrentUser() {
-
-    // TODO: Write out the last-user cookie.
+    static {
+        DEFAULT_USER = new User( new LinkID( "b21e33e2-b63e-4f06-8f52-84509883e1d1" ), "lhunath" );
+        DEFAULT_ALBUM = new S3Album( DEFAULT_USER, "Life" );
     }
 }

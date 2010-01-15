@@ -15,10 +15,12 @@
  */
 package com.lyndir.lhunath.snaplog.webapp;
 
+import org.apache.wicket.Application;
 import org.apache.wicket.Page;
 import org.apache.wicket.Request;
 import org.apache.wicket.Response;
 import org.apache.wicket.Session;
+import org.apache.wicket.guice.InjectionFlagCachingGuiceComponentInjector;
 import org.apache.wicket.markup.IMarkupParserFactory;
 import org.apache.wicket.markup.MarkupParser;
 import org.apache.wicket.markup.MarkupResourceStream;
@@ -26,8 +28,12 @@ import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.resource.loader.BundleStringResourceLoader;
 import org.apache.wicket.settings.IExceptionSettings;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Stage;
 import com.lyndir.lhunath.snaplog.linkid.SnaplogWebappConfig;
 import com.lyndir.lhunath.snaplog.messages.MessagesBundle;
+import com.lyndir.lhunath.snaplog.model.impl.ServicesModule;
 import com.lyndir.lhunath.snaplog.webapp.error.AccessDeniedErrorPage;
 import com.lyndir.lhunath.snaplog.webapp.error.InternalErrorPage;
 import com.lyndir.lhunath.snaplog.webapp.error.PageExpiredErrorPage;
@@ -47,6 +53,9 @@ import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
  */
 public class SnaplogWebApplication extends WebApplication {
 
+    public static final String PATH_LINKID_ERROR = "/linkid-error";
+
+
     /**
      * {@inheritDoc}
      */
@@ -56,8 +65,7 @@ public class SnaplogWebApplication extends WebApplication {
         new SnaplogWebappConfig();
 
         getResourceSettings().addStringResourceLoader(
-                                                       new BundleStringResourceLoader(
-                                                               MessagesBundle.class.getCanonicalName() ) );
+                new BundleStringResourceLoader( MessagesBundle.class.getCanonicalName() ) );
 
         getApplicationSettings().setPageExpiredErrorPage( PageExpiredErrorPage.class );
         getApplicationSettings().setAccessDeniedPage( AccessDeniedErrorPage.class );
@@ -77,7 +85,11 @@ public class SnaplogWebApplication extends WebApplication {
             }
         } );
 
-        addPreComponentOnBeforeRenderListener( new AuthenticationListener() );
+        Injector guiceInjector = Guice.createInjector( getConfigurationType().equals( Application.DEVELOPMENT ) //
+                ? Stage.DEVELOPMENT: Stage.PRODUCTION, //
+                new ServicesModule() );
+        addComponentInstantiationListener( new InjectionFlagCachingGuiceComponentInjector( this, guiceInjector ) );
+        addPreComponentOnBeforeRenderListener( guiceInjector.getInstance( AuthenticationListener.class ) );
     }
 
     /**
