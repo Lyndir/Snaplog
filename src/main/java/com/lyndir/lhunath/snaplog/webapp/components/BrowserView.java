@@ -6,18 +6,20 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.RedirectToUrlException;
+import org.apache.wicket.Resource;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.behavior.AttributeAppender;
-import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.image.Image;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.util.resource.IResourceStream;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -97,11 +99,9 @@ public final class BrowserView extends Panel {
         @Override
         protected void populateItem(ListItem<Media> item) {
 
-            Media file = item.getModelObject();
+            final Media file = item.getModelObject();
+            final Quality imageQuality = file.equals( currentFile )? Quality.SIZED: Quality.THUMBNAIL;
 
-            Quality imageQuality = Quality.THUMBNAIL;
-            if (file.equals( currentFile ))
-                imageQuality = Quality.SIZED;
             item.add( new AttributeAppender( "class", new Model<String>( imageQuality.getName() ), " " ) );
 
             final long shotTime = file.shotTime();
@@ -117,10 +117,14 @@ public final class BrowserView extends Panel {
             item.add( link );
 
             link.add( new Label( "caption", file.getDateString() ) );
-            WebMarkupContainer photo = new WebMarkupContainer( "photo" );
-            photo.add( new AttributeModifier( "src", new Model<String>(
-                    albumService.getResourceURI( file, imageQuality ).toASCIIString() ) ) );
-            link.add( photo );
+            link.add( new Image( "photo", new Resource() {
+
+                @Override
+                public IResourceStream getResourceStream() {
+
+                    throw new RedirectToUrlException( albumService.getResourceURI( file, imageQuality ).toASCIIString() );
+                }
+            } ) );
         }
     }
 
@@ -169,12 +173,12 @@ public final class BrowserView extends Panel {
             // Find the current file.
             while (it.hasNext()) {
                 Media nextFile = it.next();
+                files.put( nextFile, null );
 
                 if (nextFile.shotTime() < currentTimeModel.getObject().getTime())
                     break;
 
                 currentFile = nextFile;
-                files.put( currentFile, null );
             }
 
             // Add the side images past the current file (we already have the ones before it).
