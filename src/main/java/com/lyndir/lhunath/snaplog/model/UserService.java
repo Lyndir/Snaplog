@@ -31,7 +31,9 @@ import com.lyndir.lhunath.snaplog.data.User;
  */
 public interface UserService {
 
-    User registerUser(LinkID linkID, String name);
+    User registerUser(LinkID linkID, String userName);
 
-    User findExistingUserWithLinkID(LinkID linkID);
+    User findUserWithLinkID(LinkID linkID);
+
+    User findUserWithName(String userName);
 }

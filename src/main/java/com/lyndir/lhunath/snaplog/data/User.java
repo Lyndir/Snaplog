@@ -40,21 +40,21 @@ public class User implements Serializable {
 
     private LinkID linkID;
 
-    private String name;
+    private String userName;
     private char   badge = '~';
 
 
     /**
      * Create a new {@link User} instance.
      * 
-     * @param name
-     *            The user's username.
+     * @param userName
+     *            The user's userName.
      * @param linkID
      */
-    public User(LinkID linkID, String name) {
+    public User(LinkID linkID, String userName) {
 
         setLinkID( linkID );
-        setName( name );
+        setUserName( userName );
     }
 
     /**
@@ -75,20 +75,20 @@ public class User implements Serializable {
     }
 
     /**
-     * @return The name of this {@link User}.
+     * @return The userName of this {@link User}.
      */
-    public String getName() {
+    public String getUserName() {
 
-        return name;
+        return userName;
     }
 
     /**
-     * @param name
-     *            The name of this {@link User}.
+     * @param userName
+     *            The userName of this {@link User}.
      */
-    public void setName(String name) {
+    public void setUserName(String userName) {
 
-        this.name = checkNotNull( name );
+        this.userName = checkNotNull( userName );
     }
 
     /**
@@ -137,6 +137,6 @@ public class User implements Serializable {
     @Override
     public String toString() {
 
-        return String.format( "%s%s", getBadge(), getName() );
+        return String.format( "%s%s", getBadge(), getUserName() );
     }
 }

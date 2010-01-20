@@ -29,6 +29,7 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.Media;
 import com.lyndir.lhunath.snaplog.data.MediaTimeFrame;
+import com.lyndir.lhunath.snaplog.data.User;
 import com.lyndir.lhunath.snaplog.data.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.MediaTimeFrame.Type;
 import com.lyndir.lhunath.snaplog.data.aws.S3Album;
@@ -48,10 +49,40 @@ import com.lyndir.lhunath.snaplog.model.MediaProviderService;
  */
 public class AlbumServiceImpl implements AlbumService {
 
-    private static final Logger                            logger          = Logger.get( AlbumServiceImpl.class );
-    private static final Map<Album, List<? extends Media>> albumFiles      = new HashMap<Album, List<? extends Media>>();
-    private static final Map<Album, List<MediaTimeFrame>>  albumTimeFrames = new HashMap<Album, List<MediaTimeFrame>>();
+    private static final Logger                 logger     = Logger.get( AlbumServiceImpl.class );
 
+    private static final Map<Album, AlbumCache> albumCache = new HashMap<Album, AlbumCache>();
+
+
+    /**
+     * {@inheritDoc}
+     */
+    public Album findAlbumWithName(User user, String albumName) {
+
+        checkNotNull( user );
+        checkNotNull( albumName );
+
+        for (Album album : albumCache.keySet())
+            if (album.getUser().equals( user ) && album.getName().equals( albumName ))
+                return album;
+
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public Media findMediaWithName(Album album, String mediaName) {
+
+        checkNotNull( album );
+        checkNotNull( mediaName );
+
+        for (Media file : getFiles( album ))
+            if (file.getName().equals( mediaName ))
+                return file;
+
+        return null;
+    }
 
     /**
      * {@inheritDoc}
@@ -60,7 +91,7 @@ public class AlbumServiceImpl implements AlbumService {
 
         checkNotNull( album );
 
-        List<MediaTimeFrame> timeFrames = albumTimeFrames.get( album );
+        ImmutableList<MediaTimeFrame> timeFrames = getAlbumCache( album ).getTimeFrames();
         if (timeFrames != null)
             return timeFrames;
 
@@ -82,11 +113,30 @@ public class AlbumServiceImpl implements AlbumService {
             currentDay.addFile( mediaFile );
         }
 
-        albumTimeFrames.put( album, timeFrames = timeFramesBuilder.build() );
+        getAlbumCache( album ).setTimeFrames( timeFrames = timeFramesBuilder.build() );
         return timeFrames;
     }
 
+    /**
+     * Obtain an {@link AlbumCache} entry for the given album.
+     * 
+     * If the {@link Album} is not yet cached; it will be added to the cache. This method is guaranteed to not return
+     * <code>null</code>s.
+     */
+    private AlbumCache getAlbumCache(Album album) {
+
+        checkNotNull( album );
+
+        AlbumCache cache = albumCache.get( album );
+        if (cache == null)
+            albumCache.put( album, cache = new AlbumCache() );
+
+        return cache;
+    }
+
     private AlbumProvider getAlbumProvider(Album album) {
+
+        checkNotNull( album );
 
         for (AlbumProvider albumProvider : AlbumProvider.values())
             if (albumProvider.getAlbumType().isAssignableFrom( album.getClass() ))
@@ -99,17 +149,15 @@ public class AlbumServiceImpl implements AlbumService {
     /**
      * {@inheritDoc}
      */
-    public List<? extends Media> getFiles(Album album) {
+    public ImmutableList<? extends Media> getFiles(Album album) {
 
         checkNotNull( album );
 
-        List<? extends Media> files = albumFiles.get( album );
+        ImmutableList<? extends Media> files = getAlbumCache( album ).getFiles();
         if (files != null)
             return files;
 
-        files = getAlbumProvider( album ).getFiles( album );
-        albumFiles.put( album, files );
-
+        getAlbumCache( album ).setFiles( files = getAlbumProvider( album ).getFiles( album ) );
         return files;
     }
 
@@ -118,6 +166,9 @@ public class AlbumServiceImpl implements AlbumService {
      */
     public URI getResourceURI(Media media, Quality quality) {
 
+        checkNotNull( media );
+        checkNotNull( quality );
+
         return getAlbumProvider( media.getAlbum() ).getResourceURI( media, quality );
     }
 
@@ -125,6 +176,8 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     public long modifiedTime(Media media) {
+
+        checkNotNull( media );
 
         return getAlbumProvider( media.getAlbum() ).modifiedTime( media );
     }
@@ -165,7 +218,9 @@ public class AlbumServiceImpl implements AlbumService {
         /**
          * {@inheritDoc}
          */
-        public List<? extends Media> getFiles(Album album) {
+        public ImmutableList<? extends Media> getFiles(Album album) {
+
+            checkNotNull( album );
 
             return getAlbumProviderService().getFiles( album );
         }
@@ -175,6 +230,9 @@ public class AlbumServiceImpl implements AlbumService {
          */
         public URI getResourceURI(Media media, Quality quality) {
 
+            checkNotNull( media );
+            checkNotNull( quality );
+
             return getAlbumProviderService().getResourceURI( media, quality );
         }
 
@@ -183,7 +241,55 @@ public class AlbumServiceImpl implements AlbumService {
          */
         public long modifiedTime(Media media) {
 
+            checkNotNull( media );
+
             return getAlbumProviderService().modifiedTime( media );
+        }
+    }
+
+
+    protected class AlbumCache {
+
+        private ImmutableList<? extends Media> files;
+        private ImmutableList<MediaTimeFrame>  timeFrames;
+
+
+        /**
+         * @param files
+         *            The files of this {@link AlbumServiceImpl.AlbumCache}.
+         */
+        public void setFiles(ImmutableList<? extends Media> files) {
+
+            checkNotNull( files );
+
+            this.files = files;
+        }
+
+        /**
+         * @return The files of this {@link AlbumServiceImpl.AlbumCache}.
+         */
+        public ImmutableList<? extends Media> getFiles() {
+
+            return files;
+        }
+
+        /**
+         * @param timeFrames
+         *            The timeFrames of this {@link AlbumServiceImpl.AlbumCache}.
+         */
+        public void setTimeFrames(ImmutableList<MediaTimeFrame> timeFrames) {
+
+            checkNotNull( timeFrames );
+
+            this.timeFrames = timeFrames;
+        }
+
+        /**
+         * @return The timeFrames of this {@link AlbumServiceImpl.AlbumCache}.
+         */
+        public ImmutableList<MediaTimeFrame> getTimeFrames() {
+
+            return timeFrames;
         }
     }
 }

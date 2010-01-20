@@ -13,18 +13,16 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.model;
+package com.lyndir.lhunath.snaplog.util;
 
-import java.util.List;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
-import com.lyndir.lhunath.snaplog.data.Album;
-import com.lyndir.lhunath.snaplog.data.Media;
-import com.lyndir.lhunath.snaplog.data.MediaTimeFrame;
-import com.lyndir.lhunath.snaplog.data.User;
+import com.lyndir.lhunath.lib.system.logging.Logger;
 
 
 /**
- * <h2>{@link AlbumService}<br>
+ * <h2>{@link URLUtils}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
@@ -32,18 +30,22 @@ import com.lyndir.lhunath.snaplog.data.User;
  * </p>
  * 
  * <p>
- * <i>Jan 9, 2010</i>
+ * <i>Jan 19, 2010</i>
  * </p>
  * 
- * @param <A>
- *            The type of {@link Album} that is being serviced.
  * @author lhunath
  */
-public interface AlbumService extends MediaProviderService<Album, Media> {
+public abstract class URLUtils {
 
-    Album findAlbumWithName(User user, String albumName);
+    private static final Logger logger = Logger.get( URLUtils.class );
 
-    Media findMediaWithName(Album album, String mediaName);
 
-    List<MediaTimeFrame> getYears(Album album);
+    public static String encode(String string) {
+
+        try {
+            return URLEncoder.encode( string, "UTF-8" );
+        } catch (UnsupportedEncodingException e) {
+            throw logger.bug( e ).toError();
+        }
+    }
 }

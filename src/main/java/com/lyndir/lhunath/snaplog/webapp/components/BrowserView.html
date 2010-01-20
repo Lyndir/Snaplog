@@ -8,6 +8,12 @@
 
                 // Browser
                 $(document).ready(function() {
+                    $('.sized a').live("click", function() {
+                        $(this).closest('li').find('.full').animate({opacity:'toggle'});
+                    });
+                    $('.full').live("click", function() {
+                        $(this).animate({opacity:'toggle'});
+                    });
                 });
 
             </script>
@@ -20,9 +26,9 @@
             <ul id="viewer">
                 <li wicket:id="photos">
                     <div class="backdrop">
-                        <a class="image" wicket:id="link" href="#viewer">
-                            <div class="highlight"></div>
-                            <div class="shadow"></div>
+                        <a class="image" wicket:id="link">
+                            <!--div class="highlight"></div>
+                            <div class="shadow"></div-->
                             <img wicket:id="photo" />
                             <span class="caption" wicket:id="caption">[Caption]</span>
                         </a>
@@ -34,6 +40,9 @@
                         <div class="bl"></div>
                         <div class="l"></div>
                         <div class="tl"></div>
+                        <div class="full">
+                            <img wicket:id="fullPhoto" />
+                        </div>
                     </div>
                 </li>
             </ul>

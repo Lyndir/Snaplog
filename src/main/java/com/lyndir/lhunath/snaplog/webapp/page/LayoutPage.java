@@ -117,7 +117,7 @@ public class LayoutPage extends WebPage {
                 if (lastUser == null)
                     return msgs.userWelcome( ' ', msgs.userNameUnknown() );
 
-                return msgs.userWelcomeBack( lastUser.getBadge(), lastUser.getName() );
+                return msgs.userWelcomeBack( lastUser.getBadge(), lastUser.getUserName() );
             }
         } ) );
         userEntry.add( new LinkIDLoginLink( "userLogin" ) );
@@ -316,6 +316,6 @@ public class LayoutPage extends WebPage {
         if (user == null)
             return msgs.pageTitle( ' ', msgs.userNameUnknown() );
 
-        return msgs.pageTitle( user.getBadge(), user.getName() );
+        return msgs.pageTitle( user.getBadge(), user.getUserName() );
     }
 }

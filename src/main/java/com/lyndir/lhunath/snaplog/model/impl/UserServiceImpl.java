@@ -15,6 +15,8 @@
  */
 package com.lyndir.lhunath.snaplog.model.impl;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,16 +50,35 @@ public class UserServiceImpl implements UserService {
     /**
      * {@inheritDoc}
      */
-    public User registerUser(LinkID linkID, String name) {
+    public User registerUser(LinkID linkID, String userName) {
 
-        return users.put( linkID, new User( linkID, name ) );
+        checkNotNull( linkID );
+        checkNotNull( userName );
+
+        return users.put( linkID, new User( linkID, userName ) );
     }
 
     /**
      * {@inheritDoc}
      */
-    public User findExistingUserWithLinkID(LinkID linkID) {
+    public User findUserWithLinkID(LinkID linkID) {
+
+        checkNotNull( linkID );
 
         return users.get( linkID );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public User findUserWithName(String userName) {
+
+        checkNotNull( userName );
+
+        for (User user : users.values())
+            if (user.getUserName().equals( userName ))
+                return user;
+
+        return null;
     }
 }

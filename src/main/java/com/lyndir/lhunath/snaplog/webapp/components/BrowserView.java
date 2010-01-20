@@ -6,20 +6,18 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.wicket.RedirectToUrlException;
-import org.apache.wicket.Resource;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.behavior.AttributeAppender;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.image.Image;
+import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.util.resource.IResourceStream;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -29,6 +27,7 @@ import com.lyndir.lhunath.snaplog.data.Media;
 import com.lyndir.lhunath.snaplog.data.Media.Quality;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
+import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
 
 
 /**
@@ -99,32 +98,37 @@ public final class BrowserView extends Panel {
         @Override
         protected void populateItem(ListItem<Media> item) {
 
-            final Media file = item.getModelObject();
-            final Quality imageQuality = file.equals( currentFile )? Quality.SIZED: Quality.THUMBNAIL;
+            final Media media = item.getModelObject();
+            final Quality imageQuality = media.equals( currentFile )? Quality.SIZED: Quality.THUMBNAIL;
+            final long shotTime = media.shotTime();
+            WebMarkupContainer link = null;
+            switch (imageQuality) {
+                case ORIGINAL:
+                case FULL:
+                case SIZED:
+                    link = new WebMarkupContainer( "link" );
+                break;
 
+                case THUMBNAIL:
+                    link = new AjaxFallbackLink<String>( "link" ) {
+
+                        @Override
+                        public void onClick(AjaxRequestTarget target) {
+
+                            currentTimeModel.setObject( new Date( shotTime ) );
+                            target.addComponent( BrowserView.this );
+                        }
+                    };
+                break;
+            }
+            if (link == null) // Silence Eclipse's "Potential Null Pointer Access"
+                throw logger.bug( "Uninitialized link" ).toError();
+
+            link.add( new Label( "caption", media.getDateString() ) );
+            link.add( new ContextImage( "photo", ImageServlet.getContextRelativePathFor( media, imageQuality ) ) );
+            item.add( new ContextImage( "fullPhoto", ImageServlet.getContextRelativePathFor( media, Quality.FULL ) ) );
             item.add( new AttributeAppender( "class", new Model<String>( imageQuality.getName() ), " " ) );
-
-            final long shotTime = file.shotTime();
-            AjaxFallbackLink<String> link = new AjaxFallbackLink<String>( "link" ) {
-
-                @Override
-                public void onClick(AjaxRequestTarget target) {
-
-                    currentTimeModel.setObject( new Date( shotTime ) );
-                    target.addComponent( BrowserView.this );
-                }
-            };
             item.add( link );
-
-            link.add( new Label( "caption", file.getDateString() ) );
-            link.add( new Image( "photo", new Resource() {
-
-                @Override
-                public IResourceStream getResourceStream() {
-
-                    throw new RedirectToUrlException( albumService.getResourceURI( file, imageQuality ).toASCIIString() );
-                }
-            } ) );
         }
     }
 
@@ -181,8 +185,8 @@ public final class BrowserView extends Panel {
                 currentFile = nextFile;
             }
 
-            // Add the side images past the current file (we already have the ones before it).
-            for (int i = 0; i < BROWSER_SIDE_IMAGES; ++i)
+            // Add the side images past the current file (we already have the ones before it AND one of these).
+            for (int i = 0; i < BROWSER_SIDE_IMAGES - 1; ++i)
                 files.put( it.next(), null );
 
             return ImmutableList.copyOf( files.keySet() );

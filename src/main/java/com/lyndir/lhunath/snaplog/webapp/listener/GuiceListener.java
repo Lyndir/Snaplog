@@ -31,6 +31,7 @@ import com.google.inject.servlet.ServletModule;
 import com.lyndir.lhunath.snaplog.model.impl.ServicesModule;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogWebApplication;
 import com.lyndir.lhunath.snaplog.webapp.servlet.AppLogoutServlet;
+import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
 
 
 /**
@@ -62,9 +63,6 @@ public class GuiceListener extends GuiceServletContextListener {
 
         return Guice.createInjector( Stage.DEVELOPMENT, new ServicesModule(), new ServletModule() {
 
-            /**
-             * {@inheritDoc}
-             */
             @Override
             protected void configureServlets() {
 
@@ -76,6 +74,16 @@ public class GuiceListener extends GuiceServletContextListener {
                 paramBuilder.put( "filterMappingUrlPattern", PATH_WICKET );
                 filter( PATH_WICKET ).through( WicketFilter.class, paramBuilder.build() );
                 bind( WicketFilter.class ).in( Scopes.SINGLETON );
+
+                // Snaplog Image Servlet
+                serve( ImageServlet.PATH ).with( ImageServlet.class );
+                bind( ImageServlet.class ).in( Scopes.SINGLETON );
+
+                // Snaplog Logout Servlet
+                paramBuilder = new ImmutableMap.Builder<String, String>();
+                paramBuilder.put( AppLogoutServlet.PARAM_LOGOUT_EXIT_PATH, PATH_LINKID_LOGOUT );
+                serve( AppLogoutServlet.PATH ).with( AppLogoutServlet.class, paramBuilder.build() );
+                bind( AppLogoutServlet.class ).in( Scopes.SINGLETON );
 
                 // LinkID Login Landing Servlet
                 paramBuilder = new ImmutableMap.Builder<String, String>();
@@ -89,12 +97,6 @@ public class GuiceListener extends GuiceServletContextListener {
                 paramBuilder.put( "ErrorPage", SnaplogWebApplication.PATH_LINKID_ERROR );
                 serve( PATH_LINKID_LOGOUT ).with( LogoutServlet.class, paramBuilder.build() );
                 bind( LogoutServlet.class ).in( Scopes.SINGLETON );
-
-                // LinkID Remote Logout Servlet
-                paramBuilder = new ImmutableMap.Builder<String, String>();
-                paramBuilder.put( AppLogoutServlet.PARAM_LOGOUT_EXIT_PATH, PATH_LINKID_LOGOUT );
-                serve( AppLogoutServlet.PATH ).with( AppLogoutServlet.class, paramBuilder.build() );
-                bind( AppLogoutServlet.class ).in( Scopes.SINGLETON );
             }
         } );
     }

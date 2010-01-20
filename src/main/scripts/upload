@@ -7,8 +7,8 @@ basedir=${0%/*}/../../../
 host=satura.lyndir.com
 jetty_path=/usr/local/share/jetty
 
-emit "Deploying web application" --
+emit "Deploying web application" #--
     war=("$basedir/target/"*.war)
-    rsync -p --chmod=ugo=rX "$war" "$host:$jetty_path/webapps/" && \
+    rsync -vP --chmod=ugo=rX "$war" "$host:$jetty_path/webapps/" && \
     ssh "$host" "$(printf 'touch "$(grep -lF %q %q/contexts/*.xml 2>/dev/null)"' "${war##*/}" "$jetty_path")"
-emit -$?
+#emit -$?

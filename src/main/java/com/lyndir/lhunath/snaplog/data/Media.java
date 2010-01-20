@@ -168,7 +168,8 @@ public abstract class Media implements Comparable<Media>, Serializable {
      */
     public enum Quality {
         ORIGINAL("orig", -1, -1, 1),
-        SIZED("sized", 600, 450, 0.9f),
+        FULL("full", 800, 600, 0.9f),
+        SIZED("sized", 600, 450, 0.8f),
         THUMBNAIL("thumb", 150, 100, 0.7f);
 
         private String name;
@@ -216,6 +217,24 @@ public abstract class Media implements Comparable<Media>, Serializable {
         public float getCompression() {
 
             return compression;
+        }
+
+        /**
+         * Find the {@link Quality} by the given name.
+         * 
+         * @param qualityName
+         *            The name of the quality (case insensitive) you're after.
+         * 
+         * @return <code>null</code> if no quality exists for the given name.
+         * @see #getName()
+         */
+        public static Quality findQualityWithName(String qualityName) {
+
+            for (Quality quality : Quality.values())
+                if (quality.getName().equalsIgnoreCase( qualityName ))
+                    return quality;
+
+            return null;
         }
     }
 }

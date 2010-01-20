@@ -54,6 +54,6 @@ public class AuthenticationListener implements IComponentOnBeforeRenderListener 
         if (currentLinkID == null)
             SnaplogSession.get().setActiveUser( null );
         else
-            SnaplogSession.get().setActiveUser( userService.findExistingUserWithLinkID( new LinkID( currentLinkID ) ) );
+            SnaplogSession.get().setActiveUser( userService.findUserWithLinkID( new LinkID( currentLinkID ) ) );
     }
 }

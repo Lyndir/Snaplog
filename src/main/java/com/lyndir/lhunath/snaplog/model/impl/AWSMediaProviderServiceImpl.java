@@ -25,7 +25,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.imageio.ImageIO;
@@ -78,7 +77,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
     /**
      * {@inheritDoc}
      */
-    public List<? extends Media> getFiles(S3Album album) {
+    public ImmutableList<? extends Media> getFiles(S3Album album) {
 
         Builder<S3Media> filesBuilder = new ImmutableList.Builder<S3Media>();
         for (S3Object albumObject : awsService.listObjects( getObjectKey( album, Quality.ORIGINAL ) )) {
@@ -94,7 +93,6 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         }
 
         logger.dbg( "%d entries in s3MediaQualityObjects", s3MediaQualityObjects.size() );
-
         return filesBuilder.build();
     }
 
@@ -172,7 +170,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      */
     protected String getObjectKey(Album album, Quality quality) {
 
-        return StringUtils.concat( "/", "users", album.getUser().getName(), album.getName(), quality.getName() );
+        return StringUtils.concat( "/", "users", album.getUser().getUserName(), album.getName(), quality.getName() );
     }
 
     /**
