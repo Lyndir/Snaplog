@@ -16,8 +16,8 @@
 package com.lyndir.lhunath.snaplog.messages;
 
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
-import com.lyndir.lhunath.lib.system.localization.UseBundle;
 import com.lyndir.lhunath.lib.system.localization.UseKey;
+import com.lyndir.lhunath.lib.system.localization.UseLocalizationProvider;
 
 
 /**
@@ -32,7 +32,7 @@ import com.lyndir.lhunath.lib.system.localization.UseKey;
  * 
  * @author lhunath
  */
-@UseBundle(type = MessagesBundle.class)
+@UseLocalizationProvider(WicketLocalizationProvider.class)
 public interface Messages {
 
     @UseKey

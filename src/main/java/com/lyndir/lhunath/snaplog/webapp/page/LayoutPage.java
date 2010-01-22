@@ -22,7 +22,6 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.util.template.JavaScriptTemplate;
 import org.apache.wicket.util.template.PackagedTextTemplate;
 import org.apache.wicket.util.template.TextTemplate;
@@ -43,12 +42,20 @@ import com.lyndir.lhunath.snaplog.webapp.tabs.WorkbenchTab;
 public class LayoutPage extends WebPage {
 
     private static final long serialVersionUID = 1L;
-    static final Messages     msgs             = LocalizerFactory.getLocalizer( Messages.class );
 
-    static List<ITab>         headTabsList;
-    static {
+    final Messages            msgs             = LocalizerFactory.getLocalizer( Messages.class, this );
+
+    List<ITab>                headTabsList;
+    {
         headTabsList = new ArrayList<ITab>( 2 );
-        headTabsList.add( new AbstractTab( new Model<String>( msgs.albumTab() ) ) {
+        headTabsList.add( new AbstractTab( new AbstractReadOnlyModel<String>() {
+
+            @Override
+            public String getObject() {
+
+                return msgs.albumTab();
+            }
+        } ) {
 
             @Override
             public Panel getPanel(String wicketId) {
@@ -56,7 +63,14 @@ public class LayoutPage extends WebPage {
                 return new AlbumTab( wicketId );
             }
         } );
-        headTabsList.add( new AbstractTab( new Model<String>( msgs.workbenchTab() ) ) {
+        headTabsList.add( new AbstractTab( new AbstractReadOnlyModel<String>() {
+
+            @Override
+            public String getObject() {
+
+                return msgs.workbenchTab();
+            }
+        } ) {
 
             @Override
             public Panel getPanel(String wicketId) {
@@ -64,7 +78,14 @@ public class LayoutPage extends WebPage {
                 return new WorkbenchTab( wicketId );
             }
         } );
-        headTabsList.add( new AbstractTab( new Model<String>( msgs.administrationTab() ) ) {
+        headTabsList.add( new AbstractTab( new AbstractReadOnlyModel<String>() {
+
+            @Override
+            public String getObject() {
+
+                return msgs.administrationTab();
+            }
+        } ) {
 
             @Override
             public Panel getPanel(String wicketId) {

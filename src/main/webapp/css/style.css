@@ -334,7 +334,7 @@ div.popup {
 #viewer li {
     list-style:         none;
 }
-#viewer li.thumb {
+#viewer li.thumbnail {
     display:            inline-block;
 }
 #viewer .backdrop:hover {
@@ -377,19 +377,18 @@ div.popup {
     height:             100%;
 }
 .image .caption {
-    background:         #222;
-    border:             1px solid #111;
+    background:         rgba(32, 32, 32, 0.7);
 
     display:            block;
     position:           absolute;
     z-index:            3;
-    bottom:             1em;
-    left:               20%;
-    width:              60%;
-    padding:            0.25em 1em;
-    margin:             -0.25em 0 0 -1em;
+    bottom:             0.5em;
+    left:               0;
+    width:              100%;
+    padding:            0.25em 0;
+    margin:             -0.25em 0 0 0;
 }
-.full {
+.fullscreen {
     background:         rgba(0, 0, 0, 0.66);
 
     display:            none;
@@ -399,43 +398,45 @@ div.popup {
     left:               0;
     width:              100%;
     height:             100%;
+
+    overflow:           auto;
 }
-.full img {
+.fullscreen img {
     border:             1px solid black;
     background:         #222 url("../images/resources/loader.boxes.black.gif") no-repeat center center;
 
     position:           relative;
     top:                50%;
-    margin-top:         -300px;
+    margin-top:         -384px;
 }
-.thumb .caption {
+.thumbnail .caption {
     visibility:         hidden;
     left:               0%;
     width:              100%;
-    bottom:             -1em;
+    bottom:             0;
 }
-.thumb .image:hover .caption {
+.thumbnail .image:hover .caption {
     visibility:         visible;
 
     font-size:          0.8em;
 }
-.thumb img {
+.thumbnail img {
     min-width:          75px;
     max-width:          150px;
     min-height:         100px;
     max-height:         100px;
 }
-.sized img {
+.preview img {
     min-width:          330px;
     max-width:          600px;
     min-height:         450px;
     max-height:         450px;
 }
-.full img {
-    min-width:          450px;
-    max-width:          800px;
-    min-height:         600px;
-    max-height:         600px;
+.fullscreen img {
+    min-width:          576px;
+    max-width:          1024px;
+    min-height:         768px;
+    max-height:         768px;
 }
 
 

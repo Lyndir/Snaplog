@@ -21,7 +21,7 @@ import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
 
 /**
  * <h2>{@link TimelineView}<br>
- * <sub>A timeline popup.</sub></h2>
+ * <sub>Popup that allows user to browse through media on a timeline.</sub></h2>
  * 
  * <p>
  * <i>Jan 4, 2010</i>
@@ -31,10 +31,10 @@ import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
  */
 public class TimelineView extends Panel {
 
-    static Messages msgs = LocalizerFactory.getLocalizer( Messages.class );
+    Messages     msgs = LocalizerFactory.getLocalizer( Messages.class, this );
 
     @Inject
-    AlbumService    albumService;
+    AlbumService albumService;
 
 
     public TimelineView(String id) {

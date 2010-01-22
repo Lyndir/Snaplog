@@ -99,13 +99,13 @@ public final class BrowserView extends Panel {
         protected void populateItem(ListItem<Media> item) {
 
             final Media media = item.getModelObject();
-            final Quality imageQuality = media.equals( currentFile )? Quality.SIZED: Quality.THUMBNAIL;
+            final Quality imageQuality = media.equals( currentFile )? Quality.PREVIEW: Quality.THUMBNAIL;
             final long shotTime = media.shotTime();
             WebMarkupContainer link = null;
             switch (imageQuality) {
                 case ORIGINAL:
-                case FULL:
-                case SIZED:
+                case FULLSCREEN:
+                case PREVIEW:
                     link = new WebMarkupContainer( "link" );
                 break;
 
@@ -126,7 +126,8 @@ public final class BrowserView extends Panel {
 
             link.add( new Label( "caption", media.getDateString() ) );
             link.add( new ContextImage( "photo", ImageServlet.getContextRelativePathFor( media, imageQuality ) ) );
-            item.add( new ContextImage( "fullPhoto", ImageServlet.getContextRelativePathFor( media, Quality.FULL ) ) );
+            item.add( new ContextImage( "fullscreenPhoto", ImageServlet.getContextRelativePathFor( media,
+                    Quality.FULLSCREEN ) ) );
             item.add( new AttributeAppender( "class", new Model<String>( imageQuality.getName() ), " " ) );
             item.add( link );
         }

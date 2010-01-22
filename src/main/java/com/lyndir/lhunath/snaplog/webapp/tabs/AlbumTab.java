@@ -23,7 +23,9 @@ import org.apache.wicket.model.Model;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.messages.Messages;
+import com.lyndir.lhunath.snaplog.webapp.components.AccessView;
 import com.lyndir.lhunath.snaplog.webapp.components.BrowserView;
+import com.lyndir.lhunath.snaplog.webapp.components.TagsView;
 import com.lyndir.lhunath.snaplog.webapp.components.TimelineView;
 
 
@@ -41,7 +43,7 @@ public class AlbumTab extends Panel {
 
     static final Logger logger  = Logger.get( AlbumTab.class );
 
-    static Messages     msgs    = LocalizerFactory.getLocalizer( Messages.class );
+    Messages            msgs    = LocalizerFactory.getLocalizer( Messages.class, this );
 
     // TODO: Unhardcode.
     static Date         current = new Date( 1259607804000l );
@@ -56,5 +58,11 @@ public class AlbumTab extends Panel {
 
         // Timeline.
         add( new TimelineView( "timelinePopup" ) );
+
+        // Tags.
+        add( new TagsView( "tagsPopup" ) );
+
+        // Access.
+        add( new AccessView( "accessPopup" ) );
     }
 }

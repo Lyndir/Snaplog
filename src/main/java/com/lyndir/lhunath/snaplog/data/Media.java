@@ -167,10 +167,10 @@ public abstract class Media implements Comparable<Media>, Serializable {
      * @author lhunath
      */
     public enum Quality {
-        ORIGINAL("orig", -1, -1, 1),
-        FULL("full", 800, 600, 0.9f),
-        SIZED("sized", 600, 450, 0.8f),
-        THUMBNAIL("thumb", 150, 100, 0.7f);
+        ORIGINAL("original", -1, -1, 1),
+        FULLSCREEN("fullscreen", 1024, 768, 0.9f),
+        PREVIEW("preview", 600, 450, 0.8f),
+        THUMBNAIL("thumbnail", 150, 100, 0.7f);
 
         private String name;
         private int    maxWidth;

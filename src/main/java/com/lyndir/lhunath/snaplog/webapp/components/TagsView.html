@@ -1,0 +1,52 @@
+<!DOCTYPE html PUBLIC "-//W5C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" xmlns:wicket="http://wicket.sourceforge.net/">
+
+    <head>
+        <wicket:head>
+            <script type="text/javascript">
+
+                // Tags
+                function tags(action) {
+                    $('#tagsPopup').animate({height:action});
+                }
+
+                $(document).ready(function() {
+                    $('#toolTags').click(function () {
+                        tags('toggle');
+                    });
+                    $('#tagsPopupClose').click(function () {
+                        tags('hide');
+                    });
+                });
+
+            </script>
+        </wicket:head>
+    </head>
+
+    <body>
+        <wicket:panel>
+
+            <div id="tagsPopup" class="backdrop popup">
+                <a id="tagsPopupClose" class="close ss_sprite ss_cancel"></a>
+                <div class="t"></div>
+                <div class="tr"></div>
+                <div class="r"></div>
+                <div class="br"></div>
+                <div class="b"></div>
+                <div class="bl"></div>
+                <div class="l"></div>
+                <div class="tl"></div>
+
+                <div class="scrollable">
+                    <h1><wicket:message key="mediaTags" /></h1>
+                    <p><wicket:message key="mediaTagsInfo" /></p>
+
+                </div>
+            </div>
+
+        </wicket:panel>
+    </body>
+
+</html>
+

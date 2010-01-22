@@ -8,10 +8,10 @@
 
                 // Browser
                 $(document).ready(function() {
-                    $('.sized a').live("click", function() {
-                        $(this).closest('li').find('.full').animate({opacity:'toggle'});
+                    $('.preview a').live("click", function() {
+                        $(this).closest('li').find('.fullscreen').animate({opacity:'toggle'});
                     });
-                    $('.full').live("click", function() {
+                    $('.fullscreen').live("click", function() {
                         $(this).animate({opacity:'toggle'});
                     });
                 });
@@ -40,8 +40,8 @@
                         <div class="bl"></div>
                         <div class="l"></div>
                         <div class="tl"></div>
-                        <div class="full">
-                            <img wicket:id="fullPhoto" />
+                        <div class="fullscreen">
+                            <img wicket:id="fullscreenPhoto" />
                         </div>
                     </div>
                 </li>
