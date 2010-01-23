@@ -24,16 +24,16 @@ import com.lyndir.lhunath.snaplog.data.aws.S3Album;
 /**
  * <h2>{@link SnaplogConstants}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Jan 10, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public abstract class SnaplogConstants {
 
-    public static final User  DEFAULT_USER;
+    public static final User DEFAULT_USER;
     public static final Album DEFAULT_ALBUM;
 
     static {

@@ -15,24 +15,23 @@
  */
 package com.lyndir.lhunath.snaplog.messages;
 
+import com.lyndir.lhunath.lib.system.localization.LocalizationProvider;
 import org.apache.wicket.Application;
 import org.apache.wicket.Component;
-
-import com.lyndir.lhunath.lib.system.localization.LocalizationProvider;
 
 
 /**
  * <h2>{@link WicketLocalizationProvider}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * [description / usage].
  * </p>
- * 
+ *
  * <p>
  * <i>Jan 21, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class WicketLocalizationProvider implements LocalizationProvider {

@@ -17,18 +17,17 @@ package com.lyndir.lhunath.snaplog.webapp.servlet;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 import com.google.inject.Inject;
 import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.Media;
-import com.lyndir.lhunath.snaplog.data.User;
 import com.lyndir.lhunath.snaplog.data.Media.Quality;
+import com.lyndir.lhunath.snaplog.data.User;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.model.UserService;
 import com.lyndir.lhunath.snaplog.util.URLUtils;
@@ -37,24 +36,24 @@ import com.lyndir.lhunath.snaplog.util.URLUtils;
 /**
  * <h2>{@link ImageServlet}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Jan 19, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class ImageServlet extends HttpServlet {
 
-    public static final String  PATH          = "/img";
+    public static final String PATH = "/img";
 
-    private static final String PARAM_USER    = "u";
-    private static final String PARAM_ALBUM   = "a";
-    private static final String PARAM_MEDIA   = "m";
+    private static final String PARAM_USER = "u";
+    private static final String PARAM_ALBUM = "a";
+    private static final String PARAM_MEDIA = "m";
     private static final String PARAM_QUALITY = "q";
 
-    private UserService         userService;
-    private AlbumService        albumService;
+    private UserService userService;
+    private AlbumService albumService;
 
 
     @Inject
@@ -98,6 +97,6 @@ public class ImageServlet extends HttpServlet {
         Media media = albumService.findMediaWithName( album, mediaName );
 
         resp.sendRedirect( albumService.getResourceURI( media, Quality.findQualityWithName( qualityName ) )
-                                       .toASCIIString() );
+                .toASCIIString() );
     }
 }

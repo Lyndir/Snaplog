@@ -22,11 +22,11 @@ import com.lyndir.lhunath.snaplog.data.User;
 /**
  * <h2>{@link UserService}<br>
  * <sub>Service to manage and access {@link User}s.</sub></h2>
- * 
+ *
  * <p>
  * <i>Jan 9, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public interface UserService {

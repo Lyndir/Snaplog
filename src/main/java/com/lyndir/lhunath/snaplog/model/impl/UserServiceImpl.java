@@ -29,11 +29,11 @@ import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
 
 /**
  * <h2>{@link UserServiceImpl}<br>
- * 
+ *
  * <p>
  * <i>Jan 9, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class UserServiceImpl implements UserService {

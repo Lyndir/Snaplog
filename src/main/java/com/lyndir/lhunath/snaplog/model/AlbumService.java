@@ -26,18 +26,18 @@ import com.lyndir.lhunath.snaplog.data.User;
 /**
  * <h2>{@link AlbumService}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * [description / usage].
  * </p>
- * 
+ *
  * <p>
  * <i>Jan 9, 2010</i>
  * </p>
- * 
- * @param <A>
- *            The type of {@link Album} that is being serviced.
+ *
  * @author lhunath
+ * @param <A>
+ * The type of {@link Album} that is being serviced.
  */
 public interface AlbumService extends MediaProviderService<Album, Media> {
 

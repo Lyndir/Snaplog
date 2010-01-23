@@ -18,15 +18,15 @@ package com.lyndir.lhunath.snaplog.webapp;
 /**
  * <h2>{@link JavaScriptProvider}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * [description / usage].
  * </p>
- * 
+ *
  * <p>
  * <i>Jun 11, 2009</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public interface JavaScriptProvider {

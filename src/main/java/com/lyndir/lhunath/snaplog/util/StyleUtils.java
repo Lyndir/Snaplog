@@ -16,19 +16,18 @@
 package com.lyndir.lhunath.snaplog.util;
 
 
-
 /**
  * <h2>{@link StyleUtils}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * [description / usage].
  * </p>
- * 
+ *
  * <p>
  * <i>Jan 5, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class StyleUtils {

@@ -28,10 +28,10 @@ import com.google.inject.Guice;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.Media;
-import com.lyndir.lhunath.snaplog.data.MediaTimeFrame;
-import com.lyndir.lhunath.snaplog.data.User;
 import com.lyndir.lhunath.snaplog.data.Media.Quality;
+import com.lyndir.lhunath.snaplog.data.MediaTimeFrame;
 import com.lyndir.lhunath.snaplog.data.MediaTimeFrame.Type;
+import com.lyndir.lhunath.snaplog.data.User;
 import com.lyndir.lhunath.snaplog.data.aws.S3Album;
 import com.lyndir.lhunath.snaplog.model.AWSMediaProviderService;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
@@ -40,16 +40,16 @@ import com.lyndir.lhunath.snaplog.model.MediaProviderService;
 
 /**
  * <h2>{@link AlbumService}<br>
- * 
+ *
  * <p>
  * <i>Jul 25, 2009</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class AlbumServiceImpl implements AlbumService {
 
-    private static final Logger                 logger     = Logger.get( AlbumServiceImpl.class );
+    private static final Logger logger = Logger.get( AlbumServiceImpl.class );
 
     private static final Map<Album, AlbumCache> albumCache = new HashMap<Album, AlbumCache>();
 
@@ -119,7 +119,7 @@ public class AlbumServiceImpl implements AlbumService {
 
     /**
      * Obtain an {@link AlbumCache} entry for the given album.
-     * 
+     *
      * If the {@link Album} is not yet cached; it will be added to the cache. This method is guaranteed to not return
      * <code>null</code>s.
      */
@@ -143,7 +143,7 @@ public class AlbumServiceImpl implements AlbumService {
                 return albumProvider;
 
         throw logger.err( "Could not find a provider for the album type: %s", album.getClass() ) //
-                    .toError( IllegalArgumentException.class );
+                .toError( IllegalArgumentException.class );
     }
 
     /**
@@ -184,16 +184,17 @@ public class AlbumServiceImpl implements AlbumService {
 
 
     public static enum AlbumProvider implements MediaProviderService<Album, Media> {
-        AMAZON_S3(S3Album.class, AWSMediaProviderService.class);
 
-        private Class<? extends Album>                              albumType;
+        AMAZON_S3( S3Album.class, AWSMediaProviderService.class );
+
+        private Class<? extends Album> albumType;
         private Class<? extends MediaProviderService<Album, Media>> albumProviderServiceType;
 
 
         @SuppressWarnings("unchecked")
         private AlbumProvider(
-                              Class<? extends Album> albumType,
-                              Class<? extends MediaProviderService<? extends Album, ? extends Media>> albumProviderServiceType) {
+                Class<? extends Album> albumType,
+                Class<? extends MediaProviderService<? extends Album, ? extends Media>> albumProviderServiceType) {
 
             this.albumType = checkNotNull( albumType );
             this.albumProviderServiceType = checkNotNull( (Class<? extends MediaProviderService<Album, Media>>) albumProviderServiceType );
@@ -251,12 +252,11 @@ public class AlbumServiceImpl implements AlbumService {
     protected class AlbumCache {
 
         private ImmutableList<? extends Media> files;
-        private ImmutableList<MediaTimeFrame>  timeFrames;
+        private ImmutableList<MediaTimeFrame> timeFrames;
 
 
         /**
-         * @param files
-         *            The files of this {@link AlbumServiceImpl.AlbumCache}.
+         * @param files The files of this {@link AlbumServiceImpl.AlbumCache}.
          */
         public void setFiles(ImmutableList<? extends Media> files) {
 
@@ -274,8 +274,7 @@ public class AlbumServiceImpl implements AlbumService {
         }
 
         /**
-         * @param timeFrames
-         *            The timeFrames of this {@link AlbumServiceImpl.AlbumCache}.
+         * @param timeFrames The timeFrames of this {@link AlbumServiceImpl.AlbumCache}.
          */
         public void setTimeFrames(ImmutableList<MediaTimeFrame> timeFrames) {
 

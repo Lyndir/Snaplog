@@ -15,11 +15,6 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.listener;
 
-import net.link.safeonline.sdk.auth.servlet.LoginServlet;
-import net.link.safeonline.sdk.auth.servlet.LogoutServlet;
-
-import org.apache.wicket.protocol.http.WicketFilter;
-
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.inject.Guice;
@@ -32,27 +27,30 @@ import com.lyndir.lhunath.snaplog.model.impl.ServicesModule;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogWebApplication;
 import com.lyndir.lhunath.snaplog.webapp.servlet.AppLogoutServlet;
 import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
+import net.link.safeonline.sdk.auth.servlet.LoginServlet;
+import net.link.safeonline.sdk.auth.servlet.LogoutServlet;
+import org.apache.wicket.protocol.http.WicketFilter;
 
 
 /**
  * <h2>{@link GuiceListener}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * [description / usage].
  * </p>
- * 
+ *
  * <p>
  * <i>Jan 11, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class GuiceListener extends GuiceServletContextListener {
 
-    private static final String PATH_WICKET        = "/*";
-    private static final String PATH_LINKID_LOGIN  = "/login";
-    public static final String  PATH_LINKID_LOGOUT = "/logout";
+    private static final String PATH_WICKET = "/*";
+    private static final String PATH_LINKID_LOGIN = "/login";
+    public static final String PATH_LINKID_LOGOUT = "/logout";
 
 
     /**

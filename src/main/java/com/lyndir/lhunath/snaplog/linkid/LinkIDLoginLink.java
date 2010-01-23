@@ -6,15 +6,13 @@
  */
 package com.lyndir.lhunath.snaplog.linkid;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.security.KeyPair;
 import java.security.cert.X509Certificate;
 import java.util.Locale;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import net.link.safeonline.sdk.auth.util.AuthenticationUtils;
-
 import org.apache.wicket.Page;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.Session;
@@ -23,20 +21,20 @@ import org.apache.wicket.Session;
 /**
  * <h2>{@link LinkIDLoginLink}<br>
  * <sub>A link that uses the linkID SDK to log a user in through the linkID authentication services.</sub></h2>
- * 
+ *
  * <p>
  * <i>Sep 22, 2008</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class LinkIDLoginLink extends AbstractLinkIDAuthLink {
 
-    private static final long serialVersionUID    = 1L;
-    private String            themeName;
-    private Boolean           forceAuthentication = false;
-    private KeyPair           keyPair;
-    private X509Certificate   certificate;
+    private static final long serialVersionUID = 1L;
+    private String themeName;
+    private Boolean forceAuthentication = false;
+    private KeyPair keyPair;
+    private X509Certificate certificate;
 
 
     public LinkIDLoginLink(String id) {
@@ -60,8 +58,7 @@ public class LinkIDLoginLink extends AbstractLinkIDAuthLink {
     }
 
     /**
-     * @param themeName
-     *            The themeName of this {@link LinkIDLoginLink}.
+     * @param themeName The themeName of this {@link LinkIDLoginLink}.
      */
     public void setThemeName(String themeName) {
 

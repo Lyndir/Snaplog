@@ -19,39 +19,34 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.joda.time.DateTimeFieldType;
-import org.joda.time.Interval;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
-import org.joda.time.Partial;
-import org.joda.time.format.DateTimeFormat;
-
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import org.joda.time.*;
+import org.joda.time.format.DateTimeFormat;
 
 
 /**
  * <h2>{@link MediaTimeFrame}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * [description / usage].
  * </p>
- * 
+ *
  * <p>
  * <i>Jul 25, 2009</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class MediaTimeFrame extends LinkedList<MediaTimeFrame> implements Comparable<MediaTimeFrame> {
 
     private static final Logger logger = Logger.get( MediaTimeFrame.class );
 
-    private MediaTimeFrame      parent;
-    private Type                type;
-    private Partial             typeTime;
+    private MediaTimeFrame parent;
+    private Type type;
+    private Partial typeTime;
 
-    private LinkedList<Media>   files;
+    private LinkedList<Media> files;
 
 
     public MediaTimeFrame(MediaTimeFrame parent, Type type, long timeMillis) {
@@ -59,12 +54,12 @@ public class MediaTimeFrame extends LinkedList<MediaTimeFrame> implements Compar
         if (type.getParentType() == null) {
             if (parent != null) {
                 logger.err( "Type %s permits no parent; given parent type was %s", //
-                        type, parent.type );
+                            type, parent.type );
                 throw logger.toError( IllegalArgumentException.class );
             }
         } else if (parent != null && parent.type != type.getParentType()) {
             logger.err( "Type %s requires parent type %s; given parent type was %s", //
-                    type, type.getParentType(), parent.type );
+                        type, type.getParentType(), parent.type );
             throw logger.toError( IllegalArgumentException.class );
         }
 
@@ -77,10 +72,10 @@ public class MediaTimeFrame extends LinkedList<MediaTimeFrame> implements Compar
 
     /**
      * Get a list of all the media created in this time frame.
-     * 
-     * @param recurse
-     *            <code>true</code>: retrieves all media belonging to this time frame and every time frame that is a
-     *            part of it.
+     *
+     * @param recurse <code>true</code>: retrieves all media belonging to this time frame and every time frame that is a
+     *                part of it.
+     *
      * @return An unmodifiable list of {@link Media}s.
      */
     public List<Media> getFiles(boolean recurse) {
@@ -140,13 +135,14 @@ public class MediaTimeFrame extends LinkedList<MediaTimeFrame> implements Compar
 
 
     public enum Type {
-        YEAR(DateTimeFieldType.year(), null, "yyyy"),
-        MONTH(DateTimeFieldType.monthOfYear(), Type.YEAR, "MMM"),
-        DAY(DateTimeFieldType.dayOfMonth(), Type.MONTH, "dd");
+
+        YEAR( DateTimeFieldType.year(), null, "yyyy" ),
+        MONTH( DateTimeFieldType.monthOfYear(), Type.YEAR, "MMM" ),
+        DAY( DateTimeFieldType.dayOfMonth(), Type.MONTH, "dd" );
 
         private DateTimeFieldType dateType;
-        private Type              parentType;
-        private String            dateFormatString;
+        private Type parentType;
+        private String dateFormatString;
 
 
         private Type(DateTimeFieldType dateType, Type parentType, String dateFormatString) {

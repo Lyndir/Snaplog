@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!-- PROJECT METADATA -->
@@ -66,68 +66,68 @@
     <properties>
     </properties>
 
-	<!-- BUILD CONFIGURATION -->
-	<build>
-		<resources>
-			<resource>
-				<filtering>false</filtering>
-				<directory>src/main/resources</directory>
+    <!-- BUILD CONFIGURATION -->
+    <build>
+        <resources>
+            <resource>
+                <filtering>false</filtering>
+                <directory>src/main/resources</directory>
                 <excludes>
                     <exclude>raw</exclude>
                 </excludes>
-			</resource>
-			<resource>
-				<filtering>false</filtering>
-				<directory>src/main/java</directory>
-				<includes>
-					<include>**</include>
-				</includes>
-				<excludes>
-					<exclude>**/*.java</exclude>
-				</excludes>
-			</resource>
-		</resources>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>keytool-maven-plugin</artifactId>
-				<!--executions>
-					<execution>
-						<phase>generate-resources</phase>
-						<goals>
-							<goal>clean</goal>
-							<goal>genkey</goal>
-						</goals>
-					</execution>
-				</executions-->
-				<configuration>
-					<keystore>
+            </resource>
+            <resource>
+                <filtering>false</filtering>
+                <directory>src/main/java</directory>
+                <includes>
+                    <include>**</include>
+                </includes>
+                <excludes>
+                    <exclude>**/*.java</exclude>
+                </excludes>
+            </resource>
+        </resources>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>keytool-maven-plugin</artifactId>
+                <!--executions>
+                        <execution>
+                            <phase>generate-resources</phase>
+                            <goals>
+                                <goal>clean</goal>
+                                <goal>genkey</goal>
+                            </goals>
+                        </execution>
+                    </executions-->
+                <configuration>
+                    <keystore>
                         ${project.build.directory}/classes/${pom.artifactId}.jks
-					</keystore>
-					<dname>
-						CN=snaplog.net
-						L=Sint-Amandsberg, ST=VL, O=Lhunath, C=BE
-					</dname>
-					<keypass>secret</keypass>
-					<storepass>secret</storepass>
+                    </keystore>
+                    <dname>
+                        CN=snaplog.net
+                        L=Sint-Amandsberg, ST=VL, O=Lhunath, C=BE
+                    </dname>
+                    <keypass>secret</keypass>
+                    <storepass>secret</storepass>
                     <alias>${pom.artifactId}</alias>
-					<verbose>true</verbose>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
-					<webResources>
-						<resource>
-							<directory>${basedir}/src/main/webapp/WEB-INF</directory>
-							<targetPath>WEB-INF</targetPath>
-							<filtering>true</filtering>
-						</resource>
-					</webResources>
-				</configuration>
-			</plugin>
+                    <verbose>true</verbose>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <configuration>
+                    <filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+                    <webResources>
+                        <resource>
+                            <directory>${basedir}/src/main/webapp/WEB-INF</directory>
+                            <targetPath>WEB-INF</targetPath>
+                            <filtering>true</filtering>
+                        </resource>
+                    </webResources>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.mortbay.jetty</groupId>
                 <artifactId>maven-jetty-plugin</artifactId>
@@ -135,26 +135,26 @@
                 <configuration>
                     <contextPath>/</contextPath>
                     <scanIntervalSeconds>2</scanIntervalSeconds>
-                    <systemProperties> 
-                        <systemProperty> 
-                            <name>logback.configurationFile</name> 
-                            <value>${basedir}/target/classes/logback.xml</value> 
-                        </systemProperty> 
-                    </systemProperties> 
+                    <systemProperties>
+                        <systemProperty>
+                            <name>logback.configurationFile</name>
+                            <value>${basedir}/target/classes/logback.xml</value>
+                        </systemProperty>
+                    </systemProperties>
                 </configuration>
                 <dependencies>
-                    <dependency> 
-                        <groupId>ch.qos.logback</groupId> 
-                        <artifactId>logback-classic</artifactId> 
-                        <version>0.9.15</version> 
-                    </dependency> 
-                </dependencies> 
+                    <dependency>
+                        <groupId>ch.qos.logback</groupId>
+                        <artifactId>logback-classic</artifactId>
+                        <version>0.9.15</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
-	</build>
+    </build>
 
-	<!-- DEPENDENCY MANAGEMENT -->
-	<dependencies>
+    <!-- DEPENDENCY MANAGEMENT -->
+    <dependencies>
 
         <!-- jLibs -->
         <dependency>
@@ -171,27 +171,27 @@
         </dependency>
 
         <!-- EXTERNAL DEPENDENCIES -->
-		<dependency>
-			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket-extensions</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket-ioc</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.wicket</groupId>
-			<artifactId>wicket-guice</artifactId>
-		</dependency>
+        <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket-extensions</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket-ioc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.wicket</groupId>
+            <artifactId>wicket-guice</artifactId>
+        </dependency>
 
         <dependency>
-			<groupId>com.google.collections</groupId>
-			<artifactId>google-collections</artifactId>
-		</dependency>
+            <groupId>com.google.collections</groupId>
+            <artifactId>google-collections</artifactId>
+        </dependency>
 
         <dependency>
             <groupId>net.java.dev.jets3t</groupId>
@@ -211,8 +211,8 @@
             <artifactId>guice-servlet</artifactId>
         </dependency>
         <dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
+            <groupId>javax.servlet</groupId>
+            <artifactId>servlet-api</artifactId>
         </dependency>
         <dependency>
             <groupId>ch.qos.logback</groupId>
@@ -223,13 +223,13 @@
             <artifactId>log4j-over-slf4j</artifactId>
         </dependency>
 
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
             <scope>test</scope>
-		</dependency>
+        </dependency>
 
-	</dependencies>
+    </dependencies>
 
 
     <!-- REMOTE ARTIFACT REPOSITORIES -->

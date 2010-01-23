@@ -32,6 +32,7 @@
 
             <div id="timelinePopup" class="backdrop popup">
                 <a id="timelinePopupClose" class="close ss_sprite ss_cancel"></a>
+
                 <div class="t"></div>
                 <div class="tr"></div>
                 <div class="r"></div>
@@ -42,8 +43,12 @@
                 <div class="tl"></div>
 
                 <div class="scrollable">
-                    <h1><wicket:message key="albumTimeline" /></h1>
-                    <p><wicket:message key="albumTimelineInfo" /></p>
+                    <h1>
+                        <wicket:message key="albumTimeline" />
+                    </h1>
+                    <p>
+                        <wicket:message key="albumTimelineInfo" />
+                    </p>
 
                     <ol id="timeline" class="clearfix">
                         <li wicket:id="years" class="year">

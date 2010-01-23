@@ -17,9 +17,6 @@ package com.lyndir.lhunath.snaplog.webapp.tabs;
 
 import java.util.Date;
 
-import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.Model;
-
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.messages.Messages;
@@ -27,26 +24,28 @@ import com.lyndir.lhunath.snaplog.webapp.components.AccessView;
 import com.lyndir.lhunath.snaplog.webapp.components.BrowserView;
 import com.lyndir.lhunath.snaplog.webapp.components.TagsView;
 import com.lyndir.lhunath.snaplog.webapp.components.TimelineView;
+import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.Model;
 
 
 /**
  * <h2>{@link AlbumTab}<br>
  * <sub>The interface panel for browsing through the album content.</sub></h2>
- * 
+ *
  * <p>
  * <i>May 31, 2009</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class AlbumTab extends Panel {
 
-    static final Logger logger  = Logger.get( AlbumTab.class );
+    static final Logger logger = Logger.get( AlbumTab.class );
 
-    Messages            msgs    = LocalizerFactory.getLocalizer( Messages.class, this );
+    Messages msgs = LocalizerFactory.getLocalizer( Messages.class, this );
 
     // TODO: Unhardcode.
-    static Date         current = new Date( 1259607804000l );
+    static Date current = new Date( 1259607804000l );
 
 
     public AlbumTab(String id) {

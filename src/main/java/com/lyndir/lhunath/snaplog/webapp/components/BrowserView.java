@@ -1,11 +1,16 @@
 package com.lyndir.lhunath.snaplog.webapp.components;
 
-import java.util.Date;
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
+import com.google.inject.Inject;
+import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.snaplog.data.Media;
+import com.lyndir.lhunath.snaplog.data.Media.Quality;
+import com.lyndir.lhunath.snaplog.model.AlbumService;
+import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
+import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.behavior.AttributeAppender;
@@ -19,47 +24,35 @@ import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
-import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.snaplog.data.Media;
-import com.lyndir.lhunath.snaplog.data.Media.Quality;
-import com.lyndir.lhunath.snaplog.model.AlbumService;
-import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
-import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
-
 
 /**
  * <h2>{@link BrowserView}<br>
  * <sub>Component that allows users to browse through media chronologically.</sub></h2>
- * 
+ *
  * <p>
  * <i>Jan 6, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public final class BrowserView extends Panel {
 
-    static final Logger        logger              = Logger.get( BrowserView.class );
+    static final Logger logger = Logger.get( BrowserView.class );
 
     protected static final int BROWSER_SIDE_IMAGES = 4;
 
     @Inject
-    AlbumService               albumService;
+    AlbumService albumService;
 
-    protected Media            currentFile;
+    protected Media currentFile;
 
 
     /**
      * Create a new {@link BrowserView} instance.
-     * 
-     * @param id
-     *            The wicket ID to put this component in the HTML.
-     * @param currentTimeModel
-     *            The model contains the {@link Date} upon which the browser should focus. The first image on or past
-     *            this date will be the focussed image.
+     *
+     * @param id               The wicket ID to put this component in the HTML.
+     * @param currentTimeModel The model contains the {@link Date} upon which the browser should focus. The first image on or past
+     *                         this date will be the focussed image.
      */
     public BrowserView(String id, final IModel<Date> currentTimeModel) {
 
@@ -73,11 +66,11 @@ public final class BrowserView extends Panel {
     /**
      * <h2>{@link BrowserListView}<br>
      * <sub>A {@link ListView} which enumerates {@link Media}s.</sub></h2>
-     * 
+     *
      * <p>
      * <i>Jan 6, 2010</i>
      * </p>
-     * 
+     *
      * @author lhunath
      */
     private final class BrowserListView extends ListView<Media> {
@@ -107,7 +100,7 @@ public final class BrowserView extends Panel {
                 case FULLSCREEN:
                 case PREVIEW:
                     link = new WebMarkupContainer( "link" );
-                break;
+                    break;
 
                 case THUMBNAIL:
                     link = new AjaxFallbackLink<String>( "link" ) {
@@ -119,7 +112,7 @@ public final class BrowserView extends Panel {
                             target.addComponent( BrowserView.this );
                         }
                     };
-                break;
+                    break;
             }
             if (link == null) // Silence Eclipse's "Potential Null Pointer Access"
                 throw logger.bug( "Uninitialized link" ).toError();
@@ -127,7 +120,7 @@ public final class BrowserView extends Panel {
             link.add( new Label( "caption", media.getDateString() ) );
             link.add( new ContextImage( "photo", ImageServlet.getContextRelativePathFor( media, imageQuality ) ) );
             item.add( new ContextImage( "fullscreenPhoto", ImageServlet.getContextRelativePathFor( media,
-                    Quality.FULLSCREEN ) ) );
+                                                                                                   Quality.FULLSCREEN ) ) );
             item.add( new AttributeAppender( "class", new Model<String>( imageQuality.getName() ), " " ) );
             item.add( link );
         }
@@ -138,11 +131,11 @@ public final class BrowserView extends Panel {
      * <h2>{@link BrowserFilesModel}<br>
      * <sub>A {@link Model} that enumerates all files the browser should display when centered on a certain point in
      * time.</sub></h2>
-     * 
+     *
      * <p>
      * <i>Jan 6, 2010</i>
      * </p>
-     * 
+     *
      * @author lhunath
      */
     private final class BrowserFilesModel extends AbstractReadOnlyModel<List<Media>> {

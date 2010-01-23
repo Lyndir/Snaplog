@@ -22,15 +22,15 @@ import com.lyndir.lhunath.snaplog.data.User;
 /**
  * <h2>{@link S3Album}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * [description / usage].
  * </p>
- * 
+ *
  * <p>
  * <i>Jan 10, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class S3Album extends Album {

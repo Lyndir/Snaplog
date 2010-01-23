@@ -26,45 +26,43 @@ import com.lyndir.lhunath.snaplog.data.Media.Quality;
 /**
  * <h2>{@link MediaProviderService}<br>
  * <sub>Services requests on {@link Media} hosted at a certain provider.</sub></h2>
- * 
+ *
  * <p>
  * <i>Jan 10, 2010</i>
  * </p>
- * 
- * @param <A>
- *            The type of {@link Album} supported by this {@link MediaProviderService}.
- * @param <M>
- *            The type of {@link Media} supported by this {@link MediaProviderService}.
- * 
+ *
  * @author lhunath
+ * @param <A>
+ * The type of {@link Album} supported by this {@link MediaProviderService}.
+ * @param <M>
+ * The type of {@link Media} supported by this {@link MediaProviderService}.
  */
 public interface MediaProviderService<A extends Album, M extends Media> {
 
     /**
      * Enumerate all media in a certain album.
-     * 
-     * @param album
-     *            The album whose {@link Media} you want to enumerate.
+     *
+     * @param album The album whose {@link Media} you want to enumerate.
+     *
      * @return All the {@link Media} from the given {@link Album}.
      */
     ImmutableList<? extends Media> getFiles(A album);
 
     /**
      * Obtain a reference to the resource of media at a certain quality.
-     * 
-     * @param media
-     *            The {@link Media} whose resource you want to obtain a reference to.
-     * @param quality
-     *            The {@link Quality} of the {@link Media}'s resource you want to obtain a reference to.
+     *
+     * @param media   The {@link Media} whose resource you want to obtain a reference to.
+     * @param quality The {@link Quality} of the {@link Media}'s resource you want to obtain a reference to.
+     *
      * @return A {@link URI} which references a resource.
      */
     public URI getResourceURI(M media, Quality quality);
 
     /**
      * Obtain the timestamp at which the given media was created.
-     * 
-     * @param media
-     *            The media whose creation time you want to obtain.
+     *
+     * @param media The media whose creation time you want to obtain.
+     *
      * @return A timestamp in milliseconds since the UNIX epoch.
      */
     public long modifiedTime(M media);

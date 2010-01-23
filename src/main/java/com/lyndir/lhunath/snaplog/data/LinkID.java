@@ -25,15 +25,15 @@ import com.google.common.base.Objects;
 /**
  * <h2>{@link LinkID}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * [description / usage].
  * </p>
- * 
+ *
  * <p>
  * <i>Jan 9, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class LinkID implements Serializable {
@@ -43,9 +43,9 @@ public class LinkID implements Serializable {
 
     /**
      * Create a new {@link LinkID} instance.
-     * 
+     *
      * @param applicationScopedUserIdentifier
-     *            The user identifier that linkID uses to identify a certain user to this application.
+     *         The user identifier that linkID uses to identify a certain user to this application.
      */
     public LinkID(String applicationScopedUserIdentifier) {
 
@@ -62,7 +62,7 @@ public class LinkID implements Serializable {
 
     /**
      * @param applicationScopedUserIdentifier
-     *            The applicationScopedUserIdentifier of this {@link LinkID}.
+     *         The applicationScopedUserIdentifier of this {@link LinkID}.
      */
     public void setApplicationScopedUserIdentifier(String applicationScopedUserIdentifier) {
 
@@ -88,7 +88,7 @@ public class LinkID implements Serializable {
             return true;
         if (o instanceof LinkID)
             return Objects.equal( ((LinkID) o).getApplicationScopedUserIdentifier(),
-                    getApplicationScopedUserIdentifier() );
+                                  getApplicationScopedUserIdentifier() );
 
         return false;
     }

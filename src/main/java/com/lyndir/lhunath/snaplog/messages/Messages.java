@@ -23,14 +23,13 @@ import com.lyndir.lhunath.lib.system.localization.UseLocalizationProvider;
 /**
  * <h2>{@link Messages}<br>
  * <sub>Localization interface for messages in the {@link UserApplication}.</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 29, 2009</i>
  * </p>
- * 
- * @see LocalizerFactory
- * 
+ *
  * @author lhunath
+ * @see LocalizerFactory
  */
 @UseLocalizationProvider(WicketLocalizationProvider.class)
 public interface Messages {

@@ -24,15 +24,15 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
 /**
  * <h2>{@link URLUtils}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * [description / usage].
  * </p>
- * 
+ *
  * <p>
  * <i>Jan 19, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public abstract class URLUtils {

@@ -21,22 +21,22 @@ import org.apache.wicket.protocol.http.WebResponse;
 /**
  * <h2>{@link AbstractLinkIDAuthLink}<br>
  * <sub>A link that uses the linkID SDK to log a user in through the linkID authentication services.</sub></h2>
- * 
+ *
  * <p>
  * <i>Sep 22, 2008</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public abstract class AbstractLinkIDAuthLink extends Link<Object> implements LinkIDAuthDelegate {
 
     private static final long serialVersionUID = 1L;
 
-    Class<? extends Page>     requestTarget;
-    boolean                   login;
-    String                    session;
+    Class<? extends Page> requestTarget;
+    boolean login;
+    String session;
 
-    LinkIDAuthDelegate        delegate;
+    LinkIDAuthDelegate delegate;
 
 
     public AbstractLinkIDAuthLink(String id) {
@@ -45,11 +45,9 @@ public abstract class AbstractLinkIDAuthLink extends Link<Object> implements Lin
     }
 
     /**
-     * @param id
-     *            The wicket ID of this link in the webpage.
-     * @param target
-     *            The {@link Page} to return to after the linkID delegation. <code>null</code>: Use the application's
-     *            homepage.
+     * @param id     The wicket ID of this link in the webpage.
+     * @param target The {@link Page} to return to after the linkID delegation. <code>null</code>: Use the application's
+     *               homepage.
      */
     public AbstractLinkIDAuthLink(String id, Class<? extends Page> target) {
 
@@ -62,8 +60,7 @@ public abstract class AbstractLinkIDAuthLink extends Link<Object> implements Lin
     }
 
     /**
-     * @param session
-     *            The session of this {@link LinkIDLoginLink}.
+     * @param session The session of this {@link LinkIDLoginLink}.
      */
     public void setSession(String session) {
 

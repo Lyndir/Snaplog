@@ -14,7 +14,7 @@
         <link rel="stylesheet" type="text/css" href="css/blueprint/print.css" media="print" />
         <link rel="stylesheet" type="text/css" href="css/sprites.css" />
         <!--[if lt IE 8]>
-          <link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection">
+        <link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection">
         <![endif]-->
         <link rel="stylesheet" type="text/css" href="css/style.css" />
 
@@ -39,14 +39,21 @@
         <div id="header">
             <p wicket:id="userEntry">
                 <span wicket:id="userGuessWelcome">[Welcome back ~lhunath]</span>.
-                <a wicket:id="userLogin"><wicket:message key="userLogin" /></a>
+                <a wicket:id="userLogin">
+                    <wicket:message key="userLogin" />
+                </a>
             </p>
             <p wicket:id="userSummary">
                 <wicket:message key="welcome" />
-                <span wicket:id="userBadge" class="userBadge">[~]</span><a wicket:id="userName">[lhunath]</a><wicket:enclosure>, 
-                    <a wicket:id="userMessages">[1 message]</a></wicket:enclosure><wicket:enclosure>, 
-                    <a wicket:id="userRequests">[1 request]</a></wicket:enclosure>,
-                    <a wicket:id="userLogout"><wicket:message key="userLogout" /></a>
+                <span wicket:id="userBadge" class="userBadge">[~]</span><a wicket:id="userName">[lhunath]</a>
+                <wicket:enclosure>,
+                    <a wicket:id="userMessages">[1 message]</a></wicket:enclosure>
+                <wicket:enclosure>,
+                    <a wicket:id="userRequests">[1 request]</a></wicket:enclosure>
+                ,
+                <a wicket:id="userLogout">
+                    <wicket:message key="userLogout" />
+                </a>
             </p>
             <ul wicket:id="headTabsContainer" class="tabs">
                 <li wicket:id="headTabs">

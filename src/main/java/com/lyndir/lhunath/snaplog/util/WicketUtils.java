@@ -6,6 +6,9 @@
  */
 package com.lyndir.lhunath.snaplog.util;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.util.ArrayList;
@@ -15,21 +18,10 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
 import net.link.safeonline.sdk.auth.filter.LoginManager;
-
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.wicket.Application;
-import org.apache.wicket.Component;
-import org.apache.wicket.Localizer;
-import org.apache.wicket.Request;
-import org.apache.wicket.RequestCycle;
-import org.apache.wicket.Response;
-import org.apache.wicket.Session;
+import org.apache.wicket.*;
 import org.apache.wicket.injection.ConfigurableInjector;
 import org.apache.wicket.protocol.http.WebRequest;
 import org.apache.wicket.protocol.http.WebResponse;
@@ -38,30 +30,30 @@ import org.apache.wicket.protocol.http.WebResponse;
 /**
  * <h2>{@link WicketUtils}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * [description / usage].
  * </p>
- * 
+ *
  * <p>
  * <i>Sep 17, 2008</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public abstract class WicketUtils {
 
-    static final Log            LOG             = LogFactory.getLog( WicketUtils.class );
+    static final Log LOG = LogFactory.getLog( WicketUtils.class );
     static ConfigurableInjector eeInjector;
 
     // %[argument_index$][flags][width][.precision][t]conversion
     private static final String formatSpecifier = "%(\\d+\\$)?([-#+ 0,(\\<]*)?(\\d+)?(\\.\\d+)?([tT])?([a-zA-Z%])";
-    private static Pattern      fsPattern       = Pattern.compile( formatSpecifier );
+    private static Pattern fsPattern = Pattern.compile( formatSpecifier );
 
 
     /**
-     * @param locale
-     *            The locale according to which to format the date.
+     * @param locale The locale according to which to format the date.
+     *
      * @return A formatter according to the given locale in short form.
      */
     public static DateFormat getDateFormat(Locale locale) {
@@ -70,10 +62,9 @@ public abstract class WicketUtils {
     }
 
     /**
-     * @param locale
-     *            The locale according to which to format the date.
-     * @param date
-     *            The date to format.
+     * @param locale The locale according to which to format the date.
+     * @param date   The date to format.
+     *
      * @return A string that is the formatted representation of the given date according to the given locale in short
      *         form.
      */
@@ -83,8 +74,8 @@ public abstract class WicketUtils {
     }
 
     /**
-     * @param locale
-     *            The locale according to which to format the currency.
+     * @param locale The locale according to which to format the currency.
+     *
      * @return A formatter according to the given locale's currency.
      */
     public static NumberFormat getCurrencyFormat(Locale locale) {
@@ -93,10 +84,9 @@ public abstract class WicketUtils {
     }
 
     /**
-     * @param locale
-     *            The locale according to which to format the currency.
-     * @param number
-     *            The currency number that needs to be formatted.
+     * @param locale The locale according to which to format the currency.
+     * @param number The currency number that needs to be formatted.
+     *
      * @return A string that is the formatted representation of the given amount of currency according to the given
      *         locale.
      */
@@ -151,20 +141,17 @@ public abstract class WicketUtils {
 
     /**
      * Uses the application's localizer and the active session's locale.
-     * 
+     *
      * Note: You can use this method with a single argument, too. This will cause the first argument (format) to be
      * evaluated as a localization key.
-     * 
-     * @param component
-     *            The component in whose context to resolve localization keys.
-     * @param format
-     *            The format specification for the arguments. See
-     *            {@link String#format(java.util.Locale, String, Object...)}. To that list, add the 'l' conversion
-     *            parameter. This parameter first looks the arg data up as a localization key, then processes the result
-     *            as though it was given with the 's' conversion parameter.
-     * @param args
-     *            The arguments that contain the data to fill into the format specifications.
-     * 
+     *
+     * @param component The component in whose context to resolve localization keys.
+     * @param format    The format specification for the arguments. See
+     *                  {@link String#format(java.util.Locale, String, Object...)}. To that list, add the 'l' conversion
+     *                  parameter. This parameter first looks the arg data up as a localization key, then processes the result
+     *                  as though it was given with the 's' conversion parameter.
+     * @param args      The arguments that contain the data to fill into the format specifications.
+     *
      * @return The localized string.
      */
     public static String localize(Component component, String format, Object... args) {
@@ -176,20 +163,16 @@ public abstract class WicketUtils {
     /**
      * Note: You can use this method with a single argument, too. This will cause the first argument (format) to be
      * evaluated as a localization key.
-     * 
-     * @param localizer
-     *            The localization provider.
-     * @param component
-     *            The component in whose context to resolve localization keys.
-     * @param locale
-     *            The locale for which to resolve localization keys.
-     * @param format
-     *            The format specification for the arguments. See
-     *            {@link String#format(java.util.Locale, String, Object...)}. To that list, add the 'l' conversion
-     *            parameter. This parameter first looks the arg data up as a localization key, then processes the result
-     *            as though it was given with the 's' conversion parameter.
-     * @param args
-     *            The arguments that contain the data to fill into the format specifications.
+     *
+     * @param localizer The localization provider.
+     * @param component The component in whose context to resolve localization keys.
+     * @param locale    The locale for which to resolve localization keys.
+     * @param format    The format specification for the arguments. See
+     *                  {@link String#format(java.util.Locale, String, Object...)}. To that list, add the 'l' conversion
+     *                  parameter. This parameter first looks the arg data up as a localization key, then processes the result
+     *                  as though it was given with the 's' conversion parameter.
+     * @param args      The arguments that contain the data to fill into the format specifications.
+     *
      * @return The localized string.
      */
     public static String localize(Localizer localizer, Component component, Locale locale, String format,

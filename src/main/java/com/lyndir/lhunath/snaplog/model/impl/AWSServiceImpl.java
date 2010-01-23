@@ -15,6 +15,9 @@
  */
 package com.lyndir.lhunath.snaplog.model.impl;
 
+import com.google.common.collect.ImmutableList;
+import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.snaplog.model.AWSService;
 import org.jets3t.service.S3Service;
 import org.jets3t.service.S3ServiceException;
 import org.jets3t.service.impl.rest.httpclient.RestS3Service;
@@ -22,29 +25,25 @@ import org.jets3t.service.model.S3Bucket;
 import org.jets3t.service.model.S3Object;
 import org.jets3t.service.security.AWSCredentials;
 
-import com.google.common.collect.ImmutableList;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.snaplog.model.AWSService;
-
 
 /**
  * <h2>{@link AWSServiceImpl}<br>
- * 
+ *
  * <p>
  * <i>Jan 9, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class AWSServiceImpl implements AWSService {
 
-    private static final Logger   logger          = Logger.get( AWSServiceImpl.class );
+    private static final Logger logger = Logger.get( AWSServiceImpl.class );
 
-    private static final String   ERR_AWS_SERVICE = "Communication with the Amazon S3 services failed.";
+    private static final String ERR_AWS_SERVICE = "Communication with the Amazon S3 services failed.";
 
-    private static final S3Bucket BUCKET          = new S3Bucket( "snaplog.net" );
-    private static final String   ACCESS_KEY      = "AKIAJKXN44SDAGP7TINQ";
-    private static final String   SECRET_KEY      = "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";
+    private static final S3Bucket BUCKET = new S3Bucket( "snaplog.net" );
+    private static final String ACCESS_KEY = "AKIAJKXN44SDAGP7TINQ";
+    private static final String SECRET_KEY = "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";
 
 
     private S3Service newService()
@@ -66,7 +65,7 @@ public class AWSServiceImpl implements AWSService {
 
         catch (S3ServiceException e) {
             throw logger.err( e, ERR_AWS_SERVICE ) //
-                        .toError();
+                    .toError();
         }
     }
 
@@ -85,7 +84,7 @@ public class AWSServiceImpl implements AWSService {
                 return null;
 
             throw logger.err( e, ERR_AWS_SERVICE ) //
-                        .toError();
+                    .toError();
         }
     }
 
@@ -101,7 +100,7 @@ public class AWSServiceImpl implements AWSService {
 
         catch (S3ServiceException e) {
             throw logger.err( e, ERR_AWS_SERVICE ) //
-                        .toError();
+                    .toError();
         }
     }
 
@@ -112,13 +111,13 @@ public class AWSServiceImpl implements AWSService {
 
         try {
             logger.dbg( "Uploading: %d bytes, to S3 objects in bucket: %s, with prefix: %s", //
-                    source.getContentLength(), BUCKET, source.getKey() );
+                        source.getContentLength(), BUCKET, source.getKey() );
             return newService().putObject( BUCKET, source );
         }
 
         catch (S3ServiceException e) {
             throw logger.err( e, ERR_AWS_SERVICE ) //
-                        .toError();
+                    .toError();
         }
     }
 }

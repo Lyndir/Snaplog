@@ -21,22 +21,21 @@ import org.apache.wicket.markup.html.panel.Panel;
 /**
  * <h2>{@link WorkbenchTab}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * [description / usage].
  * </p>
- * 
+ *
  * <p>
  * <i>May 31, 2009</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class WorkbenchTab extends Panel {
 
     /**
-     * @param id
-     *            The Wicket ID of this panel.
+     * @param id The Wicket ID of this panel.
      */
     public WorkbenchTab(String id) {
 

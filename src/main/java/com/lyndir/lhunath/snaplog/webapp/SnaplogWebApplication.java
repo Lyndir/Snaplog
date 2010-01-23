@@ -15,18 +15,6 @@
  */
 package com.lyndir.lhunath.snaplog.webapp;
 
-import org.apache.wicket.Application;
-import org.apache.wicket.Page;
-import org.apache.wicket.Request;
-import org.apache.wicket.Response;
-import org.apache.wicket.Session;
-import org.apache.wicket.guice.InjectionFlagCachingGuiceComponentInjector;
-import org.apache.wicket.markup.IMarkupParserFactory;
-import org.apache.wicket.markup.MarkupParser;
-import org.apache.wicket.markup.MarkupResourceStream;
-import org.apache.wicket.protocol.http.WebApplication;
-import org.apache.wicket.settings.IExceptionSettings;
-
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Stage;
@@ -37,16 +25,23 @@ import com.lyndir.lhunath.snaplog.webapp.error.InternalErrorPage;
 import com.lyndir.lhunath.snaplog.webapp.error.PageExpiredErrorPage;
 import com.lyndir.lhunath.snaplog.webapp.filter.OpenCloseTagExpander;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
+import org.apache.wicket.*;
+import org.apache.wicket.guice.InjectionFlagCachingGuiceComponentInjector;
+import org.apache.wicket.markup.IMarkupParserFactory;
+import org.apache.wicket.markup.MarkupParser;
+import org.apache.wicket.markup.MarkupResourceStream;
+import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.settings.IExceptionSettings;
 
 
 /**
  * <h2>{@link SnaplogWebApplication}<br>
  * <sub>Wicket {@link WebApplication} for the media album application.</sub></h2>
- * 
+ *
  * <p>
  * <i>May 31, 2009</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class SnaplogWebApplication extends WebApplication {
@@ -82,7 +77,7 @@ public class SnaplogWebApplication extends WebApplication {
 
         Injector guiceInjector = Guice.createInjector( getConfigurationType().equals( Application.DEVELOPMENT ) //
                 ? Stage.DEVELOPMENT: Stage.PRODUCTION, //
-                new ServicesModule() );
+                                                       new ServicesModule() );
         addComponentInstantiationListener( new InjectionFlagCachingGuiceComponentInjector( this, guiceInjector ) );
         addPreComponentOnBeforeRenderListener( guiceInjector.getInstance( AuthenticationListener.class ) );
     }
