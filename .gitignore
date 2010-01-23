@@ -1,8 +1,22 @@
+# Compiled objects.
+/target
+
+# OS-Specific junk.
 .DS_Store
-/.idea
-/*.iml
+
+# Eclipse IDE
+/eclipse
 /.classpath
 /.project
 /.settings
-/eclipse
-/target
+
+# IntelliJ IDEA IDE
+/.idea
+*.iml
+
+# Netbeans IDE
+/build.xml
+/build
+/dist
+/manifest.mf
+/nbproject
