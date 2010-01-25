@@ -71,7 +71,7 @@ public class ImageServlet extends HttpServlet {
         Album album = media.getAlbum();
         User user = album.getUser();
 
-        StringBuffer path = new StringBuffer( PATH ).append( '?' );
+        StringBuilder path = new StringBuilder( PATH ).append( '?' );
         path.append( PARAM_USER ).append( '=' ).append( URLUtils.encode( user.getUserName() ) ).append( '&' );
         path.append( PARAM_ALBUM ).append( '=' ).append( URLUtils.encode( album.getName() ) ).append( '&' );
         path.append( PARAM_MEDIA ).append( '=' ).append( URLUtils.encode( media.getName() ) ).append( '&' );

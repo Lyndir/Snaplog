@@ -18,6 +18,7 @@ package com.lyndir.lhunath.snaplog.data;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.Serializable;
+import java.util.regex.Pattern;
 
 import com.google.common.base.Objects;
 import com.lyndir.lhunath.lib.system.logging.Logger;
@@ -45,6 +46,10 @@ public abstract class Media implements Comparable<Media>, Serializable {
 
     private final Album album;
     private final String name;
+    private static final Pattern EXTENSION = Pattern.compile( "\\.[^\\.]*$" );
+    private static final Pattern HIDDEN = Pattern.compile( "^\\." );
+    private static final Pattern POSTFIX = Pattern.compile( "_.*" );
+    private static final Pattern TIMEZONE = Pattern.compile( "[+-]\\d+$" );
 
 
     protected Media(Album album, String name) {
@@ -79,16 +84,16 @@ public abstract class Media implements Comparable<Media>, Serializable {
         String shotTimeString = getName();
 
         // Trim the extension off the filename.
-        shotTimeString = shotTimeString.replaceFirst( "\\.[^\\.]*$", "" );
+        shotTimeString = EXTENSION.matcher( shotTimeString ).replaceFirst( "" );
 
         // Trim the "hidden file prefix" off the filename.
-        shotTimeString = shotTimeString.replaceFirst( "^\\.", "" );
+        shotTimeString = HIDDEN.matcher( shotTimeString ).replaceFirst( "" );
 
         // Trim "_extras" off the filename.
-        shotTimeString = shotTimeString.replaceFirst( "_.*", "" );
+        shotTimeString = POSTFIX.matcher( shotTimeString ).replaceFirst( "" );
 
         // No time zone == UTC.
-        if (!shotTimeString.matches( "[+-]\\d+$" ))
+        if (!TIMEZONE.matcher( shotTimeString ).matches())
             shotTimeString += "+0000";
 
         try {
@@ -128,10 +133,9 @@ public abstract class Media implements Comparable<Media>, Serializable {
     @Override
     public int compareTo(Media o) {
 
-        long delta = shotTime() - o.shotTime();
-        if (delta > 0)
+        if (shotTime() > o.shotTime())
             return 1;
-        else if (delta < 0)
+        else if (shotTime() < o.shotTime())
             return -1;
 
         return 0;
@@ -163,8 +167,8 @@ public abstract class Media implements Comparable<Media>, Serializable {
 
 
     /**
-     * <h2>{@link Quality}<br>
-     * <sub>The media resource is available at different {@link Quality} levels.</sub></h2>
+     * <h2>{@link com.lyndir.lhunath.snaplog.data.Media.Quality}<br>
+     * <sub>The media resource is available at different {@link com.lyndir.lhunath.snaplog.data.Media.Quality} levels.</sub></h2>
      *
      * <p>
      * <i>Jan 6, 2010</i>
@@ -227,7 +231,7 @@ public abstract class Media implements Comparable<Media>, Serializable {
         }
 
         /**
-         * Find the {@link Quality} by the given name.
+         * Find the {@link com.lyndir.lhunath.snaplog.data.Media.Quality} by the given name.
          *
          * @param qualityName The name of the quality (case insensitive) you're after.
          *

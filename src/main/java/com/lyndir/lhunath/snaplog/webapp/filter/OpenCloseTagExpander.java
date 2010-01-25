@@ -72,7 +72,7 @@ public class OpenCloseTagExpander extends AbstractMarkupFilter {
         if (tag.isOpenClose()) {
             String name = tag.getName();
             if (tag.getNamespace() != null)
-                name = tag.getNamespace() + ":" + tag.getName();
+                name = tag.getNamespace() + ':' + tag.getName();
 
             if (replaceForTags.contains( name.toLowerCase( Locale.ENGLISH ) )) {
                 tag.setType( XmlTag.OPEN );

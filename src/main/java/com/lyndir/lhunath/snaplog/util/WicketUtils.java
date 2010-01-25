@@ -181,7 +181,7 @@ public abstract class WicketUtils {
             return localizer.getString( format, component );
 
         List<Object> localizationData = new ArrayList<Object>( args.length );
-        StringBuffer newFormat = new StringBuffer( format );
+        StringBuilder newFormat = new StringBuilder( format );
         Matcher specifiers = fsPattern.matcher( format );
 
         int pos = 0, num = 0;

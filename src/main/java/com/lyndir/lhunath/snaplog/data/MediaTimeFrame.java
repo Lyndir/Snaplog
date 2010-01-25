@@ -201,7 +201,7 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
         public Type findChildType() {
 
             for (Type type : Type.values())
-                if (this.equals( type.findParentType() ))
+                if (this == type.findParentType())
                     return type;
 
             return null;
@@ -221,7 +221,7 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
     public void addTimeFrame(MediaTimeFrame mediaTimeFrame) {
 
         Type childType = type.findChildType();
-        if (childType == null || !childType.equals( mediaTimeFrame.type ))
+        if (childType == null || childType != mediaTimeFrame.type)
             throw logger.err( "This timeframe (type: %s) doesn't support children of type: %s (supports: %s)", //
                     type, mediaTimeFrame.type, childType ).toError( IllegalArgumentException.class );
 
