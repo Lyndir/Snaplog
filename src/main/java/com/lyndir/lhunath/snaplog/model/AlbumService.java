@@ -36,8 +36,6 @@ import com.lyndir.lhunath.snaplog.data.User;
  * </p>
  *
  * @author lhunath
- * @param <A>
- * The type of {@link Album} that is being serviced.
  */
 public interface AlbumService extends MediaProviderService<Album, Media> {
 

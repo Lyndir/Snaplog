@@ -56,7 +56,7 @@ public interface MediaProviderService<A extends Album, M extends Media> {
      *
      * @return A {@link URI} which references a resource.
      */
-    public URI getResourceURI(M media, Quality quality);
+    URI getResourceURI(M media, Quality quality);
 
     /**
      * Obtain the timestamp at which the given media was created.
@@ -65,5 +65,5 @@ public interface MediaProviderService<A extends Album, M extends Media> {
      *
      * @return A timestamp in milliseconds since the UNIX epoch.
      */
-    public long modifiedTime(M media);
+    long modifiedTime(M media);
 }

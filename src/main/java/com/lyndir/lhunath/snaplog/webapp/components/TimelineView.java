@@ -3,12 +3,6 @@ package com.lyndir.lhunath.snaplog.webapp.components;
 import java.text.MessageFormat;
 import java.util.List;
 
-import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
-import com.lyndir.lhunath.snaplog.data.MediaTimeFrame;
-import com.lyndir.lhunath.snaplog.messages.Messages;
-import com.lyndir.lhunath.snaplog.model.AlbumService;
-import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -17,23 +11,31 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 
+import com.google.common.collect.ImmutableList;
+import com.google.inject.Inject;
+import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
+import com.lyndir.lhunath.snaplog.data.MediaTimeFrame;
+import com.lyndir.lhunath.snaplog.messages.Messages;
+import com.lyndir.lhunath.snaplog.model.AlbumService;
+import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
+
 
 /**
  * <h2>{@link TimelineView}<br>
  * <sub>Popup that allows user to browse through media on a timeline.</sub></h2>
- *
+ * 
  * <p>
  * <i>Jan 4, 2010</i>
  * </p>
- *
+ * 
  * @author lhunath
  */
 public class TimelineView extends Panel {
 
-    Messages msgs = LocalizerFactory.getLocalizer( Messages.class, this );
+    final Messages msgs = LocalizerFactory.getLocalizer( Messages.class, this );
 
     @Inject
-    AlbumService albumService;
+    AlbumService   albumService;
 
 
     public TimelineView(String id) {
@@ -65,7 +67,7 @@ public class TimelineView extends Panel {
                 } ) );
 
                 // Hide the months in the year initially.
-                yearItem.add( new ListView<MediaTimeFrame>( "months", mediaYear ) {
+                yearItem.add( new ListView<MediaTimeFrame>( "months", ImmutableList.copyOf( mediaYear ) ) {
 
                     @Override
                     protected void populateItem(ListItem<MediaTimeFrame> monthItem) {
@@ -73,7 +75,7 @@ public class TimelineView extends Panel {
                         MediaTimeFrame mediaMonth = monthItem.getModelObject();
 
                         monthItem.add( new Label( "name", mediaMonth.getShortName() ) );
-                        monthItem.add( new ListView<MediaTimeFrame>( "days", mediaMonth ) {
+                        monthItem.add( new ListView<MediaTimeFrame>( "days", ImmutableList.copyOf( mediaMonth ) ) {
 
                             @Override
                             protected void populateItem(ListItem<MediaTimeFrame> dayItem) {

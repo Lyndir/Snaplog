@@ -57,7 +57,7 @@ public class MessagePage extends LayoutPage {
     }
 
     /**
-     * @return Amount of seconds to show the error page for before redirecting to the {@link #REDIRECT_URL}.
+     * @return Amount of seconds to show the error page for before redirecting to the {@link #getRedirectUrl()}.
      */
     protected int getRedirectDelay() {
 

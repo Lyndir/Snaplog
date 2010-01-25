@@ -18,11 +18,12 @@ package com.lyndir.lhunath.snaplog.messages;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.localization.UseKey;
 import com.lyndir.lhunath.lib.system.localization.UseLocalizationProvider;
+import com.lyndir.lhunath.snaplog.webapp.SnaplogWebApplication;
 
 
 /**
  * <h2>{@link Messages}<br>
- * <sub>Localization interface for messages in the {@link UserApplication}.</sub></h2>
+ * <sub>Localization interface for messages in the {@link SnaplogWebApplication}.</sub></h2>
  *
  * <p>
  * <i>Mar 29, 2009</i>

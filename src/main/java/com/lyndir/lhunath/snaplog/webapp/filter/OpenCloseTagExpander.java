@@ -19,10 +19,12 @@ package com.lyndir.lhunath.snaplog.webapp.filter;
 import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.MarkupElement;
 import org.apache.wicket.markup.parser.AbstractMarkupFilter;
+import org.apache.wicket.markup.parser.IMarkupFilter;
 import org.apache.wicket.markup.parser.XmlTag;
 
 
@@ -47,12 +49,13 @@ public class OpenCloseTagExpander extends AbstractMarkupFilter {
                                                                       "dt", "dd", "li", "ol", "ul", "h1", "h2", "h3",
                                                                       "h4", "h5", "h6", "pre", "title" );
 
-    private ComponentTag next = null;
+    private ComponentTag next;
 
 
     /**
-     * @see org.apache.wicket.markup.parser.IMarkupFilter#nextTag()
+     * @see IMarkupFilter#nextTag()
      */
+    @Override
     public MarkupElement nextTag()
             throws ParseException {
 
@@ -71,7 +74,7 @@ public class OpenCloseTagExpander extends AbstractMarkupFilter {
             if (tag.getNamespace() != null)
                 name = tag.getNamespace() + ":" + tag.getName();
 
-            if (replaceForTags.contains( name.toLowerCase() )) {
+            if (replaceForTags.contains( name.toLowerCase( Locale.ENGLISH ) )) {
                 tag.setType( XmlTag.OPEN );
 
                 next = new ComponentTag( tag.getName(), XmlTag.CLOSE );

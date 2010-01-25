@@ -45,7 +45,7 @@ public class PageExpiredErrorPage extends MessagePage {
 
 class PageExpiredErrorPanel extends Panel {
 
-    public PageExpiredErrorPanel(String id) {
+    PageExpiredErrorPanel(String id) {
 
         super( id );
     }

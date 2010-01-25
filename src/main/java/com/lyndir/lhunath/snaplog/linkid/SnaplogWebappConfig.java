@@ -32,7 +32,11 @@ import net.link.safeonline.sdk.common.configuration.WebappConfig;
  */
 public class SnaplogWebappConfig extends WebappConfig {
 
-    {
+    /**
+     * Use this WebappConfig implementation.
+     */
+    public void use() {
+
         config = this;
     }
 

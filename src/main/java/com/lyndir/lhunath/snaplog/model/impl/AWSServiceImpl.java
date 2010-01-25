@@ -46,7 +46,7 @@ public class AWSServiceImpl implements AWSService {
     private static final String SECRET_KEY = "LLf6gBLPOqJPM03zN7zEUmmd7eB+jgYWgltvfxTI";
 
 
-    private S3Service newService()
+    private static S3Service newService()
             throws S3ServiceException {
 
         AWSCredentials awsCredentials = new AWSCredentials( ACCESS_KEY, SECRET_KEY );
@@ -56,6 +56,7 @@ public class AWSServiceImpl implements AWSService {
     /**
      * {@inheritDoc}
      */
+    @Override
     public S3Object readObject(String objectKey) {
 
         try {
@@ -72,6 +73,7 @@ public class AWSServiceImpl implements AWSService {
     /**
      * {@inheritDoc}
      */
+    @Override
     public S3Object findObjectDetails(String objectKey) {
 
         try {
@@ -91,6 +93,7 @@ public class AWSServiceImpl implements AWSService {
     /**
      * {@inheritDoc}
      */
+    @Override
     public ImmutableList<S3Object> listObjects(String objectKey) {
 
         try {
@@ -107,6 +110,7 @@ public class AWSServiceImpl implements AWSService {
     /**
      * {@inheritDoc}
      */
+    @Override
     public S3Object upload(S3Object source) {
 
         try {

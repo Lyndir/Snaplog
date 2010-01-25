@@ -45,7 +45,7 @@ public class AlbumTab extends Panel {
     Messages msgs = LocalizerFactory.getLocalizer( Messages.class, this );
 
     // TODO: Unhardcode.
-    static Date current = new Date( 1259607804000l );
+    static final Date current = new Date( 1259607804000L );
 
 
     public AlbumTab(String id) {

@@ -40,10 +40,10 @@ public abstract class URLUtils {
     private static final Logger logger = Logger.get( URLUtils.class );
 
 
-    public static String encode(String string) {
+    public static String encode(String str) {
 
         try {
-            return URLEncoder.encode( string, "UTF-8" );
+            return URLEncoder.encode( str, "UTF-8" );
         } catch (UnsupportedEncodingException e) {
             throw logger.bug( e ).toError();
         }

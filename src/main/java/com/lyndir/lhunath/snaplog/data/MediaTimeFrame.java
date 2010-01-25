@@ -16,12 +16,19 @@
 package com.lyndir.lhunath.snaplog.data;
 
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import org.joda.time.*;
+import org.joda.time.DateTimeFieldType;
+import org.joda.time.Interval;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
+import org.joda.time.Partial;
 import org.joda.time.format.DateTimeFormat;
+
+import com.google.common.base.Objects;
+import com.lyndir.lhunath.lib.system.logging.Logger;
 
 
 /**
@@ -38,32 +45,32 @@ import org.joda.time.format.DateTimeFormat;
  *
  * @author lhunath
  */
-public class MediaTimeFrame extends LinkedList<MediaTimeFrame> implements Comparable<MediaTimeFrame> {
+public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<MediaTimeFrame> {
 
-    private static final Logger logger = Logger.get( MediaTimeFrame.class );
+    private static final Logger              logger = Logger.get( MediaTimeFrame.class );
 
-    private MediaTimeFrame parent;
-    private Type type;
-    private Partial typeTime;
+    private final MediaTimeFrame             parent;
+    private final LinkedList<MediaTimeFrame> children;
 
-    private LinkedList<Media> files;
+    private final Type                       type;
+    private final Partial                    typeTime;
+
+    private final LinkedList<Media>          files;
 
 
     public MediaTimeFrame(MediaTimeFrame parent, Type type, long timeMillis) {
 
-        if (type.getParentType() == null) {
-            if (parent != null) {
-                logger.err( "Type %s permits no parent; given parent type was %s", //
-                            type, parent.type );
-                throw logger.toError( IllegalArgumentException.class );
-            }
-        } else if (parent != null && parent.type != type.getParentType()) {
-            logger.err( "Type %s requires parent type %s; given parent type was %s", //
-                        type, type.getParentType(), parent.type );
-            throw logger.toError( IllegalArgumentException.class );
-        }
+        Type parentType = type.findParentType();
+        if (parentType == null) {
+            if (parent != null)
+                throw logger.err( "Type %s permits no parent; given parent type was %s", //
+                        type, parent.type ).toError( IllegalArgumentException.class );
+        } else if (parent != null && parent.type != parentType)
+            throw logger.err( "Type %s requires parent type %s; given parent type was %s", //
+                    type, parentType, parent.type ).toError( IllegalArgumentException.class );
 
         this.parent = parent;
+        children = new LinkedList<MediaTimeFrame>();
         this.type = type;
 
         typeTime = new Partial( type.getDateType(), new LocalDateTime( timeMillis ).get( type.getDateType() ) );
@@ -73,8 +80,9 @@ public class MediaTimeFrame extends LinkedList<MediaTimeFrame> implements Compar
     /**
      * Get a list of all the media created in this time frame.
      *
-     * @param recurse <code>true</code>: retrieves all media belonging to this time frame and every time frame that is a
-     *                part of it.
+     * @param recurse
+     *            <code>true</code>: retrieves all media belonging to this time frame and every time frame that is a
+     *            part of it.
      *
      * @return An unmodifiable list of {@link Media}s.
      */
@@ -128,24 +136,52 @@ public class MediaTimeFrame extends LinkedList<MediaTimeFrame> implements Compar
     /**
      * {@inheritDoc}
      */
+    @Override
     public int compareTo(MediaTimeFrame o) {
 
         return typeTime.compareTo( o.typeTime );
     }
 
+    @Override
+    public boolean equals(Object obj) {
+
+        if (obj == this)
+            return true;
+
+        if (obj instanceof MediaTimeFrame)
+            return ((MediaTimeFrame) obj).type == type && ((MediaTimeFrame) obj).typeTime.equals( typeTime );
+
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hashCode( type, typeTime );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Iterator<MediaTimeFrame> iterator() {
+
+        return children.iterator();
+    }
+
 
     public enum Type {
 
-        YEAR( DateTimeFieldType.year(), null, "yyyy" ),
-        MONTH( DateTimeFieldType.monthOfYear(), Type.YEAR, "MMM" ),
-        DAY( DateTimeFieldType.dayOfMonth(), Type.MONTH, "dd" );
+        YEAR(DateTimeFieldType.year(), null, "yyyy"),
+        MONTH(DateTimeFieldType.monthOfYear(), YEAR, "MMM"),
+        DAY(DateTimeFieldType.dayOfMonth(), MONTH, "dd");
 
-        private DateTimeFieldType dateType;
-        private Type parentType;
-        private String dateFormatString;
+        private final DateTimeFieldType dateType;
+        private final Type              parentType;
+        private final String            dateFormatString;
 
 
-        private Type(DateTimeFieldType dateType, Type parentType, String dateFormatString) {
+        Type(DateTimeFieldType dateType, Type parentType, String dateFormatString) {
 
             this.dateType = dateType;
             this.parentType = parentType;
@@ -157,9 +193,18 @@ public class MediaTimeFrame extends LinkedList<MediaTimeFrame> implements Compar
             return dateType;
         }
 
-        public Type getParentType() {
+        public Type findParentType() {
 
             return parentType;
+        }
+
+        public Type findChildType() {
+
+            for (Type type : Type.values())
+                if (this.equals( type.findParentType() ))
+                    return type;
+
+            return null;
         }
 
         public String getDateFormatString() {
@@ -168,4 +213,18 @@ public class MediaTimeFrame extends LinkedList<MediaTimeFrame> implements Compar
         }
     }
 
+
+    /**
+     * @param mediaTimeFrame
+     *            The child {@link MediaTimeFrame} to add to this one.
+     */
+    public void addTimeFrame(MediaTimeFrame mediaTimeFrame) {
+
+        Type childType = type.findChildType();
+        if (childType == null || !childType.equals( mediaTimeFrame.type ))
+            throw logger.err( "This timeframe (type: %s) doesn't support children of type: %s (supports: %s)", //
+                    type, mediaTimeFrame.type, childType ).toError( IllegalArgumentException.class );
+
+        children.add( mediaTimeFrame );
+    }
 }

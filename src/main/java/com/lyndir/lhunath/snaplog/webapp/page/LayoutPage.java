@@ -5,17 +5,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
-import com.lyndir.lhunath.snaplog.data.User;
-import com.lyndir.lhunath.snaplog.linkid.LinkIDLoginLink;
-import com.lyndir.lhunath.snaplog.linkid.LinkIDLogoutLink;
-import com.lyndir.lhunath.snaplog.messages.Messages;
-import com.lyndir.lhunath.snaplog.webapp.JavaScriptProvider;
-import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
-import com.lyndir.lhunath.snaplog.webapp.cookie.LastUserCookieManager;
-import com.lyndir.lhunath.snaplog.webapp.tabs.AdministrationTab;
-import com.lyndir.lhunath.snaplog.webapp.tabs.AlbumTab;
-import com.lyndir.lhunath.snaplog.webapp.tabs.WorkbenchTab;
+import net.link.safeonline.wicket.component.linkid.LinkIDLoginLink;
+import net.link.safeonline.wicket.component.linkid.LinkIDLogoutLink;
+
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
@@ -37,14 +29,24 @@ import org.apache.wicket.util.template.JavaScriptTemplate;
 import org.apache.wicket.util.template.PackagedTextTemplate;
 import org.apache.wicket.util.template.TextTemplate;
 
+import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
+import com.lyndir.lhunath.snaplog.data.User;
+import com.lyndir.lhunath.snaplog.messages.Messages;
+import com.lyndir.lhunath.snaplog.webapp.JavaScriptProvider;
+import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
+import com.lyndir.lhunath.snaplog.webapp.cookie.LastUserCookieManager;
+import com.lyndir.lhunath.snaplog.webapp.tabs.AdministrationTab;
+import com.lyndir.lhunath.snaplog.webapp.tabs.AlbumTab;
+import com.lyndir.lhunath.snaplog.webapp.tabs.WorkbenchTab;
+
 
 public class LayoutPage extends WebPage {
 
     private static final long serialVersionUID = 1L;
 
-    final Messages msgs = LocalizerFactory.getLocalizer( Messages.class, this );
+    final Messages            msgs             = LocalizerFactory.getLocalizer( Messages.class, this );
 
-    List<ITab> headTabsList;
+    final List<ITab>          headTabsList;
 
     {
         headTabsList = new ArrayList<ITab>( 2 );
@@ -95,20 +97,16 @@ public class LayoutPage extends WebPage {
         } );
     }
 
-    int selectedTabIndex;
-    WebMarkupContainer userEntry;
-    WebMarkupContainer userSummary;
-    WebMarkupContainer headTabsContainer;
+    int                       selectedTabIndex;
+    WebMarkupContainer        userEntry;
+    WebMarkupContainer        userSummary;
+    WebMarkupContainer        headTabsContainer;
 
     // TODO: Unhardcode.
-    int messageCount = 1;
-    int requestCount = 1;
+    int                       messageCount     = 1;
+    int                       requestCount     = 1;
 
 
-    /**
-     * @param pageTitle    The contents of the <code>title</code> tag.
-     * @param headTabsList A list of tabs to put in the header.
-     */
     public LayoutPage() {
 
         if (headTabsList == null || headTabsList.isEmpty())
@@ -171,8 +169,10 @@ public class LayoutPage extends WebPage {
             @Override
             protected void onComponentTagBody(MarkupStream markupStream, ComponentTag openTag) {
 
-                replaceComponentTagBody( markupStream, openTag, messageCount == 1
-                        ? msgs.userMessagesSingular( messageCount ): msgs.userMessagesPlural( messageCount ) );
+                if (messageCount == 1)
+                    replaceComponentTagBody( markupStream, openTag, msgs.userMessagesSingular( messageCount ) );
+                else
+                    replaceComponentTagBody( markupStream, openTag, msgs.userMessagesPlural( messageCount ) );
             }
 
             @Override
@@ -186,8 +186,10 @@ public class LayoutPage extends WebPage {
             @Override
             protected void onComponentTagBody(MarkupStream markupStream, ComponentTag openTag) {
 
-                replaceComponentTagBody( markupStream, openTag, requestCount == 1
-                        ? msgs.userRequestsSingular( requestCount ): msgs.userRequestsPlural( requestCount ) );
+                if (requestCount == 1)
+                    replaceComponentTagBody( markupStream, openTag, msgs.userRequestsSingular( requestCount ) );
+                else
+                    replaceComponentTagBody( markupStream, openTag, msgs.userRequestsPlural( requestCount ) );
             }
 
             @Override
@@ -224,7 +226,7 @@ public class LayoutPage extends WebPage {
                         Map<String, Object> trackPanelVariables = new HashMap<String, Object>();
                         trackPanelVariables.put( "pageView", contentPanel.getClass().getSimpleName() );
                         final String trackPanelJs = new JavaScriptTemplate( new PackagedTextTemplate( LayoutPage.class,
-                                                                                                      "trackPage.js" ) ).asString( trackPanelVariables );
+                                "trackPage.js" ) ).asString( trackPanelVariables );
 
                         LayoutPage.this.addOrReplace( contentPanel );
 
@@ -290,7 +292,7 @@ public class LayoutPage extends WebPage {
         Map<String, Object> trackPageVariables = new HashMap<String, Object>();
         trackPageVariables.put( "pageView", contentPanel.getClass().getSimpleName() );
         add( new StringHeaderContributor( new JavaScriptTemplate( new PackagedTextTemplate( LayoutPage.class,
-                                                                                            "trackPage.js" ) ).asString( trackPageVariables ) ) );
+                "trackPage.js" ) ).asString( trackPageVariables ) ) );
 
         // OnShowJavaScript
         String js = null;
@@ -316,8 +318,9 @@ public class LayoutPage extends WebPage {
     }
 
     /**
-     * @param wicketId The wicket ID that the panel should have.
-     *
+     * @param wicketId
+     *            The wicket ID that the panel should have.
+     * 
      * @return The {@link Panel} to show as the content before any tabs have been selected.
      */
     protected Panel getDefaultPanel(String wicketId) {

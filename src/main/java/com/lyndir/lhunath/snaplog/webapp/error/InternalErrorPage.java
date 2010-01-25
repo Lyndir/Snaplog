@@ -45,7 +45,7 @@ public class InternalErrorPage extends MessagePage {
 
 class InternalErrorPanel extends Panel {
 
-    public InternalErrorPanel(String id) {
+    InternalErrorPanel(String id) {
 
         super( id );
     }

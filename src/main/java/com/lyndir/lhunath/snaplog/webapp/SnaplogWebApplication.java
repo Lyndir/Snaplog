@@ -55,7 +55,7 @@ public class SnaplogWebApplication extends WebApplication {
     @Override
     protected void init() {
 
-        new SnaplogWebappConfig();
+        new SnaplogWebappConfig().use();
 
         getApplicationSettings().setPageExpiredErrorPage( PageExpiredErrorPage.class );
         getApplicationSettings().setAccessDeniedPage( AccessDeniedErrorPage.class );
@@ -66,6 +66,7 @@ public class SnaplogWebApplication extends WebApplication {
         // https://issues.apache.org/jira/browse/WICKET-2650 -- Consistently create body for short tags.
         getMarkupSettings().setMarkupParserFactory( new IMarkupParserFactory() {
 
+            @Override
             public MarkupParser newMarkupParser(MarkupResourceStream resource) {
 
                 MarkupParser markupParser = new MarkupParser( resource );
@@ -75,7 +76,7 @@ public class SnaplogWebApplication extends WebApplication {
             }
         } );
 
-        Injector guiceInjector = Guice.createInjector( getConfigurationType().equals( Application.DEVELOPMENT ) //
+        Injector guiceInjector = Guice.createInjector( getConfigurationType().equals( DEVELOPMENT ) //
                 ? Stage.DEVELOPMENT: Stage.PRODUCTION, //
                                                        new ServicesModule() );
         addComponentInstantiationListener( new InjectionFlagCachingGuiceComponentInjector( this, guiceInjector ) );

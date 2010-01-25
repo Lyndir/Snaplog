@@ -8,21 +8,21 @@
 
     <!-- Application Context Parameters -->
     <context-param>
-        <description>Path used to initiate a login process.</description>
         <param-name>AuthenticationServicePath</param-name>
         <param-value>/entry</param-value>
+        <description>Path used to initiate a login process.</description>
     </context-param>
     <context-param>
-        <description>Path used to initiate a single logout process.</description>
         <param-name>LogoutServicePath</param-name>
         <param-value>/logoutentry</param-value>
+        <description>Path used to initiate a single logout process.</description>
     </context-param>
     <context-param>
-        <description>Path used to finalize a logout request sent by the authentication webapp following a single logout
-            process by another application.
-        </description>
         <param-name>LogoutExitServicePath</param-name>
-        <param-value>/logoutexit</param-value>
+    <param-value>/logoutexit</param-value>
+    <description>Path used to finalize a logout request sent by the authentication webapp following a single logout
+        process by another application.
+    </description>
     </context-param>
     <context-param>
         <param-name>ApplicationName</param-name>
@@ -49,20 +49,15 @@
         <param-value>true</param-value>
     </context-param>
     <context-param>
-        <description>Landing page to finalize a login process.</description>
         <param-name>LandingPage</param-name>
         <param-value>/login</param-value>
+        <description>Landing page to finalize a login process.</description>
     </context-param>
     <context-param>
-        <description>Landing page to finalize a logout process.</description>
         <param-name>LogoutLandingPage</param-name>
         <param-value>/logout</param-value>
+        <description>Landing page to finalize a logout process.</description>
     </context-param>
-
-    <!-- Application Event Listeners -->
-    <listener>
-        <listener-class>com.lyndir.lhunath.snaplog.webapp.listener.GuiceListener</listener-class>
-    </listener>
 
     <!-- Application Filter Definitions And Mappings -->
     <filter>
@@ -74,5 +69,10 @@
         <filter-name>GuiceFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+    <!-- Application Event Listeners -->
+    <listener>
+        <listener-class>com.lyndir.lhunath.snaplog.webapp.listener.GuiceListener</listener-class>
+    </listener>
 
 </web-app>

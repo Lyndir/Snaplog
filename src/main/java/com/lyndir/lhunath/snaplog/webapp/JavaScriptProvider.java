@@ -31,5 +31,5 @@ package com.lyndir.lhunath.snaplog.webapp;
  */
 public interface JavaScriptProvider {
 
-    public String getProvidedJavaScript();
+    String getProvidedJavaScript();
 }

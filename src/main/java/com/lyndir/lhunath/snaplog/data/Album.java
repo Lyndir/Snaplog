@@ -45,7 +45,7 @@ public abstract class Album implements Serializable {
     private LinkedList<Media> media;
 
 
-    public Album(User user, String name) {
+    protected Album(User user, String name) {
 
         setUser( user );
         setName( name );
@@ -107,9 +107,10 @@ public abstract class Album implements Serializable {
 
         if (o == this)
             return true;
+
         if (o instanceof Album)
             return Objects.equal( ((Album) o).getUser(), getUser() )
-                   && Objects.equal( ((Album) o).getName(), getName() );
+               && Objects.equal( ((Album) o).getName(), getName() );
 
         return false;
     }

@@ -43,11 +43,11 @@ public abstract class Media implements Comparable<Media>, Serializable {
 
     private static final DateTimeFormatter filenameFormat = ISODateTimeFormat.basicDateTimeNoMillis();
 
-    private Album album;
-    private String name;
+    private final Album album;
+    private final String name;
 
 
-    public Media(Album album, String name) {
+    protected Media(Album album, String name) {
 
         this.album = checkNotNull( album );
         this.name = checkNotNull( name );
@@ -96,7 +96,7 @@ public abstract class Media implements Comparable<Media>, Serializable {
         }
 
         catch (IllegalArgumentException e) {
-            logger.wrn( "Couldn't parse shot time: %s, for file: %s", shotTimeString, name );
+            logger.wrn( e, "Couldn't parse shot time: %s, for file: %s", shotTimeString, name );
 
             return 0;
         }
@@ -125,9 +125,16 @@ public abstract class Media implements Comparable<Media>, Serializable {
     /**
      * {@inheritDoc}
      */
+    @Override
     public int compareTo(Media o) {
 
-        return (int) ((shotTime() - o.shotTime()) / 1000);
+        long delta = shotTime() - o.shotTime();
+        if (delta > 0)
+            return 1;
+        else if (delta < 0)
+            return -1;
+
+        return 0;
     }
 
     /**
@@ -172,13 +179,13 @@ public abstract class Media implements Comparable<Media>, Serializable {
         PREVIEW( "preview", 600, 450, 0.8f ),
         THUMBNAIL( "thumbnail", 150, 100, 0.7f );
 
-        private String name;
-        private int maxWidth;
-        private int maxHeight;
-        private float compression;
+        private final String name;
+        private final int maxWidth;
+        private final int maxHeight;
+        private final float compression;
 
 
-        private Quality(String name, int maxWidth, int maxHeight, float compression) {
+        Quality(String name, int maxWidth, int maxHeight, float compression) {
 
             this.name = checkNotNull( name );
             this.maxWidth = maxWidth;

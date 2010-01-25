@@ -22,7 +22,6 @@ import net.link.safeonline.sdk.auth.filter.LoginManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.wicket.*;
-import org.apache.wicket.injection.ConfigurableInjector;
 import org.apache.wicket.protocol.http.WebRequest;
 import org.apache.wicket.protocol.http.WebResponse;
 
@@ -44,11 +43,10 @@ import org.apache.wicket.protocol.http.WebResponse;
 public abstract class WicketUtils {
 
     static final Log LOG = LogFactory.getLog( WicketUtils.class );
-    static ConfigurableInjector eeInjector;
 
     // %[argument_index$][flags][width][.precision][t]conversion
-    private static final String formatSpecifier = "%(\\d+\\$)?([-#+ 0,(\\<]*)?(\\d+)?(\\.\\d+)?([tT])?([a-zA-Z%])";
-    private static Pattern fsPattern = Pattern.compile( formatSpecifier );
+    private static final String formatSpecifier = "%(\\d+\\$)?([-#+ 0,(<]*)?(\\d+)?(\\.\\d+)?([tT])?([a-zA-Z%])";
+    private static final Pattern fsPattern = Pattern.compile( formatSpecifier );
 
 
     /**
@@ -147,7 +145,7 @@ public abstract class WicketUtils {
      *
      * @param component The component in whose context to resolve localization keys.
      * @param format    The format specification for the arguments. See
-     *                  {@link String#format(java.util.Locale, String, Object...)}. To that list, add the 'l' conversion
+     *                  {@link String#format(Locale, String, Object...)}. To that list, add the 'l' conversion
      *                  parameter. This parameter first looks the arg data up as a localization key, then processes the result
      *                  as though it was given with the 's' conversion parameter.
      * @param args      The arguments that contain the data to fill into the format specifications.
@@ -168,7 +166,7 @@ public abstract class WicketUtils {
      * @param component The component in whose context to resolve localization keys.
      * @param locale    The locale for which to resolve localization keys.
      * @param format    The format specification for the arguments. See
-     *                  {@link String#format(java.util.Locale, String, Object...)}. To that list, add the 'l' conversion
+     *                  {@link String#format(Locale, String, Object...)}. To that list, add the 'l' conversion
      *                  parameter. This parameter first looks the arg data up as a localization key, then processes the result
      *                  as though it was given with the 's' conversion parameter.
      * @param args      The arguments that contain the data to fill into the format specifications.

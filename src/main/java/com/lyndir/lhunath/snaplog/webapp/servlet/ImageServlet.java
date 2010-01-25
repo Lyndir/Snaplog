@@ -52,8 +52,8 @@ public class ImageServlet extends HttpServlet {
     private static final String PARAM_MEDIA = "m";
     private static final String PARAM_QUALITY = "q";
 
-    private UserService userService;
-    private AlbumService albumService;
+    private final UserService userService;
+    private final AlbumService albumService;
 
 
     @Inject

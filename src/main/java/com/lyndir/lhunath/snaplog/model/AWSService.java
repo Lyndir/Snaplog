@@ -20,6 +20,7 @@ import java.io.InputStream;
 
 import com.google.common.collect.ImmutableList;
 import org.jets3t.service.S3Service;
+import org.jets3t.service.model.S3Bucket;
 import org.jets3t.service.model.S3Object;
 
 
@@ -64,7 +65,7 @@ public interface AWSService {
      *
      * @return A list of objects with minimal information present.
      *
-     * @see S3Service#listObjects(org.jets3t.service.model.S3Bucket)
+     * @see S3Service#listObjects(S3Bucket)
      */
     ImmutableList<S3Object> listObjects(String objectKey);
 

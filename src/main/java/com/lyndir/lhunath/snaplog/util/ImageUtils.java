@@ -109,9 +109,10 @@ public class ImageUtils {
         ImageWriteParam params = writer.getDefaultWriteParam();
 
         // Output image parameters.
-        if (compressionQuality != null)
+        if (compressionQuality != null) {
             params.setCompressionMode( ImageWriteParam.MODE_EXPLICIT );
-        params.setCompressionQuality( compressionQuality );
+            params.setCompressionQuality( compressionQuality );
+        }
         if (progressive != null)
             params.setProgressiveMode( progressive? ImageWriteParam.MODE_DEFAULT: ImageWriteParam.MODE_DISABLED );
 

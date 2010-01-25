@@ -50,6 +50,7 @@ public class UserServiceImpl implements UserService {
     /**
      * {@inheritDoc}
      */
+    @Override
     public User registerUser(LinkID linkID, String userName) {
 
         checkNotNull( linkID );
@@ -61,6 +62,7 @@ public class UserServiceImpl implements UserService {
     /**
      * {@inheritDoc}
      */
+    @Override
     public User findUserWithLinkID(LinkID linkID) {
 
         checkNotNull( linkID );
@@ -71,6 +73,7 @@ public class UserServiceImpl implements UserService {
     /**
      * {@inheritDoc}
      */
+    @Override
     public User findUserWithName(String userName) {
 
         checkNotNull( userName );

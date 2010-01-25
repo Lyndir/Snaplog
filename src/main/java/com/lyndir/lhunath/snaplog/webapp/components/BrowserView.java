@@ -35,16 +35,16 @@ import org.apache.wicket.model.Model;
  *
  * @author lhunath
  */
-public final class BrowserView extends Panel {
+public class BrowserView extends Panel {
 
     static final Logger logger = Logger.get( BrowserView.class );
 
-    protected static final int BROWSER_SIDE_IMAGES = 4;
+    static final int BROWSER_SIDE_IMAGES = 4;
 
     @Inject
     AlbumService albumService;
 
-    protected Media currentFile;
+    Media currentFile;
 
 
     /**
@@ -78,9 +78,6 @@ public final class BrowserView extends Panel {
         final IModel<Date> currentTimeModel;
 
 
-        /**
-         * Create a new {@link BrowserListView} instance.
-         */
         BrowserListView(String id, IModel<Date> currentTimeModel) {
 
             super( id, new BrowserFilesModel( currentTimeModel ) );
@@ -166,7 +163,7 @@ public final class BrowserView extends Panel {
 
             Iterator<? extends Media> it = Iterables.reverse( allFiles ).iterator();
             if (!it.hasNext())
-                return null;
+                return ImmutableList.of();
 
             // Find the current file.
             while (it.hasNext()) {

@@ -39,6 +39,7 @@ public class WicketLocalizationProvider implements LocalizationProvider {
     /**
      * {@inheritDoc}
      */
+    @Override
     public String getValueForKeyInContext(String key, Object context) {
 
         return Application.get().getResourceSettings().getLocalizer().getString( key, (Component) context );

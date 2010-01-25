@@ -35,7 +35,7 @@ import org.apache.wicket.application.IComponentOnBeforeRenderListener;
  */
 public class AuthenticationListener implements IComponentOnBeforeRenderListener {
 
-    UserService userService;
+    final UserService userService;
 
 
     @Inject
@@ -47,6 +47,7 @@ public class AuthenticationListener implements IComponentOnBeforeRenderListener 
     /**
      * {@inheritDoc}
      */
+    @Override
     public void onBeforeRender(Component component) {
 
         String currentLinkID = WicketUtils.findLinkID();

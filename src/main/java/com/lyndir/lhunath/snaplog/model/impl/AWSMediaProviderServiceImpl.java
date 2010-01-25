@@ -25,8 +25,10 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
@@ -45,6 +47,7 @@ import com.lyndir.lhunath.snaplog.util.ImageUtils;
 import org.jets3t.service.S3Service;
 import org.jets3t.service.S3ServiceException;
 import org.jets3t.service.acl.AccessControlList;
+import org.jets3t.service.model.S3Bucket;
 import org.jets3t.service.model.S3Object;
 
 
@@ -62,8 +65,9 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
     private static final Logger logger = Logger.get( AWSMediaProviderServiceImpl.class );
 
     private static final Map<S3Media, Map<Quality, S3Object>> s3MediaQualityObjects = new HashMap<S3Media, Map<Quality, S3Object>>();
+    private static final Pattern BASENAME = Pattern.compile( ".*/" );
 
-    private AWSService awsService;
+    private final AWSService awsService;
 
 
     @Inject
@@ -75,18 +79,19 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
     /**
      * {@inheritDoc}
      */
+    @Override
     public ImmutableList<? extends Media> getFiles(S3Album album) {
 
-        Builder<S3Media> filesBuilder = new ImmutableList.Builder<S3Media>();
+        Builder<S3Media> filesBuilder = new Builder<S3Media>();
         for (S3Object albumObject : awsService.listObjects( getObjectKey( album, Quality.ORIGINAL ) )) {
 
             Maps.newHashMapWithExpectedSize( Quality.values().length );
 
-            String mediaName = albumObject.getKey().replaceFirst( ".*/", "" );
+            String mediaName = BASENAME.matcher( albumObject.getKey() ).replaceFirst( "" );
             S3Media media = new S3Media( album, mediaName );
             filesBuilder.add( media );
 
-            s3MediaQualityObjects.put( media, new HashMap<Quality, S3Object>( Quality.values().length ) );
+            s3MediaQualityObjects.put( media, new EnumMap<Quality, S3Object>(Quality.class) );
             s3MediaQualityObjects.get( media ).put( null, albumObject );
         }
 
@@ -97,11 +102,12 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
     /**
      * {@inheritDoc}
      */
+    @Override
     public URI getResourceURI(S3Media media, Quality quality) {
 
         S3Object s3ResourceObject = findObjectDetails( media, quality );
         if (s3ResourceObject == null) {
-            if (quality.equals( Quality.ORIGINAL ))
+            if (quality == Quality.ORIGINAL)
                 throw logger.bug( "Can't create a file's original resource." ) //
                         .toError( UnsupportedOperationException.class );
 
@@ -127,7 +133,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
                     try {
                         s3InputStream.close();
                     } catch (IOException e) {
-                        logger.err( "S3 original resource read stream cleanup failed for object: %s", s3OriginalObject );
+                        logger.err( e, "S3 original resource read stream cleanup failed for object: %s", s3OriginalObject );
                     }
                 }
             } catch (S3ServiceException e) {
@@ -152,6 +158,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
     /**
      * {@inheritDoc}
      */
+    @Override
     public long modifiedTime(S3Media media) {
 
         return getObject( media ).getLastModifiedDate().getTime();
@@ -196,7 +203,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      *
      * @return An {@link S3Object} with metadata and a data stream.
      *
-     * @see S3Service#getObject(org.jets3t.service.model.S3Bucket, String)
+     * @see S3Service#getObject(S3Bucket, String)
      */
     protected S3Object readObject(S3Media media, Quality quality) {
 
@@ -221,7 +228,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * @return An {@link S3Object} with metadata or <code>null</code> if no object exists for the given media at the
      *         given quality.
      *
-     * @see S3Service#getObject(org.jets3t.service.model.S3Bucket, String)
+     * @see S3Service#getObject(S3Bucket, String)
      */
     protected S3Object findObjectDetails(S3Media media, Quality quality) {
 
@@ -248,11 +255,10 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * Get an {@link S3Object} with very basic metadata available.
      *
      * @param media   The {@link Media} whose data is will be referenced by the returned object.
-     * @param quality The {@link Quality} of the {@link Media}'s data.
      *
      * @return An {@link S3Object} with basic metadata.
      *
-     * @see S3Service#listObjects(org.jets3t.service.model.S3Bucket)
+     * @see S3Service#listObjects(S3Bucket)
      */
     protected S3Object getObject(S3Media media) {
 

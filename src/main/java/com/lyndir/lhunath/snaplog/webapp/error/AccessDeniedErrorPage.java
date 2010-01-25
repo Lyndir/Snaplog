@@ -43,9 +43,19 @@ public class AccessDeniedErrorPage extends MessagePage {
 }
 
 
+/**
+ * <h2>{@link AccessDeniedErrorPanel}<br>
+ * <sub>[in short] (TODO).</sub></h2>
+ *
+ * <p>
+ * <i>Jun 10, 2009</i>
+ * </p>
+ *
+ * @author lhunath
+ */
 class AccessDeniedErrorPanel extends Panel {
 
-    public AccessDeniedErrorPanel(String id) {
+    AccessDeniedErrorPanel(String id) {
 
         super( id );
     }

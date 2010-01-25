@@ -156,7 +156,7 @@
     <!-- DEPENDENCY MANAGEMENT -->
     <dependencies>
 
-        <!-- jLibs -->
+        <!-- JLibs -->
         <dependency>
             <groupId>com.lyndir.lhunath.jlibs</groupId>
             <artifactId>system</artifactId>
@@ -166,8 +166,8 @@
         <!-- LinkID -->
         <dependency>
             <groupId>net.lin-k.safe-online</groupId>
-            <artifactId>safe-online-sdk</artifactId>
-            <version>1.10</version>
+            <artifactId>safe-online-wicket-sdk</artifactId>
+            <version>1.11-SNAPSHOT</version>
         </dependency>
 
         <!-- EXTERNAL DEPENDENCIES -->
