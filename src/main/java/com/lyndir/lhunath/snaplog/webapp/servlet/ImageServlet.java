@@ -45,6 +45,9 @@ import com.lyndir.lhunath.snaplog.util.URLUtils;
  */
 public class ImageServlet extends HttpServlet {
 
+    /**
+     * Context-relative path of this servlet.
+     */
     public static final String PATH = "/img";
 
     private static final String PARAM_USER = "u";
@@ -56,6 +59,10 @@ public class ImageServlet extends HttpServlet {
     private final AlbumService albumService;
 
 
+    /**
+     * @param userService See {@link UserService}
+     * @param albumService See {@link AlbumService}
+     */
     @Inject
     public ImageServlet(UserService userService, AlbumService albumService) {
 
@@ -63,6 +70,12 @@ public class ImageServlet extends HttpServlet {
         this.albumService = albumService;
     }
 
+    /**
+     * Obtain a context-relative path to the {@link ImageServlet} such that it will render the given media at the given quality.
+     * @param media The media that should be shown at the given URL.
+     * @param quality The quality to show the media at.
+     * @return A context-relative URL.
+     */
     public static String getContextRelativePathFor(Media media, Quality quality) {
 
         checkNotNull( media );

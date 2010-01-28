@@ -70,6 +70,9 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
     private final AWSService awsService;
 
 
+    /**
+     * @param awsService See {@link AWSService} 
+     */
     @Inject
     public AWSMediaProviderServiceImpl(AWSService awsService) {
 
@@ -92,7 +95,6 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
             filesBuilder.add( media );
 
             s3MediaQualityObjects.put( media, new EnumMap<Quality, S3Object>(Quality.class) );
-            s3MediaQualityObjects.get( media ).put( null, albumObject );
         }
 
         logger.dbg( "%d entries in s3MediaQualityObjects", s3MediaQualityObjects.size() );
@@ -212,9 +214,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         checkState( s3MediaQualityObjects.containsKey( media ) );
 
         S3Object s3Object = awsService.readObject( getObjectKey( media, quality ) );
-        Map<Quality, S3Object> s3QualityObjects = s3MediaQualityObjects.get( media );
-        s3QualityObjects.put( quality, s3Object );
-        s3QualityObjects.put( null, s3Object );
+        s3MediaQualityObjects.get( media ).put( quality, s3Object );
 
         return s3Object;
     }
@@ -244,7 +244,6 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
             s3Object = awsService.findObjectDetails( getObjectKey( media, quality ) );
             if (s3Object != null) {
                 s3QualityObjects.put( quality, s3Object );
-                s3QualityObjects.put( null, s3Object );
             }
         }
 

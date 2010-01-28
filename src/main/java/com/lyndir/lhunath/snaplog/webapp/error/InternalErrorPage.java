@@ -40,13 +40,12 @@ public class InternalErrorPage extends MessagePage {
 
         return new InternalErrorPanel( wicketId );
     }
-}
 
+    private static class InternalErrorPanel extends Panel {
 
-class InternalErrorPanel extends Panel {
+        private InternalErrorPanel(String id) {
 
-    InternalErrorPanel(String id) {
-
-        super( id );
+            super( id );
+        }
     }
 }

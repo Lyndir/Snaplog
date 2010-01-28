@@ -20,6 +20,7 @@ import java.util.Date;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.messages.Messages;
+import com.lyndir.lhunath.snaplog.webapp.JavaScriptProvider;
 import com.lyndir.lhunath.snaplog.webapp.components.AccessView;
 import com.lyndir.lhunath.snaplog.webapp.components.BrowserView;
 import com.lyndir.lhunath.snaplog.webapp.components.TagsView;
@@ -38,7 +39,7 @@ import org.apache.wicket.model.Model;
  *
  * @author lhunath
  */
-public class AlbumTab extends Panel {
+public class AlbumTab extends Panel implements JavaScriptProvider {
 
     static final Logger logger = Logger.get( AlbumTab.class );
 
@@ -48,6 +49,9 @@ public class AlbumTab extends Panel {
     static final Date current = new Date( 1259607804000L );
 
 
+    /**
+     * {@inheritDoc}
+     */
     public AlbumTab(String id) {
 
         super( id );
@@ -63,5 +67,14 @@ public class AlbumTab extends Panel {
 
         // Access.
         add( new AccessView( "accessPopup" ) );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getProvidedJavaScript() {
+
+        return null;
     }
 }

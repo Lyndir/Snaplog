@@ -40,13 +40,13 @@ public class PageExpiredErrorPage extends MessagePage {
 
         return new PageExpiredErrorPanel( wicketId );
     }
-}
 
 
-class PageExpiredErrorPanel extends Panel {
+    private static class PageExpiredErrorPanel extends Panel {
 
-    PageExpiredErrorPanel(String id) {
+        PageExpiredErrorPanel(String id) {
 
-        super( id );
+            super( id );
+        }
     }
 }

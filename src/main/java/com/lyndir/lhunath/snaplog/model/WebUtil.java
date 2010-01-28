@@ -36,6 +36,9 @@ import org.apache.wicket.RequestCycle;
  */
 public abstract class WebUtil {
 
+    /**
+     * @return The {@link Locale} the user requested to be served in.
+     */
     public static Locale getLocale() {
 
         if (RequestCycle.get() != null)

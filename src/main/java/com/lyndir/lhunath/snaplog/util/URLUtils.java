@@ -40,6 +40,11 @@ public abstract class URLUtils {
     private static final Logger logger = Logger.get( URLUtils.class );
 
 
+    /**
+     * Encode the given string for use in a URL query parameter.
+     * @param str The string that should be encoded.
+     * @return A string that is safe for use as a URL query parameter name or value.
+     */
     public static String encode(String str) {
 
         try {

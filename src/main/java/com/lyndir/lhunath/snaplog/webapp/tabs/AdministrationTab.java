@@ -15,6 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tabs;
 
+import com.lyndir.lhunath.snaplog.webapp.JavaScriptProvider;
 import org.apache.wicket.markup.html.panel.Panel;
 
 
@@ -32,13 +33,22 @@ import org.apache.wicket.markup.html.panel.Panel;
  *
  * @author lhunath
  */
-public class AdministrationTab extends Panel {
+public class AdministrationTab extends Panel implements JavaScriptProvider {
 
     /**
-     * @param id The Wicket ID of this panel.
+     * {@inheritDoc}
      */
     public AdministrationTab(String id) {
 
         super( id );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String getProvidedJavaScript() {
+
+        return null;
     }
 }

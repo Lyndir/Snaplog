@@ -45,6 +45,10 @@ public abstract class Album implements Serializable {
     private LinkedList<Media> media;
 
 
+    /**
+     * @param user The user that owns this Album.
+     * @param name A unique, user-visible name of this Album amoungst the user's albums. 
+     */
     protected Album(User user, String name) {
 
         setUser( user );

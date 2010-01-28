@@ -141,7 +141,7 @@ public class BrowserView extends Panel {
 
 
         /**
-         * Create a new {@link BrowserFilesModel} instance.
+         * @param currentTimeModel The time of the media the browser should focus on.
          */
         BrowserFilesModel(IModel<Date> currentTimeModel) {
 

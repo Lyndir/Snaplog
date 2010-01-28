@@ -33,8 +33,14 @@ import com.lyndir.lhunath.snaplog.data.aws.S3Album;
  */
 public abstract class SnaplogConstants {
 
-    public static final User DEFAULT_USER;
+    /**
+     * TODO: Unhardcode
+     */
     public static final Album DEFAULT_ALBUM;
+    /**
+     * TODO: Unhardcode
+     */
+    public static final User DEFAULT_USER;
 
     static {
         DEFAULT_USER = new User( new LinkID( "b21e33e2-b63e-4f06-8f52-84509883e1d1" ), "lhunath" );

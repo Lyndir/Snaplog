@@ -34,13 +34,19 @@ import com.lyndir.lhunath.snaplog.data.User;
  */
 public abstract class LastUserCookieManager {
 
-    public static User getLastUser() {
+    /**
+     * @return The user that was previosly used by the browser or <code>null</code> if unknown.
+     */
+    public static User findLastUser() {
 
         // TODO: Load the last user from the last-user cookie.
 
         return null;
     }
 
+    /**
+     * Remember the current user as the one to return in subsequent calls to {@link #findLastUser}
+     */
     public static void rememberCurrentUser() {
 
         // TODO: Write out the last-user cookie.

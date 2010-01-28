@@ -52,6 +52,10 @@ public abstract class Media implements Comparable<Media>, Serializable {
     private static final Pattern TIMEZONE = Pattern.compile( "[+-]\\d+$" );
 
 
+    /**
+     * @param album The album to which this media belongs.
+     * @param name The unique name of this media in the album.
+     */
     protected Media(Album album, String name) {
 
         this.album = checkNotNull( album );
@@ -167,8 +171,8 @@ public abstract class Media implements Comparable<Media>, Serializable {
 
 
     /**
-     * <h2>{@link com.lyndir.lhunath.snaplog.data.Media.Quality}<br>
-     * <sub>The media resource is available at different {@link com.lyndir.lhunath.snaplog.data.Media.Quality} levels.</sub></h2>
+     * <h2>{@link Quality}<br>
+     * <sub>The media resource is available at different {@link Quality} levels.</sub></h2>
      *
      * <p>
      * <i>Jan 6, 2010</i>
@@ -178,9 +182,21 @@ public abstract class Media implements Comparable<Media>, Serializable {
      */
     public enum Quality {
 
+        /**
+         * The full quality of the original media file.
+         */
         ORIGINAL( "original", -1, -1, 1 ),
+        /**
+         * Media quality fit for displaying the media such that it fills the screen.
+         */
         FULLSCREEN( "fullscreen", 1024, 768, 0.9f ),
+        /**
+         * Media quality fit for previewing the media at a size where it is easy to tell what it depicts.
+         */
         PREVIEW( "preview", 600, 450, 0.8f ),
+        /**
+         * Media quality fit for giving a hint on what the media is about.
+         */
         THUMBNAIL( "thumbnail", 150, 100, 0.7f );
 
         private final String name;
@@ -231,7 +247,7 @@ public abstract class Media implements Comparable<Media>, Serializable {
         }
 
         /**
-         * Find the {@link com.lyndir.lhunath.snaplog.data.Media.Quality} by the given name.
+         * Find the {@link Quality} by the given name.
          *
          * @param qualityName The name of the quality (case insensitive) you're after.
          *

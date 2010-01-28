@@ -25,7 +25,10 @@ import com.lyndir.lhunath.snaplog.webapp.error.InternalErrorPage;
 import com.lyndir.lhunath.snaplog.webapp.error.PageExpiredErrorPage;
 import com.lyndir.lhunath.snaplog.webapp.filter.OpenCloseTagExpander;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
-import org.apache.wicket.*;
+import org.apache.wicket.Page;
+import org.apache.wicket.Request;
+import org.apache.wicket.Response;
+import org.apache.wicket.Session;
 import org.apache.wicket.guice.InjectionFlagCachingGuiceComponentInjector;
 import org.apache.wicket.markup.IMarkupParserFactory;
 import org.apache.wicket.markup.MarkupParser;
@@ -46,8 +49,12 @@ import org.apache.wicket.settings.IExceptionSettings;
  */
 public class SnaplogWebApplication extends WebApplication {
 
+    /**
+     * Context-relative path to the page that indicates an error occurred during the linkID authentication protocol.
+     *
+     * TODO: Add a page for this.
+     */
     public static final String PATH_LINKID_ERROR = "/linkid-error";
-
 
     /**
      * {@inheritDoc}

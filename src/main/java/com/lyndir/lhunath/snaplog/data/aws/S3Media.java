@@ -32,6 +32,9 @@ import com.lyndir.lhunath.snaplog.data.Media;
  */
 public class S3Media extends Media {
 
+    /**
+     * {@inheritDoc}
+     */
     public S3Media(Album album, String name) {
 
         super( album, name );

@@ -40,6 +40,16 @@ import com.lyndir.lhunath.snaplog.webapp.tabs.AlbumTab;
 import com.lyndir.lhunath.snaplog.webapp.tabs.WorkbenchTab;
 
 
+/**
+ * <h2>{@link LayoutPage}<br>
+ * <sub>[in short] (TODO).</sub></h2>
+ *
+ * <p>
+ * <i>Jan 28, 2010</i>
+ * </p>
+ *
+ * @author lhunath
+ */
 public class LayoutPage extends WebPage {
 
     private static final long serialVersionUID = 1L;
@@ -107,6 +117,9 @@ public class LayoutPage extends WebPage {
     int                       requestCount     = 1;
 
 
+    /**
+     * {@inheritDoc}
+     */
     public LayoutPage() {
 
         if (headTabsList == null || headTabsList.isEmpty())
@@ -129,7 +142,7 @@ public class LayoutPage extends WebPage {
             @Override
             public String getObject() {
 
-                User lastUser = LastUserCookieManager.getLastUser();
+                User lastUser = LastUserCookieManager.findLastUser();
 
                 if (lastUser == null)
                     return msgs.userWelcome( ' ', msgs.userNameUnknown() );
@@ -320,7 +333,7 @@ public class LayoutPage extends WebPage {
     /**
      * @param wicketId
      *            The wicket ID that the panel should have.
-     * 
+     *
      * @return The {@link Panel} to show as the content before any tabs have been selected.
      */
     protected Panel getDefaultPanel(String wicketId) {

@@ -40,6 +40,9 @@ import org.apache.wicket.markup.html.panel.Panel;
  */
 public class MessagePage extends LayoutPage {
 
+    /**
+     * Default page constructor.
+     */
     public MessagePage() {
 
         add( new HeaderContributor( new StringHeaderContributor(

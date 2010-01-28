@@ -35,6 +35,9 @@ public class AccessView extends Panel {
     AlbumService albumService;
 
 
+    /**
+     * @param id Wicket component ID.
+     */
     public AccessView(String id) {
 
         super( id );

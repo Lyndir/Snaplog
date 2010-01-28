@@ -35,7 +35,14 @@ import org.apache.commons.logging.LogFactory;
  */
 public class AppLogoutServlet extends AbstractInjectionServlet {
 
+    /**
+     * Context-relative servlet path.
+     */
     public static final String PATH = "/applogout";
+
+    /**
+     * Context parameter that contains the context-relative path to the linkID SDK servlet that handles the finalization of the logout.
+     */
     public static final String PARAM_LOGOUT_EXIT_PATH = "LogoutExitPath";
 
     private static final long serialVersionUID = 1L;

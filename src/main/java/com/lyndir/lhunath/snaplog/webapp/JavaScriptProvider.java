@@ -31,5 +31,8 @@ package com.lyndir.lhunath.snaplog.webapp;
  */
 public interface JavaScriptProvider {
 
+    /**
+     * @return A string of JavaScript code that should be evaluated by the browser whenever the implementing class is used.
+     */
     String getProvidedJavaScript();
 }

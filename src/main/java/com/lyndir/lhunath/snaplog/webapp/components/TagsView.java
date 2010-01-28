@@ -25,6 +25,9 @@ public class TagsView extends Panel {
     AlbumService albumService;
 
 
+    /**
+     * {@inheritDoc}
+     */
     public TagsView(String id) {
 
         super( id );

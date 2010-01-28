@@ -58,6 +58,11 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
     private final LinkedList<Media>          files;
 
 
+    /**
+     * @param parent The timeframe that contains this one, or <code>null</code> if this timeframe is top-level.
+     * @param type The type of timeframe indicates its time span.
+     * @param timeMillis The time in milliseconds since the UNIX epoch of the beginning of this timeframe.
+     */
     public MediaTimeFrame(MediaTimeFrame parent, Type type, long timeMillis) {
 
         Type parentType = type.findParentType();
@@ -98,11 +103,20 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
         return Collections.unmodifiableList( list );
     }
 
+    /**
+     * Add media to this timeframe.
+     *
+     * @param mediaFile The media to add to this timeframe.
+     */
     public void addFile(Media mediaFile) {
 
+        // TODO: Validate that mediaFile is in this timeframe.
         files.add( mediaFile );
     }
 
+    /**
+     * @return The beginning of this time frame.
+     */
     public LocalDate getTime() {
 
         if (parent == null)
@@ -111,6 +125,10 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
         return new LocalDate( 0 ).withFields( parent.getTime() ).withFields( typeTime );
     }
 
+    /**
+     * @param instantMillis An amount of milliseconds since the UNIX epoch.
+     * @return <code>true</code> if the given point in time lays within this timeframe.
+     */
     public boolean containsTime(long instantMillis) {
 
         long begin = getTime().toDateMidnight().getMillis();
@@ -119,6 +137,9 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
         return interval.contains( instantMillis );
     }
 
+    /**
+     * @return A short representation of this timeframe.
+     */
     public String getShortName() {
 
         return DateTimeFormat.forPattern( type.getDateFormatString() ).print( typeTime );
@@ -170,10 +191,31 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
     }
 
 
+    /**
+     * <h2>{@link Type}<br>
+     * <sub>[in short] (TODO).</sub></h2>
+     *
+     * <p>
+     * <i>Jan 28, 2010</i>
+     * </p>
+     *
+     * @author lhunath
+     */
     public enum Type {
 
+        /**
+         * One calendar year.
+         */
         YEAR(DateTimeFieldType.year(), null, "yyyy"),
+
+        /**
+         * One calendar month.
+         */
         MONTH(DateTimeFieldType.monthOfYear(), YEAR, "MMM"),
+
+        /**
+         * One calendar day.
+         */
         DAY(DateTimeFieldType.dayOfMonth(), MONTH, "dd");
 
         private final DateTimeFieldType dateType;
@@ -188,16 +230,25 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
             this.dateFormatString = dateFormatString;
         }
 
+        /**
+         * @return The type of date this timeframe represents.
+         */
         public DateTimeFieldType getDateType() {
 
             return dateType;
         }
 
+        /**
+         * @return The type of timeframe our parent can be.
+         */
         public Type findParentType() {
 
             return parentType;
         }
 
+        /**
+         * @return The type of timeframe our children can be.
+         */
         public Type findChildType() {
 
             for (Type type : Type.values())
@@ -207,6 +258,9 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
             return null;
         }
 
+        /**
+         * @return The string that formats timestamps of this type.
+         */
         public String getDateFormatString() {
 
             return dateFormatString;

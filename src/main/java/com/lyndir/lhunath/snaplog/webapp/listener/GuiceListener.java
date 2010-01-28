@@ -50,7 +50,7 @@ public class GuiceListener extends GuiceServletContextListener {
 
     private static final String PATH_WICKET = "/*";
     private static final String PATH_LINKID_LOGIN = "/login";
-    public static final String PATH_LINKID_LOGOUT = "/logout";
+    private static final String PATH_LINKID_LOGOUT = "/logout";
 
 
     /**

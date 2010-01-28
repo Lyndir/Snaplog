@@ -23,11 +23,11 @@ import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
 /**
  * <h2>{@link TimelineView}<br>
  * <sub>Popup that allows user to browse through media on a timeline.</sub></h2>
- * 
+ *
  * <p>
  * <i>Jan 4, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class TimelineView extends Panel {
@@ -38,6 +38,9 @@ public class TimelineView extends Panel {
     AlbumService   albumService;
 
 
+    /**
+     * {@inheritDoc}
+     */
     public TimelineView(String id) {
 
         super( id );

@@ -35,6 +35,9 @@ import com.lyndir.lhunath.snaplog.data.User;
  */
 public class S3Album extends Album {
 
+    /**
+     * {@inheritDoc}
+     */
     public S3Album(User user, String name) {
 
         super( user, name );

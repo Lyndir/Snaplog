@@ -41,6 +41,8 @@ public class UserServiceImpl implements UserService {
     private static final Map<LinkID, User> users = new HashMap<LinkID, User>();
 
 
+    /**
+     */
     @Inject
     public UserServiceImpl() {
 

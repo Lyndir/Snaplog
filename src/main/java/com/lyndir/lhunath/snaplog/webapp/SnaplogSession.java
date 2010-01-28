@@ -44,11 +44,17 @@ public class SnaplogSession extends WebSession {
     private User activeUser;
 
 
+    /**
+     * {@inheritDoc}
+     */
     public SnaplogSession(Request request) {
 
         super( request );
     }
 
+    /**
+     * @return {@link Session#get()} 
+     */
     public static SnaplogSession get() {
 
         return (SnaplogSession) Session.get();

@@ -38,6 +38,9 @@ public class AuthenticationListener implements IComponentOnBeforeRenderListener 
     final UserService userService;
 
 
+    /**
+     * @param userService See {@link UserService}
+     */
     @Inject
     public AuthenticationListener(UserService userService) {
 
