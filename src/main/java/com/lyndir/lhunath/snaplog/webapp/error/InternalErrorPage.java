@@ -15,22 +15,19 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.error;
 
-import com.lyndir.lhunath.snaplog.webapp.page.MessagePage;
 import org.apache.wicket.markup.html.panel.Panel;
+
+import com.lyndir.lhunath.snaplog.webapp.page.MessagePage;
 
 
 /**
  * <h2>{@link InternalErrorPage}<br>
- * <sub>[in short] (TODO).</sub></h2>
- *
- * <p>
- * [description / usage].
- * </p>
- *
+ * <sub>Page that is shown when an uncaught exception occurs.</sub></h2>
+ * 
  * <p>
  * <i>Jun 10, 2009</i>
  * </p>
- *
+ * 
  * @author lhunath
  */
 public class InternalErrorPage extends MessagePage {
@@ -41,9 +38,10 @@ public class InternalErrorPage extends MessagePage {
         return new InternalErrorPanel( wicketId );
     }
 
+
     private static class InternalErrorPanel extends Panel {
 
-        private InternalErrorPanel(String id) {
+        InternalErrorPanel(String id) {
 
             super( id );
         }

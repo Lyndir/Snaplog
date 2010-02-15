@@ -71,7 +71,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
 
     /**
-     * @param awsService See {@link AWSService} 
+     * @param awsService See {@link AWSService}
      */
     @Inject
     public AWSMediaProviderServiceImpl(AWSService awsService) {
@@ -94,7 +94,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
             S3Media media = new S3Media( album, mediaName );
             filesBuilder.add( media );
 
-            s3MediaQualityObjects.put( media, new EnumMap<Quality, S3Object>(Quality.class) );
+            s3MediaQualityObjects.put( media, new EnumMap<Quality, S3Object>( Quality.class ) );
         }
 
         logger.dbg( "%d entries in s3MediaQualityObjects", s3MediaQualityObjects.size() );
@@ -253,7 +253,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
     /**
      * Get an {@link S3Object} with very basic metadata available.
      *
-     * @param media   The {@link Media} whose data is will be referenced by the returned object.
+     * @param media The {@link Media} whose data is will be referenced by the returned object.
      *
      * @return An {@link S3Object} with basic metadata.
      *

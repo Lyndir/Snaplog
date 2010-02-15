@@ -47,7 +47,7 @@ public class User implements Serializable {
     /**
      * Create a new {@link User} instance.
      *
-     * @param linkID The user's {@link LinkID}.
+     * @param linkID   The user's {@link LinkID}.
      * @param userName The user's userName.
      */
     public User(LinkID linkID, String userName) {

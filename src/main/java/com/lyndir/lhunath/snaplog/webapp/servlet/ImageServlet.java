@@ -60,7 +60,7 @@ public class ImageServlet extends HttpServlet {
 
 
     /**
-     * @param userService See {@link UserService}
+     * @param userService  See {@link UserService}
      * @param albumService See {@link AlbumService}
      */
     @Inject
@@ -72,8 +72,10 @@ public class ImageServlet extends HttpServlet {
 
     /**
      * Obtain a context-relative path to the {@link ImageServlet} such that it will render the given media at the given quality.
-     * @param media The media that should be shown at the given URL.
+     *
+     * @param media   The media that should be shown at the given URL.
      * @param quality The quality to show the media at.
+     *
      * @return A context-relative URL.
      */
     public static String getContextRelativePathFor(Media media, Quality quality) {

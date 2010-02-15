@@ -46,6 +46,7 @@ public interface Messages {
 
     /**
      * @param numberOfPhotosInYear The amount of photos that exist in that year.
+     *
      * @return Text on the year component of the timeline view.
      */
     @UseKey
@@ -65,7 +66,8 @@ public interface Messages {
 
     /**
      * @param albumOwnerBadge The badge character of the owner of the currently viewed album.
-     * @param albumOwnerName The name of the owner of the currently viewed album.
+     * @param albumOwnerName  The name of the owner of the currently viewed album.
+     *
      * @return Text that will go in the page's title.
      */
     @UseKey
@@ -73,7 +75,8 @@ public interface Messages {
 
     /**
      * @param userBadge The badge character of the logged-in user.
-     * @param userName The name of the logged-in user.
+     * @param userName  The name of the logged-in user.
+     *
      * @return Welcoming text greeting the logged-in user.
      */
     @UseKey
@@ -81,7 +84,8 @@ public interface Messages {
 
     /**
      * @param userBadge The badge of the user we guess is using the page.
-     * @param userName The name of the user we guess is using the page.
+     * @param userName  The name of the user we guess is using the page.
+     *
      * @return Welcoming the user back.  The user has not yet authenticated himself.  The identification is just a guess.
      */
     @UseKey
@@ -95,6 +99,7 @@ public interface Messages {
 
     /**
      * @param messageCount The amount of messages the user has.
+     *
      * @return Text indicating the user has messages (in singular).
      */
     @UseKey
@@ -102,6 +107,7 @@ public interface Messages {
 
     /**
      * @param messageCount The amount of messages the user has.
+     *
      * @return Text indicating the user has messages (in plural).
      */
     @UseKey
@@ -117,6 +123,7 @@ public interface Messages {
 
     /**
      * @param requestCount The amount of pending requests.
+     *
      * @return Text indicating there are pending requests for the active user (in plural).
      */
     @UseKey

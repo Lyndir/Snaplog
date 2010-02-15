@@ -15,22 +15,19 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.error;
 
-import com.lyndir.lhunath.snaplog.webapp.page.MessagePage;
 import org.apache.wicket.markup.html.panel.Panel;
+
+import com.lyndir.lhunath.snaplog.webapp.page.MessagePage;
 
 
 /**
  * <h2>{@link AccessDeniedErrorPage}<br>
- * <sub>[in short] (TODO).</sub></h2>
- *
- * <p>
- * [description / usage].
- * </p>
- *
+ * <sub>Page that is shown when the user is denied access to a resource.</sub></h2>
+ * 
  * <p>
  * <i>Jun 10, 2009</i>
  * </p>
- *
+ * 
  * @author lhunath
  */
 public class AccessDeniedErrorPage extends MessagePage {
@@ -40,23 +37,13 @@ public class AccessDeniedErrorPage extends MessagePage {
 
         return new AccessDeniedErrorPanel( wicketId );
     }
-}
 
 
-/**
- * <h2>{@link AccessDeniedErrorPanel}<br>
- * <sub>[in short] (TODO).</sub></h2>
- *
- * <p>
- * <i>Jun 10, 2009</i>
- * </p>
- *
- * @author lhunath
- */
-class AccessDeniedErrorPanel extends Panel {
+    private static class AccessDeniedErrorPanel extends Panel {
 
-    AccessDeniedErrorPanel(String id) {
+        AccessDeniedErrorPanel(String id) {
 
-        super( id );
+            super( id );
+        }
     }
 }

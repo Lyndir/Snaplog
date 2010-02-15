@@ -54,7 +54,7 @@ public abstract class Media implements Comparable<Media>, Serializable {
 
     /**
      * @param album The album to which this media belongs.
-     * @param name The unique name of this media in the album.
+     * @param name  The unique name of this media in the album.
      */
     protected Media(Album album, String name) {
 

@@ -53,7 +53,7 @@ public class SnaplogSession extends WebSession {
     }
 
     /**
-     * @return {@link Session#get()} 
+     * @return {@link Session#get()}
      */
     public static SnaplogSession get() {
 

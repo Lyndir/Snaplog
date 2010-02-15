@@ -21,11 +21,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 
 /**
  * <h2>{@link PageExpiredErrorPage}<br>
- * <sub>[in short] (TODO).</sub></h2>
- *
- * <p>
- * [description / usage].
- * </p>
+ * <sub>Page that shows up when the user navigates to a page when his session timeout has expired.</sub></h2>
  *
  * <p>
  * <i>Jun 10, 2009</i>

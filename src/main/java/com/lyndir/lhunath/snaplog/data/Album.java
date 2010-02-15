@@ -47,7 +47,7 @@ public abstract class Album implements Serializable {
 
     /**
      * @param user The user that owns this Album.
-     * @param name A unique, user-visible name of this Album amoungst the user's albums. 
+     * @param name A unique, user-visible name of this Album amoungst the user's albums.
      */
     protected Album(User user, String name) {
 
@@ -114,7 +114,7 @@ public abstract class Album implements Serializable {
 
         if (o instanceof Album)
             return Objects.equal( ((Album) o).getUser(), getUser() )
-               && Objects.equal( ((Album) o).getName(), getName() );
+                   && Objects.equal( ((Album) o).getName(), getName() );
 
         return false;
     }

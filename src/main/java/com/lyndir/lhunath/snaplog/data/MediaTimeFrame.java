@@ -20,23 +20,18 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.joda.time.DateTimeFieldType;
-import org.joda.time.Interval;
-import org.joda.time.LocalDate;
-import org.joda.time.LocalDateTime;
-import org.joda.time.Partial;
-import org.joda.time.format.DateTimeFormat;
-
 import com.google.common.base.Objects;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import org.joda.time.*;
+import org.joda.time.format.DateTimeFormat;
 
 
 /**
  * <h2>{@link MediaTimeFrame}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <sub>A time span with an offset that groups a chronicological range of media.</sub></h2>
  *
  * <p>
- * [description / usage].
+ * {@link MediaTimeFrame}s are spans of time of a certain {@link Type} that span an amount of time defined by the type and are offset by a timestamp of milliseconds since the UNIX epoch.
  * </p>
  *
  * <p>
@@ -47,20 +42,20 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
  */
 public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<MediaTimeFrame> {
 
-    private static final Logger              logger = Logger.get( MediaTimeFrame.class );
+    private static final Logger logger = Logger.get( MediaTimeFrame.class );
 
-    private final MediaTimeFrame             parent;
+    private final MediaTimeFrame parent;
     private final LinkedList<MediaTimeFrame> children;
 
-    private final Type                       type;
-    private final Partial                    typeTime;
+    private final Type type;
+    private final Partial typeTime;
 
-    private final LinkedList<Media>          files;
+    private final LinkedList<Media> files;
 
 
     /**
-     * @param parent The timeframe that contains this one, or <code>null</code> if this timeframe is top-level.
-     * @param type The type of timeframe indicates its time span.
+     * @param parent     The timeframe that contains this one, or <code>null</code> if this timeframe is top-level.
+     * @param type       The type of timeframe indicates its time span.
      * @param timeMillis The time in milliseconds since the UNIX epoch of the beginning of this timeframe.
      */
     public MediaTimeFrame(MediaTimeFrame parent, Type type, long timeMillis) {
@@ -69,10 +64,10 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
         if (parentType == null) {
             if (parent != null)
                 throw logger.err( "Type %s permits no parent; given parent type was %s", //
-                        type, parent.type ).toError( IllegalArgumentException.class );
+                                  type, parent.type ).toError( IllegalArgumentException.class );
         } else if (parent != null && parent.type != parentType)
             throw logger.err( "Type %s requires parent type %s; given parent type was %s", //
-                    type, parentType, parent.type ).toError( IllegalArgumentException.class );
+                              type, parentType, parent.type ).toError( IllegalArgumentException.class );
 
         this.parent = parent;
         children = new LinkedList<MediaTimeFrame>();
@@ -85,9 +80,8 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
     /**
      * Get a list of all the media created in this time frame.
      *
-     * @param recurse
-     *            <code>true</code>: retrieves all media belonging to this time frame and every time frame that is a
-     *            part of it.
+     * @param recurse <code>true</code>: retrieves all media belonging to this time frame and every time frame that is a
+     *                part of it.
      *
      * @return An unmodifiable list of {@link Media}s.
      */
@@ -127,6 +121,7 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
 
     /**
      * @param instantMillis An amount of milliseconds since the UNIX epoch.
+     *
      * @return <code>true</code> if the given point in time lays within this timeframe.
      */
     public boolean containsTime(long instantMillis) {
@@ -206,21 +201,21 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
         /**
          * One calendar year.
          */
-        YEAR(DateTimeFieldType.year(), null, "yyyy"),
+        YEAR( DateTimeFieldType.year(), null, "yyyy" ),
 
         /**
          * One calendar month.
          */
-        MONTH(DateTimeFieldType.monthOfYear(), YEAR, "MMM"),
+        MONTH( DateTimeFieldType.monthOfYear(), YEAR, "MMM" ),
 
         /**
          * One calendar day.
          */
-        DAY(DateTimeFieldType.dayOfMonth(), MONTH, "dd");
+        DAY( DateTimeFieldType.dayOfMonth(), MONTH, "dd" );
 
         private final DateTimeFieldType dateType;
-        private final Type              parentType;
-        private final String            dateFormatString;
+        private final Type parentType;
+        private final String dateFormatString;
 
 
         Type(DateTimeFieldType dateType, Type parentType, String dateFormatString) {
@@ -269,15 +264,14 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
 
 
     /**
-     * @param mediaTimeFrame
-     *            The child {@link MediaTimeFrame} to add to this one.
+     * @param mediaTimeFrame The child {@link MediaTimeFrame} to add to this one.
      */
     public void addTimeFrame(MediaTimeFrame mediaTimeFrame) {
 
         Type childType = type.findChildType();
         if (childType == null || childType != mediaTimeFrame.type)
             throw logger.err( "This timeframe (type: %s) doesn't support children of type: %s (supports: %s)", //
-                    type, mediaTimeFrame.type, childType ).toError( IllegalArgumentException.class );
+                              type, mediaTimeFrame.type, childType ).toError( IllegalArgumentException.class );
 
         children.add( mediaTimeFrame );
     }

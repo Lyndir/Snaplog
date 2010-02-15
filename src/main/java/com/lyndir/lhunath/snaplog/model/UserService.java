@@ -33,8 +33,10 @@ public interface UserService {
 
     /**
      * Create a new user with the given userName and linkID identifier.
-     * @param linkID The linkID identifier that linkID uses to identify user they authenticated to us.
+     *
+     * @param linkID   The linkID identifier that linkID uses to identify user they authenticated to us.
      * @param userName The unique userName the user would like to use as his snaplog identifier.
+     *
      * @return A newly registered user.
      */
     User registerUser(LinkID linkID, String userName);
@@ -43,6 +45,7 @@ public interface UserService {
      * Find the existing user registered with the given linkID identifier.
      *
      * @param linkID The linkID identifier that the user has registered with.
+     *
      * @return The user with the given linkID identifier or <code>null</code> if no such user exists yet.
      */
     User findUserWithLinkID(LinkID linkID);
@@ -51,6 +54,7 @@ public interface UserService {
      * Find the existing user registered with the given userName.
      *
      * @param userName The userName the user has registered with.
+     *
      * @return The user with the given userName or <code>null</code> if no such user exists yet.
      */
     User findUserWithName(String userName);
