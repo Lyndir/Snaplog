@@ -33,16 +33,17 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
 
 /**
  * <h2>{@link MediaTimeFrame}<br>
- * <sub>[in short] (TODO).</sub></h2>
- *
+ * <sub>A time span with an offset that groups a chronicological range of media.</sub></h2>
+ * 
  * <p>
- * [description / usage].
+ * {@link MediaTimeFrame}s are spans of time of a certain {@link Type} that span an amount of time defined by the type
+ * and are offset by a timestamp of milliseconds since the UNIX epoch.
  * </p>
- *
+ * 
  * <p>
  * <i>Jul 25, 2009</i>
  * </p>
- *
+ * 
  * @author lhunath
  */
 public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<MediaTimeFrame> {
@@ -59,9 +60,12 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
 
 
     /**
-     * @param parent The timeframe that contains this one, or <code>null</code> if this timeframe is top-level.
-     * @param type The type of timeframe indicates its time span.
-     * @param timeMillis The time in milliseconds since the UNIX epoch of the beginning of this timeframe.
+     * @param parent
+     *            The timeframe that contains this one, or <code>null</code> if this timeframe is top-level.
+     * @param type
+     *            The type of timeframe indicates its time span.
+     * @param timeMillis
+     *            The time in milliseconds since the UNIX epoch of the beginning of this timeframe.
      */
     public MediaTimeFrame(MediaTimeFrame parent, Type type, long timeMillis) {
 
@@ -69,10 +73,10 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
         if (parentType == null) {
             if (parent != null)
                 throw logger.err( "Type %s permits no parent; given parent type was %s", //
-                        type, parent.type ).toError( IllegalArgumentException.class );
+                                  type, parent.type ).toError( IllegalArgumentException.class );
         } else if (parent != null && parent.type != parentType)
             throw logger.err( "Type %s requires parent type %s; given parent type was %s", //
-                    type, parentType, parent.type ).toError( IllegalArgumentException.class );
+                              type, parentType, parent.type ).toError( IllegalArgumentException.class );
 
         this.parent = parent;
         children = new LinkedList<MediaTimeFrame>();
@@ -84,11 +88,11 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
 
     /**
      * Get a list of all the media created in this time frame.
-     *
+     * 
      * @param recurse
      *            <code>true</code>: retrieves all media belonging to this time frame and every time frame that is a
      *            part of it.
-     *
+     * 
      * @return An unmodifiable list of {@link Media}s.
      */
     public List<Media> getFiles(boolean recurse) {
@@ -105,8 +109,9 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
 
     /**
      * Add media to this timeframe.
-     *
-     * @param mediaFile The media to add to this timeframe.
+     * 
+     * @param mediaFile
+     *            The media to add to this timeframe.
      */
     public void addFile(Media mediaFile) {
 
@@ -126,7 +131,9 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
     }
 
     /**
-     * @param instantMillis An amount of milliseconds since the UNIX epoch.
+     * @param instantMillis
+     *            An amount of milliseconds since the UNIX epoch.
+     * 
      * @return <code>true</code> if the given point in time lays within this timeframe.
      */
     public boolean containsTime(long instantMillis) {
@@ -194,11 +201,11 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
     /**
      * <h2>{@link Type}<br>
      * <sub>[in short] (TODO).</sub></h2>
-     *
+     * 
      * <p>
      * <i>Jan 28, 2010</i>
      * </p>
-     *
+     * 
      * @author lhunath
      */
     public enum Type {
@@ -206,17 +213,17 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
         /**
          * One calendar year.
          */
-        YEAR(DateTimeFieldType.year(), null, "yyyy"),
+        YEAR( DateTimeFieldType.year(), null, "yyyy" ),
 
         /**
          * One calendar month.
          */
-        MONTH(DateTimeFieldType.monthOfYear(), YEAR, "MMM"),
+        MONTH( DateTimeFieldType.monthOfYear(), YEAR, "MMM" ),
 
         /**
          * One calendar day.
          */
-        DAY(DateTimeFieldType.dayOfMonth(), MONTH, "dd");
+        DAY( DateTimeFieldType.dayOfMonth(), MONTH, "dd" );
 
         private final DateTimeFieldType dateType;
         private final Type              parentType;
@@ -277,7 +284,7 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
         Type childType = type.findChildType();
         if (childType == null || childType != mediaTimeFrame.type)
             throw logger.err( "This timeframe (type: %s) doesn't support children of type: %s (supports: %s)", //
-                    type, mediaTimeFrame.type, childType ).toError( IllegalArgumentException.class );
+                              type, mediaTimeFrame.type, childType ).toError( IllegalArgumentException.class );
 
         children.add( mediaTimeFrame );
     }

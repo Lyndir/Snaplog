@@ -20,41 +20,44 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.io.Serializable;
 import java.util.regex.Pattern;
 
-import com.google.common.base.Objects;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.snaplog.model.WebUtil;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
+
+import com.google.common.base.Objects;
+import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.snaplog.model.WebUtil;
 
 
 /**
  * <h2>{@link Media}<br>
  * <sub>DO for .</sub></h2>
- *
+ * 
  * <p>
  * <i>Jul 25, 2009</i>
  * </p>
- *
+ * 
  * @author lhunath
  */
 public abstract class Media implements Comparable<Media>, Serializable {
 
-    static final Logger logger = Logger.get( Media.class );
+    static final Logger                    logger         = Logger.get( Media.class );
 
     private static final DateTimeFormatter filenameFormat = ISODateTimeFormat.basicDateTimeNoMillis();
 
-    private final Album album;
-    private final String name;
-    private static final Pattern EXTENSION = Pattern.compile( "\\.[^\\.]*$" );
-    private static final Pattern HIDDEN = Pattern.compile( "^\\." );
-    private static final Pattern POSTFIX = Pattern.compile( "_.*" );
-    private static final Pattern TIMEZONE = Pattern.compile( "[+-]\\d+$" );
+    private final Album                    album;
+    private final String                   name;
+    private static final Pattern           EXTENSION      = Pattern.compile( "\\.[^\\.]*$" );
+    private static final Pattern           HIDDEN         = Pattern.compile( "^\\." );
+    private static final Pattern           POSTFIX        = Pattern.compile( "_.*" );
+    private static final Pattern           TIMEZONE       = Pattern.compile( "[+-]\\d+$" );
 
 
     /**
-     * @param album The album to which this media belongs.
-     * @param name The unique name of this media in the album.
+     * @param album
+     *            The album to which this media belongs.
+     * @param name
+     *            The unique name of this media in the album.
      */
     protected Media(Album album, String name) {
 
@@ -80,7 +83,7 @@ public abstract class Media implements Comparable<Media>, Serializable {
 
     /**
      * Obtain the time since the UNIX Epoch in milliseconds since the picture was taken.
-     *
+     * 
      * @return The amount of milliseconds, or 0 if it could not be determined.
      */
     public long shotTime() {
@@ -114,7 +117,7 @@ public abstract class Media implements Comparable<Media>, Serializable {
     /**
      * Generate a string to express the time at which the shot was taken; formatted according to the active web
      * session's locale.
-     *
+     * 
      * @return A date formatted according to the active locale.
      */
     public String getDateString() {
@@ -173,11 +176,11 @@ public abstract class Media implements Comparable<Media>, Serializable {
     /**
      * <h2>{@link Quality}<br>
      * <sub>The media resource is available at different {@link Quality} levels.</sub></h2>
-     *
+     * 
      * <p>
      * <i>Jan 6, 2010</i>
      * </p>
-     *
+     * 
      * @author lhunath
      */
     public enum Quality {
@@ -200,9 +203,9 @@ public abstract class Media implements Comparable<Media>, Serializable {
         THUMBNAIL( "thumbnail", 150, 100, 0.7f );
 
         private final String name;
-        private final int maxWidth;
-        private final int maxHeight;
-        private final float compression;
+        private final int    maxWidth;
+        private final int    maxHeight;
+        private final float  compression;
 
 
         Quality(String name, int maxWidth, int maxHeight, float compression) {
@@ -248,11 +251,12 @@ public abstract class Media implements Comparable<Media>, Serializable {
 
         /**
          * Find the {@link Quality} by the given name.
-         *
-         * @param qualityName The name of the quality (case insensitive) you're after.
-         *
+         * 
+         * @param qualityName
+         *            The name of the quality (case insensitive) you're after.
+         * 
          * @return <code>null</code> if no quality exists for the given name.
-         *
+         * 
          * @see #getName()
          */
         public static Quality findQualityWithName(String qualityName) {

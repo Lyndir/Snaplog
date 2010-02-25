@@ -15,16 +15,6 @@
  */
 package com.lyndir.lhunath.snaplog.webapp;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Stage;
-import com.lyndir.lhunath.snaplog.linkid.SnaplogWebappConfig;
-import com.lyndir.lhunath.snaplog.model.impl.ServicesModule;
-import com.lyndir.lhunath.snaplog.webapp.error.AccessDeniedErrorPage;
-import com.lyndir.lhunath.snaplog.webapp.error.InternalErrorPage;
-import com.lyndir.lhunath.snaplog.webapp.error.PageExpiredErrorPage;
-import com.lyndir.lhunath.snaplog.webapp.filter.OpenCloseTagExpander;
-import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 import org.apache.wicket.Page;
 import org.apache.wicket.Request;
 import org.apache.wicket.Response;
@@ -36,25 +26,37 @@ import org.apache.wicket.markup.MarkupResourceStream;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.settings.IExceptionSettings;
 
+import com.google.inject.Guice;
+import com.google.inject.Injector;
+import com.google.inject.Stage;
+import com.lyndir.lhunath.snaplog.linkid.SnaplogWebappConfig;
+import com.lyndir.lhunath.snaplog.model.impl.ServicesModule;
+import com.lyndir.lhunath.snaplog.webapp.error.AccessDeniedErrorPage;
+import com.lyndir.lhunath.snaplog.webapp.error.InternalErrorPage;
+import com.lyndir.lhunath.snaplog.webapp.error.PageExpiredErrorPage;
+import com.lyndir.lhunath.snaplog.webapp.filter.OpenCloseTagExpander;
+import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
+
 
 /**
  * <h2>{@link SnaplogWebApplication}<br>
  * <sub>Wicket {@link WebApplication} for the media album application.</sub></h2>
- *
+ * 
  * <p>
  * <i>May 31, 2009</i>
  * </p>
- *
+ * 
  * @author lhunath
  */
 public class SnaplogWebApplication extends WebApplication {
 
     /**
      * Context-relative path to the page that indicates an error occurred during the linkID authentication protocol.
-     *
+     * 
      * TODO: Add a page for this.
      */
     public static final String PATH_LINKID_ERROR = "/linkid-error";
+
 
     /**
      * {@inheritDoc}

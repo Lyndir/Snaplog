@@ -7,30 +7,30 @@ import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
+import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
+import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.MediaTimeFrame;
 import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
-import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
 
 
 /**
  * <h2>{@link TimelineView}<br>
  * <sub>Popup that allows user to browse through media on a timeline.</sub></h2>
- *
+ * 
  * <p>
  * <i>Jan 4, 2010</i>
  * </p>
- *
+ * 
  * @author lhunath
  */
-public class TimelineView extends Panel {
+public class TimelineView extends GenericPanel<Album> {
 
     final Messages msgs = LocalizerFactory.getLocalizer( Messages.class, this );
 
@@ -40,34 +40,32 @@ public class TimelineView extends Panel {
 
     /**
      * {@inheritDoc}
+     * 
+     * @param id
+     *            The wicket ID of the tab.
+     * @param albumModel
+     *            A model providing the album that the timeline should display media for.
      */
-    public TimelineView(String id) {
+    public TimelineView(String id, IModel<Album> albumModel) {
 
-        super( id );
+        super( id, albumModel );
 
         add( new ListView<MediaTimeFrame>( "years", new AbstractReadOnlyModel<List<MediaTimeFrame>>() {
 
             @Override
             public List<MediaTimeFrame> getObject() {
 
-                return albumService.getYears( SnaplogConstants.DEFAULT_ALBUM );
+                return albumService.getYears( getModelObject() );
             }
         } ) {
 
             @Override
-            protected void populateItem(final ListItem<MediaTimeFrame> yearItem) {
+            protected void populateItem(ListItem<MediaTimeFrame> yearItem) {
 
-                final MediaTimeFrame mediaYear = yearItem.getModelObject();
+                MediaTimeFrame mediaYear = yearItem.getModelObject();
 
                 yearItem.add( new Label( "name", Integer.toString( mediaYear.getTime().getYear() ) ) );
-                yearItem.add( new Label( "photos", new AbstractReadOnlyModel<String>() {
-
-                    @Override
-                    public String getObject() {
-
-                        return msgs.albumTimelineYearPhotos( mediaYear.getFiles( true ).size() );
-                    }
-                } ) );
+                yearItem.add( new Label( "photos", msgs.albumTimelineYearPhotos( mediaYear.getFiles( true ).size() ) ) );
 
                 // Hide the months in the year initially.
                 yearItem.add( new ListView<MediaTimeFrame>( "months", ImmutableList.copyOf( mediaYear ) ) {

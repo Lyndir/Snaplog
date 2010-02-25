@@ -43,11 +43,11 @@ import com.lyndir.lhunath.snaplog.webapp.tabs.WorkbenchTab;
 /**
  * <h2>{@link LayoutPage}<br>
  * <sub>[in short] (TODO).</sub></h2>
- *
+ * 
  * <p>
  * <i>Jan 28, 2010</i>
  * </p>
- *
+ * 
  * @author lhunath
  */
 public class LayoutPage extends WebPage {
@@ -333,7 +333,7 @@ public class LayoutPage extends WebPage {
     /**
      * @param wicketId
      *            The wicket ID that the panel should have.
-     *
+     * 
      * @return The {@link Panel} to show as the content before any tabs have been selected.
      */
     protected Panel getDefaultPanel(String wicketId) {

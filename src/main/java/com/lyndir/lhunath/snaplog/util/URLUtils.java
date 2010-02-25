@@ -24,15 +24,15 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
 /**
  * <h2>{@link URLUtils}<br>
  * <sub>[in short] (TODO).</sub></h2>
- *
+ * 
  * <p>
  * [description / usage].
  * </p>
- *
+ * 
  * <p>
  * <i>Jan 19, 2010</i>
  * </p>
- *
+ * 
  * @author lhunath
  */
 public abstract class URLUtils {
@@ -42,7 +42,10 @@ public abstract class URLUtils {
 
     /**
      * Encode the given string for use in a URL query parameter.
-     * @param str The string that should be encoded.
+     * 
+     * @param str
+     *            The string that should be encoded.
+     * 
      * @return A string that is safe for use as a URL query parameter name or value.
      */
     public static String encode(String str) {

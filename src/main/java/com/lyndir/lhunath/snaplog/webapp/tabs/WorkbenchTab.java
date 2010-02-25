@@ -15,28 +15,32 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tabs;
 
-import com.lyndir.lhunath.snaplog.webapp.JavaScriptProvider;
 import org.apache.wicket.markup.html.panel.Panel;
+
+import com.lyndir.lhunath.snaplog.webapp.JavaScriptProvider;
 
 
 /**
  * <h2>{@link WorkbenchTab}<br>
  * <sub>[in short] (TODO).</sub></h2>
- *
+ * 
  * <p>
  * [description / usage].
  * </p>
- *
+ * 
  * <p>
  * <i>May 31, 2009</i>
  * </p>
- *
+ * 
  * @author lhunath
  */
 public class WorkbenchTab extends Panel implements JavaScriptProvider {
 
     /**
      * {@inheritDoc}
+     * 
+     * @param id
+     *            The wicket ID of the tab.
      */
     public WorkbenchTab(String id) {
 

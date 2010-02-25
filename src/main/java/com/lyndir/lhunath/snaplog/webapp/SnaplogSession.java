@@ -15,37 +15,41 @@
  */
 package com.lyndir.lhunath.snaplog.webapp;
 
-import com.google.common.base.Objects;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.snaplog.data.User;
 import org.apache.wicket.Request;
 import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebSession;
+
+import com.google.common.base.Objects;
+import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.snaplog.data.User;
 
 
 /**
  * <h2>{@link SnaplogSession}<br>
  * <sub>[in short] (TODO).</sub></h2>
- *
+ * 
  * <p>
  * [description / usage].
  * </p>
- *
+ * 
  * <p>
  * <i>Dec 31, 2009</i>
  * </p>
- *
+ * 
  * @author lhunath
  */
 public class SnaplogSession extends WebSession {
 
     private static final Logger logger = Logger.get( SnaplogSession.class );
 
-    private User activeUser;
+    private User                activeUser;
 
 
     /**
      * {@inheritDoc}
+     * 
+     * @param request
+     *            The {@link Request} that started the session.
      */
     public SnaplogSession(Request request) {
 
@@ -53,7 +57,7 @@ public class SnaplogSession extends WebSession {
     }
 
     /**
-     * @return {@link Session#get()} 
+     * @return {@link Session#get()}
      */
     public static SnaplogSession get() {
 
@@ -69,7 +73,8 @@ public class SnaplogSession extends WebSession {
     }
 
     /**
-     * @param activeUser The activeUser of this {@link SnaplogSession}.
+     * @param activeUser
+     *            The activeUser of this {@link SnaplogSession}.
      */
     public void setActiveUser(User activeUser) {
 

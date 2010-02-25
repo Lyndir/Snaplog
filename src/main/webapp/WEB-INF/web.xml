@@ -19,10 +19,10 @@
     </context-param>
     <context-param>
         <param-name>LogoutExitServicePath</param-name>
-    <param-value>/logoutexit</param-value>
-    <description>Path used to finalize a logout request sent by the authentication webapp following a single logout
-        process by another application.
-    </description>
+        <param-value>/logoutexit</param-value>
+        <description>Path used to finalize a logout request sent by the authentication webapp following a single logout
+            process by another application.
+        </description>
     </context-param>
     <context-param>
         <param-name>ApplicationName</param-name>

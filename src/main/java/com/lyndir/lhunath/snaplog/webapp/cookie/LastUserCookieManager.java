@@ -21,15 +21,15 @@ import com.lyndir.lhunath.snaplog.data.User;
 /**
  * <h2>{@link LastUserCookieManager}<br>
  * <sub>[in short] (TODO).</sub></h2>
- *
+ * 
  * <p>
  * [description / usage].
  * </p>
- *
+ * 
  * <p>
  * <i>Dec 31, 2009</i>
  * </p>
- *
+ * 
  * @author lhunath
  */
 public abstract class LastUserCookieManager {
@@ -49,6 +49,6 @@ public abstract class LastUserCookieManager {
      */
     public static void rememberCurrentUser() {
 
-        // TODO: Write out the last-user cookie.
+    // TODO: Write out the last-user cookie.
     }
 }

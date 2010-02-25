@@ -26,15 +26,15 @@ import com.lyndir.lhunath.snaplog.webapp.AuthenticationListener;
 /**
  * <h2>{@link ServicesModule}<br>
  * <sub>[in short] (TODO).</sub></h2>
- *
+ * 
  * <p>
  * [description / usage].
  * </p>
- *
+ * 
  * <p>
  * <i>Jan 9, 2010</i>
  * </p>
- *
+ * 
  * @author lhunath
  */
 public class ServicesModule extends AbstractModule {

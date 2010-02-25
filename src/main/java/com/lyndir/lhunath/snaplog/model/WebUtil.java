@@ -23,15 +23,15 @@ import org.apache.wicket.RequestCycle;
 /**
  * <h2>{@link WebUtil}<br>
  * <sub>[in short] (TODO).</sub></h2>
- *
+ * 
  * <p>
  * [description / usage].
  * </p>
- *
+ * 
  * <p>
  * <i>Jul 25, 2009</i>
  * </p>
- *
+ * 
  * @author lhunath
  */
 public abstract class WebUtil {

@@ -25,15 +25,15 @@ import com.google.common.base.Objects;
 /**
  * <h2>{@link User}<br>
  * <sub>[in short] (TODO).</sub></h2>
- *
+ * 
  * <p>
  * [description / usage].
  * </p>
- *
+ * 
  * <p>
  * <i>Dec 31, 2009</i>
  * </p>
- *
+ * 
  * @author lhunath
  */
 public class User implements Serializable {
@@ -41,14 +41,16 @@ public class User implements Serializable {
     private LinkID linkID;
 
     private String userName;
-    private char badge = '~';
+    private char   badge = '~';
 
 
     /**
      * Create a new {@link User} instance.
-     *
-     * @param linkID The user's {@link LinkID}.
-     * @param userName The user's userName.
+     * 
+     * @param linkID
+     *            The user's {@link LinkID}.
+     * @param userName
+     *            The user's userName.
      */
     public User(LinkID linkID, String userName) {
 
@@ -65,7 +67,8 @@ public class User implements Serializable {
     }
 
     /**
-     * @param linkID The linkID of this {@link User}.
+     * @param linkID
+     *            The linkID of this {@link User}.
      */
     public void setLinkID(LinkID linkID) {
 
@@ -81,7 +84,8 @@ public class User implements Serializable {
     }
 
     /**
-     * @param userName The userName of this {@link User}.
+     * @param userName
+     *            The userName of this {@link User}.
      */
     public void setUserName(String userName) {
 
@@ -97,7 +101,8 @@ public class User implements Serializable {
     }
 
     /**
-     * @param badge The badge of this {@link User}.
+     * @param badge
+     *            The badge of this {@link User}.
      */
     public void setBadge(char badge) {
 

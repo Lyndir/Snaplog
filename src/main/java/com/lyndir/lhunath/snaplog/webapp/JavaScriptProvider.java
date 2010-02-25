@@ -18,21 +18,22 @@ package com.lyndir.lhunath.snaplog.webapp;
 /**
  * <h2>{@link JavaScriptProvider}<br>
  * <sub>[in short] (TODO).</sub></h2>
- *
+ * 
  * <p>
  * [description / usage].
  * </p>
- *
+ * 
  * <p>
  * <i>Jun 11, 2009</i>
  * </p>
- *
+ * 
  * @author lhunath
  */
 public interface JavaScriptProvider {
 
     /**
-     * @return A string of JavaScript code that should be evaluated by the browser whenever the implementing class is used.
+     * @return A string of JavaScript code that should be evaluated by the browser whenever the implementing class is
+     *         used.
      */
     String getProvidedJavaScript();
 }

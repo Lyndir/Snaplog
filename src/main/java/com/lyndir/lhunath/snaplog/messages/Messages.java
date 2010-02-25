@@ -27,11 +27,11 @@ import com.lyndir.lhunath.snaplog.webapp.tabs.WorkbenchTab;
 /**
  * <h2>{@link Messages}<br>
  * <sub>Localization interface for messages in the {@link SnaplogWebApplication}.</sub></h2>
- *
+ * 
  * <p>
  * <i>Mar 29, 2009</i>
  * </p>
- *
+ * 
  * @author lhunath
  * @see LocalizerFactory
  */
@@ -45,7 +45,9 @@ public interface Messages {
     String albumTab();
 
     /**
-     * @param numberOfPhotosInYear The amount of photos that exist in that year.
+     * @param numberOfPhotosInYear
+     *            The amount of photos that exist in that year.
+     * 
      * @return Text on the year component of the timeline view.
      */
     @UseKey
@@ -64,25 +66,34 @@ public interface Messages {
     String administrationTab();
 
     /**
-     * @param albumOwnerBadge The badge character of the owner of the currently viewed album.
-     * @param albumOwnerName The name of the owner of the currently viewed album.
+     * @param albumOwnerBadge
+     *            The badge character of the owner of the currently viewed album.
+     * @param albumOwnerName
+     *            The name of the owner of the currently viewed album.
+     * 
      * @return Text that will go in the page's title.
      */
     @UseKey
     String pageTitle(char albumOwnerBadge, String albumOwnerName);
 
     /**
-     * @param userBadge The badge character of the logged-in user.
-     * @param userName The name of the logged-in user.
+     * @param userBadge
+     *            The badge character of the logged-in user.
+     * @param userName
+     *            The name of the logged-in user.
+     * 
      * @return Welcoming text greeting the logged-in user.
      */
     @UseKey
     String userWelcome(char userBadge, String userName);
 
     /**
-     * @param userBadge The badge of the user we guess is using the page.
-     * @param userName The name of the user we guess is using the page.
-     * @return Welcoming the user back.  The user has not yet authenticated himself.  The identification is just a guess.
+     * @param userBadge
+     *            The badge of the user we guess is using the page.
+     * @param userName
+     *            The name of the user we guess is using the page.
+     * 
+     * @return Welcoming the user back. The user has not yet authenticated himself. The identification is just a guess.
      */
     @UseKey
     String userWelcomeBack(char userBadge, String userName);
@@ -94,29 +105,36 @@ public interface Messages {
     String userNameUnknown();
 
     /**
-     * @param messageCount The amount of messages the user has.
+     * @param messageCount
+     *            The amount of messages the user has.
+     * 
      * @return Text indicating the user has messages (in singular).
      */
     @UseKey
     String userMessagesSingular(int messageCount);
 
     /**
-     * @param messageCount The amount of messages the user has.
+     * @param messageCount
+     *            The amount of messages the user has.
+     * 
      * @return Text indicating the user has messages (in plural).
      */
     @UseKey
     String userMessagesPlural(int messageCount);
 
     /**
-     * @param requestCount The amount of pending requests.
-     *
+     * @param requestCount
+     *            The amount of pending requests.
+     * 
      * @return Text indicating there are pending requests for the active user (in singular).
      */
     @UseKey
     String userRequestsSingular(int requestCount);
 
     /**
-     * @param requestCount The amount of pending requests.
+     * @param requestCount
+     *            The amount of pending requests.
+     * 
      * @return Text indicating there are pending requests for the active user (in plural).
      */
     @UseKey

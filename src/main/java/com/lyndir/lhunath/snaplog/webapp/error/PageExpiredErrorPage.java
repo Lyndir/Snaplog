@@ -15,22 +15,19 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.error;
 
-import com.lyndir.lhunath.snaplog.webapp.page.MessagePage;
 import org.apache.wicket.markup.html.panel.Panel;
+
+import com.lyndir.lhunath.snaplog.webapp.page.MessagePage;
 
 
 /**
  * <h2>{@link PageExpiredErrorPage}<br>
- * <sub>[in short] (TODO).</sub></h2>
- *
- * <p>
- * [description / usage].
- * </p>
- *
+ * <sub>Page that shows up when the user navigates to a page when his session timeout has expired.</sub></h2>
+ * 
  * <p>
  * <i>Jun 10, 2009</i>
  * </p>
- *
+ * 
  * @author lhunath
  */
 public class PageExpiredErrorPage extends MessagePage {

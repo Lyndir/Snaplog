@@ -22,12 +22,12 @@ import com.lyndir.lhunath.snaplog.data.Media;
 /**
  * <h2>{@link S3Media}<br>
  * <sub>{@link Media} whose data is provided by Amazon's S3.</sub></h2>
- *
- *
+ * 
+ * 
  * <p>
  * <i>Jan 9, 2010</i>
  * </p>
- *
+ * 
  * @author lhunath
  */
 public class S3Media extends Media {

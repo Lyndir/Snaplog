@@ -27,27 +27,29 @@ import com.google.common.collect.ImmutableList;
 /**
  * <h2>{@link Album}<br>
  * <sub>[in short] (TODO).</sub></h2>
- *
+ * 
  * <p>
  * [description / usage].
  * </p>
- *
+ * 
  * <p>
  * <i>Jan 9, 2010</i>
  * </p>
- *
+ * 
  * @author lhunath
  */
 public abstract class Album implements Serializable {
 
-    private User user;
-    private String name;
+    private User              user;
+    private String            name;
     private LinkedList<Media> media;
 
 
     /**
-     * @param user The user that owns this Album.
-     * @param name A unique, user-visible name of this Album amoungst the user's albums. 
+     * @param user
+     *            The user that owns this Album.
+     * @param name
+     *            A unique, user-visible name of this Album amoungst the user's albums.
      */
     protected Album(User user, String name) {
 
@@ -64,7 +66,8 @@ public abstract class Album implements Serializable {
     }
 
     /**
-     * @param user The user of this {@link Album}.
+     * @param user
+     *            The user of this {@link Album}.
      */
     public void setUser(User user) {
 
@@ -80,7 +83,8 @@ public abstract class Album implements Serializable {
     }
 
     /**
-     * @param name The name of this {@link Album}.
+     * @param name
+     *            The name of this {@link Album}.
      */
     public void setName(String name) {
 
@@ -96,7 +100,8 @@ public abstract class Album implements Serializable {
     }
 
     /**
-     * @param media The media of this {@link Album}.
+     * @param media
+     *            The media of this {@link Album}.
      */
     public void setMedia(LinkedList<Media> media) {
 
@@ -114,7 +119,7 @@ public abstract class Album implements Serializable {
 
         if (o instanceof Album)
             return Objects.equal( ((Album) o).getUser(), getUser() )
-               && Objects.equal( ((Album) o).getName(), getName() );
+                   && Objects.equal( ((Album) o).getName(), getName() );
 
         return false;
     }
