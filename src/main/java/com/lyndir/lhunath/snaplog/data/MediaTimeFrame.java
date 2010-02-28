@@ -15,6 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.data;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -33,7 +34,7 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
 
 /**
  * <h2>{@link MediaTimeFrame}<br>
- * <sub>A time span with an offset that groups a chronicological range of media.</sub></h2>
+ * <sub>A time span with an offset that groups a chronological range of media.</sub></h2>
  * 
  * <p>
  * {@link MediaTimeFrame}s are spans of time of a certain {@link Type} that span an amount of time defined by the type
@@ -46,7 +47,7 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
  * 
  * @author lhunath
  */
-public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<MediaTimeFrame> {
+public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<MediaTimeFrame>, Serializable {
 
     private static final Logger              logger = Logger.get( MediaTimeFrame.class );
 

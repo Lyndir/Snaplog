@@ -21,7 +21,9 @@ import org.apache.wicket.protocol.http.WebSession;
 
 import com.google.common.base.Objects;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.User;
+import com.lyndir.lhunath.snaplog.webapp.tabs.Tabs;
 
 
 /**
@@ -43,6 +45,8 @@ public class SnaplogSession extends WebSession {
     private static final Logger logger = Logger.get( SnaplogSession.class );
 
     private User                activeUser;
+    private Tabs                activeTab;
+    private Album               activeAlbum;
 
 
     /**
@@ -85,5 +89,39 @@ public class SnaplogSession extends WebSession {
                     getActiveUser(), activeUser );
 
         this.activeUser = activeUser;
+    }
+
+    /**
+     * @return The activeTab of this {@link SnaplogSession}.
+     */
+    public Tabs getActiveTab() {
+
+        return activeTab;
+    }
+
+    /**
+     * @param activeTab
+     *            The activeTab of this {@link SnaplogSession}.
+     */
+    public void setActiveTab(Tabs activeTab) {
+
+        this.activeTab = activeTab;
+    }
+
+    /**
+     * @return The activeAlbum of this {@link SnaplogSession}.
+     */
+    public Album getActiveAlbum() {
+
+        return activeAlbum;
+    }
+
+    /**
+     * @param activeAlbum
+     *            The activeAlbum of this {@link SnaplogSession}.
+     */
+    public void setActiveAlbum(Album activeAlbum) {
+
+        this.activeAlbum = activeAlbum;
     }
 }

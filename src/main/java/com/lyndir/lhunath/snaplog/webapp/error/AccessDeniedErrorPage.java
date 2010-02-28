@@ -32,10 +32,12 @@ import com.lyndir.lhunath.snaplog.webapp.page.MessagePage;
  */
 public class AccessDeniedErrorPage extends MessagePage {
 
-    @Override
-    protected Panel getDefaultPanel(String wicketId) {
+    /**
+     * Create a new {@link AccessDeniedErrorPage} instance.
+     */
+    public AccessDeniedErrorPage() {
 
-        return new AccessDeniedErrorPanel( wicketId );
+        addOrReplace( new AccessDeniedErrorPanel( "contentPanel" ) );
     }
 
 

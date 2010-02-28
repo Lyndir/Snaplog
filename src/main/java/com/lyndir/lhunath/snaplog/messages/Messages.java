@@ -21,6 +21,8 @@ import com.lyndir.lhunath.lib.system.localization.UseLocalizationProvider;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogWebApplication;
 import com.lyndir.lhunath.snaplog.webapp.tabs.AdministrationTab;
 import com.lyndir.lhunath.snaplog.webapp.tabs.AlbumTab;
+import com.lyndir.lhunath.snaplog.webapp.tabs.DesktopTab;
+import com.lyndir.lhunath.snaplog.webapp.tabs.GalleryTab;
 import com.lyndir.lhunath.snaplog.webapp.tabs.WorkbenchTab;
 
 
@@ -37,6 +39,18 @@ import com.lyndir.lhunath.snaplog.webapp.tabs.WorkbenchTab;
  */
 @UseLocalizationProvider(WicketLocalizationProvider.class)
 public interface Messages {
+
+    /**
+     * @return Text on the interface tab to activate the {@link DesktopTab}.
+     */
+    @UseKey
+    String desktopTab();
+
+    /**
+     * @return Text on the interface tab to activate the {@link GalleryTab}.
+     */
+    @UseKey
+    String galleryTab();
 
     /**
      * @return Text on the interface tab to activate the {@link AlbumTab}.

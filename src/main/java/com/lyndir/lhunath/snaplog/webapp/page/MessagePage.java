@@ -15,11 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.page;
 
-import java.text.MessageFormat;
-
 import org.apache.wicket.RedirectToUrlException;
-import org.apache.wicket.behavior.HeaderContributor;
-import org.apache.wicket.behavior.StringHeaderContributor;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 
@@ -45,9 +41,16 @@ public class MessagePage extends LayoutPage {
      */
     public MessagePage() {
 
-        add( new HeaderContributor( new StringHeaderContributor(
-                MessageFormat.format( "<meta http-equiv=\"refresh\" content=\"{0};url={1}\" />", getRedirectDelay(),
-                                      getRedirectUrl() ) ) ) );
+    // add( new HeaderContributor( new StringHeaderContributor(
+    // MessageFormat.format( "<meta http-equiv=\"refresh\" content=\"{0};url={1}\" />", getRedirectDelay(),
+    // getRedirectUrl() ) ) ) );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    protected void onBeforeRender() {
 
         ((Panel) get( "contentPanel" )).add( new Link<String>( "redirectLink" ) {
 
@@ -57,6 +60,8 @@ public class MessagePage extends LayoutPage {
                 throw new RedirectToUrlException( getRedirectUrl() );
             }
         } );
+
+        super.onBeforeRender();
     }
 
     /**

@@ -16,8 +16,12 @@
 package com.lyndir.lhunath.snaplog.webapp.tabs;
 
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.AbstractReadOnlyModel;
+import org.apache.wicket.model.IModel;
 
-import com.lyndir.lhunath.snaplog.webapp.JavaScriptProvider;
+import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
+import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.snaplog.messages.Messages;
 
 
 /**
@@ -34,25 +38,43 @@ import com.lyndir.lhunath.snaplog.webapp.JavaScriptProvider;
  * 
  * @author lhunath
  */
-public class AdministrationTab extends Panel implements JavaScriptProvider {
+public class AdministrationTab implements Tab {
+
+    static final Logger logger = Logger.get( AdministrationTab.class );
+    Messages            msgs   = LocalizerFactory.getLocalizer( Messages.class, this );
+
 
     /**
      * {@inheritDoc}
-     * 
-     * @param id
-     *            The wicket ID of the tab.
      */
-    public AdministrationTab(String id) {
+    @Override
+    public IModel<String> getTitle() {
 
-        super( id );
+        return new AbstractReadOnlyModel<String>() {
+
+            @Override
+            public String getObject() {
+
+                return msgs.administrationTab();
+            }
+        };
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public String getProvidedJavaScript() {
+    public Panel getPanel(String panelId) {
 
-        return null;
+        return new Panel( panelId );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public boolean isVisible() {
+
+        return false;
     }
 }

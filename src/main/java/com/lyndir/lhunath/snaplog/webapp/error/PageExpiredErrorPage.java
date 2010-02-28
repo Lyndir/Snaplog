@@ -32,10 +32,12 @@ import com.lyndir.lhunath.snaplog.webapp.page.MessagePage;
  */
 public class PageExpiredErrorPage extends MessagePage {
 
-    @Override
-    protected Panel getDefaultPanel(String wicketId) {
+    /**
+     * Create a new {@link PageExpiredErrorPage} instance.
+     */
+    public PageExpiredErrorPage() {
 
-        return new PageExpiredErrorPanel( wicketId );
+        addOrReplace( new PageExpiredErrorPanel( "contentPanel" ) );
     }
 
 

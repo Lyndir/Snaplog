@@ -9,6 +9,8 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
@@ -18,6 +20,7 @@ import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.MediaTimeFrame;
 import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
+import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 
 
 /**
@@ -39,8 +42,28 @@ public class TimelineView extends GenericPanel<Album> {
 
 
     /**
-     * {@inheritDoc}
-     * 
+     * @param id
+     *            The wicket ID of the tab.
+     */
+    public TimelineView(String id) {
+
+        this( id, new Model<Album>() {
+
+            @Override
+            public Album getObject() {
+
+                return SnaplogSession.get().getActiveAlbum();
+            }
+
+            @Override
+            public void setObject(Album album) {
+
+                SnaplogSession.get().setActiveAlbum( album );
+            }
+        } );
+    }
+
+    /**
      * @param id
      *            The wicket ID of the tab.
      * @param albumModel
@@ -50,14 +73,23 @@ public class TimelineView extends GenericPanel<Album> {
 
         super( id, albumModel );
 
-        add( new ListView<MediaTimeFrame>( "years", new AbstractReadOnlyModel<List<MediaTimeFrame>>() {
+        add( new ListView<MediaTimeFrame>( "years", new LoadableDetachableModel<List<MediaTimeFrame>>() {
 
             @Override
-            public List<MediaTimeFrame> getObject() {
+            protected List<MediaTimeFrame> load() {
+
+                if (getModelObject() == null)
+                    return null;
 
                 return albumService.getYears( getModelObject() );
             }
         } ) {
+
+            @Override
+            public boolean isVisible() {
+
+                return getModelObject() != null;
+            }
 
             @Override
             protected void populateItem(ListItem<MediaTimeFrame> yearItem) {

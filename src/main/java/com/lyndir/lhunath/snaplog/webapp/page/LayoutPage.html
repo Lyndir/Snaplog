@@ -56,8 +56,8 @@
                     <wicket:message key="userLogout" />
                 </a>
             </p>
-            <ul wicket:id="headTabsContainer" class="tabs">
-                <li wicket:id="headTabs">
+            <ul wicket:id="tabsContainer" class="tabs">
+                <li wicket:id="tabs">
                     <a wicket:id="link">
                         <span wicket:id="title">[Tab]</span>
                     </a>
@@ -65,8 +65,8 @@
             </ul>
         </div>
 
-        <div class="container">
-            <div wicket:id="contentPanel" class="span-24 prepend-top">[Tab Contents]</div>
+        <div class="container" wicket:id="container">
+            <div wicket:id="tabPanel" class="span-24 prepend-top">[Tab Contents]</div>
         </div>
     </body>
 

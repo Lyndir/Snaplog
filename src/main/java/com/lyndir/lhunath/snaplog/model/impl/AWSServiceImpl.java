@@ -15,6 +15,8 @@
  */
 package com.lyndir.lhunath.snaplog.model.impl;
 
+import org.jets3t.service.Constants;
+import org.jets3t.service.Jets3tProperties;
 import org.jets3t.service.S3Service;
 import org.jets3t.service.S3ServiceException;
 import org.jets3t.service.impl.rest.httpclient.RestS3Service;
@@ -51,7 +53,9 @@ public class AWSServiceImpl implements AWSService {
             throws S3ServiceException {
 
         AWSCredentials awsCredentials = new AWSCredentials( ACCESS_KEY, SECRET_KEY );
-        return new RestS3Service( awsCredentials, "Snaplog.net", null );
+        Jets3tProperties properties = Jets3tProperties.getInstance( Constants.JETS3T_PROPERTIES_FILENAME );
+        properties.setProperty( "s3service.https-only", Boolean.FALSE.toString() );
+        return new RestS3Service( awsCredentials, "Snaplog.net", null, properties );
     }
 
     /**

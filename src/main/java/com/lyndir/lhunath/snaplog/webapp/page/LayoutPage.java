@@ -1,8 +1,7 @@
 package com.lyndir.lhunath.snaplog.webapp.page;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import net.link.safeonline.wicket.component.linkid.LinkIDLoginLink;
@@ -10,34 +9,26 @@ import net.link.safeonline.wicket.component.linkid.LinkIDLogoutLink;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.behavior.StringHeaderContributor;
-import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
-import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.MarkupStream;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.util.template.JavaScriptTemplate;
 import org.apache.wicket.util.template.PackagedTextTemplate;
-import org.apache.wicket.util.template.TextTemplate;
 
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.snaplog.data.User;
 import com.lyndir.lhunath.snaplog.messages.Messages;
-import com.lyndir.lhunath.snaplog.webapp.JavaScriptProvider;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.cookie.LastUserCookieManager;
-import com.lyndir.lhunath.snaplog.webapp.tabs.AdministrationTab;
-import com.lyndir.lhunath.snaplog.webapp.tabs.AlbumTab;
-import com.lyndir.lhunath.snaplog.webapp.tabs.WorkbenchTab;
+import com.lyndir.lhunath.snaplog.webapp.tabs.Tabs;
 
 
 /**
@@ -56,61 +47,10 @@ public class LayoutPage extends WebPage {
 
     final Messages            msgs             = LocalizerFactory.getLocalizer( Messages.class, this );
 
-    final List<ITab>          headTabsList;
-
-    {
-        headTabsList = new ArrayList<ITab>( 2 );
-        headTabsList.add( new AbstractTab( new AbstractReadOnlyModel<String>() {
-
-            @Override
-            public String getObject() {
-
-                return msgs.albumTab();
-            }
-        } ) {
-
-            @Override
-            public Panel getPanel(String wicketId) {
-
-                return new AlbumTab( wicketId );
-            }
-        } );
-        headTabsList.add( new AbstractTab( new AbstractReadOnlyModel<String>() {
-
-            @Override
-            public String getObject() {
-
-                return msgs.workbenchTab();
-            }
-        } ) {
-
-            @Override
-            public Panel getPanel(String wicketId) {
-
-                return new WorkbenchTab( wicketId );
-            }
-        } );
-        headTabsList.add( new AbstractTab( new AbstractReadOnlyModel<String>() {
-
-            @Override
-            public String getObject() {
-
-                return msgs.administrationTab();
-            }
-        } ) {
-
-            @Override
-            public Panel getPanel(String wicketId) {
-
-                return new AdministrationTab( wicketId );
-            }
-        } );
-    }
-
-    int                       selectedTabIndex;
     WebMarkupContainer        userEntry;
     WebMarkupContainer        userSummary;
-    WebMarkupContainer        headTabsContainer;
+    WebMarkupContainer        tabsContainer;
+    WebMarkupContainer        container;
 
     // TODO: Unhardcode.
     int                       messageCount     = 1;
@@ -121,9 +61,6 @@ public class LayoutPage extends WebPage {
      * {@inheritDoc}
      */
     public LayoutPage() {
-
-        if (headTabsList == null || headTabsList.isEmpty())
-            throw new IllegalArgumentException( "headTabsList must not be null or empty." );
 
         // Page Title.
         Label pageTitle = new Label( "pageTitle", getPageTitle() );
@@ -214,131 +151,74 @@ public class LayoutPage extends WebPage {
         userSummary.add( new LinkIDLogoutLink( "userLogout" ) );
 
         // Page Tabs.
-        headTabsContainer = new WebMarkupContainer( "headTabsContainer" );
-        ListView<ITab> headTabs = new ListView<ITab>( "headTabs", headTabsList ) {
+        tabsContainer = new WebMarkupContainer( "tabsContainer" );
+        ListView<Tabs> headTabs = new ListView<Tabs>( "tabs", Arrays.asList( Tabs.values() ) ) {
 
             @Override
-            protected void populateItem(ListItem<ITab> item) {
+            protected void populateItem(ListItem<Tabs> item) {
 
-                final ITab headTab = item.getModelObject();
+                item.add( new AjaxLink<Tabs>( "link", item.getModel() ) {
 
-                Link<String> link = new AjaxFallbackLink<String>( "link" ) {
+                    {
+                        add( new Label( "title", getModelObject().getTab().getTitle() ) );
+                    }
+
 
                     @Override
                     public void onClick(AjaxRequestTarget target) {
 
                         // TAB click.
-                        selectedTabIndex = headTabsList.indexOf( headTab );
-                        Panel contentPanel = headTab.getPanel( "contentPanel" );
-                        contentPanel.setOutputMarkupId( true );
+                        SnaplogSession.get().setActiveTab( getModelObject() );
 
-                        // OnShowJavaScript
-                        String panelJs = null;
-                        if (contentPanel instanceof JavaScriptProvider)
-                            panelJs = ((JavaScriptProvider) contentPanel).getProvidedJavaScript();
-                        Map<String, Object> trackPanelVariables = new HashMap<String, Object>();
-                        trackPanelVariables.put( "pageView", contentPanel.getClass().getSimpleName() );
-                        final String trackPanelJs = new JavaScriptTemplate( new PackagedTextTemplate( LayoutPage.class,
-                                "trackPage.js" ) ).asString( trackPanelVariables );
+                        final String trackPanelJs = newActiveTabTrackJS();
 
-                        LayoutPage.this.addOrReplace( contentPanel );
-
-                        if (target != null) {
-                            // AJAX Support
-                            target.addComponent( contentPanel );
-                            target.addComponent( headTabsContainer );
-
-                            if (panelJs != null)
-                                target.appendJavascript( panelJs );
-                            target.appendJavascript( "Shadowbox.setup();" );
-                            target.appendJavascript( trackPanelJs );
-
-                        } else {
-                            // No AJAX Support
-                            final String jsTemplate = panelJs;
-
-                            add( new StringHeaderContributor( new JavaScriptTemplate( new TextTemplate() {
-
-                                @Override
-                                public TextTemplate interpolate(Map<String, Object> variables) {
-
-                                    return this;
-                                }
-
-                                @Override
-                                public String getString() {
-
-                                    return jsTemplate + "\n\n" + trackPanelJs;
-                                }
-                            } ).asString() ) );
-                        }
+                        target.addComponent( container );
+                        target.addComponent( tabsContainer );
+                        target.appendJavascript( trackPanelJs );
                     }
-                };
-
-                item.add( link );
-                link.add( new Label( "title", headTab.getTitle() ) );
+                } );
             }
 
             @Override
-            protected ListItem<ITab> newItem(final int index) {
+            protected ListItem<Tabs> newItem(final int index) {
 
-                return new ListItem<ITab>( index, getListItemModel( getModel(), index ) ) {
+                return new ListItem<Tabs>( index, getListItemModel( getModel(), index ) ) {
 
                     @Override
                     protected void onComponentTag(ComponentTag tag) {
 
                         super.onComponentTag( tag );
-                        if (index == selectedTabIndex)
+
+                        if (getModelObject() == SnaplogSession.get().getActiveTab())
                             tag.put( "class", "active" );
                     }
                 };
             }
         };
-        headTabsContainer.add( headTabs );
-        headTabsContainer.setOutputMarkupId( true );
+        tabsContainer.add( headTabs );
+        tabsContainer.setOutputMarkupId( true );
 
         // Page Content.
-        Panel contentPanel = getDefaultPanel( "contentPanel" );
-        contentPanel.setOutputMarkupId( true );
+        add( (container = new WebMarkupContainer( "container" ) {
+
+            @Override
+            protected void onBeforeRender() {
+
+                // Find the active tab.
+                Tabs activeTab = SnaplogSession.get().getActiveTab();
+                if (activeTab == null)
+                    SnaplogSession.get().setActiveTab( activeTab = Tabs.DESKTOP );
+
+                // Add/replace it in the layout.
+                addOrReplace( activeTab.getTab().getPanel( "contentPanel" ) );
+                add( new StringHeaderContributor( newActiveTabTrackJS() ) );
+
+                super.onBeforeRender();
+            }
+        }).setOutputMarkupId( true ) );
 
         // Page Tracking.
-        Map<String, Object> trackPageVariables = new HashMap<String, Object>();
-        trackPageVariables.put( "pageView", contentPanel.getClass().getSimpleName() );
-        add( new StringHeaderContributor( new JavaScriptTemplate( new PackagedTextTemplate( LayoutPage.class,
-                "trackPage.js" ) ).asString( trackPageVariables ) ) );
-
-        // OnShowJavaScript
-        String js = null;
-        if (contentPanel instanceof JavaScriptProvider)
-            js = ((JavaScriptProvider) contentPanel).getProvidedJavaScript();
-        final String jsTemplate = js;
-        add( new StringHeaderContributor( new JavaScriptTemplate( new TextTemplate() {
-
-            @Override
-            public TextTemplate interpolate(Map<String, Object> variables) {
-
-                return this;
-            }
-
-            @Override
-            public String getString() {
-
-                return jsTemplate;
-            }
-        } ).asString() ) );
-
-        add( pageTitle, userEntry, userSummary, headTabsContainer, contentPanel );
-    }
-
-    /**
-     * @param wicketId
-     *            The wicket ID that the panel should have.
-     * 
-     * @return The {@link Panel} to show as the content before any tabs have been selected.
-     */
-    protected Panel getDefaultPanel(String wicketId) {
-
-        return headTabsList.get( 0 ).getPanel( wicketId );
+        add( pageTitle, userEntry, userSummary, tabsContainer );
     }
 
     /**
@@ -353,4 +233,13 @@ public class LayoutPage extends WebPage {
 
         return msgs.pageTitle( user.getBadge(), user.getUserName() );
     }
+
+    String newActiveTabTrackJS() {
+
+        Map<String, Object> trackPanelVariables = new HashMap<String, Object>();
+        trackPanelVariables.put( "pageView", SnaplogSession.get().getActiveTab().getTab().getClass().getSimpleName() );
+        final String trackPanelJs = new JavaScriptTemplate( new PackagedTextTemplate( LayoutPage.class, "trackPage.js" ) ).asString( trackPanelVariables );
+        return trackPanelJs;
+    }
+
 }

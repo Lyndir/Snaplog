@@ -13,36 +13,22 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.data.aws;
-
-import com.lyndir.lhunath.snaplog.data.Album;
-import com.lyndir.lhunath.snaplog.data.User;
-
+package com.lyndir.lhunath.snaplog.webapp.tabs;
 
 /**
- * <h2>{@link S3Album}<br>
+ * <h2>{@link TabProvider}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
- * [description / usage].
- * </p>
- * 
- * <p>
- * <i>Jan 10, 2010</i>
+ * <i>Feb 28, 2010</i>
  * </p>
  * 
  * @author lhunath
  */
-public class S3Album extends Album {
+public interface TabProvider {
 
     /**
-     * @param user
-     *            The user that owns this Album.
-     * @param name
-     *            A unique, user-visible name of this Album amongst the user's albums.
+     * @return The {@link Tab} that describes the UI elements of this tab.
      */
-    public S3Album(User user, String name) {
-
-        super( user, name );
-    }
+    public Tab getTab();
 }

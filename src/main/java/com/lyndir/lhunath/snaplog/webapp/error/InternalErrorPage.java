@@ -32,10 +32,12 @@ import com.lyndir.lhunath.snaplog.webapp.page.MessagePage;
  */
 public class InternalErrorPage extends MessagePage {
 
-    @Override
-    protected Panel getDefaultPanel(String wicketId) {
+    /**
+     * Create a new {@link InternalErrorPage} instance.
+     */
+    public InternalErrorPage() {
 
-        return new InternalErrorPanel( wicketId );
+        addOrReplace( new InternalErrorPanel( "contentPanel" ) );
     }
 
 

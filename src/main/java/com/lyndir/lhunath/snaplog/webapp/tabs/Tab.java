@@ -1,5 +1,5 @@
 /*
- *   Copyright 2009, Maarten Billemont
+ *   Copyright 2010, Maarten Billemont
  *
  *   Licensed under the Apache License, Version 2.0 (the "License");
  *   you may not use this file except in compliance with the License.
@@ -13,27 +13,21 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.webapp;
+package com.lyndir.lhunath.snaplog.webapp.tabs;
+
+import org.apache.wicket.extensions.markup.html.tabs.ITab;
+
 
 /**
- * <h2>{@link JavaScriptProvider}<br>
+ * <h2>{@link Tab}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
- * [description / usage].
- * </p>
- * 
- * <p>
- * <i>Jun 11, 2009</i>
+ * <i>Feb 28, 2010</i>
  * </p>
  * 
  * @author lhunath
  */
-public interface JavaScriptProvider {
+public interface Tab extends ITab {
 
-    /**
-     * @return A string of JavaScript code that should be evaluated by the browser whenever the implementing class is
-     *         used.
-     */
-    String getProvidedJavaScript();
 }

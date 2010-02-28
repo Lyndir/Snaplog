@@ -14,7 +14,6 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -23,6 +22,7 @@ import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.snaplog.data.Media;
 import com.lyndir.lhunath.snaplog.data.Media.Quality;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
@@ -40,7 +40,7 @@ import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
  * 
  * @author lhunath
  */
-public class BrowserView extends Panel {
+public class BrowserView extends GenericPanel<Date> {
 
     static final Logger logger              = Logger.get( BrowserView.class );
 
@@ -57,6 +57,17 @@ public class BrowserView extends Panel {
      * 
      * @param id
      *            The wicket ID to put this component in the HTML.
+     */
+    public BrowserView(String id) {
+
+        this( id, new Model<Date>() );
+    }
+
+    /**
+     * Create a new {@link BrowserView} instance.
+     * 
+     * @param id
+     *            The wicket ID to put this component in the HTML.
      * @param currentTimeModel
      *            The model contains the {@link Date} upon which the browser should focus. The first image on or past
      *            this date will be the focussed image.
@@ -66,7 +77,7 @@ public class BrowserView extends Panel {
         super( id, currentTimeModel );
         setOutputMarkupId( true );
 
-        add( new BrowserListView( "photos", currentTimeModel ) );
+        add( new BrowserListView( "photos" ) );
     }
 
 
@@ -82,14 +93,9 @@ public class BrowserView extends Panel {
      */
     private final class BrowserListView extends ListView<Media> {
 
-        IModel<Date> currentTimeModel;
+        BrowserListView(String id) {
 
-
-        BrowserListView(String id, IModel<Date> currentTimeModel) {
-
-            super( id, new BrowserFilesModel( currentTimeModel ) );
-
-            this.currentTimeModel = currentTimeModel;
+            super( id, new BrowserFilesModel() );
         }
 
         @Override
@@ -112,7 +118,7 @@ public class BrowserView extends Panel {
                         @Override
                         public void onClick(AjaxRequestTarget target) {
 
-                            currentTimeModel.setObject( new Date( shotTime ) );
+                            BrowserView.this.setModelObject( new Date( shotTime ) );
                             target.addComponent( BrowserView.this );
                         }
                     };
@@ -144,16 +150,11 @@ public class BrowserView extends Panel {
      */
     private final class BrowserFilesModel extends AbstractReadOnlyModel<List<Media>> {
 
-        private final IModel<Date> currentTimeModel;
-
-
         /**
-         * @param currentTimeModel
-         *            The time of the media the browser should focus on.
+         * Create a new {@link BrowserFilesModel} instance.
          */
-        BrowserFilesModel(IModel<Date> currentTimeModel) {
+        BrowserFilesModel() {
 
-            this.currentTimeModel = currentTimeModel;
         }
 
         @Override
@@ -178,7 +179,7 @@ public class BrowserView extends Panel {
                 Media nextFile = it.next();
                 files.put( nextFile, null );
 
-                if (nextFile.shotTime() < currentTimeModel.getObject().getTime())
+                if (getModelObject() != null && nextFile.shotTime() < getModelObject().getTime())
                     break;
 
                 currentFile = nextFile;

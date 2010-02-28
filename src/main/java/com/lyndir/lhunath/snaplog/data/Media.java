@@ -200,7 +200,7 @@ public abstract class Media implements Comparable<Media>, Serializable {
         /**
          * Media quality fit for giving a hint on what the media is about.
          */
-        THUMBNAIL( "thumbnail", 150, 100, 0.7f );
+        THUMBNAIL( "thumbnail", 150, 100, 0.75f );
 
         private final String name;
         private final int    maxWidth;

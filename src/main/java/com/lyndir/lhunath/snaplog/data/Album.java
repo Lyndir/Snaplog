@@ -18,10 +18,8 @@ package com.lyndir.lhunath.snaplog.data;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.Serializable;
-import java.util.LinkedList;
 
 import com.google.common.base.Objects;
-import com.google.common.collect.ImmutableList;
 
 
 /**
@@ -40,16 +38,15 @@ import com.google.common.collect.ImmutableList;
  */
 public abstract class Album implements Serializable {
 
-    private User              user;
-    private String            name;
-    private LinkedList<Media> media;
+    private User   user;
+    private String name;
 
 
     /**
      * @param user
      *            The user that owns this Album.
      * @param name
-     *            A unique, user-visible name of this Album amoungst the user's albums.
+     *            A unique, user-visible name of this Album amongst the user's albums.
      */
     protected Album(User user, String name) {
 
@@ -89,23 +86,6 @@ public abstract class Album implements Serializable {
     public void setName(String name) {
 
         this.name = checkNotNull( name );
-    }
-
-    /**
-     * @return The media of this {@link Album}.
-     */
-    public ImmutableList<Media> getMedia() {
-
-        return ImmutableList.copyOf( media );
-    }
-
-    /**
-     * @param media
-     *            The media of this {@link Album}.
-     */
-    public void setMedia(LinkedList<Media> media) {
-
-        this.media = checkNotNull( media );
     }
 
     /**

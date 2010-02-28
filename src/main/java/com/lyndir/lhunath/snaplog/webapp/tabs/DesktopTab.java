@@ -22,16 +22,15 @@ import org.apache.wicket.model.IModel;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.messages.Messages;
-import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
-import com.lyndir.lhunath.snaplog.webapp.components.AccessView;
-import com.lyndir.lhunath.snaplog.webapp.components.BrowserView;
-import com.lyndir.lhunath.snaplog.webapp.components.TagsView;
-import com.lyndir.lhunath.snaplog.webapp.components.TimelineView;
 
 
 /**
- * <h2>{@link AlbumTab}<br>
- * <sub>The interface panel for browsing through the album content.</sub></h2>
+ * <h2>{@link DesktopTab}<br>
+ * <sub>[in short] (TODO).</sub></h2>
+ * 
+ * <p>
+ * [description / usage].
+ * </p>
  * 
  * <p>
  * <i>May 31, 2009</i>
@@ -39,9 +38,9 @@ import com.lyndir.lhunath.snaplog.webapp.components.TimelineView;
  * 
  * @author lhunath
  */
-public class AlbumTab implements Tab {
+public class DesktopTab implements Tab {
 
-    static final Logger logger = Logger.get( AlbumTab.class );
+    static final Logger logger = Logger.get( DesktopTab.class );
     Messages            msgs   = LocalizerFactory.getLocalizer( Messages.class, this );
 
 
@@ -56,7 +55,7 @@ public class AlbumTab implements Tab {
             @Override
             public String getObject() {
 
-                return msgs.albumTab();
+                return msgs.desktopTab();
             }
         };
     }
@@ -67,22 +66,7 @@ public class AlbumTab implements Tab {
     @Override
     public Panel getPanel(String panelId) {
 
-        return new Panel( panelId ) {
-
-            {
-                // Browser
-                add( new BrowserView( "browser" ) );
-
-                // Timeline.
-                add( new TimelineView( "timelinePopup" ) );
-
-                // Tags.
-                add( new TagsView( "tagsPopup" ) );
-
-                // Access.
-                add( new AccessView( "accessPopup" ) );
-            }
-        };
+        return new Panel( panelId );
     }
 
     /**
@@ -91,6 +75,6 @@ public class AlbumTab implements Tab {
     @Override
     public boolean isVisible() {
 
-        return SnaplogSession.get().getActiveAlbum() != null;
+        return false;
     }
 }
