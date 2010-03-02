@@ -45,7 +45,7 @@ public class SnaplogSession extends WebSession {
     private static final Logger logger = Logger.get( SnaplogSession.class );
 
     private User                activeUser;
-    private Tab                activeTab;
+    private Tab                 activeTab;
     private Album               activeAlbum;
 
 
