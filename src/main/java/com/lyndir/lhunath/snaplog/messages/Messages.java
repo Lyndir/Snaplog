@@ -19,11 +19,6 @@ import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.localization.UseKey;
 import com.lyndir.lhunath.lib.system.localization.UseLocalizationProvider;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogWebApplication;
-import com.lyndir.lhunath.snaplog.webapp.tabs.AdministrationTab;
-import com.lyndir.lhunath.snaplog.webapp.tabs.AlbumTab;
-import com.lyndir.lhunath.snaplog.webapp.tabs.DesktopTab;
-import com.lyndir.lhunath.snaplog.webapp.tabs.GalleryTab;
-import com.lyndir.lhunath.snaplog.webapp.tabs.WorkbenchTab;
 
 
 /**

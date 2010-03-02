@@ -17,6 +17,7 @@ package com.lyndir.lhunath.snaplog.messages;
 
 import org.apache.wicket.Application;
 import org.apache.wicket.Component;
+import org.apache.wicket.RequestCycle;
 
 import com.lyndir.lhunath.lib.system.localization.LocalizationProvider;
 
@@ -43,6 +44,10 @@ public class WicketLocalizationProvider implements LocalizationProvider {
     @Override
     public String getValueForKeyInContext(String key, Object context) {
 
-        return Application.get().getResourceSettings().getLocalizer().getString( key, (Component) context );
+        Component component = (Component) context;
+        if (component == null)
+            component = RequestCycle.get().getResponsePage();
+
+        return Application.get().getResourceSettings().getLocalizer().getString( key, component );
     }
 }

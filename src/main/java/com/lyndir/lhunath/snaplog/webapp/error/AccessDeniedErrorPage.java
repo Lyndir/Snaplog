@@ -37,7 +37,7 @@ public class AccessDeniedErrorPage extends MessagePage {
      */
     public AccessDeniedErrorPage() {
 
-        addOrReplace( new AccessDeniedErrorPanel( "contentPanel" ) );
+        addOrReplace( new AccessDeniedErrorPanel( CONTENT_PANEL ) );
     }
 
 

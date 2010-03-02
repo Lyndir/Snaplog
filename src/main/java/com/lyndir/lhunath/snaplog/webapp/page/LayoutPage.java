@@ -28,7 +28,7 @@ import com.lyndir.lhunath.snaplog.data.User;
 import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.cookie.LastUserCookieManager;
-import com.lyndir.lhunath.snaplog.webapp.tabs.Tabs;
+import com.lyndir.lhunath.snaplog.webapp.tabs.Tab;
 
 
 /**
@@ -43,18 +43,18 @@ import com.lyndir.lhunath.snaplog.webapp.tabs.Tabs;
  */
 public class LayoutPage extends WebPage {
 
-    private static final long serialVersionUID = 1L;
+    protected static final String CONTENT_PANEL = "contentPanel";
 
-    final Messages            msgs             = LocalizerFactory.getLocalizer( Messages.class, this );
+    final Messages                msgs          = LocalizerFactory.getLocalizer( Messages.class, this );
 
-    WebMarkupContainer        userEntry;
-    WebMarkupContainer        userSummary;
-    WebMarkupContainer        tabsContainer;
-    WebMarkupContainer        container;
+    WebMarkupContainer            userEntry;
+    WebMarkupContainer            userSummary;
+    WebMarkupContainer            tabsContainer;
+    WebMarkupContainer            container;
 
     // TODO: Unhardcode.
-    int                       messageCount     = 1;
-    int                       requestCount     = 1;
+    int                           messageCount  = 1;
+    int                           requestCount  = 1;
 
 
     /**
@@ -150,14 +150,14 @@ public class LayoutPage extends WebPage {
         } );
         userSummary.add( new LinkIDLogoutLink( "userLogout" ) );
 
-        // Page Tabs.
+        // Page Tab.
         tabsContainer = new WebMarkupContainer( "tabsContainer" );
-        ListView<Tabs> headTabs = new ListView<Tabs>( "tabs", Arrays.asList( Tabs.values() ) ) {
+        ListView<Tab> headTabs = new ListView<Tab>( "tabs", Arrays.asList( Tab.values() ) ) {
 
             @Override
-            protected void populateItem(ListItem<Tabs> item) {
+            protected void populateItem(ListItem<Tab> item) {
 
-                item.add( new AjaxLink<Tabs>( "link", item.getModel() ) {
+                item.add( new AjaxLink<Tab>( "link", item.getModel() ) {
 
                     {
                         add( new Label( "title", getModelObject().getTab().getTitle() ) );
@@ -180,9 +180,9 @@ public class LayoutPage extends WebPage {
             }
 
             @Override
-            protected ListItem<Tabs> newItem(final int index) {
+            protected ListItem<Tab> newItem(final int index) {
 
-                return new ListItem<Tabs>( index, getListItemModel( getModel(), index ) ) {
+                return new ListItem<Tab>( index, getListItemModel( getModel(), index ) ) {
 
                     @Override
                     protected void onComponentTag(ComponentTag tag) {
@@ -205,12 +205,12 @@ public class LayoutPage extends WebPage {
             protected void onBeforeRender() {
 
                 // Find the active tab.
-                Tabs activeTab = SnaplogSession.get().getActiveTab();
+                Tab activeTab = SnaplogSession.get().getActiveTab();
                 if (activeTab == null)
-                    SnaplogSession.get().setActiveTab( activeTab = Tabs.DESKTOP );
+                    SnaplogSession.get().setActiveTab( activeTab = Tab.DESKTOP );
 
                 // Add/replace it in the layout.
-                addOrReplace( activeTab.getTab().getPanel( "contentPanel" ) );
+                addOrReplace( activeTab.getTab().getPanel( CONTENT_PANEL ) );
                 add( new StringHeaderContributor( newActiveTabTrackJS() ) );
 
                 super.onBeforeRender();

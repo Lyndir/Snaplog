@@ -15,6 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tabs;
 
+import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
@@ -22,6 +23,31 @@ import org.apache.wicket.model.IModel;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.messages.Messages;
+
+
+/**
+ * <h2>{@link WorkbenchTabPanel}<br>
+ * <sub>[in short] (TODO).</sub></h2>
+ * 
+ * <p>
+ * <i>Mar 1, 2010</i>
+ * </p>
+ * 
+ * @author lhunath
+ */
+public class WorkbenchTabPanel extends Panel {
+
+    /**
+     * Create a new {@link WorkbenchTabPanel} instance.
+     * 
+     * @param id
+     *            The wicket ID that will hold the {@link WorkbenchTabPanel}.
+     */
+    public WorkbenchTabPanel(String id) {
+
+        super( id );
+    }
+}
 
 
 /**
@@ -38,10 +64,10 @@ import com.lyndir.lhunath.snaplog.messages.Messages;
  * 
  * @author lhunath
  */
-public class WorkbenchTab implements Tab {
+class WorkbenchTab implements ITab {
 
     static final Logger logger = Logger.get( WorkbenchTab.class );
-    Messages            msgs   = LocalizerFactory.getLocalizer( Messages.class, this );
+    Messages            msgs   = LocalizerFactory.getLocalizer( Messages.class );
 
 
     /**

@@ -129,8 +129,8 @@ public class BrowserView extends GenericPanel<Date> {
 
             link.add( new Label( "caption", media.getDateString() ) );
             link.add( new ContextImage( "photo", ImageServlet.getContextRelativePathFor( media, imageQuality ) ) );
-            item.add( new ContextImage( "fullscreenPhoto", ImageServlet.getContextRelativePathFor( media,
-                                                                                                   Quality.FULLSCREEN ) ) );
+            item.add( new ContextImage( "fullscreenPhoto", //
+                    ImageServlet.getContextRelativePathFor( media, Quality.FULLSCREEN ) ).setVisible( imageQuality == Quality.PREVIEW ) );
             item.add( new AttributeAppender( "class", new Model<String>( imageQuality.getName() ), " " ) );
             item.add( link );
         }
@@ -187,7 +187,8 @@ public class BrowserView extends GenericPanel<Date> {
 
             // Add the side images past the current file (we already have the ones before it AND one of these).
             for (int i = 0; i < BROWSER_SIDE_IMAGES - 1; ++i)
-                files.put( it.next(), null );
+                if (it.hasNext())
+                    files.put( it.next(), null );
 
             return ImmutableList.copyOf( files.keySet() );
         }

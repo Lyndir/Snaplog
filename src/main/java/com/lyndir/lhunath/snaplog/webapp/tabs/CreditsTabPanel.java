@@ -15,6 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tabs;
 
+import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
@@ -22,16 +23,40 @@ import org.apache.wicket.model.IModel;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.messages.Messages;
-import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
-import com.lyndir.lhunath.snaplog.webapp.components.AccessView;
-import com.lyndir.lhunath.snaplog.webapp.components.BrowserView;
-import com.lyndir.lhunath.snaplog.webapp.components.TagsView;
-import com.lyndir.lhunath.snaplog.webapp.components.TimelineView;
 
 
 /**
- * <h2>{@link AlbumTab}<br>
- * <sub>The interface panel for browsing through the album content.</sub></h2>
+ * <h2>{@link CreditsTabPanel}<br>
+ * <sub>[in short] (TODO).</sub></h2>
+ * 
+ * <p>
+ * <i>Mar 1, 2010</i>
+ * </p>
+ * 
+ * @author lhunath
+ */
+public class CreditsTabPanel extends Panel {
+
+    /**
+     * Create a new {@link CreditsTabPanel} instance.
+     * 
+     * @param id
+     *            The wicket ID that will hold the {@link CreditsTabPanel}.
+     */
+    public CreditsTabPanel(String id) {
+
+        super( id );
+    }
+}
+
+
+/**
+ * <h2>{@link CreditsTab}<br>
+ * <sub>[in short] (TODO).</sub></h2>
+ * 
+ * <p>
+ * [description / usage].
+ * </p>
  * 
  * <p>
  * <i>May 31, 2009</i>
@@ -39,10 +64,10 @@ import com.lyndir.lhunath.snaplog.webapp.components.TimelineView;
  * 
  * @author lhunath
  */
-public class AlbumTab implements Tab {
+class CreditsTab implements ITab {
 
-    static final Logger logger = Logger.get( AlbumTab.class );
-    Messages            msgs   = LocalizerFactory.getLocalizer( Messages.class, this );
+    static final Logger logger = Logger.get( CreditsTab.class );
+    Messages            msgs   = LocalizerFactory.getLocalizer( Messages.class );
 
 
     /**
@@ -56,7 +81,7 @@ public class AlbumTab implements Tab {
             @Override
             public String getObject() {
 
-                return msgs.albumTab();
+                throw new UnsupportedOperationException( "not yet ready" );
             }
         };
     }
@@ -67,22 +92,7 @@ public class AlbumTab implements Tab {
     @Override
     public Panel getPanel(String panelId) {
 
-        return new Panel( panelId ) {
-
-            {
-                // Browser
-                add( new BrowserView( "browser" ) );
-
-                // Timeline.
-                add( new TimelineView( "timelinePopup" ) );
-
-                // Tags.
-                add( new TagsView( "tagsPopup" ) );
-
-                // Access.
-                add( new AccessView( "accessPopup" ) );
-            }
-        };
+        return new Panel( panelId );
     }
 
     /**
@@ -91,6 +101,6 @@ public class AlbumTab implements Tab {
     @Override
     public boolean isVisible() {
 
-        return SnaplogSession.get().getActiveAlbum() != null;
+        return false;
     }
 }

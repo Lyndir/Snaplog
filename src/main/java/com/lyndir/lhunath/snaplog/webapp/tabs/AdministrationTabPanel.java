@@ -15,6 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tabs;
 
+import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
@@ -25,7 +26,32 @@ import com.lyndir.lhunath.snaplog.messages.Messages;
 
 
 /**
- * <h2>{@link DesktopTab}<br>
+ * <h2>{@link AdministrationTabPanel}<br>
+ * <sub>[in short] (TODO).</sub></h2>
+ * 
+ * <p>
+ * <i>Mar 1, 2010</i>
+ * </p>
+ * 
+ * @author lhunath
+ */
+public class AdministrationTabPanel extends Panel {
+
+    /**
+     * Create a new {@link AdministrationTabPanel} instance.
+     * 
+     * @param id
+     *            The wicket ID that will hold the {@link AdministrationTabPanel}.
+     */
+    public AdministrationTabPanel(String id) {
+
+        super( id );
+    }
+}
+
+
+/**
+ * <h2>{@link AdministrationTab}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
@@ -38,10 +64,10 @@ import com.lyndir.lhunath.snaplog.messages.Messages;
  * 
  * @author lhunath
  */
-public class DesktopTab implements Tab {
+class AdministrationTab implements ITab {
 
-    static final Logger logger = Logger.get( DesktopTab.class );
-    Messages            msgs   = LocalizerFactory.getLocalizer( Messages.class, this );
+    static final Logger logger = Logger.get( AdministrationTab.class );
+    Messages            msgs   = LocalizerFactory.getLocalizer( Messages.class );
 
 
     /**
@@ -55,7 +81,7 @@ public class DesktopTab implements Tab {
             @Override
             public String getObject() {
 
-                return msgs.desktopTab();
+                return msgs.administrationTab();
             }
         };
     }

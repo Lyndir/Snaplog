@@ -37,7 +37,7 @@ public class PageExpiredErrorPage extends MessagePage {
      */
     public PageExpiredErrorPage() {
 
-        addOrReplace( new PageExpiredErrorPanel( "contentPanel" ) );
+        addOrReplace( new PageExpiredErrorPanel( CONTENT_PANEL ) );
     }
 
 

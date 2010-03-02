@@ -15,6 +15,9 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tabs;
 
+import org.apache.wicket.extensions.markup.html.tabs.ITab;
+
+
 /**
  * <h2>{@link TabProvider}<br>
  * <sub>[in short] (TODO).</sub></h2>
@@ -28,7 +31,7 @@ package com.lyndir.lhunath.snaplog.webapp.tabs;
 public interface TabProvider {
 
     /**
-     * @return The {@link Tab} that describes the UI elements of this tab.
+     * @return The {@link ITab} that describes the UI elements of this tab.
      */
-    public Tab getTab();
+    public ITab getTab();
 }

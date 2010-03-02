@@ -15,6 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tabs;
 
+import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
@@ -25,7 +26,32 @@ import com.lyndir.lhunath.snaplog.messages.Messages;
 
 
 /**
- * <h2>{@link GalleryTab}<br>
+ * <h2>{@link DesktopTabPanel}<br>
+ * <sub>[in short] (TODO).</sub></h2>
+ * 
+ * <p>
+ * <i>Mar 1, 2010</i>
+ * </p>
+ * 
+ * @author lhunath
+ */
+public class DesktopTabPanel extends Panel {
+
+    /**
+     * Create a new {@link DesktopTabPanel} instance.
+     * 
+     * @param id
+     *            The wicket ID that will hold the {@link DesktopTabPanel}.
+     */
+    public DesktopTabPanel(String id) {
+
+        super( id );
+    }
+}
+
+
+/**
+ * <h2>{@link DesktopTabPanel}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
@@ -38,10 +64,10 @@ import com.lyndir.lhunath.snaplog.messages.Messages;
  * 
  * @author lhunath
  */
-public class GalleryTab implements Tab {
+class DesktopTab implements ITab {
 
-    static final Logger logger = Logger.get( GalleryTab.class );
-    Messages            msgs   = LocalizerFactory.getLocalizer( Messages.class, this );
+    static final Logger logger = Logger.get( DesktopTab.class );
+    Messages            msgs   = LocalizerFactory.getLocalizer( Messages.class );
 
 
     /**
@@ -55,7 +81,7 @@ public class GalleryTab implements Tab {
             @Override
             public String getObject() {
 
-                return msgs.galleryTab();
+                return msgs.desktopTab();
             }
         };
     }
@@ -66,7 +92,7 @@ public class GalleryTab implements Tab {
     @Override
     public Panel getPanel(String panelId) {
 
-        return new Panel( panelId );
+        return new DesktopTabPanel( panelId );
     }
 
     /**

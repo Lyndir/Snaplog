@@ -48,8 +48,6 @@ public class AppLogoutServlet extends AbstractInjectionServlet {
      */
     public static final String PARAM_LOGOUT_EXIT_PATH = "LogoutExitPath";
 
-    private static final long  serialVersionUID       = 1L;
-
     private static final Log   LOG                    = LogFactory.getLog( AppLogoutServlet.class );
 
     @Init(name = PARAM_LOGOUT_EXIT_PATH)

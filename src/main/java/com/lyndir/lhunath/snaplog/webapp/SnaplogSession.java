@@ -23,7 +23,7 @@ import com.google.common.base.Objects;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.User;
-import com.lyndir.lhunath.snaplog.webapp.tabs.Tabs;
+import com.lyndir.lhunath.snaplog.webapp.tabs.Tab;
 
 
 /**
@@ -45,7 +45,7 @@ public class SnaplogSession extends WebSession {
     private static final Logger logger = Logger.get( SnaplogSession.class );
 
     private User                activeUser;
-    private Tabs                activeTab;
+    private Tab                activeTab;
     private Album               activeAlbum;
 
 
@@ -94,7 +94,7 @@ public class SnaplogSession extends WebSession {
     /**
      * @return The activeTab of this {@link SnaplogSession}.
      */
-    public Tabs getActiveTab() {
+    public Tab getActiveTab() {
 
         return activeTab;
     }
@@ -103,7 +103,7 @@ public class SnaplogSession extends WebSession {
      * @param activeTab
      *            The activeTab of this {@link SnaplogSession}.
      */
-    public void setActiveTab(Tabs activeTab) {
+    public void setActiveTab(Tab activeTab) {
 
         this.activeTab = activeTab;
     }

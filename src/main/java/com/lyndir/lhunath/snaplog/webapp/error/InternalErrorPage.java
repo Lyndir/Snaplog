@@ -37,7 +37,7 @@ public class InternalErrorPage extends MessagePage {
      */
     public InternalErrorPage() {
 
-        addOrReplace( new InternalErrorPanel( "contentPanel" ) );
+        addOrReplace( new InternalErrorPanel( CONTENT_PANEL ) );
     }
 
 

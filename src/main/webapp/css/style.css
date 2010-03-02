@@ -10,6 +10,8 @@ html {
 body {
     background:         url("../images/layout/backdrop.png") repeat-x;
     color:              white;
+
+    font-size:          90%;
 }
 h1, h2, h3, h4, h5, h6 {
     color:              #ddd;
@@ -24,6 +26,12 @@ a:hover {
     color:              white;
     text-decoration:    none;
 }
+h3 {
+    color:              #AAA;
+    text-shadow:        black 0 1px 1px;
+
+    margin:             1em 0 1ex;
+}
 
 
 /*******************************************************************************
@@ -36,7 +44,7 @@ a:hover {
     padding:            64px 0 0 400px;
 
     color:              #edd;
-    font-size:          1.1em;
+    font-size:          90%;
 }
 #header p {
     float:              left;
@@ -62,7 +70,7 @@ a:hover {
 }
 #header .tabs a {
     display:            block;
-    width:              10em;
+    width:              8em;
     height:             23px;
     padding-top:        7px;
 
@@ -402,7 +410,7 @@ div.popup {
     overflow:           auto;
 }
 .fullscreen img {
-    border:             1px solid black;
+    border:             1px solid white;
     background:         #222 url("../images/resources/loader.boxes.black.gif") no-repeat center center;
 
     position:           relative;
@@ -437,6 +445,23 @@ div.popup {
     max-width:          1024px;
     min-height:         768px;
     max-height:         768px;
+}
+
+
+/*******************************************************************************
+ * GRADIENTS *
+ */
+.gradient {
+    background:         #222 url("../images/layout/gradient.dark.png") repeat-x;
+    border-top:         1px solid #555;
+    border-bottom:      1px solid #333;
+
+    height:             150px;
+    margin:             1em -1000px;
+    padding:            25px 1000px;
+
+    font-size:          130%;
+    text-shadow:        black 0 1px 1px;
 }
 
 

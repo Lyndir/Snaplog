@@ -19,7 +19,7 @@ import org.apache.wicket.extensions.markup.html.tabs.ITab;
 
 
 /**
- * <h2>{@link Tab}<br>
+ * <h2>{@link TabProvider}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
@@ -28,6 +28,46 @@ import org.apache.wicket.extensions.markup.html.tabs.ITab;
  * 
  * @author lhunath
  */
-public interface Tab extends ITab {
+public enum Tab implements TabProvider {
 
+    DESKTOP {
+
+        @Override
+        public ITab getTab() {
+
+            return new DesktopTab();
+        }
+    },
+    GALLERY {
+
+        @Override
+        public ITab getTab() {
+
+            return new GalleryTab();
+        }
+    },
+    ALBUM {
+
+        @Override
+        public ITab getTab() {
+
+            return new AlbumTab();
+        }
+    },
+    WORKBENCH {
+
+        @Override
+        public ITab getTab() {
+
+            return new WorkbenchTab();
+        }
+    },
+    ADMINISTRATION {
+
+        @Override
+        public ITab getTab() {
+
+            return new AdministrationTab();
+        }
+    };
 }
