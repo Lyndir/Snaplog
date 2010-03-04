@@ -15,6 +15,7 @@ body {
 }
 h1, h2, h3, h4, h5, h6 {
     color:              #ddd;
+    text-shadow:        black 0 1px 1px;
 }
 a, a:link {
     color:              white;
@@ -28,7 +29,6 @@ a:hover {
 }
 h3 {
     color:              #AAA;
-    text-shadow:        black 0 1px 1px;
 
     margin:             1em 0 1ex;
 }
@@ -78,6 +78,7 @@ input {
     padding:            64px 0 0 400px;
 
     color:              #edd;
+    text-shadow:        black 0 1px 0;
     font-size:          90%;
 }
 #header p {
@@ -141,6 +142,8 @@ input {
     top:                100px;
     right:              4em;
     padding:            0;
+
+    text-shadow:        black 0 1px 0;
 }
 .toolbar li {
     float:              left;
@@ -170,7 +173,7 @@ input {
  */
 div.popup {
     background:         rgba(32, 32, 32, 0.95);
-    /*border:             2px outset #333;*/
+    border-top-width:   80px;
 
     display:            none;                       /* Defaults to invisible. */
     position:           fixed;
@@ -188,11 +191,11 @@ div.popup {
     margin:             -14px -34px;
 }
 .popup h1 {
+    text-shadow:        black 0 1px 3px;
+
+    position:           absolute;
     display:            inline-block;
-    margin:             0 0 1em 0;
-}
-.popup h1:first-letter {
-    font-size:          1.5em;
+    margin:             -80px 0 1em 0;
 }
 
 
@@ -420,6 +423,7 @@ div.popup {
 }
 .image .caption {
     background:         rgba(32, 32, 32, 0.7);
+    text-shadow:        black 0 1px 1px;
 
     display:            block;
     position:           absolute;
