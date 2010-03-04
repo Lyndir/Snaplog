@@ -15,6 +15,8 @@
  */
 package com.lyndir.lhunath.snaplog.webapp;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import org.apache.wicket.Request;
 import org.apache.wicket.Session;
 import org.apache.wicket.protocol.http.WebSession;
@@ -44,9 +46,10 @@ public class SnaplogSession extends WebSession {
 
     private static final Logger logger = Logger.get( SnaplogSession.class );
 
-    private User                activeUser;
     private Tab                 activeTab;
-    private Album               activeAlbum;
+    private User                activeUser;
+    private User                focussedUser;
+    private Album               focussedAlbum;
 
 
     /**
@@ -66,6 +69,23 @@ public class SnaplogSession extends WebSession {
     public static SnaplogSession get() {
 
         return (SnaplogSession) Session.get();
+    }
+
+    /**
+     * @return The activeTab of this {@link SnaplogSession}.
+     */
+    public Tab getActiveTab() {
+
+        return activeTab;
+    }
+
+    /**
+     * @param activeTab
+     *            The activeTab of this {@link SnaplogSession}.
+     */
+    public void setActiveTab(Tab activeTab) {
+
+        this.activeTab = activeTab;
     }
 
     /**
@@ -92,36 +112,55 @@ public class SnaplogSession extends WebSession {
     }
 
     /**
-     * @return The activeTab of this {@link SnaplogSession}.
+     * @return The focussedUser of this {@link SnaplogSession}.
      */
-    public Tab getActiveTab() {
+    public User getFocussedUser() {
 
-        return activeTab;
+        if (focussedAlbum != null)
+            // These SHOULD always match if an album is focussed.
+            checkState( focussedAlbum.getUser().equals( focussedUser ) );
+        if (focussedUser == null)
+            // Focus on the active user if not focusing on anyone.
+            setFocussedUser( activeUser );
+
+        return focussedUser;
     }
 
     /**
-     * @param activeTab
-     *            The activeTab of this {@link SnaplogSession}.
+     * @param focussedUser
+     *            The focussedUser of this {@link SnaplogSession}.
      */
-    public void setActiveTab(Tab activeTab) {
+    public void setFocussedUser(User focussedUser) {
 
-        this.activeTab = activeTab;
+        if (focussedAlbum != null && !focussedAlbum.getUser().equals( focussedUser ))
+            // User is no longer the focussed album owner; unfocus the album.
+            setFocussedAlbum( null );
+
+        this.focussedUser = focussedUser;
     }
 
     /**
-     * @return The activeAlbum of this {@link SnaplogSession}.
+     * @return The focussedAlbum of this {@link SnaplogSession}.
      */
-    public Album getActiveAlbum() {
+    public Album getFocussedAlbum() {
 
-        return activeAlbum;
+        if (focussedAlbum != null)
+            // These SHOULD always match if an album is focussed.
+            checkState( focussedAlbum.getUser().equals( focussedUser ) );
+
+        return focussedAlbum;
     }
 
     /**
-     * @param activeAlbum
-     *            The activeAlbum of this {@link SnaplogSession}.
+     * @param focussedAlbum
+     *            The focussedAlbum of this {@link SnaplogSession}.
      */
-    public void setActiveAlbum(Album activeAlbum) {
+    public void setFocussedAlbum(Album focussedAlbum) {
 
-        this.activeAlbum = activeAlbum;
+        if (focussedAlbum != null)
+            // Focusing a specific album; set focussed user to the album owner.
+            setFocussedUser( focussedAlbum.getUser() );
+
+        this.focussedAlbum = focussedAlbum;
     }
 }

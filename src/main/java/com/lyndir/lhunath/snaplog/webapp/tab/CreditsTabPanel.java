@@ -101,6 +101,6 @@ class CreditsTab implements ITab {
     @Override
     public boolean isVisible() {
 
-        return false;
+        return true;
     }
 }

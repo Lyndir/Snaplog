@@ -183,7 +183,7 @@ public class LayoutPage extends WebPage {
                         target.addComponent( container );
                         target.addComponent( tabsContainer );
                     }
-                } );
+                } ).setVisible( item.getModelObject().getTab().isVisible() );
             }
 
             @Override
@@ -261,8 +261,7 @@ public class LayoutPage extends WebPage {
      */
     protected String getPageTitle() {
 
-        User user = SnaplogSession.get().getActiveUser();
-
+        User user = SnaplogSession.get().getFocussedUser();
         if (user == null)
             return msgs.pageTitle( ' ', msgs.userNameUnknown() );
 

@@ -15,13 +15,17 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
+import java.util.Date;
+
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.view.AccessView;
@@ -42,6 +46,23 @@ import com.lyndir.lhunath.snaplog.webapp.view.TimelineView;
  */
 public class AlbumTabPanel extends Panel {
 
+    private IModel<Album> albumModel       = new Model<Album>() {
+
+                                               @Override
+                                               public Album getObject() {
+
+                                                   return SnaplogSession.get().getFocussedAlbum();
+                                               }
+
+                                               @Override
+                                               public void setObject(Album object) {
+
+                                                   SnaplogSession.get().setFocussedAlbum( object );
+                                               }
+                                           };
+    private IModel<Date>  currentTimeModel = new Model<Date>();
+
+
     /**
      * Create a new {@link AlbumTabPanel} instance.
      * 
@@ -53,16 +74,16 @@ public class AlbumTabPanel extends Panel {
         super( id );
 
         // Browser
-        add( new BrowserView( "browser" ) );
+        add( new BrowserView( "browser", albumModel, currentTimeModel ) );
 
         // Timeline.
-        add( new TimelineView( "timelinePopup" ) );
+        add( new TimelineView( "timelinePopup", albumModel ) );
 
         // Tags.
-        add( new TagsView( "tagsPopup" ) );
+        add( new TagsView( "tagsPopup", albumModel ) );
 
         // Access.
-        add( new AccessView( "accessPopup" ) );
+        add( new AccessView( "accessPopup", albumModel ) );
     }
 }
 
@@ -114,6 +135,6 @@ class AlbumTab implements ITab {
     @Override
     public boolean isVisible() {
 
-        return SnaplogSession.get().getActiveAlbum() != null;
+        return SnaplogSession.get().getFocussedAlbum() != null;
     }
 }

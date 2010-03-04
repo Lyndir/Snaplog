@@ -23,6 +23,7 @@ import org.apache.wicket.model.IModel;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.messages.Messages;
+import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 
 
 /**
@@ -101,6 +102,6 @@ class GalleryTab implements ITab {
     @Override
     public boolean isVisible() {
 
-        return false;
+        return SnaplogSession.get().getFocussedUser() != null;
     }
 }

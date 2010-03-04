@@ -8,14 +8,17 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
+import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
+import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
+import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 
 
 /**
@@ -28,7 +31,7 @@ import com.lyndir.lhunath.snaplog.model.AlbumService;
  * 
  * @author lhunath
  */
-public class AccessView extends Panel {
+public class AccessView extends GenericPanel<Album> {
 
     Messages     msgs = LocalizerFactory.getLocalizer( Messages.class, this );
 
@@ -42,7 +45,18 @@ public class AccessView extends Panel {
      */
     public AccessView(String id) {
 
-        super( id );
+        this( id, new Model<Album>( SnaplogSession.get().getFocussedAlbum() ) );
+    }
+
+    /**
+     * @param id
+     *            Wicket component ID.
+     * @param albumModel
+     *            The {@link Album} to configure access controls for.
+     */
+    public AccessView(String id, IModel<Album> albumModel) {
+
+        super( id, albumModel );
 
         add( new ListView<String>( "groups", new AbstractReadOnlyModel<List<String>>() {
 

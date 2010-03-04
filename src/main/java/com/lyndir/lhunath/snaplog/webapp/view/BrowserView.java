@@ -21,10 +21,11 @@ import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.collection.FixedDeque;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
+import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.Media;
 import com.lyndir.lhunath.snaplog.data.Media.Quality;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
-import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
+import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
 
 
@@ -38,7 +39,7 @@ import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
  * 
  * @author lhunath
  */
-public class BrowserView extends GenericPanel<Date> {
+public class BrowserView extends GenericPanel<Album> {
 
     static final Logger logger              = Logger.get( BrowserView.class );
 
@@ -48,6 +49,7 @@ public class BrowserView extends GenericPanel<Date> {
     AlbumService        albumService;
 
     Media               currentFile;
+    IModel<Date>        currentTimeModel;
 
 
     /**
@@ -58,7 +60,9 @@ public class BrowserView extends GenericPanel<Date> {
      */
     public BrowserView(String id) {
 
-        this( id, new Model<Date>() );
+        this( id, //
+                new Model<Album>( SnaplogSession.get().getFocussedAlbum() ), //
+                new Model<Date>() );
     }
 
     /**
@@ -66,14 +70,18 @@ public class BrowserView extends GenericPanel<Date> {
      * 
      * @param id
      *            The wicket ID to put this component in the HTML.
+     * @param albumModel
+     *            The model contains the {@link Album} that the browser should get its media from.
      * @param currentTimeModel
      *            The model contains the {@link Date} upon which the browser should focus. The first image on or past
      *            this date will be the focussed image.
      */
-    public BrowserView(String id, IModel<Date> currentTimeModel) {
+    public BrowserView(String id, IModel<Album> albumModel, IModel<Date> currentTimeModel) {
 
-        super( id, currentTimeModel );
+        super( id, albumModel );
         setOutputMarkupId( true );
+
+        this.currentTimeModel = currentTimeModel;
 
         add( new BrowserListView( "photos" ) );
     }
@@ -116,7 +124,7 @@ public class BrowserView extends GenericPanel<Date> {
                         @Override
                         public void onClick(AjaxRequestTarget target) {
 
-                            BrowserView.this.setModelObject( new Date( shotTime ) );
+                            currentTimeModel.setObject( new Date( shotTime ) );
                             target.addComponent( BrowserView.this );
                         }
                     };
@@ -158,7 +166,7 @@ public class BrowserView extends GenericPanel<Date> {
         @Override
         public List<Media> getObject() {
 
-            List<? extends Media> allFiles = albumService.getFiles( SnaplogConstants.DEFAULT_ALBUM );
+            List<? extends Media> allFiles = albumService.getFiles( getModelObject() );
             FixedDeque<Media> files = new FixedDeque<Media>( BROWSER_SIDE_IMAGES * 2 + 1 );
 
             Iterator<? extends Media> it = allFiles.iterator();
@@ -171,7 +179,8 @@ public class BrowserView extends GenericPanel<Date> {
                 Media nextFile = it.next();
                 files.addFirst( nextFile );
 
-                if (getModelObject() != null && nextFile.shotTime() > getModelObject().getTime()) {
+                if (currentTimeModel.getObject() != null
+                    && nextFile.shotTime() > currentTimeModel.getObject().getTime()) {
                     addedNextFile = true;
                     break;
                 }

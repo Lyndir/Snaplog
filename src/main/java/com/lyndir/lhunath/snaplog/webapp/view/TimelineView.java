@@ -52,13 +52,13 @@ public class TimelineView extends GenericPanel<Album> {
             @Override
             public Album getObject() {
 
-                return SnaplogSession.get().getActiveAlbum();
+                return SnaplogSession.get().getFocussedAlbum();
             }
 
             @Override
             public void setObject(Album album) {
 
-                SnaplogSession.get().setActiveAlbum( album );
+                SnaplogSession.get().setFocussedAlbum( album );
             }
         } );
     }

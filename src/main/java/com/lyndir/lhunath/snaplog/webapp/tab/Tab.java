@@ -30,44 +30,29 @@ import org.apache.wicket.extensions.markup.html.tabs.ITab;
  */
 public enum Tab implements TabProvider {
 
-    DESKTOP {
+    DESKTOP( new DesktopTab() ),
+    GALLERY( new GalleryTab() ),
+    ALBUM( new AlbumTab() ),
+    WORKBENCH( new WorkbenchTab() ),
+    ADMINISTRATION( new AdministrationTab() );
 
-        @Override
-        public ITab getTab() {
+    private ITab tab;
 
-            return new DesktopTab();
-        }
-    },
-    GALLERY {
 
-        @Override
-        public ITab getTab() {
+    /**
+     * Create a new {@link Tab} instance.
+     */
+    private Tab(ITab tab) {
 
-            return new GalleryTab();
-        }
-    },
-    ALBUM {
+        this.tab = tab;
+    }
 
-        @Override
-        public ITab getTab() {
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ITab getTab() {
 
-            return new AlbumTab();
-        }
-    },
-    WORKBENCH {
-
-        @Override
-        public ITab getTab() {
-
-            return new WorkbenchTab();
-        }
-    },
-    ADMINISTRATION {
-
-        @Override
-        public ITab getTab() {
-
-            return new AdministrationTab();
-        }
-    };
+        return tab;
+    }
 }
