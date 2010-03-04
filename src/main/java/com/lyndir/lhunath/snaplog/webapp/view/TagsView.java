@@ -1,4 +1,4 @@
-package com.lyndir.lhunath.snaplog.webapp.components;
+package com.lyndir.lhunath.snaplog.webapp.view;
 
 import org.apache.wicket.markup.html.panel.Panel;
 

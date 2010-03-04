@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.webapp.tabs;
+package com.lyndir.lhunath.snaplog.webapp.tab;
 
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -26,7 +26,7 @@ import com.lyndir.lhunath.snaplog.messages.Messages;
 
 
 /**
- * <h2>{@link CreditsTabPanel}<br>
+ * <h2>{@link WorkbenchTabPanel}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
@@ -35,15 +35,15 @@ import com.lyndir.lhunath.snaplog.messages.Messages;
  * 
  * @author lhunath
  */
-public class CreditsTabPanel extends Panel {
+public class WorkbenchTabPanel extends Panel {
 
     /**
-     * Create a new {@link CreditsTabPanel} instance.
+     * Create a new {@link WorkbenchTabPanel} instance.
      * 
      * @param id
-     *            The wicket ID that will hold the {@link CreditsTabPanel}.
+     *            The wicket ID that will hold the {@link WorkbenchTabPanel}.
      */
-    public CreditsTabPanel(String id) {
+    public WorkbenchTabPanel(String id) {
 
         super( id );
     }
@@ -51,7 +51,7 @@ public class CreditsTabPanel extends Panel {
 
 
 /**
- * <h2>{@link CreditsTab}<br>
+ * <h2>{@link WorkbenchTab}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
@@ -64,9 +64,9 @@ public class CreditsTabPanel extends Panel {
  * 
  * @author lhunath
  */
-class CreditsTab implements ITab {
+class WorkbenchTab implements ITab {
 
-    static final Logger logger = Logger.get( CreditsTab.class );
+    static final Logger logger = Logger.get( WorkbenchTab.class );
     Messages            msgs   = LocalizerFactory.getLocalizer( Messages.class );
 
 
@@ -81,7 +81,7 @@ class CreditsTab implements ITab {
             @Override
             public String getObject() {
 
-                throw new UnsupportedOperationException( "not yet ready" );
+                return msgs.workbenchTab();
             }
         };
     }

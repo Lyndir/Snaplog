@@ -15,9 +15,14 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.error;
 
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.Model;
 
-import com.lyndir.lhunath.snaplog.webapp.page.MessagePage;
+import com.google.gson.Gson;
+import com.lyndir.lhunath.lib.system.util.Utils;
+import com.lyndir.lhunath.snaplog.webapp.SnaplogWebApplication;
+import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 
 
 /**
@@ -30,14 +35,15 @@ import com.lyndir.lhunath.snaplog.webapp.page.MessagePage;
  * 
  * @author lhunath
  */
-public class InternalErrorPage extends MessagePage {
+public class InternalErrorPage extends LayoutPage {
 
     /**
-     * Create a new {@link InternalErrorPage} instance.
+     * {@inheritDoc}
      */
-    public InternalErrorPage() {
+    @Override
+    protected Panel getInitialContentPanel(String wicketId) {
 
-        addOrReplace( new InternalErrorPanel( CONTENT_PANEL ) );
+        return new InternalErrorPanel( wicketId );
     }
 
 
@@ -46,6 +52,13 @@ public class InternalErrorPage extends MessagePage {
         InternalErrorPanel(String id) {
 
             super( id );
+
+            Issue issue = getMetaData( SnaplogWebApplication.RUNTIME_EXCEPTION_ISSUE );
+
+            // TODO: Store this data somewhere for reference.
+            String issueCode = Utils.getMD5( new Gson().toJson( issue ) );
+
+            add( new TextField<String>( "issueCode", new Model<String>( issueCode ) ) );
         }
     }
 }

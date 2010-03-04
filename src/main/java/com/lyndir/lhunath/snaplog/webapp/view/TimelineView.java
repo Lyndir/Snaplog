@@ -1,4 +1,4 @@
-package com.lyndir.lhunath.snaplog.webapp.components;
+package com.lyndir.lhunath.snaplog.webapp.view;
 
 import java.text.MessageFormat;
 import java.util.List;

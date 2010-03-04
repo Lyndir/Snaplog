@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.webapp.tabs;
+package com.lyndir.lhunath.snaplog.webapp.tab;
 
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -23,15 +23,10 @@ import org.apache.wicket.model.IModel;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.messages.Messages;
-import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
-import com.lyndir.lhunath.snaplog.webapp.components.AccessView;
-import com.lyndir.lhunath.snaplog.webapp.components.BrowserView;
-import com.lyndir.lhunath.snaplog.webapp.components.TagsView;
-import com.lyndir.lhunath.snaplog.webapp.components.TimelineView;
 
 
 /**
- * <h2>{@link AlbumTabPanel}<br>
+ * <h2>{@link DesktopTabPanel}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
@@ -40,36 +35,28 @@ import com.lyndir.lhunath.snaplog.webapp.components.TimelineView;
  * 
  * @author lhunath
  */
-public class AlbumTabPanel extends Panel {
+public class DesktopTabPanel extends Panel {
 
     /**
-     * Create a new {@link AlbumTabPanel} instance.
+     * Create a new {@link DesktopTabPanel} instance.
      * 
      * @param id
-     *            The wicket ID that will hold the {@link AlbumTabPanel}.
+     *            The wicket ID that will hold the {@link DesktopTabPanel}.
      */
-    public AlbumTabPanel(String id) {
+    public DesktopTabPanel(String id) {
 
         super( id );
-
-        // Browser
-        add( new BrowserView( "browser" ) );
-
-        // Timeline.
-        add( new TimelineView( "timelinePopup" ) );
-
-        // Tags.
-        add( new TagsView( "tagsPopup" ) );
-
-        // Access.
-        add( new AccessView( "accessPopup" ) );
     }
 }
 
 
 /**
- * <h2>{@link AlbumTab}<br>
- * <sub>The interface panel for browsing through the album content.</sub></h2>
+ * <h2>{@link DesktopTabPanel}<br>
+ * <sub>[in short] (TODO).</sub></h2>
+ * 
+ * <p>
+ * [description / usage].
+ * </p>
  * 
  * <p>
  * <i>May 31, 2009</i>
@@ -77,9 +64,9 @@ public class AlbumTabPanel extends Panel {
  * 
  * @author lhunath
  */
-class AlbumTab implements ITab {
+class DesktopTab implements ITab {
 
-    static final Logger logger = Logger.get( AlbumTab.class );
+    static final Logger logger = Logger.get( DesktopTab.class );
     Messages            msgs   = LocalizerFactory.getLocalizer( Messages.class );
 
 
@@ -94,7 +81,7 @@ class AlbumTab implements ITab {
             @Override
             public String getObject() {
 
-                return msgs.albumTab();
+                return msgs.desktopTab();
             }
         };
     }
@@ -105,7 +92,7 @@ class AlbumTab implements ITab {
     @Override
     public Panel getPanel(String panelId) {
 
-        return new AlbumTabPanel( panelId );
+        return new DesktopTabPanel( panelId );
     }
 
     /**
@@ -114,6 +101,6 @@ class AlbumTab implements ITab {
     @Override
     public boolean isVisible() {
 
-        return SnaplogSession.get().getActiveAlbum() != null;
+        return false;
     }
 }

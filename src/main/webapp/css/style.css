@@ -32,6 +32,40 @@ h3 {
 
     margin:             1em 0 1ex;
 }
+.error h1, .error h2, .error h3, .error h4, .error h5, .error h6 {
+    color:              inherit;
+}
+ul.plain li {
+    list-style:         none;
+}
+label {
+    display:            inline-block;
+
+    margin:             0 1em;
+    width:              10em;
+
+    text-align:         right;
+}
+input {
+    background:         transparent;
+    color:              inherit;
+    text-shadow:        black 0 1px 1px;
+    border:             none;
+    border-bottom:      2px solid #474747;
+    box-shadow:         0 0 5px black;
+    -webkit-box-shadow: 0 0 5px black;
+    -khtml-border-radius:5px;
+    -o-border-radius:   5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius:5px;
+
+    padding:            0.5ex 0.5em;
+    margin:             2px;
+    width:              20em;
+
+    font:               inherit;
+    font-family:        monospace;
+}
 
 
 /*******************************************************************************
@@ -462,6 +496,11 @@ div.popup {
 
     font-size:          130%;
     text-shadow:        black 0 1px 1px;
+}
+.gradient.error {
+    background-image:   url("../images/layout/gradient.red.png");
+    border-top-color:   #644;
+    border-bottom-color:#311;
 }
 
 

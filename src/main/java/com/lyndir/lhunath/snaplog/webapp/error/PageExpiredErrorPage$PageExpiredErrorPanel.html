@@ -6,15 +6,18 @@
     <body>
         <wicket:panel>
 
-            <div id="about">
-                <p><b>Expired</b></p>
+            <div class="gradient error">
+                <h3>You've gone idle!</h3>
+
+                <p>You haven't been active on the site.<br />
+                You've been logged out of your session and will have to restart.</p>
             </div>
 
-            <div class="error text">
-                <p>Since you've been idle, your session has been reset.</p>
-
-                <p>You'll be sent back to the <a wicket:id="redirectLink">homepage</a>.</p>
-            </div>
+            <h3>What's going on?</h3>
+            <p>When you don't use the site for several minutes we take the precaution of shutting down your session by automatically
+            logging you out.<br />
+            We do this because we can't be certain of whether the user that begins to use the site again after a period of inactivity
+            is really you or somebody else making use of your open pages while you've gone away for a while.</p>
 
         </wicket:panel>
     </body>

@@ -17,7 +17,7 @@ package com.lyndir.lhunath.snaplog.webapp.error;
 
 import org.apache.wicket.markup.html.panel.Panel;
 
-import com.lyndir.lhunath.snaplog.webapp.page.MessagePage;
+import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 
 
 /**
@@ -30,14 +30,15 @@ import com.lyndir.lhunath.snaplog.webapp.page.MessagePage;
  * 
  * @author lhunath
  */
-public class AccessDeniedErrorPage extends MessagePage {
+public class AccessDeniedErrorPage extends LayoutPage {
 
     /**
-     * Create a new {@link AccessDeniedErrorPage} instance.
+     * {@inheritDoc}
      */
-    public AccessDeniedErrorPage() {
+    @Override
+    protected Panel getInitialContentPanel(String wicketId) {
 
-        addOrReplace( new AccessDeniedErrorPanel( CONTENT_PANEL ) );
+        return new AccessDeniedErrorPanel( wicketId );
     }
 
 

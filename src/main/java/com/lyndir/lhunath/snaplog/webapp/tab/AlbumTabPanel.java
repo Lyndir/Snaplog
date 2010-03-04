@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.webapp.tabs;
+package com.lyndir.lhunath.snaplog.webapp.tab;
 
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -23,10 +23,15 @@ import org.apache.wicket.model.IModel;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.messages.Messages;
+import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
+import com.lyndir.lhunath.snaplog.webapp.view.AccessView;
+import com.lyndir.lhunath.snaplog.webapp.view.BrowserView;
+import com.lyndir.lhunath.snaplog.webapp.view.TagsView;
+import com.lyndir.lhunath.snaplog.webapp.view.TimelineView;
 
 
 /**
- * <h2>{@link AdministrationTabPanel}<br>
+ * <h2>{@link AlbumTabPanel}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
@@ -35,28 +40,36 @@ import com.lyndir.lhunath.snaplog.messages.Messages;
  * 
  * @author lhunath
  */
-public class AdministrationTabPanel extends Panel {
+public class AlbumTabPanel extends Panel {
 
     /**
-     * Create a new {@link AdministrationTabPanel} instance.
+     * Create a new {@link AlbumTabPanel} instance.
      * 
      * @param id
-     *            The wicket ID that will hold the {@link AdministrationTabPanel}.
+     *            The wicket ID that will hold the {@link AlbumTabPanel}.
      */
-    public AdministrationTabPanel(String id) {
+    public AlbumTabPanel(String id) {
 
         super( id );
+
+        // Browser
+        add( new BrowserView( "browser" ) );
+
+        // Timeline.
+        add( new TimelineView( "timelinePopup" ) );
+
+        // Tags.
+        add( new TagsView( "tagsPopup" ) );
+
+        // Access.
+        add( new AccessView( "accessPopup" ) );
     }
 }
 
 
 /**
- * <h2>{@link AdministrationTab}<br>
- * <sub>[in short] (TODO).</sub></h2>
- * 
- * <p>
- * [description / usage].
- * </p>
+ * <h2>{@link AlbumTab}<br>
+ * <sub>The interface panel for browsing through the album content.</sub></h2>
  * 
  * <p>
  * <i>May 31, 2009</i>
@@ -64,9 +77,9 @@ public class AdministrationTabPanel extends Panel {
  * 
  * @author lhunath
  */
-class AdministrationTab implements ITab {
+class AlbumTab implements ITab {
 
-    static final Logger logger = Logger.get( AdministrationTab.class );
+    static final Logger logger = Logger.get( AlbumTab.class );
     Messages            msgs   = LocalizerFactory.getLocalizer( Messages.class );
 
 
@@ -81,7 +94,7 @@ class AdministrationTab implements ITab {
             @Override
             public String getObject() {
 
-                return msgs.administrationTab();
+                return msgs.albumTab();
             }
         };
     }
@@ -92,7 +105,7 @@ class AdministrationTab implements ITab {
     @Override
     public Panel getPanel(String panelId) {
 
-        return new Panel( panelId );
+        return new AlbumTabPanel( panelId );
     }
 
     /**
@@ -101,6 +114,6 @@ class AdministrationTab implements ITab {
     @Override
     public boolean isVisible() {
 
-        return false;
+        return SnaplogSession.get().getActiveAlbum() != null;
     }
 }

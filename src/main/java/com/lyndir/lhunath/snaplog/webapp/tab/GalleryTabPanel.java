@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.webapp.tabs;
+package com.lyndir.lhunath.snaplog.webapp.tab;
 
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.html.panel.Panel;

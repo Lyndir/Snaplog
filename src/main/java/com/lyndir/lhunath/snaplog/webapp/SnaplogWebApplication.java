@@ -15,8 +15,10 @@
  */
 package com.lyndir.lhunath.snaplog.webapp;
 
+import org.apache.wicket.MetaDataKey;
 import org.apache.wicket.Page;
 import org.apache.wicket.Request;
+import org.apache.wicket.RequestCycle;
 import org.apache.wicket.Response;
 import org.apache.wicket.Session;
 import org.apache.wicket.guice.InjectionFlagCachingGuiceComponentInjector;
@@ -24,6 +26,9 @@ import org.apache.wicket.markup.IMarkupParserFactory;
 import org.apache.wicket.markup.MarkupParser;
 import org.apache.wicket.markup.MarkupResourceStream;
 import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.protocol.http.WebRequest;
+import org.apache.wicket.protocol.http.WebRequestCycle;
+import org.apache.wicket.protocol.http.WebResponse;
 import org.apache.wicket.settings.IExceptionSettings;
 
 import com.google.inject.Guice;
@@ -33,6 +38,7 @@ import com.lyndir.lhunath.snaplog.linkid.SnaplogWebappConfig;
 import com.lyndir.lhunath.snaplog.model.impl.ServicesModule;
 import com.lyndir.lhunath.snaplog.webapp.error.AccessDeniedErrorPage;
 import com.lyndir.lhunath.snaplog.webapp.error.InternalErrorPage;
+import com.lyndir.lhunath.snaplog.webapp.error.Issue;
 import com.lyndir.lhunath.snaplog.webapp.error.PageExpiredErrorPage;
 import com.lyndir.lhunath.snaplog.webapp.filter.OpenCloseTagExpander;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
@@ -55,7 +61,9 @@ public class SnaplogWebApplication extends WebApplication {
      * 
      * TODO: Add a page for this.
      */
-    public static final String PATH_LINKID_ERROR = "/linkid-error";
+    public static final String             PATH_LINKID_ERROR       = "/linkid-error";
+
+    public static final MetaDataKey<Issue> RUNTIME_EXCEPTION_ISSUE = new MetaDataKey<Issue>() {};
 
 
     /**
@@ -73,6 +81,7 @@ public class SnaplogWebApplication extends WebApplication {
         getExceptionSettings().setUnexpectedExceptionDisplay( IExceptionSettings.SHOW_INTERNAL_ERROR_PAGE );
 
         // https://issues.apache.org/jira/browse/WICKET-2650 -- Consistently create body for short tags.
+        getMarkupSettings().setDefaultMarkupEncoding( "UTF-8" );
         getMarkupSettings().setMarkupParserFactory( new IMarkupParserFactory() {
 
             @Override
@@ -108,5 +117,26 @@ public class SnaplogWebApplication extends WebApplication {
     public Session newSession(Request request, Response response) {
 
         return new SnaplogSession( request );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public RequestCycle newRequestCycle(Request request, Response response) {
+
+        return new WebRequestCycle( this, (WebRequest) request, (WebResponse) response ) {
+
+            /**
+             * {@inheritDoc}
+             */
+            @Override
+            public Page onRuntimeException(Page page, RuntimeException e) {
+
+                setMetaData( RUNTIME_EXCEPTION_ISSUE, new Issue( page, e ) );
+
+                return super.onRuntimeException( page, e );
+            }
+        };
     }
 }

@@ -1,5 +1,7 @@
 package com.lyndir.lhunath.snaplog.webapp.page;
 
+import static com.google.common.base.Preconditions.checkState;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -7,6 +9,7 @@ import java.util.Map;
 import net.link.safeonline.wicket.component.linkid.LinkIDLoginLink;
 import net.link.safeonline.wicket.component.linkid.LinkIDLogoutLink;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -19,16 +22,19 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.util.template.JavaScriptTemplate;
 import org.apache.wicket.util.template.PackagedTextTemplate;
 
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
+import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.wayward.component.RedirectToPageException;
 import com.lyndir.lhunath.snaplog.data.User;
 import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.cookie.LastUserCookieManager;
-import com.lyndir.lhunath.snaplog.webapp.tabs.Tab;
+import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
 
 
 /**
@@ -43,6 +49,7 @@ import com.lyndir.lhunath.snaplog.webapp.tabs.Tab;
  */
 public class LayoutPage extends WebPage {
 
+    private static final Logger   logger        = Logger.get( LayoutPage.class );
     protected static final String CONTENT_PANEL = "contentPanel";
 
     final Messages                msgs          = LocalizerFactory.getLocalizer( Messages.class, this );
@@ -61,6 +68,8 @@ public class LayoutPage extends WebPage {
      * {@inheritDoc}
      */
     public LayoutPage() {
+
+        logger.dbg( "Constructing %s", getClass() );
 
         // Page Title.
         Label pageTitle = new Label( "pageTitle", getPageTitle() );
@@ -169,12 +178,10 @@ public class LayoutPage extends WebPage {
 
                         // TAB click.
                         SnaplogSession.get().setActiveTab( getModelObject() );
-
-                        final String trackPanelJs = newActiveTabTrackJS();
+                        setContentPanel( getActiveTabPanel( CONTENT_PANEL ) );
 
                         target.addComponent( container );
                         target.addComponent( tabsContainer );
-                        target.appendJavascript( trackPanelJs );
                     }
                 } );
             }
@@ -204,21 +211,49 @@ public class LayoutPage extends WebPage {
             @Override
             protected void onBeforeRender() {
 
-                // Find the active tab.
-                Tab activeTab = SnaplogSession.get().getActiveTab();
-                if (activeTab == null)
-                    SnaplogSession.get().setActiveTab( activeTab = Tab.DESKTOP );
-
-                // Add/replace it in the layout.
-                addOrReplace( activeTab.getTab().getPanel( CONTENT_PANEL ) );
-                add( new StringHeaderContributor( newActiveTabTrackJS() ) );
+                add( new StringHeaderContributor( trackJS( get( CONTENT_PANEL ) ) ) );
 
                 super.onBeforeRender();
             }
         }).setOutputMarkupId( true ) );
+        setContentPanel( getInitialContentPanel( CONTENT_PANEL ) );
 
-        // Page Tracking.
         add( pageTitle, userEntry, userSummary, tabsContainer );
+    }
+
+    /**
+     * Override me to define a custom panel to show initially when this page is constructed.
+     * 
+     * @param wicketId
+     *            The wicket ID that the panel should use.
+     * @return
+     */
+    protected Panel getInitialContentPanel(String wicketId) {
+
+        return getActiveTabPanel( wicketId );
+    }
+
+    public Panel getActiveTabPanel(String wicketId) {
+
+        // Find the active tab.
+        Tab activeTab = SnaplogSession.get().getActiveTab();
+        if (activeTab == null)
+            SnaplogSession.get().setActiveTab( activeTab = Tab.DESKTOP );
+
+        logger.dbg( "Showing active tab: %s", activeTab );
+        if (!getPage().getClass().equals( LayoutPage.class ))
+            throw new RedirectToPageException( LayoutPage.class );
+
+        return activeTab.getTab().getPanel( wicketId );
+    }
+
+    public void setContentPanel(Panel contentPanel) {
+
+        checkState( contentPanel.getId().equals( CONTENT_PANEL ) );
+
+        logger.dbg( "Setting content panel to: %s", contentPanel.getClass() );
+
+        container.addOrReplace( contentPanel );
     }
 
     /**
@@ -234,12 +269,15 @@ public class LayoutPage extends WebPage {
         return msgs.pageTitle( user.getBadge(), user.getUserName() );
     }
 
-    String newActiveTabTrackJS() {
+    protected static String trackJS(Component trackComponent) {
 
-        Map<String, Object> trackPanelVariables = new HashMap<String, Object>();
-        trackPanelVariables.put( "pageView", SnaplogSession.get().getActiveTab().getTab().getClass().getSimpleName() );
-        final String trackPanelJs = new JavaScriptTemplate( new PackagedTextTemplate( LayoutPage.class, "trackPage.js" ) ).asString( trackPanelVariables );
-        return trackPanelJs;
+        Map<String, Object> trackVariables = new HashMap<String, Object>();
+        trackVariables.put( "pageView", trackComponent.getClass().getSimpleName() );
+
+        JavaScriptTemplate trackJS = new JavaScriptTemplate(
+                new PackagedTextTemplate( LayoutPage.class, "trackPage.js" ) );
+
+        return trackJS.asString( trackVariables );
     }
 
 }

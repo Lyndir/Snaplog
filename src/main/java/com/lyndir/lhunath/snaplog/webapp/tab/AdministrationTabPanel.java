@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.webapp.tabs;
+package com.lyndir.lhunath.snaplog.webapp.tab;
 
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -26,7 +26,7 @@ import com.lyndir.lhunath.snaplog.messages.Messages;
 
 
 /**
- * <h2>{@link DesktopTabPanel}<br>
+ * <h2>{@link AdministrationTabPanel}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
@@ -35,15 +35,15 @@ import com.lyndir.lhunath.snaplog.messages.Messages;
  * 
  * @author lhunath
  */
-public class DesktopTabPanel extends Panel {
+public class AdministrationTabPanel extends Panel {
 
     /**
-     * Create a new {@link DesktopTabPanel} instance.
+     * Create a new {@link AdministrationTabPanel} instance.
      * 
      * @param id
-     *            The wicket ID that will hold the {@link DesktopTabPanel}.
+     *            The wicket ID that will hold the {@link AdministrationTabPanel}.
      */
-    public DesktopTabPanel(String id) {
+    public AdministrationTabPanel(String id) {
 
         super( id );
     }
@@ -51,7 +51,7 @@ public class DesktopTabPanel extends Panel {
 
 
 /**
- * <h2>{@link DesktopTabPanel}<br>
+ * <h2>{@link AdministrationTab}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
@@ -64,9 +64,9 @@ public class DesktopTabPanel extends Panel {
  * 
  * @author lhunath
  */
-class DesktopTab implements ITab {
+class AdministrationTab implements ITab {
 
-    static final Logger logger = Logger.get( DesktopTab.class );
+    static final Logger logger = Logger.get( AdministrationTab.class );
     Messages            msgs   = LocalizerFactory.getLocalizer( Messages.class );
 
 
@@ -81,7 +81,7 @@ class DesktopTab implements ITab {
             @Override
             public String getObject() {
 
-                return msgs.desktopTab();
+                return msgs.administrationTab();
             }
         };
     }
@@ -92,7 +92,7 @@ class DesktopTab implements ITab {
     @Override
     public Panel getPanel(String panelId) {
 
-        return new DesktopTabPanel( panelId );
+        return new Panel( panelId );
     }
 
     /**

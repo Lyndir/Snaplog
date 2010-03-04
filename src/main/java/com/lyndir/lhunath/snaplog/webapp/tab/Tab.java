@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.webapp.tabs;
+package com.lyndir.lhunath.snaplog.webapp.tab;
 
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
 
@@ -28,10 +28,46 @@ import org.apache.wicket.extensions.markup.html.tabs.ITab;
  * 
  * @author lhunath
  */
-public interface TabProvider {
+public enum Tab implements TabProvider {
 
-    /**
-     * @return The {@link ITab} that describes the UI elements of this tab.
-     */
-    public ITab getTab();
+    DESKTOP {
+
+        @Override
+        public ITab getTab() {
+
+            return new DesktopTab();
+        }
+    },
+    GALLERY {
+
+        @Override
+        public ITab getTab() {
+
+            return new GalleryTab();
+        }
+    },
+    ALBUM {
+
+        @Override
+        public ITab getTab() {
+
+            return new AlbumTab();
+        }
+    },
+    WORKBENCH {
+
+        @Override
+        public ITab getTab() {
+
+            return new WorkbenchTab();
+        }
+    },
+    ADMINISTRATION {
+
+        @Override
+        public ITab getTab() {
+
+            return new AdministrationTab();
+        }
+    };
 }

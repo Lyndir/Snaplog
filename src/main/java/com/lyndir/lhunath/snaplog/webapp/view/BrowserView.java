@@ -1,10 +1,8 @@
-package com.lyndir.lhunath.snaplog.webapp.components;
+package com.lyndir.lhunath.snaplog.webapp.view;
 
 import java.util.Date;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
@@ -19,8 +17,8 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
+import com.lyndir.lhunath.lib.system.collection.FixedDeque;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.snaplog.data.Media;
@@ -161,36 +159,35 @@ public class BrowserView extends GenericPanel<Date> {
         public List<Media> getObject() {
 
             List<? extends Media> allFiles = albumService.getFiles( SnaplogConstants.DEFAULT_ALBUM );
-            LinkedHashMap<Media, ?> files = new LinkedHashMap<Media, Object>( BROWSER_SIDE_IMAGES * 2 + 1 ) {
+            FixedDeque<Media> files = new FixedDeque<Media>( BROWSER_SIDE_IMAGES * 2 + 1 );
 
-                @Override
-                protected boolean removeEldestEntry(Map.Entry<Media, Object> eldest) {
-
-                    return size() > BROWSER_SIDE_IMAGES * 2 + 1;
-                }
-            };
-
-            Iterator<? extends Media> it = Iterables.reverse( allFiles ).iterator();
+            Iterator<? extends Media> it = allFiles.iterator();
             if (!it.hasNext())
                 return ImmutableList.of();
 
             // Find the current file.
+            boolean addedNextFile = false;
             while (it.hasNext()) {
                 Media nextFile = it.next();
-                files.put( nextFile, null );
+                files.addFirst( nextFile );
 
-                if (getModelObject() != null && nextFile.shotTime() < getModelObject().getTime())
+                if (getModelObject() != null && nextFile.shotTime() > getModelObject().getTime()) {
+                    addedNextFile = true;
                     break;
+                }
 
                 currentFile = nextFile;
             }
 
-            // Add the side images past the current file (we already have the ones before it AND one of these).
-            for (int i = 0; i < BROWSER_SIDE_IMAGES - 1; ++i)
+            // Add the side images past the current file.
+            // We already have the ones before it AND one of these if addedNextFile is set.
+            for (int i = 0; i < BROWSER_SIDE_IMAGES - (addedNextFile? 1: 0); ++i)
                 if (it.hasNext())
-                    files.put( it.next(), null );
+                    files.addFirst( it.next() );
+                else
+                    files.removeLast();
 
-            return ImmutableList.copyOf( files.keySet() );
+            return ImmutableList.copyOf( files );
         }
     }
 }

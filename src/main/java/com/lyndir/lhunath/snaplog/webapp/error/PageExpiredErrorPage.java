@@ -17,7 +17,7 @@ package com.lyndir.lhunath.snaplog.webapp.error;
 
 import org.apache.wicket.markup.html.panel.Panel;
 
-import com.lyndir.lhunath.snaplog.webapp.page.MessagePage;
+import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 
 
 /**
@@ -30,14 +30,15 @@ import com.lyndir.lhunath.snaplog.webapp.page.MessagePage;
  * 
  * @author lhunath
  */
-public class PageExpiredErrorPage extends MessagePage {
+public class PageExpiredErrorPage extends LayoutPage {
 
     /**
-     * Create a new {@link PageExpiredErrorPage} instance.
+     * {@inheritDoc}
      */
-    public PageExpiredErrorPage() {
+    @Override
+    protected Panel getInitialContentPanel(String wicketId) {
 
-        addOrReplace( new PageExpiredErrorPanel( CONTENT_PANEL ) );
+        return new PageExpiredErrorPanel( wicketId );
     }
 
 
