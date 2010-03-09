@@ -92,7 +92,7 @@ class CreditsTab implements ITab {
     @Override
     public Panel getPanel(String panelId) {
 
-        return new Panel( panelId );
+        return new CreditsTabPanel( panelId );
     }
 
     /**

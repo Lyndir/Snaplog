@@ -37,15 +37,18 @@ import com.lyndir.lhunath.snaplog.model.WebUtil;
  * <i>Jul 25, 2009</i>
  * </p>
  * 
+ * @param <P>
+ *            The type of {@link Provider} that provides this media's resources.
+ * @param <A>
+ *            The type of album that can contain this type of media.
  * @author lhunath
  */
-public abstract class Media implements Comparable<Media>, Serializable {
+public abstract class Media<P extends Provider> implements Comparable<Media<?>>, Serializable {
 
     static final Logger                    logger         = Logger.get( Media.class );
 
     private static final DateTimeFormatter filenameFormat = ISODateTimeFormat.basicDateTimeNoMillis();
 
-    private final Album                    album;
     private final String                   name;
     private static final Pattern           EXTENSION      = Pattern.compile( "\\.[^\\.]*$" );
     private static final Pattern           HIDDEN         = Pattern.compile( "^\\." );
@@ -59,9 +62,8 @@ public abstract class Media implements Comparable<Media>, Serializable {
      * @param name
      *            The unique name of this media in the album.
      */
-    protected Media(Album album, String name) {
+    protected Media(String name) {
 
-        this.album = checkNotNull( album );
         this.name = checkNotNull( name );
     }
 
@@ -76,10 +78,7 @@ public abstract class Media implements Comparable<Media>, Serializable {
     /**
      * @return The album of this {@link Media}.
      */
-    public Album getAlbum() {
-
-        return album;
-    }
+    public abstract Album<P> getAlbum();
 
     /**
      * Obtain the time since the UNIX Epoch in milliseconds since the picture was taken.
@@ -138,7 +137,7 @@ public abstract class Media implements Comparable<Media>, Serializable {
      * {@inheritDoc}
      */
     @Override
-    public int compareTo(Media o) {
+    public int compareTo(Media<?> o) {
 
         if (shotTime() > o.shotTime())
             return 1;
@@ -156,9 +155,9 @@ public abstract class Media implements Comparable<Media>, Serializable {
 
         if (o == this)
             return true;
-        if (o instanceof Media)
-            return Objects.equal( ((Media) o).getName(), getName() )
-                   && Objects.equal( ((Media) o).getAlbum(), getAlbum() );
+        if (o instanceof Media<?>)
+            return Objects.equal( ((Media<?>) o).getName(), getName() )
+                   && Objects.equal( ((Media<?>) o).getAlbum(), getAlbum() );
 
         return false;
     }
@@ -188,15 +187,23 @@ public abstract class Media implements Comparable<Media>, Serializable {
         /**
          * The full quality of the original media file.
          */
+        METADATA( "metadata", 0, 0, 0 ),
+
+        /**
+         * The full quality of the original media file.
+         */
         ORIGINAL( "original", -1, -1, 1 ),
+
         /**
          * Media quality fit for displaying the media such that it fills the screen.
          */
         FULLSCREEN( "fullscreen", 1024, 768, 0.9f ),
+
         /**
          * Media quality fit for previewing the media at a size where it is easy to tell what it depicts.
          */
         PREVIEW( "preview", 600, 450, 0.8f ),
+
         /**
          * Media quality fit for giving a hint on what the media is about.
          */

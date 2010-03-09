@@ -7,9 +7,11 @@
     </appender>
 
     <logger name="com.lyndir" level="DEBUG" />
-    <logger name="org.jets3t.service.impl" level="OFF" />
+    <logger name="net.lin-k" level="DEBUG" />
+    <logger name="org.opensaml" level="WARN" />
+    <logger name="org.jets3t.service.impl" level="WARN" />
 
-    <root level="info">
+    <root level="WARN">
         <appender-ref ref="STDOUT" />
     </root>
 

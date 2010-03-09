@@ -20,6 +20,7 @@ import java.net.URI;
 import com.google.common.collect.ImmutableList;
 import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.Media;
+import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.data.Media.Quality;
 
 
@@ -31,13 +32,15 @@ import com.lyndir.lhunath.snaplog.data.Media.Quality;
  * <i>Jan 10, 2010</i>
  * </p>
  * 
- * @author lhunath
+ * @param <P>
+ *            The type of {@link Provider} that we services.
  * @param <A>
- *            The type of {@link Album} supported by this {@link MediaProviderService}.
+ *            The type of {@link Album} that can contain M.
  * @param <M>
- *            The type of {@link Media} supported by this {@link MediaProviderService}.
+ *            The type of {@link Media} we provide services for.
+ * @author lhunath
  */
-public interface MediaProviderService<A extends Album, M extends Media> {
+public interface MediaProviderService<P extends Provider, A extends Album<P>, M extends Media<P>> {
 
     /**
      * Enumerate all media in a certain album.
@@ -47,7 +50,7 @@ public interface MediaProviderService<A extends Album, M extends Media> {
      * 
      * @return All the {@link Media} from the given {@link Album}.
      */
-    ImmutableList<? extends Media> getFiles(A album);
+    ImmutableList<M> getFiles(A album);
 
     /**
      * Obtain a reference to the resource of media at a certain quality.

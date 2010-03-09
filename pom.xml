@@ -140,6 +140,18 @@
                             <name>logback.configurationFile</name>
                             <value>${basedir}/target/classes/logback.xml</value>
                         </systemProperty>
+                        <systemProperty>
+                            <name>snaplog.url.insecure</name>
+                            <value>http://localhost:8080</value>
+                        </systemProperty>
+                        <systemProperty>
+                            <name>snaplog.url.secure</name>
+                            <value>http://localhost:8080</value>
+                        </systemProperty>
+                        <systemProperty>
+                            <name>linkid.url</name>
+                            <value>https://demo.linkid.be</value>
+                        </systemProperty>
                     </systemProperties>
                 </configuration>
                 <dependencies>
@@ -172,7 +184,7 @@
         <dependency>
             <groupId>net.lin-k.safe-online</groupId>
             <artifactId>safe-online-wicket-sdk</artifactId>
-            <version>1.11-SNAPSHOT</version>
+            <version>1.12-SNAPSHOT</version>
         </dependency>
 
         <!-- EXTERNAL DEPENDENCIES -->
@@ -193,6 +205,11 @@
             <artifactId>wicket-guice</artifactId>
         </dependency>
 
+       <dependency>
+            <groupId>com.db4o</groupId>
+            <artifactId>db4o-core-java5</artifactId>
+        </dependency>
+ 
         <dependency>
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
@@ -228,6 +245,14 @@
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jul-to-slf4j</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>jcl-over-slf4j</artifactId>
         </dependency>
         <dependency>
             <groupId>org.slf4j</groupId>

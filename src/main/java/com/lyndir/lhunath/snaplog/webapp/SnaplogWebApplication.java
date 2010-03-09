@@ -15,6 +15,8 @@
  */
 package com.lyndir.lhunath.snaplog.webapp;
 
+import net.link.safeonline.sdk.common.configuration.WebappConfig;
+
 import org.apache.wicket.MetaDataKey;
 import org.apache.wicket.Page;
 import org.apache.wicket.Request;
@@ -31,16 +33,14 @@ import org.apache.wicket.protocol.http.WebRequestCycle;
 import org.apache.wicket.protocol.http.WebResponse;
 import org.apache.wicket.settings.IExceptionSettings;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
-import com.google.inject.Stage;
+import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.linkid.SnaplogWebappConfig;
-import com.lyndir.lhunath.snaplog.model.impl.ServicesModule;
 import com.lyndir.lhunath.snaplog.webapp.error.AccessDeniedErrorPage;
 import com.lyndir.lhunath.snaplog.webapp.error.InternalErrorPage;
 import com.lyndir.lhunath.snaplog.webapp.error.Issue;
 import com.lyndir.lhunath.snaplog.webapp.error.PageExpiredErrorPage;
 import com.lyndir.lhunath.snaplog.webapp.filter.OpenCloseTagExpander;
+import com.lyndir.lhunath.snaplog.webapp.listener.GuiceInjector;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 
 
@@ -55,6 +55,8 @@ import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
  * @author lhunath
  */
 public class SnaplogWebApplication extends WebApplication {
+
+    static final Logger                    logger                  = Logger.get( SnaplogWebApplication.class );
 
     /**
      * Context-relative path to the page that indicates an error occurred during the linkID authentication protocol.
@@ -72,7 +74,7 @@ public class SnaplogWebApplication extends WebApplication {
     @Override
     protected void init() {
 
-        new SnaplogWebappConfig().use();
+        WebappConfig.setConfig( new SnaplogWebappConfig() );
 
         getApplicationSettings().setPageExpiredErrorPage( PageExpiredErrorPage.class );
         getApplicationSettings().setAccessDeniedPage( AccessDeniedErrorPage.class );
@@ -81,7 +83,6 @@ public class SnaplogWebApplication extends WebApplication {
         getExceptionSettings().setUnexpectedExceptionDisplay( IExceptionSettings.SHOW_INTERNAL_ERROR_PAGE );
 
         // https://issues.apache.org/jira/browse/WICKET-2650 -- Consistently create body for short tags.
-        getMarkupSettings().setDefaultMarkupEncoding( "UTF-8" );
         getMarkupSettings().setMarkupParserFactory( new IMarkupParserFactory() {
 
             @Override
@@ -93,12 +94,10 @@ public class SnaplogWebApplication extends WebApplication {
                 return markupParser;
             }
         } );
+        getMarkupSettings().setDefaultMarkupEncoding( "UTF-8" );
 
-        Injector guiceInjector = Guice.createInjector( getConfigurationType().equals( DEVELOPMENT ) //
-                ? Stage.DEVELOPMENT: Stage.PRODUCTION, //
-                                                       new ServicesModule() );
-        addComponentInstantiationListener( new InjectionFlagCachingGuiceComponentInjector( this, guiceInjector ) );
-        addPreComponentOnBeforeRenderListener( guiceInjector.getInstance( AuthenticationListener.class ) );
+        addComponentInstantiationListener( new InjectionFlagCachingGuiceComponentInjector( this, GuiceInjector.get() ) );
+        addPreComponentOnBeforeRenderListener( GuiceInjector.get().getInstance( AuthenticationListener.class ) );
     }
 
     /**

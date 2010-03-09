@@ -20,6 +20,7 @@ import java.util.List;
 import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.Media;
 import com.lyndir.lhunath.snaplog.data.MediaTimeFrame;
+import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.data.User;
 
 
@@ -35,9 +36,11 @@ import com.lyndir.lhunath.snaplog.data.User;
  * <i>Jan 9, 2010</i>
  * </p>
  * 
+ * @param <P>
+ *            The type of {@link Provider} that provides the resources for the media in this time frame.
  * @author lhunath
  */
-public interface AlbumService extends MediaProviderService<Album, Media> {
+public interface AlbumService<P extends Provider> extends MediaProviderService<P, Album<P>, Media<P>> {
 
     /**
      * Look for an album owned by a user.
@@ -49,7 +52,7 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
      * 
      * @return An album, or <code>null</code> if the given user has no album with the given name.
      */
-    Album findAlbumWithName(User user, String albumName);
+    Album<P> findAlbumWithName(User user, String albumName);
 
     /**
      * Look for media in the given album.
@@ -62,7 +65,7 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
      * @return The media by the given name in the given album or <code>null</code> if no media exists by the given name
      *         in the given album.
      */
-    Media findMediaWithName(Album album, String mediaName);
+    Media<P> findMediaWithName(Album<P> album, String mediaName);
 
     /**
      * Obtain a list of year-based time frames of the media in the given album.
@@ -72,5 +75,5 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
      * 
      * @return A list of year-type time frames on the given album's media.
      */
-    List<MediaTimeFrame> getYears(Album album);
+    List<MediaTimeFrame<P>> getYears(Album<P> album);
 }

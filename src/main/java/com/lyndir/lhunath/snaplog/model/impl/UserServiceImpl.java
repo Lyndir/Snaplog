@@ -17,14 +17,15 @@ package com.lyndir.lhunath.snaplog.model.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.HashMap;
-import java.util.Map;
-
+import com.db4o.ObjectContainer;
+import com.db4o.ObjectSet;
+import com.db4o.query.Predicate;
 import com.google.inject.Inject;
+import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.LinkID;
+import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.data.User;
 import com.lyndir.lhunath.snaplog.model.UserService;
-import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
 
 
 /**
@@ -34,19 +35,19 @@ import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
  * <i>Jan 9, 2010</i>
  * </p>
  * 
+ * @param <P>
+ *            The type of {@link Provider} that we can service.
  * @author lhunath
  */
-public class UserServiceImpl implements UserService {
+public class UserServiceImpl<P extends Provider> implements UserService<P> {
 
-    private static final Map<LinkID, User> users = new HashMap<LinkID, User>();
+    ObjectContainer db;
 
 
-    /**
-     */
     @Inject
-    public UserServiceImpl() {
+    public UserServiceImpl(ObjectContainer db) {
 
-        users.put( SnaplogConstants.DEFAULT_USER.getLinkID(), SnaplogConstants.DEFAULT_USER );
+        this.db = db;
     }
 
     /**
@@ -58,32 +59,73 @@ public class UserServiceImpl implements UserService {
         checkNotNull( linkID );
         checkNotNull( userName );
 
-        return users.put( linkID, new User( linkID, userName ) );
+        User user = new User( linkID, userName );
+        db.store( user );
+
+        return user;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public User findUserWithLinkID(LinkID linkID) {
+    public User findUserWithLinkID(final LinkID linkID) {
 
         checkNotNull( linkID );
 
-        return users.get( linkID );
+        ObjectSet<User> userQuery = db.query( new Predicate<User>() {
+
+            @Override
+            public boolean match(User candidate) {
+
+                return candidate.getLinkID().equals( linkID );
+            }
+        } );
+        if (userQuery.hasNext())
+            return userQuery.next();
+
+        // No user exists yet for given linkID.
+        return null;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public User findUserWithName(String userName) {
+    public User findUserWithUserName(final String userName) {
 
         checkNotNull( userName );
 
-        for (User user : users.values())
-            if (user.getUserName().equals( userName ))
-                return user;
+        ObjectSet<User> userQuery = db.query( new Predicate<User>() {
 
+            @Override
+            public boolean match(User candidate) {
+
+                return candidate.getUserName().equals( userName );
+            }
+        } );
+        if (userQuery.hasNext())
+            return userQuery.next();
+
+        // No user exists yet for given userName.
         return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ObjectSet<Album<P>> queryAlbumsOfUserVisibleToUser(final User ownerUser, User observerUser) {
+
+        checkNotNull( ownerUser );
+
+        return db.query( new Predicate<Album<P>>() {
+
+            @Override
+            public boolean match(Album<P> candidate) {
+
+                return candidate.getUser().equals( ownerUser );
+            }
+        } );
     }
 }

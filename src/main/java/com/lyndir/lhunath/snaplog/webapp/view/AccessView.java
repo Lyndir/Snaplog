@@ -16,9 +16,9 @@ import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.snaplog.data.Album;
+import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
-import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 
 
 /**
@@ -29,24 +29,17 @@ import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
  * <i>Jan 4, 2010</i>
  * </p>
  * 
+ * @param <P>
+ *            The type of {@link Provider} that we can interface with.
  * @author lhunath
  */
-public class AccessView extends GenericPanel<Album> {
+public class AccessView extends GenericPanel<Album<Provider>> {
 
-    Messages     msgs = LocalizerFactory.getLocalizer( Messages.class, this );
+    Messages               msgs = LocalizerFactory.getLocalizer( Messages.class, this );
 
     @Inject
-    AlbumService albumService;
+    AlbumService<Provider> albumService;
 
-
-    /**
-     * @param id
-     *            Wicket component ID.
-     */
-    public AccessView(String id) {
-
-        this( id, new Model<Album>( SnaplogSession.get().getFocussedAlbum() ) );
-    }
 
     /**
      * @param id
@@ -54,7 +47,7 @@ public class AccessView extends GenericPanel<Album> {
      * @param albumModel
      *            The {@link Album} to configure access controls for.
      */
-    public AccessView(String id, IModel<Album> albumModel) {
+    public AccessView(String id, IModel<Album<Provider>> albumModel) {
 
         super( id, albumModel );
 

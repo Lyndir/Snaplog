@@ -18,24 +18,25 @@ package com.lyndir.lhunath.snaplog.model.impl;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.net.URI;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+import com.db4o.ObjectContainer;
+import com.db4o.ObjectSet;
+import com.db4o.query.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.ImmutableList.Builder;
-import com.google.inject.Guice;
+import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.Album;
+import com.lyndir.lhunath.snaplog.data.AlbumData;
 import com.lyndir.lhunath.snaplog.data.Media;
 import com.lyndir.lhunath.snaplog.data.MediaTimeFrame;
+import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.data.User;
 import com.lyndir.lhunath.snaplog.data.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.MediaTimeFrame.Type;
-import com.lyndir.lhunath.snaplog.data.aws.S3Album;
-import com.lyndir.lhunath.snaplog.model.AWSMediaProviderService;
+import com.lyndir.lhunath.snaplog.model.AlbumProvider;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
-import com.lyndir.lhunath.snaplog.model.MediaProviderService;
 
 
 /**
@@ -45,44 +46,63 @@ import com.lyndir.lhunath.snaplog.model.MediaProviderService;
  * <i>Jul 25, 2009</i>
  * </p>
  * 
+ * @param <P>
+ *            The type of {@link Provider} that we provide album services for.
  * @author lhunath
  */
-public class AlbumServiceImpl implements AlbumService {
+public class AlbumServiceImpl<P extends Provider> implements AlbumService<P> {
 
-    private static final Logger                 logger     = Logger.get( AlbumServiceImpl.class );
+    private static final Logger logger = Logger.get( AlbumServiceImpl.class );
 
-    private static final Map<Album, AlbumCache> albumCache = new HashMap<Album, AlbumCache>();
+    ObjectContainer             db;
 
+
+    @Inject
+    public AlbumServiceImpl(ObjectContainer db) {
+
+        this.db = db;
+    }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Album findAlbumWithName(User user, String albumName) {
+    public Album<P> findAlbumWithName(final User user, final String albumName) {
 
         checkNotNull( user );
         checkNotNull( albumName );
 
-        for (Album album : albumCache.keySet())
-            if (album.getUser().equals( user ) && album.getName().equals( albumName ))
-                return album;
+        return db.query( new Predicate<Album<P>>() {
 
-        return null;
+            @Override
+            public boolean match(Album<P> candidate) {
+
+                return candidate.getUser().equals( user ) && candidate.getName().equals( albumName );
+            }
+        } ).next();
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Media findMediaWithName(Album album, String mediaName) {
+    public Media<P> findMediaWithName(final Album<P> album, final String mediaName) {
 
         checkNotNull( album );
         checkNotNull( mediaName );
 
-        for (Media file : getFiles( album ))
-            if (file.getName().equals( mediaName ))
-                return file;
+        ObjectSet<Media<P>> mediaQuery = db.query( new Predicate<Media<P>>() {
 
+            @Override
+            public boolean match(Media<P> candidate) {
+
+                return candidate.getAlbum().equals( album ) && candidate.getName().endsWith( mediaName );
+            }
+        } );
+        if (mediaQuery.hasNext())
+            return mediaQuery.next();
+
+        // Media in album by mediaName not found.
         return null;
     }
 
@@ -90,63 +110,78 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     @Override
-    public List<MediaTimeFrame> getYears(Album album) {
+    public List<MediaTimeFrame<P>> getYears(Album<P> album) {
 
         checkNotNull( album );
 
-        ImmutableList<MediaTimeFrame> timeFrames = getAlbumCache( album ).getTimeFrames();
+        AlbumData<P> albumData = getAlbumData( album );
+        ImmutableList<MediaTimeFrame<P>> timeFrames = albumData.getTimeFrames();
         if (timeFrames != null)
             return timeFrames;
 
-        MediaTimeFrame currentYear = null, currentMonth = null, currentDay = null;
-        Builder<MediaTimeFrame> timeFramesBuilder = new ImmutableList.Builder<MediaTimeFrame>();
+        MediaTimeFrame<P> currentYear = null, currentMonth = null, currentDay = null;
+        Builder<MediaTimeFrame<P>> timeFramesBuilder = new ImmutableList.Builder<MediaTimeFrame<P>>();
 
-        for (Media mediaFile : getFiles( album )) {
+        for (Media<P> mediaFile : getFiles( album )) {
             long shotTime = mediaFile.shotTime();
 
             if (currentYear == null || !currentYear.containsTime( shotTime ))
-                timeFramesBuilder.add( currentYear = new MediaTimeFrame( null, Type.YEAR, shotTime ) );
+                timeFramesBuilder.add( currentYear = new MediaTimeFrame<P>( null, Type.YEAR, shotTime ) );
 
             if (currentMonth == null || !currentMonth.containsTime( shotTime ))
-                currentYear.addTimeFrame( currentMonth = new MediaTimeFrame( currentYear, Type.MONTH, shotTime ) );
+                currentYear.addTimeFrame( currentMonth = new MediaTimeFrame<P>( currentYear, Type.MONTH, shotTime ) );
 
             if (currentDay == null || !currentDay.containsTime( shotTime ))
-                currentMonth.addTimeFrame( currentDay = new MediaTimeFrame( currentMonth, Type.DAY, shotTime ) );
+                currentMonth.addTimeFrame( currentDay = new MediaTimeFrame<P>( currentMonth, Type.DAY, shotTime ) );
 
             currentDay.addFile( mediaFile );
         }
 
-        getAlbumCache( album ).setTimeFrames( timeFrames = timeFramesBuilder.build() );
+        albumData.setTimeFrames( timeFrames = timeFramesBuilder.build() );
+        db.store( albumData );
+
         return timeFrames;
     }
 
     /**
-     * Obtain an {@link AlbumCache} entry for the given album.
+     * Obtain an {@link AlbumData} entry for the given album.
      * 
-     * If the {@link Album} is not yet cached; it will be added to the cache. This method is guaranteed to not return
-     * <code>null</code>s.
+     * If there is no data for the {@link Album} yet; an empty data object will be created.
      * 
      * @param album
-     *            The album whose cache to get.
+     *            The album whose data to get.
      * 
-     * @return The cache for the given album.
+     * @return The data for the given album.
      */
-    private AlbumCache getAlbumCache(Album album) {
+    private AlbumData<P> getAlbumData(final Album<P> album) {
 
         checkNotNull( album );
 
-        AlbumCache cache = albumCache.get( album );
-        if (cache == null)
-            albumCache.put( album, cache = new AlbumCache() );
+        ObjectSet<AlbumData<P>> albumDataQuery = db.query( new Predicate<AlbumData<P>>() {
 
-        return cache;
+            @Override
+            public boolean match(AlbumData<P> candidate) {
+
+                return candidate.getAlbum().equals( album );
+            }
+        } );
+        if (albumDataQuery.hasNext())
+            return albumDataQuery.next();
+
+        // No AlbumData yet for this album.
+        AlbumData<P> albumData = new AlbumData<P>( album );
+        db.store( albumData );
+
+        return albumData;
     }
 
-    private static AlbumProvider getAlbumProvider(Album album) {
+    private static <P extends Provider> AlbumProvider<P, Album<P>, Media<P>> getAlbumProvider(Album<P> album) {
 
         checkNotNull( album );
 
-        for (AlbumProvider albumProvider : AlbumProvider.values())
+        @SuppressWarnings("unchecked")
+        AlbumProvider<P, Album<P>, Media<P>>[] checkedValues = (AlbumProvider<P, Album<P>, Media<P>>[]) AlbumProvider.values;
+        for (AlbumProvider<P, Album<P>, Media<P>> albumProvider : checkedValues)
             if (albumProvider.getAlbumType().isAssignableFrom( album.getClass() ))
                 return albumProvider;
 
@@ -158,15 +193,18 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     @Override
-    public ImmutableList<? extends Media> getFiles(Album album) {
+    public ImmutableList<Media<P>> getFiles(Album<P> album) {
 
         checkNotNull( album );
 
-        ImmutableList<? extends Media> files = getAlbumCache( album ).getFiles();
+        AlbumData<P> albumData = getAlbumData( album );
+        ImmutableList<Media<P>> files = albumData.getFiles();
         if (files != null)
             return files;
 
-        getAlbumCache( album ).setFiles( files = getAlbumProvider( album ).getFiles( album ) );
+        albumData.setFiles( files = getAlbumProvider( album ).getFiles( album ) );
+        db.store( albumData );
+
         return files;
     }
 
@@ -174,7 +212,7 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     @Override
-    public URI getResourceURI(Media media, Quality quality) {
+    public URI getResourceURI(Media<P> media, Quality quality) {
 
         checkNotNull( media );
         checkNotNull( quality );
@@ -186,151 +224,10 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     @Override
-    public long modifiedTime(Media media) {
+    public long modifiedTime(Media<P> media) {
 
         checkNotNull( media );
 
         return getAlbumProvider( media.getAlbum() ).modifiedTime( media );
-    }
-
-
-    /**
-     * <h2>{@link AlbumProvider}<br>
-     * <sub>Enumeration of all supported Album providers.</sub></h2>
-     * 
-     * <p>
-     * <i>Jul 25, 2009</i>
-     * </p>
-     * 
-     * @author lhunath
-     */
-    public enum AlbumProvider implements MediaProviderService<Album, Media> {
-
-        /**
-         * Amazon S3.
-         * 
-         * <p>
-         * Provides storage hosted at the Amazon cloud.
-         * </p>
-         */
-        AMAZON_S3( S3Album.class, AWSMediaProviderService.class );
-
-        private final Class<? extends Album>                              albumType;
-        private final Class<? extends MediaProviderService<Album, Media>> albumProviderServiceType;
-
-
-        @SuppressWarnings("unchecked")
-        AlbumProvider(Class<? extends Album> albumType,
-                      Class<? extends MediaProviderService<? extends Album, ? extends Media>> albumProviderServiceType) {
-
-            this.albumType = checkNotNull( albumType );
-            this.albumProviderServiceType = checkNotNull( (Class<? extends MediaProviderService<Album, Media>>) albumProviderServiceType );
-        }
-
-        /**
-         * @return The albumType of this {@link AlbumProvider}.
-         */
-        public Class<? extends Album> getAlbumType() {
-
-            return albumType;
-        }
-
-        /**
-         * @return The albumProviderService of this {@link AlbumProvider}.
-         */
-        public MediaProviderService<Album, Media> getAlbumProviderService() {
-
-            return Guice.createInjector( new ServicesModule() ).getInstance( albumProviderServiceType );
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public ImmutableList<? extends Media> getFiles(Album album) {
-
-            checkNotNull( album );
-
-            return getAlbumProviderService().getFiles( album );
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public URI getResourceURI(Media media, Quality quality) {
-
-            checkNotNull( media );
-            checkNotNull( quality );
-
-            return getAlbumProviderService().getResourceURI( media, quality );
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
-        public long modifiedTime(Media media) {
-
-            checkNotNull( media );
-
-            return getAlbumProviderService().modifiedTime( media );
-        }
-    }
-
-
-    /**
-     * <h2>{@link com.lyndir.lhunath.snaplog.model.impl.AlbumServiceImpl}<br>
-     * <sub>[in short] (TODO).</sub></h2>
-     * 
-     * <p>
-     * <i>Jan 28, 2010</i>
-     * </p>
-     * 
-     * @author lhunath
-     */
-    protected class AlbumCache {
-
-        private ImmutableList<? extends Media> files;
-        private ImmutableList<MediaTimeFrame>  timeFrames;
-
-
-        /**
-         * @param files
-         *            The files of this {@link AlbumCache}.
-         */
-        public void setFiles(ImmutableList<? extends Media> files) {
-
-            checkNotNull( files );
-
-            this.files = files;
-        }
-
-        /**
-         * @return The files of this {@link AlbumCache}.
-         */
-        public ImmutableList<? extends Media> getFiles() {
-
-            return files;
-        }
-
-        /**
-         * @param timeFrames
-         *            The timeFrames of this {@link AlbumCache}.
-         */
-        public void setTimeFrames(ImmutableList<MediaTimeFrame> timeFrames) {
-
-            checkNotNull( timeFrames );
-
-            this.timeFrames = timeFrames;
-        }
-
-        /**
-         * @return The timeFrames of this {@link AlbumCache}.
-         */
-        public ImmutableList<MediaTimeFrame> getTimeFrames() {
-
-            return timeFrames;
-        }
     }
 }

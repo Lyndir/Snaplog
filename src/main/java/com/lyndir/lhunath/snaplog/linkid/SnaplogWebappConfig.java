@@ -15,9 +15,9 @@
  */
 package com.lyndir.lhunath.snaplog.linkid;
 
-import javax.servlet.http.HttpServletRequest;
+import net.link.safeonline.sdk.common.configuration.PropertiesWebappConfig;
 
-import net.link.safeonline.sdk.common.configuration.WebappConfig;
+import com.lyndir.lhunath.lib.system.logging.Logger;
 
 
 /**
@@ -30,58 +30,22 @@ import net.link.safeonline.sdk.common.configuration.WebappConfig;
  * 
  * @author lhunath
  */
-public class SnaplogWebappConfig extends WebappConfig {
+public class SnaplogWebappConfig extends PropertiesWebappConfig {
+
+    static final Logger         logger                     = Logger.get( SnaplogWebappConfig.class );
+
+    private static final String WEBAPP_PROPERTIES_RESOURCE = "webapp.properties";
+
 
     /**
-     * Use this WebappConfig implementation.
+     * Create a new {@link SnaplogWebappConfig} instance.
      */
-    public void use() {
+    public SnaplogWebappConfig() {
 
-        config = this;
-    }
+        super( WEBAPP_PROPERTIES_RESOURCE );
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String appbase() {
-
-        return "http://localhost:8080";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String applandingbase() {
-
-        return "http://localhost:8080";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String authbase() {
-
-        return "https://demo.linkid.be/linkid-auth";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String webappPath(HttpServletRequest request) {
-
-        return "/";
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String wsbase() {
-
-        return "https://demo.linkid.be/safe-online-ws";
+        logger.dbg( "SnaplogWebappConfig resource: %s", Thread.currentThread()
+                                                              .getContextClassLoader()
+                                                              .getResource( WEBAPP_PROPERTIES_RESOURCE ) );
     }
 }

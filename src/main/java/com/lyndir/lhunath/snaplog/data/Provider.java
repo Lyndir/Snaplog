@@ -13,30 +13,19 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.webapp.listener;
-
-import com.google.inject.Injector;
-import com.google.inject.servlet.GuiceServletContextListener;
+package com.lyndir.lhunath.snaplog.data;
 
 
 /**
- * <h2>{@link GuiceListener}<br>
+ * <h2>{@link Provider}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
- * <i>Jan 11, 2010</i>
+ * <i>Mar 8, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
-public class GuiceListener extends GuiceServletContextListener {
+public interface Provider {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    protected Injector getInjector() {
-
-        return GuiceInjector.get();
-    }
 }

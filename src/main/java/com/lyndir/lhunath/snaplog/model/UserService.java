@@ -15,7 +15,10 @@
  */
 package com.lyndir.lhunath.snaplog.model;
 
+import com.db4o.ObjectSet;
+import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.LinkID;
+import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.data.User;
 
 
@@ -27,9 +30,11 @@ import com.lyndir.lhunath.snaplog.data.User;
  * <i>Jan 9, 2010</i>
  * </p>
  * 
+ * @param <P>
+ *            The type of {@link Provider} that we can service.
  * @author lhunath
  */
-public interface UserService {
+public interface UserService<P extends Provider> {
 
     /**
      * Create a new user with the given userName and linkID identifier.
@@ -61,5 +66,18 @@ public interface UserService {
      * 
      * @return The user with the given userName or <code>null</code> if no such user exists yet.
      */
-    User findUserWithName(String userName);
+    User findUserWithUserName(String userName);
+
+    /**
+     * Query for all albums of a user that are visible to a certain user.
+     * 
+     * @param ownerUser
+     *            The {@link User} that owns the returned {@link Album}s.
+     * @param observerUser
+     *            The {@link User} that wants to see the list of {@link Album}s. If <code>null</code>, only publicly
+     *            accessible albums are returned.
+     * 
+     * @return An {@link ObjectSet} of albums owned by the given owner that are visible to the given observer.
+     */
+    ObjectSet<Album<P>> queryAlbumsOfUserVisibleToUser(User ownerUser, User observerUser);
 }

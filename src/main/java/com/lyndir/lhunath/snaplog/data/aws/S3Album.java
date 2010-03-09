@@ -33,7 +33,7 @@ import com.lyndir.lhunath.snaplog.data.User;
  * 
  * @author lhunath
  */
-public class S3Album extends Album {
+public class S3Album extends Album<S3Provider> {
 
     /**
      * @param user

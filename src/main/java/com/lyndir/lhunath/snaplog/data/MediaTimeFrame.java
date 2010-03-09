@@ -45,19 +45,23 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
  * <i>Jul 25, 2009</i>
  * </p>
  * 
+ * @param <P>
+ *            The type of {@link Provider} that provides the resources for the media in this time frame.
+ * 
  * @author lhunath
  */
-public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<MediaTimeFrame>, Serializable {
+public class MediaTimeFrame<P extends Provider>
+        implements Comparable<MediaTimeFrame<?>>, Iterable<MediaTimeFrame<P>>, Serializable {
 
-    private static final Logger              logger = Logger.get( MediaTimeFrame.class );
+    private static final Logger                 logger = Logger.get( MediaTimeFrame.class );
 
-    private final MediaTimeFrame             parent;
-    private final LinkedList<MediaTimeFrame> children;
+    private final MediaTimeFrame<P>             parent;
+    private final LinkedList<MediaTimeFrame<P>> children;
 
-    private final Type                       type;
-    private final Partial                    typeTime;
+    private final Type                          type;
+    private final Partial                       typeTime;
 
-    private final LinkedList<Media>          files;
+    private final LinkedList<Media<P>>          files;
 
 
     /**
@@ -68,7 +72,7 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
      * @param timeMillis
      *            The time in milliseconds since the UNIX epoch of the beginning of this timeframe.
      */
-    public MediaTimeFrame(MediaTimeFrame parent, Type type, long timeMillis) {
+    public MediaTimeFrame(MediaTimeFrame<P> parent, Type type, long timeMillis) {
 
         Type parentType = type.findParentType();
         if (parentType == null) {
@@ -80,11 +84,11 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
                               type, parentType, parent.type ).toError( IllegalArgumentException.class );
 
         this.parent = parent;
-        children = new LinkedList<MediaTimeFrame>();
+        children = new LinkedList<MediaTimeFrame<P>>();
         this.type = type;
 
         typeTime = new Partial( type.getDateType(), new LocalDateTime( timeMillis ).get( type.getDateType() ) );
-        files = new LinkedList<Media>();
+        files = new LinkedList<Media<P>>();
     }
 
     /**
@@ -96,12 +100,12 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
      * 
      * @return An unmodifiable list of {@link Media}s.
      */
-    public List<Media> getFiles(boolean recurse) {
+    public List<Media<P>> getFiles(boolean recurse) {
 
-        List<Media> list = files;
+        List<Media<P>> list = files;
         if (recurse) {
-            list = new LinkedList<Media>( files );
-            for (MediaTimeFrame childFrame : this)
+            list = new LinkedList<Media<P>>( files );
+            for (MediaTimeFrame<P> childFrame : this)
                 list.addAll( childFrame.getFiles( true ) );
         }
 
@@ -109,14 +113,14 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
     }
 
     /**
-     * Add media to this timeframe.
+     * Add media to this time frame.
      * 
      * @param mediaFile
-     *            The media to add to this timeframe.
+     *            The media to add to this time frame.
      */
-    public void addFile(Media mediaFile) {
+    public void addFile(Media<P> mediaFile) {
 
-        // TODO: Validate that mediaFile is in this timeframe.
+        // TODO: Validate that mediaFile is in this time frame.
         files.add( mediaFile );
     }
 
@@ -146,11 +150,34 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
     }
 
     /**
-     * @return A short representation of this timeframe.
+     * @return A short representation of this time frame.
      */
     public String getShortName() {
 
         return DateTimeFormat.forPattern( type.getDateFormatString() ).print( typeTime );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Iterator<MediaTimeFrame<P>> iterator() {
+
+        return children.iterator();
+    }
+
+    /**
+     * @param mediaTimeFrame
+     *            The child {@link MediaTimeFrame} to add to this one.
+     */
+    public void addTimeFrame(MediaTimeFrame<P> mediaTimeFrame) {
+
+        Type childType = type.findChildType();
+        if (childType == null || childType != mediaTimeFrame.type)
+            throw logger.err( "This timeframe (type: %s) doesn't support children of type: %s (supports: %s)", //
+                              type, mediaTimeFrame.type, childType ).toError( IllegalArgumentException.class );
+
+        children.add( mediaTimeFrame );
     }
 
     /**
@@ -166,7 +193,7 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
      * {@inheritDoc}
      */
     @Override
-    public int compareTo(MediaTimeFrame o) {
+    public int compareTo(MediaTimeFrame<?> o) {
 
         return typeTime.compareTo( o.typeTime );
     }
@@ -177,8 +204,8 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
         if (obj == this)
             return true;
 
-        if (obj instanceof MediaTimeFrame)
-            return ((MediaTimeFrame) obj).type == type && ((MediaTimeFrame) obj).typeTime.equals( typeTime );
+        if (obj instanceof MediaTimeFrame<?>)
+            return ((MediaTimeFrame<?>) obj).type == type && ((MediaTimeFrame<?>) obj).typeTime.equals( typeTime );
 
         return false;
     }
@@ -187,15 +214,6 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
     public int hashCode() {
 
         return Objects.hashCode( type, typeTime );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Iterator<MediaTimeFrame> iterator() {
-
-        return children.iterator();
     }
 
 
@@ -239,7 +257,7 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
         }
 
         /**
-         * @return The type of date this timeframe represents.
+         * @return The type of date this time frame represents.
          */
         public DateTimeFieldType getDateType() {
 
@@ -247,7 +265,7 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
         }
 
         /**
-         * @return The type of timeframe our parent can be.
+         * @return The type of time frame our parent can be.
          */
         public Type findParentType() {
 
@@ -255,7 +273,7 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
         }
 
         /**
-         * @return The type of timeframe our children can be.
+         * @return The type of time frame our children can be.
          */
         public Type findChildType() {
 
@@ -273,20 +291,5 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
 
             return dateFormatString;
         }
-    }
-
-
-    /**
-     * @param mediaTimeFrame
-     *            The child {@link MediaTimeFrame} to add to this one.
-     */
-    public void addTimeFrame(MediaTimeFrame mediaTimeFrame) {
-
-        Type childType = type.findChildType();
-        if (childType == null || childType != mediaTimeFrame.type)
-            throw logger.err( "This timeframe (type: %s) doesn't support children of type: %s (supports: %s)", //
-                              type, mediaTimeFrame.type, childType ).toError( IllegalArgumentException.class );
-
-        children.add( mediaTimeFrame );
     }
 }

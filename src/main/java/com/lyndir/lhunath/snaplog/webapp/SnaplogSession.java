@@ -24,7 +24,9 @@ import org.apache.wicket.protocol.http.WebSession;
 import com.google.common.base.Objects;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.Album;
+import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.data.User;
+import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
 import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
 
 
@@ -49,7 +51,7 @@ public class SnaplogSession extends WebSession {
     private Tab                 activeTab;
     private User                activeUser;
     private User                focussedUser;
-    private Album               focussedAlbum;
+    private Album<Provider>     focussedAlbum;
 
 
     /**
@@ -61,6 +63,9 @@ public class SnaplogSession extends WebSession {
     public SnaplogSession(Request request) {
 
         super( request );
+
+        setFocussedAlbum( (Album<Provider>) SnaplogConstants.DEFAULT_ALBUM );
+        setFocussedUser( SnaplogConstants.DEFAULT_USER );
     }
 
     /**
@@ -84,6 +89,8 @@ public class SnaplogSession extends WebSession {
      *            The activeTab of this {@link SnaplogSession}.
      */
     public void setActiveTab(Tab activeTab) {
+
+        checkState( activeTab.getTab().isVisible() );
 
         this.activeTab = activeTab;
     }
@@ -142,7 +149,7 @@ public class SnaplogSession extends WebSession {
     /**
      * @return The focussedAlbum of this {@link SnaplogSession}.
      */
-    public Album getFocussedAlbum() {
+    public Album<Provider> getFocussedAlbum() {
 
         if (focussedAlbum != null)
             // These SHOULD always match if an album is focussed.
@@ -155,7 +162,7 @@ public class SnaplogSession extends WebSession {
      * @param focussedAlbum
      *            The focussedAlbum of this {@link SnaplogSession}.
      */
-    public void setFocussedAlbum(Album focussedAlbum) {
+    public void setFocussedAlbum(Album<Provider> focussedAlbum) {
 
         if (focussedAlbum != null)
             // Focusing a specific album; set focussed user to the album owner.

@@ -25,7 +25,9 @@ import org.apache.wicket.model.Model;
 
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.snaplog.data.Album;
+import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.view.AccessView;
@@ -42,25 +44,13 @@ import com.lyndir.lhunath.snaplog.webapp.view.TimelineView;
  * <i>Mar 1, 2010</i>
  * </p>
  * 
+ * @param <P>
+ *            The type of {@link Provider} that we can interface with.
  * @author lhunath
  */
-public class AlbumTabPanel extends Panel {
+public class AlbumTabPanel extends GenericPanel<Album<Provider>> {
 
-    private IModel<Album> albumModel       = new Model<Album>() {
-
-                                               @Override
-                                               public Album getObject() {
-
-                                                   return SnaplogSession.get().getFocussedAlbum();
-                                               }
-
-                                               @Override
-                                               public void setObject(Album object) {
-
-                                                   SnaplogSession.get().setFocussedAlbum( object );
-                                               }
-                                           };
-    private IModel<Date>  currentTimeModel = new Model<Date>();
+    private IModel<Date> currentTimeModel = new Model<Date>();
 
 
     /**
@@ -68,22 +58,24 @@ public class AlbumTabPanel extends Panel {
      * 
      * @param id
      *            The wicket ID that will hold the {@link AlbumTabPanel}.
+     * @param model
+     *            Provides the album to show.
      */
-    public AlbumTabPanel(String id) {
+    public AlbumTabPanel(String id, IModel<Album<Provider>> model) {
 
-        super( id );
+        super( id, model );
 
         // Browser
-        add( new BrowserView( "browser", albumModel, currentTimeModel ) );
+        add( new BrowserView( "browser", getModel(), currentTimeModel ) );
 
         // Timeline.
-        add( new TimelineView( "timelinePopup", albumModel ) );
+        add( new TimelineView( "timelinePopup", getModel() ) );
 
         // Tags.
-        add( new TagsView( "tagsPopup", albumModel ) );
+        add( new TagsView( "tagsPopup", getModel() ) );
 
         // Access.
-        add( new AccessView( "accessPopup", albumModel ) );
+        add( new AccessView( "accessPopup", getModel() ) );
     }
 }
 
@@ -126,7 +118,21 @@ class AlbumTab implements ITab {
     @Override
     public Panel getPanel(String panelId) {
 
-        return new AlbumTabPanel( panelId );
+        return new AlbumTabPanel( panelId, new Model<Album<Provider>>() {
+
+            @Override
+            @SuppressWarnings("unchecked")
+            public Album<Provider> getObject() {
+
+                return SnaplogSession.get().getFocussedAlbum();
+            }
+
+            @Override
+            public void setObject(Album<Provider> object) {
+
+                SnaplogSession.get().setFocussedAlbum( object );
+            }
+        } );
     }
 
     /**

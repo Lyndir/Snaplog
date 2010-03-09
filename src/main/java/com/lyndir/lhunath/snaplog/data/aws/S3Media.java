@@ -15,7 +15,8 @@
  */
 package com.lyndir.lhunath.snaplog.data.aws;
 
-import com.lyndir.lhunath.snaplog.data.Album;
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.lyndir.lhunath.snaplog.data.Media;
 
 
@@ -30,7 +31,10 @@ import com.lyndir.lhunath.snaplog.data.Media;
  * 
  * @author lhunath
  */
-public class S3Media extends Media {
+public class S3Media extends Media<S3Provider> {
+
+    private S3Album album;
+
 
     /**
      * @param album
@@ -38,8 +42,19 @@ public class S3Media extends Media {
      * @param name
      *            The unique name of this media in the album.
      */
-    public S3Media(Album album, String name) {
+    public S3Media(S3Album album, String name) {
 
-        super( album, name );
+        super( name );
+
+        this.album = checkNotNull( album );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public S3Album getAlbum() {
+
+        return album;
     }
 }

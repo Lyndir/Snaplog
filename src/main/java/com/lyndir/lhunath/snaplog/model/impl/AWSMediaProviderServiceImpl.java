@@ -16,7 +16,6 @@
 package com.lyndir.lhunath.snaplog.model.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
 
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
@@ -24,9 +23,6 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
-import java.util.EnumMap;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
@@ -37,8 +33,10 @@ import org.jets3t.service.acl.AccessControlList;
 import org.jets3t.service.model.S3Bucket;
 import org.jets3t.service.model.S3Object;
 
+import com.db4o.ObjectContainer;
+import com.db4o.ObjectSet;
+import com.db4o.query.Predicate;
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Maps;
 import com.google.common.collect.ImmutableList.Builder;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
@@ -48,6 +46,7 @@ import com.lyndir.lhunath.snaplog.data.Media;
 import com.lyndir.lhunath.snaplog.data.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.aws.S3Album;
 import com.lyndir.lhunath.snaplog.data.aws.S3Media;
+import com.lyndir.lhunath.snaplog.data.aws.S3MediaData;
 import com.lyndir.lhunath.snaplog.model.AWSMediaProviderService;
 import com.lyndir.lhunath.snaplog.model.AWSService;
 import com.lyndir.lhunath.snaplog.util.ImageUtils;
@@ -64,21 +63,18 @@ import com.lyndir.lhunath.snaplog.util.ImageUtils;
  */
 public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
-    private static final Logger                               logger                = Logger.get( AWSMediaProviderServiceImpl.class );
+    private static final Logger  logger   = Logger.get( AWSMediaProviderServiceImpl.class );
 
-    private static final Map<S3Media, Map<Quality, S3Object>> s3MediaQualityObjects = new HashMap<S3Media, Map<Quality, S3Object>>();
-    private static final Pattern                              BASENAME              = Pattern.compile( ".*/" );
+    private static final Pattern BASENAME = Pattern.compile( ".*/" );
 
-    private final AWSService                                  awsService;
+    private ObjectContainer      db;
+    private final AWSService     awsService;
 
 
-    /**
-     * @param awsService
-     *            See {@link AWSService}
-     */
     @Inject
-    public AWSMediaProviderServiceImpl(AWSService awsService) {
+    public AWSMediaProviderServiceImpl(ObjectContainer db, AWSService awsService) {
 
+        this.db = db;
         this.awsService = awsService;
     }
 
@@ -86,22 +82,40 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * {@inheritDoc}
      */
     @Override
-    public ImmutableList<? extends Media> getFiles(S3Album album) {
+    public ImmutableList<S3Media> getFiles(S3Album album) {
 
         Builder<S3Media> filesBuilder = new Builder<S3Media>();
         for (S3Object albumObject : awsService.listObjects( getObjectKey( album, Quality.ORIGINAL ) )) {
 
-            Maps.newHashMapWithExpectedSize( Quality.values().length );
-
             String mediaName = BASENAME.matcher( albumObject.getKey() ).replaceFirst( "" );
-            S3Media media = new S3Media( album, mediaName );
+            final S3Media media = new S3Media( album, mediaName );
             filesBuilder.add( media );
 
-            s3MediaQualityObjects.put( media, new EnumMap<Quality, S3Object>( Quality.class ) );
+            S3MediaData mediaData = getMediaData( media );
+            mediaData.put( Quality.METADATA, albumObject );
+            db.store( mediaData );
         }
 
-        logger.dbg( "%d entries in s3MediaQualityObjects", s3MediaQualityObjects.size() );
         return filesBuilder.build();
+    }
+
+    private S3MediaData getMediaData(final S3Media media) {
+
+        ObjectSet<S3MediaData> s3mediaDataQuery = db.query( new Predicate<S3MediaData>() {
+
+            @Override
+            public boolean match(S3MediaData candidate) {
+
+                return candidate.getMedia().equals( media );
+            }
+        } );
+        if (s3mediaDataQuery.hasNext())
+            return s3mediaDataQuery.next();
+
+        S3MediaData s3MediaData = new S3MediaData( media );
+        db.store( s3MediaData );
+
+        return s3MediaData;
     }
 
     /**
@@ -155,7 +169,10 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
             s3UploadObject.setContentLength( imageDataStream.size() );
             s3UploadObject.setAcl( AccessControlList.REST_CANNED_PUBLIC_READ );
             s3UploadObject.setDataInputStream( new ByteArrayInputStream( imageDataStream.toByteArray() ) );
-            s3ResourceObject = awsService.upload( s3UploadObject );
+
+            S3MediaData mediaData = getMediaData( media );
+            mediaData.put( quality, s3ResourceObject = awsService.upload( s3UploadObject ) );
+            db.store( mediaData );
         }
 
         return URI.create( String.format( "http://snaplog.net.s3.amazonaws.com/%s", s3ResourceObject.getKey() ) );
@@ -180,7 +197,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * 
      * @return An S3 object key within the bucket.
      */
-    protected String getObjectKey(Album album, Quality quality) {
+    protected String getObjectKey(S3Album album, Quality quality) {
 
         return StringUtils.concat( "/", "users", album.getUser().getUserName(), album.getName(), quality.getName() );
     }
@@ -195,7 +212,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * 
      * @return An S3 object key within the bucket.
      */
-    protected String getObjectKey(Media media, Quality quality) {
+    protected String getObjectKey(S3Media media, Quality quality) {
 
         return StringUtils.concat( "/", getObjectKey( media.getAlbum(), quality ), media.getName() );
     }
@@ -221,12 +238,13 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
         checkNotNull( media );
         checkNotNull( quality );
-        checkState( s3MediaQualityObjects.containsKey( media ) );
 
         S3Object s3Object = awsService.readObject( getObjectKey( media, quality ) );
-        s3MediaQualityObjects.get( media ).put( quality, s3Object );
+        S3MediaData mediaData = getMediaData( media );
+        mediaData.put( quality, s3Object );
+        db.store( mediaData );
 
-        return s3Object;
+        return checkNotNull( s3Object );
     }
 
     /**
@@ -244,18 +262,17 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      */
     protected S3Object findObjectDetails(S3Media media, Quality quality) {
 
-        logger.dbg( "%d entries in s3MediaQualityObjects", s3MediaQualityObjects.size() );
-
         checkNotNull( media );
         checkNotNull( quality );
-        checkState( s3MediaQualityObjects.containsKey( media ) );
 
-        Map<Quality, S3Object> s3QualityObjects = s3MediaQualityObjects.get( media );
-        S3Object s3Object = s3QualityObjects.get( quality );
+        S3MediaData mediaData = getMediaData( media );
+        S3Object s3Object = mediaData.get( quality );
         if (s3Object == null) {
             s3Object = awsService.findObjectDetails( getObjectKey( media, quality ) );
-            if (s3Object != null)
-                s3QualityObjects.put( quality, s3Object );
+            if (s3Object != null) {
+                mediaData.put( quality, s3Object );
+                db.store( mediaData );
+            }
         }
 
         return s3Object;
@@ -274,8 +291,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
     protected S3Object getObject(S3Media media) {
 
         checkNotNull( media );
-        checkState( s3MediaQualityObjects.containsKey( media ) );
 
-        return s3MediaQualityObjects.get( media ).get( null );
+        return checkNotNull( getMediaData( media ).get( Quality.METADATA ) );
     }
 }

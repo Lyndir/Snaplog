@@ -34,12 +34,15 @@ import com.google.common.base.Objects;
  * <i>Jan 9, 2010</i>
  * </p>
  * 
+ * @param <P>
+ *            The type of {@link Provider} that provides this album's resources.
  * @author lhunath
  */
-public abstract class Album implements Serializable {
+public abstract class Album<P extends Provider> implements Serializable {
 
     private User   user;
     private String name;
+    private String description;
 
 
     /**
@@ -59,7 +62,7 @@ public abstract class Album implements Serializable {
      */
     public User getUser() {
 
-        return user;
+        return checkNotNull( user );
     }
 
     /**
@@ -76,7 +79,7 @@ public abstract class Album implements Serializable {
      */
     public String getName() {
 
-        return name;
+        return checkNotNull( name );
     }
 
     /**
@@ -89,6 +92,23 @@ public abstract class Album implements Serializable {
     }
 
     /**
+     * @return The description of this {@link Album}.
+     */
+    public String getDescription() {
+
+        return description;
+    }
+
+    /**
+     * @param description
+     *            The description of this {@link Album}.
+     */
+    public void setDescription(String description) {
+
+        this.description = description;
+    }
+
+    /**
      * {@inheritDoc}
      */
     @Override
@@ -97,9 +117,9 @@ public abstract class Album implements Serializable {
         if (o == this)
             return true;
 
-        if (o instanceof Album)
-            return Objects.equal( ((Album) o).getUser(), getUser() )
-                   && Objects.equal( ((Album) o).getName(), getName() );
+        if (o instanceof Album<?>)
+            return Objects.equal( ((Album<?>) o).getUser(), getUser() )
+                   && Objects.equal( ((Album<?>) o).getName(), getName() );
 
         return false;
     }
