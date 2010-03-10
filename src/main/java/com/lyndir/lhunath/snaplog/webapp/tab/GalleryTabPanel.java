@@ -15,6 +15,8 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
+import java.util.List;
+
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
@@ -31,7 +33,6 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 
-import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.logging.Logger;
@@ -109,7 +110,7 @@ public class GalleryTabPanel extends GenericPanel<User> {
                 item.add( new Link<Album<Provider>>( "link", item.getModel() ) {
 
                     {
-                        ImmutableList<Media<Provider>> albumFiles = albumService.getFiles( getModelObject() );
+                        List<Media<Provider>> albumFiles = albumService.getFiles( getModelObject() );
                         add( new ContextImage( "cover",
                                 ImageServlet.getContextRelativePathFor( albumFiles.get( albumFiles.size() - 1 ),
                                                                         Quality.THUMBNAIL ) ) );
