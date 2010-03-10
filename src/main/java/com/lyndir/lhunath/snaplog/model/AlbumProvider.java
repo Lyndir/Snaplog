@@ -3,8 +3,8 @@ package com.lyndir.lhunath.snaplog.model;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.net.URI;
+import java.util.List;
 
-import com.google.common.collect.ImmutableList;
 import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.Media;
 import com.lyndir.lhunath.snaplog.data.Provider;
@@ -78,7 +78,7 @@ public class AlbumProvider<P extends Provider, A extends Album<P>, M extends Med
      * {@inheritDoc}
      */
     @Override
-    public ImmutableList<M> getFiles(A album) {
+    public List<M> getFiles(A album) {
 
         checkNotNull( album );
 

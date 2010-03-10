@@ -18,13 +18,12 @@ package com.lyndir.lhunath.snaplog.model.impl;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.net.URI;
+import java.util.LinkedList;
 import java.util.List;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableList.Builder;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.Album;
@@ -115,18 +114,19 @@ public class AlbumServiceImpl<P extends Provider> implements AlbumService<P> {
         checkNotNull( album );
 
         AlbumData<P> albumData = getAlbumData( album );
-        ImmutableList<MediaTimeFrame<P>> timeFrames = albumData.getTimeFrames();
+        List<MediaTimeFrame<P>> timeFrames = albumData.getTimeFrames();
         if (timeFrames != null)
             return timeFrames;
 
+        // timeFrames == null
         MediaTimeFrame<P> currentYear = null, currentMonth = null, currentDay = null;
-        Builder<MediaTimeFrame<P>> timeFramesBuilder = new ImmutableList.Builder<MediaTimeFrame<P>>();
+        timeFrames = new LinkedList<MediaTimeFrame<P>>();
 
         for (Media<P> mediaFile : getFiles( album )) {
             long shotTime = mediaFile.shotTime();
 
             if (currentYear == null || !currentYear.containsTime( shotTime ))
-                timeFramesBuilder.add( currentYear = new MediaTimeFrame<P>( null, Type.YEAR, shotTime ) );
+                timeFrames.add( currentYear = new MediaTimeFrame<P>( null, Type.YEAR, shotTime ) );
 
             if (currentMonth == null || !currentMonth.containsTime( shotTime ))
                 currentYear.addTimeFrame( currentMonth = new MediaTimeFrame<P>( currentYear, Type.MONTH, shotTime ) );
@@ -137,7 +137,7 @@ public class AlbumServiceImpl<P extends Provider> implements AlbumService<P> {
             currentDay.addFile( mediaFile );
         }
 
-        albumData.setTimeFrames( timeFrames = timeFramesBuilder.build() );
+        albumData.setTimeFrames( timeFrames );
         db.store( albumData );
 
         return timeFrames;
@@ -193,15 +193,16 @@ public class AlbumServiceImpl<P extends Provider> implements AlbumService<P> {
      * {@inheritDoc}
      */
     @Override
-    public ImmutableList<Media<P>> getFiles(Album<P> album) {
+    public List<Media<P>> getFiles(Album<P> album) {
 
         checkNotNull( album );
 
         AlbumData<P> albumData = getAlbumData( album );
-        ImmutableList<Media<P>> files = albumData.getFiles();
+        List<Media<P>> files = albumData.getFiles();
         if (files != null)
             return files;
 
+        // files == null
         albumData.setFiles( files = getAlbumProvider( album ).getFiles( album ) );
         db.store( albumData );
 

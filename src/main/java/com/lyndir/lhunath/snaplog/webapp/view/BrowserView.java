@@ -2,6 +2,7 @@ package com.lyndir.lhunath.snaplog.webapp.view;
 
 import java.util.Date;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -16,7 +17,6 @@ import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.collection.FixedDeque;
 import com.lyndir.lhunath.lib.system.logging.Logger;
@@ -161,7 +161,7 @@ public class BrowserView extends GenericPanel<Album<Provider>> {
 
             Iterator<? extends Media<Provider>> it = allFiles.iterator();
             if (!it.hasNext())
-                return ImmutableList.of();
+                return new LinkedList<Media<Provider>>();
 
             // Find the current file.
             boolean addedNextFile = false;
@@ -186,7 +186,7 @@ public class BrowserView extends GenericPanel<Album<Provider>> {
                 else
                     files.removeLast();
 
-            return ImmutableList.copyOf( files );
+            return new LinkedList<Media<Provider>>( files );
         }
     }
 }

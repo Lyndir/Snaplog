@@ -23,6 +23,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.regex.Pattern;
 
 import javax.imageio.ImageIO;
@@ -36,8 +38,6 @@ import org.jets3t.service.model.S3Object;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableList.Builder;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.StringUtils;
@@ -82,21 +82,21 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * {@inheritDoc}
      */
     @Override
-    public ImmutableList<S3Media> getFiles(S3Album album) {
+    public List<S3Media> getFiles(S3Album album) {
 
-        Builder<S3Media> filesBuilder = new Builder<S3Media>();
+        List<S3Media> files = new LinkedList<S3Media>();
         for (S3Object albumObject : awsService.listObjects( getObjectKey( album, Quality.ORIGINAL ) )) {
 
             String mediaName = BASENAME.matcher( albumObject.getKey() ).replaceFirst( "" );
-            final S3Media media = new S3Media( album, mediaName );
-            filesBuilder.add( media );
+            S3Media media = new S3Media( album, mediaName );
+            files.add( media );
 
             S3MediaData mediaData = getMediaData( media );
             mediaData.put( Quality.METADATA, albumObject );
             db.store( mediaData );
         }
 
-        return filesBuilder.build();
+        return files;
     }
 
     private S3MediaData getMediaData(final S3Media media) {

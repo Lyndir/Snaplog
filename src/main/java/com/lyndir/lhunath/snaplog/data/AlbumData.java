@@ -2,7 +2,7 @@ package com.lyndir.lhunath.snaplog.data;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.collect.ImmutableList;
+import java.util.List;
 
 
 /**
@@ -23,9 +23,9 @@ import com.google.common.collect.ImmutableList;
  */
 public class AlbumData<P extends Provider> {
 
-    private Album<P>                         album;
-    private ImmutableList<Media<P>>          files;
-    private ImmutableList<MediaTimeFrame<P>> timeFrames;
+    private Album<P>                album;
+    private List<Media<P>>          files;
+    private List<MediaTimeFrame<P>> timeFrames;
 
 
     /**
@@ -51,7 +51,7 @@ public class AlbumData<P extends Provider> {
      * @param files
      *            The files of this {@link AlbumData}.
      */
-    public void setFiles(ImmutableList<Media<P>> files) {
+    public void setFiles(List<Media<P>> files) {
 
         checkNotNull( files );
 
@@ -61,7 +61,7 @@ public class AlbumData<P extends Provider> {
     /**
      * @return The files of this {@link AlbumData}.
      */
-    public ImmutableList<Media<P>> getFiles() {
+    public List<Media<P>> getFiles() {
 
         return files;
     }
@@ -70,7 +70,7 @@ public class AlbumData<P extends Provider> {
      * @param timeFrames
      *            The timeFrames of this {@link AlbumData}.
      */
-    public void setTimeFrames(ImmutableList<MediaTimeFrame<P>> timeFrames) {
+    public void setTimeFrames(List<MediaTimeFrame<P>> timeFrames) {
 
         checkNotNull( timeFrames );
 
@@ -80,7 +80,7 @@ public class AlbumData<P extends Provider> {
     /**
      * @return The timeFrames of this {@link AlbumData}.
      */
-    public ImmutableList<MediaTimeFrame<P>> getTimeFrames() {
+    public List<MediaTimeFrame<P>> getTimeFrames() {
 
         return timeFrames;
     }

@@ -16,8 +16,8 @@
 package com.lyndir.lhunath.snaplog.model;
 
 import java.net.URI;
+import java.util.List;
 
-import com.google.common.collect.ImmutableList;
 import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.Media;
 import com.lyndir.lhunath.snaplog.data.Provider;
@@ -50,7 +50,7 @@ public interface MediaProviderService<P extends Provider, A extends Album<P>, M 
      * 
      * @return All the {@link Media} from the given {@link Album}.
      */
-    ImmutableList<M> getFiles(A album);
+    List<M> getFiles(A album);
 
     /**
      * Obtain a reference to the resource of media at a certain quality.
