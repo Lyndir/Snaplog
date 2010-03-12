@@ -18,7 +18,6 @@ package com.lyndir.lhunath.snaplog.model;
 import com.db4o.ObjectSet;
 import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.LinkID;
-import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.data.User;
 
 
@@ -34,7 +33,7 @@ import com.lyndir.lhunath.snaplog.data.User;
  *            The type of {@link Provider} that we can service.
  * @author lhunath
  */
-public interface UserService<P extends Provider> {
+public interface UserService {
 
     /**
      * Create a new user with the given userName and linkID identifier.
@@ -79,5 +78,5 @@ public interface UserService<P extends Provider> {
      * 
      * @return An {@link ObjectSet} of albums owned by the given owner that are visible to the given observer.
      */
-    ObjectSet<Album<P>> queryAlbumsOfUserVisibleToUser(User ownerUser, User observerUser);
+    ObjectSet<Album> queryAlbumsOfUserVisibleToUser(User ownerUser, User observerUser);
 }

@@ -27,7 +27,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.Media;
-import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.data.User;
 import com.lyndir.lhunath.snaplog.data.Media.Quality;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
@@ -43,8 +42,8 @@ import com.lyndir.lhunath.snaplog.util.URLUtils;
  * <i>Jan 19, 2010</i>
  * </p>
  * 
- * @param <P>
- *            The type of {@link Provider} that we can interface with.
+ * @param The
+ *            type of {@link Provider} that we can interface with.
  * @author lhunath
  */
 public class ImageServlet extends HttpServlet {
@@ -52,15 +51,15 @@ public class ImageServlet extends HttpServlet {
     /**
      * Context-relative path of this servlet.
      */
-    public static final String           PATH          = "/img";
+    public static final String  PATH          = "/img";
 
-    private static final String          PARAM_USER    = "u";
-    private static final String          PARAM_ALBUM   = "a";
-    private static final String          PARAM_MEDIA   = "m";
-    private static final String          PARAM_QUALITY = "q";
+    private static final String PARAM_USER    = "u";
+    private static final String PARAM_ALBUM   = "a";
+    private static final String PARAM_MEDIA   = "m";
+    private static final String PARAM_QUALITY = "q";
 
-    private final UserService<Provider>  userService;
-    private final AlbumService<Provider> albumService;
+    private final UserService   userService;
+    private final AlbumService  albumService;
 
 
     /**
@@ -70,7 +69,7 @@ public class ImageServlet extends HttpServlet {
      *            See {@link AlbumService}
      */
     @Inject
-    public ImageServlet(UserService<Provider> userService, AlbumService<Provider> albumService) {
+    public ImageServlet(UserService userService, AlbumService albumService) {
 
         this.userService = userService;
         this.albumService = albumService;
@@ -80,8 +79,8 @@ public class ImageServlet extends HttpServlet {
      * Obtain a context-relative path to the {@link ImageServlet} such that it will render the given media at the given
      * quality.
      * 
-     * @param <P>
-     *            The type of {@link Provider} that we can interface with.
+     * @param The
+     *            type of {@link Provider} that we can interface with.
      * @param media
      *            The media that should be shown at the given URL.
      * @param quality
@@ -89,12 +88,12 @@ public class ImageServlet extends HttpServlet {
      * 
      * @return A context-relative URL.
      */
-    public static <P extends Provider> String getContextRelativePathFor(Media<P> media, Quality quality) {
+    public static String getContextRelativePathFor(Media media, Quality quality) {
 
         checkNotNull( media );
         checkNotNull( quality );
 
-        Album<P> album = media.getAlbum();
+        Album album = media.getAlbum();
         User user = album.getUser();
 
         StringBuilder path = new StringBuilder( PATH ).append( '?' );
@@ -119,8 +118,8 @@ public class ImageServlet extends HttpServlet {
         String qualityName = req.getParameter( PARAM_QUALITY );
 
         User user = userService.findUserWithUserName( userName );
-        Album<Provider> album = albumService.findAlbumWithName( user, albumName );
-        Media<Provider> media = albumService.findMediaWithName( album, mediaName );
+        Album album = albumService.findAlbumWithName( user, albumName );
+        Media media = albumService.findMediaWithName( album, mediaName );
 
         resp.sendRedirect( albumService.getResourceURI( media, Quality.findQualityWithName( qualityName ) )
                                        .toASCIIString() );

@@ -24,10 +24,9 @@ import org.apache.wicket.protocol.http.WebSession;
 import com.google.common.base.Objects;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.Album;
-import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.data.User;
 import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
-import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
+import com.lyndir.lhunath.snaplog.webapp.tab.TabProvider;
 
 
 /**
@@ -48,10 +47,10 @@ public class SnaplogSession extends WebSession {
 
     private static final Logger logger = Logger.get( SnaplogSession.class );
 
-    private Tab                 activeTab;
+    private TabProvider         activeTab;
     private User                activeUser;
     private User                focussedUser;
-    private Album<Provider>     focussedAlbum;
+    private Album               focussedAlbum;
 
 
     /**
@@ -64,7 +63,7 @@ public class SnaplogSession extends WebSession {
 
         super( request );
 
-        setFocussedAlbum( (Album<Provider>) SnaplogConstants.DEFAULT_ALBUM );
+        setFocussedAlbum( SnaplogConstants.DEFAULT_ALBUM );
         setFocussedUser( SnaplogConstants.DEFAULT_USER );
     }
 
@@ -79,7 +78,7 @@ public class SnaplogSession extends WebSession {
     /**
      * @return The activeTab of this {@link SnaplogSession}.
      */
-    public Tab getActiveTab() {
+    public TabProvider getActiveTab() {
 
         return activeTab;
     }
@@ -88,7 +87,7 @@ public class SnaplogSession extends WebSession {
      * @param activeTab
      *            The activeTab of this {@link SnaplogSession}.
      */
-    public void setActiveTab(Tab activeTab) {
+    public void setActiveTab(TabProvider activeTab) {
 
         checkState( activeTab.getTab().isVisible() );
 
@@ -149,7 +148,7 @@ public class SnaplogSession extends WebSession {
     /**
      * @return The focussedAlbum of this {@link SnaplogSession}.
      */
-    public Album<Provider> getFocussedAlbum() {
+    public Album getFocussedAlbum() {
 
         if (focussedAlbum != null)
             // These SHOULD always match if an album is focussed.
@@ -162,7 +161,7 @@ public class SnaplogSession extends WebSession {
      * @param focussedAlbum
      *            The focussedAlbum of this {@link SnaplogSession}.
      */
-    public void setFocussedAlbum(Album<Provider> focussedAlbum) {
+    public void setFocussedAlbum(Album focussedAlbum) {
 
         if (focussedAlbum != null)
             // Focusing a specific album; set focussed user to the album owner.

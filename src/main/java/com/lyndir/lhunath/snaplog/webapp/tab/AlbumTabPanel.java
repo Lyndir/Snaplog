@@ -15,21 +15,18 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
-import java.util.Date;
-
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
+import org.apache.wicket.model.LoadableDetachableModel;
 
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.snaplog.data.Album;
-import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
+import com.lyndir.lhunath.snaplog.webapp.tab.model.AlbumTabModels;
 import com.lyndir.lhunath.snaplog.webapp.view.AccessView;
 import com.lyndir.lhunath.snaplog.webapp.view.BrowserView;
 import com.lyndir.lhunath.snaplog.webapp.view.TagsView;
@@ -48,9 +45,9 @@ import com.lyndir.lhunath.snaplog.webapp.view.TimelineView;
  *            The type of {@link Provider} that we can interface with.
  * @author lhunath
  */
-public class AlbumTabPanel extends GenericPanel<Album<Provider>> {
+public class AlbumTabPanel extends GenericPanel<Album> {
 
-    private IModel<Date> currentTimeModel = new Model<Date>();
+    AlbumTabModels models;
 
 
     /**
@@ -61,21 +58,22 @@ public class AlbumTabPanel extends GenericPanel<Album<Provider>> {
      * @param model
      *            Provides the album to show.
      */
-    public AlbumTabPanel(String id, IModel<Album<Provider>> model) {
+    public AlbumTabPanel(String id, IModel<Album> model) {
 
         super( id, model );
+        models = new AlbumTabModels( model );
 
         // Browser
-        add( new BrowserView( "browser", getModel(), currentTimeModel ) );
+        add( new BrowserView( "browser", models.getModel(), models.currentTime() ) );
 
         // Timeline.
-        add( new TimelineView( "timelinePopup", getModel() ) );
+        add( new TimelineView( "timelinePopup", models.getModel() ) );
 
         // Tags.
-        add( new TagsView( "tagsPopup", getModel() ) );
+        add( new TagsView( "tagsPopup", models.getModel() ) );
 
         // Access.
-        add( new AccessView( "accessPopup", getModel() ) );
+        add( new AccessView( "accessPopup", models.getModel() ) );
     }
 }
 
@@ -102,10 +100,10 @@ class AlbumTab implements ITab {
     @Override
     public IModel<String> getTitle() {
 
-        return new AbstractReadOnlyModel<String>() {
+        return new LoadableDetachableModel<String>() {
 
             @Override
-            public String getObject() {
+            protected String load() {
 
                 return msgs.albumTab();
             }
@@ -118,17 +116,21 @@ class AlbumTab implements ITab {
     @Override
     public Panel getPanel(String panelId) {
 
-        return new AlbumTabPanel( panelId, new Model<Album<Provider>>() {
+        return new AlbumTabPanel( panelId, new IModel<Album>() {
 
             @Override
-            @SuppressWarnings("unchecked")
-            public Album<Provider> getObject() {
+            public void detach() {
+
+            }
+
+            @Override
+            public Album getObject() {
 
                 return SnaplogSession.get().getFocussedAlbum();
             }
 
             @Override
-            public void setObject(Album<Provider> object) {
+            public void setObject(Album object) {
 
                 SnaplogSession.get().setFocussedAlbum( object );
             }

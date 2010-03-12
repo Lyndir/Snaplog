@@ -38,7 +38,7 @@ import com.google.common.base.Objects;
  *            The type of {@link Provider} that provides this album's resources.
  * @author lhunath
  */
-public abstract class Album<P extends Provider> implements Serializable {
+public abstract class Album implements Serializable {
 
     private User   user;
     private String name;
@@ -117,9 +117,9 @@ public abstract class Album<P extends Provider> implements Serializable {
         if (o == this)
             return true;
 
-        if (o instanceof Album<?>)
-            return Objects.equal( ((Album<?>) o).getUser(), getUser() )
-                   && Objects.equal( ((Album<?>) o).getName(), getName() );
+        if (o instanceof Album)
+            return Objects.equal( ((Album) o).getUser(), getUser() )
+                   && Objects.equal( ((Album) o).getName(), getName() );
 
         return false;
     }

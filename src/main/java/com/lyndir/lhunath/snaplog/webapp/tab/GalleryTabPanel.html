@@ -32,17 +32,20 @@
                     <form wicket:id="newAlbumForm">
                         <ul>
                             <li>
-                                <label for="newAlbumType">Album Type:</label>
+                                <label for="newAlbumType">
+                                    <wicket:message key="newAlbumType">[Album Type:]</wicket:message></label>
                                 <select id="newAlbumType" wicket:id="type">
                                     <option>[Amazon S3]</option>
                                 </select>
                             </li>
                             <li>
-                                <label for="newAlbumName">Album Name:</label>
+                                <label for="newAlbumName">
+                                    <wicket:message key="newAlbumName">[Album Name:]</wicket:message></label>
                                 <input id="newAlbumName" type="text" wicket:id="name" />
                             </li>
                             <li>
-                                <label for="newAlbumDescription">Album Description:</label>
+                                <label for="newAlbumDescription">
+                                    <wicket:message key="newAlbumDescription">[Album Description:]</wicket:message></label>
                                 <textarea id="newAlbumDescription" wicket:id="description" />
                             </li>
                             <li>

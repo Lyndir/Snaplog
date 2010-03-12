@@ -1,4 +1,4 @@
-package com.lyndir.lhunath.snaplog.webapp.tab;
+package com.lyndir.lhunath.snaplog.webapp.provider;
 
 import java.util.Iterator;
 
@@ -8,7 +8,6 @@ import org.apache.wicket.model.Model;
 
 import com.db4o.ObjectSet;
 import com.lyndir.lhunath.snaplog.data.Album;
-import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.data.User;
 import com.lyndir.lhunath.snaplog.model.UserService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
@@ -29,12 +28,12 @@ import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
  * @see SnaplogSession#getActiveUser()
  * @author lhunath
  */
-final class UserAlbumsProvider<P extends Provider> implements IDataProvider<Album<P>> {
+public class UserAlbumsProvider implements IDataProvider<Album> {
 
-    private UserService<P>      userService;
+    private UserService      userService;
 
-    private ObjectSet<Album<P>> query;
-    private IModel<User>        ownerModel;
+    private ObjectSet<Album> query;
+    private IModel<User>     ownerModel;
 
 
     /**
@@ -45,13 +44,13 @@ final class UserAlbumsProvider<P extends Provider> implements IDataProvider<Albu
      * @param ownerModel
      *            A model that provides the user who owns the {@link Album}s this provider will return.
      */
-    public UserAlbumsProvider(UserService<P> userService, IModel<User> ownerModel) {
+    public UserAlbumsProvider(UserService userService, IModel<User> ownerModel) {
 
         this.userService = userService;
         this.ownerModel = ownerModel;
     }
 
-    private ObjectSet<Album<P>> getQuery() {
+    private ObjectSet<Album> getQuery() {
 
         if (query == null)
             query = userService.queryAlbumsOfUserVisibleToUser( ownerModel.getObject(), //
@@ -67,7 +66,7 @@ final class UserAlbumsProvider<P extends Provider> implements IDataProvider<Albu
     }
 
     @Override
-    public Iterator<? extends Album<P>> iterator(int first, int count) {
+    public Iterator<? extends Album> iterator(int first, int count) {
 
         return getQuery().iterator();
     }
@@ -79,8 +78,8 @@ final class UserAlbumsProvider<P extends Provider> implements IDataProvider<Albu
     }
 
     @Override
-    public IModel<Album<P>> model(Album<P> object) {
+    public IModel<Album> model(Album object) {
 
-        return new Model<Album<P>>( object );
+        return new Model<Album>( object );
     }
 }

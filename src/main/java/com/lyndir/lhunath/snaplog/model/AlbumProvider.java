@@ -6,12 +6,9 @@ import java.net.URI;
 import java.util.List;
 
 import com.lyndir.lhunath.snaplog.data.Album;
+import com.lyndir.lhunath.snaplog.data.AlbumData;
 import com.lyndir.lhunath.snaplog.data.Media;
-import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.data.Media.Quality;
-import com.lyndir.lhunath.snaplog.data.aws.S3Album;
-import com.lyndir.lhunath.snaplog.data.aws.S3Media;
-import com.lyndir.lhunath.snaplog.data.aws.S3Provider;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceInjector;
 
 
@@ -31,37 +28,22 @@ import com.lyndir.lhunath.snaplog.webapp.listener.GuiceInjector;
  *            The type of {@link Media} that is available from A.
  * @author lhunath
  */
-public class AlbumProvider<P extends Provider, A extends Album<P>, M extends Media<P>>
-        implements MediaProviderService<P, A, M> {
+public class AlbumProvider<A extends Album, M extends Media> implements MediaProviderService<A, M> {
 
-    /**
-     * Amazon S3.
-     * 
-     * <p>
-     * Provides storage hosted at the Amazon cloud.
-     * </p>
-     */
-    public static AlbumProvider<S3Provider, S3Album, S3Media>    AMAZON_S3 = new AlbumProvider<S3Provider, S3Album, S3Media>(
-                                                                                   S3Album.class,
-                                                                                   AWSMediaProviderService.class );
-
-    public static AlbumProvider<?, ?, ?>                         values[]  = { AMAZON_S3 };
-
-    private final Class<? extends Album<P>>                      albumType;
-    private final Class<? extends MediaProviderService<P, A, M>> mediaProviderServiceType;
+    private final Class<A>                                    albumType;
+    private final Class<? extends MediaProviderService<A, M>> mediaProviderServiceType;
 
 
-    private AlbumProvider(Class<? extends Album<P>> albumType,
-                          Class<? extends MediaProviderService<P, A, M>> albumProviderServiceType) {
+    public AlbumProvider(Class<A> albumType, Class<? extends MediaProviderService<A, M>> albumProviderServiceType) {
 
         this.albumType = checkNotNull( albumType );
-        this.mediaProviderServiceType = checkNotNull( albumProviderServiceType );
+        mediaProviderServiceType = checkNotNull( albumProviderServiceType );
     }
 
     /**
      * @return The albumType of this {@link AlbumProvider}.
      */
-    public Class<? extends Album<P>> getAlbumType() {
+    public Class<? extends Album> getAlbumType() {
 
         return albumType;
     }
@@ -69,7 +51,7 @@ public class AlbumProvider<P extends Provider, A extends Album<P>, M extends Med
     /**
      * @return The albumProviderService of this {@link AlbumProvider}.
      */
-    public MediaProviderService<P, A, M> getMediaProviderService() {
+    public MediaProviderService<A, M> getMediaProviderService() {
 
         return GuiceInjector.get().getInstance( mediaProviderServiceType );
     }
@@ -80,8 +62,6 @@ public class AlbumProvider<P extends Provider, A extends Album<P>, M extends Med
     @Override
     public List<M> getFiles(A album) {
 
-        checkNotNull( album );
-
         return getMediaProviderService().getFiles( album );
     }
 
@@ -90,9 +70,6 @@ public class AlbumProvider<P extends Provider, A extends Album<P>, M extends Med
      */
     @Override
     public URI getResourceURI(M media, Quality quality) {
-
-        checkNotNull( media );
-        checkNotNull( quality );
 
         return getMediaProviderService().getResourceURI( media, quality );
     }
@@ -103,8 +80,15 @@ public class AlbumProvider<P extends Provider, A extends Album<P>, M extends Med
     @Override
     public long modifiedTime(M media) {
 
-        checkNotNull( media );
-
         return getMediaProviderService().modifiedTime( media );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public AlbumData newAlbumData(A album) {
+
+        return getMediaProviderService().newAlbumData( album );
     }
 }

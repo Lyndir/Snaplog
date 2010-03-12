@@ -28,9 +28,9 @@ import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.AlbumData;
+import com.lyndir.lhunath.snaplog.data.AlbumProviderType;
 import com.lyndir.lhunath.snaplog.data.Media;
 import com.lyndir.lhunath.snaplog.data.MediaTimeFrame;
-import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.data.User;
 import com.lyndir.lhunath.snaplog.data.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.MediaTimeFrame.Type;
@@ -45,11 +45,11 @@ import com.lyndir.lhunath.snaplog.model.AlbumService;
  * <i>Jul 25, 2009</i>
  * </p>
  * 
- * @param <P>
- *            The type of {@link Provider} that we provide album services for.
+ * @param The
+ *            type of {@link Provider} that we provide album services for.
  * @author lhunath
  */
-public class AlbumServiceImpl<P extends Provider> implements AlbumService<P> {
+public class AlbumServiceImpl implements AlbumService {
 
     private static final Logger logger = Logger.get( AlbumServiceImpl.class );
 
@@ -66,15 +66,15 @@ public class AlbumServiceImpl<P extends Provider> implements AlbumService<P> {
      * {@inheritDoc}
      */
     @Override
-    public Album<P> findAlbumWithName(final User user, final String albumName) {
+    public Album findAlbumWithName(final User user, final String albumName) {
 
         checkNotNull( user );
         checkNotNull( albumName );
 
-        return db.query( new Predicate<Album<P>>() {
+        return db.query( new Predicate<Album>() {
 
             @Override
-            public boolean match(Album<P> candidate) {
+            public boolean match(Album candidate) {
 
                 return candidate.getUser().equals( user ) && candidate.getName().equals( albumName );
             }
@@ -85,15 +85,15 @@ public class AlbumServiceImpl<P extends Provider> implements AlbumService<P> {
      * {@inheritDoc}
      */
     @Override
-    public Media<P> findMediaWithName(final Album<P> album, final String mediaName) {
+    public Media findMediaWithName(final Album album, final String mediaName) {
 
         checkNotNull( album );
         checkNotNull( mediaName );
 
-        ObjectSet<Media<P>> mediaQuery = db.query( new Predicate<Media<P>>() {
+        ObjectSet<Media> mediaQuery = db.query( new Predicate<Media>() {
 
             @Override
-            public boolean match(Media<P> candidate) {
+            public boolean match(Media candidate) {
 
                 return candidate.getAlbum().equals( album ) && candidate.getName().endsWith( mediaName );
             }
@@ -109,30 +109,30 @@ public class AlbumServiceImpl<P extends Provider> implements AlbumService<P> {
      * {@inheritDoc}
      */
     @Override
-    public List<MediaTimeFrame<P>> getYears(Album<P> album) {
+    public List<MediaTimeFrame> getYears(Album album) {
 
         checkNotNull( album );
 
-        AlbumData<P> albumData = getAlbumData( album );
-        List<MediaTimeFrame<P>> timeFrames = albumData.getTimeFrames();
+        AlbumData albumData = getAlbumData( album );
+        List<MediaTimeFrame> timeFrames = albumData.getTimeFrames();
         if (timeFrames != null)
             return timeFrames;
 
         // timeFrames == null
-        MediaTimeFrame<P> currentYear = null, currentMonth = null, currentDay = null;
-        timeFrames = new LinkedList<MediaTimeFrame<P>>();
+        MediaTimeFrame currentYear = null, currentMonth = null, currentDay = null;
+        timeFrames = new LinkedList<MediaTimeFrame>();
 
-        for (Media<P> mediaFile : getFiles( album )) {
+        for (Media mediaFile : getFiles( album )) {
             long shotTime = mediaFile.shotTime();
 
             if (currentYear == null || !currentYear.containsTime( shotTime ))
-                timeFrames.add( currentYear = new MediaTimeFrame<P>( null, Type.YEAR, shotTime ) );
+                timeFrames.add( currentYear = new MediaTimeFrame( null, Type.YEAR, shotTime ) );
 
             if (currentMonth == null || !currentMonth.containsTime( shotTime ))
-                currentYear.addTimeFrame( currentMonth = new MediaTimeFrame<P>( currentYear, Type.MONTH, shotTime ) );
+                currentYear.addTimeFrame( currentMonth = new MediaTimeFrame( currentYear, Type.MONTH, shotTime ) );
 
             if (currentDay == null || !currentDay.containsTime( shotTime ))
-                currentMonth.addTimeFrame( currentDay = new MediaTimeFrame<P>( currentMonth, Type.DAY, shotTime ) );
+                currentMonth.addTimeFrame( currentDay = new MediaTimeFrame( currentMonth, Type.DAY, shotTime ) );
 
             currentDay.addFile( mediaFile );
         }
@@ -153,14 +153,14 @@ public class AlbumServiceImpl<P extends Provider> implements AlbumService<P> {
      * 
      * @return The data for the given album.
      */
-    private AlbumData<P> getAlbumData(final Album<P> album) {
+    private AlbumData getAlbumData(final Album album) {
 
         checkNotNull( album );
 
-        ObjectSet<AlbumData<P>> albumDataQuery = db.query( new Predicate<AlbumData<P>>() {
+        ObjectSet<AlbumData> albumDataQuery = db.query( new Predicate<AlbumData>() {
 
             @Override
-            public boolean match(AlbumData<P> candidate) {
+            public boolean match(AlbumData candidate) {
 
                 return candidate.getAlbum().equals( album );
             }
@@ -169,21 +169,24 @@ public class AlbumServiceImpl<P extends Provider> implements AlbumService<P> {
             return albumDataQuery.next();
 
         // No AlbumData yet for this album.
-        AlbumData<P> albumData = new AlbumData<P>( album );
+        AlbumData albumData = getAlbumProvider( album ).newAlbumData( album );
         db.store( albumData );
 
         return albumData;
     }
 
-    private static <P extends Provider> AlbumProvider<P, Album<P>, Media<P>> getAlbumProvider(Album<P> album) {
+    private static <A extends Album> AlbumProvider<A, Media> getAlbumProvider(A album) {
 
         checkNotNull( album );
 
-        @SuppressWarnings("unchecked")
-        AlbumProvider<P, Album<P>, Media<P>>[] checkedValues = (AlbumProvider<P, Album<P>, Media<P>>[]) AlbumProvider.values;
-        for (AlbumProvider<P, Album<P>, Media<P>> albumProvider : checkedValues)
-            if (albumProvider.getAlbumType().isAssignableFrom( album.getClass() ))
-                return albumProvider;
+        for (AlbumProviderType albumProviderType : AlbumProviderType.values())
+            if (albumProviderType.getAlbumProvider().getAlbumType().isAssignableFrom( album.getClass() )) {
+
+                @SuppressWarnings("unchecked")
+                AlbumProvider<A, Media> checkedAlbumProvider = (AlbumProvider<A, Media>) albumProviderType.getAlbumProvider();
+
+                return checkedAlbumProvider;
+            }
 
         throw logger.err( "Could not find a provider for the album type: %s", album.getClass() ) //
                     .toError( IllegalArgumentException.class );
@@ -193,12 +196,12 @@ public class AlbumServiceImpl<P extends Provider> implements AlbumService<P> {
      * {@inheritDoc}
      */
     @Override
-    public List<Media<P>> getFiles(Album<P> album) {
+    public List<Media> getFiles(Album album) {
 
         checkNotNull( album );
 
-        AlbumData<P> albumData = getAlbumData( album );
-        List<Media<P>> files = albumData.getFiles();
+        AlbumData albumData = getAlbumData( album );
+        List<Media> files = albumData.getFiles();
         if (files != null)
             return files;
 
@@ -213,7 +216,7 @@ public class AlbumServiceImpl<P extends Provider> implements AlbumService<P> {
      * {@inheritDoc}
      */
     @Override
-    public URI getResourceURI(Media<P> media, Quality quality) {
+    public URI getResourceURI(Media media, Quality quality) {
 
         checkNotNull( media );
         checkNotNull( quality );
@@ -225,10 +228,22 @@ public class AlbumServiceImpl<P extends Provider> implements AlbumService<P> {
      * {@inheritDoc}
      */
     @Override
-    public long modifiedTime(Media<P> media) {
+    public long modifiedTime(Media media) {
 
         checkNotNull( media );
 
         return getAlbumProvider( media.getAlbum() ).modifiedTime( media );
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @deprecated
+     */
+    @Override
+    @Deprecated
+    public AlbumData newAlbumData(Album album) {
+
+        throw new UnsupportedOperationException();
     }
 }

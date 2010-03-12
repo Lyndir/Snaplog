@@ -45,6 +45,7 @@ import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.Media;
 import com.lyndir.lhunath.snaplog.data.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.aws.S3Album;
+import com.lyndir.lhunath.snaplog.data.aws.S3AlbumData;
 import com.lyndir.lhunath.snaplog.data.aws.S3Media;
 import com.lyndir.lhunath.snaplog.data.aws.S3MediaData;
 import com.lyndir.lhunath.snaplog.model.AWSMediaProviderService;
@@ -83,6 +84,8 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      */
     @Override
     public List<S3Media> getFiles(S3Album album) {
+
+        checkNotNull( album );
 
         List<S3Media> files = new LinkedList<S3Media>();
         for (S3Object albumObject : awsService.listObjects( getObjectKey( album, Quality.ORIGINAL ) )) {
@@ -123,6 +126,9 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      */
     @Override
     public URI getResourceURI(S3Media media, Quality quality) {
+
+        checkNotNull( media );
+        checkNotNull( quality );
 
         S3Object s3ResourceObject = findObjectDetails( media, quality );
         if (s3ResourceObject == null) {
@@ -183,6 +189,8 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      */
     @Override
     public long modifiedTime(S3Media media) {
+
+        checkNotNull( media );
 
         return getObject( media ).getLastModifiedDate().getTime();
     }
@@ -293,5 +301,16 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         checkNotNull( media );
 
         return checkNotNull( getMediaData( media ).get( Quality.METADATA ) );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public S3AlbumData newAlbumData(S3Album album) {
+
+        checkNotNull( album );
+
+        return new S3AlbumData( album );
     }
 }

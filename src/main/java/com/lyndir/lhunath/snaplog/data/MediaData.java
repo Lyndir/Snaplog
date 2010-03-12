@@ -23,35 +23,14 @@ package com.lyndir.lhunath.snaplog.data;
  * <i>Mar 6, 2010</i>
  * </p>
  * 
- * @param <P>
- *            The type of {@link Provider} that provides the resources cached by this media data.
- * @param <A>
- *            The type of {@link Album} that contains M.
  * @param <M>
  *            The type of {@link Media} we hold data for.
  * @author lhunath
  */
-public abstract class MediaData<P extends Provider, A extends Album<P>, M extends Media<P>> {
-
-    private M media;
-
-
-    /**
-     * Create a new {@link MediaData} instance.
-     * 
-     * @param media
-     *            The media we hold data for.
-     */
-    public MediaData(M media) {
-
-        this.media = media;
-    }
+public abstract class MediaData {
 
     /**
      * @return The media of this {@link MediaData}.
      */
-    public M getMedia() {
-
-        return media;
-    }
+    public abstract Media getMedia();
 }

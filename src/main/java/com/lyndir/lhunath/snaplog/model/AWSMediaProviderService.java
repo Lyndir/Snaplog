@@ -18,7 +18,6 @@ package com.lyndir.lhunath.snaplog.model;
 import com.lyndir.lhunath.snaplog.data.Media;
 import com.lyndir.lhunath.snaplog.data.aws.S3Album;
 import com.lyndir.lhunath.snaplog.data.aws.S3Media;
-import com.lyndir.lhunath.snaplog.data.aws.S3Provider;
 
 
 /**
@@ -31,6 +30,6 @@ import com.lyndir.lhunath.snaplog.data.aws.S3Provider;
  * 
  * @author lhunath
  */
-public interface AWSMediaProviderService extends MediaProviderService<S3Provider, S3Album, S3Media> {
+public interface AWSMediaProviderService extends MediaProviderService<S3Album, S3Media> {
 
 }

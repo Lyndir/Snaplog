@@ -18,9 +18,9 @@ package com.lyndir.lhunath.snaplog.model;
 import java.util.List;
 
 import com.lyndir.lhunath.snaplog.data.Album;
+import com.lyndir.lhunath.snaplog.data.AlbumData;
 import com.lyndir.lhunath.snaplog.data.Media;
 import com.lyndir.lhunath.snaplog.data.MediaTimeFrame;
-import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.data.User;
 
 
@@ -36,11 +36,11 @@ import com.lyndir.lhunath.snaplog.data.User;
  * <i>Jan 9, 2010</i>
  * </p>
  * 
- * @param <P>
- *            The type of {@link Provider} that provides the resources for the media in this time frame.
+ * @param The
+ *            type of {@link Provider} that provides the resources for the media in this time frame.
  * @author lhunath
  */
-public interface AlbumService<P extends Provider> extends MediaProviderService<P, Album<P>, Media<P>> {
+public interface AlbumService extends MediaProviderService<Album, Media> {
 
     /**
      * Look for an album owned by a user.
@@ -52,7 +52,7 @@ public interface AlbumService<P extends Provider> extends MediaProviderService<P
      * 
      * @return An album, or <code>null</code> if the given user has no album with the given name.
      */
-    Album<P> findAlbumWithName(User user, String albumName);
+    Album findAlbumWithName(User user, String albumName);
 
     /**
      * Look for media in the given album.
@@ -65,7 +65,7 @@ public interface AlbumService<P extends Provider> extends MediaProviderService<P
      * @return The media by the given name in the given album or <code>null</code> if no media exists by the given name
      *         in the given album.
      */
-    Media<P> findMediaWithName(Album<P> album, String mediaName);
+    Media findMediaWithName(Album album, String mediaName);
 
     /**
      * Obtain a list of year-based time frames of the media in the given album.
@@ -75,5 +75,12 @@ public interface AlbumService<P extends Provider> extends MediaProviderService<P
      * 
      * @return A list of year-type time frames on the given album's media.
      */
-    List<MediaTimeFrame<P>> getYears(Album<P> album);
+    List<MediaTimeFrame> getYears(Album album);
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Deprecated
+    public AlbumData newAlbumData(Album album);
 }

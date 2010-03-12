@@ -7,7 +7,6 @@ import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.Media;
-import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 
@@ -24,12 +23,12 @@ import com.lyndir.lhunath.snaplog.model.AlbumService;
  *            The type of {@link Provider} that we can interface with.
  * @author lhunath
  */
-public class TagsView extends GenericPanel<Album<Provider>> {
+public class TagsView extends GenericPanel<Album> {
 
-    Messages               msgs = LocalizerFactory.getLocalizer( Messages.class, this );
+    Messages     msgs = LocalizerFactory.getLocalizer( Messages.class, this );
 
     @Inject
-    AlbumService<Provider> albumService;
+    AlbumService albumService;
 
 
     /**
@@ -38,7 +37,7 @@ public class TagsView extends GenericPanel<Album<Provider>> {
      * @param albumModel
      *            The {@link Album} whose {@link Media} to scan for tags.
      */
-    public TagsView(String id, IModel<Album<Provider>> albumModel) {
+    public TagsView(String id, IModel<Album> albumModel) {
 
         super( id, albumModel );
     }

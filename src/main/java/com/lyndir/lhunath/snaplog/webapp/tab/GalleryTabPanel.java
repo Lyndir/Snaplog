@@ -23,6 +23,8 @@ import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextArea;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -30,24 +32,23 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
 
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.snaplog.data.Album;
+import com.lyndir.lhunath.snaplog.data.AlbumProviderType;
 import com.lyndir.lhunath.snaplog.data.Media;
-import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.data.User;
 import com.lyndir.lhunath.snaplog.data.Media.Quality;
 import com.lyndir.lhunath.snaplog.messages.Messages;
-import com.lyndir.lhunath.snaplog.model.AlbumProvider;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.model.UserService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
+import com.lyndir.lhunath.snaplog.webapp.provider.UserAlbumsProvider;
 import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
+import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels;
 
 
 /**
@@ -64,13 +65,14 @@ import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
  */
 public class GalleryTabPanel extends GenericPanel<User> {
 
-    Messages               msgs = LocalizerFactory.getLocalizer( Messages.class, this );
+    Messages         msgs = LocalizerFactory.getLocalizer( Messages.class, this );
+    GalleryTabModels models;
 
     @Inject
-    UserService<Provider>  userService;
+    UserService      userService;
 
     @Inject
-    AlbumService<Provider> albumService;
+    AlbumService     albumService;
 
 
     /**
@@ -84,33 +86,20 @@ public class GalleryTabPanel extends GenericPanel<User> {
     public GalleryTabPanel(String id, IModel<User> userModel) {
 
         super( id, userModel );
+        models = new GalleryTabModels( userModel );
 
-        add( new Label( "albumsTitleUsername", new LoadableDetachableModel<String>() {
+        add( new Label( "albumsTitleUsername", models.decoratedUsername() ) );
+        add( new Label( "albumsHelpUsername", models.username() ) );
 
-            @Override
-            protected String load() {
-
-                return getModelObject().toString();
-            }
-        } ) );
-        add( new Label( "albumsHelpUsername", new LoadableDetachableModel<String>() {
+        add( new DataView<Album>( "albums", new UserAlbumsProvider( userService, getModel() ) ) {
 
             @Override
-            protected String load() {
+            protected void populateItem(Item<Album> item) {
 
-                return getModelObject().getUserName();
-            }
-        } ) );
-
-        add( new DataView<Album<Provider>>( "albums", new UserAlbumsProvider<Provider>( userService, getModel() ) ) {
-
-            @Override
-            protected void populateItem(Item<Album<Provider>> item) {
-
-                item.add( new Link<Album<Provider>>( "link", item.getModel() ) {
+                item.add( new Link<Album>( "link", item.getModel() ) {
 
                     {
-                        List<Media<Provider>> albumFiles = albumService.getFiles( getModelObject() );
+                        List<Media> albumFiles = albumService.getFiles( getModelObject() );
                         add( new ContextImage( "cover",
                                 ImageServlet.getContextRelativePathFor( albumFiles.get( albumFiles.size() - 1 ),
                                                                         Quality.THUMBNAIL ) ) );
@@ -129,12 +118,16 @@ public class GalleryTabPanel extends GenericPanel<User> {
             }
         } );
 
-        final Form<Album<Provider>> newAlbumForm = new Form<Album<Provider>>( "newAlbumForm" ) {
+        final Form<Album> newAlbumForm = new Form<Album>( "newAlbumForm" ) {
 
             {
-                add( new DropDownChoice<AlbumProvider<Provider, Album<Provider>, Media<Provider>>>( "type" ) );
+                add( new DropDownChoice<AlbumProviderType>( "type", //
+                        models.newAlbumForm().type(), models.newAlbumForm().types() ) );
+                add( new TextField<String>( "name", models.newAlbumForm().name() ) );
+                add( new TextArea<String>( "description", models.newAlbumForm().description() ) );
             }
         };
+        add( newAlbumForm );
         add( new AjaxLink<Object>( "newAlbum" ) {
 
             @Override
@@ -189,7 +182,12 @@ class GalleryTab implements ITab {
     @Override
     public Panel getPanel(String panelId) {
 
-        return new GalleryTabPanel( panelId, new Model<User>() {
+        return new GalleryTabPanel( panelId, new IModel<User>() {
+
+            @Override
+            public void detach() {
+
+            }
 
             @Override
             public User getObject() {

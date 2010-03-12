@@ -17,7 +17,6 @@ import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.MediaTimeFrame;
-import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 
@@ -34,12 +33,12 @@ import com.lyndir.lhunath.snaplog.model.AlbumService;
  *            The type of {@link Provider} that we can interface with.
  * @author lhunath
  */
-public class TimelineView extends GenericPanel<Album<Provider>> {
+public class TimelineView extends GenericPanel<Album> {
 
-    final Messages         msgs = LocalizerFactory.getLocalizer( Messages.class, this );
+    final Messages msgs = LocalizerFactory.getLocalizer( Messages.class, this );
 
     @Inject
-    AlbumService<Provider> albumService;
+    AlbumService   albumService;
 
 
     /**
@@ -48,22 +47,21 @@ public class TimelineView extends GenericPanel<Album<Provider>> {
      * @param albumModel
      *            A model providing the album that the timeline should display media for.
      */
-    public TimelineView(String id, IModel<Album<Provider>> albumModel) {
+    public TimelineView(String id, IModel<Album> albumModel) {
 
         super( id, albumModel );
 
-        add( new ListView<MediaTimeFrame<Provider>>( "years",
-                new LoadableDetachableModel<List<MediaTimeFrame<Provider>>>() {
+        add( new ListView<MediaTimeFrame>( "years", new LoadableDetachableModel<List<MediaTimeFrame>>() {
 
-                    @Override
-                    protected List<MediaTimeFrame<Provider>> load() {
+            @Override
+            protected List<MediaTimeFrame> load() {
 
-                        if (getModelObject() == null)
-                            return null;
+                if (getModelObject() == null)
+                    return null;
 
-                        return albumService.getYears( getModelObject() );
-                    }
-                } ) {
+                return albumService.getYears( getModelObject() );
+            }
+        } ) {
 
             @Override
             public boolean isVisible() {
@@ -72,34 +70,33 @@ public class TimelineView extends GenericPanel<Album<Provider>> {
             }
 
             @Override
-            protected void populateItem(ListItem<MediaTimeFrame<Provider>> yearItem) {
+            protected void populateItem(ListItem<MediaTimeFrame> yearItem) {
 
-                MediaTimeFrame<Provider> mediaYear = yearItem.getModelObject();
+                MediaTimeFrame mediaYear = yearItem.getModelObject();
 
                 yearItem.add( new Label( "name", Integer.toString( mediaYear.getTime().getYear() ) ) );
                 yearItem.add( new Label( "photos", msgs.albumTimelineYearPhotos( mediaYear.getFiles( true ).size() ) ) );
 
                 // Hide the months in the year initially.
-                yearItem.add( new ListView<MediaTimeFrame<Provider>>( "months", ImmutableList.copyOf( mediaYear ) ) {
+                yearItem.add( new ListView<MediaTimeFrame>( "months", ImmutableList.copyOf( mediaYear ) ) {
 
                     @Override
-                    protected void populateItem(ListItem<MediaTimeFrame<Provider>> monthItem) {
+                    protected void populateItem(ListItem<MediaTimeFrame> monthItem) {
 
-                        MediaTimeFrame<Provider> mediaMonth = monthItem.getModelObject();
+                        MediaTimeFrame mediaMonth = monthItem.getModelObject();
 
                         monthItem.add( new Label( "name", mediaMonth.getShortName() ) );
-                        monthItem.add( new ListView<MediaTimeFrame<Provider>>( "days",
-                                ImmutableList.copyOf( mediaMonth ) ) {
+                        monthItem.add( new ListView<MediaTimeFrame>( "days", ImmutableList.copyOf( mediaMonth ) ) {
 
                             @Override
-                            protected void populateItem(ListItem<MediaTimeFrame<Provider>> dayItem) {
+                            protected void populateItem(ListItem<MediaTimeFrame> dayItem) {
 
-                                MediaTimeFrame<Provider> mediaDay = dayItem.getModelObject();
+                                MediaTimeFrame mediaDay = dayItem.getModelObject();
                                 dayItem.add( new AttributeAppender( "style", daysStyle( dayItem ), ";" ) );
                                 dayItem.add( new Label( "name", mediaDay.getShortName() ) );
                             }
 
-                            private IModel<?> daysStyle(final ListItem<MediaTimeFrame<Provider>> dayItem) {
+                            private IModel<String> daysStyle(final ListItem<MediaTimeFrame> dayItem) {
 
                                 return new AbstractReadOnlyModel<String>() {
 

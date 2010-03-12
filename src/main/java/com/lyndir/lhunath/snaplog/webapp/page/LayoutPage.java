@@ -2,7 +2,6 @@ package com.lyndir.lhunath.snaplog.webapp.page;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,7 +11,6 @@ import net.link.safeonline.wicket.component.linkid.LinkIDLogoutLink;
 import org.apache.wicket.Component;
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.behavior.StringHeaderContributor;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.MarkupStream;
@@ -23,18 +21,19 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.util.template.JavaScriptTemplate;
 import org.apache.wicket.util.template.PackagedTextTemplate;
 
-import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.wayward.behavior.CSSClassAttributeAppender;
+import com.lyndir.lhunath.lib.wayward.component.AjaxLabelLink;
+import com.lyndir.lhunath.lib.wayward.component.LabelLink;
 import com.lyndir.lhunath.lib.wayward.component.RedirectToPageException;
-import com.lyndir.lhunath.snaplog.data.User;
-import com.lyndir.lhunath.snaplog.messages.Messages;
+import com.lyndir.lhunath.lib.wayward.model.ModelProvider;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
-import com.lyndir.lhunath.snaplog.webapp.cookie.LastUserCookieManager;
+import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels;
 import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
+import com.lyndir.lhunath.snaplog.webapp.tab.TabProvider;
 
 
 /**
@@ -49,19 +48,15 @@ import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
  */
 public class LayoutPage extends WebPage {
 
-    private static final Logger   logger        = Logger.get( LayoutPage.class );
-    protected static final String CONTENT_PANEL = "contentPanel";
+    private static final Logger         logger        = Logger.get( LayoutPage.class );
+    protected static final String       CONTENT_PANEL = "contentPanel";
 
-    final Messages                msgs          = LocalizerFactory.getLocalizer( Messages.class, this );
+    protected final LayoutPageModels<?> models        = getModelProvider();
 
-    WebMarkupContainer            userEntry;
-    WebMarkupContainer            userSummary;
-    WebMarkupContainer            tabsContainer;
-    WebMarkupContainer            container;
-
-    // TODO: Unhardcode.
-    int                           messageCount  = 1;
-    int                           requestCount  = 1;
+    WebMarkupContainer                  userEntry;
+    WebMarkupContainer                  userSummary;
+    WebMarkupContainer                  tabsContainer;
+    WebMarkupContainer                  container;
 
 
     /**
@@ -72,7 +67,7 @@ public class LayoutPage extends WebPage {
         logger.dbg( "Constructing %s", getClass() );
 
         // Page Title.
-        Label pageTitle = new Label( "pageTitle", getPageTitle() );
+        Label pageTitle = new Label( "pageTitle", models.pageTitle() );
 
         // User Login.
         userEntry = new WebMarkupContainer( "userEntry" ) {
@@ -83,19 +78,7 @@ public class LayoutPage extends WebPage {
                 return SnaplogSession.get().getActiveUser() == null;
             }
         };
-        userEntry.add( new Label( "userGuessWelcome", new AbstractReadOnlyModel<String>() {
-
-            @Override
-            public String getObject() {
-
-                User lastUser = LastUserCookieManager.findLastUser();
-
-                if (lastUser == null)
-                    return msgs.userWelcome( ' ', msgs.userNameUnknown() );
-
-                return msgs.userWelcomeBack( lastUser.getBadge(), lastUser.getUserName() );
-            }
-        } ) );
+        userEntry.add( new Label( "userGuessWelcome", models.userGuessWelcome() ) );
         userEntry.add( new LinkIDLoginLink( "userLogin" ) );
 
         // User Summary.
@@ -107,14 +90,7 @@ public class LayoutPage extends WebPage {
                 return SnaplogSession.get().getActiveUser() != null;
             }
         };
-        userSummary.add( new Label( "userBadge", new AbstractReadOnlyModel<String>() {
-
-            @Override
-            public String getObject() {
-
-                return "~";
-            }
-        } ) );
+        userSummary.add( new Label( "userBadge", models.userBadge() ) );
         userSummary.add( new BookmarkablePageLink<Page>( "userName", Page.class ) {
 
             @Override
@@ -123,61 +99,52 @@ public class LayoutPage extends WebPage {
                 replaceComponentTagBody( markupStream, openTag, "lhunath" );
             }
         } );
-        userSummary.add( new BookmarkablePageLink<Page>( "userMessages", Page.class ) {
-
-            @Override
-            protected void onComponentTagBody(MarkupStream markupStream, ComponentTag openTag) {
-
-                if (messageCount == 1)
-                    replaceComponentTagBody( markupStream, openTag, msgs.userMessagesSingular( messageCount ) );
-                else
-                    replaceComponentTagBody( markupStream, openTag, msgs.userMessagesPlural( messageCount ) );
-            }
+        userSummary.add( new LabelLink( "userMessages", models.userMessages() ) {
 
             @Override
             public boolean isVisible() {
 
-                return messageCount > 0;
+                // TODO: return messageCount > 0;
+                return true;
+            }
+
+            @Override
+            public void onClick() {
+
+            // TODO: do something.
             }
         } );
-        userSummary.add( new BookmarkablePageLink<Page>( "userRequests", Page.class ) {
-
-            @Override
-            protected void onComponentTagBody(MarkupStream markupStream, ComponentTag openTag) {
-
-                if (requestCount == 1)
-                    replaceComponentTagBody( markupStream, openTag, msgs.userRequestsSingular( requestCount ) );
-                else
-                    replaceComponentTagBody( markupStream, openTag, msgs.userRequestsPlural( requestCount ) );
-            }
+        userSummary.add( new LabelLink( "userRequests", models.userRequests() ) {
 
             @Override
             public boolean isVisible() {
 
-                return requestCount > 0;
+                // TODO: return requestCount > 0;
+                return true;
+            }
+
+            @Override
+            public void onClick() {
+
+            // TODO: do something.
             }
         } );
         userSummary.add( new LinkIDLogoutLink( "userLogout" ) );
 
         // Page Tab.
         tabsContainer = new WebMarkupContainer( "tabsContainer" );
-        ListView<Tab> headTabs = new ListView<Tab>( "tabs", Arrays.asList( Tab.values() ) ) {
+        ListView<TabProvider> headTabs = new ListView<TabProvider>( "tabs", models.tabs() ) {
 
             @Override
-            protected void populateItem(ListItem<Tab> item) {
+            protected void populateItem(final ListItem<TabProvider> item) {
 
-                item.add( new AjaxLink<Tab>( "link", item.getModel() ) {
-
-                    {
-                        add( new Label( "title", getModelObject().getTab().getTitle() ) );
-                    }
-
+                item.add( new AjaxLabelLink( "link", models.tab( item.getModel() ).title() ) {
 
                     @Override
                     public void onClick(AjaxRequestTarget target) {
 
                         // TAB click.
-                        SnaplogSession.get().setActiveTab( getModelObject() );
+                        SnaplogSession.get().setActiveTab( item.getModelObject() );
                         setContentPanel( getActiveTabPanel( CONTENT_PANEL ) );
 
                         target.addComponent( container );
@@ -187,19 +154,12 @@ public class LayoutPage extends WebPage {
             }
 
             @Override
-            protected ListItem<Tab> newItem(final int index) {
+            protected ListItem<TabProvider> newItem(final int index) {
 
-                return new ListItem<Tab>( index, getListItemModel( getModel(), index ) ) {
+                ListItem<TabProvider> item = new ListItem<TabProvider>( index, getListItemModel( getModel(), index ) );
+                item.add( CSSClassAttributeAppender.of( models.tab( item.getModel() ).styleClass() ) );
 
-                    @Override
-                    protected void onComponentTag(ComponentTag tag) {
-
-                        super.onComponentTag( tag );
-
-                        if (getModelObject() == SnaplogSession.get().getActiveTab())
-                            tag.put( "class", "active" );
-                    }
-                };
+                return item;
             }
         };
         tabsContainer.add( headTabs );
@@ -222,6 +182,14 @@ public class LayoutPage extends WebPage {
     }
 
     /**
+     * @return The {@link ModelProvider} for this page.
+     */
+    protected LayoutPageModels<?> getModelProvider() {
+
+        return new LayoutPageModels<Object>( null );
+    }
+
+    /**
      * Override me to define a custom panel to show initially when this page is constructed.
      * 
      * @param wicketId
@@ -236,7 +204,7 @@ public class LayoutPage extends WebPage {
     public Panel getActiveTabPanel(String wicketId) {
 
         // Find the active tab.
-        Tab activeTab = SnaplogSession.get().getActiveTab();
+        TabProvider activeTab = SnaplogSession.get().getActiveTab();
         if (activeTab == null)
             SnaplogSession.get().setActiveTab( activeTab = Tab.DESKTOP );
 
@@ -254,18 +222,6 @@ public class LayoutPage extends WebPage {
         logger.dbg( "Setting content panel to: %s", contentPanel.getClass() );
 
         container.addOrReplace( contentPanel );
-    }
-
-    /**
-     * @return The title string that describes this page.
-     */
-    protected String getPageTitle() {
-
-        User user = SnaplogSession.get().getFocussedUser();
-        if (user == null)
-            return msgs.pageTitle( ' ', msgs.userNameUnknown() );
-
-        return msgs.pageTitle( user.getBadge(), user.getUserName() );
     }
 
     protected static String trackJS(Component trackComponent) {

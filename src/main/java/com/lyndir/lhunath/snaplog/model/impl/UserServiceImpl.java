@@ -23,7 +23,6 @@ import com.db4o.query.Predicate;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.LinkID;
-import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.data.User;
 import com.lyndir.lhunath.snaplog.model.UserService;
 
@@ -39,7 +38,7 @@ import com.lyndir.lhunath.snaplog.model.UserService;
  *            The type of {@link Provider} that we can service.
  * @author lhunath
  */
-public class UserServiceImpl<P extends Provider> implements UserService<P> {
+public class UserServiceImpl implements UserService {
 
     ObjectContainer db;
 
@@ -115,14 +114,14 @@ public class UserServiceImpl<P extends Provider> implements UserService<P> {
      * {@inheritDoc}
      */
     @Override
-    public ObjectSet<Album<P>> queryAlbumsOfUserVisibleToUser(final User ownerUser, User observerUser) {
+    public ObjectSet<Album> queryAlbumsOfUserVisibleToUser(final User ownerUser, User observerUser) {
 
         checkNotNull( ownerUser );
 
-        return db.query( new Predicate<Album<P>>() {
+        return db.query( new Predicate<Album>() {
 
             @Override
-            public boolean match(Album<P> candidate) {
+            public boolean match(Album candidate) {
 
                 return candidate.getUser().equals( ownerUser );
             }

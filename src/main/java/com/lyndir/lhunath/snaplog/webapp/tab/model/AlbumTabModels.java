@@ -13,36 +13,48 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.data.aws;
+package com.lyndir.lhunath.snaplog.webapp.tab.model;
+
+import java.util.Date;
+
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 
 import com.lyndir.lhunath.snaplog.data.Album;
-import com.lyndir.lhunath.snaplog.data.User;
+import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels;
 
 
 /**
- * <h2>{@link S3Album}<br>
+ * <h2>{@link AlbumTabModels}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
- * [description / usage].
- * </p>
- * 
- * <p>
- * <i>Jan 10, 2010</i>
+ * <i>Mar 12, 2010</i>
  * </p>
  * 
  * @author lhunath
  */
-public class S3Album extends Album {
+public class AlbumTabModels extends LayoutPageModels<Album> {
+
+    private IModel<Date> currentTime = new Model<Date>();
+
+
+    // Accessors.
 
     /**
-     * @param user
-     *            The user that owns this Album.
-     * @param name
-     *            A unique, user-visible name of this Album amongst the user's albums.
+     * @param model
+     *            The model providing the album to show.
      */
-    public S3Album(User user, String name) {
+    public AlbumTabModels(IModel<Album> model) {
 
-        super( user, name );
+        super( model );
+    }
+
+    /**
+     * @return A model that keeps track of the point in time of the album the user is focussed on.
+     */
+    public IModel<Date> currentTime() {
+
+        return currentTime;
     }
 }

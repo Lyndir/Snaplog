@@ -19,8 +19,8 @@ import java.net.URI;
 import java.util.List;
 
 import com.lyndir.lhunath.snaplog.data.Album;
+import com.lyndir.lhunath.snaplog.data.AlbumData;
 import com.lyndir.lhunath.snaplog.data.Media;
-import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.data.Media.Quality;
 
 
@@ -32,15 +32,13 @@ import com.lyndir.lhunath.snaplog.data.Media.Quality;
  * <i>Jan 10, 2010</i>
  * </p>
  * 
- * @param <P>
- *            The type of {@link Provider} that we services.
  * @param <A>
- *            The type of {@link Album} that can contain M.
+ *            The type of {@link Album} this {@link MediaProviderService} provides.
  * @param <M>
- *            The type of {@link Media} we provide services for.
+ *            The type of {@link Media} this {@link MediaProviderService} provides.
  * @author lhunath
  */
-public interface MediaProviderService<P extends Provider, A extends Album<P>, M extends Media<P>> {
+public interface MediaProviderService<A extends Album, M extends Media> {
 
     /**
      * Enumerate all media in a certain album.
@@ -73,4 +71,13 @@ public interface MediaProviderService<P extends Provider, A extends Album<P>, M 
      * @return A timestamp in milliseconds since the UNIX epoch.
      */
     long modifiedTime(M media);
+
+    /**
+     * Create an {@link AlbumData} instance.
+     * 
+     * @param album
+     *            The {@link Album} to generate a data instance for.
+     * @return A new data instance.
+     */
+    AlbumData newAlbumData(A album);
 }

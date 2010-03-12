@@ -23,7 +23,6 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.Media;
-import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.data.Media.Quality;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
@@ -41,17 +40,17 @@ import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
  *            The type of {@link Provider} that we can interface with.
  * @author lhunath
  */
-public class BrowserView extends GenericPanel<Album<Provider>> {
+public class BrowserView extends GenericPanel<Album> {
 
-    static final Logger    logger              = Logger.get( BrowserView.class );
+    static final Logger logger              = Logger.get( BrowserView.class );
 
-    static final int       BROWSER_SIDE_IMAGES = 4;
+    static final int    BROWSER_SIDE_IMAGES = 4;
 
     @Inject
-    AlbumService<Provider> albumService;
+    AlbumService        albumService;
 
-    Media<?>               currentFile;
-    IModel<Date>           currentTimeModel;
+    Media               currentFile;
+    IModel<Date>        currentTimeModel;
 
 
     /**
@@ -65,7 +64,7 @@ public class BrowserView extends GenericPanel<Album<Provider>> {
      *            The model contains the {@link Date} upon which the browser should focus. The first image on or past
      *            this date will be the focussed image.
      */
-    public BrowserView(String id, IModel<Album<Provider>> albumModel, IModel<Date> currentTimeModel) {
+    public BrowserView(String id, IModel<Album> albumModel, IModel<Date> currentTimeModel) {
 
         super( id, albumModel );
         setOutputMarkupId( true );
@@ -86,7 +85,7 @@ public class BrowserView extends GenericPanel<Album<Provider>> {
      * 
      * @author lhunath
      */
-    private final class BrowserListView extends ListView<Media<Provider>> {
+    private final class BrowserListView extends ListView<Media> {
 
         BrowserListView(String id) {
 
@@ -94,9 +93,9 @@ public class BrowserView extends GenericPanel<Album<Provider>> {
         }
 
         @Override
-        protected void populateItem(ListItem<Media<Provider>> item) {
+        protected void populateItem(ListItem<Media> item) {
 
-            Media<Provider> media = item.getModelObject();
+            Media media = item.getModelObject();
             Quality imageQuality = media.equals( currentFile )? Quality.PREVIEW: Quality.THUMBNAIL;
             final long shotTime = media.shotTime();
             WebMarkupContainer link = null;
@@ -144,7 +143,7 @@ public class BrowserView extends GenericPanel<Album<Provider>> {
      * 
      * @author lhunath
      */
-    private final class BrowserFilesModel extends AbstractReadOnlyModel<List<Media<Provider>>> {
+    private final class BrowserFilesModel extends AbstractReadOnlyModel<List<Media>> {
 
         /**
          * Create a new {@link BrowserFilesModel} instance.
@@ -154,19 +153,19 @@ public class BrowserView extends GenericPanel<Album<Provider>> {
         }
 
         @Override
-        public List<Media<Provider>> getObject() {
+        public List<Media> getObject() {
 
-            List<? extends Media<Provider>> allFiles = albumService.getFiles( getModelObject() );
-            FixedDeque<Media<Provider>> files = new FixedDeque<Media<Provider>>( BROWSER_SIDE_IMAGES * 2 + 1 );
+            List<? extends Media> allFiles = albumService.getFiles( getModelObject() );
+            FixedDeque<Media> files = new FixedDeque<Media>( BROWSER_SIDE_IMAGES * 2 + 1 );
 
-            Iterator<? extends Media<Provider>> it = allFiles.iterator();
+            Iterator<? extends Media> it = allFiles.iterator();
             if (!it.hasNext())
-                return new LinkedList<Media<Provider>>();
+                return new LinkedList<Media>();
 
             // Find the current file.
             boolean addedNextFile = false;
             while (it.hasNext()) {
-                Media<Provider> nextFile = it.next();
+                Media nextFile = it.next();
                 files.addFirst( nextFile );
 
                 if (currentTimeModel.getObject() != null
@@ -186,7 +185,7 @@ public class BrowserView extends GenericPanel<Album<Provider>> {
                 else
                     files.removeLast();
 
-            return new LinkedList<Media<Provider>>( files );
+            return new LinkedList<Media>( files );
         }
     }
 }

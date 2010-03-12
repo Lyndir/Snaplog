@@ -20,7 +20,6 @@ import org.apache.wicket.application.IComponentOnBeforeRenderListener;
 
 import com.google.inject.Inject;
 import com.lyndir.lhunath.snaplog.data.LinkID;
-import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.model.UserService;
 import com.lyndir.lhunath.snaplog.util.WicketUtils;
 
@@ -39,7 +38,7 @@ import com.lyndir.lhunath.snaplog.util.WicketUtils;
  */
 public class AuthenticationListener implements IComponentOnBeforeRenderListener {
 
-    final UserService<Provider> userService;
+    final UserService userService;
 
 
     /**
@@ -47,7 +46,7 @@ public class AuthenticationListener implements IComponentOnBeforeRenderListener 
      *            See {@link UserService}
      */
     @Inject
-    public AuthenticationListener(UserService<Provider> userService) {
+    public AuthenticationListener(UserService userService) {
 
         this.userService = userService;
     }

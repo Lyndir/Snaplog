@@ -19,9 +19,7 @@ import com.db4o.Db4oEmbedded;
 import com.db4o.EmbeddedObjectContainer;
 import com.db4o.ObjectContainer;
 import com.google.inject.AbstractModule;
-import com.google.inject.TypeLiteral;
 import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.model.AWSMediaProviderService;
 import com.lyndir.lhunath.snaplog.model.AWSService;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
@@ -58,10 +56,10 @@ public class ServicesModule extends AbstractModule {
 
         // Services
         logger.dbg( "Binding services" );
-        bind( new TypeLiteral<AlbumService<Provider>>() {} ).to( new TypeLiteral<AlbumServiceImpl<Provider>>() {} );
-        bind( new TypeLiteral<AWSMediaProviderService>() {} ).to( AWSMediaProviderServiceImpl.class );
-        bind( new TypeLiteral<AWSService>() {} ).to( AWSServiceImpl.class );
-        bind( new TypeLiteral<UserService<Provider>>() {} ).to( new TypeLiteral<UserServiceImpl<Provider>>() {} );
+        bind( AlbumService.class ).to( AlbumServiceImpl.class );
+        bind( AWSMediaProviderService.class ).to( AWSMediaProviderServiceImpl.class );
+        bind( AWSService.class ).to( AWSServiceImpl.class );
+        bind( UserService.class ).to( UserServiceImpl.class );
 
         // Database
         logger.dbg( "Binding database" );

@@ -37,13 +37,13 @@ import com.lyndir.lhunath.snaplog.model.WebUtil;
  * <i>Jul 25, 2009</i>
  * </p>
  * 
- * @param <P>
- *            The type of {@link Provider} that provides this media's resources.
+ * @param The
+ *            type of {@link Provider} that provides this media's resources.
  * @param <A>
  *            The type of album that can contain this type of media.
  * @author lhunath
  */
-public abstract class Media<P extends Provider> implements Comparable<Media<?>>, Serializable {
+public abstract class Media implements Comparable<Media>, Serializable {
 
     static final Logger                    logger         = Logger.get( Media.class );
 
@@ -78,7 +78,7 @@ public abstract class Media<P extends Provider> implements Comparable<Media<?>>,
     /**
      * @return The album of this {@link Media}.
      */
-    public abstract Album<P> getAlbum();
+    public abstract Album getAlbum();
 
     /**
      * Obtain the time since the UNIX Epoch in milliseconds since the picture was taken.
@@ -137,7 +137,7 @@ public abstract class Media<P extends Provider> implements Comparable<Media<?>>,
      * {@inheritDoc}
      */
     @Override
-    public int compareTo(Media<?> o) {
+    public int compareTo(Media o) {
 
         if (shotTime() > o.shotTime())
             return 1;
@@ -155,9 +155,9 @@ public abstract class Media<P extends Provider> implements Comparable<Media<?>>,
 
         if (o == this)
             return true;
-        if (o instanceof Media<?>)
-            return Objects.equal( ((Media<?>) o).getName(), getName() )
-                   && Objects.equal( ((Media<?>) o).getAlbum(), getAlbum() );
+        if (o instanceof Media)
+            return Objects.equal( ((Media) o).getName(), getName() )
+                   && Objects.equal( ((Media) o).getAlbum(), getAlbum() );
 
         return false;
     }

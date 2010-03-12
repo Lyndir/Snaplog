@@ -31,7 +31,7 @@ import com.lyndir.lhunath.snaplog.data.Media;
  * 
  * @author lhunath
  */
-public class S3Media extends Media<S3Provider> {
+public class S3Media extends Media {
 
     private S3Album album;
 

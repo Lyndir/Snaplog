@@ -45,23 +45,22 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
  * <i>Jul 25, 2009</i>
  * </p>
  * 
- * @param <P>
- *            The type of {@link Provider} that provides the resources for the media in this time frame.
+ * @param The
+ *            type of {@link Provider} that provides the resources for the media in this time frame.
  * 
  * @author lhunath
  */
-public class MediaTimeFrame<P extends Provider>
-        implements Comparable<MediaTimeFrame<?>>, Iterable<MediaTimeFrame<P>>, Serializable {
+public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<MediaTimeFrame>, Serializable {
 
-    private static final Logger                 logger = Logger.get( MediaTimeFrame.class );
+    private static final Logger              logger = Logger.get( MediaTimeFrame.class );
 
-    private final MediaTimeFrame<P>             parent;
-    private final LinkedList<MediaTimeFrame<P>> children;
+    private final MediaTimeFrame             parent;
+    private final LinkedList<MediaTimeFrame> children;
 
-    private final Type                          type;
-    private final Partial                       typeTime;
+    private final Type                       type;
+    private final Partial                    typeTime;
 
-    private final LinkedList<Media<P>>          files;
+    private final LinkedList<Media>          files;
 
 
     /**
@@ -72,7 +71,7 @@ public class MediaTimeFrame<P extends Provider>
      * @param timeMillis
      *            The time in milliseconds since the UNIX epoch of the beginning of this timeframe.
      */
-    public MediaTimeFrame(MediaTimeFrame<P> parent, Type type, long timeMillis) {
+    public MediaTimeFrame(MediaTimeFrame parent, Type type, long timeMillis) {
 
         Type parentType = type.findParentType();
         if (parentType == null) {
@@ -84,11 +83,11 @@ public class MediaTimeFrame<P extends Provider>
                               type, parentType, parent.type ).toError( IllegalArgumentException.class );
 
         this.parent = parent;
-        children = new LinkedList<MediaTimeFrame<P>>();
+        children = new LinkedList<MediaTimeFrame>();
         this.type = type;
 
         typeTime = new Partial( type.getDateType(), new LocalDateTime( timeMillis ).get( type.getDateType() ) );
-        files = new LinkedList<Media<P>>();
+        files = new LinkedList<Media>();
     }
 
     /**
@@ -100,12 +99,12 @@ public class MediaTimeFrame<P extends Provider>
      * 
      * @return An unmodifiable list of {@link Media}s.
      */
-    public List<Media<P>> getFiles(boolean recurse) {
+    public List<Media> getFiles(boolean recurse) {
 
-        List<Media<P>> list = files;
+        List<Media> list = files;
         if (recurse) {
-            list = new LinkedList<Media<P>>( files );
-            for (MediaTimeFrame<P> childFrame : this)
+            list = new LinkedList<Media>( files );
+            for (MediaTimeFrame childFrame : this)
                 list.addAll( childFrame.getFiles( true ) );
         }
 
@@ -118,7 +117,7 @@ public class MediaTimeFrame<P extends Provider>
      * @param mediaFile
      *            The media to add to this time frame.
      */
-    public void addFile(Media<P> mediaFile) {
+    public void addFile(Media mediaFile) {
 
         // TODO: Validate that mediaFile is in this time frame.
         files.add( mediaFile );
@@ -161,7 +160,7 @@ public class MediaTimeFrame<P extends Provider>
      * {@inheritDoc}
      */
     @Override
-    public Iterator<MediaTimeFrame<P>> iterator() {
+    public Iterator<MediaTimeFrame> iterator() {
 
         return children.iterator();
     }
@@ -170,7 +169,7 @@ public class MediaTimeFrame<P extends Provider>
      * @param mediaTimeFrame
      *            The child {@link MediaTimeFrame} to add to this one.
      */
-    public void addTimeFrame(MediaTimeFrame<P> mediaTimeFrame) {
+    public void addTimeFrame(MediaTimeFrame mediaTimeFrame) {
 
         Type childType = type.findChildType();
         if (childType == null || childType != mediaTimeFrame.type)
@@ -193,7 +192,7 @@ public class MediaTimeFrame<P extends Provider>
      * {@inheritDoc}
      */
     @Override
-    public int compareTo(MediaTimeFrame<?> o) {
+    public int compareTo(MediaTimeFrame o) {
 
         return typeTime.compareTo( o.typeTime );
     }
@@ -204,8 +203,8 @@ public class MediaTimeFrame<P extends Provider>
         if (obj == this)
             return true;
 
-        if (obj instanceof MediaTimeFrame<?>)
-            return ((MediaTimeFrame<?>) obj).type == type && ((MediaTimeFrame<?>) obj).typeTime.equals( typeTime );
+        if (obj instanceof MediaTimeFrame)
+            return ((MediaTimeFrame) obj).type == type && ((MediaTimeFrame) obj).typeTime.equals( typeTime );
 
         return false;
     }

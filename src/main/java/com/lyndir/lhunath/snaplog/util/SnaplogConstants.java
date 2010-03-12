@@ -17,7 +17,6 @@ package com.lyndir.lhunath.snaplog.util;
 
 import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.LinkID;
-import com.lyndir.lhunath.snaplog.data.Provider;
 import com.lyndir.lhunath.snaplog.data.User;
 import com.lyndir.lhunath.snaplog.data.aws.S3Album;
 
@@ -37,11 +36,11 @@ public abstract class SnaplogConstants {
     /*
      * TODO: Unhardcode
      */
-    public static final Album<? extends Provider> DEFAULT_ALBUM;
+    public static final Album DEFAULT_ALBUM;
     /*
      * TODO: Unhardcode
      */
-    public static final User                      DEFAULT_USER;
+    public static final User  DEFAULT_USER;
 
     static {
         DEFAULT_USER = new User( new LinkID( "b21e33e2-b63e-4f06-8f52-84509883e1d1" ), "lhunath" );

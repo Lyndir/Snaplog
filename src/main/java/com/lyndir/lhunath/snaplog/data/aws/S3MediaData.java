@@ -37,8 +37,9 @@ import com.lyndir.lhunath.snaplog.data.Media.Quality;
  * 
  * @author lhunath
  */
-public class S3MediaData extends MediaData<S3Provider, S3Album, S3Media> {
+public class S3MediaData extends MediaData {
 
+    private S3Media                media;
     private Map<Quality, S3Object> s3Objects;
 
 
@@ -50,9 +51,18 @@ public class S3MediaData extends MediaData<S3Provider, S3Album, S3Media> {
      */
     public S3MediaData(S3Media media) {
 
-        super( media );
+        this.media = media;
 
         s3Objects = Maps.newHashMapWithExpectedSize( Quality.values().length );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public S3Media getMedia() {
+
+        return media;
     }
 
     /**
