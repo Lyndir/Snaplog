@@ -68,7 +68,7 @@ public class AdministrationTabPanel extends Panel {
 class AdministrationTab implements ITab {
 
     static final Logger logger = Logger.get( AdministrationTab.class );
-    Messages            msgs   = LocalizerFactory.getLocalizer( Messages.class );
+    Messages msgs = LocalizerFactory.getLocalizer( Messages.class );
 
 
     /**

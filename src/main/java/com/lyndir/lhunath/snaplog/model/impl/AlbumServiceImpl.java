@@ -45,17 +45,19 @@ import com.lyndir.lhunath.snaplog.model.AlbumService;
  * <i>Jul 25, 2009</i>
  * </p>
  * 
- * @param The
- *            type of {@link Provider} that we provide album services for.
  * @author lhunath
  */
 public class AlbumServiceImpl implements AlbumService {
 
     private static final Logger logger = Logger.get( AlbumServiceImpl.class );
 
-    ObjectContainer             db;
+    ObjectContainer db;
 
 
+    /**
+     * @param db
+     *            See {@link ServicesModule}.
+     */
     @Inject
     public AlbumServiceImpl(ObjectContainer db) {
 

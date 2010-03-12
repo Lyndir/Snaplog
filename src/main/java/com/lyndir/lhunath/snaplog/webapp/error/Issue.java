@@ -32,7 +32,7 @@ import org.apache.wicket.Page;
  */
 public class Issue implements Serializable {
 
-    private Page      location;
+    private Page location;
     private Exception cause;
 
 

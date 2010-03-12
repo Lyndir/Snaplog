@@ -29,8 +29,6 @@ import com.lyndir.lhunath.snaplog.model.AlbumService;
  * <i>Jan 4, 2010</i>
  * </p>
  * 
- * @param <P>
- *            The type of {@link Provider} that we can interface with.
  * @author lhunath
  */
 public class TimelineView extends GenericPanel<Album> {
@@ -38,7 +36,7 @@ public class TimelineView extends GenericPanel<Album> {
     final Messages msgs = LocalizerFactory.getLocalizer( Messages.class, this );
 
     @Inject
-    AlbumService   albumService;
+    AlbumService albumService;
 
 
     /**

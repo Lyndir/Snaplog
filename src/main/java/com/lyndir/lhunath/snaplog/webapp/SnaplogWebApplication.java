@@ -56,16 +56,21 @@ import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
  */
 public class SnaplogWebApplication extends WebApplication {
 
-    static final Logger                    logger                  = Logger.get( SnaplogWebApplication.class );
+    static final Logger logger = Logger.get( SnaplogWebApplication.class );
 
     /**
      * Context-relative path to the page that indicates an error occurred during the linkID authentication protocol.
      * 
      * TODO: Add a page for this.
      */
-    public static final String             PATH_LINKID_ERROR       = "/linkid-error";
+    public static final String PATH_LINKID_ERROR = "/linkid-error";
 
-    public static final MetaDataKey<Issue> RUNTIME_EXCEPTION_ISSUE = new MetaDataKey<Issue>() {};
+    /**
+     * Metadata key for an {@link Issue} describing a {@link RuntimeException} that occurred.
+     * 
+     * @see RequestCycle#getMetaData(MetaDataKey)
+     */
+    public static final MetaDataKey<Issue> METADATA_RUNTIME_EXCEPTION_ISSUE = new MetaDataKey<Issue>() {};
 
 
     /**
@@ -132,7 +137,7 @@ public class SnaplogWebApplication extends WebApplication {
             @Override
             public Page onRuntimeException(Page page, RuntimeException e) {
 
-                setMetaData( RUNTIME_EXCEPTION_ISSUE, new Issue( page, e ) );
+                setMetaData( METADATA_RUNTIME_EXCEPTION_ISSUE, new Issue( page, e ) );
 
                 return super.onRuntimeException( page, e );
             }

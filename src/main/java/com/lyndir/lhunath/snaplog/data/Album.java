@@ -34,13 +34,11 @@ import com.google.common.base.Objects;
  * <i>Jan 9, 2010</i>
  * </p>
  * 
- * @param <P>
- *            The type of {@link Provider} that provides this album's resources.
  * @author lhunath
  */
 public abstract class Album implements Serializable {
 
-    private User   user;
+    private User user;
     private String name;
     private String description;
 

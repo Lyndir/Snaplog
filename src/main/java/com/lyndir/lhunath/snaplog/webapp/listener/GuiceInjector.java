@@ -49,8 +49,8 @@ import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
  */
 public class GuiceInjector {
 
-    private static final String PATH_WICKET        = "/*";
-    private static final String PATH_LINKID_LOGIN  = "/login";
+    private static final String PATH_WICKET = "/*";
+    private static final String PATH_LINKID_LOGIN = "/login";
     private static final String PATH_LINKID_LOGOUT = "/logout";
 
     private static Injector injector;

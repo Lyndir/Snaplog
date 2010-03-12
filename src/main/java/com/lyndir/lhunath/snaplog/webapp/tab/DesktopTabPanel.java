@@ -67,7 +67,7 @@ public class DesktopTabPanel extends Panel {
 class DesktopTab implements ITab {
 
     static final Logger logger = Logger.get( DesktopTab.class );
-    Messages            msgs   = LocalizerFactory.getLocalizer( Messages.class );
+    Messages msgs = LocalizerFactory.getLocalizer( Messages.class );
 
 
     /**

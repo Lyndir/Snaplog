@@ -32,8 +32,6 @@ import com.lyndir.lhunath.snaplog.util.WicketUtils;
  * <i>Jan 2, 2010</i>
  * </p>
  * 
- * @param <P>
- *            The type of {@link Provider} that we can load.
  * @author lhunath
  */
 public class AuthenticationListener implements IComponentOnBeforeRenderListener {

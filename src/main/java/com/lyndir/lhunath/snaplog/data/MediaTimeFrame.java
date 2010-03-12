@@ -45,22 +45,19 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
  * <i>Jul 25, 2009</i>
  * </p>
  * 
- * @param The
- *            type of {@link Provider} that provides the resources for the media in this time frame.
- * 
  * @author lhunath
  */
 public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<MediaTimeFrame>, Serializable {
 
-    private static final Logger              logger = Logger.get( MediaTimeFrame.class );
+    private static final Logger logger = Logger.get( MediaTimeFrame.class );
 
-    private final MediaTimeFrame             parent;
+    private final MediaTimeFrame parent;
     private final LinkedList<MediaTimeFrame> children;
 
-    private final Type                       type;
-    private final Partial                    typeTime;
+    private final Type type;
+    private final Partial typeTime;
 
-    private final LinkedList<Media>          files;
+    private final LinkedList<Media> files;
 
 
     /**
@@ -197,6 +194,9 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
         return typeTime.compareTo( o.typeTime );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
 
@@ -209,6 +209,9 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
 
@@ -244,8 +247,8 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
         DAY( DateTimeFieldType.dayOfMonth(), MONTH, "dd" );
 
         private final DateTimeFieldType dateType;
-        private final Type              parentType;
-        private final String            dateFormatString;
+        private final Type parentType;
+        private final String dateFormatString;
 
 
         Type(DateTimeFieldType dateType, Type parentType, String dateFormatString) {

@@ -34,8 +34,6 @@ import com.lyndir.lhunath.snaplog.model.UserService;
  * <i>Jan 9, 2010</i>
  * </p>
  * 
- * @param <P>
- *            The type of {@link Provider} that we can service.
  * @author lhunath
  */
 public class UserServiceImpl implements UserService {
@@ -43,6 +41,10 @@ public class UserServiceImpl implements UserService {
     ObjectContainer db;
 
 
+    /**
+     * @param db
+     *            See {@link ServicesModule}.
+     */
     @Inject
     public UserServiceImpl(ObjectContainer db) {
 

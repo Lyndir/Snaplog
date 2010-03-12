@@ -15,7 +15,6 @@ import org.apache.wicket.behavior.StringHeaderContributor;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.MarkupStream;
 import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -27,11 +26,12 @@ import org.apache.wicket.util.template.PackagedTextTemplate;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.behavior.CSSClassAttributeAppender;
 import com.lyndir.lhunath.lib.wayward.component.AjaxLabelLink;
+import com.lyndir.lhunath.lib.wayward.component.GenericWebPage;
 import com.lyndir.lhunath.lib.wayward.component.LabelLink;
 import com.lyndir.lhunath.lib.wayward.component.RedirectToPageException;
-import com.lyndir.lhunath.lib.wayward.model.ModelProvider;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels;
+import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels.TabItem;
 import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
 import com.lyndir.lhunath.snaplog.webapp.tab.TabProvider;
 
@@ -46,28 +46,27 @@ import com.lyndir.lhunath.snaplog.webapp.tab.TabProvider;
  * 
  * @author lhunath
  */
-public class LayoutPage extends WebPage {
+public class LayoutPage extends GenericWebPage<LayoutPageModels> {
 
-    private static final Logger         logger        = Logger.get( LayoutPage.class );
-    protected static final String       CONTENT_PANEL = "contentPanel";
+    private static final Logger logger = Logger.get( LayoutPage.class );
+    protected static final String CONTENT_PANEL = "contentPanel";
 
-    protected final LayoutPageModels<?> models        = getModelProvider();
-
-    WebMarkupContainer                  userEntry;
-    WebMarkupContainer                  userSummary;
-    WebMarkupContainer                  tabsContainer;
-    WebMarkupContainer                  container;
+    WebMarkupContainer userEntry;
+    WebMarkupContainer userSummary;
+    WebMarkupContainer tabsContainer;
+    WebMarkupContainer container;
 
 
     /**
-     * {@inheritDoc}
+     * Create a new {@link LayoutPage}.
      */
     public LayoutPage() {
 
-        logger.dbg( "Constructing %s", getClass() );
+        super( new LayoutPageModels().getModel() );
+        getModelObject().attach( this );
 
         // Page Title.
-        Label pageTitle = new Label( "pageTitle", models.pageTitle() );
+        Label pageTitle = new Label( "pageTitle", getModelObject().pageTitle() );
 
         // User Login.
         userEntry = new WebMarkupContainer( "userEntry" ) {
@@ -78,7 +77,7 @@ public class LayoutPage extends WebPage {
                 return SnaplogSession.get().getActiveUser() == null;
             }
         };
-        userEntry.add( new Label( "userGuessWelcome", models.userGuessWelcome() ) );
+        userEntry.add( new Label( "userGuessWelcome", getModelObject().userGuessWelcome() ) );
         userEntry.add( new LinkIDLoginLink( "userLogin" ) );
 
         // User Summary.
@@ -90,7 +89,7 @@ public class LayoutPage extends WebPage {
                 return SnaplogSession.get().getActiveUser() != null;
             }
         };
-        userSummary.add( new Label( "userBadge", models.userBadge() ) );
+        userSummary.add( new Label( "userBadge", getModelObject().userBadge() ) );
         userSummary.add( new BookmarkablePageLink<Page>( "userName", Page.class ) {
 
             @Override
@@ -99,7 +98,7 @@ public class LayoutPage extends WebPage {
                 replaceComponentTagBody( markupStream, openTag, "lhunath" );
             }
         } );
-        userSummary.add( new LabelLink( "userMessages", models.userMessages() ) {
+        userSummary.add( new LabelLink( "userMessages", getModelObject().userMessages() ) {
 
             @Override
             public boolean isVisible() {
@@ -114,7 +113,7 @@ public class LayoutPage extends WebPage {
             // TODO: do something.
             }
         } );
-        userSummary.add( new LabelLink( "userRequests", models.userRequests() ) {
+        userSummary.add( new LabelLink( "userRequests", getModelObject().userRequests() ) {
 
             @Override
             public boolean isVisible() {
@@ -133,33 +132,32 @@ public class LayoutPage extends WebPage {
 
         // Page Tab.
         tabsContainer = new WebMarkupContainer( "tabsContainer" );
-        ListView<TabProvider> headTabs = new ListView<TabProvider>( "tabs", models.tabs() ) {
+        ListView<TabItem> headTabs = new ListView<TabItem>( "tabs", getModelObject().tabs() ) {
 
             @Override
-            protected void populateItem(final ListItem<TabProvider> item) {
+            protected void populateItem(ListItem<TabItem> item) {
 
-                item.add( new AjaxLabelLink( "link", models.tab( item.getModel() ).title() ) {
+                final TabItem itemModel = item.getModelObject();
+                itemModel.attach( item );
+
+                item.add( new AjaxLabelLink( "link", itemModel.title() ) {
 
                     @Override
                     public void onClick(AjaxRequestTarget target) {
 
+                        if (!getPage().getClass().equals( LayoutPage.class ))
+                            throw new RedirectToPageException( LayoutPage.class );
+
                         // TAB click.
-                        SnaplogSession.get().setActiveTab( item.getModelObject() );
+                        SnaplogSession.get().setActiveTab( itemModel.getObject() );
                         setContentPanel( getActiveTabPanel( CONTENT_PANEL ) );
 
                         target.addComponent( container );
                         target.addComponent( tabsContainer );
                     }
-                } ).setVisible( item.getModelObject().getTab().isVisible() );
-            }
-
-            @Override
-            protected ListItem<TabProvider> newItem(final int index) {
-
-                ListItem<TabProvider> item = new ListItem<TabProvider>( index, getListItemModel( getModel(), index ) );
-                item.add( CSSClassAttributeAppender.of( models.tab( item.getModel() ).styleClass() ) );
-
-                return item;
+                } );
+                item.add( CSSClassAttributeAppender.of( item.getModelObject().styleClass() ) );
+                item.setVisible( itemModel.getObject().getTab().isVisible() );
             }
         };
         tabsContainer.add( headTabs );
@@ -182,40 +180,28 @@ public class LayoutPage extends WebPage {
     }
 
     /**
-     * @return The {@link ModelProvider} for this page.
-     */
-    protected LayoutPageModels<?> getModelProvider() {
-
-        return new LayoutPageModels<Object>( null );
-    }
-
-    /**
      * Override me to define a custom panel to show initially when this page is constructed.
      * 
      * @param wicketId
      *            The wicket ID that the panel should use.
-     * @return
+     * @return The panel to show when the page first loads.
      */
     protected Panel getInitialContentPanel(String wicketId) {
 
         return getActiveTabPanel( wicketId );
     }
 
-    public Panel getActiveTabPanel(String wicketId) {
-
-        // Find the active tab.
-        TabProvider activeTab = SnaplogSession.get().getActiveTab();
-        if (activeTab == null)
-            SnaplogSession.get().setActiveTab( activeTab = Tab.DESKTOP );
-
-        logger.dbg( "Showing active tab: %s", activeTab );
-        if (!getPage().getClass().equals( LayoutPage.class ))
-            throw new RedirectToPageException( LayoutPage.class );
-
-        return activeTab.getTab().getPanel( wicketId );
-    }
-
-    public void setContentPanel(Panel contentPanel) {
+    /**
+     * Load the given panel as the page content.
+     * 
+     * <p>
+     * <b>NOTE:</b> The panel MUST use {@value #CONTENT_PANEL} as its wicket ID.
+     * </p>
+     * 
+     * @param contentPanel
+     *            The panel to show as the page content.
+     */
+    protected void setContentPanel(Panel contentPanel) {
 
         checkState( contentPanel.getId().equals( CONTENT_PANEL ) );
 
@@ -224,6 +210,30 @@ public class LayoutPage extends WebPage {
         container.addOrReplace( contentPanel );
     }
 
+    /**
+     * @param wicketId
+     *            The wicket ID to create the panel with.
+     * @return The panel for the active tab.
+     * 
+     * @see SnaplogSession#getActiveTab()
+     */
+    protected static Panel getActiveTabPanel(String wicketId) {
+
+        // Find the active tab.
+        TabProvider activeTab = SnaplogSession.get().getActiveTab();
+        if (activeTab == null)
+            SnaplogSession.get().setActiveTab( activeTab = Tab.DESKTOP );
+
+        return activeTab.getTab().getPanel( wicketId );
+    }
+
+    /**
+     * Generate some JavaScript to track a user hit on the given component in the analytics tracker.
+     * 
+     * @param trackComponent
+     *            The component that we want to track a hit for.
+     * @return The JavaScript code that, when executed, will track the hit.
+     */
     protected static String trackJS(Component trackComponent) {
 
         Map<String, Object> trackVariables = new HashMap<String, Object>();

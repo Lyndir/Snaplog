@@ -49,6 +49,7 @@ import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.provider.UserAlbumsProvider;
 import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels;
+import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels.NewAlbumFormModels;
 
 
 /**
@@ -59,20 +60,17 @@ import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels;
  * <i>Mar 1, 2010</i>
  * </p>
  * 
- * @param <P>
- *            The type of {@link Provider} that we can interface with.
  * @author lhunath
  */
-public class GalleryTabPanel extends GenericPanel<User> {
+public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 
-    Messages         msgs = LocalizerFactory.getLocalizer( Messages.class, this );
-    GalleryTabModels models;
-
-    @Inject
-    UserService      userService;
+    Messages msgs = LocalizerFactory.getLocalizer( Messages.class, this );
 
     @Inject
-    AlbumService     albumService;
+    UserService userService;
+
+    @Inject
+    AlbumService albumService;
 
 
     /**
@@ -85,13 +83,13 @@ public class GalleryTabPanel extends GenericPanel<User> {
      */
     public GalleryTabPanel(String id, IModel<User> userModel) {
 
-        super( id, userModel );
-        models = new GalleryTabModels( userModel );
+        super( id, new GalleryTabModels( userModel ).getModel() );
+        getModelObject().attach( this );
 
-        add( new Label( "albumsTitleUsername", models.decoratedUsername() ) );
-        add( new Label( "albumsHelpUsername", models.username() ) );
+        add( new Label( "albumsTitleUsername", getModelObject().decoratedUsername() ) );
+        add( new Label( "albumsHelpUsername", getModelObject().username() ) );
 
-        add( new DataView<Album>( "albums", new UserAlbumsProvider( userService, getModel() ) ) {
+        add( new DataView<Album>( "albums", new UserAlbumsProvider( userService, getModelObject() ) ) {
 
             @Override
             protected void populateItem(Item<Album> item) {
@@ -118,13 +116,14 @@ public class GalleryTabPanel extends GenericPanel<User> {
             }
         } );
 
-        final Form<Album> newAlbumForm = new Form<Album>( "newAlbumForm" ) {
+        final Form<NewAlbumFormModels> newAlbumForm = new Form<NewAlbumFormModels>( "newAlbumForm",
+                getModelObject().newAlbumForm().getModel() ) {
 
             {
-                add( new DropDownChoice<AlbumProviderType>( "type", //
-                        models.newAlbumForm().type(), models.newAlbumForm().types() ) );
-                add( new TextField<String>( "name", models.newAlbumForm().name() ) );
-                add( new TextArea<String>( "description", models.newAlbumForm().description() ) );
+                add( new DropDownChoice<AlbumProviderType>( "type", getModelObject().type(), getModelObject().types() ) );
+
+                add( new TextField<String>( "name", getModelObject().name() ) );
+                add( new TextArea<String>( "description", getModelObject().description() ) );
             }
         };
         add( newAlbumForm );
@@ -157,7 +156,7 @@ public class GalleryTabPanel extends GenericPanel<User> {
 class GalleryTab implements ITab {
 
     static final Logger logger = Logger.get( GalleryTab.class );
-    Messages            msgs   = LocalizerFactory.getLocalizer( Messages.class );
+    Messages msgs = LocalizerFactory.getLocalizer( Messages.class );
 
 
     /**

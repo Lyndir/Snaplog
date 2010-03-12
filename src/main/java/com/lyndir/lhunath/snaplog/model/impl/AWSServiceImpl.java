@@ -40,13 +40,13 @@ import com.lyndir.lhunath.snaplog.model.AWSService;
  */
 public class AWSServiceImpl implements AWSService {
 
-    private static final Logger   logger          = Logger.get( AWSServiceImpl.class );
+    private static final Logger logger = Logger.get( AWSServiceImpl.class );
 
-    private static final String   ERR_AWS_SERVICE = "Communication with the Amazon S3 services failed.";
+    private static final String ERR_AWS_SERVICE = "Communication with the Amazon S3 services failed.";
 
-    private static final S3Bucket BUCKET          = new S3Bucket( "snaplog.net" );
-    private static final String   ACCESS_KEY      = "AKIAJKXN44SDAGP7TINQ";
-    private static final String   SECRET_KEY      = "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";
+    private static final S3Bucket BUCKET = new S3Bucket( "snaplog.net" );
+    private static final String ACCESS_KEY = "AKIAJKXN44SDAGP7TINQ";
+    private static final String SECRET_KEY = "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";
 
 
     private static S3Service newService()

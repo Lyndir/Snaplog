@@ -30,10 +30,29 @@ import org.apache.wicket.extensions.markup.html.tabs.ITab;
  */
 public enum Tab implements TabProvider {
 
+    /**
+     * This is the initial tab that describes Snaplog.
+     */
     DESKTOP( new DesktopTab() ),
+
+    /**
+     * This tab provides a summary view of a user's account.
+     */
     GALLERY( new GalleryTab() ),
+
+    /**
+     * This tab provides a way of browsing a specific album.
+     */
     ALBUM( new AlbumTab() ),
+
+    /**
+     * This tab provides the tools to manipulate media.
+     */
     WORKBENCH( new WorkbenchTab() ),
+
+    /**
+     * Using this tab, users can configure their profile and account settings.
+     */
     ADMINISTRATION( new AdministrationTab() );
 
     private ITab tab;

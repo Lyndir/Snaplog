@@ -20,8 +20,9 @@ import java.util.Date;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
+import com.lyndir.lhunath.lib.wayward.model.ModelProvider;
 import com.lyndir.lhunath.snaplog.data.Album;
-import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels;
+import com.lyndir.lhunath.snaplog.webapp.tab.AlbumTabPanel;
 
 
 /**
@@ -34,21 +35,36 @@ import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels;
  * 
  * @author lhunath
  */
-public class AlbumTabModels extends LayoutPageModels<Album> {
+public class AlbumTabModels extends ModelProvider<AlbumTabModels, AlbumTabPanel, Album> {
 
-    private IModel<Date> currentTime = new Model<Date>();
+    private IModel<Date> currentTime;
 
-
-    // Accessors.
 
     /**
+     * <b>Do NOT forget to attach your component before using this model using {@link #attach(AlbumTabPanel)}</b>
+     * 
      * @param model
      *            The model providing the album to show.
      */
     public AlbumTabModels(IModel<Album> model) {
 
-        super( model );
+        this( null, model );
     }
+
+    /**
+     * @param component
+     *            The {@link AlbumTabPanel} we'll attach to.
+     * @param model
+     *            The model providing the album to show.
+     */
+    public AlbumTabModels(AlbumTabPanel component, IModel<Album> model) {
+
+        super( component, model );
+
+        currentTime = new Model<Date>();
+    }
+
+    // Accessors.
 
     /**
      * @return A model that keeps track of the point in time of the album the user is focussed on.

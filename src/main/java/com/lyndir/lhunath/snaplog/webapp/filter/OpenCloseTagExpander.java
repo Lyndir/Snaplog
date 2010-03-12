@@ -49,7 +49,7 @@ public class OpenCloseTagExpander extends AbstractMarkupFilter {
                                                                       "dt", "dd", "li", "ol", "ul", "h1", "h2", "h3",
                                                                       "h4", "h5", "h6", "pre", "title" );
 
-    private ComponentTag              next;
+    private ComponentTag next;
 
 
     /**

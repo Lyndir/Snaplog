@@ -42,8 +42,6 @@ import com.lyndir.lhunath.snaplog.util.URLUtils;
  * <i>Jan 19, 2010</i>
  * </p>
  * 
- * @param The
- *            type of {@link Provider} that we can interface with.
  * @author lhunath
  */
 public class ImageServlet extends HttpServlet {
@@ -51,15 +49,15 @@ public class ImageServlet extends HttpServlet {
     /**
      * Context-relative path of this servlet.
      */
-    public static final String  PATH          = "/img";
+    public static final String PATH = "/img";
 
-    private static final String PARAM_USER    = "u";
-    private static final String PARAM_ALBUM   = "a";
-    private static final String PARAM_MEDIA   = "m";
+    private static final String PARAM_USER = "u";
+    private static final String PARAM_ALBUM = "a";
+    private static final String PARAM_MEDIA = "m";
     private static final String PARAM_QUALITY = "q";
 
-    private final UserService   userService;
-    private final AlbumService  albumService;
+    private final UserService userService;
+    private final AlbumService albumService;
 
 
     /**
@@ -79,8 +77,6 @@ public class ImageServlet extends HttpServlet {
      * Obtain a context-relative path to the {@link ImageServlet} such that it will render the given media at the given
      * quality.
      * 
-     * @param The
-     *            type of {@link Provider} that we can interface with.
      * @param media
      *            The media that should be shown at the given URL.
      * @param quality

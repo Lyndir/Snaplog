@@ -39,7 +39,7 @@ import com.lyndir.lhunath.snaplog.data.Media.Quality;
  */
 public class S3MediaData extends MediaData {
 
-    private S3Media                media;
+    private S3Media media;
     private Map<Quality, S3Object> s3Objects;
 
 

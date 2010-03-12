@@ -20,8 +20,6 @@ import com.lyndir.lhunath.snaplog.webapp.listener.GuiceInjector;
  * <i>Jul 25, 2009</i>
  * </p>
  * 
- * @param <P>
- *            The type of {@link Provider} of the album we provide services for.
  * @param <A>
  *            The type of {@link Album} we provide services for.
  * @param <M>
@@ -30,10 +28,16 @@ import com.lyndir.lhunath.snaplog.webapp.listener.GuiceInjector;
  */
 public class AlbumProvider<A extends Album, M extends Media> implements MediaProviderService<A, M> {
 
-    private final Class<A>                                    albumType;
+    private final Class<A> albumType;
     private final Class<? extends MediaProviderService<A, M>> mediaProviderServiceType;
 
 
+    /**
+     * @param albumType
+     *            The type of albums that this provider can provide.
+     * @param albumProviderServiceType
+     *            The type of the {@link MediaProviderService} that services these types of albums.
+     */
     public AlbumProvider(Class<A> albumType, Class<? extends MediaProviderService<A, M>> albumProviderServiceType) {
 
         this.albumType = checkNotNull( albumType );

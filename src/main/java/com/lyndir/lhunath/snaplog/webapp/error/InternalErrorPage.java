@@ -53,7 +53,7 @@ public class InternalErrorPage extends LayoutPage {
 
             super( id );
 
-            Issue issue = getMetaData( SnaplogWebApplication.RUNTIME_EXCEPTION_ISSUE );
+            Issue issue = getMetaData( SnaplogWebApplication.METADATA_RUNTIME_EXCEPTION_ISSUE );
 
             // TODO: Store this data somewhere for reference.
             String issueCode = Utils.getMD5( new Gson().toJson( issue ) );

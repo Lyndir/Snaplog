@@ -41,7 +41,7 @@ public class User implements Serializable {
     private LinkID linkID;
 
     private String userName;
-    private char   badge = '~';
+    private char badge = '~';
 
 
     /**

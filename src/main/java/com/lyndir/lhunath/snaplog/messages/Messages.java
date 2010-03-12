@@ -19,6 +19,11 @@ import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.localization.UseKey;
 import com.lyndir.lhunath.lib.system.localization.UseLocalizationProvider;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogWebApplication;
+import com.lyndir.lhunath.snaplog.webapp.tab.AdministrationTabPanel;
+import com.lyndir.lhunath.snaplog.webapp.tab.AlbumTabPanel;
+import com.lyndir.lhunath.snaplog.webapp.tab.DesktopTabPanel;
+import com.lyndir.lhunath.snaplog.webapp.tab.GalleryTabPanel;
+import com.lyndir.lhunath.snaplog.webapp.tab.WorkbenchTabPanel;
 
 
 /**
@@ -36,19 +41,19 @@ import com.lyndir.lhunath.snaplog.webapp.SnaplogWebApplication;
 public interface Messages {
 
     /**
-     * @return Text on the interface tab to activate the {@link DesktopTab}.
+     * @return Text on the interface tab to activate the {@link DesktopTabPanel}.
      */
     @UseKey
     String desktopTab();
 
     /**
-     * @return Text on the interface tab to activate the {@link GalleryTab}.
+     * @return Text on the interface tab to activate the {@link GalleryTabPanel}.
      */
     @UseKey
     String galleryTab();
 
     /**
-     * @return Text on the interface tab to activate the {@link AlbumTab}.
+     * @return Text on the interface tab to activate the {@link AlbumTabPanel}.
      */
     @UseKey
     String albumTab();
@@ -63,13 +68,13 @@ public interface Messages {
     String albumTimelineYearPhotos(int numberOfPhotosInYear);
 
     /**
-     * @return Text on the interface tab to activate the {@link WorkbenchTab}
+     * @return Text on the interface tab to activate the {@link WorkbenchTabPanel}
      */
     @UseKey
     String workbenchTab();
 
     /**
-     * @return Text on the interface tab to activate the {@link AdministrationTab}
+     * @return Text on the interface tab to activate the {@link AdministrationTabPanel}
      */
     @UseKey
     String administrationTab();

@@ -36,21 +36,19 @@ import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
  * <i>Jan 6, 2010</i>
  * </p>
  * 
- * @param <P>
- *            The type of {@link Provider} that we can interface with.
  * @author lhunath
  */
 public class BrowserView extends GenericPanel<Album> {
 
-    static final Logger logger              = Logger.get( BrowserView.class );
+    static final Logger logger = Logger.get( BrowserView.class );
 
-    static final int    BROWSER_SIDE_IMAGES = 4;
+    static final int BROWSER_SIDE_IMAGES = 4;
 
     @Inject
-    AlbumService        albumService;
+    AlbumService albumService;
 
-    Media               currentFile;
-    IModel<Date>        currentTimeModel;
+    Media currentFile;
+    IModel<Date> currentTimeModel;
 
 
     /**

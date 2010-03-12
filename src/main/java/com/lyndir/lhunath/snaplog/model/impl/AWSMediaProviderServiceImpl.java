@@ -64,14 +64,20 @@ import com.lyndir.lhunath.snaplog.util.ImageUtils;
  */
 public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
-    private static final Logger  logger   = Logger.get( AWSMediaProviderServiceImpl.class );
+    private static final Logger logger = Logger.get( AWSMediaProviderServiceImpl.class );
 
     private static final Pattern BASENAME = Pattern.compile( ".*/" );
 
-    private ObjectContainer      db;
-    private final AWSService     awsService;
+    private ObjectContainer db;
+    private final AWSService awsService;
 
 
+    /**
+     * @param db
+     *            See {@link ServicesModule}.
+     * @param awsService
+     *            See {@link ServicesModule}.
+     */
     @Inject
     public AWSMediaProviderServiceImpl(ObjectContainer db, AWSService awsService) {
 

@@ -50,11 +50,11 @@ import org.apache.wicket.protocol.http.WebResponse;
  */
 public abstract class WicketUtils {
 
-    static final Log             LOG             = LogFactory.getLog( WicketUtils.class );
+    static final Log LOG = LogFactory.getLog( WicketUtils.class );
 
     // %[argument_index$][flags][width][.precision][t]conversion
-    private static final String  formatSpecifier = "%(\\d+\\$)?([-#+ 0,(<]*)?(\\d+)?(\\.\\d+)?([tT])?([a-zA-Z%])";
-    private static final Pattern fsPattern       = Pattern.compile( formatSpecifier );
+    private static final String formatSpecifier = "%(\\d+\\$)?([-#+ 0,(<]*)?(\\d+)?(\\.\\d+)?([tT])?([a-zA-Z%])";
+    private static final Pattern fsPattern = Pattern.compile( formatSpecifier );
 
 
     /**

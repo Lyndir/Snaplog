@@ -40,7 +40,7 @@ public class AppLogoutServlet extends AbstractInjectionServlet {
     /**
      * Context-relative servlet path.
      */
-    public static final String PATH                   = "/applogout";
+    public static final String PATH = "/applogout";
 
     /**
      * Context parameter that contains the context-relative path to the linkID SDK servlet that handles the finalization
@@ -48,12 +48,15 @@ public class AppLogoutServlet extends AbstractInjectionServlet {
      */
     public static final String PARAM_LOGOUT_EXIT_PATH = "LogoutExitPath";
 
-    private static final Log   LOG                    = LogFactory.getLog( AppLogoutServlet.class );
+    private static final Log LOG = LogFactory.getLog( AppLogoutServlet.class );
 
     @Init(name = PARAM_LOGOUT_EXIT_PATH)
-    private String             logoutExitPath;
+    private String logoutExitPath;
 
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void invokeGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

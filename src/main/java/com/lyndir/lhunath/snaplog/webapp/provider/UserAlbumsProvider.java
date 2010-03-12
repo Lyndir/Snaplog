@@ -30,10 +30,10 @@ import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
  */
 public class UserAlbumsProvider implements IDataProvider<Album> {
 
-    private UserService      userService;
+    private UserService userService;
 
     private ObjectSet<Album> query;
-    private IModel<User>     ownerModel;
+    private IModel<User> ownerModel;
 
 
     /**
@@ -59,24 +59,36 @@ public class UserAlbumsProvider implements IDataProvider<Album> {
         return query;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void detach() {
 
         query = null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Iterator<? extends Album> iterator(int first, int count) {
 
         return getQuery().iterator();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int size() {
 
         return getQuery().size();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public IModel<Album> model(Album object) {
 

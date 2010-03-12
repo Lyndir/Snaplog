@@ -15,18 +15,19 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab.model;
 
-import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.wayward.model.EmptyModelProvider;
+import com.lyndir.lhunath.lib.wayward.model.ModelProvider;
 import com.lyndir.lhunath.snaplog.data.AlbumProviderType;
 import com.lyndir.lhunath.snaplog.data.User;
-import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels;
 import com.lyndir.lhunath.snaplog.webapp.tab.GalleryTabPanel;
 
 
@@ -40,44 +41,95 @@ import com.lyndir.lhunath.snaplog.webapp.tab.GalleryTabPanel;
  * 
  * @author lhunath
  */
-public class GalleryTabModels extends LayoutPageModels<User> {
+public class GalleryTabModels extends ModelProvider<GalleryTabModels, GalleryTabPanel, User> {
 
-    static final Logger    logger            = Logger.get( GalleryTabModels.class );
+    static final Logger logger = Logger.get( GalleryTabModels.class );
 
-    private IModel<String> decoratedUsername = new LoadableDetachableModel<String>() {
-
-                                                 @Override
-                                                 protected String load() {
-
-                                                     return getModelObject().toString();
-                                                 }
-                                             };
-    private IModel<String> username          = new LoadableDetachableModel<String>() {
-
-                                                 @Override
-                                                 protected String load() {
-
-                                                     return getModelObject().getUserName();
-                                                 }
-                                             };
-
-    private NewAlbumForm   newAlbumForm      = new NewAlbumForm();
+    private IModel<String> decoratedUsername;
+    private IModel<String> username;
+    private NewAlbumFormModels newAlbumForm;
 
 
-    public class NewAlbumForm implements Serializable {
+    /**
+     * <b>Do NOT forget to attach your component before using this model using {@link #attach(GalleryTabPanel)}</b>
+     * 
+     * @param model
+     *            A model providing the user whose gallery to show.
+     */
+    public GalleryTabModels(IModel<User> model) {
 
-        private IModel<AlbumProviderType>                 type        = new Model<AlbumProviderType>();
-        private IModel<List<? extends AlbumProviderType>> types       = new LoadableDetachableModel<List<? extends AlbumProviderType>>() {
+        this( null, model );
+    }
 
-                                                                          @Override
-                                                                          protected List<? extends AlbumProviderType> load() {
+    /**
+     * @param component
+     *            The {@link GalleryTabPanel} we'll be attached to.
+     * @param model
+     *            A model providing the user whose gallery to show.
+     */
+    public GalleryTabModels(GalleryTabPanel component, IModel<User> model) {
 
-                                                                              return Arrays.asList( AlbumProviderType.values() );
-                                                                          }
-                                                                      };
-        private IModel<String>                            name        = new Model<String>();
-        private IModel<String>                            description = new Model<String>();
+        super( component, model );
 
+        decoratedUsername = new LoadableDetachableModel<String>() {
+
+            @Override
+            protected String load() {
+
+                return getModelObject().toString();
+            }
+        };
+        username = new LoadableDetachableModel<String>() {
+
+            @Override
+            protected String load() {
+
+                return getModelObject().getUserName();
+            }
+        };
+
+        newAlbumForm = new NewAlbumFormModels();
+
+    }
+
+
+    /**
+     * <h2>{@link NewAlbumFormModels}<br>
+     * <sub>Model provider for the New Album form.</sub></h2>
+     * 
+     * <p>
+     * <i>Mar 12, 2010</i>
+     * </p>
+     * 
+     * @author lhunath
+     */
+    public class NewAlbumFormModels extends EmptyModelProvider<NewAlbumFormModels, Form<?>> {
+
+        private IModel<List<? extends AlbumProviderType>> types;
+
+        private IModel<AlbumProviderType> type;
+        private IModel<String> name;
+        private IModel<String> description;
+
+
+        /**
+         * Create a new {@link GalleryTabModels.NewAlbumFormModels} instance.
+         */
+        public NewAlbumFormModels() {
+
+            types = new LoadableDetachableModel<List<? extends AlbumProviderType>>() {
+
+                @Override
+                protected List<? extends AlbumProviderType> load() {
+
+                    return Arrays.asList( AlbumProviderType.values() );
+                }
+            };
+
+            type = new Model<AlbumProviderType>();
+            name = new Model<String>();
+            description = new Model<String>();
+        }
 
         // Accessors.
 
@@ -119,16 +171,6 @@ public class GalleryTabModels extends LayoutPageModels<User> {
     // Accessors.
 
     /**
-     * @param userModel
-     *            A model providing the user whose gallery to show.
-     */
-    public GalleryTabModels(IModel<User> userModel) {
-
-        super( userModel );
-        logger.dbg( "created with model: %s", userModel );
-    }
-
-    /**
      * @return A model that provides a decorated version of the username of the gallery owner.
      */
     public IModel<String> decoratedUsername() {
@@ -147,7 +189,7 @@ public class GalleryTabModels extends LayoutPageModels<User> {
     /**
      * @return An object that provides models for the newAlbum form.
      */
-    public NewAlbumForm newAlbumForm() {
+    public NewAlbumFormModels newAlbumForm() {
 
         return newAlbumForm;
     }

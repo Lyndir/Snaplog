@@ -68,7 +68,7 @@ public class CreditsTabPanel extends Panel {
 class CreditsTab implements ITab {
 
     static final Logger logger = Logger.get( CreditsTab.class );
-    Messages            msgs   = LocalizerFactory.getLocalizer( Messages.class );
+    Messages msgs = LocalizerFactory.getLocalizer( Messages.class );
 
 
     /**

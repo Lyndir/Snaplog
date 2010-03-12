@@ -68,7 +68,7 @@ public class WorkbenchTabPanel extends Panel {
 class WorkbenchTab implements ITab {
 
     static final Logger logger = Logger.get( WorkbenchTab.class );
-    Messages            msgs   = LocalizerFactory.getLocalizer( Messages.class );
+    Messages msgs = LocalizerFactory.getLocalizer( Messages.class );
 
 
     /**

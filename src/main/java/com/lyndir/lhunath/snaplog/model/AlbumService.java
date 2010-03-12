@@ -36,8 +36,6 @@ import com.lyndir.lhunath.snaplog.data.User;
  * <i>Jan 9, 2010</i>
  * </p>
  * 
- * @param The
- *            type of {@link Provider} that provides the resources for the media in this time frame.
  * @author lhunath
  */
 public interface AlbumService extends MediaProviderService<Album, Media> {

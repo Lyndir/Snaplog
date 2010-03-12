@@ -41,14 +41,9 @@ import com.lyndir.lhunath.snaplog.webapp.view.TimelineView;
  * <i>Mar 1, 2010</i>
  * </p>
  * 
- * @param <P>
- *            The type of {@link Provider} that we can interface with.
  * @author lhunath
  */
-public class AlbumTabPanel extends GenericPanel<Album> {
-
-    AlbumTabModels models;
-
+public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
 
     /**
      * Create a new {@link AlbumTabPanel} instance.
@@ -60,20 +55,19 @@ public class AlbumTabPanel extends GenericPanel<Album> {
      */
     public AlbumTabPanel(String id, IModel<Album> model) {
 
-        super( id, model );
-        models = new AlbumTabModels( model );
+        super( id, new AlbumTabModels( model ).getModel() );
 
         // Browser
-        add( new BrowserView( "browser", models.getModel(), models.currentTime() ) );
+        add( new BrowserView( "browser", getModelObject(), getModelObject().currentTime() ) );
 
         // Timeline.
-        add( new TimelineView( "timelinePopup", models.getModel() ) );
+        add( new TimelineView( "timelinePopup", getModelObject() ) );
 
         // Tags.
-        add( new TagsView( "tagsPopup", models.getModel() ) );
+        add( new TagsView( "tagsPopup", getModelObject() ) );
 
         // Access.
-        add( new AccessView( "accessPopup", models.getModel() ) );
+        add( new AccessView( "accessPopup", getModelObject() ) );
     }
 }
 
@@ -91,7 +85,7 @@ public class AlbumTabPanel extends GenericPanel<Album> {
 class AlbumTab implements ITab {
 
     static final Logger logger = Logger.get( AlbumTab.class );
-    Messages            msgs   = LocalizerFactory.getLocalizer( Messages.class );
+    Messages msgs = LocalizerFactory.getLocalizer( Messages.class );
 
 
     /**

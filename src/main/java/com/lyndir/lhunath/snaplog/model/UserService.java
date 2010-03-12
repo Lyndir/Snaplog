@@ -29,8 +29,6 @@ import com.lyndir.lhunath.snaplog.data.User;
  * <i>Jan 9, 2010</i>
  * </p>
  * 
- * @param <P>
- *            The type of {@link Provider} that we can service.
  * @author lhunath
  */
 public interface UserService {

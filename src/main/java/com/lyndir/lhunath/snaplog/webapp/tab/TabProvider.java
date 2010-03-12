@@ -15,6 +15,8 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
+import java.io.Serializable;
+
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
 
 
@@ -28,7 +30,7 @@ import org.apache.wicket.extensions.markup.html.tabs.ITab;
  * 
  * @author lhunath
  */
-public interface TabProvider {
+public interface TabProvider extends Serializable {
 
     /**
      * @return The {@link ITab} that describes the UI elements of this tab.

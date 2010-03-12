@@ -23,8 +23,6 @@ package com.lyndir.lhunath.snaplog.data;
  * <i>Mar 6, 2010</i>
  * </p>
  * 
- * @param <M>
- *            The type of {@link Media} we hold data for.
  * @author lhunath
  */
 public abstract class MediaData {

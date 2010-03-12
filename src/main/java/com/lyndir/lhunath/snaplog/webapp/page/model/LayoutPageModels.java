@@ -19,16 +19,22 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.List;
 
+import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 
+import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
+import com.lyndir.lhunath.lib.wayward.model.EmptyModelProvider;
 import com.lyndir.lhunath.lib.wayward.model.ModelProvider;
 import com.lyndir.lhunath.snaplog.data.User;
 import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.cookie.LastUserCookieManager;
+import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
 import com.lyndir.lhunath.snaplog.webapp.tab.TabProvider;
 
@@ -41,128 +47,162 @@ import com.lyndir.lhunath.snaplog.webapp.tab.TabProvider;
  * <i>Mar 11, 2010</i>
  * </p>
  * 
- * @param <T>
- *            The type of the model for this page.
  * @author lhunath
  */
-public class LayoutPageModels<T> extends ModelProvider<T> {
+public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels, LayoutPage> {
 
-    protected final Messages                              msgs             = LocalizerFactory.getLocalizer( Messages.class );
+    protected final Messages msgs = LocalizerFactory.getLocalizer( Messages.class );
 
-    private IModel<String>                                pageTitle        = new LoadableDetachableModel<String>() {
-
-                                                                               @Override
-                                                                               protected String load() {
-
-                                                                                   User user = SnaplogSession.get()
-                                                                                                             .getFocussedUser();
-
-                                                                                   if (user == null)
-                                                                                       return msgs.pageTitle(
-                                                                                                              ' ',
-                                                                                                              msgs.userNameUnknown() );
-
-                                                                                   return msgs.pageTitle(
-                                                                                                          user.getBadge(),
-                                                                                                          user.getUserName() );
-                                                                               }
-                                                                           };
-
-    private IModel<String>                                userGuessWelcome = new LoadableDetachableModel<String>() {
-
-                                                                               @Override
-                                                                               protected String load() {
-
-                                                                                   User lastUser = LastUserCookieManager.findLastUser();
-
-                                                                                   if (lastUser == null)
-                                                                                       return msgs.userWelcome(
-                                                                                                                ' ',
-                                                                                                                msgs.userNameUnknown() );
-
-                                                                                   return msgs.userWelcomeBack(
-                                                                                                                lastUser.getBadge(),
-                                                                                                                lastUser.getUserName() );
-                                                                               }
-                                                                           };
-
-    private IModel<String>                                userBadge        = new LoadableDetachableModel<String>() {
-
-                                                                               @Override
-                                                                               protected String load() {
-
-                                                                                   User user = checkNotNull( SnaplogSession.get()
-                                                                                                                           .getFocussedUser() );
-
-                                                                                   return Character.toString( user.getBadge() );
-                                                                               }
-                                                                           };
-
-    private IModel<String>                                userMessages     = new LoadableDetachableModel<String>() {
-
-                                                                               @Override
-                                                                               protected String load() {
-
-                                                                                   // TODO: unhardcode.
-                                                                                   int messageCount = 1;
-
-                                                                                   if (messageCount == 1)
-                                                                                       return msgs.userMessagesSingular( messageCount );
-
-                                                                                   return msgs.userMessagesPlural( messageCount );
-                                                                               }
-                                                                           };
-
-    private IModel<String>                                userRequests     = new LoadableDetachableModel<String>() {
-
-                                                                               @Override
-                                                                               protected String load() {
-
-                                                                                   // TODO: unhardcode.
-                                                                                   int requestCount = 1;
-
-                                                                                   if (requestCount == 1)
-                                                                                       return msgs.userRequestsSingular( requestCount );
-
-                                                                                   return msgs.userRequestsPlural( requestCount );
-                                                                               }
-                                                                           };
-
-    private IModel<? extends List<? extends TabProvider>> tabs             = new LoadableDetachableModel<List<? extends TabProvider>>() {
-
-                                                                               @Override
-                                                                               protected List<? extends TabProvider> load() {
-
-                                                                                   return ImmutableList.of( Tab.values() );
-                                                                               }
-                                                                           };
+    private IModel<String> pageTitle;
+    private IModel<String> userGuessWelcome;
+    private IModel<String> userBadge;
+    private IModel<String> userMessages;
+    private IModel<String> userRequests;
+    private IModel<? extends List<TabItem>> tabs;
 
 
-    public class TabItem extends ModelProvider<TabProvider> {
+    /**
+     * <b>Do NOT forget to attach your component before using this model using {@link #attach(LayoutPage)}</b>
+     */
+    public LayoutPageModels() {
 
-        private IModel<String> styleClass = new LoadableDetachableModel<String>() {
+        this( null );
+    }
 
-                                              @Override
-                                              protected String load() {
+    /**
+     * @param component
+     *            The page we'll attach to.
+     */
+    public LayoutPageModels(LayoutPage component) {
 
-                                                  if (getModelObject() == SnaplogSession.get().getActiveTab())
-                                                      return "active";
+        super( component );
 
-                                                  return "";
-                                              }
-                                          };
+        pageTitle = new LoadableDetachableModel<String>() {
+
+            @Override
+            protected String load() {
+
+                User user = SnaplogSession.get().getFocussedUser();
+
+                if (user == null)
+                    return msgs.pageTitle( ' ', msgs.userNameUnknown() );
+
+                return msgs.pageTitle( user.getBadge(), user.getUserName() );
+            }
+        };
+
+        userGuessWelcome = new LoadableDetachableModel<String>() {
+
+            @Override
+            protected String load() {
+
+                User lastUser = LastUserCookieManager.findLastUser();
+
+                if (lastUser == null)
+                    return msgs.userWelcome( ' ', msgs.userNameUnknown() );
+
+                return msgs.userWelcomeBack( lastUser.getBadge(), lastUser.getUserName() );
+            }
+        };
+
+        userBadge = new LoadableDetachableModel<String>() {
+
+            @Override
+            protected String load() {
+
+                User user = checkNotNull( SnaplogSession.get().getFocussedUser() );
+
+                return Character.toString( user.getBadge() );
+            }
+        };
+
+        userMessages = new LoadableDetachableModel<String>() {
+
+            @Override
+            protected String load() {
+
+                // TODO: unhardcode.
+                int messageCount = 1;
+
+                if (messageCount == 1)
+                    return msgs.userMessagesSingular( messageCount );
+
+                return msgs.userMessagesPlural( messageCount );
+            }
+        };
+
+        userRequests = new LoadableDetachableModel<String>() {
+
+            @Override
+            protected String load() {
+
+                // TODO: unhardcode.
+                int requestCount = 1;
+
+                if (requestCount == 1)
+                    return msgs.userRequestsSingular( requestCount );
+
+                return msgs.userRequestsPlural( requestCount );
+            }
+        };
+
+        tabs = new LoadableDetachableModel<List<TabItem>>() {
+
+            @Override
+            protected List<TabItem> load() {
+
+                return Lists.transform( ImmutableList.of( Tab.values() ), new Function<TabProvider, TabItem>() {
+
+                    @Override
+                    public TabItem apply(final TabProvider from) {
+
+                        return new TabItem( null, new Model<TabProvider>( from ) );
+                    }
+                } );
+            }
+        };
+    }
 
 
-        // Accessors.
+    /**
+     * <h2>{@link TabItem}<br>
+     * <sub>Model provider for {@link Tab} items.</sub></h2>
+     * 
+     * <p>
+     * <i>Mar 12, 2010</i>
+     * </p>
+     * 
+     * @author lhunath
+     */
+    public static class TabItem extends ModelProvider<TabItem, ListItem<?>, TabProvider> {
+
+        private IModel<String> styleClass;
+
 
         /**
+         * @param component
+         *            The tab component we'll attach to.
          * @param model
-         *            The model of the tab component; which is the provider of the tab.
+         *            The base model for the tab component.
          */
-        public TabItem(IModel<TabProvider> model) {
+        public TabItem(ListItem<?> component, IModel<TabProvider> model) {
 
-            super( model );
+            super( component, model );
+
+            styleClass = new LoadableDetachableModel<String>() {
+
+                @Override
+                protected String load() {
+
+                    if (getModelObject() == SnaplogSession.get().getActiveTab())
+                        return "active";
+
+                    return "";
+                }
+            };
         }
+
+        // Accessors.
 
         /**
          * @return A model that provides the title for the current tab.
@@ -183,15 +223,6 @@ public class LayoutPageModels<T> extends ModelProvider<T> {
 
 
     // Accessors.
-
-    /**
-     * @param model
-     *            The model for this page.
-     */
-    public LayoutPageModels(IModel<T> model) {
-
-        super( model );
-    }
 
     /**
      * @return A model that provides the title of the current page.
@@ -240,18 +271,8 @@ public class LayoutPageModels<T> extends ModelProvider<T> {
     /**
      * @return A model that provides a list of all the tabs on this page.
      */
-    public IModel<? extends List<? extends TabProvider>> tabs() {
+    public IModel<? extends List<TabItem>> tabs() {
 
         return tabs;
-    }
-
-    /**
-     * @param model
-     *            The model of the tab component; which is the provider of the tab.
-     * @return The {@link ModelProvider} for the tab component.
-     */
-    public TabItem tab(IModel<TabProvider> model) {
-
-        return new TabItem( model );
     }
 }

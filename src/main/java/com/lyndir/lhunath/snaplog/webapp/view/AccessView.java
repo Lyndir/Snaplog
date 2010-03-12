@@ -28,13 +28,11 @@ import com.lyndir.lhunath.snaplog.model.AlbumService;
  * <i>Jan 4, 2010</i>
  * </p>
  * 
- * @param <P>
- *            The type of {@link Provider} that we can interface with.
  * @author lhunath
  */
 public class AccessView extends GenericPanel<Album> {
 
-    Messages     msgs = LocalizerFactory.getLocalizer( Messages.class, this );
+    Messages msgs = LocalizerFactory.getLocalizer( Messages.class, this );
 
     @Inject
     AlbumService albumService;

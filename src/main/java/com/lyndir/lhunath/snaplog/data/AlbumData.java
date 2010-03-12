@@ -13,17 +13,11 @@ import java.util.List;
  * <i>Jan 28, 2010</i>
  * </p>
  * 
- * @param The
- *            type of {@link Provider} that provides the resources cached by this album data.
- * @param <A>
- *            The type of {@link Album} we cache data for.
- * @param <M>
- *            The type of {@link Media} that is available from A.
  * @author lhunath
  */
 public abstract class AlbumData {
 
-    private List<Media>          files;
+    private List<Media> files;
     private List<MediaTimeFrame> timeFrames;
 
 

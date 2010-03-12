@@ -32,7 +32,7 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
  */
 public class SnaplogWebappConfig extends PropertiesWebappConfig {
 
-    static final Logger         logger                     = Logger.get( SnaplogWebappConfig.class );
+    static final Logger logger = Logger.get( SnaplogWebappConfig.class );
 
     private static final String WEBAPP_PROPERTIES_RESOURCE = "webapp.properties";
 

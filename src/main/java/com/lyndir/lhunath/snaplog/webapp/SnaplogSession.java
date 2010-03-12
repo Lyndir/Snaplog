@@ -47,15 +47,13 @@ public class SnaplogSession extends WebSession {
 
     private static final Logger logger = Logger.get( SnaplogSession.class );
 
-    private TabProvider         activeTab;
-    private User                activeUser;
-    private User                focussedUser;
-    private Album               focussedAlbum;
+    private TabProvider activeTab;
+    private User activeUser;
+    private User focussedUser;
+    private Album focussedAlbum;
 
 
     /**
-     * {@inheritDoc}
-     * 
      * @param request
      *            The {@link Request} that started the session.
      */

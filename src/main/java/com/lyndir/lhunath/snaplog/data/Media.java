@@ -37,28 +37,22 @@ import com.lyndir.lhunath.snaplog.model.WebUtil;
  * <i>Jul 25, 2009</i>
  * </p>
  * 
- * @param The
- *            type of {@link Provider} that provides this media's resources.
- * @param <A>
- *            The type of album that can contain this type of media.
  * @author lhunath
  */
 public abstract class Media implements Comparable<Media>, Serializable {
 
-    static final Logger                    logger         = Logger.get( Media.class );
+    static final Logger logger = Logger.get( Media.class );
 
     private static final DateTimeFormatter filenameFormat = ISODateTimeFormat.basicDateTimeNoMillis();
 
-    private final String                   name;
-    private static final Pattern           EXTENSION      = Pattern.compile( "\\.[^\\.]*$" );
-    private static final Pattern           HIDDEN         = Pattern.compile( "^\\." );
-    private static final Pattern           POSTFIX        = Pattern.compile( "_.*" );
-    private static final Pattern           TIMEZONE       = Pattern.compile( "[+-]\\d+$" );
+    private final String name;
+    private static final Pattern EXTENSION = Pattern.compile( "\\.[^\\.]*$" );
+    private static final Pattern HIDDEN = Pattern.compile( "^\\." );
+    private static final Pattern POSTFIX = Pattern.compile( "_.*" );
+    private static final Pattern TIMEZONE = Pattern.compile( "[+-]\\d+$" );
 
 
     /**
-     * @param album
-     *            The album to which this media belongs.
      * @param name
      *            The unique name of this media in the album.
      */
@@ -210,9 +204,9 @@ public abstract class Media implements Comparable<Media>, Serializable {
         THUMBNAIL( "thumbnail", 150, 100, 0.75f );
 
         private final String name;
-        private final int    maxWidth;
-        private final int    maxHeight;
-        private final float  compression;
+        private final int maxWidth;
+        private final int maxHeight;
+        private final float compression;
 
 
         Quality(String name, int maxWidth, int maxHeight, float compression) {
