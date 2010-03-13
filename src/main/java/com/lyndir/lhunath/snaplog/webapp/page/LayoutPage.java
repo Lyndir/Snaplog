@@ -1,14 +1,9 @@
 package com.lyndir.lhunath.snaplog.webapp.page;
 
 import static com.google.common.base.Preconditions.checkState;
-
-import java.util.HashMap;
-import java.util.Map;
-
 import net.link.safeonline.wicket.component.linkid.LinkIDLoginLink;
 import net.link.safeonline.wicket.component.linkid.LinkIDLogoutLink;
 
-import org.apache.wicket.Component;
 import org.apache.wicket.Page;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.behavior.StringHeaderContributor;
@@ -20,20 +15,16 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.util.template.JavaScriptTemplate;
-import org.apache.wicket.util.template.PackagedTextTemplate;
 
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.behavior.CSSClassAttributeAppender;
 import com.lyndir.lhunath.lib.wayward.component.AjaxLabelLink;
 import com.lyndir.lhunath.lib.wayward.component.GenericWebPage;
 import com.lyndir.lhunath.lib.wayward.component.LabelLink;
-import com.lyndir.lhunath.lib.wayward.component.RedirectToPageException;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels.TabItem;
-import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
-import com.lyndir.lhunath.snaplog.webapp.tab.TabProvider;
+import com.lyndir.lhunath.snaplog.webapp.page.util.LayoutPageUtils;
 
 
 /**
@@ -49,7 +40,13 @@ import com.lyndir.lhunath.snaplog.webapp.tab.TabProvider;
 public class LayoutPage extends GenericWebPage<LayoutPageModels> {
 
     private static final Logger logger = Logger.get( LayoutPage.class );
-    protected static final String CONTENT_PANEL = "contentPanel";
+
+    /**
+     * The wicket ID that the content panel should have.
+     * 
+     * @see #setContentPanel(Panel, AjaxRequestTarget)
+     */
+    public static final String CONTENT_PANEL = "contentPanel";
 
     WebMarkupContainer userEntry;
     WebMarkupContainer userSummary;
@@ -145,18 +142,11 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
                     @Override
                     public void onClick(AjaxRequestTarget target) {
 
-                        if (!getPage().getClass().equals( LayoutPage.class ))
-                            throw new RedirectToPageException( LayoutPage.class );
-
                         // TAB click.
-                        SnaplogSession.get().setActiveTab( itemModel.getObject() );
-                        setContentPanel( getActiveTabPanel( CONTENT_PANEL ) );
-
-                        target.addComponent( container );
-                        target.addComponent( tabsContainer );
+                        LayoutPageUtils.setActiveTab( itemModel.getObject(), null );
                     }
                 } );
-                item.add( CSSClassAttributeAppender.of( item.getModelObject().styleClass() ) );
+                item.add( CSSClassAttributeAppender.ofString( item.getModelObject().styleClass() ) );
                 item.setVisible( itemModel.getObject().getTab().isVisible() );
             }
         };
@@ -169,12 +159,12 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
             @Override
             protected void onBeforeRender() {
 
-                add( new StringHeaderContributor( trackJS( get( CONTENT_PANEL ) ) ) );
+                add( new StringHeaderContributor( LayoutPageUtils.trackJS( get( CONTENT_PANEL ) ) ) );
 
                 super.onBeforeRender();
             }
         }).setOutputMarkupId( true ) );
-        setContentPanel( getInitialContentPanel( CONTENT_PANEL ) );
+        setContentPanel( getInitialContentPanel( CONTENT_PANEL ), null );
 
         add( pageTitle, userEntry, userSummary, tabsContainer );
     }
@@ -188,7 +178,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
      */
     protected Panel getInitialContentPanel(String wicketId) {
 
-        return getActiveTabPanel( wicketId );
+        return LayoutPageUtils.getActiveTabPanel( wicketId );
     }
 
     /**
@@ -200,49 +190,21 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
      * 
      * @param contentPanel
      *            The panel to show as the page content.
+     * @param target
+     *            Optional AJAX request target. If specified, the components that need to be reloaded to update the page
+     *            appropriately will be added to the target.
      */
-    protected void setContentPanel(Panel contentPanel) {
+    public void setContentPanel(Panel contentPanel, AjaxRequestTarget target) {
 
         checkState( contentPanel.getId().equals( CONTENT_PANEL ) );
 
         logger.dbg( "Setting content panel to: %s", contentPanel.getClass() );
-
         container.addOrReplace( contentPanel );
+
+        if (target != null) {
+            // We're in an AJAX request; add the components that need updating to it.
+            target.addComponent( container );
+            target.addComponent( tabsContainer );
+        }
     }
-
-    /**
-     * @param wicketId
-     *            The wicket ID to create the panel with.
-     * @return The panel for the active tab.
-     * 
-     * @see SnaplogSession#getActiveTab()
-     */
-    protected static Panel getActiveTabPanel(String wicketId) {
-
-        // Find the active tab.
-        TabProvider activeTab = SnaplogSession.get().getActiveTab();
-        if (activeTab == null)
-            SnaplogSession.get().setActiveTab( activeTab = Tab.DESKTOP );
-
-        return activeTab.getTab().getPanel( wicketId );
-    }
-
-    /**
-     * Generate some JavaScript to track a user hit on the given component in the analytics tracker.
-     * 
-     * @param trackComponent
-     *            The component that we want to track a hit for.
-     * @return The JavaScript code that, when executed, will track the hit.
-     */
-    protected static String trackJS(Component trackComponent) {
-
-        Map<String, Object> trackVariables = new HashMap<String, Object>();
-        trackVariables.put( "pageView", trackComponent.getClass().getSimpleName() );
-
-        JavaScriptTemplate trackJS = new JavaScriptTemplate(
-                new PackagedTextTemplate( LayoutPage.class, "trackPage.js" ) );
-
-        return trackJS.asString( trackVariables );
-    }
-
 }

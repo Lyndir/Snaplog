@@ -9,12 +9,6 @@
 
                 // Browser
                 $(document).ready(function() {
-                    $('.preview a').live("click", function() {
-                        $(this).closest('li').find('.fullscreen').animate({opacity:'toggle'});
-                    });
-                    $('.fullscreen').live("click", function() {
-                        $(this).animate({opacity:'toggle'});
-                    });
                 });
 
             </script>
@@ -26,26 +20,7 @@
 
             <ul id="viewer">
                 <li wicket:id="photos">
-                    <div class="backdrop">
-                        <a class="image" wicket:id="link">
-                            <!--div class="highlight"></div>
-                            <div class="shadow"></div-->
-                            <img src="" alt="" wicket:id="photo" />
-                            <span class="caption" wicket:id="caption">[Caption]</span>
-                        </a>
-
-                        <div class="t"></div>
-                        <div class="tr"></div>
-                        <div class="r"></div>
-                        <div class="br"></div>
-                        <div class="b"></div>
-                        <div class="bl"></div>
-                        <div class="l"></div>
-                        <div class="tl"></div>
-                        <div class="fullscreen">
-                            <img src="" alt="" wicket:id="fullscreenPhoto" />
-                        </div>
-                    </div>
+                    <wicket:container wicket:id="media" />
                 </li>
             </ul>
 

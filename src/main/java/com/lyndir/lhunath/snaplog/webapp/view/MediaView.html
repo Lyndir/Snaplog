@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W5C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+
+    <head>
+        <wicket:head>
+            <script type="text/javascript">
+
+                // Media
+                $(document).ready(function() {
+                    $('.preview .image').live("click", function() {
+                        $(this).closest('li').find('.fullscreen').animate({opacity:'toggle'});
+                    });
+                    $('.fullscreen').live("click", function() {
+                        $(this).animate({opacity:'toggle'});
+                    });
+                });
+
+                function checkWide(t) {
+                    if (t.innerWidth() > t.innerHeight()) {
+                        t.closest('.media').addClass('wide');
+                    }
+                }
+            </script>
+        </wicket:head>
+    </head>
+
+    <body>
+        <wicket:panel>
+
+            <div class="media backdrop" wicket:id="media">
+                <div class="image" wicket:id="image">
+                    <!--div class="highlight"></div>
+                    <div class="shadow"></div-->
+                    <img src="" alt="" wicket:id="thumb" class="thumb" onload="checkWide($(this))" />
+                    <img src="" alt="" wicket:id="photo" />
+                    <span class="caption" wicket:id="caption">[Caption]</span>
+                </div>
+
+                <div class="t"></div>
+                <div class="tr"></div>
+                <div class="r"></div>
+                <div class="br"></div>
+                <div class="b"></div>
+                <div class="bl"></div>
+                <div class="l"></div>
+                <div class="tl"></div>
+                <wicket:enclosure>
+                    <div class="fullscreen">
+                        <img src="" alt="" wicket:id="fullImage" />
+                    </div>
+                </wicket:enclosure>
+            </div>
+
+        </wicket:panel>
+    </body>
+
+</html>

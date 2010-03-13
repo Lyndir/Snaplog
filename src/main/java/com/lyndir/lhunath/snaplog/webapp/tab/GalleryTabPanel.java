@@ -25,13 +25,12 @@ import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.image.ContextImage;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
@@ -46,10 +45,11 @@ import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.model.UserService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
+import com.lyndir.lhunath.snaplog.webapp.page.util.LayoutPageUtils;
 import com.lyndir.lhunath.snaplog.webapp.provider.UserAlbumsProvider;
-import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels.NewAlbumFormModels;
+import com.lyndir.lhunath.snaplog.webapp.view.MediaView;
 
 
 /**
@@ -94,23 +94,23 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
             @Override
             protected void populateItem(Item<Album> item) {
 
-                item.add( new Link<Album>( "link", item.getModel() ) {
+                item.add( new AjaxLink<Album>( "link", item.getModel() ) {
 
                     {
                         List<Media> albumFiles = albumService.getFiles( getModelObject() );
-                        add( new ContextImage( "cover",
-                                ImageServlet.getContextRelativePathFor( albumFiles.get( albumFiles.size() - 1 ),
-                                                                        Quality.THUMBNAIL ) ) );
+                        add( new MediaView( "cover", new Model<Media>( albumFiles.get( albumFiles.size() - 1 ) ),
+                                Quality.THUMBNAIL, false ) );
                         add( new Label( "title", getModelObject().getName() ) );
-                        add( new Label( "description", getModelObject().getDescription() ).setVisible( getModelObject().getDescription() != null ) );
+                        // TODO: Fix HTML injection.
+                        add( new Label( "description", getModelObject().getDescription() ).setEscapeModelStrings( false ) );
                     }
 
 
                     @Override
-                    public void onClick() {
+                    public void onClick(AjaxRequestTarget target) {
 
                         SnaplogSession.get().setFocussedAlbum( getModelObject() );
-                        SnaplogSession.get().setActiveTab( Tab.ALBUM );
+                        LayoutPageUtils.setActiveTab( Tab.ALBUM, target );
                     }
                 } );
             }
@@ -126,11 +126,13 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                 add( new TextArea<String>( "description", getModelObject().description() ) );
             }
         };
-        add( newAlbumForm );
+        add( newAlbumForm.setVisible( false ).setOutputMarkupPlaceholderTag( true ) );
         add( new AjaxLink<Object>( "newAlbum" ) {
 
             @Override
             public void onClick(AjaxRequestTarget target) {
+
+                newAlbumForm.setVisible( !newAlbumForm.isVisible() );
 
                 target.addComponent( newAlbumForm );
             }

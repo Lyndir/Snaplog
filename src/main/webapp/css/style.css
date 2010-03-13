@@ -17,13 +17,13 @@ h1, h2, h3, h4, h5, h6 {
     color:              #ddd;
     text-shadow:        black 0 1px 1px;
 }
-a, a:link {
+a, a:link, .link {
     color:              #EEE;
     text-decoration:    underline;
 
     cursor:             pointer;
 }
-a:hover {
+a:hover, .link:hover {
     color:              white;
     text-decoration:    none;
 }
@@ -35,9 +35,6 @@ h3 {
 .error h1, .error h2, .error h3, .error h4, .error h5, .error h6 {
     color:              inherit;
 }
-ul.plain li {
-    list-style:         none;
-}
 label {
     display:            inline-block;
 
@@ -46,9 +43,9 @@ label {
 
     text-align:         right;
 }
-input {
-    background:         transparent;
-    color:              inherit;
+input, input[type], input[value], select, textarea {
+    background:         rgba(32, 32, 32, 0.5);
+    color:              white;
     text-shadow:        black 0 1px 1px;
     border:             none;
     border-bottom:      2px solid #474747;
@@ -59,12 +56,22 @@ input {
     -moz-border-radius: 5px;
     -webkit-border-radius:5px;
 
-    padding:            0.5ex 0.5em;
-    margin:             2px;
+    vertical-align:     top;
+    padding:            0.5ex;
+    margin:             0.5ex 0;
     width:              20em;
 
     font:               inherit;
     font-family:        monospace;
+}
+input:hover, input[type]:hover, input[value]:hover, select:hover, textarea:hover {
+    background:         rgba(32, 32, 32, 0.6);
+}
+input:focus, input[type]:focus, input[value]:focus, select:focus, textarea:focus {
+    background:         rgba(32, 32, 32, 0.7);
+}
+ul.plain li {
+    list-style:         none;
 }
 
 
@@ -369,23 +376,56 @@ div.popup {
 
 
 /*******************************************************************************
- * IMAGES *
+ * BLOCKS *
+ */
+.block {
+    display:            block;
+    background:         #101010;
+    box-shadow:         0 0 5px #111;
+    -webkit-box-shadow: 0 0 5px #111;
+    -khtml-border-radius:5px;
+    -o-border-radius:   5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius:5px;
+
+    padding:            0.5em;
+    margin:             1ex 0;
+
+    text-decoration:    none;
+}
+.block:hover {
+    background:         #1A1A1A;
+    box-shadow:         0 0 5px #333;
+    -webkit-box-shadow: 0 0 5px #333;
+}
+.block.album {
+    min-height:         100px;
+}
+.block.album .media {
+    float:              left;
+
+    margin:             0 1em 1ex 0;
+}
+
+
+/*******************************************************************************
+ * MEDIA *
  */
 #viewer {
     text-align:         center;
 }
 #viewer li {
+    display:            inline-block;
+
     list-style:         none;
 }
-#viewer li.thumbnail {
-    display:            inline-block;
+#viewer li.current {
+    display:            block;
 }
-#viewer .backdrop:hover {
+.media:hover {
     border-color:       #EEE;
 }
-.image {
-    background:         #222 url("../images/resources/loader.boxes.black.gif") no-repeat center center;
-
+.media .image {
     display:            block;
     z-index:            1;
     position:           relative;
@@ -393,15 +433,23 @@ div.popup {
     font-size:          14px;
     text-decoration:    none !important;
 }
-.image img {
+.media .image img {
+    background:         rgba(0, 0, 0, 0.5) url("../images/resources/loader.boxes.black.gif") no-repeat center center;
+
     display:            block;
     position:           relative;
     z-index:            1;
 }
-.image:hover {
+.media .image img.thumb {
+    position:           absolute;
+
+    height:             100%;
+    z-index:            0;
+}
+.media .image:hover {
     border-color:       #eee;
 }
-.image .highlight {
+.media .image .highlight {
     background:         url("../images/layout/photo.m.highlight.png") no-repeat top left;
 
     position:           absolute;
@@ -410,7 +458,7 @@ div.popup {
     width:              100%;
     height:             100%;
 }
-.image .shadow {
+.media .image .shadow {
     background:         url("../images/layout/photo.m.shadow.png") no-repeat top right;
 
     position:           absolute;
@@ -419,7 +467,7 @@ div.popup {
     width:              100%;
     height:             100%;
 }
-.image .caption {
+.media .image .caption {
     background:         rgba(32, 32, 32, 0.7);
     text-shadow:        black 0 1px 1px;
 
@@ -431,8 +479,10 @@ div.popup {
     width:              100%;
     padding:            0.4em 0;
     margin:             -0.4em 0 0 0;
+
+    text-align:         center;
 }
-.fullscreen {
+.media .fullscreen {
     background:         rgba(0, 0, 0, 0.66);
 
     display:            none;
@@ -445,7 +495,7 @@ div.popup {
 
     overflow:           auto;
 }
-.fullscreen img {
+.media .fullscreen img {
     border:             1px solid white;
     background:         #222 url("../images/resources/loader.boxes.black.gif") no-repeat center center;
 
@@ -453,34 +503,43 @@ div.popup {
     top:                50%;
     margin-top:         -384px;
 }
-.thumbnail .caption {
+.media.thumbnail .caption {
     visibility:         hidden;
     left:               0%;
     width:              100%;
     bottom:             0;
 }
-.thumbnail .image:hover .caption {
+.media.thumbnail .image:hover .caption {
     visibility:         visible;
 
     font-size:          0.8em;
 }
-.thumbnail img {
+.media.thumbnail img {
     min-width:          75px;
-    max-width:          150px;
+    max-width:          134px;
     min-height:         100px;
     max-height:         100px;
 }
-.preview img {
-    min-width:          330px;
+.media.thumbnail.wide img {
+    min-width:          134px;
+}
+.media.preview img {
+    min-width:          338px;
     max-width:          600px;
     min-height:         450px;
     max-height:         450px;
 }
-.fullscreen img {
+.media.preview.wide img {
+    min-width:          600px;
+}
+.media.fullscreen img, .media .fullscreen img {
     min-width:          576px;
     max-width:          1024px;
     min-height:         768px;
     max-height:         768px;
+}
+.media.fullscreen.wide img, .media .fullscreen.wide img {
+    min-width:          1024px;
 }
 
 

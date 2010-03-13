@@ -177,7 +177,7 @@
         <dependency>
             <groupId>net.lin-k.safe-online</groupId>
             <artifactId>safe-online-wicket-sdk</artifactId>
-            <version>1.11-p6</version>
+            <version>1.11-p7</version>
         </dependency>
 
         <!-- EXTERNAL DEPENDENCIES -->
@@ -235,6 +235,7 @@
             <groupId>javax.servlet</groupId>
             <artifactId>servlet-api</artifactId>
         </dependency>
+
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>

@@ -6,11 +6,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
-import org.apache.wicket.behavior.AttributeAppender;
-import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.AbstractReadOnlyModel;
@@ -20,12 +15,12 @@ import org.apache.wicket.model.Model;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.collection.FixedDeque;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.wayward.behavior.CSSClassAttributeAppender;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.snaplog.data.Album;
 import com.lyndir.lhunath.snaplog.data.Media;
 import com.lyndir.lhunath.snaplog.data.Media.Quality;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
-import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
 
 
 /**
@@ -94,38 +89,21 @@ public class BrowserView extends GenericPanel<Album> {
         protected void populateItem(ListItem<Media> item) {
 
             Media media = item.getModelObject();
-            Quality imageQuality = media.equals( currentFile )? Quality.PREVIEW: Quality.THUMBNAIL;
             final long shotTime = media.shotTime();
-            WebMarkupContainer link = null;
-            switch (imageQuality) {
-                case ORIGINAL:
-                case FULLSCREEN:
-                case PREVIEW:
-                    link = new WebMarkupContainer( "link" );
-                break;
+            boolean isCurrent = media.equals( currentFile );
+            Quality imageQuality = isCurrent? Quality.PREVIEW: Quality.THUMBNAIL;
 
-                case METADATA:
-                case THUMBNAIL:
-                    link = new AjaxFallbackLink<String>( "link" ) {
+            item.add( new MediaView( "media", item.getModel(), imageQuality, !isCurrent ) {
 
-                        @Override
-                        public void onClick(AjaxRequestTarget target) {
+                @Override
+                public void onClick(AjaxRequestTarget target) {
 
-                            currentTimeModel.setObject( new Date( shotTime ) );
-                            target.addComponent( BrowserView.this );
-                        }
-                    };
-                break;
-            }
-            if (link == null) // Silence Eclipse's "Potential Null Pointer Access"
-                throw logger.bug( "Uninitialized link" ).toError();
-
-            link.add( new Label( "caption", media.getDateString() ) );
-            link.add( new ContextImage( "photo", ImageServlet.getContextRelativePathFor( media, imageQuality ) ) );
-            item.add( new ContextImage( "fullscreenPhoto", //
-                    ImageServlet.getContextRelativePathFor( media, Quality.FULLSCREEN ) ).setVisible( imageQuality == Quality.PREVIEW ) );
-            item.add( new AttributeAppender( "class", new Model<String>( imageQuality.getName() ), " " ) );
-            item.add( link );
+                    currentTimeModel.setObject( new Date( shotTime ) );
+                    target.addComponent( BrowserView.this );
+                }
+            } );
+            if (isCurrent)
+                item.add( new CSSClassAttributeAppender( "current" ) );
         }
     }
 
