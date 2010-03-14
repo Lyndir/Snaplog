@@ -41,13 +41,13 @@ import com.db4o.query.Predicate;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.StringUtils;
-import com.lyndir.lhunath.snaplog.data.Album;
-import com.lyndir.lhunath.snaplog.data.Media;
-import com.lyndir.lhunath.snaplog.data.Media.Quality;
-import com.lyndir.lhunath.snaplog.data.aws.S3Album;
-import com.lyndir.lhunath.snaplog.data.aws.S3AlbumData;
-import com.lyndir.lhunath.snaplog.data.aws.S3Media;
-import com.lyndir.lhunath.snaplog.data.aws.S3MediaData;
+import com.lyndir.lhunath.snaplog.data.media.Album;
+import com.lyndir.lhunath.snaplog.data.media.Media;
+import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
+import com.lyndir.lhunath.snaplog.data.media.aws.S3Album;
+import com.lyndir.lhunath.snaplog.data.media.aws.S3AlbumData;
+import com.lyndir.lhunath.snaplog.data.media.aws.S3Media;
+import com.lyndir.lhunath.snaplog.data.media.aws.S3MediaData;
 import com.lyndir.lhunath.snaplog.model.AWSMediaProviderService;
 import com.lyndir.lhunath.snaplog.model.AWSService;
 import com.lyndir.lhunath.snaplog.util.ImageUtils;
@@ -91,7 +91,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
     @Override
     public List<S3Media> getFiles(S3Album album) {
 
-        checkNotNull( album );
+        checkNotNull( album, "Given album must not be null." );
 
         List<S3Media> files = new LinkedList<S3Media>();
         for (S3Object albumObject : awsService.listObjects( getObjectKey( album, Quality.ORIGINAL ) )) {
@@ -133,8 +133,8 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
     @Override
     public URI getResourceURI(S3Media media, Quality quality) {
 
-        checkNotNull( media );
-        checkNotNull( quality );
+        checkNotNull( media, "Given media must not be null." );
+        checkNotNull( quality, "Given quality must not be null." );
 
         S3Object s3ResourceObject = findObjectDetails( media, quality );
         if (s3ResourceObject == null) {
@@ -196,7 +196,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
     @Override
     public long modifiedTime(S3Media media) {
 
-        checkNotNull( media );
+        checkNotNull( media, "Given media must not be null." );
 
         return getObject( media ).getLastModifiedDate().getTime();
     }
@@ -250,15 +250,15 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      */
     protected S3Object readObject(S3Media media, Quality quality) {
 
-        checkNotNull( media );
-        checkNotNull( quality );
+        checkNotNull( media, "Given media must not be null." );
+        checkNotNull( quality, "Given quality must not be null." );
 
         S3Object s3Object = awsService.readObject( getObjectKey( media, quality ) );
         S3MediaData mediaData = getMediaData( media );
         mediaData.put( quality, s3Object );
         db.store( mediaData );
 
-        return checkNotNull( s3Object );
+        return checkNotNull( s3Object, "S3 object must not be null." );
     }
 
     /**
@@ -276,8 +276,8 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      */
     protected S3Object findObjectDetails(S3Media media, Quality quality) {
 
-        checkNotNull( media );
-        checkNotNull( quality );
+        checkNotNull( media, "Given media must not be null." );
+        checkNotNull( quality, "Given quality must not be null." );
 
         S3MediaData mediaData = getMediaData( media );
         S3Object s3Object = mediaData.get( quality );
@@ -304,9 +304,9 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      */
     protected S3Object getObject(S3Media media) {
 
-        checkNotNull( media );
+        checkNotNull( media, "Given media must not be null." );
 
-        return checkNotNull( getMediaData( media ).get( Quality.METADATA ) );
+        return checkNotNull( getMediaData( media ).get( Quality.METADATA ), "S3 object for %s must not be null.", media );
     }
 
     /**
@@ -315,7 +315,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
     @Override
     public S3AlbumData newAlbumData(S3Album album) {
 
-        checkNotNull( album );
+        checkNotNull( album, "Given album must not be null." );
 
         return new S3AlbumData( album );
     }

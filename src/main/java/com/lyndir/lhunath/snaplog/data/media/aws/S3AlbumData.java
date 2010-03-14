@@ -13,22 +13,41 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.data;
+package com.lyndir.lhunath.snaplog.data.media.aws;
+
+import com.lyndir.lhunath.snaplog.data.media.AlbumData;
+
 
 /**
- * <h2>{@link MediaData}<br>
+ * <h2>{@link S3AlbumData}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
- * <i>Mar 6, 2010</i>
+ * <i>Mar 10, 2010</i>
  * </p>
  * 
  * @author lhunath
  */
-public abstract class MediaData {
+public class S3AlbumData extends AlbumData {
+
+    private S3Album album;
+
 
     /**
-     * @return The media of this {@link MediaData}.
+     * @param album
+     *            The album we provide data for.
      */
-    public abstract Media getMedia();
+    public S3AlbumData(S3Album album) {
+
+        this.album = album;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public S3Album getAlbum() {
+
+        return album;
+    }
 }

@@ -1,23 +1,31 @@
 package com.lyndir.lhunath.snaplog.webapp.view;
 
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Iterator;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
+import org.apache.wicket.markup.html.form.FormComponent;
+import org.apache.wicket.markup.html.form.SimpleFormComponentLabel;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.model.AbstractReadOnlyModel;
+import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.markup.repeater.data.DataView;
+import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.StringResourceModel;
 
+import com.db4o.ObjectSet;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
-import com.lyndir.lhunath.snaplog.data.Album;
+import com.lyndir.lhunath.snaplog.data.media.Album;
+import com.lyndir.lhunath.snaplog.data.security.Permission;
+import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
+import com.lyndir.lhunath.snaplog.model.UserService;
 
 
 /**
@@ -37,6 +45,9 @@ public class AccessView extends GenericPanel<Album> {
     @Inject
     AlbumService albumService;
 
+    @Inject
+    UserService userService;
+
 
     /**
      * @param id
@@ -48,32 +59,54 @@ public class AccessView extends GenericPanel<Album> {
 
         super( id, albumModel );
 
-        add( new ListView<String>( "groups", new AbstractReadOnlyModel<List<String>>() {
+        add( new DataView<User>( "users", new IDataProvider<User>() {
+
+            private ObjectSet<User> query = userService.queryUsers();
+
 
             @Override
-            public List<String> getObject() {
+            public void detach() {
 
-                return new LinkedList<String>();
+                query = null;
+            }
+
+            @Override
+            public Iterator<? extends User> iterator(int first, int count) {
+
+                return query.iterator();
+            }
+
+            @Override
+            public int size() {
+
+                return query.size();
+            }
+
+            @Override
+            public IModel<User> model(User object) {
+
+                return new Model<User>( object );
             }
         } ) {
 
             @Override
-            protected void populateItem(ListItem<String> groupItem) {
+            protected void populateItem(Item<User> userItem) {
 
-                String group = groupItem.getModelObject();
+                User user = userItem.getModelObject();
 
-                groupItem.add( new Label( "name", group ) );
+                userItem.add( new Label( "name", user.toString() ) );
 
                 // Hide the months in the year initially.
-                groupItem.add( new ListView<String>( "permissions", Arrays.asList( "See", "Contribute" ) ) {
+                userItem.add( new ListView<Permission>( "permissions", Arrays.asList( Permission.values() ) ) {
 
                     @Override
-                    protected void populateItem(ListItem<String> permissionItem) {
+                    protected void populateItem(ListItem<Permission> permissionItem) {
 
-                        String permission = permissionItem.getModelObject();
+                        Permission permission = permissionItem.getModelObject();
 
-                        permissionItem.add( new CheckBox( "checkbox", new Model<Boolean>( false ) ) );
-                        permissionItem.add( new Label( "label", permission ) );
+                        FormComponent<Boolean> checkbox = new CheckBox( "checkbox", new Model<Boolean>( false ) );
+                        checkbox.setLabel( new StringResourceModel( permission.getLocalizationKey(), null ) );
+                        permissionItem.add( checkbox, new SimpleFormComponentLabel( "label", checkbox ) );
                     }
                 } );
             }

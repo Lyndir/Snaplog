@@ -17,11 +17,11 @@ package com.lyndir.lhunath.snaplog.model;
 
 import java.util.List;
 
-import com.lyndir.lhunath.snaplog.data.Album;
-import com.lyndir.lhunath.snaplog.data.AlbumData;
-import com.lyndir.lhunath.snaplog.data.Media;
-import com.lyndir.lhunath.snaplog.data.MediaTimeFrame;
-import com.lyndir.lhunath.snaplog.data.User;
+import com.lyndir.lhunath.snaplog.data.media.Album;
+import com.lyndir.lhunath.snaplog.data.media.AlbumData;
+import com.lyndir.lhunath.snaplog.data.media.Media;
+import com.lyndir.lhunath.snaplog.data.media.MediaTimeFrame;
+import com.lyndir.lhunath.snaplog.data.user.User;
 
 
 /**

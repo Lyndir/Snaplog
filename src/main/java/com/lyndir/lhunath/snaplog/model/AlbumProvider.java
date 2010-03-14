@@ -5,10 +5,10 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.net.URI;
 import java.util.List;
 
-import com.lyndir.lhunath.snaplog.data.Album;
-import com.lyndir.lhunath.snaplog.data.AlbumData;
-import com.lyndir.lhunath.snaplog.data.Media;
-import com.lyndir.lhunath.snaplog.data.Media.Quality;
+import com.lyndir.lhunath.snaplog.data.media.Album;
+import com.lyndir.lhunath.snaplog.data.media.AlbumData;
+import com.lyndir.lhunath.snaplog.data.media.Media;
+import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceInjector;
 
 
@@ -40,8 +40,9 @@ public class AlbumProvider<A extends Album, M extends Media> implements MediaPro
      */
     public AlbumProvider(Class<A> albumType, Class<? extends MediaProviderService<A, M>> albumProviderServiceType) {
 
-        this.albumType = checkNotNull( albumType );
-        mediaProviderServiceType = checkNotNull( albumProviderServiceType );
+        this.albumType = checkNotNull( albumType, "Given album class must not be null." );
+        mediaProviderServiceType = checkNotNull( albumProviderServiceType,
+                                                 "Given album provider class must not be null." );
     }
 
     /**

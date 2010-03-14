@@ -19,7 +19,7 @@ import org.apache.wicket.Component;
 import org.apache.wicket.application.IComponentOnBeforeRenderListener;
 
 import com.google.inject.Inject;
-import com.lyndir.lhunath.snaplog.data.LinkID;
+import com.lyndir.lhunath.snaplog.data.user.LinkID;
 import com.lyndir.lhunath.snaplog.model.UserService;
 import com.lyndir.lhunath.snaplog.util.WicketUtils;
 

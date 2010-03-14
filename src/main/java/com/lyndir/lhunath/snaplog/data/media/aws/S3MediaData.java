@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.data.aws;
+package com.lyndir.lhunath.snaplog.data.media.aws;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -22,9 +22,9 @@ import java.util.Map;
 import org.jets3t.service.model.S3Object;
 
 import com.google.common.collect.Maps;
-import com.lyndir.lhunath.snaplog.data.Media;
-import com.lyndir.lhunath.snaplog.data.MediaData;
-import com.lyndir.lhunath.snaplog.data.Media.Quality;
+import com.lyndir.lhunath.snaplog.data.media.Media;
+import com.lyndir.lhunath.snaplog.data.media.MediaData;
+import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
 
 
 /**
@@ -79,8 +79,8 @@ public class S3MediaData extends MediaData {
      */
     public void put(Quality quality, S3Object s3Object) {
 
-        checkNotNull( quality );
-        checkNotNull( s3Object );
+        checkNotNull( quality, "Given quality must not be null." );
+        checkNotNull( s3Object, "Given S3 object must not be null." );
 
         s3Objects.put( quality, s3Object );
         s3Objects.put( Quality.METADATA, s3Object );
@@ -95,7 +95,7 @@ public class S3MediaData extends MediaData {
      */
     public S3Object get(Quality quality) {
 
-        checkNotNull( quality );
+        checkNotNull( quality, "Given quality must not be null." );
 
         return s3Objects.get( quality );
     }

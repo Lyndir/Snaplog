@@ -18,10 +18,10 @@ package com.lyndir.lhunath.snaplog.model;
 import java.net.URI;
 import java.util.List;
 
-import com.lyndir.lhunath.snaplog.data.Album;
-import com.lyndir.lhunath.snaplog.data.AlbumData;
-import com.lyndir.lhunath.snaplog.data.Media;
-import com.lyndir.lhunath.snaplog.data.Media.Quality;
+import com.lyndir.lhunath.snaplog.data.media.Album;
+import com.lyndir.lhunath.snaplog.data.media.AlbumData;
+import com.lyndir.lhunath.snaplog.data.media.Media;
+import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
 
 
 /**

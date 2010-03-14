@@ -21,9 +21,9 @@ import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import com.google.inject.Inject;
-import com.lyndir.lhunath.snaplog.data.Album;
-import com.lyndir.lhunath.snaplog.data.LinkID;
-import com.lyndir.lhunath.snaplog.data.User;
+import com.lyndir.lhunath.snaplog.data.media.Album;
+import com.lyndir.lhunath.snaplog.data.user.LinkID;
+import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.model.UserService;
 
 
@@ -57,8 +57,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public User registerUser(LinkID linkID, String userName) {
 
-        checkNotNull( linkID );
-        checkNotNull( userName );
+        checkNotNull( linkID, "Given linkID must not be null." );
+        checkNotNull( userName, "Given userName must not be null." );
 
         User user = new User( linkID, userName );
         db.store( user );
@@ -72,7 +72,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserWithLinkID(final LinkID linkID) {
 
-        checkNotNull( linkID );
+        checkNotNull( linkID, "Given linkID must not be null." );
 
         ObjectSet<User> userQuery = db.query( new Predicate<User>() {
 
@@ -95,7 +95,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserWithUserName(final String userName) {
 
-        checkNotNull( userName );
+        checkNotNull( userName, "Given userName must not be null." );
 
         ObjectSet<User> userQuery = db.query( new Predicate<User>() {
 
@@ -118,7 +118,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public ObjectSet<Album> queryAlbumsOfUserVisibleToUser(final User ownerUser, User observerUser) {
 
-        checkNotNull( ownerUser );
+        checkNotNull( ownerUser, "Given owner user must not be null." );
 
         return db.query( new Predicate<Album>() {
 
@@ -128,5 +128,14 @@ public class UserServiceImpl implements UserService {
                 return candidate.getUser().equals( ownerUser );
             }
         } );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ObjectSet<User> queryUsers() {
+
+        return db.query( User.class );
     }
 }

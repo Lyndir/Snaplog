@@ -1,4 +1,4 @@
-package com.lyndir.lhunath.snaplog.data;
+package com.lyndir.lhunath.snaplog.data.media;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -32,7 +32,7 @@ public abstract class AlbumData {
      */
     public void setFiles(List<Media> files) {
 
-        checkNotNull( files );
+        checkNotNull( files, "Given list of media files must not be null." );
 
         this.files = files;
     }
@@ -51,7 +51,7 @@ public abstract class AlbumData {
      */
     public void setTimeFrames(List<MediaTimeFrame> timeFrames) {
 
-        checkNotNull( timeFrames );
+        checkNotNull( timeFrames, "Given list of timeFrames must not be null." );
 
         this.timeFrames = timeFrames;
     }

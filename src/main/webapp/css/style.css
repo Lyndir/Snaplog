@@ -449,24 +449,6 @@ div.popup {
 .media .image:hover {
     border-color:       #eee;
 }
-.media .image .highlight {
-    background:         url("../images/layout/photo.m.highlight.png") no-repeat top left;
-
-    position:           absolute;
-    z-index:            2;
-    left:               0;
-    width:              100%;
-    height:             100%;
-}
-.media .image .shadow {
-    background:         url("../images/layout/photo.m.shadow.png") no-repeat top right;
-
-    position:           absolute;
-    z-index:            2;
-    right:              0;
-    width:              100%;
-    height:             100%;
-}
 .media .image .caption {
     background:         rgba(32, 32, 32, 0.7);
     text-shadow:        black 0 1px 1px;

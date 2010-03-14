@@ -16,9 +16,9 @@
 package com.lyndir.lhunath.snaplog.model;
 
 import com.db4o.ObjectSet;
-import com.lyndir.lhunath.snaplog.data.Album;
-import com.lyndir.lhunath.snaplog.data.LinkID;
-import com.lyndir.lhunath.snaplog.data.User;
+import com.lyndir.lhunath.snaplog.data.media.Album;
+import com.lyndir.lhunath.snaplog.data.user.LinkID;
+import com.lyndir.lhunath.snaplog.data.user.User;
 
 
 /**
@@ -77,4 +77,11 @@ public interface UserService {
      * @return An {@link ObjectSet} of albums owned by the given owner that are visible to the given observer.
      */
     ObjectSet<Album> queryAlbumsOfUserVisibleToUser(User ownerUser, User observerUser);
+
+    /**
+     * TODO: Limit to set of users current user has a relation with.
+     * 
+     * @return An {@link ObjectSet} of all known {@link User}s.
+     */
+    ObjectSet<User> queryUsers();
 }

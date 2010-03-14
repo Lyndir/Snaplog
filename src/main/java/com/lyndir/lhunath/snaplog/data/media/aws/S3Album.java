@@ -13,16 +13,19 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.model;
+package com.lyndir.lhunath.snaplog.data.media.aws;
 
-import com.lyndir.lhunath.snaplog.data.media.Media;
-import com.lyndir.lhunath.snaplog.data.media.aws.S3Album;
-import com.lyndir.lhunath.snaplog.data.media.aws.S3Media;
+import com.lyndir.lhunath.snaplog.data.media.Album;
+import com.lyndir.lhunath.snaplog.data.user.User;
 
 
 /**
- * <h2>{@link AWSMediaProviderService}<br>
- * <sub>Service {@link Media} hosted at Amazon's S3.</sub></h2>
+ * <h2>{@link S3Album}<br>
+ * <sub>[in short] (TODO).</sub></h2>
+ * 
+ * <p>
+ * [description / usage].
+ * </p>
  * 
  * <p>
  * <i>Jan 10, 2010</i>
@@ -30,6 +33,16 @@ import com.lyndir.lhunath.snaplog.data.media.aws.S3Media;
  * 
  * @author lhunath
  */
-public interface AWSMediaProviderService extends MediaProviderService<S3Album, S3Media> {
+public class S3Album extends Album {
 
+    /**
+     * @param user
+     *            The user that owns this Album.
+     * @param name
+     *            A unique, user-visible name of this Album amongst the user's albums.
+     */
+    public S3Album(User user, String name) {
+
+        super( user, name );
+    }
 }

@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.data;
+package com.lyndir.lhunath.snaplog.data.user;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -66,7 +66,8 @@ public class LinkID implements Serializable {
      */
     public void setApplicationScopedUserIdentifier(String applicationScopedUserIdentifier) {
 
-        this.applicationScopedUserIdentifier = checkNotNull( applicationScopedUserIdentifier );
+        this.applicationScopedUserIdentifier = checkNotNull( applicationScopedUserIdentifier,
+                                                             "Given applicationScopedUserIdentifier must not be null." );
     }
 
     /**

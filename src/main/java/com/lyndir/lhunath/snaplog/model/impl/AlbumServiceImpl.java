@@ -26,14 +26,14 @@ import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.snaplog.data.Album;
-import com.lyndir.lhunath.snaplog.data.AlbumData;
-import com.lyndir.lhunath.snaplog.data.AlbumProviderType;
-import com.lyndir.lhunath.snaplog.data.Media;
-import com.lyndir.lhunath.snaplog.data.MediaTimeFrame;
-import com.lyndir.lhunath.snaplog.data.User;
-import com.lyndir.lhunath.snaplog.data.Media.Quality;
-import com.lyndir.lhunath.snaplog.data.MediaTimeFrame.Type;
+import com.lyndir.lhunath.snaplog.data.media.Album;
+import com.lyndir.lhunath.snaplog.data.media.AlbumData;
+import com.lyndir.lhunath.snaplog.data.media.AlbumProviderType;
+import com.lyndir.lhunath.snaplog.data.media.Media;
+import com.lyndir.lhunath.snaplog.data.media.MediaTimeFrame;
+import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
+import com.lyndir.lhunath.snaplog.data.media.MediaTimeFrame.Type;
+import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.model.AlbumProvider;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 
@@ -70,8 +70,8 @@ public class AlbumServiceImpl implements AlbumService {
     @Override
     public Album findAlbumWithName(final User user, final String albumName) {
 
-        checkNotNull( user );
-        checkNotNull( albumName );
+        checkNotNull( user, "Given user must not be null." );
+        checkNotNull( albumName, "Given album name must not be null." );
 
         return db.query( new Predicate<Album>() {
 
@@ -89,8 +89,8 @@ public class AlbumServiceImpl implements AlbumService {
     @Override
     public Media findMediaWithName(final Album album, final String mediaName) {
 
-        checkNotNull( album );
-        checkNotNull( mediaName );
+        checkNotNull( album, "Given album must not be null." );
+        checkNotNull( mediaName, "Given media name must not be null." );
 
         ObjectSet<Media> mediaQuery = db.query( new Predicate<Media>() {
 
@@ -113,7 +113,7 @@ public class AlbumServiceImpl implements AlbumService {
     @Override
     public List<MediaTimeFrame> getYears(Album album) {
 
-        checkNotNull( album );
+        checkNotNull( album, "Given album must not be null." );
 
         AlbumData albumData = getAlbumData( album );
         List<MediaTimeFrame> timeFrames = albumData.getTimeFrames();
@@ -157,7 +157,7 @@ public class AlbumServiceImpl implements AlbumService {
      */
     private AlbumData getAlbumData(final Album album) {
 
-        checkNotNull( album );
+        checkNotNull( album, "Given album must not be null." );
 
         ObjectSet<AlbumData> albumDataQuery = db.query( new Predicate<AlbumData>() {
 
@@ -179,7 +179,7 @@ public class AlbumServiceImpl implements AlbumService {
 
     private static <A extends Album> AlbumProvider<A, Media> getAlbumProvider(A album) {
 
-        checkNotNull( album );
+        checkNotNull( album, "Given album must not be null." );
 
         for (AlbumProviderType albumProviderType : AlbumProviderType.values())
             if (albumProviderType.getAlbumProvider().getAlbumType().isAssignableFrom( album.getClass() )) {
@@ -200,7 +200,7 @@ public class AlbumServiceImpl implements AlbumService {
     @Override
     public List<Media> getFiles(Album album) {
 
-        checkNotNull( album );
+        checkNotNull( album, "Given album must not be null." );
 
         AlbumData albumData = getAlbumData( album );
         List<Media> files = albumData.getFiles();
@@ -220,8 +220,8 @@ public class AlbumServiceImpl implements AlbumService {
     @Override
     public URI getResourceURI(Media media, Quality quality) {
 
-        checkNotNull( media );
-        checkNotNull( quality );
+        checkNotNull( media, "Given media must not be null." );
+        checkNotNull( quality, "Given quality must not be null." );
 
         return getAlbumProvider( media.getAlbum() ).getResourceURI( media, quality );
     }
@@ -232,7 +232,7 @@ public class AlbumServiceImpl implements AlbumService {
     @Override
     public long modifiedTime(Media media) {
 
-        checkNotNull( media );
+        checkNotNull( media, "Given media must not be null." );
 
         return getAlbumProvider( media.getAlbum() ).modifiedTime( media );
     }

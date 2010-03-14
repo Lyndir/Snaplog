@@ -30,7 +30,7 @@ import com.google.common.collect.Lists;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.wayward.model.EmptyModelProvider;
 import com.lyndir.lhunath.lib.wayward.model.ModelProvider;
-import com.lyndir.lhunath.snaplog.data.User;
+import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.cookie.LastUserCookieManager;
@@ -110,7 +110,7 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels, Layou
             @Override
             protected String load() {
 
-                User user = checkNotNull( SnaplogSession.get().getFocussedUser() );
+                User user = checkNotNull( SnaplogSession.get().getFocussedUser(), "Focussed user must not be null." );
 
                 return Character.toString( user.getBadge() );
             }

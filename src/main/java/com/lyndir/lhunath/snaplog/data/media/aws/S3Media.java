@@ -13,11 +13,11 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.data.aws;
+package com.lyndir.lhunath.snaplog.data.media.aws;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.lyndir.lhunath.snaplog.data.Media;
+import com.lyndir.lhunath.snaplog.data.media.Media;
 
 
 /**
@@ -46,7 +46,7 @@ public class S3Media extends Media {
 
         super( name );
 
-        this.album = checkNotNull( album );
+        this.album = checkNotNull( album, "Given album must not be null." );
     }
 
     /**

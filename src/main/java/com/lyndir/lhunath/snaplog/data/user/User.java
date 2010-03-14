@@ -13,13 +13,15 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.data;
+package com.lyndir.lhunath.snaplog.data.user;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.Serializable;
 
 import com.google.common.base.Objects;
+import com.lyndir.lhunath.snaplog.data.security.AbstractSecureObject;
+import com.lyndir.lhunath.snaplog.data.security.GlobalSecureObject;
 
 
 /**
@@ -36,7 +38,7 @@ import com.google.common.base.Objects;
  * 
  * @author lhunath
  */
-public class User implements Serializable {
+public class User extends AbstractSecureObject<GlobalSecureObject> implements Serializable {
 
     private LinkID linkID;
 
@@ -59,6 +61,15 @@ public class User implements Serializable {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public GlobalSecureObject getParent() {
+
+        return GlobalSecureObject.DEFAULT;
+    }
+
+    /**
      * @return The linkID of this {@link User}.
      */
     public LinkID getLinkID() {
@@ -72,7 +83,7 @@ public class User implements Serializable {
      */
     public void setLinkID(LinkID linkID) {
 
-        this.linkID = checkNotNull( linkID );
+        this.linkID = checkNotNull( linkID, "Given linkID must not be null." );
     }
 
     /**
@@ -89,7 +100,7 @@ public class User implements Serializable {
      */
     public void setUserName(String userName) {
 
-        this.userName = checkNotNull( userName );
+        this.userName = checkNotNull( userName, "Given userName must not be null." );
     }
 
     /**

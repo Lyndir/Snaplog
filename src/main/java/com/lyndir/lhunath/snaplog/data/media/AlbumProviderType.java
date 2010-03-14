@@ -13,10 +13,10 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.data;
+package com.lyndir.lhunath.snaplog.data.media;
 
-import com.lyndir.lhunath.snaplog.data.aws.S3Album;
-import com.lyndir.lhunath.snaplog.data.aws.S3Media;
+import com.lyndir.lhunath.snaplog.data.media.aws.S3Album;
+import com.lyndir.lhunath.snaplog.data.media.aws.S3Media;
 import com.lyndir.lhunath.snaplog.model.AWSMediaProviderService;
 import com.lyndir.lhunath.snaplog.model.AlbumProvider;
 

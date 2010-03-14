@@ -13,41 +13,29 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.data.aws;
-
-import com.lyndir.lhunath.snaplog.data.AlbumData;
-
+package com.lyndir.lhunath.snaplog.data.security;
 
 /**
- * <h2>{@link S3AlbumData}<br>
+ * <h2>{@link SecureObject}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
- * <i>Mar 10, 2010</i>
+ * <i>Mar 14, 2010</i>
  * </p>
  * 
+ * @param <P>
+ *            The type of the parent object.
  * @author lhunath
  */
-public class S3AlbumData extends AlbumData {
-
-    private S3Album album;
-
+public interface SecureObject<P extends SecureObject<?>> {
 
     /**
-     * @param album
-     *            The album we provide data for.
+     * @return The {@link SecureObject} that we inherit metadata from.
      */
-    public S3AlbumData(S3Album album) {
-
-        this.album = album;
-    }
+    P getParent();
 
     /**
-     * {@inheritDoc}
+     * @return The access control set governing the permissions users have over this object.
      */
-    @Override
-    public S3Album getAlbum() {
-
-        return album;
-    }
+    ACL getACL();
 }

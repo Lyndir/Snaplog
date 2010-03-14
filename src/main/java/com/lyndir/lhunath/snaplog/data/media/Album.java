@@ -13,13 +13,15 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.data;
+package com.lyndir.lhunath.snaplog.data.media;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.io.Serializable;
 
 import com.google.common.base.Objects;
+import com.lyndir.lhunath.snaplog.data.security.AbstractSecureObject;
+import com.lyndir.lhunath.snaplog.data.user.User;
 
 
 /**
@@ -36,7 +38,7 @@ import com.google.common.base.Objects;
  * 
  * @author lhunath
  */
-public abstract class Album implements Serializable {
+public abstract class Album extends AbstractSecureObject<User> implements Serializable {
 
     private User user;
     private String name;
@@ -56,11 +58,20 @@ public abstract class Album implements Serializable {
     }
 
     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public User getParent() {
+
+        return getUser();
+    }
+
+    /**
      * @return The user of this {@link Album}.
      */
     public User getUser() {
 
-        return checkNotNull( user );
+        return checkNotNull( user, "Given user must not be null." );
     }
 
     /**
@@ -69,7 +80,7 @@ public abstract class Album implements Serializable {
      */
     public void setUser(User user) {
 
-        this.user = checkNotNull( user );
+        this.user = checkNotNull( user, "Given user must not be null." );
     }
 
     /**
@@ -77,7 +88,7 @@ public abstract class Album implements Serializable {
      */
     public String getName() {
 
-        return checkNotNull( name );
+        return checkNotNull( name, "Name must not be null." );
     }
 
     /**
@@ -86,7 +97,7 @@ public abstract class Album implements Serializable {
      */
     public void setName(String name) {
 
-        this.name = checkNotNull( name );
+        this.name = checkNotNull( name, "Given album name must not be null." );
     }
 
     /**

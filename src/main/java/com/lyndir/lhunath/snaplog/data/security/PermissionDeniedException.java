@@ -1,5 +1,5 @@
 /*
- *   Copyright 2009, Maarten Billemont
+ *   Copyright 2010, Maarten Billemont
  *
  *   Licensed under the Apache License, Version 2.0 (the "License");
  *   you may not use this file except in compliance with the License.
@@ -13,42 +13,37 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.webapp.cookie;
-
-import com.lyndir.lhunath.snaplog.data.user.User;
-
+package com.lyndir.lhunath.snaplog.data.security;
 
 /**
- * <h2>{@link LastUserCookieManager}<br>
+ * <h2>{@link PermissionDeniedException}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
- * [description / usage].
- * </p>
- * 
- * <p>
- * <i>Dec 31, 2009</i>
+ * <i>Mar 14, 2010</i>
  * </p>
  * 
  * @author lhunath
  */
-public abstract class LastUserCookieManager {
+public class PermissionDeniedException extends Exception {
 
     /**
-     * @return The user that was previosly used by the browser or <code>null</code> if unknown.
+     * @param message
+     *            Explain what was denied permission for and why.
      */
-    public static User findLastUser() {
+    public PermissionDeniedException(String message) {
 
-        // TODO: Load the last user from the last-user cookie.
-
-        return null;
+        super( message );
     }
 
     /**
-     * Remember the current user as the one to return in subsequent calls to {@link #findLastUser}
+     * @param message
+     *            Explain what was denied permission for and why.
+     * @param cause
+     *            An optional exception that caused this one.
      */
-    public static void rememberCurrentUser() {
+    public PermissionDeniedException(String message, Throwable cause) {
 
-    // TODO: Write out the last-user cookie.
+        super( message, cause );
     }
 }

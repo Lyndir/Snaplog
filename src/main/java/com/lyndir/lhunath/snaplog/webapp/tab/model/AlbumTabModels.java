@@ -21,7 +21,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
 import com.lyndir.lhunath.lib.wayward.model.ModelProvider;
-import com.lyndir.lhunath.snaplog.data.Album;
+import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.webapp.tab.AlbumTabPanel;
 
 

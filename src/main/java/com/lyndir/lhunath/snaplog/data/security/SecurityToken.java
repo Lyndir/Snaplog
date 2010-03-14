@@ -13,23 +13,40 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.model;
+package com.lyndir.lhunath.snaplog.data.security;
 
-import com.lyndir.lhunath.snaplog.data.media.Media;
-import com.lyndir.lhunath.snaplog.data.media.aws.S3Album;
-import com.lyndir.lhunath.snaplog.data.media.aws.S3Media;
+import com.lyndir.lhunath.snaplog.data.user.User;
 
 
 /**
- * <h2>{@link AWSMediaProviderService}<br>
- * <sub>Service {@link Media} hosted at Amazon's S3.</sub></h2>
+ * <h2>{@link SecurityToken}<br>
+ * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
- * <i>Jan 10, 2010</i>
+ * <i>Mar 14, 2010</i>
  * </p>
  * 
  * @author lhunath
  */
-public interface AWSMediaProviderService extends MediaProviderService<S3Album, S3Media> {
+public class SecurityToken {
 
+    private User actor;
+
+
+    /**
+     * @param actor
+     *            The user that has requested or will gain access to the result of the operation.
+     */
+    public SecurityToken(User actor) {
+
+        this.actor = actor;
+    }
+
+    /**
+     * @return The user that has requested or will gain access to the result of the operation.
+     */
+    public User getActor() {
+
+        return actor;
+    }
 }

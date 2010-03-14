@@ -13,36 +13,31 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.data.aws;
-
-import com.lyndir.lhunath.snaplog.data.Album;
-import com.lyndir.lhunath.snaplog.data.User;
-
+package com.lyndir.lhunath.snaplog.data.security;
 
 /**
- * <h2>{@link S3Album}<br>
+ * <h2>{@link AbstractSecureObject}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
- * [description / usage].
+ * <i>Mar 14, 2010</i>
  * </p>
  * 
- * <p>
- * <i>Jan 10, 2010</i>
- * </p>
- * 
+ * @param <P>
+ *            The type of the parent object.
  * @author lhunath
  */
-public class S3Album extends Album {
+public abstract class AbstractSecureObject<P extends SecureObject<?>> implements SecureObject<P> {
+
+    private final ACL acl = new ACL();
+
 
     /**
-     * @param user
-     *            The user that owns this Album.
-     * @param name
-     *            A unique, user-visible name of this Album amongst the user's albums.
+     * {@inheritDoc}
      */
-    public S3Album(User user, String name) {
+    @Override
+    public ACL getACL() {
 
-        super( user, name );
+        return acl;
     }
 }

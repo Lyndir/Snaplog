@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.data;
+package com.lyndir.lhunath.snaplog.data.media;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -26,6 +26,7 @@ import org.joda.time.format.ISODateTimeFormat;
 
 import com.google.common.base.Objects;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.snaplog.data.security.AbstractSecureObject;
 import com.lyndir.lhunath.snaplog.model.WebUtil;
 
 
@@ -39,13 +40,14 @@ import com.lyndir.lhunath.snaplog.model.WebUtil;
  * 
  * @author lhunath
  */
-public abstract class Media implements Comparable<Media>, Serializable {
+public abstract class Media extends AbstractSecureObject<Album> implements Comparable<Media>, Serializable {
 
     static final Logger logger = Logger.get( Media.class );
 
     private static final DateTimeFormatter filenameFormat = ISODateTimeFormat.basicDateTimeNoMillis();
 
     private final String name;
+
     private static final Pattern EXTENSION = Pattern.compile( "\\.[^\\.]*$" );
     private static final Pattern HIDDEN = Pattern.compile( "^\\." );
     private static final Pattern POSTFIX = Pattern.compile( "_.*" );
@@ -58,7 +60,16 @@ public abstract class Media implements Comparable<Media>, Serializable {
      */
     protected Media(String name) {
 
-        this.name = checkNotNull( name );
+        this.name = checkNotNull( name, "Given media name must not be null." );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Album getParent() {
+
+        return getAlbum();
     }
 
     /**
@@ -211,7 +222,7 @@ public abstract class Media implements Comparable<Media>, Serializable {
 
         Quality(String name, int maxWidth, int maxHeight, float compression) {
 
-            this.name = checkNotNull( name );
+            this.name = checkNotNull( name, "Given quality name must not be null." );
             this.maxWidth = maxWidth;
             this.maxHeight = maxHeight;
             this.compression = compression;

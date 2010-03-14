@@ -15,8 +15,8 @@
  */
 package com.lyndir.lhunath.snaplog.util;
 
-import com.lyndir.lhunath.snaplog.data.Album;
-import com.lyndir.lhunath.snaplog.data.User;
+import com.lyndir.lhunath.snaplog.data.media.Album;
+import com.lyndir.lhunath.snaplog.data.user.User;
 
 
 /**

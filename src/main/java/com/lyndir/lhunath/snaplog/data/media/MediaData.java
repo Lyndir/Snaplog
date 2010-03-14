@@ -13,23 +13,22 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.model;
-
-import com.lyndir.lhunath.snaplog.data.media.Media;
-import com.lyndir.lhunath.snaplog.data.media.aws.S3Album;
-import com.lyndir.lhunath.snaplog.data.media.aws.S3Media;
-
+package com.lyndir.lhunath.snaplog.data.media;
 
 /**
- * <h2>{@link AWSMediaProviderService}<br>
- * <sub>Service {@link Media} hosted at Amazon's S3.</sub></h2>
+ * <h2>{@link MediaData}<br>
+ * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
- * <i>Jan 10, 2010</i>
+ * <i>Mar 6, 2010</i>
  * </p>
  * 
  * @author lhunath
  */
-public interface AWSMediaProviderService extends MediaProviderService<S3Album, S3Media> {
+public abstract class MediaData {
 
+    /**
+     * @return The media of this {@link MediaData}.
+     */
+    public abstract Media getMedia();
 }

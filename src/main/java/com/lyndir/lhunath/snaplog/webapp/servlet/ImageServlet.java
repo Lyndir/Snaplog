@@ -25,10 +25,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.inject.Inject;
-import com.lyndir.lhunath.snaplog.data.Album;
-import com.lyndir.lhunath.snaplog.data.Media;
-import com.lyndir.lhunath.snaplog.data.User;
-import com.lyndir.lhunath.snaplog.data.Media.Quality;
+import com.lyndir.lhunath.snaplog.data.media.Album;
+import com.lyndir.lhunath.snaplog.data.media.Media;
+import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
+import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.model.UserService;
 import com.lyndir.lhunath.snaplog.util.URLUtils;
@@ -86,8 +86,8 @@ public class ImageServlet extends HttpServlet {
      */
     public static String getContextRelativePathFor(Media media, Quality quality) {
 
-        checkNotNull( media );
-        checkNotNull( quality );
+        checkNotNull( media, "Given media must not be null." );
+        checkNotNull( quality, "Given quality must not be null." );
 
         Album album = media.getAlbum();
         User user = album.getUser();
