@@ -33,9 +33,13 @@ import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.data.media.MediaTimeFrame;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.media.MediaTimeFrame.Type;
+import com.lyndir.lhunath.snaplog.data.security.Permission;
+import com.lyndir.lhunath.snaplog.data.security.PermissionDeniedException;
+import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.model.AlbumProvider;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
+import com.lyndir.lhunath.snaplog.model.SecurityService;
 
 
 /**
@@ -52,25 +56,29 @@ public class AlbumServiceImpl implements AlbumService {
     private static final Logger logger = Logger.get( AlbumServiceImpl.class );
 
     ObjectContainer db;
+    SecurityService securityService;
 
 
     /**
      * @param db
      *            See {@link ServicesModule}.
+     * @param securityService
+     *            See {@link ServicesModule}.
      */
     @Inject
-    public AlbumServiceImpl(ObjectContainer db) {
+    public AlbumServiceImpl(ObjectContainer db, SecurityService securityService) {
 
         this.db = db;
+        this.securityService = securityService;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public Album findAlbumWithName(final User user, final String albumName) {
+    public Album findAlbumWithName(final SecurityToken token, final User ownerUser, final String albumName) {
 
-        checkNotNull( user, "Given user must not be null." );
+        checkNotNull( ownerUser, "Given ownerUser must not be null." );
         checkNotNull( albumName, "Given album name must not be null." );
 
         return db.query( new Predicate<Album>() {
@@ -78,7 +86,8 @@ public class AlbumServiceImpl implements AlbumService {
             @Override
             public boolean match(Album candidate) {
 
-                return candidate.getUser().equals( user ) && candidate.getName().equals( albumName );
+                return candidate.getOwnerUser().equals( ownerUser ) && candidate.getName().equals( albumName )
+                       && securityService.hasAccess( Permission.VIEW, token, candidate );
             }
         } ).next();
     }
@@ -87,7 +96,7 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     @Override
-    public Media findMediaWithName(final Album album, final String mediaName) {
+    public Media findMediaWithName(final SecurityToken token, final Album album, final String mediaName) {
 
         checkNotNull( album, "Given album must not be null." );
         checkNotNull( mediaName, "Given media name must not be null." );
@@ -97,7 +106,8 @@ public class AlbumServiceImpl implements AlbumService {
             @Override
             public boolean match(Media candidate) {
 
-                return candidate.getAlbum().equals( album ) && candidate.getName().endsWith( mediaName );
+                return candidate.getAlbum().equals( album ) && candidate.getName().endsWith( mediaName )
+                       && securityService.hasAccess( Permission.VIEW, token, candidate );
             }
         } );
         if (mediaQuery.hasNext())
@@ -111,7 +121,9 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     @Override
-    public List<MediaTimeFrame> getYears(Album album) {
+    public List<MediaTimeFrame> getYears(final SecurityToken token, Album album) {
+
+        // TODO: This method should return an Iterable and should not cache the results.
 
         checkNotNull( album, "Given album must not be null." );
 
@@ -124,7 +136,7 @@ public class AlbumServiceImpl implements AlbumService {
         MediaTimeFrame currentYear = null, currentMonth = null, currentDay = null;
         timeFrames = new LinkedList<MediaTimeFrame>();
 
-        for (Media mediaFile : getFiles( album )) {
+        for (Media mediaFile : getFiles( token, album )) {
             long shotTime = mediaFile.shotTime();
 
             if (currentYear == null || !currentYear.containsTime( shotTime ))
@@ -198,7 +210,11 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     @Override
-    public List<Media> getFiles(Album album) {
+    public List<Media> getFiles(final SecurityToken token, Album album) {
+
+        // TODO: This should return an Iterable and we should check the security conditions as each object is requested.
+        // Should probably do away with the cache since we shouldn't check security conditions in advance and cache the
+        // result of that.
 
         checkNotNull( album, "Given album must not be null." );
 
@@ -208,7 +224,7 @@ public class AlbumServiceImpl implements AlbumService {
             return files;
 
         // files == null
-        albumData.setFiles( files = getAlbumProvider( album ).getFiles( album ) );
+        albumData.setFiles( files = getAlbumProvider( album ).getFiles( token, album ) );
         db.store( albumData );
 
         return files;
@@ -218,23 +234,25 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     @Override
-    public URI getResourceURI(Media media, Quality quality) {
+    public URI getResourceURI(final SecurityToken token, Media media, Quality quality)
+            throws PermissionDeniedException {
 
         checkNotNull( media, "Given media must not be null." );
         checkNotNull( quality, "Given quality must not be null." );
 
-        return getAlbumProvider( media.getAlbum() ).getResourceURI( media, quality );
+        return getAlbumProvider( media.getAlbum() ).getResourceURI( token, media, quality );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public long modifiedTime(Media media) {
+    public long modifiedTime(final SecurityToken token, Media media)
+            throws PermissionDeniedException {
 
         checkNotNull( media, "Given media must not be null." );
 
-        return getAlbumProvider( media.getAlbum() ).modifiedTime( media );
+        return getAlbumProvider( media.getAlbum() ).modifiedTime( token, media );
     }
 
     /**

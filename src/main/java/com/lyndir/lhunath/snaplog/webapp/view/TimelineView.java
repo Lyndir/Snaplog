@@ -19,6 +19,7 @@ import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.MediaTimeFrame;
 import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
+import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 
 
 /**
@@ -57,7 +58,7 @@ public class TimelineView extends GenericPanel<Album> {
                 if (getModelObject() == null)
                     return null;
 
-                return albumService.getYears( getModelObject() );
+                return albumService.getYears( SnaplogSession.get().newToken(), getModelObject() );
             }
         } ) {
 

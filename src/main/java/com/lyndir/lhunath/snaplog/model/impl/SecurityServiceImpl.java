@@ -42,15 +42,37 @@ public class SecurityServiceImpl implements SecurityService {
      * {@inheritDoc}
      */
     @Override
+    public boolean hasAccess(Permission permission, SecurityToken token, SecureObject<?> o) {
+
+        try {
+            assertAccess( permission, token, o );
+            return true;
+        }
+
+        catch (PermissionDeniedException e) {
+            return false;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void assertAccess(Permission permission, SecurityToken token, SecureObject<?> o)
             throws PermissionDeniedException {
 
         if (o == null || permission == Permission.NONE)
+            // No permission required.
             return;
 
         if (token == null)
+            // Permission required but no token given.
             throw logger.wrn( "No security token in request on object %s.", o )
                         .toError( PermissionDeniedException.class );
+
+        if (token.isInternalUseOnly())
+            // Token is "Internal Use", grant everything.
+            return;
 
         Permission actorPermission = o.getACL().getUserPermission( token.getActor() );
         if (actorPermission == Permission.INHERIT) {

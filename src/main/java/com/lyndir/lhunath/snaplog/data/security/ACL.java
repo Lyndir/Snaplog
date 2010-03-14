@@ -105,12 +105,10 @@ public class ACL {
      * default permission of this ACL.
      * 
      * @param user
-     *            The user whose permission to look up.
+     *            The user whose permission to look up. <code>null</code> represents an anonymous user.
      * @return The permission granted to the given user by this access control.
      */
     public Permission getUserPermission(User user) {
-
-        checkNotNull( user, "Given user must not be null." );
 
         if (userPermissions.containsKey( user ))
             return checkNotNull( userPermissions.get( user ), "Permission for %s is unset.", user );

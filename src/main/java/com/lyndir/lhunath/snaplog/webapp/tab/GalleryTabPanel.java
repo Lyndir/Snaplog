@@ -97,7 +97,8 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                 item.add( new AjaxLink<Album>( "link", item.getModel() ) {
 
                     {
-                        List<Media> albumFiles = albumService.getFiles( getModelObject() );
+                        List<Media> albumFiles = albumService.getFiles( SnaplogSession.get().newToken(),
+                                                                        getModelObject() );
                         add( new MediaView( "cover", new Model<Media>( albumFiles.get( albumFiles.size() - 1 ) ),
                                 Quality.THUMBNAIL, false ) );
                         add( new Label( "title", getModelObject().getName() ) );

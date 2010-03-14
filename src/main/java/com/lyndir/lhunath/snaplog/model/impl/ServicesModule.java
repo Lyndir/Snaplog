@@ -28,6 +28,7 @@ import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.model.AWSMediaProviderService;
 import com.lyndir.lhunath.snaplog.model.AWSService;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
+import com.lyndir.lhunath.snaplog.model.SecurityService;
 import com.lyndir.lhunath.snaplog.model.UserService;
 import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
 import com.lyndir.lhunath.snaplog.webapp.AuthenticationListener;
@@ -65,6 +66,7 @@ public class ServicesModule extends AbstractModule {
         bind( AlbumService.class ).to( AlbumServiceImpl.class );
         bind( AWSMediaProviderService.class ).to( AWSMediaProviderServiceImpl.class );
         bind( AWSService.class ).to( AWSServiceImpl.class );
+        bind( SecurityService.class ).to( SecurityServiceImpl.class );
         bind( UserService.class ).to( UserServiceImpl.class );
 
         // Database

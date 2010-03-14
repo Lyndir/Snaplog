@@ -34,8 +34,25 @@ import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 public interface SecurityService {
 
     /**
-     * Assert that the given token grants permission to perform an operation on the given object that requires the given
-     * permission.
+     * @param permission
+     *            The permission required on the given object to proceed with the request.
+     * @param token
+     *            The token used to authenticate the available permissions on the given object.
+     * @param o
+     *            The object that is the target of the request.
+     * 
+     * @throws PermissionDeniedException
+     *             When permission is required and the object is not <code>null</code> while there is no security token
+     *             or the token doesn't grant the necessary permission on the object.
+     * 
+     * @see #hasAccess(Permission, SecurityToken, SecureObject)
+     */
+    public void assertAccess(Permission permission, SecurityToken token, SecureObject<?> o)
+            throws PermissionDeniedException;
+
+    /**
+     * Check whether the given token grants permission to perform an operation on the given object that requires the
+     * given permission.
      * 
      * @param permission
      *            The permission required on the given object to proceed with the request.
@@ -43,10 +60,7 @@ public interface SecurityService {
      *            The token used to authenticate the available permissions on the given object.
      * @param o
      *            The object that is the target of the request.
-     * @throws PermissionDeniedException
-     *             When permission is required and the object is not <code>null</code> while there is no security token
-     *             or the token doesn't grant the necessary permission on the object.
+     * @return <code>true</code>: The given token grants the given permission on the given object.
      */
-    public void assertAccess(Permission permission, SecurityToken token, SecureObject<?> o)
-            throws PermissionDeniedException;
+    public boolean hasAccess(Permission permission, SecurityToken token, SecureObject<?> o);
 }

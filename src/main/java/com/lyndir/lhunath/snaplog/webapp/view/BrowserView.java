@@ -21,6 +21,7 @@ import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
+import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 
 
 /**
@@ -131,7 +132,7 @@ public class BrowserView extends GenericPanel<Album> {
         @Override
         public List<Media> getObject() {
 
-            List<? extends Media> allFiles = albumService.getFiles( getModelObject() );
+            List<? extends Media> allFiles = albumService.getFiles( SnaplogSession.get().newToken(), getModelObject() );
             FixedDeque<Media> files = new FixedDeque<Media>( BROWSER_SIDE_IMAGES * 2 + 1 );
 
             Iterator<? extends Media> it = allFiles.iterator();

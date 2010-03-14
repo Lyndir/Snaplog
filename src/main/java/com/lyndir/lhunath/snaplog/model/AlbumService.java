@@ -21,6 +21,7 @@ import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.AlbumData;
 import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.data.media.MediaTimeFrame;
+import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.User;
 
 
@@ -43,18 +44,22 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
     /**
      * Look for an album owned by a user.
      * 
-     * @param user
+     * @param token
+     *            Request authentication token.
+     * @param ownerUser
      *            The user that owns the album with the given name.
      * @param albumName
      *            The name of the album the user owns.
      * 
      * @return An album, or <code>null</code> if the given user has no album with the given name.
      */
-    Album findAlbumWithName(User user, String albumName);
+    Album findAlbumWithName(SecurityToken token, User ownerUser, String albumName);
 
     /**
      * Look for media in the given album.
      * 
+     * @param token
+     *            Request authentication token.
      * @param album
      *            The album to look through.
      * @param mediaName
@@ -63,17 +68,19 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
      * @return The media by the given name in the given album or <code>null</code> if no media exists by the given name
      *         in the given album.
      */
-    Media findMediaWithName(Album album, String mediaName);
+    Media findMediaWithName(SecurityToken token, Album album, String mediaName);
 
     /**
      * Obtain a list of year-based time frames of the media in the given album.
      * 
+     * @param token
+     *            Request authentication token.
      * @param album
      *            The album to generate a list of time frames for.
      * 
      * @return A list of year-type time frames on the given album's media.
      */
-    List<MediaTimeFrame> getYears(Album album);
+    List<MediaTimeFrame> getYears(SecurityToken token, Album album);
 
     /**
      * {@inheritDoc}

@@ -53,8 +53,7 @@ public class UserAlbumsProvider implements IDataProvider<Album> {
     private ObjectSet<Album> getQuery() {
 
         if (query == null)
-            query = userService.queryAlbumsOfUserVisibleToUser( ownerModel.getObject(), //
-                                                                SnaplogSession.get().getActiveUser() );
+            query = userService.queryAlbumsOfUser( SnaplogSession.get().newToken(), ownerModel.getObject() );
 
         return query;
     }

@@ -26,6 +26,7 @@ import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.model.UserService;
+import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 
 
 /**
@@ -61,7 +62,7 @@ public class AccessView extends GenericPanel<Album> {
 
         add( new DataView<User>( "users", new IDataProvider<User>() {
 
-            private ObjectSet<User> query = userService.queryUsers();
+            private ObjectSet<User> query = userService.queryUsers( SnaplogSession.get().newToken() );
 
 
             @Override

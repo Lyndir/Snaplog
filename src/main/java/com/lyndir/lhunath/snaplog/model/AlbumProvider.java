@@ -9,6 +9,8 @@ import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.AlbumData;
 import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
+import com.lyndir.lhunath.snaplog.data.security.PermissionDeniedException;
+import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceInjector;
 
 
@@ -65,27 +67,29 @@ public class AlbumProvider<A extends Album, M extends Media> implements MediaPro
      * {@inheritDoc}
      */
     @Override
-    public List<M> getFiles(A album) {
+    public List<M> getFiles(SecurityToken token, A album) {
 
-        return getMediaProviderService().getFiles( album );
+        return getMediaProviderService().getFiles( token, album );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public URI getResourceURI(M media, Quality quality) {
+    public URI getResourceURI(SecurityToken token, M media, Quality quality)
+            throws PermissionDeniedException {
 
-        return getMediaProviderService().getResourceURI( media, quality );
+        return getMediaProviderService().getResourceURI( token, media, quality );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public long modifiedTime(M media) {
+    public long modifiedTime(SecurityToken token, M media)
+            throws PermissionDeniedException {
 
-        return getMediaProviderService().modifiedTime( media );
+        return getMediaProviderService().modifiedTime( token, media );
     }
 
     /**

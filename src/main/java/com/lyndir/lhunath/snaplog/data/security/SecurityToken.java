@@ -30,6 +30,19 @@ import com.lyndir.lhunath.snaplog.data.user.User;
  */
 public class SecurityToken {
 
+    /**
+     * Use this token <b>ONLY</b> for requests that the user can't gain anything from. The result must not be given or
+     * hinted at to the user.
+     */
+    public static final SecurityToken INTERNAL_USE_ONLY = new SecurityToken( null ) {
+
+        @Override
+        public boolean isInternalUseOnly() {
+
+            return true;
+        }
+    };
+
     private User actor;
 
 
@@ -48,5 +61,14 @@ public class SecurityToken {
     public User getActor() {
 
         return actor;
+    }
+
+    /**
+     * @return <code>true</code>: This token should allow operations regardless. It can only be <code>true</code> for
+     *         requests made using the {@link #INTERNAL_USE_ONLY} token.
+     */
+    public boolean isInternalUseOnly() {
+
+        return false;
     }
 }

@@ -17,6 +17,7 @@ package com.lyndir.lhunath.snaplog.model;
 
 import com.db4o.ObjectSet;
 import com.lyndir.lhunath.snaplog.data.media.Album;
+import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.LinkID;
 import com.lyndir.lhunath.snaplog.data.user.User;
 
@@ -58,30 +59,31 @@ public interface UserService {
     /**
      * Find the existing user registered with the given userName.
      * 
+     * @param token
+     *            Request authentication token.
      * @param userName
      *            The userName the user has registered with.
      * 
      * @return The user with the given userName or <code>null</code> if no such user exists yet.
      */
-    User findUserWithUserName(String userName);
+    User findUserWithUserName(SecurityToken token, String userName);
 
     /**
      * Query for all albums of a user that are visible to a certain user.
      * 
+     * @param token
+     *            Request authentication token.
      * @param ownerUser
      *            The {@link User} that owns the returned {@link Album}s.
-     * @param observerUser
-     *            The {@link User} that wants to see the list of {@link Album}s. If <code>null</code>, only publicly
-     *            accessible albums are returned.
      * 
      * @return An {@link ObjectSet} of albums owned by the given owner that are visible to the given observer.
      */
-    ObjectSet<Album> queryAlbumsOfUserVisibleToUser(User ownerUser, User observerUser);
+    ObjectSet<Album> queryAlbumsOfUser(SecurityToken token, User ownerUser);
 
     /**
-     * TODO: Limit to set of users current user has a relation with.
-     * 
+     * @param token
+     *            Request authentication token.
      * @return An {@link ObjectSet} of all known {@link User}s.
      */
-    ObjectSet<User> queryUsers();
+    ObjectSet<User> queryUsers(SecurityToken token);
 }

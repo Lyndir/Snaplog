@@ -48,8 +48,12 @@ import com.lyndir.lhunath.snaplog.data.media.aws.S3Album;
 import com.lyndir.lhunath.snaplog.data.media.aws.S3AlbumData;
 import com.lyndir.lhunath.snaplog.data.media.aws.S3Media;
 import com.lyndir.lhunath.snaplog.data.media.aws.S3MediaData;
+import com.lyndir.lhunath.snaplog.data.security.Permission;
+import com.lyndir.lhunath.snaplog.data.security.PermissionDeniedException;
+import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.model.AWSMediaProviderService;
 import com.lyndir.lhunath.snaplog.model.AWSService;
+import com.lyndir.lhunath.snaplog.model.SecurityService;
 import com.lyndir.lhunath.snaplog.util.ImageUtils;
 
 
@@ -70,6 +74,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
     private ObjectContainer db;
     private final AWSService awsService;
+    private final SecurityService securityService;
 
 
     /**
@@ -77,19 +82,22 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      *            See {@link ServicesModule}.
      * @param awsService
      *            See {@link ServicesModule}.
+     * @param securityService
+     *            See {@link ServicesModule}.
      */
     @Inject
-    public AWSMediaProviderServiceImpl(ObjectContainer db, AWSService awsService) {
+    public AWSMediaProviderServiceImpl(ObjectContainer db, AWSService awsService, SecurityService securityService) {
 
         this.db = db;
         this.awsService = awsService;
+        this.securityService = securityService;
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public List<S3Media> getFiles(S3Album album) {
+    public List<S3Media> getFiles(final SecurityToken token, S3Album album) {
 
         checkNotNull( album, "Given album must not be null." );
 
@@ -97,12 +105,13 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         for (S3Object albumObject : awsService.listObjects( getObjectKey( album, Quality.ORIGINAL ) )) {
 
             String mediaName = BASENAME.matcher( albumObject.getKey() ).replaceFirst( "" );
-            S3Media media = new S3Media( album, mediaName );
-            files.add( media );
-
-            S3MediaData mediaData = getMediaData( media );
+            S3MediaData mediaData = getMediaData( new S3Media( album, mediaName ) );
             mediaData.put( Quality.METADATA, albumObject );
             db.store( mediaData );
+
+            S3Media media = mediaData.getMedia();
+            if (securityService.hasAccess( Permission.VIEW, token, media ))
+                files.add( media );
         }
 
         return files;
@@ -131,10 +140,12 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * {@inheritDoc}
      */
     @Override
-    public URI getResourceURI(S3Media media, Quality quality) {
+    public URI getResourceURI(final SecurityToken token, S3Media media, Quality quality)
+            throws PermissionDeniedException {
 
         checkNotNull( media, "Given media must not be null." );
         checkNotNull( quality, "Given quality must not be null." );
+        securityService.assertAccess( Permission.VIEW, token, media );
 
         S3Object s3ResourceObject = findObjectDetails( media, quality );
         if (s3ResourceObject == null) {
@@ -194,9 +205,11 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * {@inheritDoc}
      */
     @Override
-    public long modifiedTime(S3Media media) {
+    public long modifiedTime(final SecurityToken token, S3Media media)
+            throws PermissionDeniedException {
 
         checkNotNull( media, "Given media must not be null." );
+        securityService.assertAccess( Permission.VIEW, token, media );
 
         return getObject( media ).getLastModifiedDate().getTime();
     }
@@ -213,7 +226,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      */
     protected String getObjectKey(S3Album album, Quality quality) {
 
-        return StringUtils.concat( "/", "users", album.getUser().getUserName(), album.getName(), quality.getName() );
+        return StringUtils.concat( "/", "users", album.getOwnerUser().getUserName(), album.getName(), quality.getName() );
     }
 
     /**

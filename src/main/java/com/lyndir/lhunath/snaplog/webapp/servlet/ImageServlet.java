@@ -28,10 +28,13 @@ import com.google.inject.Inject;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
+import com.lyndir.lhunath.snaplog.data.security.PermissionDeniedException;
+import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.model.UserService;
 import com.lyndir.lhunath.snaplog.util.URLUtils;
+import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 
 
 /**
@@ -90,7 +93,7 @@ public class ImageServlet extends HttpServlet {
         checkNotNull( quality, "Given quality must not be null." );
 
         Album album = media.getAlbum();
-        User user = album.getUser();
+        User user = album.getOwnerUser();
 
         StringBuilder path = new StringBuilder( PATH ).append( '?' );
         path.append( PARAM_USER ).append( '=' ).append( URLUtils.encode( user.getUserName() ) ).append( '&' );
@@ -108,16 +111,23 @@ public class ImageServlet extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        String userName = req.getParameter( PARAM_USER );
-        String albumName = req.getParameter( PARAM_ALBUM );
-        String mediaName = req.getParameter( PARAM_MEDIA );
-        String qualityName = req.getParameter( PARAM_QUALITY );
+        try {
+            String userName = req.getParameter( PARAM_USER );
+            String albumName = req.getParameter( PARAM_ALBUM );
+            String mediaName = req.getParameter( PARAM_MEDIA );
+            String qualityName = req.getParameter( PARAM_QUALITY );
+            SecurityToken token = SnaplogSession.get().newToken();
 
-        User user = userService.findUserWithUserName( userName );
-        Album album = albumService.findAlbumWithName( user, albumName );
-        Media media = albumService.findMediaWithName( album, mediaName );
+            User user = userService.findUserWithUserName( token, userName );
+            Album album = albumService.findAlbumWithName( token, user, albumName );
+            Media media = albumService.findMediaWithName( token, album, mediaName );
 
-        resp.sendRedirect( albumService.getResourceURI( media, Quality.findQualityWithName( qualityName ) )
-                                       .toASCIIString() );
+            resp.sendRedirect( albumService.getResourceURI( token, media, Quality.findQualityWithName( qualityName ) )
+                                           .toASCIIString() );
+        }
+
+        catch (PermissionDeniedException e) {
+            resp.sendError( HttpServletResponse.SC_FORBIDDEN, e.getLocalizedMessage() );
+        }
     }
 }

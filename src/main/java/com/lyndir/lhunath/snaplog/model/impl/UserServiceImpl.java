@@ -22,8 +22,11 @@ import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.snaplog.data.media.Album;
+import com.lyndir.lhunath.snaplog.data.security.Permission;
+import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.LinkID;
 import com.lyndir.lhunath.snaplog.data.user.User;
+import com.lyndir.lhunath.snaplog.model.SecurityService;
 import com.lyndir.lhunath.snaplog.model.UserService;
 
 
@@ -39,16 +42,20 @@ import com.lyndir.lhunath.snaplog.model.UserService;
 public class UserServiceImpl implements UserService {
 
     ObjectContainer db;
+    SecurityService securityService;
 
 
     /**
      * @param db
      *            See {@link ServicesModule}.
+     * @param securityService
+     *            See {@link ServicesModule}.
      */
     @Inject
-    public UserServiceImpl(ObjectContainer db) {
+    public UserServiceImpl(ObjectContainer db, SecurityService securityService) {
 
         this.db = db;
+        this.securityService = securityService;
     }
 
     /**
@@ -93,7 +100,7 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public User findUserWithUserName(final String userName) {
+    public User findUserWithUserName(final SecurityToken token, final String userName) {
 
         checkNotNull( userName, "Given userName must not be null." );
 
@@ -102,7 +109,8 @@ public class UserServiceImpl implements UserService {
             @Override
             public boolean match(User candidate) {
 
-                return candidate.getUserName().equals( userName );
+                return candidate.getUserName().equals( userName )
+                       && securityService.hasAccess( Permission.VIEW, token, candidate );
             }
         } );
         if (userQuery.hasNext())
@@ -116,7 +124,7 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public ObjectSet<Album> queryAlbumsOfUserVisibleToUser(final User ownerUser, User observerUser) {
+    public ObjectSet<Album> queryAlbumsOfUser(final SecurityToken token, final User ownerUser) {
 
         checkNotNull( ownerUser, "Given owner user must not be null." );
 
@@ -125,7 +133,8 @@ public class UserServiceImpl implements UserService {
             @Override
             public boolean match(Album candidate) {
 
-                return candidate.getUser().equals( ownerUser );
+                return candidate.getOwnerUser().equals( ownerUser )
+                       && securityService.hasAccess( Permission.VIEW, token, candidate );
             }
         } );
     }
@@ -134,8 +143,15 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public ObjectSet<User> queryUsers() {
+    public ObjectSet<User> queryUsers(final SecurityToken token) {
 
-        return db.query( User.class );
+        return db.query( new Predicate<User>() {
+
+            @Override
+            public boolean match(User candidate) {
+
+                return securityService.hasAccess( Permission.VIEW, token, candidate );
+            }
+        } );
     }
 }

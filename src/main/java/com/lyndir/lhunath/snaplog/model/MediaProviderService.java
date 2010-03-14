@@ -22,6 +22,8 @@ import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.AlbumData;
 import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
+import com.lyndir.lhunath.snaplog.data.security.PermissionDeniedException;
+import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 
 
 /**
@@ -43,34 +45,48 @@ public interface MediaProviderService<A extends Album, M extends Media> {
     /**
      * Enumerate all media in a certain album.
      * 
+     * @param token
+     *            Request authentication token.
      * @param album
      *            The album whose {@link Media} you want to enumerate.
      * 
      * @return All the {@link Media} from the given {@link Album}.
      */
-    List<M> getFiles(A album);
+    List<M> getFiles(SecurityToken token, A album);
 
     /**
      * Obtain a reference to the resource of media at a certain quality.
      * 
+     * @param token
+     *            Request authentication token.
      * @param media
      *            The {@link Media} whose resource you want to obtain a reference to.
      * @param quality
      *            The {@link Quality} of the {@link Media}'s resource you want to obtain a reference to.
      * 
      * @return A {@link URI} which references a resource.
+     * 
+     * @throws PermissionDeniedException
+     *             When the token does not grant permission to the media.
      */
-    URI getResourceURI(M media, Quality quality);
+    URI getResourceURI(SecurityToken token, M media, Quality quality)
+            throws PermissionDeniedException;
 
     /**
      * Obtain the timestamp at which the given media was created.
      * 
+     * @param token
+     *            Request authentication token.
      * @param media
      *            The media whose creation time you want to obtain.
      * 
      * @return A timestamp in milliseconds since the UNIX epoch.
+     * 
+     * @throws PermissionDeniedException
+     *             When the token does not grant permission to the media.
      */
-    long modifiedTime(M media);
+    long modifiedTime(SecurityToken token, M media)
+            throws PermissionDeniedException;
 
     /**
      * Create an {@link AlbumData} instance.

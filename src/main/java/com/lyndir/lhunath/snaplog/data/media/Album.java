@@ -40,20 +40,20 @@ import com.lyndir.lhunath.snaplog.data.user.User;
  */
 public abstract class Album extends AbstractSecureObject<User> implements Serializable {
 
-    private User user;
+    private User ownerUser;
     private String name;
     private String description;
 
 
     /**
-     * @param user
-     *            The user that owns this Album.
+     * @param ownerUser
+     *            The ownerUser that owns this Album.
      * @param name
-     *            A unique, user-visible name of this Album amongst the user's albums.
+     *            A unique, ownerUser-visible name of this Album amongst the ownerUser's albums.
      */
-    protected Album(User user, String name) {
+    protected Album(User ownerUser, String name) {
 
-        setUser( user );
+        setOwnerUser( ownerUser );
         setName( name );
     }
 
@@ -63,24 +63,24 @@ public abstract class Album extends AbstractSecureObject<User> implements Serial
     @Override
     public User getParent() {
 
-        return getUser();
+        return getOwnerUser();
     }
 
     /**
-     * @return The user of this {@link Album}.
+     * @return The ownerUser of this {@link Album}.
      */
-    public User getUser() {
+    public User getOwnerUser() {
 
-        return checkNotNull( user, "Given user must not be null." );
+        return checkNotNull( ownerUser, "Given ownerUser must not be null." );
     }
 
     /**
-     * @param user
-     *            The user of this {@link Album}.
+     * @param ownerUser
+     *            The ownerUser of this {@link Album}.
      */
-    public void setUser(User user) {
+    public void setOwnerUser(User ownerUser) {
 
-        this.user = checkNotNull( user, "Given user must not be null." );
+        this.ownerUser = checkNotNull( ownerUser, "Given ownerUser must not be null." );
     }
 
     /**
@@ -127,7 +127,7 @@ public abstract class Album extends AbstractSecureObject<User> implements Serial
             return true;
 
         if (o instanceof Album)
-            return Objects.equal( ((Album) o).getUser(), getUser() )
+            return Objects.equal( ((Album) o).getOwnerUser(), getOwnerUser() )
                    && Objects.equal( ((Album) o).getName(), getName() );
 
         return false;
@@ -139,6 +139,6 @@ public abstract class Album extends AbstractSecureObject<User> implements Serial
     @Override
     public int hashCode() {
 
-        return Objects.hashCode( getUser(), getName() );
+        return Objects.hashCode( getOwnerUser(), getName() );
     }
 }
