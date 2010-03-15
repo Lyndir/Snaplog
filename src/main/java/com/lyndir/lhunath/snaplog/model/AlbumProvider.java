@@ -11,7 +11,7 @@ import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.security.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
-import com.lyndir.lhunath.snaplog.webapp.listener.GuiceInjector;
+import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 
 
 /**
@@ -60,7 +60,7 @@ public class AlbumProvider<A extends Album, M extends Media> implements MediaPro
      */
     public MediaProviderService<A, M> getMediaProviderService() {
 
-        return GuiceInjector.get().getInstance( mediaProviderServiceType );
+        return GuiceContext.get().getInstance( mediaProviderServiceType );
     }
 
     /**

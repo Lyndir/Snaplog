@@ -1,3 +1,6 @@
+# Database
+/snaplog.db4o
+
 # Compiled objects.
 /target
 
@@ -9,6 +12,7 @@
 /.classpath
 /.project
 /.settings
+/.refactorings
 
 # IntelliJ IDEA IDE
 /.idea

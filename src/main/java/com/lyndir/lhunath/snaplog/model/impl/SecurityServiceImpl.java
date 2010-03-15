@@ -58,17 +58,16 @@ public class SecurityServiceImpl implements SecurityService {
      * {@inheritDoc}
      */
     @Override
-    public void assertAccess(Permission permission, SecurityToken token, SecureObject<?> o)
+    public void assertAccess(Permission requestPermission, SecurityToken token, SecureObject<?> o)
             throws PermissionDeniedException {
 
-        if (o == null || permission == Permission.NONE)
+        if (o == null || requestPermission == Permission.NONE)
             // No permission required.
             return;
 
         if (token == null)
             // Permission required but no token given.
-            throw logger.wrn( "No security token in request on object %s.", o )
-                        .toError( PermissionDeniedException.class );
+            throw new PermissionDeniedException( String.format( "No security token in request on object %s.", o ) );
 
         if (token.isInternalUseOnly())
             // Token is "Internal Use", grant everything.
@@ -77,12 +76,13 @@ public class SecurityServiceImpl implements SecurityService {
         Permission actorPermission = o.getACL().getUserPermission( token.getActor() );
         if (actorPermission == Permission.INHERIT) {
             if (o.getParent() != null)
-                assertAccess( permission, token, o.getParent() );
+                assertAccess( requestPermission, token, o.getParent() );
             return;
         }
 
-        if (permission != actorPermission)
-            throw logger.wrn( "Security Token %s grants permissions %s but request required %s on object %s", token, o )
-                        .toError( PermissionDeniedException.class );
+        if (requestPermission != actorPermission)
+            throw new PermissionDeniedException(
+                    String.format( "Security Token %s grants permissions %s but request required %s on object %s",
+                                   token, actorPermission, requestPermission, o ) );
     }
 }

@@ -33,6 +33,7 @@ import org.apache.wicket.protocol.http.WebRequestCycle;
 import org.apache.wicket.protocol.http.WebResponse;
 import org.apache.wicket.settings.IExceptionSettings;
 
+import com.google.inject.Injector;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.linkid.SnaplogWebappConfig;
 import com.lyndir.lhunath.snaplog.webapp.error.AccessDeniedErrorPage;
@@ -40,7 +41,7 @@ import com.lyndir.lhunath.snaplog.webapp.error.InternalErrorPage;
 import com.lyndir.lhunath.snaplog.webapp.error.Issue;
 import com.lyndir.lhunath.snaplog.webapp.error.PageExpiredErrorPage;
 import com.lyndir.lhunath.snaplog.webapp.filter.OpenCloseTagExpander;
-import com.lyndir.lhunath.snaplog.webapp.listener.GuiceInjector;
+import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 
 
@@ -101,8 +102,9 @@ public class SnaplogWebApplication extends WebApplication {
         } );
         getMarkupSettings().setDefaultMarkupEncoding( "UTF-8" );
 
-        addComponentInstantiationListener( new InjectionFlagCachingGuiceComponentInjector( this, GuiceInjector.get() ) );
-        addPreComponentOnBeforeRenderListener( GuiceInjector.get().getInstance( AuthenticationListener.class ) );
+        Injector injector = GuiceContext.get( getServletContext() );
+        addComponentInstantiationListener( new InjectionFlagCachingGuiceComponentInjector( this, injector ) );
+        addPreComponentOnBeforeRenderListener( injector.getInstance( AuthenticationListener.class ) );
     }
 
     /**

@@ -15,17 +15,24 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.listener;
 
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
+
 import net.link.safeonline.sdk.auth.servlet.LoginServlet;
 import net.link.safeonline.sdk.auth.servlet.LogoutServlet;
 
+import org.apache.wicket.Application;
+import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WicketFilter;
 
+import com.db4o.ObjectContainer;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.google.inject.Scopes;
 import com.google.inject.Stage;
+import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
 import com.lyndir.lhunath.snaplog.model.impl.ServicesModule;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogWebApplication;
@@ -34,12 +41,8 @@ import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
 
 
 /**
- * <h2>{@link GuiceInjector}<br>
+ * <h2>{@link GuiceContext}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
- * <p>
- * [description / usage].
- * </p>
  * 
  * <p>
  * <i>Jan 11, 2010</i>
@@ -47,24 +50,20 @@ import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
  * 
  * @author lhunath
  */
-public class GuiceInjector {
+public class GuiceContext extends GuiceServletContextListener {
 
     private static final String PATH_WICKET = "/*";
     private static final String PATH_LINKID_LOGIN = "/login";
     private static final String PATH_LINKID_LOGOUT = "/logout";
 
-    private static Injector injector;
-
 
     /**
-     * @return A singleton instance of the Guice {@link Injector} for this application.
+     * {@inheritDoc}
      */
-    public static Injector get() {
+    @Override
+    protected Injector getInjector() {
 
-        if (injector != null)
-            return injector;
-
-        return injector = Guice.createInjector( Stage.DEVELOPMENT, new ServicesModule(), new ServletModule() {
+        return Guice.createInjector( Stage.DEVELOPMENT, new ServicesModule(), new ServletModule() {
 
             @Override
             protected void configureServlets() {
@@ -102,5 +101,40 @@ public class GuiceInjector {
                 bind( LogoutServlet.class ).in( Scopes.SINGLETON );
             }
         } );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void contextDestroyed(ServletContextEvent servletContextEvent) {
+
+        Injector injector = get( servletContextEvent.getServletContext() );
+
+        // Shut down the database.
+        ObjectContainer db = injector.getInstance( ObjectContainer.class );
+        while (!db.close()) {}
+
+        super.contextDestroyed( servletContextEvent );
+    }
+
+    /**
+     * @param servletContext
+     *            The request's servlet context.
+     * @return The Guice {@link Injector} that was added to the given {@link ServletContext} on initialization.
+     */
+    public static Injector get(ServletContext servletContext) {
+
+        return (Injector) servletContext.getAttribute( Injector.class.getName() );
+    }
+
+    /**
+     * @return The Guice {@link Injector} that was created for the {@link WebApplication} this thread is working with.
+     * 
+     * @see Application#get()
+     */
+    public static Injector get() {
+
+        return get( WebApplication.get().getServletContext() );
     }
 }

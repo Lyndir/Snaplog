@@ -17,7 +17,7 @@ package com.lyndir.lhunath.snaplog.data.security;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
-import com.lyndir.lhunath.snaplog.webapp.listener.GuiceInjector;
+import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 
 
 /**
@@ -38,7 +38,7 @@ public class GlobalSecureObject extends AbstractSecureObject<SecureObject<?>> {
     public static final GlobalSecureObject DEFAULT;
 
     static {
-        ObjectContainer db = GuiceInjector.get().getInstance( ObjectContainer.class );
+        ObjectContainer db = GuiceContext.get().getInstance( ObjectContainer.class );
         ObjectSet<GlobalSecureObject> firstQuery = db.query( GlobalSecureObject.class );
 
         if (firstQuery.hasNext())
@@ -47,7 +47,7 @@ public class GlobalSecureObject extends AbstractSecureObject<SecureObject<?>> {
         else
             DEFAULT = new GlobalSecureObject();
 
-        DEFAULT.getACL().setUserPermission( null, Permission.NONE );
+        DEFAULT.getACL().setDefaultPermission( Permission.NONE );
         db.store( DEFAULT );
     }
 

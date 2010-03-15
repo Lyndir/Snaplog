@@ -149,6 +149,10 @@
                             <value>http://localhost:8080</value>
                         </systemProperty>
                         <systemProperty>
+                            <name>snaplog.path</name>
+                            <value>/</value>
+                        </systemProperty>
+                        <systemProperty>
                             <name>linkid.url</name>
                             <value>https://demo.linkid.be</value>
                         </systemProperty>

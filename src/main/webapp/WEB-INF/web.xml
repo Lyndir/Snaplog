@@ -72,7 +72,7 @@
 
     <!-- Application Event Listeners -->
     <listener>
-        <listener-class>com.lyndir.lhunath.snaplog.webapp.listener.GuiceListener</listener-class>
+        <listener-class>com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext</listener-class>
     </listener>
 
 </web-app>
