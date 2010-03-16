@@ -16,7 +16,7 @@
 package com.lyndir.lhunath.snaplog.model;
 
 import java.net.URI;
-import java.util.List;
+import java.util.Iterator;
 
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.AlbumData;
@@ -43,7 +43,7 @@ import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 public interface MediaProviderService<A extends Album, M extends Media> {
 
     /**
-     * Enumerate all media in a certain album.
+     * Iterate all accessible media in a certain album.
      * 
      * @param token
      *            Request authentication token.
@@ -52,7 +52,7 @@ public interface MediaProviderService<A extends Album, M extends Media> {
      * 
      * @return All the {@link Media} from the given {@link Album}.
      */
-    List<M> getFiles(SecurityToken token, A album);
+    Iterator<M> iterateFiles(SecurityToken token, A album);
 
     /**
      * Obtain a reference to the resource of media at a certain quality.

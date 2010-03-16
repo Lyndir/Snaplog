@@ -13,6 +13,7 @@ import org.apache.wicket.model.LoadableDetachableModel;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
+import com.google.inject.internal.Lists;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.snaplog.data.media.Album;
@@ -32,6 +33,7 @@ import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
  * 
  * @author lhunath
  */
+// TODO: -View's need their models extracted in -Models
 public class TimelineView extends GenericPanel<Album> {
 
     final Messages msgs = LocalizerFactory.getLocalizer( Messages.class, this );
@@ -50,6 +52,7 @@ public class TimelineView extends GenericPanel<Album> {
 
         super( id, albumModel );
 
+        // TODO: Should be smarter about iterating the timeFrames?
         add( new ListView<MediaTimeFrame>( "years", new LoadableDetachableModel<List<MediaTimeFrame>>() {
 
             @Override
@@ -58,7 +61,7 @@ public class TimelineView extends GenericPanel<Album> {
                 if (getModelObject() == null)
                     return null;
 
-                return albumService.getYears( SnaplogSession.get().newToken(), getModelObject() );
+                return Lists.newArrayList( albumService.iterateYears( SnaplogSession.get().newToken(), getModelObject() ) );
             }
         } ) {
 

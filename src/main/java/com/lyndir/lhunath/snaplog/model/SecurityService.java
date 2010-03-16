@@ -15,6 +15,11 @@
  */
 package com.lyndir.lhunath.snaplog.model;
 
+import java.util.Iterator;
+
+import com.lyndir.lhunath.snaplog.data.media.AlbumData;
+import com.lyndir.lhunath.snaplog.data.media.Media;
+import com.lyndir.lhunath.snaplog.data.media.MediaTimeFrame;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
 import com.lyndir.lhunath.snaplog.data.security.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.data.security.SecureObject;
@@ -63,4 +68,22 @@ public interface SecurityService {
      * @return <code>true</code>: The given token grants the given permission on the given object.
      */
     public boolean hasAccess(Permission permission, SecurityToken token, SecureObject<?> o);
+
+    /**
+     * @param token
+     *            The token used to authenticate the available permissions on the requested objects.
+     * @param albumData
+     *            The data to retrieve files from.
+     * @return All files from the given albumData that the given token authorizes access to.
+     */
+    public Iterator<Media> iterateFilesFor(SecurityToken token, AlbumData albumData);
+
+    /**
+     * @param token
+     *            The token used to authenticate the available permissions on the requested objects.
+     * @param albumData
+     *            The data to retrieve timeFrames from.
+     * @return All timeFrames from the given albumData that the given token authorizes access to.
+     */
+    public Iterator<MediaTimeFrame> iterateTimeFramesFor(SecurityToken token, AlbumData albumData);
 }

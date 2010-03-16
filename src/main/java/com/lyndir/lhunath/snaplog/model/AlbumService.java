@@ -15,7 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.model;
 
-import java.util.List;
+import java.util.Iterator;
 
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.AlbumData;
@@ -71,7 +71,7 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
     Media findMediaWithName(SecurityToken token, Album album, String mediaName);
 
     /**
-     * Obtain a list of year-based time frames of the media in the given album.
+     * Iterate year-based time frames of the media in the given album.
      * 
      * @param token
      *            Request authentication token.
@@ -80,7 +80,7 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
      * 
      * @return A list of year-type time frames on the given album's media.
      */
-    List<MediaTimeFrame> getYears(SecurityToken token, Album album);
+    Iterator<MediaTimeFrame> iterateYears(SecurityToken token, Album album);
 
     /**
      * {@inheritDoc}

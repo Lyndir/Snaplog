@@ -2,9 +2,9 @@ package com.lyndir.lhunath.snaplog.webapp.page;
 
 import static com.google.common.base.Preconditions.checkState;
 import net.link.safeonline.wicket.component.linkid.LinkIDLoginLink;
-import net.link.safeonline.wicket.component.linkid.LinkIDLogoutLink;
 
 import org.apache.wicket.Page;
+import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.behavior.StringHeaderContributor;
 import org.apache.wicket.markup.ComponentTag;
@@ -12,6 +12,7 @@ import org.apache.wicket.markup.MarkupStream;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -125,7 +126,14 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
             // TODO: do something.
             }
         } );
-        userSummary.add( new LinkIDLogoutLink( "userLogout" ) );
+        userSummary.add( new Link<Object>( "userLogout" ) {
+
+            @Override
+            public void onClick() {
+
+                Session.get().invalidate();
+            }
+        } );
 
         // Page Tab.
         tabsContainer = new WebMarkupContainer( "tabsContainer" );

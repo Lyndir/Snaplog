@@ -133,15 +133,6 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
      * {@inheritDoc}
      */
     @Override
-    public String toString() {
-
-        return getDateString();
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
     public int compareTo(Media o) {
 
         if (shotTime() > o.shotTime())
@@ -174,6 +165,15 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
     public int hashCode() {
 
         return Objects.hashCode( getName(), getAlbum() );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+
+        return String.format( "{media: name=%s}", name );
     }
 
 

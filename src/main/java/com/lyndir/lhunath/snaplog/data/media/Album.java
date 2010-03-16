@@ -141,4 +141,13 @@ public abstract class Album extends AbstractSecureObject<User> implements Serial
 
         return Objects.hashCode( getOwnerUser(), getName() );
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+
+        return String.format( "{album: name=%s, owner=%s}", name, ownerUser );
+    }
 }

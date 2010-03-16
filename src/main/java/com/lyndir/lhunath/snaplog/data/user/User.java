@@ -22,6 +22,7 @@ import java.io.Serializable;
 import com.google.common.base.Objects;
 import com.lyndir.lhunath.snaplog.data.security.AbstractSecureObject;
 import com.lyndir.lhunath.snaplog.data.security.GlobalSecureObject;
+import com.lyndir.lhunath.snaplog.data.security.Permission;
 
 
 /**
@@ -58,6 +59,9 @@ public class User extends AbstractSecureObject<GlobalSecureObject> implements Se
 
         setLinkID( linkID );
         setUserName( userName );
+
+        // User automatically gets CONTRIBUTE permissions on himself.
+        getACL().setUserPermission( this, Permission.CONTRIBUTE );
     }
 
     /**

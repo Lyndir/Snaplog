@@ -16,10 +16,9 @@
 package com.lyndir.lhunath.snaplog.data.media;
 
 import java.io.Serializable;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
+import java.util.Set;
 
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.Interval;
@@ -29,6 +28,7 @@ import org.joda.time.Partial;
 import org.joda.time.format.DateTimeFormat;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.ImmutableSet;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 
 
@@ -96,16 +96,16 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
      * 
      * @return An unmodifiable list of {@link Media}s.
      */
-    public List<Media> getFiles(boolean recurse) {
+    public Set<Media> getFiles(boolean recurse) {
 
-        List<Media> list = files;
-        if (recurse) {
-            list = new LinkedList<Media>( files );
-            for (MediaTimeFrame childFrame : this)
-                list.addAll( childFrame.getFiles( true ) );
-        }
+        if (!recurse)
+            return ImmutableSet.copyOf( files );
 
-        return Collections.unmodifiableList( list );
+        ImmutableSet.Builder<Media> fileSetBuilder = new ImmutableSet.Builder<Media>();
+        for (MediaTimeFrame childFrame : this)
+            fileSetBuilder.addAll( childFrame.getFiles( true ) );
+
+        return fileSetBuilder.build();
     }
 
     /**
@@ -182,7 +182,7 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
     @Override
     public String toString() {
 
-        return getShortName();
+        return String.format( "{mediaTimeFrame: name=%s, files=%d}", getShortName(), files.size() );
     }
 
     /**

@@ -15,7 +15,14 @@
  */
 package com.lyndir.lhunath.snaplog.model.impl;
 
+import java.util.Iterator;
+
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterators;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.snaplog.data.media.AlbumData;
+import com.lyndir.lhunath.snaplog.data.media.Media;
+import com.lyndir.lhunath.snaplog.data.media.MediaTimeFrame;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
 import com.lyndir.lhunath.snaplog.data.security.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.data.security.SecureObject;
@@ -61,28 +68,100 @@ public class SecurityServiceImpl implements SecurityService {
     public void assertAccess(Permission requestPermission, SecurityToken token, SecureObject<?> o)
             throws PermissionDeniedException {
 
-        if (o == null || requestPermission == Permission.NONE)
+        if (o == null || requestPermission == Permission.NONE) {
             // No permission required.
-            return;
-
-        if (token == null)
-            // Permission required but no token given.
-            throw new PermissionDeniedException( String.format( "No security token in request on object %s.", o ) );
-
-        if (token.isInternalUseOnly())
-            // Token is "Internal Use", grant everything.
-            return;
-
-        Permission actorPermission = o.getACL().getUserPermission( token.getActor() );
-        if (actorPermission == Permission.INHERIT) {
-            if (o.getParent() != null)
-                assertAccess( requestPermission, token, o.getParent() );
+            logger.dbg( "Permisson Granted: No permission necessary for: %s@%s", //
+                        requestPermission, o );
             return;
         }
 
-        if (requestPermission != actorPermission)
+        if (token == null) {
+            // Permission required but no token given.
+            logger.dbg( "Permission Denied: Missing security token for: %s@%s", //
+                        requestPermission, o );
+            throw new PermissionDeniedException( String.format( "No security token in request for %s@%s.", //
+                                                                requestPermission, o ) );
+        }
+
+        if (token.isInternalUseOnly()) {
+            // Token is "Internal Use", grant everything.
+            logger.dbg( "Permisson Granted: INTERNAL_USE token for: %s@%s", //
+                        requestPermission, o );
+            return;
+        }
+
+        Permission tokenPermission = o.getACL().getUserPermission( token.getActor() );
+        if (tokenPermission == Permission.INHERIT) {
+            if (o.getParent() == null) {
+                logger.dbg( "Permission Denied: Can't inherit permissions, no parent set for: %s@%s", //
+                            requestPermission, o );
+                throw new PermissionDeniedException(
+                        String.format( "Had to inherit permission for %s@%s but no parent set.", //
+                                       requestPermission, o ) );
+            }
+
+            logger.dbg( "Inheriting permission for: %s@%s", //
+                        requestPermission, o );
+            assertAccess( requestPermission, token, o.getParent() );
+            return;
+        }
+
+        if (!isPermissionProvided( tokenPermission, requestPermission )) {
+            logger.dbg( "Permission Denied: Token authorizes %s, insufficient for: %s@%s", //
+                        tokenPermission, requestPermission, o );
             throw new PermissionDeniedException(
-                    String.format( "Security Token %s grants permissions %s but request required %s on object %s",
-                                   token, actorPermission, requestPermission, o ) );
+                    String.format( "Security Token %s grants permissions %s but request required %s on object %s", //
+                                   token, tokenPermission, requestPermission, o ) );
+        }
+
+        logger.dbg( "Permission Granted: Token authorization %s matches for: %s@%s", //
+                    tokenPermission, requestPermission, o );
+    }
+
+    private boolean isPermissionProvided(Permission givenPermission, Permission requestedPermission) {
+
+        if (givenPermission == requestedPermission)
+            return true;
+        if (givenPermission == null || requestedPermission == null)
+            return false;
+
+        for (Permission inheritedGivenPermission : givenPermission.getProvided())
+            if (isPermissionProvided( inheritedGivenPermission, requestedPermission ))
+                return true;
+
+        return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Iterator<Media> iterateFilesFor(final SecurityToken token, AlbumData albumData) {
+
+        return Iterators.filter( albumData.getInternalFiles( this ).iterator(), new Predicate<Media>() {
+
+            @Override
+            public boolean apply(Media input) {
+
+                return hasAccess( Permission.VIEW, token, input );
+            }
+        } );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Iterator<MediaTimeFrame> iterateTimeFramesFor(final SecurityToken token, AlbumData albumData) {
+
+        return Iterators.filter( albumData.getInternalTimeFrames( this ).iterator(), new Predicate<MediaTimeFrame>() {
+
+            @Override
+            public boolean apply(MediaTimeFrame input) {
+
+                // TODO: Implement security on MediaTimeFrames.
+                return true;// hasAccess( Permission.VIEW, token, input );
+            }
+        } );
     }
 }

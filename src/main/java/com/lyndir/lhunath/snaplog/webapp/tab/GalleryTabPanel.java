@@ -15,8 +15,6 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
-import java.util.List;
-
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
@@ -30,7 +28,6 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
@@ -38,7 +35,6 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.AlbumProviderType;
-import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.messages.Messages;
@@ -48,6 +44,7 @@ import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.page.util.LayoutPageUtils;
 import com.lyndir.lhunath.snaplog.webapp.provider.UserAlbumsProvider;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels;
+import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels.AlbumItemModels;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels.NewAlbumFormModels;
 import com.lyndir.lhunath.snaplog.webapp.view.MediaView;
 
@@ -94,23 +91,23 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
             @Override
             protected void populateItem(Item<Album> item) {
 
-                item.add( new AjaxLink<Album>( "link", item.getModel() ) {
+                // TODO: The DataView should become a top-level class, use AlbumItemModels as model and the
+                // UserAlbumsProvider should be an inner class of it.
+                item.add( new AjaxLink<AlbumItemModels>( "link", getModelObject().albumItem( item, item.getModel() )
+                                                                                 .getModel() ) {
 
                     {
-                        List<Media> albumFiles = albumService.getFiles( SnaplogSession.get().newToken(),
-                                                                        getModelObject() );
-                        add( new MediaView( "cover", new Model<Media>( albumFiles.get( albumFiles.size() - 1 ) ),
-                                Quality.THUMBNAIL, false ) );
-                        add( new Label( "title", getModelObject().getName() ) );
+                        add( new MediaView( "cover", getModelObject().cover(), Quality.THUMBNAIL, false ) );
+                        add( new Label( "title", getModelObject().title() ) );
                         // TODO: Fix HTML injection.
-                        add( new Label( "description", getModelObject().getDescription() ).setEscapeModelStrings( false ) );
+                        add( new Label( "description", getModelObject().description() ).setEscapeModelStrings( false ) );
                     }
 
 
                     @Override
                     public void onClick(AjaxRequestTarget target) {
 
-                        SnaplogSession.get().setFocussedAlbum( getModelObject() );
+                        SnaplogSession.get().setFocussedAlbum( getModelObject().getObject() );
                         LayoutPageUtils.setActiveTab( Tab.ALBUM, target );
                     }
                 } );

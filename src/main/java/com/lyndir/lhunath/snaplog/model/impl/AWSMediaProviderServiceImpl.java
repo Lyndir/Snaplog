@@ -23,6 +23,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URI;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
@@ -97,7 +98,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * {@inheritDoc}
      */
     @Override
-    public List<S3Media> getFiles(final SecurityToken token, S3Album album) {
+    public Iterator<S3Media> iterateFiles(final SecurityToken token, S3Album album) {
 
         checkNotNull( album, "Given album must not be null." );
 
@@ -114,7 +115,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
                 files.add( media );
         }
 
-        return files;
+        return files.iterator();
     }
 
     private S3MediaData getMediaData(final S3Media media) {

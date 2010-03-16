@@ -34,6 +34,7 @@ public class SecurityToken {
      * Use this token <b>ONLY</b> for requests that the user can't gain anything from. The result must not be given or
      * hinted at to the user.
      */
+    // TODO: Should this be moved into SecurityServiceImpl and made private?
     public static final SecurityToken INTERNAL_USE_ONLY = new SecurityToken( null ) {
 
         @Override
@@ -70,5 +71,14 @@ public class SecurityToken {
     public boolean isInternalUseOnly() {
 
         return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+
+        return String.format( "{token: internal=%s, actor=%s}", isInternalUseOnly(), actor );
     }
 }

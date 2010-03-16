@@ -8,8 +8,8 @@ import java.util.List;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 
 import com.google.inject.Inject;
@@ -120,7 +120,7 @@ public class BrowserView extends GenericPanel<Album> {
      * 
      * @author lhunath
      */
-    private final class BrowserFilesModel extends AbstractReadOnlyModel<List<Media>> {
+    private final class BrowserFilesModel extends LoadableDetachableModel<List<Media>> {
 
         /**
          * Create a new {@link BrowserFilesModel} instance.
@@ -129,15 +129,17 @@ public class BrowserView extends GenericPanel<Album> {
 
         }
 
+        /**
+         * {@inheritDoc}
+         */
         @Override
-        public List<Media> getObject() {
+        protected List<Media> load() {
 
-            List<? extends Media> allFiles = albumService.getFiles( SnaplogSession.get().newToken(), getModelObject() );
-            FixedDeque<Media> files = new FixedDeque<Media>( BROWSER_SIDE_IMAGES * 2 + 1 );
-
-            Iterator<? extends Media> it = allFiles.iterator();
+            Iterator<Media> it = albumService.iterateFiles( SnaplogSession.get().newToken(), getModelObject() );
             if (!it.hasNext())
                 return new LinkedList<Media>();
+
+            FixedDeque<Media> files = new FixedDeque<Media>( BROWSER_SIDE_IMAGES * 2 + 1 );
 
             // Find the current file.
             boolean addedNextFile = false;

@@ -20,6 +20,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.snaplog.data.user.LinkID;
 import com.lyndir.lhunath.snaplog.data.user.User;
 
 
@@ -34,6 +36,12 @@ import com.lyndir.lhunath.snaplog.data.user.User;
  * @author lhunath
  */
 public class ACL {
+
+    static final Logger logger = Logger.get( ACL.class );
+
+    // Workaround for <http://tracker.db4o.com/browse/COR-1894>.
+    // TODO: Use null key instead.
+    private static User DEFAULT = new User( new LinkID( ACL.class.getCanonicalName() ), "[DEFAULT]" );
 
     private Map<User, Permission> userPermissions;
 
@@ -67,7 +75,7 @@ public class ACL {
 
         checkNotNull( permission, "Given permission must not be null." );
 
-        userPermissions.put( null, permission );
+        userPermissions.put( DEFAULT, permission );
     }
 
     /**
@@ -110,9 +118,18 @@ public class ACL {
      */
     public Permission getUserPermission(User user) {
 
-        if (userPermissions.containsKey( user ))
-            return checkNotNull( userPermissions.get( user ), "Permission for %s is unset.", user );
+        if (!userPermissions.containsKey( user ))
+            return checkNotNull( userPermissions.get( DEFAULT ), "Default permission is unset." );
 
-        return userPermissions.get( null );
+        return checkNotNull( userPermissions.get( user ), "Permission for %s is unset.", user );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String toString() {
+
+        return String.format( "{acl: permissions=%s}", userPermissions );
     }
 }

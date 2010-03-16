@@ -18,12 +18,12 @@ package com.lyndir.lhunath.snaplog.model.impl;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.net.URI;
+import java.util.Iterator;
 import java.util.LinkedList;
-import java.util.List;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
-import com.db4o.query.Predicate;
+import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.media.Album;
@@ -81,7 +81,7 @@ public class AlbumServiceImpl implements AlbumService {
         checkNotNull( ownerUser, "Given ownerUser must not be null." );
         checkNotNull( albumName, "Given album name must not be null." );
 
-        return db.query( new Predicate<Album>() {
+        return db.query( new com.db4o.query.Predicate<Album>() {
 
             @Override
             public boolean match(Album candidate) {
@@ -101,7 +101,7 @@ public class AlbumServiceImpl implements AlbumService {
         checkNotNull( album, "Given album must not be null." );
         checkNotNull( mediaName, "Given media name must not be null." );
 
-        ObjectSet<Media> mediaQuery = db.query( new Predicate<Media>() {
+        ObjectSet<Media> mediaQuery = db.query( new com.db4o.query.Predicate<Media>() {
 
             @Override
             public boolean match(Media candidate) {
@@ -121,40 +121,38 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     @Override
-    public List<MediaTimeFrame> getYears(final SecurityToken token, Album album) {
+    public Iterator<MediaTimeFrame> iterateYears(final SecurityToken token, Album album) {
 
         // TODO: This method should return an Iterable and should not cache the results.
 
         checkNotNull( album, "Given album must not be null." );
 
         AlbumData albumData = getAlbumData( album );
-        List<MediaTimeFrame> timeFrames = albumData.getTimeFrames();
-        if (timeFrames != null)
-            return timeFrames;
+        if (!albumData.hasInternalTimeFrames()) {
+            MediaTimeFrame currentYear = null, currentMonth = null, currentDay = null;
+            LinkedList<MediaTimeFrame> internalTimeFrames = new LinkedList<MediaTimeFrame>();
 
-        // timeFrames == null
-        MediaTimeFrame currentYear = null, currentMonth = null, currentDay = null;
-        timeFrames = new LinkedList<MediaTimeFrame>();
+            for (Iterator<Media> it = iterateFiles( token, album ); it.hasNext();) {
+                Media mediaFile = it.next();
+                long shotTime = mediaFile.shotTime();
 
-        for (Media mediaFile : getFiles( token, album )) {
-            long shotTime = mediaFile.shotTime();
+                if (currentYear == null || !currentYear.containsTime( shotTime ))
+                    internalTimeFrames.add( currentYear = new MediaTimeFrame( null, Type.YEAR, shotTime ) );
 
-            if (currentYear == null || !currentYear.containsTime( shotTime ))
-                timeFrames.add( currentYear = new MediaTimeFrame( null, Type.YEAR, shotTime ) );
+                if (currentMonth == null || !currentMonth.containsTime( shotTime ))
+                    currentYear.addTimeFrame( currentMonth = new MediaTimeFrame( currentYear, Type.MONTH, shotTime ) );
 
-            if (currentMonth == null || !currentMonth.containsTime( shotTime ))
-                currentYear.addTimeFrame( currentMonth = new MediaTimeFrame( currentYear, Type.MONTH, shotTime ) );
+                if (currentDay == null || !currentDay.containsTime( shotTime ))
+                    currentMonth.addTimeFrame( currentDay = new MediaTimeFrame( currentMonth, Type.DAY, shotTime ) );
 
-            if (currentDay == null || !currentDay.containsTime( shotTime ))
-                currentMonth.addTimeFrame( currentDay = new MediaTimeFrame( currentMonth, Type.DAY, shotTime ) );
+                currentDay.addFile( mediaFile );
+            }
 
-            currentDay.addFile( mediaFile );
+            albumData.setInternalTimeFrames( internalTimeFrames );
+            db.store( albumData );
         }
 
-        albumData.setTimeFrames( timeFrames );
-        db.store( albumData );
-
-        return timeFrames;
+        return securityService.iterateTimeFramesFor( token, albumData );
     }
 
     /**
@@ -171,7 +169,7 @@ public class AlbumServiceImpl implements AlbumService {
 
         checkNotNull( album, "Given album must not be null." );
 
-        ObjectSet<AlbumData> albumDataQuery = db.query( new Predicate<AlbumData>() {
+        ObjectSet<AlbumData> albumDataQuery = db.query( new com.db4o.query.Predicate<AlbumData>() {
 
             @Override
             public boolean match(AlbumData candidate) {
@@ -210,7 +208,7 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     @Override
-    public List<Media> getFiles(final SecurityToken token, Album album) {
+    public Iterator<Media> iterateFiles(final SecurityToken token, Album album) {
 
         // TODO: This should return an Iterable and we should check the security conditions as each object is requested.
         // Should probably do away with the cache since we shouldn't check security conditions in advance and cache the
@@ -218,16 +216,16 @@ public class AlbumServiceImpl implements AlbumService {
 
         checkNotNull( album, "Given album must not be null." );
 
+        // Load the album's media.
         AlbumData albumData = getAlbumData( album );
-        List<Media> files = albumData.getFiles();
-        if (files != null)
-            return files;
+        if (!albumData.hasInternalFiles()) {
+            Iterator<Media> it = getAlbumProvider( album ).iterateFiles( SecurityToken.INTERNAL_USE_ONLY, album );
+            albumData.setInternalFiles( Lists.newArrayList( it ) );
+            db.store( albumData );
+        }
 
-        // files == null
-        albumData.setFiles( files = getAlbumProvider( album ).getFiles( token, album ) );
-        db.store( albumData );
-
-        return files;
+        // Create an iterator that will check permissions for each item.
+        return securityService.iterateFilesFor( token, albumData );
     }
 
     /**

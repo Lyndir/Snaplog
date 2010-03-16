@@ -32,11 +32,19 @@ public enum Permission {
 
     /**
      * This permission grants a {@link User} no access to the objects it applies to.
+     * 
+     * <p>
+     * <b>NOTE:</b> This permission can't be provided.
+     * </p>
      */
     NONE( "permission.none" ),
 
     /**
      * This causes the {@link User}'s permissions to be resolved against the parent of the objects it applies to.
+     * 
+     * <p>
+     * <b>NOTE:</b> This permission can't be provided.
+     * </p>
      */
     INHERIT( "permission.inherit" ),
 
@@ -48,19 +56,16 @@ public enum Permission {
     /**
      * This permission grants a {@link User} the ability to modify all objects it applies to.
      */
-    CONTRIBUTE( "permission.contribute" );
+    CONTRIBUTE( "permission.contribute", VIEW );
 
     private String localizationKey;
+    private Permission[] provided;
 
 
-    /**
-     * Create a new {@link Permission} instance.
-     * 
-     * @param localizationKey
-     */
-    private Permission(String localizationKey) {
+    private Permission(String localizationKey, Permission... provided) {
 
         this.localizationKey = localizationKey;
+        this.provided = provided;
     }
 
     /**
@@ -69,5 +74,13 @@ public enum Permission {
     public String getLocalizationKey() {
 
         return localizationKey;
+    }
+
+    /**
+     * @return Other permissions provided (granted) by this one.
+     */
+    public Permission[] getProvided() {
+
+        return provided;
     }
 }

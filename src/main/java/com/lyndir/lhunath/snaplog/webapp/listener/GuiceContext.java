@@ -22,18 +22,22 @@ import net.link.safeonline.sdk.auth.servlet.LoginServlet;
 import net.link.safeonline.sdk.auth.servlet.LogoutServlet;
 
 import org.apache.wicket.Application;
+import org.apache.wicket.protocol.http.ContextParamWebApplicationFactory;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WicketFilter;
+import org.apache.wicket.protocol.http.servlet.WicketSessionFilter;
 
 import com.db4o.ObjectContainer;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.google.inject.Key;
 import com.google.inject.Scopes;
 import com.google.inject.Stage;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
+import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.model.impl.ServicesModule;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogWebApplication;
 import com.lyndir.lhunath.snaplog.webapp.servlet.AppLogoutServlet;
@@ -52,9 +56,13 @@ import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
  */
 public class GuiceContext extends GuiceServletContextListener {
 
+    static final Logger logger = Logger.get( GuiceContext.class );
+
     private static final String PATH_WICKET = "/*";
     private static final String PATH_LINKID_LOGIN = "/login";
     private static final String PATH_LINKID_LOGOUT = "/logout";
+
+    static final Key<WicketFilter> wicketFilter = Key.get( WicketFilter.class );
 
 
     /**
@@ -72,10 +80,16 @@ public class GuiceContext extends GuiceServletContextListener {
 
                 // Wicket
                 paramBuilder = new ImmutableMap.Builder<String, String>();
-                paramBuilder.put( "applicationClassName", SnaplogWebApplication.class.getCanonicalName() );
-                paramBuilder.put( "filterMappingUrlPattern", PATH_WICKET );
-                filter( PATH_WICKET ).through( WicketFilter.class, paramBuilder.build() );
+                paramBuilder.put( ContextParamWebApplicationFactory.APP_CLASS_PARAM,
+                                  SnaplogWebApplication.class.getCanonicalName() );
+                paramBuilder.put( WicketFilter.FILTER_MAPPING_PARAM, PATH_WICKET );
+                filter( PATH_WICKET ).through( wicketFilter, paramBuilder.build() );
                 bind( WicketFilter.class ).in( Scopes.SINGLETON );
+
+                paramBuilder = new ImmutableMap.Builder<String, String>();
+                paramBuilder.put( "filterName", wicketFilter.toString() );
+                filter( ImageServlet.PATH ).through( WicketSessionFilter.class, paramBuilder.build() );
+                bind( WicketSessionFilter.class ).in( Scopes.SINGLETON );
 
                 // Snaplog Image Servlet
                 serve( ImageServlet.PATH ).with( ImageServlet.class );
@@ -135,6 +149,6 @@ public class GuiceContext extends GuiceServletContextListener {
      */
     public static Injector get() {
 
-        return get( WebApplication.get().getServletContext() );
+        return get( ((WebApplication) Application.get( wicketFilter.toString() )).getServletContext() );
     }
 }

@@ -3,7 +3,7 @@ package com.lyndir.lhunath.snaplog.model;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.net.URI;
-import java.util.List;
+import java.util.Iterator;
 
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.AlbumData;
@@ -67,9 +67,9 @@ public class AlbumProvider<A extends Album, M extends Media> implements MediaPro
      * {@inheritDoc}
      */
     @Override
-    public List<M> getFiles(SecurityToken token, A album) {
+    public Iterator<M> iterateFiles(SecurityToken token, A album) {
 
-        return getMediaProviderService().getFiles( token, album );
+        return getMediaProviderService().iterateFiles( token, album );
     }
 
     /**
