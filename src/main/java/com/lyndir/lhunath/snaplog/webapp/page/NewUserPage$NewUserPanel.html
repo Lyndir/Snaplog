@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+
+    <body>
+        <wicket:panel>
+
+            <div class="gradient">
+                <h3>Welcome to <b>snaplog</b>.net</h3>
+
+                <p>You've just joined the media community where everything revolves around you and the events in your life.</p>
+            </div>
+
+            <form wicket:id="newUserForm">
+                <ul class="plain block">
+                    <li>
+                        <p>Finish your registration by completing the information in your profile:</p>
+                    </li>
+                    <li>
+                        <label for="userName">
+                            <wicket:message key="userName">[User Name:]</wicket:message></label>
+                        <input id="userName" type="text" wicket:id="userName" />
+                    </li>
+                    <li>
+                        <label></label>
+                        <input type="submit" value="Save" />
+                    </li>
+                </ul>
+            </form>
+
+        </wicket:panel>
+    </body>
+
+</html>

@@ -26,6 +26,7 @@ import com.lyndir.lhunath.snaplog.data.security.Permission;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.LinkID;
 import com.lyndir.lhunath.snaplog.data.user.User;
+import com.lyndir.lhunath.snaplog.error.UsernameTakenException;
 import com.lyndir.lhunath.snaplog.model.SecurityService;
 import com.lyndir.lhunath.snaplog.model.UserService;
 
@@ -62,10 +63,14 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public User registerUser(LinkID linkID, String userName) {
+    public User registerUser(LinkID linkID, String userName)
+            throws UsernameTakenException {
 
         checkNotNull( linkID, "Given linkID must not be null." );
         checkNotNull( userName, "Given userName must not be null." );
+
+        if (findUserWithUserName( SecurityToken.INTERNAL_USE_ONLY, userName ) != null)
+            throw new UsernameTakenException( userName );
 
         User user = new User( linkID, userName );
         db.store( user );

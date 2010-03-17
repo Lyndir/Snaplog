@@ -26,7 +26,6 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.User;
-import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
 import com.lyndir.lhunath.snaplog.webapp.tab.TabProvider;
 
 
@@ -61,9 +60,6 @@ public class SnaplogSession extends WebSession {
     public SnaplogSession(Request request) {
 
         super( request );
-
-        setFocussedAlbum( SnaplogConstants.DEFAULT_ALBUM );
-        setFocussedUser( SnaplogConstants.DEFAULT_USER );
     }
 
     /**

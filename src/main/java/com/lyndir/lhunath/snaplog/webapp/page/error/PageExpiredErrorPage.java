@@ -13,7 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.webapp.error;
+package com.lyndir.lhunath.snaplog.webapp.page.error;
 
 import org.apache.wicket.markup.html.panel.Panel;
 

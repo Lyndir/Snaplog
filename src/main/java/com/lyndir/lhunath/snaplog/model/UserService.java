@@ -20,6 +20,7 @@ import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.LinkID;
 import com.lyndir.lhunath.snaplog.data.user.User;
+import com.lyndir.lhunath.snaplog.error.UsernameTakenException;
 
 
 /**
@@ -43,8 +44,12 @@ public interface UserService {
      *            The unique userName the user would like to use as his snaplog identifier.
      * 
      * @return A newly registered user.
+     * 
+     * @throws UsernameTakenException
+     *             When the given userName is already taken.
      */
-    User registerUser(LinkID linkID, String userName);
+    User registerUser(LinkID linkID, String userName)
+            throws UsernameTakenException;
 
     /**
      * Find the existing user registered with the given linkID identifier.

@@ -19,9 +19,12 @@ import org.apache.wicket.Component;
 import org.apache.wicket.application.IComponentOnBeforeRenderListener;
 
 import com.google.inject.Inject;
+import com.lyndir.lhunath.lib.wayward.component.RedirectToPageException;
 import com.lyndir.lhunath.snaplog.data.user.LinkID;
+import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.model.UserService;
 import com.lyndir.lhunath.snaplog.util.WicketUtils;
+import com.lyndir.lhunath.snaplog.webapp.page.NewUserPage;
 
 
 /**
@@ -58,7 +61,12 @@ public class AuthenticationListener implements IComponentOnBeforeRenderListener 
         String currentLinkID = WicketUtils.findLinkID();
         if (currentLinkID == null)
             SnaplogSession.get().setActiveUser( null );
-        else
-            SnaplogSession.get().setActiveUser( userService.findUserWithLinkID( new LinkID( currentLinkID ) ) );
+        else {
+            User activeUser = userService.findUserWithLinkID( new LinkID( currentLinkID ) );
+            if (activeUser == null)
+                throw new RedirectToPageException( NewUserPage.class );
+
+            SnaplogSession.get().setActiveUser( activeUser );
+        }
     }
 }

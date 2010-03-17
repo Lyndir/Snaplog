@@ -11,6 +11,7 @@ body {
     background:         url("../images/layout/backdrop.png") repeat-x;
     color:              #DDD;
 
+    font-family:        "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Arial, Helvetica, sans-serif;
     font-size:          90%;
 }
 h1, h2, h3, h4, h5, h6 {
@@ -38,7 +39,7 @@ h3 {
 label {
     display:            inline-block;
 
-    margin:             0 1em;
+    margin:             1ex 1em 0 0;
     width:              10em;
 
     text-align:         right;
@@ -57,18 +58,28 @@ input, input[type], input[value], select, textarea {
     -webkit-border-radius:5px;
 
     vertical-align:     top;
-    padding:            0.5ex;
+    padding:            0.5ex 0.5em;
     margin:             0.5ex 0;
     width:              20em;
 
     font:               inherit;
-    font-family:        monospace;
+    font-family:        Inconsolata, Consolas, "Lucida Console", Monaco, monospace;
+}
+input[type='submit'] {
+    margin-left:        3em;
+    width:              15em;
+
+    font-family:        inherit;
+    font-weight:        bold;
+}
+select {
+    margin-left:        0.5em;
 }
 input:hover, input[type]:hover, input[value]:hover, select:hover, textarea:hover {
-    background:         rgba(32, 32, 32, 0.6);
+    background:         rgba(32, 32, 32, 0.8);
 }
 input:focus, input[type]:focus, input[value]:focus, select:focus, textarea:focus {
-    background:         rgba(32, 32, 32, 0.7);
+    background:         rgba(32, 32, 32, 0.9);
 }
 ul.plain li {
     list-style:         none;
@@ -388,12 +399,12 @@ div.popup {
     -moz-border-radius: 5px;
     -webkit-border-radius:5px;
 
-    padding:            0.5em;
+    padding:            1ex 1em;
     margin:             1ex 0;
 
     text-decoration:    none;
 }
-.block:hover {
+.block.link:hover {
     background:         #1A1A1A;
     box-shadow:         0 0 5px #333;
     -webkit-box-shadow: 0 0 5px #333;

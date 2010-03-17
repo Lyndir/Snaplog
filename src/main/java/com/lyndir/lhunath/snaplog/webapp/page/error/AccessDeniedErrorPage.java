@@ -13,21 +13,16 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.webapp.error;
+package com.lyndir.lhunath.snaplog.webapp.page.error;
 
-import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.Model;
 
-import com.google.gson.Gson;
-import com.lyndir.lhunath.lib.system.util.Utils;
-import com.lyndir.lhunath.snaplog.webapp.SnaplogWebApplication;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 
 
 /**
- * <h2>{@link InternalErrorPage}<br>
- * <sub>Page that is shown when an uncaught exception occurs.</sub></h2>
+ * <h2>{@link AccessDeniedErrorPage}<br>
+ * <sub>Page that is shown when the user is denied access to a resource.</sub></h2>
  * 
  * <p>
  * <i>Jun 10, 2009</i>
@@ -35,7 +30,7 @@ import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
  * 
  * @author lhunath
  */
-public class InternalErrorPage extends LayoutPage {
+public class AccessDeniedErrorPage extends LayoutPage {
 
     /**
      * {@inheritDoc}
@@ -43,22 +38,15 @@ public class InternalErrorPage extends LayoutPage {
     @Override
     protected Panel getInitialContentPanel(String wicketId) {
 
-        return new InternalErrorPanel( wicketId );
+        return new AccessDeniedErrorPanel( wicketId );
     }
 
 
-    private static class InternalErrorPanel extends Panel {
+    private static class AccessDeniedErrorPanel extends Panel {
 
-        InternalErrorPanel(String id) {
+        AccessDeniedErrorPanel(String id) {
 
             super( id );
-
-            Issue issue = getMetaData( SnaplogWebApplication.METADATA_RUNTIME_EXCEPTION_ISSUE );
-
-            // TODO: Store this data somewhere for reference.
-            String issueCode = Utils.getMD5( new Gson().toJson( issue ) );
-
-            add( new TextField<String>( "issueCode", new Model<String>( issueCode ) ) );
         }
     }
 }
