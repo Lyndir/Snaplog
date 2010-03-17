@@ -36,6 +36,7 @@ import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
+import com.lyndir.lhunath.lib.wayward.provider.AbstractListProvider;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.AlbumProviderType;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
@@ -45,7 +46,6 @@ import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.model.UserService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.page.util.LayoutPageUtils;
-import com.lyndir.lhunath.snaplog.webapp.provider.AbstractListProvider;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels.AlbumItemModels;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels.NewAlbumFormModels;
@@ -93,7 +93,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         add( new DataView<Album>( "albums", new AbstractListProvider<Album>() {
 
             @Override
-            protected List<Album> loadSource() {
+            protected List<Album> loadObject() {
 
                 return userService.queryAlbumsOfUser( SnaplogSession.get().newToken(), getModelObject().getObject() );
             }

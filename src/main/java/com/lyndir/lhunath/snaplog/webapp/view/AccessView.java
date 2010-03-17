@@ -18,6 +18,7 @@ import org.apache.wicket.model.StringResourceModel;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
+import com.lyndir.lhunath.lib.wayward.provider.AbstractListProvider;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
 import com.lyndir.lhunath.snaplog.data.user.User;
@@ -25,7 +26,6 @@ import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.model.UserService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
-import com.lyndir.lhunath.snaplog.webapp.provider.AbstractListProvider;
 
 
 /**
@@ -62,7 +62,7 @@ public class AccessView extends GenericPanel<Album> {
         add( new DataView<User>( "users", new AbstractListProvider<User>() {
 
             @Override
-            protected List<User> loadSource() {
+            protected List<User> loadObject() {
 
                 return userService.queryUsers( SnaplogSession.get().newToken() );
             }
