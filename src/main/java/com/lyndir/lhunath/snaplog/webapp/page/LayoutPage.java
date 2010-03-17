@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkState;
 import net.link.safeonline.wicket.component.linkid.LinkIDLoginLink;
 
 import org.apache.wicket.Page;
+import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.behavior.StringHeaderContributor;
@@ -132,6 +133,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
             public void onClick() {
 
                 Session.get().invalidate();
+                throw new RestartResponseException( LayoutPage.class );
             }
         } );
 

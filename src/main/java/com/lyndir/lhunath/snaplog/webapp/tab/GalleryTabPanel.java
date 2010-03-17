@@ -15,6 +15,8 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
+import java.util.List;
+
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
@@ -28,6 +30,7 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
@@ -42,7 +45,7 @@ import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.model.UserService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.page.util.LayoutPageUtils;
-import com.lyndir.lhunath.snaplog.webapp.provider.UserAlbumsProvider;
+import com.lyndir.lhunath.snaplog.webapp.provider.AbstractListProvider;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels.AlbumItemModels;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels.NewAlbumFormModels;
@@ -86,13 +89,25 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         add( new Label( "albumsTitleUsername", getModelObject().decoratedUsername() ) );
         add( new Label( "albumsHelpUsername", getModelObject().username() ) );
 
-        add( new DataView<Album>( "albums", new UserAlbumsProvider( userService, getModelObject() ) ) {
+        // TODO: Make this data view top-level to provide Album enumeration elsewhere.
+        add( new DataView<Album>( "albums", new AbstractListProvider<Album>() {
+
+            @Override
+            protected List<Album> loadSource() {
+
+                return userService.queryAlbumsOfUser( SnaplogSession.get().newToken(), getModelObject().getObject() );
+            }
+
+            @Override
+            public IModel<Album> model(Album object) {
+
+                return new Model<Album>( object );
+            }
+        } ) {
 
             @Override
             protected void populateItem(Item<Album> item) {
 
-                // TODO: The DataView should become a top-level class, use AlbumItemModels as model and the
-                // UserAlbumsProvider should be an inner class of it.
                 item.add( new AjaxLink<AlbumItemModels>( "link", getModelObject().albumItem( item, item.getModel() )
                                                                                  .getModel() ) {
 

@@ -1,7 +1,7 @@
 package com.lyndir.lhunath.snaplog.webapp.view;
 
 import java.util.Arrays;
-import java.util.Iterator;
+import java.util.List;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
@@ -11,12 +11,10 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
-import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 
-import com.db4o.ObjectSet;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
@@ -27,6 +25,7 @@ import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.model.UserService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
+import com.lyndir.lhunath.snaplog.webapp.provider.AbstractListProvider;
 
 
 /**
@@ -60,27 +59,12 @@ public class AccessView extends GenericPanel<Album> {
 
         super( id, albumModel );
 
-        add( new DataView<User>( "users", new IDataProvider<User>() {
-
-            private ObjectSet<User> query = userService.queryUsers( SnaplogSession.get().newToken() );
-
+        add( new DataView<User>( "users", new AbstractListProvider<User>() {
 
             @Override
-            public void detach() {
+            protected List<User> loadSource() {
 
-                query = null;
-            }
-
-            @Override
-            public Iterator<? extends User> iterator(int first, int count) {
-
-                return query.iterator();
-            }
-
-            @Override
-            public int size() {
-
-                return query.size();
+                return userService.queryUsers( SnaplogSession.get().newToken() );
             }
 
             @Override
