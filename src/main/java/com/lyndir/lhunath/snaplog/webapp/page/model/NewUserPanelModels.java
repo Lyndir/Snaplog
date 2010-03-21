@@ -21,6 +21,7 @@ import org.apache.wicket.model.Model;
 
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.wayward.model.EmptyModelProvider;
+import com.lyndir.lhunath.snaplog.util.LinkIDUtils;
 import com.lyndir.lhunath.snaplog.webapp.page.NewUserPage.NewUserPanel;
 
 
@@ -77,7 +78,18 @@ public class NewUserPanelModels extends EmptyModelProvider<NewUserPanelModels, N
 
         NewUserFormModels() {
 
-            userName = new Model<String>();
+            userName = new Model<String>() {
+
+                @Override
+                public String getObject() {
+
+                    String object = super.getObject();
+                    if (object == null)
+                        return LinkIDUtils.findSingleAttribute( "device.password.login", String.class );
+
+                    return object;
+                }
+            };
         }
 
         // Accessors.

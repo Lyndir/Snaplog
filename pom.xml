@@ -134,7 +134,7 @@
                 <version>6.1.15</version>
                 <configuration>
                     <contextPath>/</contextPath>
-                    <scanIntervalSeconds>2</scanIntervalSeconds>
+                    <reload>manual</reload>
                     <systemProperties>
                         <systemProperty>
                             <name>logback.configurationFile</name>
@@ -182,6 +182,16 @@
             <groupId>net.lin-k.safe-online</groupId>
             <artifactId>safe-online-wicket-sdk</artifactId>
             <version>1.11-p7</version>
+            <exclusions>
+                <!--
+                Because the JDK1.6 already include the Java Activation API,
+                otherwise this could generate ClassLoading en Linkage errors
+                -->
+                <exclusion>
+                    <groupId>javax.activation</groupId>
+                    <artifactId>activation</artifactId>
+                    </exclusion>
+            </exclusions>
         </dependency>
 
         <!-- EXTERNAL DEPENDENCIES -->

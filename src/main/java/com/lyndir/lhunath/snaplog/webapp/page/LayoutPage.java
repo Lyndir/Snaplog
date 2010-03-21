@@ -41,7 +41,7 @@ import com.lyndir.lhunath.snaplog.webapp.page.util.LayoutPageUtils;
  */
 public class LayoutPage extends GenericWebPage<LayoutPageModels> {
 
-    private static final Logger logger = Logger.get( LayoutPage.class );
+    protected final Logger logger = Logger.get( getClass() );
 
     /**
      * The wicket ID that the content panel should have.
@@ -94,7 +94,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
             @Override
             protected void onComponentTagBody(MarkupStream markupStream, ComponentTag openTag) {
 
-                replaceComponentTagBody( markupStream, openTag, "lhunath" );
+                replaceComponentTagBody( markupStream, openTag, SnaplogSession.get().getActiveUser().getUserName() );
             }
         } );
         userSummary.add( new LabelLink( "userMessages", getModelObject().userMessages() ) {

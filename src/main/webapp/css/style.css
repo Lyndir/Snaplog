@@ -6,13 +6,15 @@
  */
 html {
     background:         #4c4c4c url("../images/layout/canvas.png");
+
+    overflow-x:         hidden;
 }
 body {
     background:         url("../images/layout/backdrop.png") repeat-x;
     color:              #DDD;
 
     font-family:        "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Arial, Helvetica, sans-serif;
-    font-size:          90%;
+    font-size:          95%;
 }
 h1, h2, h3, h4, h5, h6 {
     color:              #ddd;
@@ -125,10 +127,9 @@ ul.plain li {
     display:            block;
     width:              8em;
     height:             23px;
-    padding-top:        7px;
+    padding-top:        5px;
 
     border:             0 dashed transparent;
-    border-bottom-width:1px;
 
     color:              inherit;
     text-align:         center;
@@ -138,15 +139,7 @@ ul.plain li {
     font-weight:        bold;
 }
 #header .tabs .active a, #header .tabs a:hover {
-    border-color:       #8f0000;
     color:              white;
-    border-bottom-style:solid;
-}
-#header .tabs:hover .active a {
-    border-color:       transparent;
-}
-#header .tabs a:hover {
-    border-color:       #8f0000 !important;
 }
 
 

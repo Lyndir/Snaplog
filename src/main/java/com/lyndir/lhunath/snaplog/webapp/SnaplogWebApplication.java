@@ -36,12 +36,14 @@ import org.apache.wicket.settings.IExceptionSettings;
 
 import com.google.inject.Injector;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.wayward.state.ComponentStateListener;
 import com.lyndir.lhunath.snaplog.data.Issue;
 import com.lyndir.lhunath.snaplog.linkid.SnaplogWebappConfig;
 import com.lyndir.lhunath.snaplog.webapp.filter.OpenCloseTagExpander;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 import com.lyndir.lhunath.snaplog.webapp.page.NewUserPage;
+import com.lyndir.lhunath.snaplog.webapp.page.NewUserPage.NewUserPageState;
 import com.lyndir.lhunath.snaplog.webapp.page.error.AccessDeniedErrorPage;
 import com.lyndir.lhunath.snaplog.webapp.page.error.InternalErrorPage;
 import com.lyndir.lhunath.snaplog.webapp.page.error.PageExpiredErrorPage;
@@ -89,6 +91,7 @@ public class SnaplogWebApplication extends WebApplication {
         Injector injector = GuiceContext.get( getServletContext() );
         addComponentInstantiationListener( new InjectionFlagCachingGuiceComponentInjector( this, injector ) );
         addPreComponentOnBeforeRenderListener( injector.getInstance( AuthenticationListener.class ) );
+        addPreComponentOnBeforeRenderListener( new ComponentStateListener( new NewUserPageState() ) );
 
         // Application setup.
         getApplicationSettings().setPageExpiredErrorPage( PageExpiredErrorPage.class );

@@ -17,6 +17,7 @@ package com.lyndir.lhunath.snaplog.webapp.page;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 import net.link.safeonline.sdk.auth.filter.LoginManager;
+import net.link.safeonline.wicket.util.RedirectToPageException;
 
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -24,8 +25,8 @@ import org.apache.wicket.markup.html.panel.Panel;
 
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
-import com.lyndir.lhunath.lib.wayward.component.RedirectToPageException;
 import com.lyndir.lhunath.lib.wayward.component.WicketUtils;
+import com.lyndir.lhunath.lib.wayward.state.PageState;
 import com.lyndir.lhunath.snaplog.data.user.LinkID;
 import com.lyndir.lhunath.snaplog.error.UsernameTakenException;
 import com.lyndir.lhunath.snaplog.model.UserService;
@@ -107,12 +108,42 @@ public class NewUserPage extends LayoutPage {
         @Override
         protected void onBeforeRender() {
 
-            if (!LoginManager.isAuthenticated( WicketUtils.getServletRequest() )
-                || SnaplogSession.get().getActiveUser() != null)
-                // TODO: Make a RedirectToHomepageException?
+            if (!new NewUserPageState().isNecessary())
                 throw new RedirectToPageException( LayoutPage.class );
 
             super.onBeforeRender();
+        }
+    }
+
+
+    /**
+     * <h2>{@link NewUserPageState}<br>
+     * <sub>[in short] (TODO).</sub></h2>
+     * 
+     * <p>
+     * <i>Mar 21, 2010</i>
+     * </p>
+     * 
+     * @author lhunath
+     */
+    public static class NewUserPageState extends PageState {
+
+        /**
+         * Create a new {@link NewUserPageState} instance.
+         */
+        public NewUserPageState() {
+
+            super( NewUserPage.class );
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isNecessary() {
+
+            return LoginManager.isAuthenticated( WicketUtils.getServletRequest() )
+                   && SnaplogSession.get().getActiveUser() == null;
         }
     }
 }
