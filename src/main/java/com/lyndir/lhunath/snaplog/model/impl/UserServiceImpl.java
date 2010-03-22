@@ -21,6 +21,7 @@ import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import com.google.inject.Inject;
+import com.lyndir.lhunath.lib.system.util.SafeObjects;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
@@ -91,7 +92,7 @@ public class UserServiceImpl implements UserService {
             @Override
             public boolean match(User candidate) {
 
-                return candidate.getLinkID().equals( linkID );
+                return SafeObjects.equal( candidate.getLinkID(), linkID );
             }
         } );
         if (userQuery.hasNext())
@@ -114,7 +115,7 @@ public class UserServiceImpl implements UserService {
             @Override
             public boolean match(User candidate) {
 
-                return candidate.getUserName().equals( userName )
+                return SafeObjects.equal( candidate.getUserName(), userName )
                        && securityService.hasAccess( Permission.VIEW, token, candidate );
             }
         } );
@@ -138,7 +139,7 @@ public class UserServiceImpl implements UserService {
             @Override
             public boolean match(Album candidate) {
 
-                return candidate.getOwnerUser().equals( ownerUser )
+                return SafeObjects.equal( candidate.getOwnerUser(), ownerUser )
                        && securityService.hasAccess( Permission.VIEW, token, candidate );
             }
         } );

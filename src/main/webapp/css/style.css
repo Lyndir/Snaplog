@@ -397,7 +397,7 @@ div.popup {
 
     text-decoration:    none;
 }
-.block.link:hover {
+a.block:hover, .block.link:hover {
     background:         #1A1A1A;
     box-shadow:         0 0 5px #333;
     -webkit-box-shadow: 0 0 5px #333;

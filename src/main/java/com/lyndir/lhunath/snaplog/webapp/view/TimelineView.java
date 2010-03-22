@@ -1,5 +1,7 @@
 package com.lyndir.lhunath.snaplog.webapp.view;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -51,6 +53,7 @@ public class TimelineView extends GenericPanel<Album> {
     public TimelineView(String id, IModel<Album> albumModel) {
 
         super( id, albumModel );
+        checkNotNull( albumModel.getObject(), "Model object of TimelineView must not be null" );
 
         // TODO: Should be smarter about iterating the timeFrames?
         add( new ListView<MediaTimeFrame>( "years", new LoadableDetachableModel<List<MediaTimeFrame>>() {

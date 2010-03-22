@@ -1,5 +1,7 @@
 package com.lyndir.lhunath.snaplog.webapp.view;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -61,6 +63,7 @@ public class BrowserView extends GenericPanel<Album> {
     public BrowserView(String id, IModel<Album> albumModel, IModel<Date> currentTimeModel) {
 
         super( id, albumModel );
+        checkNotNull( albumModel.getObject(), "Model object of BrowserView must not be null" );
         setOutputMarkupId( true );
 
         this.currentTimeModel = currentTimeModel;

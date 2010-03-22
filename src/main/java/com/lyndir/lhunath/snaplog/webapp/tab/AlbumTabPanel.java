@@ -15,6 +15,8 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
@@ -56,6 +58,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
     public AlbumTabPanel(String id, IModel<Album> model) {
 
         super( id, new AlbumTabModels( model ).getModel() );
+        checkNotNull( model.getObject(), "Model object of AlbumTabPanel must not be null" );
 
         // Browser
         add( new BrowserView( "browser", getModelObject(), getModelObject().currentTime() ) );

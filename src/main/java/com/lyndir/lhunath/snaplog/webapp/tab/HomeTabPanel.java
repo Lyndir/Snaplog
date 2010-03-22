@@ -26,7 +26,7 @@ import com.lyndir.lhunath.snaplog.messages.Messages;
 
 
 /**
- * <h2>{@link DesktopTabPanel}<br>
+ * <h2>{@link HomeTabPanel}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
@@ -35,15 +35,15 @@ import com.lyndir.lhunath.snaplog.messages.Messages;
  * 
  * @author lhunath
  */
-public class DesktopTabPanel extends Panel {
+public class HomeTabPanel extends Panel {
 
     /**
-     * Create a new {@link DesktopTabPanel} instance.
+     * Create a new {@link HomeTabPanel} instance.
      * 
      * @param id
-     *            The wicket ID that will hold the {@link DesktopTabPanel}.
+     *            The wicket ID that will hold the {@link HomeTabPanel}.
      */
-    public DesktopTabPanel(String id) {
+    public HomeTabPanel(String id) {
 
         super( id );
     }
@@ -51,7 +51,7 @@ public class DesktopTabPanel extends Panel {
 
 
 /**
- * <h2>{@link DesktopTabPanel}<br>
+ * <h2>{@link HomeTabPanel}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
@@ -64,9 +64,9 @@ public class DesktopTabPanel extends Panel {
  * 
  * @author lhunath
  */
-class DesktopTab implements ITab {
+class HomeTab implements ITab {
 
-    static final Logger logger = Logger.get( DesktopTab.class );
+    static final Logger logger = Logger.get( HomeTab.class );
     Messages msgs = LocalizerFactory.getLocalizer( Messages.class );
 
 
@@ -81,7 +81,7 @@ class DesktopTab implements ITab {
             @Override
             protected String load() {
 
-                return msgs.desktopTab();
+                return msgs.homeTab();
             }
         };
     }
@@ -92,7 +92,7 @@ class DesktopTab implements ITab {
     @Override
     public Panel getPanel(String panelId) {
 
-        return new DesktopTabPanel( panelId );
+        return new HomeTabPanel( panelId );
     }
 
     /**

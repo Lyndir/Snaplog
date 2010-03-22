@@ -33,7 +33,7 @@ public enum Tab implements TabProvider {
     /**
      * This is the initial tab that describes Snaplog.
      */
-    DESKTOP( new DesktopTab() ),
+    HOME( new HomeTab() ),
 
     /**
      * This tab provides a summary view of a user's account.

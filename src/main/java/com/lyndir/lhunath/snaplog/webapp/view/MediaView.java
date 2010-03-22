@@ -22,6 +22,7 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 
 import com.lyndir.lhunath.lib.system.logging.Logger;
@@ -60,7 +61,7 @@ public class MediaView extends GenericPanel<Media> {
      *            <code>false</code>: The media will not be clickable. There is no need to implement
      *            {@link #onClick(AjaxRequestTarget)}.
      */
-    public MediaView(String id, IModel<Media> model, Quality quality, boolean clickable) {
+    public MediaView(String id, IModel<Media> model, final Quality quality, boolean clickable) {
 
         super( id, model );
 
@@ -71,26 +72,73 @@ public class MediaView extends GenericPanel<Media> {
         // The media image link/container.
         WebMarkupContainer image = null;
         if (clickable) {
-            image = new AjaxFallbackLink<String>( "image" ) {
+            image = new AjaxFallbackLink<Media>( "image", getModel() ) {
 
                 @Override
                 public void onClick(AjaxRequestTarget target) {
 
                     MediaView.this.onClick( target );
                 }
+
+                @Override
+                public boolean isVisible() {
+
+                    return getModelObject() != null;
+                }
             };
             image.add( new CSSClassAttributeAppender( "link" ) );
         } else
-            image = new WebMarkupContainer( "image" );
-        image.add( new Label( "caption", getModelObject().getDateString() ) );
-        image.add( new ContextImage( "thumb", ImageServlet.getContextRelativePathFor( getModelObject(),
-                                                                                      Quality.THUMBNAIL ) ) );
-        image.add( new ContextImage( "photo", ImageServlet.getContextRelativePathFor( getModelObject(), quality ) ) );
+            image = new WebMarkupContainer( "image" ) {
+
+                @Override
+                public boolean isVisible() {
+
+                    return getModelObject() != null;
+                }
+            };
+        image.add( new Label( "caption", new LoadableDetachableModel<String>() {
+
+            @Override
+            protected String load() {
+
+                return getModelObject().getDateString();
+            }
+        } ) );
+        image.add( new ContextImage( "thumb", new LoadableDetachableModel<String>() {
+
+            @Override
+            protected String load() {
+
+                return ImageServlet.getContextRelativePathFor( getModelObject(), Quality.THUMBNAIL );
+            }
+        } ) );
+        image.add( new ContextImage( "photo", new LoadableDetachableModel<String>() {
+
+            @Override
+            protected String load() {
+
+                return ImageServlet.getContextRelativePathFor( getModelObject(), quality );
+            }
+        } ) );
 
         // Add the image and the fullscreen image to the media container.
         media.add( image );
         media.add( new ContextImage( "fullImage", //
-                ImageServlet.getContextRelativePathFor( getModelObject(), Quality.FULLSCREEN ) ).setVisible( quality == Quality.PREVIEW ) );
+                new LoadableDetachableModel<String>() {
+
+                    @Override
+                    protected String load() {
+
+                        return ImageServlet.getContextRelativePathFor( getModelObject(), Quality.FULLSCREEN );
+                    }
+                } ) {
+
+            @Override
+            public boolean isVisible() {
+
+                return getModelObject() != null && quality == Quality.PREVIEW;
+            }
+        } );
     }
 
     /**

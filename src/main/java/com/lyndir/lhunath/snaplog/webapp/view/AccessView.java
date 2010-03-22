@@ -1,5 +1,7 @@
 package com.lyndir.lhunath.snaplog.webapp.view;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -58,6 +60,7 @@ public class AccessView extends GenericPanel<Album> {
     public AccessView(String id, IModel<Album> albumModel) {
 
         super( id, albumModel );
+        checkNotNull( albumModel.getObject(), "Model object of AccessView must not be null" );
 
         add( new DataView<User>( "users", new AbstractListProvider<User>() {
 

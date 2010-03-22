@@ -26,6 +26,7 @@ import com.db4o.ObjectSet;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.system.util.SafeObjects;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.AlbumData;
 import com.lyndir.lhunath.snaplog.data.media.AlbumProviderType;
@@ -86,7 +87,8 @@ public class AlbumServiceImpl implements AlbumService {
             @Override
             public boolean match(Album candidate) {
 
-                return candidate.getOwnerUser().equals( ownerUser ) && candidate.getName().equals( albumName )
+                return SafeObjects.equal( candidate.getOwnerUser(), ownerUser )
+                       && SafeObjects.equal( candidate.getName(), albumName )
                        && securityService.hasAccess( Permission.VIEW, token, candidate );
             }
         } ).next();
@@ -106,7 +108,7 @@ public class AlbumServiceImpl implements AlbumService {
             @Override
             public boolean match(Media candidate) {
 
-                return candidate.getAlbum().equals( album ) && candidate.getName().endsWith( mediaName )
+                return SafeObjects.equal( candidate.getAlbum(), album ) && candidate.getName().endsWith( mediaName )
                        && securityService.hasAccess( Permission.VIEW, token, candidate );
             }
         } );
@@ -174,7 +176,7 @@ public class AlbumServiceImpl implements AlbumService {
             @Override
             public boolean match(AlbumData candidate) {
 
-                return candidate.getAlbum().equals( album );
+                return SafeObjects.equal( candidate.getAlbum(), album );
             }
         } );
         if (albumDataQuery.hasNext())
@@ -255,12 +257,33 @@ public class AlbumServiceImpl implements AlbumService {
 
     /**
      * {@inheritDoc}
+     */
+    @Override
+    public void registerAlbum(Album album) {
+
+        checkNotNull( album );
+
+        db.store( album );
+    }
+
+    /**
+     * {@inheritDoc}
      * 
      * @deprecated
      */
     @Override
     @Deprecated
     public AlbumData newAlbumData(Album album) {
+
+        throw new UnsupportedOperationException();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    @Deprecated
+    public Album newAlbum(User ownerUser, String albumName, String albumDescription) {
 
         throw new UnsupportedOperationException();
     }

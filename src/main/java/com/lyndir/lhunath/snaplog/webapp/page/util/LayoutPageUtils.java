@@ -76,7 +76,7 @@ public abstract class LayoutPageUtils {
         // Find the active tab.
         TabProvider activeTab = SnaplogSession.get().getActiveTab();
         if (activeTab == null)
-            SnaplogSession.get().setActiveTab( activeTab = Tab.DESKTOP );
+            SnaplogSession.get().setActiveTab( activeTab = Tab.HOME );
 
         return activeTab.getTab().getPanel( wicketId );
     }

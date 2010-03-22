@@ -41,6 +41,7 @@ import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.system.util.SafeObjects;
 import com.lyndir.lhunath.lib.system.util.StringUtils;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.Media;
@@ -52,6 +53,7 @@ import com.lyndir.lhunath.snaplog.data.media.aws.S3MediaData;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
 import com.lyndir.lhunath.snaplog.data.security.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
+import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.model.AWSMediaProviderService;
 import com.lyndir.lhunath.snaplog.model.AWSService;
 import com.lyndir.lhunath.snaplog.model.SecurityService;
@@ -125,7 +127,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
             @Override
             public boolean match(S3MediaData candidate) {
 
-                return candidate.getMedia().equals( media );
+                return SafeObjects.equal( candidate.getMedia(), media );
             }
         } );
         if (s3mediaDataQuery.hasNext())
@@ -332,5 +334,17 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         checkNotNull( album, "Given album must not be null." );
 
         return new S3AlbumData( album );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public S3Album newAlbum(User ownerUser, String albumName, String albumDescription) {
+
+        S3Album album = new S3Album( ownerUser, albumName );
+        album.setDescription( albumDescription );
+
+        return album;
     }
 }

@@ -135,6 +135,7 @@
                 <configuration>
                     <contextPath>/</contextPath>
                     <reload>manual</reload>
+
                     <systemProperties>
                         <systemProperty>
                             <name>logback.configurationFile</name>

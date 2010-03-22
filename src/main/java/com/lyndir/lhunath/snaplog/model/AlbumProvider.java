@@ -11,6 +11,7 @@ import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.security.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
+import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 
 
@@ -99,5 +100,14 @@ public class AlbumProvider<A extends Album, M extends Media> implements MediaPro
     public AlbumData newAlbumData(A album) {
 
         return getMediaProviderService().newAlbumData( album );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public A newAlbum(User ownerUser, String albumName, String albumDescription) {
+
+        return getMediaProviderService().newAlbum( ownerUser, albumName, albumDescription );
     }
 }

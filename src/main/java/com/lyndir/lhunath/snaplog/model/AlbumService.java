@@ -83,6 +83,15 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
     Iterator<MediaTimeFrame> iterateYears(SecurityToken token, Album album);
 
     /**
+     * Register a new {@link Album} owned by the given user whose media is provided by the given provider and with the
+     * given metadata.
+     * 
+     * @param album
+     *            The new album that should be persisted.
+     */
+    void registerAlbum(Album album);
+
+    /**
      * {@inheritDoc}
      */
     @Override

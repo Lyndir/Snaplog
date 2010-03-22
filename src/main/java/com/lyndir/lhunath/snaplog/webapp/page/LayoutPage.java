@@ -19,6 +19,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.system.util.SafeObjects;
 import com.lyndir.lhunath.lib.wayward.behavior.CSSClassAttributeAppender;
 import com.lyndir.lhunath.lib.wayward.component.AjaxLabelLink;
 import com.lyndir.lhunath.lib.wayward.component.GenericWebPage;
@@ -206,7 +207,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
      */
     public void setContentPanel(Panel contentPanel, AjaxRequestTarget target) {
 
-        checkState( contentPanel.getId().equals( CONTENT_PANEL ) );
+        checkState( SafeObjects.equal( contentPanel.getId(), CONTENT_PANEL ) );
 
         logger.dbg( "Setting content panel to: %s", contentPanel.getClass() );
         container.addOrReplace( contentPanel );

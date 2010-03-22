@@ -21,7 +21,7 @@ import com.lyndir.lhunath.lib.system.localization.UseLocalizationProvider;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogWebApplication;
 import com.lyndir.lhunath.snaplog.webapp.tab.AdministrationTabPanel;
 import com.lyndir.lhunath.snaplog.webapp.tab.AlbumTabPanel;
-import com.lyndir.lhunath.snaplog.webapp.tab.DesktopTabPanel;
+import com.lyndir.lhunath.snaplog.webapp.tab.HomeTabPanel;
 import com.lyndir.lhunath.snaplog.webapp.tab.GalleryTabPanel;
 import com.lyndir.lhunath.snaplog.webapp.tab.WorkbenchTabPanel;
 
@@ -41,10 +41,10 @@ import com.lyndir.lhunath.snaplog.webapp.tab.WorkbenchTabPanel;
 public interface Messages {
 
     /**
-     * @return Text on the interface tab to activate the {@link DesktopTabPanel}.
+     * @return Text on the interface tab to activate the {@link HomeTabPanel}.
      */
     @UseKey
-    String desktopTab();
+    String homeTab();
 
     /**
      * @return Text on the interface tab to activate the {@link GalleryTabPanel}.

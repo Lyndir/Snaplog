@@ -24,6 +24,7 @@ import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.security.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
+import com.lyndir.lhunath.snaplog.data.user.User;
 
 
 /**
@@ -96,4 +97,17 @@ public interface MediaProviderService<A extends Album, M extends Media> {
      * @return A new data instance.
      */
     AlbumData newAlbumData(A album);
+
+    /**
+     * Create a new {@link Album} with the given metadata.
+     * 
+     * @param ownerUser
+     *            The owner of the new album.
+     * @param albumName
+     *            The name of the new album.
+     * @param albumDescription
+     *            The description of the new album.
+     * @return A new {@link Album} instance.
+     */
+    A newAlbum(User ownerUser, String albumName, String albumDescription);
 }

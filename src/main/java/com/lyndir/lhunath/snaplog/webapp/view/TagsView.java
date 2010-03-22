@@ -1,5 +1,7 @@
 package com.lyndir.lhunath.snaplog.webapp.view;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import org.apache.wicket.model.IModel;
 
 import com.google.inject.Inject;
@@ -38,5 +40,6 @@ public class TagsView extends GenericPanel<Album> {
     public TagsView(String id, IModel<Album> albumModel) {
 
         super( id, albumModel );
+        checkNotNull( albumModel.getObject(), "Model object of TagsView must not be null" );
     }
 }
