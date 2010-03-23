@@ -22,7 +22,6 @@ import org.apache.wicket.model.Model;
 
 import com.lyndir.lhunath.lib.wayward.model.ModelProvider;
 import com.lyndir.lhunath.snaplog.data.media.Album;
-import com.lyndir.lhunath.snaplog.webapp.tab.AlbumTabPanel;
 
 
 /**
@@ -35,31 +34,18 @@ import com.lyndir.lhunath.snaplog.webapp.tab.AlbumTabPanel;
  * 
  * @author lhunath
  */
-public class AlbumTabModels extends ModelProvider<AlbumTabModels, AlbumTabPanel, Album> {
+public class AlbumTabModels extends ModelProvider<AlbumTabModels, Album> {
 
     private IModel<Date> currentTime;
 
 
     /**
-     * <b>Do NOT forget to attach your component before using this model using {@link #attach(AlbumTabPanel)}</b>
-     * 
      * @param model
      *            The model providing the album to show.
      */
     public AlbumTabModels(IModel<Album> model) {
 
-        this( null, model );
-    }
-
-    /**
-     * @param component
-     *            The {@link AlbumTabPanel} we'll attach to.
-     * @param model
-     *            The model providing the album to show.
-     */
-    public AlbumTabModels(AlbumTabPanel component, IModel<Album> model) {
-
-        super( component, model );
+        super( model );
 
         currentTime = new Model<Date>();
     }

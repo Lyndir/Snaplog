@@ -67,7 +67,7 @@ public class AccessView extends GenericPanel<Album> {
             @Override
             protected List<User> loadObject() {
 
-                return userService.queryUsers( SnaplogSession.get().newToken() );
+                return userService.queryUsers( SnaplogSession.get().newToken(), null );
             }
 
             @Override

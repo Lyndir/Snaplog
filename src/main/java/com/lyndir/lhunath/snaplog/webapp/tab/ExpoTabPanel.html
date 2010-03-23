@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+
+    <body>
+        <wicket:panel>
+
+        <div class="gradient">
+            <p>The Expo showcases albums of other users and allows you to get in touch with friends and relatives.</p>
+            <p>Find interesting people by browsing through Galleries or go in search of a particular person or event by searching for them.</p>
+        </div>
+
+        <wicket:enclosure child="users">
+            <h3>Galleries</h3>
+            <p>These people are showcasing some of their albums either publicly or to you specifically.</p>
+
+            <ul class="plain">
+                <li class="block" wicket:id="users">
+                    <wicket:enclosure child="albums">
+                        <h4 wicket:id="userName">[lhunath]</h4>
+                        <ul class="plain">
+                            <li class="inline" wicket:id="albums">
+                                <wicket:container wicket:id="albumCover" />
+                            </li>
+                        </ul>
+                    </wicket:enclosure>
+                </li>
+            </ul>
+        </wicket:enclosure>
+
+        <h3>Find People and Media</h3>
+        <p>Go in search for specific people or particular events.</p>
+
+        <form wicket:id="searchForm">
+            <label for="query"><wicket:message key="query">[Find:]</wicket:message></label>
+            <input type="text" wicket:id="query" id="query" />
+            <input type="submit" wicket:message="value:go" />
+
+            <wicket:enclosure child="results">
+                <h4 wicket:id="results">[42 results:]</h4>
+            </wicket:enclosure>
+
+            <wicket:enclosure child="users">
+                <h3>Found Users:</h3>
+
+                <ul class="plain block">
+                    <li wicket:id="users">
+                        <h4 class="link" wicket:id="userName">[lhunath]</h4>
+                        <ul class="plain">
+                            <li class="inline" wicket:id="albums">
+                                <wicket:container wicket:id="albumCover" />
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </wicket:enclosure>
+
+            <wicket:enclosure child="albums">
+                <h3>Found Albums:</h3>
+
+                <ul class="plain block">
+                    <li wicket:id="albums">
+                        <wicket:container wicket:id="cover" />
+                    </li>
+                </ul>
+            </wicket:enclosure>
+        </form>
+
+        </wicket:panel>
+    </body>
+
+</html>

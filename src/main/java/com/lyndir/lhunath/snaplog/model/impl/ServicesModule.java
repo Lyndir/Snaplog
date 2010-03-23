@@ -19,10 +19,12 @@ import com.db4o.Db4oEmbedded;
 import com.db4o.EmbeddedObjectContainer;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
+import com.db4o.query.Predicate;
 import com.google.inject.AbstractModule;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.aws.S3Album;
+import com.lyndir.lhunath.snaplog.data.security.ACL;
 import com.lyndir.lhunath.snaplog.data.user.LinkID;
 import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.model.AWSMediaProviderService;
@@ -75,17 +77,35 @@ public class ServicesModule extends AbstractModule {
         bind( ObjectContainer.class ).toInstance( db );
 
         // Update dummy data.
+        ACL.DEFAULT = new User( new LinkID( ACL.class.getCanonicalName() ), "[DEFAULT]" );
+        ObjectSet<User> defaultQuery = db.query( new Predicate<User>() {
+
+            @Override
+            public boolean match(User candidate) {
+
+                return candidate.getLinkID().equals( ACL.DEFAULT.getLinkID() );
+            }
+        } );
+        if (defaultQuery.hasNext())
+            ACL.DEFAULT = defaultQuery.next();
+        else
+            db.store( ACL.DEFAULT );
+
         db.store( SnaplogConstants.DEFAULT_ALBUM );
 
         SnaplogConstants.DEFAULT_USER = new User( new LinkID( "b21e33e2-b63e-4f06-8f52-84509883e1d1" ), "lhunath" );
         ObjectSet<Object> defaultUserQuery = db.queryByExample( SnaplogConstants.DEFAULT_USER );
         if (defaultUserQuery.hasNext())
             SnaplogConstants.DEFAULT_USER = (User) defaultUserQuery.next();
+        else
+            db.store( SnaplogConstants.DEFAULT_USER );
 
         SnaplogConstants.DEFAULT_ALBUM = new S3Album( SnaplogConstants.DEFAULT_USER, "Life" );
         ObjectSet<Object> defaultAlbumQuery = db.queryByExample( SnaplogConstants.DEFAULT_ALBUM );
         if (defaultAlbumQuery.hasNext())
             SnaplogConstants.DEFAULT_ALBUM = (Album) defaultAlbumQuery.next();
+        else
+            db.store( SnaplogConstants.DEFAULT_ALBUM );
         SnaplogConstants.DEFAULT_ALBUM.setDescription( "<p>Arbitrary snapshots from Maarten's life.</p><p><label>Camera:</label><input value='Canon Powershot Pro1' /></p>" );
     }
 }

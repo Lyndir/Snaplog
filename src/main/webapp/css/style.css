@@ -13,6 +13,8 @@ body {
     background:         url("../images/layout/backdrop.png") repeat-x;
     color:              #DDD;
 
+    padding:            0 0 1em;
+
     font-family:        "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Arial, Helvetica, sans-serif;
     font-size:          95%;
 }

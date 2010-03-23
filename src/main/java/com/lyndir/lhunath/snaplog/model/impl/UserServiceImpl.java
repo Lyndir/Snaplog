@@ -20,9 +20,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
+import com.google.common.base.Predicates;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.util.SafeObjects;
-import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.LinkID;
@@ -130,33 +130,18 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public ObjectSet<Album> queryAlbumsOfUser(final SecurityToken token, final User ownerUser) {
-
-        checkNotNull( ownerUser, "Given owner user must not be null." );
-
-        return db.query( new Predicate<Album>() {
-
-            @Override
-            public boolean match(Album candidate) {
-
-                return SafeObjects.equal( candidate.getOwnerUser(), ownerUser )
-                       && securityService.hasAccess( Permission.VIEW, token, candidate );
-            }
-        } );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public ObjectSet<User> queryUsers(final SecurityToken token) {
+    public ObjectSet<User> queryUsers(final SecurityToken token, final com.google.common.base.Predicate<User> predicate) {
 
         return db.query( new Predicate<User>() {
 
             @Override
             public boolean match(User candidate) {
 
-                return securityService.hasAccess( Permission.VIEW, token, candidate );
+                com.google.common.base.Predicate<User> _predicate = predicate;
+                if (_predicate == null)
+                    _predicate = Predicates.alwaysTrue();
+
+                return _predicate.apply( candidate ) && securityService.hasAccess( Permission.VIEW, token, candidate );
             }
         } );
     }

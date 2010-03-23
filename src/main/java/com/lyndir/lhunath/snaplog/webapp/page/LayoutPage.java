@@ -63,7 +63,6 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
     public LayoutPage() {
 
         super( new LayoutPageModels().getModel() );
-        getModelObject().attach( this );
 
         // Page Title.
         Label pageTitle = new Label( "pageTitle", getModelObject().pageTitle() );
@@ -146,7 +145,6 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
             protected void populateItem(ListItem<TabItem> item) {
 
                 final TabItem itemModel = item.getModelObject();
-                itemModel.attach( item );
 
                 item.add( new AjaxLabelLink( "link", itemModel.title() ) {
 

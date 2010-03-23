@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.List;
 
-import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
@@ -34,7 +33,6 @@ import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.cookie.LastUserCookieManager;
-import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
 import com.lyndir.lhunath.snaplog.webapp.tab.TabProvider;
 
@@ -49,7 +47,7 @@ import com.lyndir.lhunath.snaplog.webapp.tab.TabProvider;
  * 
  * @author lhunath
  */
-public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels, LayoutPage> {
+public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
 
     protected final Messages msgs = LocalizerFactory.getLocalizer( Messages.class );
 
@@ -62,20 +60,9 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels, Layou
 
 
     /**
-     * <b>Do NOT forget to attach your component before using this model using {@link #attach(LayoutPage)}</b>
+     * Create a new {@link LayoutPageModels} instance.
      */
     public LayoutPageModels() {
-
-        this( null );
-    }
-
-    /**
-     * @param component
-     *            The page we'll attach to.
-     */
-    public LayoutPageModels(LayoutPage component) {
-
-        super( component );
 
         pageTitle = new LoadableDetachableModel<String>() {
 
@@ -156,7 +143,7 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels, Layou
                     @Override
                     public TabItem apply(final TabProvider from) {
 
-                        return new TabItem( null, new Model<TabProvider>( from ) );
+                        return new TabItem( new Model<TabProvider>( from ) );
                     }
                 } );
             }
@@ -174,20 +161,18 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels, Layou
      * 
      * @author lhunath
      */
-    public static class TabItem extends ModelProvider<TabItem, ListItem<?>, TabProvider> {
+    public static class TabItem extends ModelProvider<TabItem, TabProvider> {
 
         private IModel<String> styleClass;
 
 
         /**
-         * @param component
-         *            The tab component we'll attach to.
          * @param model
          *            The base model for the tab component.
          */
-        public TabItem(ListItem<?> component, IModel<TabProvider> model) {
+        public TabItem(IModel<TabProvider> model) {
 
-            super( component, model );
+            super( model );
 
             styleClass = new LoadableDetachableModel<String>() {
 

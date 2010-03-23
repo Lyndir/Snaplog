@@ -23,10 +23,11 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.messages.Messages;
+import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 
 
 /**
- * <h2>{@link HomeTabPanel}<br>
+ * <h2>{@link AboutTabPanel}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
@@ -35,15 +36,15 @@ import com.lyndir.lhunath.snaplog.messages.Messages;
  * 
  * @author lhunath
  */
-public class HomeTabPanel extends Panel {
+public class AboutTabPanel extends Panel {
 
     /**
-     * Create a new {@link HomeTabPanel} instance.
+     * Create a new {@link AboutTabPanel} instance.
      * 
      * @param id
-     *            The wicket ID that will hold the {@link HomeTabPanel}.
+     *            The wicket ID that will hold the {@link AboutTabPanel}.
      */
-    public HomeTabPanel(String id) {
+    public AboutTabPanel(String id) {
 
         super( id );
     }
@@ -51,7 +52,7 @@ public class HomeTabPanel extends Panel {
 
 
 /**
- * <h2>{@link HomeTabPanel}<br>
+ * <h2>{@link AboutTab}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
@@ -64,9 +65,9 @@ public class HomeTabPanel extends Panel {
  * 
  * @author lhunath
  */
-class HomeTab implements ITab {
+class AboutTab implements ITab {
 
-    static final Logger logger = Logger.get( HomeTab.class );
+    static final Logger logger = Logger.get( AboutTab.class );
     Messages msgs = LocalizerFactory.getLocalizer( Messages.class );
 
 
@@ -81,7 +82,7 @@ class HomeTab implements ITab {
             @Override
             protected String load() {
 
-                return msgs.homeTab();
+                return msgs.aboutTab();
             }
         };
     }
@@ -92,7 +93,7 @@ class HomeTab implements ITab {
     @Override
     public Panel getPanel(String panelId) {
 
-        return new HomeTabPanel( panelId );
+        return new AboutTabPanel( panelId );
     }
 
     /**
@@ -101,6 +102,6 @@ class HomeTab implements ITab {
     @Override
     public boolean isVisible() {
 
-        return true;
+        return SnaplogSession.get().getActiveUser() == null;
     }
 }

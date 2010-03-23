@@ -76,7 +76,6 @@ public class NewUserPage extends LayoutPage {
         NewUserPanel(String id) {
 
             super( id, new NewUserPanelModels().getModel() );
-            getModelObject().attach( this );
 
             add( new Form<NewUserFormModels>( "newUserForm", getModelObject().newUserForm().getModel() ) {
 

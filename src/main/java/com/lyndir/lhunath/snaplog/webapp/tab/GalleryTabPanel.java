@@ -17,8 +17,6 @@ package com.lyndir.lhunath.snaplog.webapp.tab;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.List;
-
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
@@ -31,10 +29,8 @@ import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
 
 import com.google.inject.Inject;
@@ -42,7 +38,6 @@ import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.SafeObjects;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
-import com.lyndir.lhunath.lib.wayward.provider.AbstractListProvider;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.AlbumProviderType;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
@@ -56,8 +51,8 @@ import com.lyndir.lhunath.snaplog.model.UserService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.page.util.LayoutPageUtils;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels;
-import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels.AlbumItemModels;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels.NewAlbumFormModels;
+import com.lyndir.lhunath.snaplog.webapp.view.AbstractAlbumsView;
 import com.lyndir.lhunath.snaplog.webapp.view.MediaView;
 
 
@@ -75,6 +70,8 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 
     static final Logger logger = Logger.get( GalleryTabPanel.class );
     Messages msgs = LocalizerFactory.getLocalizer( Messages.class, this );
+
+    static final int ALBUMS_PER_PAGE = 5;
 
     @Inject
     UserService userService;
@@ -98,7 +95,6 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 
         super( id, new GalleryTabModels( userModel ).getModel() );
         checkNotNull( userModel.getObject(), "Model object of GalleryTabPanel must not be null" );
-        getModelObject().attach( this );
 
         // Page info
         add( new Label( "albumsTitleUsername", getModelObject().decoratedUsername() ) );
@@ -110,39 +106,25 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 
         // List of albums
         // TODO: Make this data view top-level to provide Album enumeration elsewhere.
-        add( new DataView<Album>( "albums", new AbstractListProvider<Album>() {
-
-            @Override
-            protected List<Album> loadObject() {
-
-                return userService.queryAlbumsOfUser( SnaplogSession.get().newToken(), getModelObject().getObject() );
-            }
-
-            @Override
-            public IModel<Album> model(Album object) {
-
-                return new Model<Album>( object );
-            }
-        } ) {
+        add( new AbstractAlbumsView( "albums", getModelObject(), ALBUMS_PER_PAGE ) {
 
             @Override
             protected void populateItem(Item<Album> item) {
 
-                item.add( new AjaxLink<AlbumItemModels>( "link", getModelObject().albumItem( item, item.getModel() )
-                                                                                 .getModel() ) {
+                item.add( new AjaxLink<Album>( "link", item.getModel() ) {
 
                     {
-                        add( new MediaView( "cover", getModelObject().cover(), Quality.THUMBNAIL, false ) );
-                        add( new Label( "title", getModelObject().title() ) );
+                        add( new MediaView( "cover", cover( getModel() ), Quality.THUMBNAIL, false ) );
+                        add( new Label( "title", getModelObject().getName() ) );
                         // TODO: Fix HTML injection.
-                        add( new Label( "description", getModelObject().description() ).setEscapeModelStrings( false ) );
+                        add( new Label( "description", getModelObject().getDescription() ).setEscapeModelStrings( false ) );
                     }
 
 
                     @Override
                     public void onClick(AjaxRequestTarget target) {
 
-                        SnaplogSession.get().setFocussedAlbum( getModelObject().getObject() );
+                        SnaplogSession.get().setFocussedAlbum( getModelObject() );
                         LayoutPageUtils.setActiveTab( Tab.ALBUM, target );
                     }
                 } );

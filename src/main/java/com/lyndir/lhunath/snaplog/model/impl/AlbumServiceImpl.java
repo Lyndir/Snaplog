@@ -23,6 +23,7 @@ import java.util.LinkedList;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
+import com.db4o.query.Predicate;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
@@ -71,6 +72,25 @@ public class AlbumServiceImpl implements AlbumService {
 
         this.db = db;
         this.securityService = securityService;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public ObjectSet<Album> queryAlbums(final SecurityToken token,
+                                        final com.google.common.base.Predicate<Album> predicate) {
+
+        checkNotNull( predicate, "Given predicate must not be null." );
+
+        return db.query( new Predicate<Album>() {
+
+            @Override
+            public boolean match(Album candidate) {
+
+                return predicate.apply( candidate ) && securityService.hasAccess( Permission.VIEW, token, candidate );
+            }
+        } );
     }
 
     /**

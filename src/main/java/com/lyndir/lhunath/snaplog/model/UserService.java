@@ -16,7 +16,7 @@
 package com.lyndir.lhunath.snaplog.model;
 
 import com.db4o.ObjectSet;
-import com.lyndir.lhunath.snaplog.data.media.Album;
+import com.google.common.base.Predicate;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.LinkID;
 import com.lyndir.lhunath.snaplog.data.user.User;
@@ -74,21 +74,13 @@ public interface UserService {
     User findUserWithUserName(SecurityToken token, String userName);
 
     /**
-     * Query for all albums of a user that are visible to a certain user.
-     * 
      * @param token
      *            Request authentication token.
-     * @param ownerUser
-     *            The {@link User} that owns the returned {@link Album}s.
-     * 
-     * @return An {@link ObjectSet} of albums owned by the given owner that are visible to the given observer.
+     * @param predicate
+     *            An optional predicate that should evaluate to <code>true</code> for each user to return. If
+     *            <code>null</code>, all users implicitly match.
+     * @return An {@link ObjectSet} of the {@link User}s that apply to the given predicate and are viewable using the
+     *         given token.
      */
-    ObjectSet<Album> queryAlbumsOfUser(SecurityToken token, User ownerUser);
-
-    /**
-     * @param token
-     *            Request authentication token.
-     * @return An {@link ObjectSet} of all known {@link User}s.
-     */
-    ObjectSet<User> queryUsers(SecurityToken token);
+    ObjectSet<User> queryUsers(SecurityToken token, Predicate<User> predicate);
 }

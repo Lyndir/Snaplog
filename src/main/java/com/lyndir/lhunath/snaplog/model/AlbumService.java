@@ -17,6 +17,8 @@ package com.lyndir.lhunath.snaplog.model;
 
 import java.util.Iterator;
 
+import com.db4o.ObjectSet;
+import com.google.common.base.Predicate;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.AlbumData;
 import com.lyndir.lhunath.snaplog.data.media.Media;
@@ -40,6 +42,18 @@ import com.lyndir.lhunath.snaplog.data.user.User;
  * @author lhunath
  */
 public interface AlbumService extends MediaProviderService<Album, Media> {
+
+    /**
+     * Query for all albums of a user that are visible to a certain user.
+     * 
+     * @param token
+     *            Request authentication token.
+     * @param predicate
+     *            The predicate that should evaluate to <code>true</code> for each album to return.
+     * 
+     * @return An {@link ObjectSet} of albums owned by the given owner that are visible to the given observer.
+     */
+    ObjectSet<Album> queryAlbums(SecurityToken token, Predicate<Album> predicate);
 
     /**
      * Look for an album owned by a user.

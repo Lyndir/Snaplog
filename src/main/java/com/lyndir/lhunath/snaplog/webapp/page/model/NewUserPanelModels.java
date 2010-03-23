@@ -15,14 +15,11 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.page.model;
 
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.wayward.model.EmptyModelProvider;
 import com.lyndir.lhunath.snaplog.util.LinkIDUtils;
-import com.lyndir.lhunath.snaplog.webapp.page.NewUserPage.NewUserPanel;
 
 
 /**
@@ -35,27 +32,15 @@ import com.lyndir.lhunath.snaplog.webapp.page.NewUserPage.NewUserPanel;
  * 
  * @author lhunath
  */
-public class NewUserPanelModels extends EmptyModelProvider<NewUserPanelModels, NewUserPanel> {
+public class NewUserPanelModels extends EmptyModelProvider<NewUserPanelModels> {
 
     private NewUserFormModels newUserForm;
 
 
     /**
-     * <b>Do NOT forget to attach your component before using this model using {@link #attach(NewUserPanel)}</b>
+     * Create a new {@link NewUserPanelModels} instance.
      */
-    @Inject
     public NewUserPanelModels() {
-
-        this( null );
-    }
-
-    /**
-     * @param component
-     *            The page we'll attach to.
-     */
-    public NewUserPanelModels(NewUserPanel component) {
-
-        super( component );
 
         newUserForm = new NewUserFormModels();
     }
@@ -71,7 +56,7 @@ public class NewUserPanelModels extends EmptyModelProvider<NewUserPanelModels, N
      * 
      * @author lhunath
      */
-    public class NewUserFormModels extends EmptyModelProvider<NewUserFormModels, Form<?>> {
+    public class NewUserFormModels extends EmptyModelProvider<NewUserFormModels> {
 
         private IModel<String> userName;
 

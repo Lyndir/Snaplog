@@ -21,7 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.snaplog.data.user.LinkID;
 import com.lyndir.lhunath.snaplog.data.user.User;
 
 
@@ -39,9 +38,12 @@ public class ACL {
 
     static final Logger logger = Logger.get( ACL.class );
 
-    // Workaround for <http://tracker.db4o.com/browse/COR-1894>.
-    // TODO: Use null key instead.
-    private static User DEFAULT = new User( new LinkID( ACL.class.getCanonicalName() ), "[DEFAULT]" );
+    /**
+     * TODO: Remove Me and use null key instead. Workaround for:
+     * 
+     * @see <a href="http://tracker.db4o.com/browse/COR-1894">COR-1894</a>
+     */
+    public static User DEFAULT;
 
     private Map<User, Permission> userPermissions;
 

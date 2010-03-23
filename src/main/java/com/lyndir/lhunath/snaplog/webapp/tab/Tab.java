@@ -33,7 +33,12 @@ public enum Tab implements TabProvider {
     /**
      * This is the initial tab that describes Snaplog.
      */
-    HOME( new HomeTab() ),
+    ABOUT( new AboutTab() ),
+
+    /**
+     * This tab provides an exposition of other people on Snaplog.
+     */
+    EXPO( new ExpoTab() ),
 
     /**
      * This tab provides a summary view of a user's account.
