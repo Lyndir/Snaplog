@@ -18,7 +18,7 @@
             <ul class="plain">
                 <li class="block" wicket:id="users">
                     <wicket:enclosure child="albums">
-                        <h4 wicket:id="userName">[lhunath]</h4>
+                        <h4 class="link" wicket:id="userName">[lhunath]</h4>
                         <ul class="plain">
                             <li class="inline" wicket:id="albums">
                                 <wicket:container wicket:id="albumCover" />
@@ -35,7 +35,6 @@
         <form wicket:id="searchForm">
             <label for="query"><wicket:message key="query">[Find:]</wicket:message></label>
             <input type="text" wicket:id="query" id="query" />
-            <input type="submit" wicket:message="value:go" />
 
             <wicket:enclosure child="results">
                 <h4 wicket:id="results">[42 results:]</h4>

@@ -16,10 +16,10 @@
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.MarkupStream;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -28,13 +28,13 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.StringResourceModel;
+import org.apache.wicket.util.string.AppendingStringBuffer;
 
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.collection.IPredicate;
 import com.lyndir.lhunath.lib.wayward.component.GenericLabel;
-import com.lyndir.lhunath.lib.wayward.component.LabelAjaxLink;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.user.User;
@@ -47,6 +47,7 @@ import com.lyndir.lhunath.snaplog.webapp.tab.model.ExpoTabModels;
 import com.lyndir.lhunath.snaplog.webapp.view.AbstractAlbumsView;
 import com.lyndir.lhunath.snaplog.webapp.view.AbstractUsersView;
 import com.lyndir.lhunath.snaplog.webapp.view.MediaView;
+import com.lyndir.lhunath.snaplog.webapp.view.UserLink;
 
 
 /**
@@ -70,6 +71,9 @@ public class ExpoTabPanel extends Panel {
     @Inject
     AlbumService albumService;
 
+    // TODO: Remove when <https://issues.apache.org/jira/browse/WICKET-2797> is fixed.
+    Form<?> searchForm;
+
 
     /**
      * Create a new {@link ExpoTabPanel} instance.
@@ -86,7 +90,7 @@ public class ExpoTabPanel extends Panel {
             @Override
             protected void populateItem(final Item<User> userItem) {
 
-                userItem.add( new Label( "userName", userItem.getModelObject().toString() ) );
+                userItem.add( new UserLink( "userName", userItem.getModel() ) );
                 userItem.add( new AbstractAlbumsView( "albums", userItem.getModel(), ALBUMS_PER_PAGE ) {
 
                     @Override
@@ -107,6 +111,7 @@ public class ExpoTabPanel extends Panel {
                     @Override
                     public boolean isVisible() {
 
+                        // userItem's visibility == the visibility of the albums view in it.
                         boolean visible = super.isVisible();
                         userItem.setVisible( visible );
 
@@ -116,7 +121,7 @@ public class ExpoTabPanel extends Panel {
             }
         } );
 
-        add( new Form<String>( "searchForm", new Model<String>() ) {
+        add( (searchForm = new Form<String>( "searchForm", new Model<String>() ) {
 
             AbstractUsersView usersView;
             AbstractAlbumsView albumsView;
@@ -175,22 +180,7 @@ public class ExpoTabPanel extends Panel {
                     @Override
                     protected void populateItem(final Item<User> userItem) {
 
-                        userItem.add( new LabelAjaxLink( "userName", new LoadableDetachableModel<String>() {
-
-                            @Override
-                            protected String load() {
-
-                                return userItem.getModelObject().toString();
-                            }
-                        } ) {
-
-                            @Override
-                            public void onClick(AjaxRequestTarget target) {
-
-                                SnaplogSession.get().setFocussedUser( userItem.getModelObject() );
-                                LayoutPageUtils.setActiveTab( Tab.GALLERY, target );
-                            }
-                        } );
+                        userItem.add( new UserLink( "userName", userItem.getModel() ) );
                         userItem.add( new AbstractAlbumsView( "albums", userItem.getModel(), ALBUMS_PER_PAGE ) {
 
                             @Override
@@ -204,6 +194,12 @@ public class ExpoTabPanel extends Panel {
 
                                         SnaplogSession.get().setFocussedAlbum( getModelObject().getAlbum() );
                                         LayoutPageUtils.setActiveTab( Tab.ALBUM, target );
+                                    }
+
+                                    @Override
+                                    protected String getCaptionString() {
+
+                                        return getModelObject().getName();
                                     }
                                 } );
                             }
@@ -234,11 +230,39 @@ public class ExpoTabPanel extends Panel {
                                 SnaplogSession.get().setFocussedAlbum( getModelObject().getAlbum() );
                                 LayoutPageUtils.setActiveTab( Tab.ALBUM, target );
                             }
+
+                            @Override
+                            protected String getCaptionString() {
+
+                                return getModelObject().getName();
+                            }
                         } );
                     }
                 } );
             }
-        } );
+        }).add( new AjaxFormSubmitBehavior( searchForm, "onsubmit" ) {
+
+            @Override
+            protected void onSubmit(AjaxRequestTarget target) {
+
+                target.addComponent( getForm() );
+            }
+
+            @Override
+            protected void onError(AjaxRequestTarget target) {
+
+            // TODO: Feedback.
+            }
+
+            @Override
+            protected CharSequence getEventHandler() {
+
+                // Prevents the form from generating an http request.
+                // If we do not provide this, the AJAX event is processed AND the form still gets submitted.
+                // FIXME: Ugly. Should probably be moved into AjaxFormSubmitBehaviour.
+                return new AppendingStringBuffer( super.getEventHandler() ).append( "; return false;" );
+            }
+        } ).setOutputMarkupId( true ) );
     }
 }
 

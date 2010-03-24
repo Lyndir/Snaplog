@@ -101,9 +101,16 @@ public class MediaView extends GenericPanel<Media> {
             @Override
             protected String load() {
 
-                return getModelObject().getDateString();
+                return getCaptionString();
             }
-        } ) );
+        } ) {
+
+            @Override
+            public boolean isVisible() {
+
+                return getModelObject() != null;
+            }
+        } );
         image.add( new ContextImage( "thumb", new LoadableDetachableModel<String>() {
 
             @Override
@@ -139,6 +146,14 @@ public class MediaView extends GenericPanel<Media> {
                 return getModelObject() != null && quality == Quality.PREVIEW;
             }
         } );
+    }
+
+    /**
+     * @return The string to show in the caption. Use <code>null</code> to hide the caption.
+     */
+    protected String getCaptionString() {
+
+        return getModelObject().getDateString();
     }
 
     /**
