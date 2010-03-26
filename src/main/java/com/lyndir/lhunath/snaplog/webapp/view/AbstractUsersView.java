@@ -12,7 +12,6 @@ import com.lyndir.lhunath.lib.wayward.provider.AbstractListProvider;
 import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.model.UserService;
-import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 
 
@@ -70,7 +69,7 @@ public abstract class AbstractUsersView extends DataView<User> {
             protected List<User> loadObject() {
 
                 UserService userService = GuiceContext.get().getInstance( UserService.class );
-                return userService.queryUsers( SnaplogSession.get().newToken(), predicate );
+                return userService.queryUsers( predicate );
             }
         }, usersPerPage );
     }

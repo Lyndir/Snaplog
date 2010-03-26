@@ -15,7 +15,6 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
-import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
@@ -65,7 +64,7 @@ public class AboutTabPanel extends Panel {
  * 
  * @author lhunath
  */
-class AboutTab implements ITab {
+class AboutTab implements SnaplogTab {
 
     static final Logger logger = Logger.get( AboutTab.class );
     Messages msgs = LocalizerFactory.getLocalizer( Messages.class );
@@ -100,8 +99,17 @@ class AboutTab implements ITab {
      * {@inheritDoc}
      */
     @Override
+    public Panel getTools(String panelId) {
+
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public boolean isVisible() {
 
-        return SnaplogSession.get().getActiveUser() == null;
+        return !SnaplogSession.get().isAuthenticated();
     }
 }

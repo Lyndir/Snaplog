@@ -2,7 +2,7 @@ package com.lyndir.lhunath.snaplog.model;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.net.URI;
+import java.net.URL;
 import java.util.Iterator;
 
 import com.lyndir.lhunath.snaplog.data.media.Album;
@@ -77,10 +77,10 @@ public class AlbumProvider<A extends Album, M extends Media> implements MediaPro
      * {@inheritDoc}
      */
     @Override
-    public URI getResourceURI(SecurityToken token, M media, Quality quality)
+    public URL getResourceURL(SecurityToken token, M media, Quality quality)
             throws PermissionDeniedException {
 
-        return getMediaProviderService().getResourceURI( token, media, quality );
+        return getMediaProviderService().getResourceURL( token, media, quality );
     }
 
     /**

@@ -93,7 +93,7 @@ public class ImageServlet extends HttpServlet {
         checkNotNull( quality, "Given quality must not be null." );
 
         Album album = media.getAlbum();
-        User user = album.getOwnerUser();
+        User user = album.getOwnerProfile().getUser();
 
         StringBuilder path = new StringBuilder( PATH ).append( '?' );
         path.append( PARAM_USER ).append( '=' ).append( URLUtils.encode( user.getUserName() ) ).append( '&' );
@@ -118,15 +118,15 @@ public class ImageServlet extends HttpServlet {
             String qualityName = req.getParameter( PARAM_QUALITY );
             SecurityToken token = SnaplogSession.get().newToken();
 
-            User user = checkNotNull( userService.findUserWithUserName( token, userName ), //
+            User user = checkNotNull( userService.findUserWithUserName( userName ), //
                                       "No user named %s.", userName );
             Album album = checkNotNull( albumService.findAlbumWithName( token, user, albumName ), //
                                         "User %s has no album named %s.", user, albumName );
             Media media = checkNotNull( albumService.findMediaWithName( token, album, mediaName ), //
                                         "Album %s has no media named %s.", album, mediaName );
 
-            resp.sendRedirect( albumService.getResourceURI( token, media, Quality.findQualityWithName( qualityName ) )
-                                           .toASCIIString() );
+            resp.sendRedirect( albumService.getResourceURL( token, media, Quality.findQualityWithName( qualityName ) )
+                                           .toExternalForm() );
         }
 
         catch (PermissionDeniedException e) {

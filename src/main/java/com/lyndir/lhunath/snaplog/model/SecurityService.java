@@ -71,7 +71,8 @@ public interface SecurityService {
 
     /**
      * @param token
-     *            The token used to authenticate the available permissions on the requested objects.
+     *            Request authentication token should authorize {@link Permission#VIEW} on the album data's media to
+     *            return.
      * @param albumData
      *            The data to retrieve files from.
      * @return All files from the given albumData that the given token authorizes access to.
@@ -80,7 +81,8 @@ public interface SecurityService {
 
     /**
      * @param token
-     *            The token used to authenticate the available permissions on the requested objects.
+     *            Request authentication token should authorize {@link Permission#VIEW} on the album data's media to
+     *            return. (TODO: Not implemented)
      * @param albumData
      *            The data to retrieve timeFrames from.
      * @return All timeFrames from the given albumData that the given token authorizes access to.

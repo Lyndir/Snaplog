@@ -21,7 +21,7 @@ import java.io.Serializable;
 
 import com.google.common.base.Objects;
 import com.lyndir.lhunath.snaplog.data.security.AbstractSecureObject;
-import com.lyndir.lhunath.snaplog.data.user.User;
+import com.lyndir.lhunath.snaplog.data.user.UserProfile;
 
 
 /**
@@ -38,22 +38,22 @@ import com.lyndir.lhunath.snaplog.data.user.User;
  * 
  * @author lhunath
  */
-public abstract class Album extends AbstractSecureObject<User> implements Serializable {
+public abstract class Album extends AbstractSecureObject<UserProfile> implements Serializable {
 
-    private User ownerUser;
+    private UserProfile ownerProfile;
     private String name;
     private String description;
 
 
     /**
-     * @param ownerUser
-     *            The ownerUser that owns this Album.
+     * @param ownerProfile
+     *            The profile of the user that owns this album.
      * @param name
-     *            A unique, ownerUser-visible name of this Album amongst the ownerUser's albums.
+     *            A unique, ownerProfile-visible name of this album amongst the ownerProfile's albums.
      */
-    protected Album(User ownerUser, String name) {
+    protected Album(UserProfile ownerProfile, String name) {
 
-        setOwnerUser( ownerUser );
+        setOwnerProfile( ownerProfile );
         setName( name );
     }
 
@@ -61,26 +61,26 @@ public abstract class Album extends AbstractSecureObject<User> implements Serial
      * {@inheritDoc}
      */
     @Override
-    public User getParent() {
+    public UserProfile getParent() {
 
-        return getOwnerUser();
+        return getOwnerProfile();
     }
 
     /**
-     * @return The ownerUser of this {@link Album}.
+     * @return The profile of the user that owns this album.
      */
-    public User getOwnerUser() {
+    public UserProfile getOwnerProfile() {
 
-        return checkNotNull( ownerUser, "Given ownerUser must not be null." );
+        return checkNotNull( ownerProfile, "Given ownerProfile must not be null." );
     }
 
     /**
-     * @param ownerUser
-     *            The ownerUser of this {@link Album}.
+     * @param ownerProfile
+     *            The profile of the user that owns this album.
      */
-    public void setOwnerUser(User ownerUser) {
+    public void setOwnerProfile(UserProfile ownerProfile) {
 
-        this.ownerUser = checkNotNull( ownerUser, "Given ownerUser must not be null." );
+        this.ownerProfile = checkNotNull( ownerProfile, "Given ownerProfile must not be null." );
     }
 
     /**
@@ -127,7 +127,7 @@ public abstract class Album extends AbstractSecureObject<User> implements Serial
             return true;
 
         if (o instanceof Album)
-            return Objects.equal( ((Album) o).getOwnerUser(), getOwnerUser() )
+            return Objects.equal( ((Album) o).getOwnerProfile(), getOwnerProfile() )
                    && Objects.equal( ((Album) o).getName(), getName() );
 
         return false;
@@ -139,7 +139,7 @@ public abstract class Album extends AbstractSecureObject<User> implements Serial
     @Override
     public int hashCode() {
 
-        return Objects.hashCode( getOwnerUser(), getName() );
+        return Objects.hashCode( getOwnerProfile(), getName() );
     }
 
     /**
@@ -148,6 +148,6 @@ public abstract class Album extends AbstractSecureObject<User> implements Serial
     @Override
     public String toString() {
 
-        return String.format( "{album: name=%s, owner=%s}", name, ownerUser );
+        return String.format( "{album: name=%s, ownerProfile=%s}", name, ownerProfile );
     }
 }

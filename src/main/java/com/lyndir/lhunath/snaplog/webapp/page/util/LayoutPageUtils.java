@@ -15,13 +15,14 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.page.util;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.wicket.Component;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.util.template.JavaScriptTemplate;
 import org.apache.wicket.util.template.PackagedTextTemplate;
 
@@ -29,7 +30,6 @@ import com.lyndir.lhunath.lib.wayward.component.RedirectToPageException;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
-import com.lyndir.lhunath.snaplog.webapp.tab.TabProvider;
 
 
 /**
@@ -53,32 +53,34 @@ public abstract class LayoutPageUtils {
      *            Optional AJAX request target. If specified, the components that need to be reloaded to update the page
      *            appropriately will be added to the target.
      */
-    public static void setActiveTab(TabProvider tab, AjaxRequestTarget target) {
+    public static void setActiveTab(Tab tab, AjaxRequestTarget target) {
 
+        SnaplogSession.get().setActiveContent( null );
         SnaplogSession.get().setActiveTab( tab );
 
         if (!LayoutPage.class.equals( RequestCycle.get().getResponsePageClass() ))
             throw new RedirectToPageException( LayoutPage.class );
 
-        LayoutPage layoutPage = (LayoutPage) RequestCycle.get().getResponsePage();
-        layoutPage.setContentPanel( getActiveTabPanel( LayoutPage.CONTENT_PANEL ), target );
+        if (target != null) {
+            // Checked above.
+            LayoutPage layoutPage = (LayoutPage) RequestCycle.get().getResponsePage();
+            layoutPage.reloadFor( target );
+        }
     }
 
     /**
-     * @param wicketId
-     *            The wicket ID to create the panel with.
-     * @return The panel for the active tab.
+     * @return The tab that should be activated in the layout.
      * 
      * @see SnaplogSession#getActiveTab()
      */
-    public static Panel getActiveTabPanel(String wicketId) {
+    public static Tab getActiveTab() {
 
         // Find the active tab.
-        TabProvider activeTab = SnaplogSession.get().getActiveTab();
+        Tab activeTab = SnaplogSession.get().getActiveTab();
         if (activeTab == null)
             SnaplogSession.get().setActiveTab( activeTab = Tab.ABOUT );
 
-        return activeTab.getTab().getPanel( wicketId );
+        return activeTab;
     }
 
     /**
@@ -90,7 +92,10 @@ public abstract class LayoutPageUtils {
      */
     public static String trackJS(Component trackComponent) {
 
+        checkNotNull( trackComponent, "Given trackComponent must not be null." );
+
         Map<String, Object> trackVariables = new HashMap<String, Object>();
+        trackVariables.put( "googleAnalyticsID", "UA-90535-10" ); // TODO: Unhardcode.
         trackVariables.put( "pageView", trackComponent.getClass().getSimpleName() );
 
         JavaScriptTemplate trackJS = new JavaScriptTemplate(

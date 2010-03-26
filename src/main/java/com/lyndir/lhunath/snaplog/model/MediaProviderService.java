@@ -15,13 +15,14 @@
  */
 package com.lyndir.lhunath.snaplog.model;
 
-import java.net.URI;
+import java.net.URL;
 import java.util.Iterator;
 
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.AlbumData;
 import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
+import com.lyndir.lhunath.snaplog.data.security.Permission;
 import com.lyndir.lhunath.snaplog.data.security.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.User;
@@ -47,7 +48,7 @@ public interface MediaProviderService<A extends Album, M extends Media> {
      * Iterate all accessible media in a certain album.
      * 
      * @param token
-     *            Request authentication token.
+     *            Request authentication token should authorize {@link Permission#VIEW} on the album's media to return.
      * @param album
      *            The album whose {@link Media} you want to enumerate.
      * 
@@ -59,32 +60,34 @@ public interface MediaProviderService<A extends Album, M extends Media> {
      * Obtain a reference to the resource of media at a certain quality.
      * 
      * @param token
-     *            Request authentication token.
+     *            Request authentication token should authorize {@link Permission#VIEW} on the media whose URL to
+     *            return.
      * @param media
      *            The {@link Media} whose resource you want to obtain a reference to.
      * @param quality
      *            The {@link Quality} of the {@link Media}'s resource you want to obtain a reference to.
      * 
-     * @return A {@link URI} which references a resource.
+     * @return A {@link URL} which references a resource.
      * 
      * @throws PermissionDeniedException
-     *             When the token does not grant permission to the media.
+     *             When the token does not grant {@link Permission#VIEW} to the media.
      */
-    URI getResourceURI(SecurityToken token, M media, Quality quality)
+    URL getResourceURL(SecurityToken token, M media, Quality quality)
             throws PermissionDeniedException;
 
     /**
      * Obtain the timestamp at which the given media was created.
      * 
      * @param token
-     *            Request authentication token.
+     *            Request authentication token should authorize {@link Permission#VIEW} on the media whose modification
+     *            time to return.
      * @param media
      *            The media whose creation time you want to obtain.
      * 
      * @return A timestamp in milliseconds since the UNIX epoch.
      * 
      * @throws PermissionDeniedException
-     *             When the token does not grant permission to the media.
+     *             When the token does not grant {@link Permission#VIEW} to the media.
      */
     long modifiedTime(SecurityToken token, M media)
             throws PermissionDeniedException;

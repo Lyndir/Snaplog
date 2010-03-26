@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -42,6 +41,7 @@ import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.AlbumProviderType;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
+import com.lyndir.lhunath.snaplog.data.security.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.model.AlbumProvider;
@@ -82,6 +82,8 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
     @Inject
     SecurityService securityService;
 
+    AbstractAlbumsView albums;
+
 
     /**
      * Create a new {@link GalleryTabPanel} instance.
@@ -98,15 +100,40 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 
         // Page info
         add( new Label( "albumsTitleUsername", getModelObject().decoratedUsername() ) );
-        add( new Label( "anothersAlbumsHelp", new StringResourceModel( "anothersAlbumsHelp", null,
-                new Object[] { getModelObject().username() } ) ) //
-        .setVisible( !SafeObjects.equal( getModelObject().getObject(), SnaplogSession.get().getActiveUser() ) ) );
-        add( new Label( "ownAlbumsHelp", new StringResourceModel( "ownAlbumsHelp", null ) ) //
-        .setVisible( SafeObjects.equal( getModelObject().getObject(), SnaplogSession.get().getActiveUser() ) ) );
+        add( new Label( "anothersAlbumsHelp", new StringResourceModel( "anothersAlbumsHelp."
+                                                                       + (SnaplogSession.get().isAuthenticated()
+                                                                               ? "auth": "anon"), null,
+                new Object[] { getModelObject().username() } ) ) {
+
+            @Override
+            public boolean isVisible() {
+
+                return albums.getItemCount() > 0 && //
+                       !SafeObjects.equal( getModelObject().getObject(), SnaplogSession.get().getActiveUser() );
+            }
+        } );
+        add( new Label( "ownAlbumsHelp", new StringResourceModel( "ownAlbumsHelp", null ) ) {
+
+            @Override
+            public boolean isVisible() {
+
+                return albums.getItemCount() > 0 && //
+                       SafeObjects.equal( getModelObject().getObject(), SnaplogSession.get().getActiveUser() );
+            }
+        } );
+        add( new Label( "noAlbumsHelp", new StringResourceModel( SnaplogSession.get().getActiveUser() == null
+                ? "noAlbumsHelp.anon": "noAlbumsHelp.auth", null, new Object[] { getModelObject().username() } ) ) {
+
+            @Override
+            public boolean isVisible() {
+
+                return albums.getItemCount() == 0;
+            }
+        } );
 
         // List of albums
         // TODO: Make this data view top-level to provide Album enumeration elsewhere.
-        add( new AbstractAlbumsView( "albums", getModelObject(), ALBUMS_PER_PAGE ) {
+        add( albums = new AbstractAlbumsView( "albums", getModelObject(), ALBUMS_PER_PAGE ) {
 
             @Override
             protected void populateItem(Item<Album> item) {
@@ -157,12 +184,18 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                                                               getModelObject().name().getObject(), //
                                                               getModelObject().description().getObject() );
 
-                        albumService.registerAlbum( album );
+                        try {
+                            albumService.registerAlbum( SnaplogSession.get().newToken(), album );
 
-                        // New album was created; reset and hide ourselves again.
-                        getModelObject().name().setObject( null );
-                        getModelObject().description().setObject( null );
-                        setVisible( false );
+                            // New album was created; reset and hide ourselves again.
+                            getModelObject().name().setObject( null );
+                            getModelObject().description().setObject( null );
+                            setVisible( false );
+                        }
+
+                        catch (PermissionDeniedException e) {
+                            error( e );
+                        }
                     }
                 };
 
@@ -189,8 +222,17 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
             @Override
             public boolean isVisible() {
 
-                return securityService.hasAccess( Permission.CONTRIBUTE, SnaplogSession.get().newToken(),
-                                                  getModelObject().getObject() );
+                try {
+                    // Only show when session has CONTRIBUTE permission to the user's profile.
+                    // (otherwise he won't be able to create a new album anyway)
+                    return securityService.hasAccess( Permission.CONTRIBUTE, SnaplogSession.get().newToken(),
+                                                      userService.getProfile( SnaplogSession.get().newToken(),
+                                                                              getModelObject().getObject() ) );
+                }
+
+                catch (PermissionDeniedException e) {
+                    return false;
+                }
             }
         }.setOutputMarkupPlaceholderTag( true ) );
     }
@@ -211,7 +253,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
  * 
  * @author lhunath
  */
-class GalleryTab implements ITab {
+class GalleryTab implements SnaplogTab {
 
     static final Logger logger = Logger.get( GalleryTab.class );
     Messages msgs = LocalizerFactory.getLocalizer( Messages.class );
@@ -258,6 +300,15 @@ class GalleryTab implements ITab {
                 SnaplogSession.get().setFocussedUser( object );
             }
         } );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Panel getTools(String panelId) {
+
+        return null;
     }
 
     /**

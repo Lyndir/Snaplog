@@ -15,8 +15,13 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab.model;
 
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.StringResourceModel;
+
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.model.EmptyModelProvider;
+import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.tab.GalleryTabPanel;
 
 
@@ -34,4 +39,32 @@ public class ExpoTabModels extends EmptyModelProvider<ExpoTabModels> {
 
     static final Logger logger = Logger.get( ExpoTabModels.class );
 
+    private IModel<String> usersHelp;
+
+
+    /**
+     * Create a new {@link ExpoTabModels} instance.
+     */
+    public ExpoTabModels() {
+
+        usersHelp = new LoadableDetachableModel<String>() {
+
+            @Override
+            protected String load() {
+
+                return new StringResourceModel(
+                        "usersHelp." + (SnaplogSession.get().isAuthenticated()? "auth": "anon"), getComponent(), null ).getObject();
+            }
+        };
+    }
+
+    // Accessors.
+
+    /**
+     * @return A model providing an information string detailing the purpose of the users section.
+     */
+    public IModel<String> usersHelp() {
+
+        return usersHelp;
+    }
 }

@@ -22,6 +22,7 @@ import java.util.List;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.StringResourceModel;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
@@ -34,7 +35,6 @@ import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.cookie.LastUserCookieManager;
 import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
-import com.lyndir.lhunath.snaplog.webapp.tab.TabProvider;
 
 
 /**
@@ -57,6 +57,8 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
     private IModel<String> userMessages;
     private IModel<String> userRequests;
     private IModel<? extends List<TabItem>> tabs;
+    private IModel<String> focussedUser;
+    private IModel<String> focussedContent;
 
 
     /**
@@ -138,14 +140,40 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
             @Override
             protected List<TabItem> load() {
 
-                return Lists.transform( ImmutableList.of( Tab.values() ), new Function<TabProvider, TabItem>() {
+                return Lists.transform( ImmutableList.of( Tab.values() ), new Function<Tab, TabItem>() {
 
                     @Override
-                    public TabItem apply(final TabProvider from) {
+                    public TabItem apply(final Tab from) {
 
-                        return new TabItem( new Model<TabProvider>( from ) );
+                        return new TabItem( new Model<Tab>( from ) );
                     }
                 } );
+            }
+        };
+
+        focussedUser = new LoadableDetachableModel<String>() {
+
+            @Override
+            protected String load() {
+
+                if (SnaplogSession.get().getFocussedUser() == null)
+                    return null;
+
+                return new StringResourceModel( "focussedUser", getComponent(), null, //
+                        new Object[] { SnaplogSession.get().getFocussedUser().toString() } ).getObject();
+            }
+        };
+
+        focussedContent = new LoadableDetachableModel<String>() {
+
+            @Override
+            protected String load() {
+
+                if (SnaplogSession.get().getFocussedAlbum() == null)
+                    return new StringResourceModel( "focussedContent.none", getComponent(), null ).getObject();
+
+                return new StringResourceModel( "focussedContent.album", getComponent(), null, //
+                        new Object[] { SnaplogSession.get().getFocussedAlbum().getName() } ).getObject();
             }
         };
     }
@@ -161,7 +189,7 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
      * 
      * @author lhunath
      */
-    public static class TabItem extends ModelProvider<TabItem, TabProvider> {
+    public static class TabItem extends ModelProvider<TabItem, Tab> {
 
         private IModel<String> styleClass;
 
@@ -170,7 +198,7 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
          * @param model
          *            The base model for the tab component.
          */
-        public TabItem(IModel<TabProvider> model) {
+        public TabItem(IModel<Tab> model) {
 
             super( model );
 
@@ -194,7 +222,7 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
          */
         public IModel<String> title() {
 
-            return getModelObject().getTab().getTitle();
+            return getModelObject().get().getTitle();
         }
 
         /**
@@ -259,5 +287,25 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
     public IModel<? extends List<TabItem>> tabs() {
 
         return tabs;
+    }
+
+    /**
+     * @return A model that provides a description of the focussed user.
+     * 
+     * @see SnaplogSession#getFocussedUser()
+     */
+    public IModel<String> focussedUser() {
+
+        return focussedUser;
+    }
+
+    /**
+     * @return A model that provides a description of the focussed content.
+     * 
+     * @see SnaplogSession#getFocussedAlbum()
+     */
+    public IModel<String> focussedContent() {
+
+        return focussedContent;
     }
 }

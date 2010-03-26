@@ -17,9 +17,9 @@ package com.lyndir.lhunath.snaplog.webapp.tab;
 
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
-import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.MarkupStream;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -35,6 +35,7 @@ import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.collection.IPredicate;
 import com.lyndir.lhunath.lib.wayward.component.GenericLabel;
+import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.user.User;
@@ -60,7 +61,7 @@ import com.lyndir.lhunath.snaplog.webapp.view.UserLink;
  * 
  * @author lhunath
  */
-public class ExpoTabPanel extends Panel {
+public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
 
     static final int USERS_PER_PAGE = 3;
     static final int ALBUMS_PER_PAGE = 5;
@@ -84,7 +85,9 @@ public class ExpoTabPanel extends Panel {
     public ExpoTabPanel(String id) {
 
         super( id, new ExpoTabModels().getModel() );
+        getModelObject().attach( this );
 
+        add( new Label( "usersHelp", getModelObject().usersHelp() ) );
         add( new AbstractUsersView( "users", USERS_PER_PAGE ) {
 
             @Override
@@ -104,6 +107,12 @@ public class ExpoTabPanel extends Panel {
 
                                 SnaplogSession.get().setFocussedAlbum( getModelObject().getAlbum() );
                                 LayoutPageUtils.setActiveTab( Tab.ALBUM, target );
+                            }
+
+                            @Override
+                            protected String getCaptionString() {
+
+                                return getModelObject().getAlbum().getName();
                             }
                         } );
                     }
@@ -199,7 +208,7 @@ public class ExpoTabPanel extends Panel {
                                     @Override
                                     protected String getCaptionString() {
 
-                                        return getModelObject().getName();
+                                        return getModelObject().getAlbum().getName();
                                     }
                                 } );
                             }
@@ -234,7 +243,7 @@ public class ExpoTabPanel extends Panel {
                             @Override
                             protected String getCaptionString() {
 
-                                return getModelObject().getName();
+                                return getModelObject().getAlbum().getName();
                             }
                         } );
                     }
@@ -281,7 +290,7 @@ public class ExpoTabPanel extends Panel {
  * 
  * @author lhunath
  */
-class ExpoTab implements ITab {
+class ExpoTab implements SnaplogTab {
 
     static final Logger logger = Logger.get( ExpoTab.class );
     Messages msgs = LocalizerFactory.getLocalizer( Messages.class );
@@ -310,6 +319,15 @@ class ExpoTab implements ITab {
     public Panel getPanel(String panelId) {
 
         return new ExpoTabPanel( panelId );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Panel getTools(String panelId) {
+
+        return null;
     }
 
     /**

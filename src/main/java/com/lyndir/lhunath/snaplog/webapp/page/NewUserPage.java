@@ -142,7 +142,7 @@ public class NewUserPage extends LayoutPage {
         public boolean isNecessary() {
 
             return LoginManager.isAuthenticated( WicketUtils.getServletRequest() )
-                   && SnaplogSession.get().getActiveUser() == null;
+                   && !SnaplogSession.get().isAuthenticated();
         }
     }
 }

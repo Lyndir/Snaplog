@@ -27,6 +27,7 @@ import com.lyndir.lhunath.snaplog.data.media.aws.S3Album;
 import com.lyndir.lhunath.snaplog.data.security.ACL;
 import com.lyndir.lhunath.snaplog.data.user.LinkID;
 import com.lyndir.lhunath.snaplog.data.user.User;
+import com.lyndir.lhunath.snaplog.data.user.UserProfile;
 import com.lyndir.lhunath.snaplog.model.AWSMediaProviderService;
 import com.lyndir.lhunath.snaplog.model.AWSService;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
@@ -94,13 +95,20 @@ public class ServicesModule extends AbstractModule {
         db.store( SnaplogConstants.DEFAULT_ALBUM );
 
         SnaplogConstants.DEFAULT_USER = new User( new LinkID( "b21e33e2-b63e-4f06-8f52-84509883e1d1" ), "lhunath" );
-        ObjectSet<Object> defaultUserQuery = db.queryByExample( SnaplogConstants.DEFAULT_USER );
+        ObjectSet<User> defaultUserQuery = db.queryByExample( SnaplogConstants.DEFAULT_USER );
         if (defaultUserQuery.hasNext())
-            SnaplogConstants.DEFAULT_USER = (User) defaultUserQuery.next();
+            SnaplogConstants.DEFAULT_USER = defaultUserQuery.next();
         else
             db.store( SnaplogConstants.DEFAULT_USER );
 
-        SnaplogConstants.DEFAULT_ALBUM = new S3Album( SnaplogConstants.DEFAULT_USER, "Life" );
+        UserProfile defaultUserProfile = new UserProfile( SnaplogConstants.DEFAULT_USER );
+        ObjectSet<UserProfile> defaultUserProfileQuery = db.queryByExample( defaultUserProfile );
+        if (defaultUserProfileQuery.hasNext())
+            defaultUserProfile = defaultUserProfileQuery.next();
+        else
+            db.store( defaultUserProfile );
+
+        SnaplogConstants.DEFAULT_ALBUM = new S3Album( defaultUserProfile, "Life" );
         ObjectSet<Object> defaultAlbumQuery = db.queryByExample( SnaplogConstants.DEFAULT_ALBUM );
         if (defaultAlbumQuery.hasNext())
             SnaplogConstants.DEFAULT_ALBUM = (Album) defaultAlbumQuery.next();

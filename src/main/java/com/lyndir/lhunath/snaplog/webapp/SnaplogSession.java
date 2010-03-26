@@ -19,6 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import org.apache.wicket.Request;
 import org.apache.wicket.Session;
+import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.protocol.http.WebSession;
 
 import com.google.common.base.Objects;
@@ -27,7 +28,7 @@ import com.lyndir.lhunath.lib.system.util.SafeObjects;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.User;
-import com.lyndir.lhunath.snaplog.webapp.tab.TabProvider;
+import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
 
 
 /**
@@ -48,7 +49,8 @@ public class SnaplogSession extends WebSession {
 
     private static final Logger logger = Logger.get( SnaplogSession.class );
 
-    private TabProvider activeTab;
+    private Panel activeContent;
+    private Tab activeTab;
     private User activeUser;
     private User focussedUser;
     private Album focussedAlbum;
@@ -72,9 +74,26 @@ public class SnaplogSession extends WebSession {
     }
 
     /**
+     * @return The activeContent of this {@link SnaplogSession}.
+     */
+    public Panel getActiveContent() {
+
+        return activeContent;
+    }
+
+    /**
+     * @param activeContent
+     *            The activeContent of this {@link SnaplogSession}.
+     */
+    public void setActiveContent(Panel activeContent) {
+
+        this.activeContent = activeContent;
+    }
+
+    /**
      * @return The activeTab of this {@link SnaplogSession}.
      */
-    public TabProvider getActiveTab() {
+    public Tab getActiveTab() {
 
         return activeTab;
     }
@@ -83,9 +102,9 @@ public class SnaplogSession extends WebSession {
      * @param activeTab
      *            The activeTab of this {@link SnaplogSession}.
      */
-    public void setActiveTab(TabProvider activeTab) {
+    public void setActiveTab(Tab activeTab) {
 
-        checkState( activeTab.getTab().isVisible() );
+        checkState( activeTab.get().isVisible(), "Cannot set the invisible tab %s as active.", activeTab );
 
         this.activeTab = activeTab;
     }
@@ -114,13 +133,21 @@ public class SnaplogSession extends WebSession {
     }
 
     /**
+     * @return <code>true</code>: An active user is set ({@link #getActiveUser()} != <code>null</code>).
+     */
+    public boolean isAuthenticated() {
+
+        return getActiveUser() != null;
+    }
+
+    /**
      * @return The focussedUser of this {@link SnaplogSession}.
      */
     public User getFocussedUser() {
 
         if (focussedAlbum != null)
             // These SHOULD always match if an album is focussed.
-            checkState( SafeObjects.equal( focussedAlbum.getOwnerUser(), focussedUser ) );
+            checkState( SafeObjects.equal( focussedAlbum.getOwnerProfile().getUser(), focussedUser ) );
         if (focussedUser == null)
             // Focus on the active user if not focusing on anyone.
             setFocussedUser( activeUser );
@@ -134,7 +161,7 @@ public class SnaplogSession extends WebSession {
      */
     public void setFocussedUser(User focussedUser) {
 
-        if (focussedAlbum != null && !SafeObjects.equal( focussedAlbum.getOwnerUser(), focussedUser ))
+        if (focussedAlbum != null && !SafeObjects.equal( focussedAlbum.getOwnerProfile().getUser(), focussedUser ))
             // User is no longer the focussed album owner; unfocus the album.
             setFocussedAlbum( null );
 
@@ -148,7 +175,7 @@ public class SnaplogSession extends WebSession {
 
         if (focussedAlbum != null)
             // These SHOULD always match if an album is focussed.
-            checkState( SafeObjects.equal( focussedAlbum.getOwnerUser(), focussedUser ) );
+            checkState( SafeObjects.equal( focussedAlbum.getOwnerProfile().getUser(), focussedUser ) );
 
         return focussedAlbum;
     }
@@ -161,7 +188,7 @@ public class SnaplogSession extends WebSession {
 
         if (focussedAlbum != null)
             // Focusing a specific album; set focussed user to the album owner.
-            setFocussedUser( focussedAlbum.getOwnerUser() );
+            setFocussedUser( focussedAlbum.getOwnerProfile().getUser() );
 
         this.focussedAlbum = focussedAlbum;
     }

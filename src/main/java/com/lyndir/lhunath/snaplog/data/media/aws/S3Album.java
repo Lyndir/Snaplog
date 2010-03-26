@@ -16,7 +16,7 @@
 package com.lyndir.lhunath.snaplog.data.media.aws;
 
 import com.lyndir.lhunath.snaplog.data.media.Album;
-import com.lyndir.lhunath.snaplog.data.user.User;
+import com.lyndir.lhunath.snaplog.data.user.UserProfile;
 
 
 /**
@@ -36,13 +36,13 @@ import com.lyndir.lhunath.snaplog.data.user.User;
 public class S3Album extends Album {
 
     /**
-     * @param user
-     *            The user that owns this Album.
+     * @param ownerProfile
+     *            The profile of the user that owns this album.
      * @param name
-     *            A unique, user-visible name of this Album amongst the user's albums.
+     *            A unique, user-visible name of this album amongst the user's albums.
      */
-    public S3Album(User user, String name) {
+    public S3Album(UserProfile ownerProfile, String name) {
 
-        super( user, name );
+        super( ownerProfile, name );
     }
 }

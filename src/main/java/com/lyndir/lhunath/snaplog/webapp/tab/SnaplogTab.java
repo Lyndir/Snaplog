@@ -15,13 +15,12 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
-import java.io.Serializable;
-
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
+import org.apache.wicket.markup.html.panel.Panel;
 
 
 /**
- * <h2>{@link TabProvider}<br>
+ * <h2>{@link SnaplogTab}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
@@ -30,10 +29,13 @@ import org.apache.wicket.extensions.markup.html.tabs.ITab;
  * 
  * @author lhunath
  */
-public interface TabProvider extends Serializable {
+public interface SnaplogTab extends ITab {
 
     /**
-     * @return The {@link ITab} that describes the UI elements of this tab.
+     * @param panelId
+     *            The wicket ID that the panel should use.
+     * @return An optional panel that provides tools this tab contributes to the toolbar. <code>null</code> if this tab
+     *         provides no tools.
      */
-    public ITab getTab();
+    public Panel getTools(String panelId);
 }

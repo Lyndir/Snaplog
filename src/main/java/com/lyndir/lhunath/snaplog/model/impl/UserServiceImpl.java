@@ -16,6 +16,7 @@
 package com.lyndir.lhunath.snaplog.model.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
@@ -23,10 +24,14 @@ import com.db4o.query.Predicate;
 import com.google.common.base.Predicates;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.util.SafeObjects;
+import com.lyndir.lhunath.lib.wayward.collection.IPredicate;
+import com.lyndir.lhunath.snaplog.data.security.ACL;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
+import com.lyndir.lhunath.snaplog.data.security.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.LinkID;
 import com.lyndir.lhunath.snaplog.data.user.User;
+import com.lyndir.lhunath.snaplog.data.user.UserProfile;
 import com.lyndir.lhunath.snaplog.error.UsernameTakenException;
 import com.lyndir.lhunath.snaplog.model.SecurityService;
 import com.lyndir.lhunath.snaplog.model.UserService;
@@ -70,7 +75,7 @@ public class UserServiceImpl implements UserService {
         checkNotNull( linkID, "Given linkID must not be null." );
         checkNotNull( userName, "Given userName must not be null." );
 
-        if (findUserWithUserName( SecurityToken.INTERNAL_USE_ONLY, userName ) != null)
+        if (findUserWithUserName( userName ) != null)
             throw new UsernameTakenException( userName );
 
         User user = new User( linkID, userName );
@@ -87,12 +92,12 @@ public class UserServiceImpl implements UserService {
 
         checkNotNull( linkID, "Given linkID must not be null." );
 
-        ObjectSet<User> userQuery = db.query( new Predicate<User>() {
+        ObjectSet<User> userQuery = queryUsers( new IPredicate<User>() {
 
             @Override
-            public boolean match(User candidate) {
+            public boolean apply(User input) {
 
-                return SafeObjects.equal( candidate.getLinkID(), linkID );
+                return input != null && SafeObjects.equal( input.getLinkID(), linkID );
             }
         } );
         if (userQuery.hasNext())
@@ -106,17 +111,16 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public User findUserWithUserName(final SecurityToken token, final String userName) {
+    public User findUserWithUserName(final String userName) {
 
         checkNotNull( userName, "Given userName must not be null." );
 
-        ObjectSet<User> userQuery = db.query( new Predicate<User>() {
+        ObjectSet<User> userQuery = queryUsers( new IPredicate<User>() {
 
             @Override
-            public boolean match(User candidate) {
+            public boolean apply(User input) {
 
-                return SafeObjects.equal( candidate.getUserName(), userName )
-                       && securityService.hasAccess( Permission.VIEW, token, candidate );
+                return input != null && SafeObjects.equal( input.getUserName(), userName );
             }
         } );
         if (userQuery.hasNext())
@@ -130,19 +134,49 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public ObjectSet<User> queryUsers(final SecurityToken token, final com.google.common.base.Predicate<User> predicate) {
+    public ObjectSet<User> queryUsers(final com.google.common.base.Predicate<User> predicate) {
 
         return db.query( new Predicate<User>() {
 
             @Override
             public boolean match(User candidate) {
 
+                // Never allow this user to be queried; it is purely for internal use only.
+                if (SafeObjects.equal( candidate, ACL.DEFAULT ))
+                    return false;
+
                 com.google.common.base.Predicate<User> _predicate = predicate;
                 if (_predicate == null)
                     _predicate = Predicates.alwaysTrue();
 
-                return _predicate.apply( candidate ) && securityService.hasAccess( Permission.VIEW, token, candidate );
+                return _predicate.apply( candidate );
             }
         } );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public UserProfile getProfile(final SecurityToken token, final User user)
+            throws PermissionDeniedException {
+
+        checkNotNull( user, "Given user must not be null." );
+
+        ObjectSet<UserProfile> profileQuery = db.query( new Predicate<UserProfile>() {
+
+            @Override
+            public boolean match(UserProfile candidate) {
+
+                return candidate != null && candidate.getUser().equals( user );
+            }
+        } );
+
+        checkState( profileQuery.hasNext(), "User %s has no profile.", user );
+
+        UserProfile profile = profileQuery.next();
+        securityService.assertAccess( Permission.VIEW, token, profile );
+
+        return profile;
     }
 }

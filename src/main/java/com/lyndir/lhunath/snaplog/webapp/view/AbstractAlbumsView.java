@@ -54,7 +54,7 @@ public abstract class AbstractAlbumsView extends DataView<Album> {
             @Override
             public boolean apply(Album input) {
 
-                return input != null && SafeObjects.equal( input.getOwnerUser(), ownerUser.getObject() );
+                return input != null && SafeObjects.equal( input.getOwnerProfile().getUser(), ownerUser.getObject() );
             }
         }, albumsPerPage );
     }

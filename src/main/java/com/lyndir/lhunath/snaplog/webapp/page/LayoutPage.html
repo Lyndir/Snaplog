@@ -34,6 +34,7 @@
                 players:        ["img","flv"]
             });
         </script-->
+
     </head>
 
     <body>
@@ -60,6 +61,18 @@
                 <li wicket:id="tabs">
                     <a wicket:id="link">[Tab]</a>
                 </li>
+            </ul>
+
+            <ul class="plain toolbar" wicket:id="toolbar">
+                <li class="start"></li>
+                <li class="end"></li>
+
+                <li>
+                    <span wicket:id="focussedUser">[Viewing lhunath's]</span>
+                    <span wicket:id="focussedContent">[content].</span>
+                </li>
+
+                <wicket:container wicket:id="toolsPanel" />
             </ul>
         </div>
 

@@ -1,8 +1,9 @@
 package com.lyndir.lhunath.snaplog.webapp.page;
 
-import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Preconditions.checkNotNull;
 import net.link.safeonline.wicket.component.linkid.LinkIDLoginLink;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.Page;
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.Session;
@@ -17,9 +18,10 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 
 import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.system.util.SafeObjects;
 import com.lyndir.lhunath.lib.wayward.behavior.CSSClassAttributeAppender;
 import com.lyndir.lhunath.lib.wayward.component.AjaxLabelLink;
 import com.lyndir.lhunath.lib.wayward.component.GenericWebPage;
@@ -44,16 +46,14 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
 
     protected final Logger logger = Logger.get( getClass() );
 
-    /**
-     * The wicket ID that the content panel should have.
-     * 
-     * @see #setContentPanel(Panel, AjaxRequestTarget)
-     */
-    public static final String CONTENT_PANEL = "contentPanel";
+    private static final String TOOLS_PANEL = "toolsPanel";
+    private static final String CONTENT_PANEL = "contentPanel";
 
     WebMarkupContainer userEntry;
     WebMarkupContainer userSummary;
     WebMarkupContainer tabsContainer;
+    WebMarkupContainer toolbar;
+    WebMarkupContainer tools;
     WebMarkupContainer container;
 
 
@@ -63,6 +63,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
     public LayoutPage() {
 
         super( new LayoutPageModels().getModel() );
+        getModelObject().attach( this );
 
         // Page Title.
         Label pageTitle = new Label( "pageTitle", getModelObject().pageTitle() );
@@ -73,7 +74,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
             @Override
             public boolean isVisible() {
 
-                return SnaplogSession.get().getActiveUser() == null;
+                return !SnaplogSession.get().isAuthenticated();
             }
         };
         userEntry.add( new Label( "userGuessWelcome", getModelObject().userGuessWelcome() ) );
@@ -85,7 +86,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
             @Override
             public boolean isVisible() {
 
-                return SnaplogSession.get().getActiveUser() != null;
+                return SnaplogSession.get().isAuthenticated();
             }
         };
         userSummary.add( new Label( "userBadge", getModelObject().userBadge() ) );
@@ -156,11 +157,48 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
                     }
                 } );
                 item.add( CSSClassAttributeAppender.ofString( item.getModelObject().styleClass() ) );
-                item.setVisible( itemModel.getObject().getTab().isVisible() );
+                item.setVisible( itemModel.getObject().get().isVisible() );
             }
         };
         tabsContainer.add( headTabs );
         tabsContainer.setOutputMarkupId( true );
+
+        // Toolbar.
+        add( toolbar = new WebMarkupContainer( "toolbar" ) {
+
+            IModel<Component> activeTools = new LoadableDetachableModel<Component>() {
+
+                @Override
+                protected Component load() {
+
+                    Component toolsPanel = LayoutPageUtils.getActiveTab().get().getTools( TOOLS_PANEL );
+                    if (toolsPanel == null)
+                        toolsPanel = new WebMarkupContainer( TOOLS_PANEL ).setVisible( false );
+
+                    return toolsPanel;
+                }
+            };
+
+            {
+                add( new Label( "focussedUser", getModelObject().focussedUser() ) );
+                add( new Label( "focussedContent", getModelObject().focussedContent() ) );
+            }
+
+
+            @Override
+            protected void onBeforeRender() {
+
+                addOrReplace( activeTools.getObject() );
+
+                super.onBeforeRender();
+            }
+
+            @Override
+            public boolean isVisible() {
+
+                return activeTools.getObject().isVisible() || getModelObject().focussedUser().getObject() != null;
+            }
+        } );
 
         // Page Content.
         add( (container = new WebMarkupContainer( "container" ) {
@@ -168,12 +206,17 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
             @Override
             protected void onBeforeRender() {
 
-                add( new StringHeaderContributor( LayoutPageUtils.trackJS( get( CONTENT_PANEL ) ) ) );
+                Panel activeContent = SnaplogSession.get().getActiveContent();
+                if (activeContent == null)
+                    activeContent = LayoutPageUtils.getActiveTab().get().getPanel( CONTENT_PANEL );
+                addOrReplace( activeContent );
+
+                add( new StringHeaderContributor( LayoutPageUtils.trackJS( activeContent ) ) );
 
                 super.onBeforeRender();
             }
         }).setOutputMarkupId( true ) );
-        setContentPanel( getInitialContentPanel( CONTENT_PANEL ), null );
+        SnaplogSession.get().setActiveContent( getInitialContentPanel( CONTENT_PANEL ) );
 
         add( pageTitle, userEntry, userSummary, tabsContainer );
     }
@@ -185,35 +228,22 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
      *            The wicket ID that the panel should use.
      * @return The panel to show when the page first loads.
      */
-    protected Panel getInitialContentPanel(String wicketId) {
+    protected Panel getInitialContentPanel(@SuppressWarnings("unused") String wicketId) {
 
-        return LayoutPageUtils.getActiveTabPanel( wicketId );
+        return null;
     }
 
     /**
-     * Load the given panel as the page content.
+     * Reload the page using the given target.
      * 
-     * <p>
-     * <b>NOTE:</b> The panel MUST use {@value #CONTENT_PANEL} as its wicket ID.
-     * </p>
-     * 
-     * @param contentPanel
-     *            The panel to show as the page content.
      * @param target
-     *            Optional AJAX request target. If specified, the components that need to be reloaded to update the page
-     *            appropriately will be added to the target.
+     *            The target that will be servicing the reload response.
      */
-    public void setContentPanel(Panel contentPanel, AjaxRequestTarget target) {
+    public void reloadFor(AjaxRequestTarget target) {
 
-        checkState( SafeObjects.equal( contentPanel.getId(), CONTENT_PANEL ) );
+        checkNotNull( target, "Can't reload without a target." );
 
-        logger.dbg( "Setting content panel to: %s", contentPanel.getClass() );
-        container.addOrReplace( contentPanel );
-
-        if (target != null) {
-            // We're in an AJAX request; add the components that need updating to it.
-            target.addComponent( container );
-            target.addComponent( tabsContainer );
-        }
+        target.addComponent( tabsContainer );
+        target.addComponent( container );
     }
 }

@@ -23,6 +23,8 @@ import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.AlbumData;
 import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.data.media.MediaTimeFrame;
+import com.lyndir.lhunath.snaplog.data.security.Permission;
+import com.lyndir.lhunath.snaplog.data.security.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.User;
 
@@ -47,7 +49,7 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
      * Query for all albums of a user that are visible to a certain user.
      * 
      * @param token
-     *            Request authentication token.
+     *            Request authentication token should authorize {@link Permission#VIEW} on the albums to return.
      * @param predicate
      *            The predicate that should evaluate to <code>true</code> for each album to return.
      * 
@@ -59,7 +61,7 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
      * Look for an album owned by a user.
      * 
      * @param token
-     *            Request authentication token.
+     *            Request authentication token should authorize {@link Permission#VIEW} on the album to return.
      * @param ownerUser
      *            The user that owns the album with the given name.
      * @param albumName
@@ -73,7 +75,7 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
      * Look for media in the given album.
      * 
      * @param token
-     *            Request authentication token.
+     *            Request authentication token should authorize {@link Permission#VIEW} on the album's media to return.
      * @param album
      *            The album to look through.
      * @param mediaName
@@ -88,7 +90,7 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
      * Iterate year-based time frames of the media in the given album.
      * 
      * @param token
-     *            Request authentication token.
+     *            Request authentication token should authorize {@link Permission#VIEW} on the album's media to return.
      * @param album
      *            The album to generate a list of time frames for.
      * 
@@ -100,10 +102,16 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
      * Register a new {@link Album} owned by the given user whose media is provided by the given provider and with the
      * given metadata.
      * 
+     * @param token
+     *            Request authentication token should authorize {@link Permission#CONTRIBUTE} on the album owner's
+     *            profile.
      * @param album
      *            The new album that should be persisted.
+     * @throws PermissionDeniedException
+     *             The token does not authorize {@link Permission#CONTRIBUTE} on the album owner's profile.
      */
-    void registerAlbum(Album album);
+    void registerAlbum(final SecurityToken token, Album album)
+            throws PermissionDeniedException;
 
     /**
      * {@inheritDoc}

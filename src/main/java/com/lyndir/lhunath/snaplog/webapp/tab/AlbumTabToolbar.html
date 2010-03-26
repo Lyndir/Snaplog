@@ -1,0 +1,37 @@
+<!DOCTYPE html PUBLIC "-//W5C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+
+    <head>
+        <wicket:head>
+            <script type="text/javascript">
+
+                // Album Toolbar
+                $(document).ready(function() {
+                });
+
+            </script>
+        </wicket:head>
+    </head>
+
+    <body>
+        <ul class="plain toolbar">
+            <wicket:panel>
+
+                <!-- Album Toolbar -->
+                <li><a id="toolTimeline" class="ss_sprite ss_time">
+                    <wicket:message key="toolTimeline" />
+                </a></li>
+                <li><a id="toolTags" class="ss_sprite ss_tag_green">
+                    <wicket:message key="toolTags" />
+                </a></li>
+                <li><a id="toolAccess" class="ss_sprite ss_key">
+                    <wicket:message key="toolAccess" />
+                </a></li>
+
+            </wicket:panel>
+        </ul>
+    </body>
+
+</html>

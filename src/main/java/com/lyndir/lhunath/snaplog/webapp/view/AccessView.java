@@ -27,7 +27,6 @@ import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.model.UserService;
-import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 
 
 /**
@@ -67,7 +66,7 @@ public class AccessView extends GenericPanel<Album> {
             @Override
             protected List<User> loadObject() {
 
-                return userService.queryUsers( SnaplogSession.get().newToken(), null );
+                return userService.queryUsers( null );
             }
 
             @Override

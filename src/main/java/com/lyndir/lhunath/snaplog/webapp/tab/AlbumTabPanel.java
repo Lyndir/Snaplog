@@ -17,7 +17,6 @@ package com.lyndir.lhunath.snaplog.webapp.tab;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
@@ -55,7 +54,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
      * @param model
      *            Provides the album to show.
      */
-    public AlbumTabPanel(String id, IModel<Album> model) {
+    AlbumTabPanel(String id, IModel<Album> model) {
 
         super( id, new AlbumTabModels( model ).getModel() );
         checkNotNull( model.getObject(), "Model object of AlbumTabPanel must not be null" );
@@ -75,6 +74,15 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
 }
 
 
+class AlbumTools extends Panel {
+
+    AlbumTools(String id) {
+
+        super( id );
+    }
+}
+
+
 /**
  * <h2>{@link AlbumTab}<br>
  * <sub>The interface panel for browsing through the album content.</sub></h2>
@@ -85,7 +93,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
  * 
  * @author lhunath
  */
-class AlbumTab implements ITab {
+class AlbumTab implements SnaplogTab {
 
     static final Logger logger = Logger.get( AlbumTab.class );
     Messages msgs = LocalizerFactory.getLocalizer( Messages.class );
@@ -132,6 +140,15 @@ class AlbumTab implements ITab {
                 SnaplogSession.get().setFocussedAlbum( object );
             }
         } );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Panel getTools(String panelId) {
+
+        return null;
     }
 
     /**

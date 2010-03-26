@@ -17,7 +17,7 @@ package com.lyndir.lhunath.snaplog.model.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.net.URI;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -107,7 +107,7 @@ public class AlbumServiceImpl implements AlbumService {
             @Override
             public boolean match(Album candidate) {
 
-                return SafeObjects.equal( candidate.getOwnerUser(), ownerUser )
+                return SafeObjects.equal( candidate.getOwnerProfile().getUser(), ownerUser )
                        && SafeObjects.equal( candidate.getName(), albumName )
                        && securityService.hasAccess( Permission.VIEW, token, candidate );
             }
@@ -254,13 +254,13 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     @Override
-    public URI getResourceURI(final SecurityToken token, Media media, Quality quality)
+    public URL getResourceURL(final SecurityToken token, Media media, Quality quality)
             throws PermissionDeniedException {
 
         checkNotNull( media, "Given media must not be null." );
         checkNotNull( quality, "Given quality must not be null." );
 
-        return getAlbumProvider( media.getAlbum() ).getResourceURI( token, media, quality );
+        return getAlbumProvider( media.getAlbum() ).getResourceURL( token, media, quality );
     }
 
     /**
@@ -279,9 +279,12 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     @Override
-    public void registerAlbum(Album album) {
+    public void registerAlbum(final SecurityToken token, Album album)
+            throws PermissionDeniedException {
 
         checkNotNull( album );
+
+        securityService.assertAccess( Permission.CONTRIBUTE, token, album.getOwnerProfile() );
 
         db.store( album );
     }

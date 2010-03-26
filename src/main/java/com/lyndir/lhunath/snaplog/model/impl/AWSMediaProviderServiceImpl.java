@@ -22,7 +22,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -41,6 +42,7 @@ import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.system.logging.exception.InternalInconsistencyException;
 import com.lyndir.lhunath.lib.system.util.SafeObjects;
 import com.lyndir.lhunath.lib.system.util.StringUtils;
 import com.lyndir.lhunath.snaplog.data.media.Album;
@@ -57,6 +59,7 @@ import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.model.AWSMediaProviderService;
 import com.lyndir.lhunath.snaplog.model.AWSService;
 import com.lyndir.lhunath.snaplog.model.SecurityService;
+import com.lyndir.lhunath.snaplog.model.UserService;
 import com.lyndir.lhunath.snaplog.util.ImageUtils;
 
 
@@ -75,8 +78,9 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
     private static final Pattern BASENAME = Pattern.compile( ".*/" );
 
-    private ObjectContainer db;
+    private final ObjectContainer db;
     private final AWSService awsService;
+    private final UserService userService;
     private final SecurityService securityService;
 
 
@@ -85,14 +89,18 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      *            See {@link ServicesModule}.
      * @param awsService
      *            See {@link ServicesModule}.
+     * @param userService
+     *            See {@link ServicesModule}.
      * @param securityService
      *            See {@link ServicesModule}.
      */
     @Inject
-    public AWSMediaProviderServiceImpl(ObjectContainer db, AWSService awsService, SecurityService securityService) {
+    public AWSMediaProviderServiceImpl(ObjectContainer db, AWSService awsService, UserService userService,
+                                       SecurityService securityService) {
 
         this.db = db;
         this.awsService = awsService;
+        this.userService = userService;
         this.securityService = securityService;
     }
 
@@ -143,7 +151,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * {@inheritDoc}
      */
     @Override
-    public URI getResourceURI(final SecurityToken token, S3Media media, Quality quality)
+    public URL getResourceURL(final SecurityToken token, S3Media media, Quality quality)
             throws PermissionDeniedException {
 
         checkNotNull( media, "Given media must not be null." );
@@ -201,7 +209,13 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
             db.store( mediaData );
         }
 
-        return URI.create( String.format( "http://snaplog.net.s3.amazonaws.com/%s", s3ResourceObject.getKey() ) );
+        try {
+            return new URL( String.format( "http://snaplog.net.s3.amazonaws.com/%s", s3ResourceObject.getKey() ) );
+        }
+
+        catch (MalformedURLException e) {
+            throw new InternalInconsistencyException( "Couldn't construct a valid URL for S3 resource.", e );
+        }
     }
 
     /**
@@ -229,7 +243,8 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      */
     protected String getObjectKey(S3Album album, Quality quality) {
 
-        return StringUtils.concat( "/", "users", album.getOwnerUser().getUserName(), album.getName(), quality.getName() );
+        return StringUtils.concat( "/", "users", album.getOwnerProfile().getUser().getUserName(), album.getName(),
+                                   quality.getName() );
     }
 
     /**
@@ -342,9 +357,16 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
     @Override
     public S3Album newAlbum(User ownerUser, String albumName, String albumDescription) {
 
-        S3Album album = new S3Album( ownerUser, albumName );
-        album.setDescription( albumDescription );
+        try {
+            S3Album album = new S3Album( userService.getProfile( SecurityToken.INTERNAL_USE_ONLY, ownerUser ),
+                    albumName );
+            album.setDescription( albumDescription );
 
-        return album;
+            return album;
+        }
+
+        catch (PermissionDeniedException e) {
+            throw new InternalInconsistencyException( "Permission denied for INTERNAL_USE_ONLY?", e );
+        }
     }
 }

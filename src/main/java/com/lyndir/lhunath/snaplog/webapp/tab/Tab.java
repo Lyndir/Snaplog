@@ -15,11 +15,8 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
-import org.apache.wicket.extensions.markup.html.tabs.ITab;
-
-
 /**
- * <h2>{@link TabProvider}<br>
+ * <h2>{@link SnaplogTab}<br>
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
@@ -28,7 +25,7 @@ import org.apache.wicket.extensions.markup.html.tabs.ITab;
  * 
  * @author lhunath
  */
-public enum Tab implements TabProvider {
+public enum Tab {
 
     /**
      * This is the initial tab that describes Snaplog.
@@ -60,22 +57,21 @@ public enum Tab implements TabProvider {
      */
     ADMINISTRATION( new AdministrationTab() );
 
-    private ITab tab;
+    private SnaplogTab tab;
 
 
     /**
      * Create a new {@link Tab} instance.
      */
-    private Tab(ITab tab) {
+    private Tab(SnaplogTab tab) {
 
         this.tab = tab;
     }
 
     /**
-     * {@inheritDoc}
+     * @return The {@link SnaplogTab} that describes the UI elements of this tab.
      */
-    @Override
-    public ITab getTab() {
+    public SnaplogTab get() {
 
         return tab;
     }

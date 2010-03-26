@@ -17,9 +17,12 @@ package com.lyndir.lhunath.snaplog.model;
 
 import com.db4o.ObjectSet;
 import com.google.common.base.Predicate;
+import com.lyndir.lhunath.snaplog.data.security.Permission;
+import com.lyndir.lhunath.snaplog.data.security.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.LinkID;
 import com.lyndir.lhunath.snaplog.data.user.User;
+import com.lyndir.lhunath.snaplog.data.user.UserProfile;
 import com.lyndir.lhunath.snaplog.error.UsernameTakenException;
 
 
@@ -64,23 +67,33 @@ public interface UserService {
     /**
      * Find the existing user registered with the given userName.
      * 
-     * @param token
-     *            Request authentication token.
      * @param userName
      *            The userName the user has registered with.
      * 
      * @return The user with the given userName or <code>null</code> if no such user exists yet.
      */
-    User findUserWithUserName(SecurityToken token, String userName);
+    User findUserWithUserName(String userName);
 
     /**
-     * @param token
-     *            Request authentication token.
      * @param predicate
      *            An optional predicate that should evaluate to <code>true</code> for each user to return. If
      *            <code>null</code>, all users implicitly match.
      * @return An {@link ObjectSet} of the {@link User}s that apply to the given predicate and are viewable using the
      *         given token.
      */
-    ObjectSet<User> queryUsers(SecurityToken token, Predicate<User> predicate);
+    ObjectSet<User> queryUsers(Predicate<User> predicate);
+
+    /**
+     * @param token
+     *            Request authentication token should authorize {@link Permission#VIEW} on the user's profile.
+     * @param user
+     *            The user whose profile is requested.
+     * 
+     * @return The user's profile.
+     * 
+     * @throws PermissionDeniedException
+     *             When the given token does not authorize access to the given user's profile.
+     */
+    UserProfile getProfile(SecurityToken token, User user)
+            throws PermissionDeniedException;
 }

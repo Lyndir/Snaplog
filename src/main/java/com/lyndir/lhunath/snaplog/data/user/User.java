@@ -20,9 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.io.Serializable;
 
 import com.google.common.base.Objects;
-import com.lyndir.lhunath.snaplog.data.security.AbstractSecureObject;
-import com.lyndir.lhunath.snaplog.data.security.GlobalSecureObject;
-import com.lyndir.lhunath.snaplog.data.security.Permission;
 
 
 /**
@@ -30,16 +27,12 @@ import com.lyndir.lhunath.snaplog.data.security.Permission;
  * <sub>[in short] (TODO).</sub></h2>
  * 
  * <p>
- * [description / usage].
- * </p>
- * 
- * <p>
  * <i>Dec 31, 2009</i>
  * </p>
  * 
  * @author lhunath
  */
-public class User extends AbstractSecureObject<GlobalSecureObject> implements Serializable {
+public class User implements Serializable {
 
     private LinkID linkID;
 
@@ -59,18 +52,6 @@ public class User extends AbstractSecureObject<GlobalSecureObject> implements Se
 
         setLinkID( linkID );
         setUserName( userName );
-
-        // User automatically gets CONTRIBUTE permissions on himself.
-        getACL().setUserPermission( this, Permission.CONTRIBUTE );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public GlobalSecureObject getParent() {
-
-        return GlobalSecureObject.DEFAULT;
     }
 
     /**

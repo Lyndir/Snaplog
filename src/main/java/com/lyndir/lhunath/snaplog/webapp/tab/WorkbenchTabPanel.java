@@ -15,7 +15,6 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
-import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
@@ -65,7 +64,7 @@ public class WorkbenchTabPanel extends Panel {
  * 
  * @author lhunath
  */
-class WorkbenchTab implements ITab {
+class WorkbenchTab implements SnaplogTab {
 
     static final Logger logger = Logger.get( WorkbenchTab.class );
     Messages msgs = LocalizerFactory.getLocalizer( Messages.class );
@@ -95,6 +94,15 @@ class WorkbenchTab implements ITab {
     public Panel getPanel(String panelId) {
 
         return new WorkbenchTabPanel( panelId );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Panel getTools(String panelId) {
+
+        return null;
     }
 
     /**
