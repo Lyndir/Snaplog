@@ -22,18 +22,18 @@ import java.util.List;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.model.StringResourceModel;
 
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
+import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.lib.wayward.model.EmptyModelProvider;
 import com.lyndir.lhunath.lib.wayward.model.ModelProvider;
+import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.user.User;
-import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.cookie.LastUserCookieManager;
+import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage.Messages;
 import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
 
 
@@ -49,7 +49,7 @@ import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
  */
 public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
 
-    protected final Messages msgs = LocalizerFactory.getLocalizer( Messages.class );
+    protected final Messages msgs = MessagesFactory.create( Messages.class );
 
     private IModel<String> pageTitle;
     private IModel<String> userGuessWelcome;
@@ -113,10 +113,7 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
                 // TODO: unhardcode.
                 int messageCount = 1;
 
-                if (messageCount == 1)
-                    return msgs.userMessagesSingular( messageCount );
-
-                return msgs.userMessagesPlural( messageCount );
+                return msgs.userMessages( messageCount );
             }
         };
 
@@ -128,10 +125,7 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
                 // TODO: unhardcode.
                 int requestCount = 1;
 
-                if (requestCount == 1)
-                    return msgs.userRequestsSingular( requestCount );
-
-                return msgs.userRequestsPlural( requestCount );
+                return msgs.userRequests( requestCount );
             }
         };
 
@@ -159,8 +153,8 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
                 if (SnaplogSession.get().getFocussedUser() == null)
                     return null;
 
-                return new StringResourceModel( "focussedUser", getComponent(), null, //
-                        new Object[] { SnaplogSession.get().getFocussedUser().toString() } ).getObject();
+                return msgs.focussedUser( SnaplogSession.get().getFocussedUser().getBadge(),
+                                          SnaplogSession.get().getFocussedUser().getUserName() );
             }
         };
 
@@ -169,11 +163,8 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
             @Override
             protected String load() {
 
-                if (SnaplogSession.get().getFocussedAlbum() == null)
-                    return new StringResourceModel( "focussedContent.none", getComponent(), null ).getObject();
-
-                return new StringResourceModel( "focussedContent.album", getComponent(), null, //
-                        new Object[] { SnaplogSession.get().getFocussedAlbum().getName() } ).getObject();
+                Album focussedAlbum = SnaplogSession.get().getFocussedAlbum();
+                return msgs.focussedContent( focussedAlbum == null? null: focussedAlbum.getName() );
             }
         };
     }

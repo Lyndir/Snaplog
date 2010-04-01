@@ -19,9 +19,9 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
-import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
+import com.lyndir.lhunath.lib.system.localization.UseKey;
 import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.snaplog.messages.Messages;
+import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 
 
@@ -47,6 +47,16 @@ public class AboutTabPanel extends Panel {
 
         super( id );
     }
+
+
+    static interface Messages {
+
+        /**
+         * @return Text on the interface tab to activate the {@link AboutTabPanel}.
+         */
+        @UseKey
+        String aboutTab();
+    }
 }
 
 
@@ -67,7 +77,8 @@ public class AboutTabPanel extends Panel {
 class AboutTab implements SnaplogTab {
 
     static final Logger logger = Logger.get( AboutTab.class );
-    Messages msgs = LocalizerFactory.getLocalizer( Messages.class );
+    static final AboutTabPanel.Messages msgs = MessagesFactory.create( AboutTabPanel.Messages.class,
+                                                                       AboutTabPanel.class );
 
 
     /**

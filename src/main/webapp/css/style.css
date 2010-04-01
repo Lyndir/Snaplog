@@ -60,6 +60,7 @@ input, input[type], input[value], select, textarea {
     -o-border-radius:   5px;
     -moz-border-radius: 5px;
     -webkit-border-radius:5px;
+    border-radius:      5px;
 
     vertical-align:     top;
     padding:            0.5ex 0.5em;
@@ -393,6 +394,7 @@ div.popup {
     -o-border-radius:   5px;
     -moz-border-radius: 5px;
     -webkit-border-radius:5px;
+    border-radius:      5px;
 
     padding:            1ex 1em;
     margin:             1ex 0;

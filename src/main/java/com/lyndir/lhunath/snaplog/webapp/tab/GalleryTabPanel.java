@@ -30,20 +30,20 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.StringResourceModel;
 
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.SafeObjects;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
+import com.lyndir.lhunath.lib.wayward.i18n.BooleanKeyAppender;
+import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.AlbumProviderType;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
 import com.lyndir.lhunath.snaplog.data.security.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.data.user.User;
-import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.model.AlbumProvider;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.model.SecurityService;
@@ -100,10 +100,8 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 
         // Page info
         add( new Label( "albumsTitleUsername", getModelObject().decoratedUsername() ) );
-        add( new Label( "anothersAlbumsHelp", new StringResourceModel( "anothersAlbumsHelp."
-                                                                       + (SnaplogSession.get().isAuthenticated()
-                                                                               ? "auth": "anon"), null,
-                new Object[] { getModelObject().username() } ) ) {
+        add( new Label( "anothersAlbumsHelp", msgs.anothersAlbumsHelp( SnaplogSession.get().isAuthenticated(),
+                                                                       getModelObject().username() ) ) {
 
             @Override
             public boolean isVisible() {
@@ -112,7 +110,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                        !SafeObjects.equal( getModelObject().getObject(), SnaplogSession.get().getActiveUser() );
             }
         } );
-        add( new Label( "ownAlbumsHelp", new StringResourceModel( "ownAlbumsHelp", null ) ) {
+        add( new Label( "ownAlbumsHelp", msgs.ownAlbumsHelp() ) {
 
             @Override
             public boolean isVisible() {
@@ -121,8 +119,8 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                        SafeObjects.equal( getModelObject().getObject(), SnaplogSession.get().getActiveUser() );
             }
         } );
-        add( new Label( "noAlbumsHelp", new StringResourceModel( SnaplogSession.get().getActiveUser() == null
-                ? "noAlbumsHelp.anon": "noAlbumsHelp.auth", null, new Object[] { getModelObject().username() } ) ) {
+        add( new Label( "noAlbumsHelp", msgs.noAlbumsHelp( SnaplogSession.get().isAuthenticated(),
+                                                           getModelObject().username() ) ) {
 
             @Override
             public boolean isVisible() {
@@ -236,6 +234,41 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
             }
         }.setOutputMarkupPlaceholderTag( true ) );
     }
+
+
+    static interface Messages {
+
+        /**
+         * @return Text on the interface tab to activate the {@link GalleryTabPanel}.
+         */
+        String galleryTab();
+
+        /**
+         * @param authenticated
+         *            <code>true</code>: The current user has authenticated himself.<br>
+         *            <code>false</code>: The current user has not identified himself.
+         * @param username
+         *            The name of the user whose gallery is being viewed.
+         * @return A text that explains to whom the albums in the gallery belong.
+         */
+        String anothersAlbumsHelp(@BooleanKeyAppender(y = "auth", n = "anon") boolean authenticated,
+                                  IModel<String> username);
+
+        /**
+         * @return A text that explains that the visible gallery belongs to the current user.
+         */
+        String ownAlbumsHelp();
+
+        /**
+         * @param authenticated
+         *            <code>true</code>: The current user has authenticated himself.<br>
+         *            <code>false</code>: The current user has not identified himself.
+         * @param username
+         *            The name of the user whose gallery is being viewed.
+         * @return A text that explains that none of the user's albums are visible and what might be the cause.
+         */
+        String noAlbumsHelp(@BooleanKeyAppender(y = "auth", n = "anon") boolean authenticated, IModel<String> username);
+    }
 }
 
 
@@ -256,7 +289,8 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 class GalleryTab implements SnaplogTab {
 
     static final Logger logger = Logger.get( GalleryTab.class );
-    Messages msgs = LocalizerFactory.getLocalizer( Messages.class );
+    static final GalleryTabPanel.Messages msgs = MessagesFactory.create( GalleryTabPanel.Messages.class,
+                                                                         GalleryTabPanel.class );
 
 
     /**

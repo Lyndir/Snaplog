@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+
+    <entry key="albumAccess">Access Controls</entry>
+    <entry key="albumAccessInfo">
+        These controls are used to grant others the rights to view or manage your albums.&lt;br /&gt;&lt;br /&gt;
+        It is important to assume the principle of "&lt;dfn&gt;Secure By Default&lt;/dfn&gt;".
+        Only grant others the permissions they need when you can trust these won't be abused.
+    </entry>
+
+    <entry key="permission.NONE">None</entry>
+    <entry key="permission.INHERIT">Inherit</entry>
+    <entry key="permission.VIEW">View</entry>
+    <entry key="permission.CONTRIBUTE">Contribute</entry>
+
+</properties>

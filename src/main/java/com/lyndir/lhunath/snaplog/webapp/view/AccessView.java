@@ -15,16 +15,15 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.model.StringResourceModel;
 
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
+import com.lyndir.lhunath.lib.wayward.i18n.KeyAppender;
+import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.lib.wayward.provider.AbstractListProvider;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
 import com.lyndir.lhunath.snaplog.data.user.User;
-import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.model.UserService;
 
@@ -41,7 +40,7 @@ import com.lyndir.lhunath.snaplog.model.UserService;
  */
 public class AccessView extends GenericPanel<Album> {
 
-    Messages msgs = LocalizerFactory.getLocalizer( Messages.class, this );
+    static final Messages msgs = MessagesFactory.create( Messages.class );
 
     @Inject
     AlbumService albumService;
@@ -92,11 +91,22 @@ public class AccessView extends GenericPanel<Album> {
                         Permission permission = permissionItem.getModelObject();
 
                         FormComponent<Boolean> checkbox = new CheckBox( "checkbox", new Model<Boolean>( false ) );
-                        checkbox.setLabel( new StringResourceModel( permission.getLocalizationKey(), null ) );
+                        checkbox.setLabel( msgs.permission( permission ) );
                         permissionItem.add( checkbox, new SimpleFormComponentLabel( "label", checkbox ) );
                     }
                 } );
             }
         } );
+    }
+
+
+    interface Messages {
+
+        /**
+         * @param permission
+         *            The permission to explain.
+         * @return A model that provides the text which names the given permission.
+         */
+        IModel<String> permission(@KeyAppender Permission permission);
     }
 }

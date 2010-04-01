@@ -37,7 +37,7 @@ public enum Permission {
      * <b>NOTE:</b> This permission can't be provided.
      * </p>
      */
-    NONE( "permission.none" ),
+    NONE(),
 
     /**
      * This causes the {@link User}'s permissions to be resolved against the parent of the objects it applies to.
@@ -46,34 +46,24 @@ public enum Permission {
      * <b>NOTE:</b> This permission can't be provided.
      * </p>
      */
-    INHERIT( "permission.inherit" ),
+    INHERIT(),
 
     /**
      * This permission grants a {@link User} the ability to read all objects it applies to.
      */
-    VIEW( "permission.view" ),
+    VIEW(),
 
     /**
      * This permission grants a {@link User} the ability to modify all objects it applies to.
      */
-    CONTRIBUTE( "permission.contribute", VIEW );
+    CONTRIBUTE( VIEW );
 
-    private String localizationKey;
     private Permission[] provided;
 
 
-    private Permission(String localizationKey, Permission... provided) {
+    private Permission(Permission... provided) {
 
-        this.localizationKey = localizationKey;
         this.provided = provided;
-    }
-
-    /**
-     * @return The key by which the localized name of this permission type resolves.
-     */
-    public String getLocalizationKey() {
-
-        return localizationKey;
     }
 
     /**

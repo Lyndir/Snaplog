@@ -27,19 +27,18 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
-import org.apache.wicket.model.StringResourceModel;
 import org.apache.wicket.util.string.AppendingStringBuffer;
 
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.collection.IPredicate;
 import com.lyndir.lhunath.lib.wayward.component.GenericLabel;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
+import com.lyndir.lhunath.lib.wayward.i18n.BooleanKeyAppender;
+import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.user.User;
-import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.model.UserService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
@@ -62,6 +61,8 @@ import com.lyndir.lhunath.snaplog.webapp.view.UserLink;
  * @author lhunath
  */
 public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
+
+    static final Messages msgs = MessagesFactory.create( Messages.class );
 
     static final int USERS_PER_PAGE = 3;
     static final int ALBUMS_PER_PAGE = 5;
@@ -156,15 +157,13 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
                         int resultCount = getModelObject();
                         if (resultCount == 0)
                             replaceComponentTagBody( markupStream, openTag, //
-                                                     new StringResourceModel( "noResults", this, null ).getObject() );
+                                                     msgs.noResults() );
                         else if (resultCount == 1)
                             replaceComponentTagBody( markupStream, openTag, //
-                                                     new StringResourceModel( "singularResult", this, null,
-                                                             new Object[] { resultCount } ).getObject() );
+                                                     msgs.singularResult( resultCount ) );
                         else
                             replaceComponentTagBody( markupStream, openTag, //
-                                                     new StringResourceModel( "multipleResults", this, null,
-                                                             new Object[] { resultCount } ).getObject() );
+                                                     msgs.multipleResults( resultCount ) );
                     }
 
                     @Override
@@ -273,6 +272,52 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
             }
         } ).setOutputMarkupId( true ) );
     }
+
+
+    /**
+     * <h2>{@link Messages}<br>
+     * <sub>[in short] (TODO).</sub></h2>
+     * 
+     * <p>
+     * <i>Mar 31, 2010</i>
+     * </p>
+     * 
+     * @author lhunath
+     */
+    public static interface Messages {
+
+        /**
+         * @return Text on the interface tab to activate the {@link ExpoTabPanel}.
+         */
+        String expoTab();
+
+        /**
+         * @return The text to show when a search yields no results.
+         */
+        String noResults();
+
+        /**
+         * @param resultCount
+         *            The amount of results yielded by the search (should be singular).
+         * @return The text to show when a search yields a single result.
+         */
+        String singularResult(int resultCount);
+
+        /**
+         * @param resultCount
+         *            The amount of results yielded by the search (should be plural).
+         * @return The text to show when a search yields multiple results.
+         */
+        String multipleResults(int resultCount);
+
+        /**
+         * @param authenticated
+         *            <code>true</code>: The current user has authenticated himself.<br>
+         *            <code>false</code>: The current user has not identified himself.
+         * @return The text that explains which albums are being shown.
+         */
+        String usersHelp(@BooleanKeyAppender(y = "auth", n = "anon") boolean authenticated);
+    }
 }
 
 
@@ -293,7 +338,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
 class ExpoTab implements SnaplogTab {
 
     static final Logger logger = Logger.get( ExpoTab.class );
-    Messages msgs = LocalizerFactory.getLocalizer( Messages.class );
+    static final ExpoTabPanel.Messages msgs = MessagesFactory.create( ExpoTabPanel.Messages.class, ExpoTabPanel.class );
 
 
     /**

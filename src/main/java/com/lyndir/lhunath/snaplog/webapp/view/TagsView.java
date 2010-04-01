@@ -5,11 +5,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import org.apache.wicket.model.IModel;
 
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.Media;
-import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 
 
@@ -24,8 +22,6 @@ import com.lyndir.lhunath.snaplog.model.AlbumService;
  * @author lhunath
  */
 public class TagsView extends GenericPanel<Album> {
-
-    Messages msgs = LocalizerFactory.getLocalizer( Messages.class, this );
 
     @Inject
     AlbumService albumService;

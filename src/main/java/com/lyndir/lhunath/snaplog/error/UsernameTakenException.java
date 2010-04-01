@@ -15,8 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.error;
 
-import org.apache.wicket.Session;
-import org.apache.wicket.model.StringResourceModel;
+import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 
 
 /**
@@ -30,6 +29,8 @@ import org.apache.wicket.model.StringResourceModel;
  * @author lhunath
  */
 public class UsernameTakenException extends Exception {
+
+    static final Messages msgs = MessagesFactory.create( Messages.class );
 
     private String userName;
 
@@ -66,9 +67,12 @@ public class UsernameTakenException extends Exception {
     @Override
     public String getLocalizedMessage() {
 
-        if (!Session.exists())
-            return super.getLocalizedMessage();
+        return msgs.message( userName );
+    }
 
-        return new StringResourceModel( "error.taken.username", null, new Object[] { userName } ).getObject();
+
+    interface Messages {
+
+        String message(String userName);
     }
 }

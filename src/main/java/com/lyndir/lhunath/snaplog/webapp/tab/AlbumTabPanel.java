@@ -21,11 +21,11 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
-import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
+import com.lyndir.lhunath.lib.system.localization.UseKey;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
+import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.media.Album;
-import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.AlbumTabModels;
 import com.lyndir.lhunath.snaplog.webapp.view.AccessView;
@@ -71,6 +71,16 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         // Access.
         add( new AccessView( "accessPopup", getModelObject() ) );
     }
+
+
+    static interface Messages {
+
+        /**
+         * @return Text on the interface tab to activate the {@link AlbumTabPanel}.
+         */
+        @UseKey
+        String albumTab();
+    }
 }
 
 
@@ -96,7 +106,8 @@ class AlbumTools extends Panel {
 class AlbumTab implements SnaplogTab {
 
     static final Logger logger = Logger.get( AlbumTab.class );
-    Messages msgs = LocalizerFactory.getLocalizer( Messages.class );
+    static final AlbumTabPanel.Messages msgs = MessagesFactory.create( AlbumTabPanel.Messages.class,
+                                                                       AlbumTabPanel.class );
 
 
     /**

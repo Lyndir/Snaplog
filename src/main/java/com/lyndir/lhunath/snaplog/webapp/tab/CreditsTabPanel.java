@@ -20,10 +20,9 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
-import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.logging.exception.TodoException;
-import com.lyndir.lhunath.snaplog.messages.Messages;
+import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 
 
 /**
@@ -48,6 +47,11 @@ public class CreditsTabPanel extends Panel {
 
         super( id );
     }
+
+
+    static interface Messages {
+
+    }
 }
 
 
@@ -68,7 +72,8 @@ public class CreditsTabPanel extends Panel {
 class CreditsTab implements ITab {
 
     static final Logger logger = Logger.get( CreditsTab.class );
-    Messages msgs = LocalizerFactory.getLocalizer( Messages.class );
+    static final CreditsTabPanel.Messages msgs = MessagesFactory.create( CreditsTabPanel.Messages.class,
+                                                                         CreditsTabPanel.class );
 
 
     /**

@@ -16,11 +16,11 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.google.inject.internal.Lists;
-import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
+import com.lyndir.lhunath.lib.system.localization.UseKey;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
+import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.MediaTimeFrame;
-import com.lyndir.lhunath.snaplog.messages.Messages;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 
@@ -38,7 +38,7 @@ import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 // TODO: -View's need their models extracted in -Models
 public class TimelineView extends GenericPanel<Album> {
 
-    final Messages msgs = LocalizerFactory.getLocalizer( Messages.class, this );
+    static final Messages msgs = MessagesFactory.create( Messages.class );
 
     @Inject
     AlbumService albumService;
@@ -119,5 +119,18 @@ public class TimelineView extends GenericPanel<Album> {
                 } );
             }
         } );
+    }
+
+
+    static interface Messages {
+
+        /**
+         * @param numberOfPhotosInYear
+         *            The amount of photos that exist in that year.
+         * 
+         * @return Text on the year component of the timeline view.
+         */
+        @UseKey
+        String albumTimelineYearPhotos(int numberOfPhotosInYear);
     }
 }

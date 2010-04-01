@@ -21,11 +21,14 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
+import com.lyndir.lhunath.lib.system.localization.UseKey;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.behavior.CSSClassAttributeAppender;
 import com.lyndir.lhunath.lib.wayward.component.AjaxLabelLink;
 import com.lyndir.lhunath.lib.wayward.component.GenericWebPage;
 import com.lyndir.lhunath.lib.wayward.component.LabelLink;
+import com.lyndir.lhunath.lib.wayward.i18n.KeyAppender;
+import com.lyndir.lhunath.lib.wayward.i18n.KeyMatch;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels.TabItem;
@@ -245,5 +248,99 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
 
         target.addComponent( tabsContainer );
         target.addComponent( container );
+    }
+
+
+    /**
+     * <h2>{@link Messages}<br>
+     * <sub>[in short] (TODO).</sub></h2>
+     * 
+     * <p>
+     * <i>Mar 31, 2010</i>
+     * </p>
+     * 
+     * @author lhunath
+     */
+    public static interface Messages {
+
+        /**
+         * @param albumOwnerBadge
+         *            The badge character of the owner of the currently viewed album.
+         * @param albumOwnerName
+         *            The name of the owner of the currently viewed album.
+         * 
+         * @return Text that will go in the page's title.
+         */
+        @UseKey
+        String pageTitle(char albumOwnerBadge, String albumOwnerName);
+
+        /**
+         * @param userBadge
+         *            The badge character of the logged-in user.
+         * @param userName
+         *            The name of the logged-in user.
+         * 
+         * @return Welcoming text greeting the logged-in user.
+         */
+        @UseKey
+        String userWelcome(char userBadge, String userName);
+
+        /**
+         * @param userBadge
+         *            The badge of the user we guess is using the page.
+         * @param userName
+         *            The name of the user we guess is using the page.
+         * 
+         * @return Welcoming the user back. The user has not yet authenticated himself. The identification is just a
+         *         guess.
+         */
+        @UseKey
+        String userWelcomeBack(char userBadge, String userName);
+
+        /**
+         * @return The designation of a user who we can't identify.
+         */
+        @UseKey
+        String userNameUnknown();
+
+        /**
+         * @param messageCount
+         *            The amount of messages the user has.
+         * 
+         * @return Text indicating the user has messages.
+         */
+        @UseKey
+        String userMessages(
+                            @KeyAppender(value = @KeyMatch(ifNum = 1, key = "singular", elseKey = "plural"), useValue = true)//
+                            int messageCount);
+
+        /**
+         * @param requestCount
+         *            The amount of pending requests.
+         * 
+         * @return Text indicating there are pending requests for the active user.
+         */
+        @UseKey
+        String userRequests(
+                            @KeyAppender(value = @KeyMatch(ifNum = 1, key = "singular", elseKey = "plural"), useValue = true)//
+                            int requestCount);
+
+        /**
+         * @param userBadge
+         *            The focussed user's badge.
+         * @param userName
+         *            The focussed user's userName.
+         * @return A text indicating that the given user is the one currently focusing on.
+         */
+        String focussedUser(char userBadge, String userName);
+
+        /**
+         * @param albumName
+         *            The name of the album that's being focussed on.
+         * @return A text indicating what the user's currently focusing on.
+         */
+        // TODO: If we want to allow focusing other content; this may need improvement. If not, this may be simplified?
+        String focussedContent(@KeyAppender(nullKey = "none", notNullKey = "album", useValue = true)//
+                               String albumName);
     }
 }

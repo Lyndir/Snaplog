@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+
+    <entry key="usersHelp.anon">These people are showcasing some of their albums publicly.</entry>
+    <entry key="usersHelp.auth">These people are showcasing some of their albums either publicly or to you specifically.</entry>
+
+    <entry key="query">Find:</entry>
+    <entry key="noResults">No results.</entry>
+    <entry key="singularResult">{0} result:</entry>
+    <entry key="multipleResults">{0} results:</entry>
+
+</properties>
