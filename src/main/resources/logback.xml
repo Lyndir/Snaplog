@@ -14,6 +14,7 @@
     <!--
     -->
     <logger name="com.lyndir.lhunath.snaplog.model.impl.SecurityServiceImpl" level="INFO" />
+    <logger name="com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory" level="INFO" />
 
     <root level="WARN">
         <appender-ref ref="STDOUT" />

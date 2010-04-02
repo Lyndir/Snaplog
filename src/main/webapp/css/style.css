@@ -111,14 +111,14 @@ ul.plain li {
     padding:            7px;
 }
 #header .tabs {
-    background:         url("../images/layout/separator.png") no-repeat top left;
+    background:         url("../images/layout/separator.png") no-repeat left top;
     float:              right;
 
     height:             30px;
     padding:            0;
 }
 #header .tabs li {
-    background:         url("../images/layout/separator.png") no-repeat top right;
+    background:         url("../images/layout/separator.png") no-repeat right top;
 
     display:            block;
     float:              left;
@@ -166,14 +166,14 @@ ul.plain li {
     padding:            5px 1em;
 }
 .toolbar li.start {
-    background:         url("../images/layout/toolbar.left.png") no-repeat top left;
+    background:         url("../images/layout/toolbar.left.png") no-repeat left top;
 
     width:              15px;
     height:             35px;
     padding:            0;
 }
 .toolbar li.end {
-    background:         url("../images/layout/toolbar.right.png") no-repeat top right;
+    background:         url("../images/layout/toolbar.right.png") no-repeat right top;
 
     float:              right;
     width:              15px;

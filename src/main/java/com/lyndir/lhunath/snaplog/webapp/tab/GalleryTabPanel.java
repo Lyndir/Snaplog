@@ -32,7 +32,6 @@ import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.localization.LocalizerFactory;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.SafeObjects;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
@@ -69,7 +68,7 @@ import com.lyndir.lhunath.snaplog.webapp.view.MediaView;
 public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 
     static final Logger logger = Logger.get( GalleryTabPanel.class );
-    Messages msgs = LocalizerFactory.getLocalizer( Messages.class, this );
+    static final Messages msgs = MessagesFactory.create( Messages.class );
 
     static final int ALBUMS_PER_PAGE = 5;
 

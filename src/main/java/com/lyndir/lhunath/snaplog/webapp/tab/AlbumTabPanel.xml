@@ -3,6 +3,8 @@
 
 <properties>
 
+    <entry key="albumTab">Album</entry>
+
     <entry key="toolTimeline">Timeline</entry>
     <entry key="toolTags">Tags</entry>
     <entry key="toolAccess">Access</entry>

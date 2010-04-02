@@ -3,6 +3,8 @@
 
 <properties>
 
+    <entry key="galleryTab">Gallery</entry>
+
     <entry key="albumsTitle">Albums of ${albumsTitleUsername}</entry>
     <entry key="anothersAlbumsHelp.auth">Here''s an overview of all {0}''s albums that are open to you.</entry>
     <entry key="anothersAlbumsHelp.anon">Here''s an overview of all {0}''s albums that are open to the public.</entry>

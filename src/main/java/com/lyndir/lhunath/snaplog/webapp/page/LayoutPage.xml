@@ -18,13 +18,6 @@
     <entry key="userRequests.singular">{0} request</entry>
     <entry key="userRequests.plural">{0} requests</entry>
 
-    <entry key="aboutTab">About</entry>
-    <entry key="expoTab">Expo</entry>
-    <entry key="galleryTab">Gallery</entry>
-    <entry key="albumTab">Album</entry>
-    <entry key="workbenchTab">Workbench</entry>
-    <entry key="administrationTab">Administration</entry>
-
     <entry key="focussedUser">Browsing {0}{1}''s</entry>
     <entry key="focussedContent.none">content.</entry>
     <entry key="focussedContent.album">album ""${0}"".</entry>
