@@ -20,6 +20,6 @@
 
     <entry key="focussedUser">Browsing {0}{1}''s</entry>
     <entry key="focussedContent.none">content.</entry>
-    <entry key="focussedContent.album">album ""${0}"".</entry>
+    <entry key="focussedContent.album">album "{0}".</entry>
 
 </properties>
