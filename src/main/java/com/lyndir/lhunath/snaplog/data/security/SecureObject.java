@@ -18,14 +18,14 @@ package com.lyndir.lhunath.snaplog.data.security;
 /**
  * <h2>{@link SecureObject}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 14, 2010</i>
  * </p>
- * 
- * @param <P>
- *            The type of the parent object.
+ *
  * @author lhunath
+ * @param <P>
+ * The type of the parent object.
  */
 public interface SecureObject<P extends SecureObject<?>> {
 

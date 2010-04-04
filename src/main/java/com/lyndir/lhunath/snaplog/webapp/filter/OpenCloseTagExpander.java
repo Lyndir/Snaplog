@@ -32,9 +32,9 @@ import org.apache.wicket.markup.parser.XmlTag;
  * MarkupFilter that expands certain open-close tag as separate open and close tags. Firefox, unless it gets text/xml
  * mime type, treats these open-close tags as open tags which results in corrupted DOM. This happens even with xhtml
  * doctype.
- * 
+ *
  * In addition, some tags are required open-body-close for Wicket to work properly.
- * 
+ *
  * @author Juergen Donnerstag
  * @author Matej Knopp
  * @author Maarten Billemont (WICKET-2650)

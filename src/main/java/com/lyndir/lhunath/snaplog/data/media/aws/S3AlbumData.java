@@ -21,11 +21,11 @@ import com.lyndir.lhunath.snaplog.data.media.AlbumData;
 /**
  * <h2>{@link S3AlbumData}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 10, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class S3AlbumData extends AlbumData {
@@ -34,8 +34,7 @@ public class S3AlbumData extends AlbumData {
 
 
     /**
-     * @param album
-     *            The album we provide data for.
+     * @param album The album we provide data for.
      */
     public S3AlbumData(S3Album album) {
 

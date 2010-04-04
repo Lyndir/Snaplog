@@ -3,11 +3,6 @@ package com.lyndir.lhunath.snaplog.webapp.view;
 import java.util.Iterator;
 import java.util.List;
 
-import org.apache.wicket.markup.repeater.data.DataView;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
-
 import com.google.common.collect.Iterators;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.util.SafeObjects;
@@ -19,16 +14,20 @@ import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
+import org.apache.wicket.markup.repeater.data.DataView;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 
 
 /**
  * <h2>{@link AbstractAlbumsView}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 23, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public abstract class AbstractAlbumsView extends DataView<Album> {
@@ -39,13 +38,10 @@ public abstract class AbstractAlbumsView extends DataView<Album> {
 
     /**
      * Create a new {@link AbstractAlbumsView} instance.
-     * 
-     * @param id
-     *            The wicket ID to bind this component on.
-     * @param ownerUser
-     *            The model that provides the owner whose albums to enumerate.
-     * @param albumsPerPage
-     *            The maximum amount of albums to show at once before hiding the rest behind a pager.
+     *
+     * @param id            The wicket ID to bind this component on.
+     * @param ownerUser     The model that provides the owner whose albums to enumerate.
+     * @param albumsPerPage The maximum amount of albums to show at once before hiding the rest behind a pager.
      */
     public AbstractAlbumsView(String id, final IModel<User> ownerUser, int albumsPerPage) {
 
@@ -61,13 +57,10 @@ public abstract class AbstractAlbumsView extends DataView<Album> {
 
     /**
      * Create a new {@link AbstractAlbumsView} instance.
-     * 
-     * @param id
-     *            The wicket ID to bind this component on.
-     * @param predicate
-     *            The predicate that should evaluate to <code>true</code> for each album to return.
-     * @param albumsPerPage
-     *            The maximum amount of albums to show at once before hiding the rest behind a pager.
+     *
+     * @param id            The wicket ID to bind this component on.
+     * @param predicate     The predicate that should evaluate to <code>true</code> for each album to return.
+     * @param albumsPerPage The maximum amount of albums to show at once before hiding the rest behind a pager.
      */
     public AbstractAlbumsView(String id, final IPredicate<Album> predicate, int albumsPerPage) {
 
@@ -89,8 +82,8 @@ public abstract class AbstractAlbumsView extends DataView<Album> {
     }
 
     /**
-     * @param albumModel
-     *            The model that provides the album whose cover to return.
+     * @param albumModel The model that provides the album whose cover to return.
+     *
      * @return A new model that will provide the cover {@link Media} for the album provided by the given model.
      */
     public IModel<Media> cover(final IModel<Album> albumModel) {

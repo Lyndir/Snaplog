@@ -28,11 +28,7 @@ import com.lyndir.lhunath.snaplog.data.security.ACL;
 import com.lyndir.lhunath.snaplog.data.user.LinkID;
 import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.data.user.UserProfile;
-import com.lyndir.lhunath.snaplog.model.AWSMediaProviderService;
-import com.lyndir.lhunath.snaplog.model.AWSService;
-import com.lyndir.lhunath.snaplog.model.AlbumService;
-import com.lyndir.lhunath.snaplog.model.SecurityService;
-import com.lyndir.lhunath.snaplog.model.UserService;
+import com.lyndir.lhunath.snaplog.model.*;
 import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
 import com.lyndir.lhunath.snaplog.webapp.AuthenticationListener;
 
@@ -40,15 +36,15 @@ import com.lyndir.lhunath.snaplog.webapp.AuthenticationListener;
 /**
  * <h2>{@link ServicesModule}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * [description / usage].
  * </p>
- * 
+ *
  * <p>
  * <i>Jan 9, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class ServicesModule extends AbstractModule {

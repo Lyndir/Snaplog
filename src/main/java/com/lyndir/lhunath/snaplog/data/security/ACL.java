@@ -27,11 +27,11 @@ import com.lyndir.lhunath.snaplog.data.user.User;
 /**
  * <h2>{@link ACL}<br>
  * <sub>A list of access control grants.</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 14, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class ACL {
@@ -40,7 +40,7 @@ public class ACL {
 
     /**
      * TODO: Remove Me and use null key instead. Workaround for:
-     * 
+     *
      * @see <a href="http://tracker.db4o.com/browse/COR-1894">COR-1894</a>
      */
     public static User DEFAULT;
@@ -57,8 +57,7 @@ public class ACL {
     }
 
     /**
-     * @param defaultPermission
-     *            The permission granted to users not explicitly specified.
+     * @param defaultPermission The permission granted to users not explicitly specified.
      */
     public ACL(Permission defaultPermission) {
 
@@ -69,9 +68,8 @@ public class ACL {
     /**
      * Change the permission of a user in this access control. Any current permission of the user is revoked and
      * replaced by the given permission.
-     * 
-     * @param permission
-     *            The permission that will be granted to the given user.
+     *
+     * @param permission The permission that will be granted to the given user.
      */
     public void setDefaultPermission(Permission permission) {
 
@@ -83,11 +81,9 @@ public class ACL {
     /**
      * Change the permission of a user in this access control. Any current permission of the user is revoked and
      * replaced by the given permission.
-     * 
-     * @param user
-     *            The user that will be granted the given permission.
-     * @param permission
-     *            The permission that will be granted to the given user.
+     *
+     * @param user       The user that will be granted the given permission.
+     * @param permission The permission that will be granted to the given user.
      */
     public void setUserPermission(User user, Permission permission) {
 
@@ -99,9 +95,8 @@ public class ACL {
 
     /**
      * Revoke the permission of a user in this access control.
-     * 
-     * @param user
-     *            The user that will be granted the given permission.
+     *
+     * @param user The user that will be granted the given permission.
      */
     public void revokeUserPermission(User user) {
 
@@ -113,9 +108,9 @@ public class ACL {
     /**
      * The user's permission is either the one set for him through {@link #setUserPermission(User, Permission)} or the
      * default permission of this ACL.
-     * 
-     * @param user
-     *            The user whose permission to look up. <code>null</code> represents an anonymous user.
+     *
+     * @param user The user whose permission to look up. <code>null</code> represents an anonymous user.
+     *
      * @return The permission granted to the given user by this access control.
      */
     public Permission getUserPermission(User user) {

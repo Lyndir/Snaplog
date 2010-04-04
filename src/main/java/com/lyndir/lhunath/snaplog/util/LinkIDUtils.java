@@ -19,42 +19,38 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import net.link.safeonline.sdk.auth.filter.LoginManager;
-
-import org.apache.wicket.RequestCycle;
-
 import com.lyndir.lhunath.lib.wayward.component.WicketUtils;
+import net.link.safeonline.sdk.auth.filter.LoginManager;
+import org.apache.wicket.RequestCycle;
 
 
 /**
  * <h2>{@link LinkIDUtils}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 21, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public abstract class LinkIDUtils {
 
     /**
      * Look up an attribute as returned by the linkID authentication response.
-     * 
+     *
      * <p>
      * When the attribute has multiple attribute values, only the first is returned.
      * </p>
-     * 
+     *
      * <p>
      * <b>NOTE:</b> Only works inside a Wicket {@link RequestCycle}.
      * </p>
-     * 
-     * @param attributeName
-     *            The name of the linkID attribute to look up.
-     * @param attributeClass
-     *            The type of the attribute's value.
-     * @param <T>
-     *            See attributeClass
+     *
+     * @param attributeName  The name of the linkID attribute to look up.
+     * @param attributeClass The type of the attribute's value.
+     * @param <T>            See attributeClass
+     *
      * @return The first attribute value of attribute by the given name, or <code>null</code> if there are no attributes
      *         on the session, the given attribute is not on the session or there are no values for the given attribute.
      */

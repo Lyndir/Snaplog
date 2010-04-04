@@ -5,6 +5,16 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.inject.Inject;
+import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
+import com.lyndir.lhunath.lib.wayward.i18n.KeyAppender;
+import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
+import com.lyndir.lhunath.lib.wayward.provider.AbstractListProvider;
+import com.lyndir.lhunath.snaplog.data.media.Album;
+import com.lyndir.lhunath.snaplog.data.security.Permission;
+import com.lyndir.lhunath.snaplog.data.user.User;
+import com.lyndir.lhunath.snaplog.model.AlbumService;
+import com.lyndir.lhunath.snaplog.model.UserService;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.FormComponent;
@@ -16,26 +26,15 @@ import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
-import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
-import com.lyndir.lhunath.lib.wayward.i18n.KeyAppender;
-import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
-import com.lyndir.lhunath.lib.wayward.provider.AbstractListProvider;
-import com.lyndir.lhunath.snaplog.data.media.Album;
-import com.lyndir.lhunath.snaplog.data.security.Permission;
-import com.lyndir.lhunath.snaplog.data.user.User;
-import com.lyndir.lhunath.snaplog.model.AlbumService;
-import com.lyndir.lhunath.snaplog.model.UserService;
-
 
 /**
  * <h2>{@link AccessView}<br>
  * <sub>Popup that manages media access rights.</sub></h2>
- * 
+ *
  * <p>
  * <i>Jan 4, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class AccessView extends GenericPanel<Album> {
@@ -50,10 +49,8 @@ public class AccessView extends GenericPanel<Album> {
 
 
     /**
-     * @param id
-     *            Wicket component ID.
-     * @param albumModel
-     *            The {@link Album} to configure access controls for.
+     * @param id         Wicket component ID.
+     * @param albumModel The {@link Album} to configure access controls for.
      */
     public AccessView(String id, IModel<Album> albumModel) {
 
@@ -103,8 +100,8 @@ public class AccessView extends GenericPanel<Album> {
     interface Messages {
 
         /**
-         * @param permission
-         *            The permission to explain.
+         * @param permission The permission to explain.
+         *
          * @return A model that provides the text which names the given permission.
          */
         IModel<String> permission(@KeyAppender Permission permission);

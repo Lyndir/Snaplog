@@ -15,20 +15,6 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
-import org.apache.wicket.markup.ComponentTag;
-import org.apache.wicket.markup.MarkupStream;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.RequiredTextField;
-import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.util.string.AppendingStringBuffer;
-
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.collection.IPredicate;
@@ -48,16 +34,29 @@ import com.lyndir.lhunath.snaplog.webapp.view.AbstractAlbumsView;
 import com.lyndir.lhunath.snaplog.webapp.view.AbstractUsersView;
 import com.lyndir.lhunath.snaplog.webapp.view.MediaView;
 import com.lyndir.lhunath.snaplog.webapp.view.UserLink;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
+import org.apache.wicket.markup.ComponentTag;
+import org.apache.wicket.markup.MarkupStream;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.util.string.AppendingStringBuffer;
 
 
 /**
  * <h2>{@link ExpoTabPanel}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 1, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
@@ -79,9 +78,8 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
 
     /**
      * Create a new {@link ExpoTabPanel} instance.
-     * 
-     * @param id
-     *            The wicket ID that will hold the {@link ExpoTabPanel}.
+     *
+     * @param id The wicket ID that will hold the {@link ExpoTabPanel}.
      */
     public ExpoTabPanel(String id) {
 
@@ -101,7 +99,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
                     protected void populateItem(Item<Album> albumItem) {
 
                         albumItem.add( new MediaView( "albumCover", cover( albumItem.getModel() ), Quality.THUMBNAIL,
-                                true ) {
+                                                      true ) {
 
                             @Override
                             protected void onClick(AjaxRequestTarget target) {
@@ -195,7 +193,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
                             protected void populateItem(Item<Album> albumItem) {
 
                                 albumItem.add( new MediaView( "albumCover", cover( albumItem.getModel() ),
-                                        Quality.THUMBNAIL, true ) {
+                                                              Quality.THUMBNAIL, true ) {
 
                                     @Override
                                     protected void onClick(AjaxRequestTarget target) {
@@ -259,7 +257,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
             @Override
             protected void onError(AjaxRequestTarget target) {
 
-            // TODO: Feedback.
+                // TODO: Feedback.
             }
 
             @Override
@@ -277,11 +275,11 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
     /**
      * <h2>{@link Messages}<br>
      * <sub>[in short] (TODO).</sub></h2>
-     * 
+     *
      * <p>
      * <i>Mar 31, 2010</i>
      * </p>
-     * 
+     *
      * @author lhunath
      */
     public static interface Messages {
@@ -297,23 +295,23 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
         String noResults();
 
         /**
-         * @param resultCount
-         *            The amount of results yielded by the search (should be singular).
+         * @param resultCount The amount of results yielded by the search (should be singular).
+         *
          * @return The text to show when a search yields a single result.
          */
         String singularResult(int resultCount);
 
         /**
-         * @param resultCount
-         *            The amount of results yielded by the search (should be plural).
+         * @param resultCount The amount of results yielded by the search (should be plural).
+         *
          * @return The text to show when a search yields multiple results.
          */
         String multipleResults(int resultCount);
 
         /**
-         * @param authenticated
-         *            <code>true</code>: The current user has authenticated himself.<br>
-         *            <code>false</code>: The current user has not identified himself.
+         * @param authenticated <code>true</code>: The current user has authenticated himself.<br>
+         *                      <code>false</code>: The current user has not identified himself.
+         *
          * @return The text that explains which albums are being shown.
          */
         String usersHelp(@BooleanKeyAppender(y = "auth", n = "anon") boolean authenticated);
@@ -324,15 +322,15 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
 /**
  * <h2>{@link ExpoTab}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * [description / usage].
  * </p>
- * 
+ *
  * <p>
  * <i>May 31, 2009</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 class ExpoTab implements SnaplogTab {

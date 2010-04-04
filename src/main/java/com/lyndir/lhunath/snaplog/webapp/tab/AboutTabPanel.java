@@ -15,33 +15,31 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
-import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-
 import com.lyndir.lhunath.lib.system.localization.UseKey;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
+import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 
 
 /**
  * <h2>{@link AboutTabPanel}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 1, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class AboutTabPanel extends Panel {
 
     /**
      * Create a new {@link AboutTabPanel} instance.
-     * 
-     * @param id
-     *            The wicket ID that will hold the {@link AboutTabPanel}.
+     *
+     * @param id The wicket ID that will hold the {@link AboutTabPanel}.
      */
     public AboutTabPanel(String id) {
 
@@ -63,15 +61,15 @@ public class AboutTabPanel extends Panel {
 /**
  * <h2>{@link AboutTab}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * [description / usage].
  * </p>
- * 
+ *
  * <p>
  * <i>May 31, 2009</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 class AboutTab implements SnaplogTab {

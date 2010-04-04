@@ -15,19 +15,18 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.page.error;
 
-import org.apache.wicket.markup.html.panel.Panel;
-
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
+import org.apache.wicket.markup.html.panel.Panel;
 
 
 /**
  * <h2>{@link AccessDeniedErrorPage}<br>
  * <sub>Page that is shown when the user is denied access to a resource.</sub></h2>
- * 
+ *
  * <p>
  * <i>Jun 10, 2009</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class AccessDeniedErrorPage extends LayoutPage {

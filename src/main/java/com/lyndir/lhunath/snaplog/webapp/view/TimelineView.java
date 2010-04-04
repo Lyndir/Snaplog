@@ -5,14 +5,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.text.MessageFormat;
 import java.util.List;
 
-import org.apache.wicket.behavior.AttributeAppender;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.model.AbstractReadOnlyModel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.google.inject.internal.Lists;
@@ -23,16 +15,23 @@ import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.MediaTimeFrame;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
+import org.apache.wicket.behavior.AttributeAppender;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.AbstractReadOnlyModel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 
 
 /**
  * <h2>{@link TimelineView}<br>
  * <sub>Popup that allows user to browse through media on a timeline.</sub></h2>
- * 
+ *
  * <p>
  * <i>Jan 4, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 // TODO: -View's need their models extracted in -Models
@@ -45,10 +44,8 @@ public class TimelineView extends GenericPanel<Album> {
 
 
     /**
-     * @param id
-     *            The wicket ID of the tab.
-     * @param albumModel
-     *            A model providing the album that the timeline should display media for.
+     * @param id         The wicket ID of the tab.
+     * @param albumModel A model providing the album that the timeline should display media for.
      */
     public TimelineView(String id, IModel<Album> albumModel) {
 
@@ -125,9 +122,8 @@ public class TimelineView extends GenericPanel<Album> {
     static interface Messages {
 
         /**
-         * @param numberOfPhotosInYear
-         *            The amount of photos that exist in that year.
-         * 
+         * @param numberOfPhotosInYear The amount of photos that exist in that year.
+         *
          * @return Text on the year component of the timeline view.
          */
         @UseKey

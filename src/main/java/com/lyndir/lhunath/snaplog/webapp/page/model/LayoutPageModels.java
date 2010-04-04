@@ -19,10 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.List;
 
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
-
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -35,16 +31,19 @@ import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.cookie.LastUserCookieManager;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage.Messages;
 import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 
 
 /**
  * <h2>{@link LayoutPageModels}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 11, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
@@ -173,11 +172,11 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
     /**
      * <h2>{@link TabItem}<br>
      * <sub>Model provider for {@link Tab} items.</sub></h2>
-     * 
+     *
      * <p>
      * <i>Mar 12, 2010</i>
      * </p>
-     * 
+     *
      * @author lhunath
      */
     public static class TabItem extends ModelProvider<TabItem, Tab> {
@@ -186,8 +185,7 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
 
 
         /**
-         * @param model
-         *            The base model for the tab component.
+         * @param model The base model for the tab component.
          */
         public TabItem(IModel<Tab> model) {
 
@@ -238,7 +236,7 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
 
     /**
      * @return A model that provides a guess at the username of the current user.
-     * 
+     *
      * @see LastUserCookieManager#findLastUser()
      */
     public IModel<String> userGuessWelcome() {
@@ -248,7 +246,7 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
 
     /**
      * @return A model that provides the badge of the current user.
-     * 
+     *
      * @see SnaplogSession#getActiveUser()
      */
     public IModel<String> userBadge() {
@@ -282,7 +280,7 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
 
     /**
      * @return A model that provides a description of the focussed user.
-     * 
+     *
      * @see SnaplogSession#getFocussedUser()
      */
     public IModel<String> focussedUser() {
@@ -292,7 +290,7 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
 
     /**
      * @return A model that provides a description of the focussed content.
-     * 
+     *
      * @see SnaplogSession#getFocussedAlbum()
      */
     public IModel<String> focussedContent() {

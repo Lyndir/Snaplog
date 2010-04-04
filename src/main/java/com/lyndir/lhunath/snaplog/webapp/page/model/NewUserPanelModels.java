@@ -15,21 +15,20 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.page.model;
 
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
-
 import com.lyndir.lhunath.lib.wayward.model.EmptyModelProvider;
 import com.lyndir.lhunath.snaplog.util.LinkIDUtils;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 
 
 /**
  * <h2>{@link NewUserPanelModels}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 17, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class NewUserPanelModels extends EmptyModelProvider<NewUserPanelModels> {
@@ -49,11 +48,11 @@ public class NewUserPanelModels extends EmptyModelProvider<NewUserPanelModels> {
     /**
      * <h2>{@link NewUserFormModels}<br>
      * <sub>Model provider for the New User Form.</sub></h2>
-     * 
+     *
      * <p>
      * <i>Mar 17, 2010</i>
      * </p>
-     * 
+     *
      * @author lhunath
      */
     public class NewUserFormModels extends EmptyModelProvider<NewUserFormModels> {

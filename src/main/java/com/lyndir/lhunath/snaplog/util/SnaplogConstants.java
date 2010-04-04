@@ -22,11 +22,11 @@ import com.lyndir.lhunath.snaplog.data.user.User;
 /**
  * <h2>{@link SnaplogConstants}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Jan 10, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public abstract class SnaplogConstants {

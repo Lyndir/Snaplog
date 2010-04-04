@@ -18,10 +18,6 @@ package com.lyndir.lhunath.snaplog.webapp.tab.model;
 import java.util.Arrays;
 import java.util.List;
 
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
-
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.model.EmptyModelProvider;
@@ -29,16 +25,19 @@ import com.lyndir.lhunath.lib.wayward.model.ModelProvider;
 import com.lyndir.lhunath.snaplog.data.media.AlbumProviderType;
 import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.webapp.tab.GalleryTabPanel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 
 
 /**
  * <h2>{@link GalleryTabModels}<br>
  * <sub>Model provider for {@link GalleryTabPanel}.</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 11, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class GalleryTabModels extends ModelProvider<GalleryTabModels, User> {
@@ -51,8 +50,7 @@ public class GalleryTabModels extends ModelProvider<GalleryTabModels, User> {
 
 
     /**
-     * @param model
-     *            A model providing the user whose gallery to show.
+     * @param model A model providing the user whose gallery to show.
      */
     @Inject
     public GalleryTabModels(IModel<User> model) {
@@ -83,11 +81,11 @@ public class GalleryTabModels extends ModelProvider<GalleryTabModels, User> {
     /**
      * <h2>{@link NewAlbumFormModels}<br>
      * <sub>Model provider for the New Album form.</sub></h2>
-     * 
+     *
      * <p>
      * <i>Mar 12, 2010</i>
      * </p>
-     * 
+     *
      * @author lhunath
      */
     public class NewAlbumFormModels extends EmptyModelProvider<NewAlbumFormModels> {

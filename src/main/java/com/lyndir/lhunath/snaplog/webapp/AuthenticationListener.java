@@ -15,26 +15,24 @@
  */
 package com.lyndir.lhunath.snaplog.webapp;
 
-import net.link.safeonline.sdk.auth.filter.LoginManager;
-
-import org.apache.wicket.Component;
-import org.apache.wicket.application.IComponentOnBeforeRenderListener;
-
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.wayward.component.WicketUtils;
 import com.lyndir.lhunath.snaplog.data.user.LinkID;
 import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.model.UserService;
+import net.link.safeonline.sdk.auth.filter.LoginManager;
+import org.apache.wicket.Component;
+import org.apache.wicket.application.IComponentOnBeforeRenderListener;
 
 
 /**
  * <h2>{@link AuthenticationListener}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Jan 2, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class AuthenticationListener implements IComponentOnBeforeRenderListener {
@@ -43,8 +41,7 @@ public class AuthenticationListener implements IComponentOnBeforeRenderListener 
 
 
     /**
-     * @param userService
-     *            See {@link UserService}
+     * @param userService See {@link UserService}
      */
     @Inject
     public AuthenticationListener(UserService userService) {

@@ -15,6 +15,9 @@
  */
 package com.lyndir.lhunath.snaplog.model.impl;
 
+import com.google.common.collect.ImmutableList;
+import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.snaplog.model.AWSService;
 import org.jets3t.service.Constants;
 import org.jets3t.service.Jets3tProperties;
 import org.jets3t.service.S3Service;
@@ -24,18 +27,14 @@ import org.jets3t.service.model.S3Bucket;
 import org.jets3t.service.model.S3Object;
 import org.jets3t.service.security.AWSCredentials;
 
-import com.google.common.collect.ImmutableList;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.snaplog.model.AWSService;
-
 
 /**
  * <h2>{@link AWSServiceImpl}<br>
- * 
+ *
  * <p>
  * <i>Jan 9, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class AWSServiceImpl implements AWSService {
@@ -71,7 +70,7 @@ public class AWSServiceImpl implements AWSService {
 
         catch (S3ServiceException e) {
             throw logger.err( e, ERR_AWS_SERVICE ) //
-                        .toError();
+                    .toError();
         }
     }
 
@@ -91,7 +90,7 @@ public class AWSServiceImpl implements AWSService {
                 return null;
 
             throw logger.err( e, ERR_AWS_SERVICE ) //
-                        .toError();
+                    .toError();
         }
     }
 
@@ -108,7 +107,7 @@ public class AWSServiceImpl implements AWSService {
 
         catch (S3ServiceException e) {
             throw logger.err( e, ERR_AWS_SERVICE ) //
-                        .toError();
+                    .toError();
         }
     }
 
@@ -126,7 +125,7 @@ public class AWSServiceImpl implements AWSService {
 
         catch (S3ServiceException e) {
             throw logger.err( e, ERR_AWS_SERVICE ) //
-                        .toError();
+                    .toError();
         }
     }
 }

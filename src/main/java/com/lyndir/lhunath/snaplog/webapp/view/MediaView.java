@@ -15,6 +15,12 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.view;
 
+import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.wayward.behavior.CSSClassAttributeAppender;
+import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
+import com.lyndir.lhunath.snaplog.data.media.Media;
+import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
+import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.behavior.AttributeAppender;
@@ -25,22 +31,15 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.wayward.behavior.CSSClassAttributeAppender;
-import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
-import com.lyndir.lhunath.snaplog.data.media.Media;
-import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
-import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
-
 
 /**
  * <h2>{@link MediaView}<br>
  * <sub>A view that renders media at a certain quality.</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 13, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class MediaView extends GenericPanel<Media> {
@@ -49,17 +48,13 @@ public class MediaView extends GenericPanel<Media> {
 
 
     /**
-     * @param id
-     *            The wicket ID of this component.
-     * @param model
-     *            The model that will provide the {@link Media} to show in this view.
-     * @param quality
-     *            The quality at which to show the {@link Media}.
-     * @param clickable
-     *            <code>true</code>: The media will be clickable. When clicked, the {@link #onClick(AjaxRequestTarget)}
-     *            will be fired.<br>
-     *            <code>false</code>: The media will not be clickable. There is no need to implement
-     *            {@link #onClick(AjaxRequestTarget)}.
+     * @param id        The wicket ID of this component.
+     * @param model     The model that will provide the {@link Media} to show in this view.
+     * @param quality   The quality at which to show the {@link Media}.
+     * @param clickable <code>true</code>: The media will be clickable. When clicked, the {@link #onClick(AjaxRequestTarget)}
+     *                  will be fired.<br>
+     *                  <code>false</code>: The media will not be clickable. There is no need to implement
+     *                  {@link #onClick(AjaxRequestTarget)}.
      */
     public MediaView(String id, IModel<Media> model, final Quality quality, boolean clickable) {
 
@@ -131,14 +126,14 @@ public class MediaView extends GenericPanel<Media> {
         // Add the image and the fullscreen image to the media container.
         media.add( image );
         media.add( new ContextImage( "fullImage", //
-                new LoadableDetachableModel<String>() {
+                                     new LoadableDetachableModel<String>() {
 
-                    @Override
-                    protected String load() {
+                                         @Override
+                                         protected String load() {
 
-                        return ImageServlet.getContextRelativePathFor( getModelObject(), Quality.FULLSCREEN );
-                    }
-                } ) {
+                                             return ImageServlet.getContextRelativePathFor( getModelObject(), Quality.FULLSCREEN );
+                                         }
+                                     } ) {
 
             @Override
             public boolean isVisible() {
@@ -158,14 +153,13 @@ public class MediaView extends GenericPanel<Media> {
 
     /**
      * Fired when the user clicks the media.
-     * 
+     *
      * <p>
      * You only need to implement this method when you're actually creating a clickable {@link MediaView}. See the
      * <code>clickable</code> argument of {@link #MediaView(String, IModel, Quality, boolean)}.
      * </p>
-     * 
-     * @param target
-     *            The AJAX request that fired fired this event.
+     *
+     * @param target The AJAX request that fired fired this event.
      */
     protected void onClick(@SuppressWarnings("unused") AjaxRequestTarget target) {
 

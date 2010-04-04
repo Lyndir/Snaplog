@@ -17,12 +17,11 @@ package com.lyndir.lhunath.snaplog.webapp.servlet;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.io.IOException;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 import com.google.inject.Inject;
 import com.lyndir.lhunath.snaplog.data.media.Album;
@@ -40,11 +39,11 @@ import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 /**
  * <h2>{@link ImageServlet}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Jan 19, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class ImageServlet extends HttpServlet {
@@ -64,10 +63,8 @@ public class ImageServlet extends HttpServlet {
 
 
     /**
-     * @param userService
-     *            See {@link UserService}
-     * @param albumService
-     *            See {@link AlbumService}
+     * @param userService  See {@link UserService}
+     * @param albumService See {@link AlbumService}
      */
     @Inject
     public ImageServlet(UserService userService, AlbumService albumService) {
@@ -79,12 +76,10 @@ public class ImageServlet extends HttpServlet {
     /**
      * Obtain a context-relative path to the {@link ImageServlet} such that it will render the given media at the given
      * quality.
-     * 
-     * @param media
-     *            The media that should be shown at the given URL.
-     * @param quality
-     *            The quality to show the media at.
-     * 
+     *
+     * @param media   The media that should be shown at the given URL.
+     * @param quality The quality to show the media at.
+     *
      * @return A context-relative URL.
      */
     public static String getContextRelativePathFor(Media media, Quality quality) {
@@ -126,7 +121,7 @@ public class ImageServlet extends HttpServlet {
                                         "Album %s has no media named %s.", album, mediaName );
 
             resp.sendRedirect( albumService.getResourceURL( token, media, Quality.findQualityWithName( qualityName ) )
-                                           .toExternalForm() );
+                    .toExternalForm() );
         }
 
         catch (PermissionDeniedException e) {

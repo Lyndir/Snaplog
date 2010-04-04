@@ -18,18 +18,17 @@ package com.lyndir.lhunath.snaplog.data.security;
 /**
  * <h2>{@link PermissionDeniedException}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 14, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class PermissionDeniedException extends Exception {
 
     /**
-     * @param message
-     *            Explain what was denied permission for and why.
+     * @param message Explain what was denied permission for and why.
      */
     public PermissionDeniedException(String message) {
 
@@ -37,10 +36,8 @@ public class PermissionDeniedException extends Exception {
     }
 
     /**
-     * @param message
-     *            Explain what was denied permission for and why.
-     * @param cause
-     *            An optional exception that caused this one.
+     * @param message Explain what was denied permission for and why.
+     * @param cause   An optional exception that caused this one.
      */
     public PermissionDeniedException(String message, Throwable cause) {
 

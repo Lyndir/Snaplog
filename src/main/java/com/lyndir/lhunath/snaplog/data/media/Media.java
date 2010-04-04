@@ -20,24 +20,23 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.io.Serializable;
 import java.util.regex.Pattern;
 
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
-
 import com.google.common.base.Objects;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.security.AbstractSecureObject;
 import com.lyndir.lhunath.snaplog.model.WebUtil;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.ISODateTimeFormat;
 
 
 /**
  * <h2>{@link Media}<br>
  * <sub>DO for .</sub></h2>
- * 
+ *
  * <p>
  * <i>Jul 25, 2009</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public abstract class Media extends AbstractSecureObject<Album> implements Comparable<Media>, Serializable {
@@ -55,8 +54,7 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
 
 
     /**
-     * @param name
-     *            The unique name of this media in the album.
+     * @param name The unique name of this media in the album.
      */
     protected Media(String name) {
 
@@ -87,7 +85,7 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
 
     /**
      * Obtain the time since the UNIX Epoch in milliseconds since the picture was taken.
-     * 
+     *
      * @return The amount of milliseconds, or 0 if it could not be determined.
      */
     public long shotTime() {
@@ -121,7 +119,7 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
     /**
      * Generate a string to express the time at which the shot was taken; formatted according to the active web
      * session's locale.
-     * 
+     *
      * @return A date formatted according to the active locale.
      */
     public String getDateString() {
@@ -180,11 +178,11 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
     /**
      * <h2>{@link Quality}<br>
      * <sub>The media resource is available at different {@link Quality} levels.</sub></h2>
-     * 
+     *
      * <p>
      * <i>Jan 6, 2010</i>
      * </p>
-     * 
+     *
      * @author lhunath
      */
     public enum Quality {
@@ -263,12 +261,11 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
 
         /**
          * Find the {@link Quality} by the given name.
-         * 
-         * @param qualityName
-         *            The name of the quality (case insensitive) you're after.
-         * 
+         *
+         * @param qualityName The name of the quality (case insensitive) you're after.
+         *
          * @return <code>null</code> if no quality exists for the given name.
-         * 
+         *
          * @see #getName()
          */
         public static Quality findQualityWithName(String qualityName) {

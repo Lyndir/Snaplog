@@ -24,18 +24,18 @@ import com.lyndir.lhunath.snaplog.model.AlbumProvider;
 /**
  * <h2>{@link AlbumProviderType}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 11, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public enum AlbumProviderType {
 
     /**
      * Amazon S3.
-     * 
+     *
      * <p>
      * Provides storage hosted at the Amazon cloud.
      * </p>

@@ -15,14 +15,6 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.page;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import net.link.safeonline.sdk.auth.filter.LoginManager;
-import net.link.safeonline.wicket.util.RedirectToPageException;
-
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.RequiredTextField;
-import org.apache.wicket.markup.html.panel.Panel;
-
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.lib.wayward.component.WicketUtils;
@@ -33,16 +25,21 @@ import com.lyndir.lhunath.snaplog.model.UserService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.page.model.NewUserPanelModels;
 import com.lyndir.lhunath.snaplog.webapp.page.model.NewUserPanelModels.NewUserFormModels;
+import net.link.safeonline.sdk.auth.filter.LoginManager;
+import net.link.safeonline.wicket.util.RedirectToPageException;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.panel.Panel;
 
 
 /**
  * <h2>{@link NewUserPage}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 17, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class NewUserPage extends LayoutPage {
@@ -64,11 +61,11 @@ public class NewUserPage extends LayoutPage {
     /**
      * <h2>{@link NewUserPanel}<br>
      * <sub>Content panel for the {@link NewUserPage}.</sub></h2>
-     * 
+     *
      * <p>
      * <i>Mar 17, 2010</i>
      * </p>
-     * 
+     *
      * @author lhunath
      */
     public class NewUserPanel extends GenericPanel<NewUserPanelModels> {
@@ -118,11 +115,11 @@ public class NewUserPage extends LayoutPage {
     /**
      * <h2>{@link NewUserPageState}<br>
      * <sub>[in short] (TODO).</sub></h2>
-     * 
+     *
      * <p>
      * <i>Mar 21, 2010</i>
      * </p>
-     * 
+     *
      * @author lhunath
      */
     public static class NewUserPageState extends PageState {

@@ -28,11 +28,7 @@ import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.SafeObjects;
-import com.lyndir.lhunath.snaplog.data.media.Album;
-import com.lyndir.lhunath.snaplog.data.media.AlbumData;
-import com.lyndir.lhunath.snaplog.data.media.AlbumProviderType;
-import com.lyndir.lhunath.snaplog.data.media.Media;
-import com.lyndir.lhunath.snaplog.data.media.MediaTimeFrame;
+import com.lyndir.lhunath.snaplog.data.media.*;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.media.MediaTimeFrame.Type;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
@@ -46,11 +42,11 @@ import com.lyndir.lhunath.snaplog.model.SecurityService;
 
 /**
  * <h2>{@link AlbumServiceImpl}</h2>
- * 
+ *
  * <p>
  * <i>Jul 25, 2009</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class AlbumServiceImpl implements AlbumService {
@@ -62,10 +58,8 @@ public class AlbumServiceImpl implements AlbumService {
 
 
     /**
-     * @param db
-     *            See {@link ServicesModule}.
-     * @param securityService
-     *            See {@link ServicesModule}.
+     * @param db              See {@link ServicesModule}.
+     * @param securityService See {@link ServicesModule}.
      */
     @Inject
     public AlbumServiceImpl(ObjectContainer db, SecurityService securityService) {
@@ -179,12 +173,11 @@ public class AlbumServiceImpl implements AlbumService {
 
     /**
      * Obtain an {@link AlbumData} entry for the given album.
-     * 
+     *
      * If there is no data for the {@link Album} yet; an empty data object will be created.
-     * 
-     * @param album
-     *            The album whose data to get.
-     * 
+     *
+     * @param album The album whose data to get.
+     *
      * @return The data for the given album.
      */
     private AlbumData getAlbumData(final Album album) {
@@ -223,7 +216,7 @@ public class AlbumServiceImpl implements AlbumService {
             }
 
         throw logger.err( "Could not find a provider for the album type: %s", album.getClass() ) //
-                    .toError( IllegalArgumentException.class );
+                .toError( IllegalArgumentException.class );
     }
 
     /**
@@ -291,7 +284,7 @@ public class AlbumServiceImpl implements AlbumService {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @deprecated
      */
     @Override

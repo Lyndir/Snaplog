@@ -20,38 +20,35 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.lyndir.lhunath.lib.wayward.component.RedirectToPageException;
+import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
+import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
+import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
 import org.apache.wicket.Component;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.util.template.JavaScriptTemplate;
 import org.apache.wicket.util.template.PackagedTextTemplate;
 
-import com.lyndir.lhunath.lib.wayward.component.RedirectToPageException;
-import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
-import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
-import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
-
 
 /**
  * <h2>{@link LayoutPageUtils}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 13, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public abstract class LayoutPageUtils {
 
     /**
      * Activate the given tab in the session and switch to it in the {@link LayoutPage}.
-     * 
-     * @param tab
-     *            The tab to activate.
-     * @param target
-     *            Optional AJAX request target. If specified, the components that need to be reloaded to update the page
-     *            appropriately will be added to the target.
+     *
+     * @param tab    The tab to activate.
+     * @param target Optional AJAX request target. If specified, the components that need to be reloaded to update the page
+     *               appropriately will be added to the target.
      */
     public static void setActiveTab(Tab tab, AjaxRequestTarget target) {
 
@@ -70,7 +67,7 @@ public abstract class LayoutPageUtils {
 
     /**
      * @return The tab that should be activated in the layout.
-     * 
+     *
      * @see SnaplogSession#getActiveTab()
      */
     public static Tab getActiveTab() {
@@ -85,9 +82,9 @@ public abstract class LayoutPageUtils {
 
     /**
      * Generate some JavaScript to track a user hit on the given component in the analytics tracker.
-     * 
-     * @param trackComponent
-     *            The component that we want to track a hit for.
+     *
+     * @param trackComponent The component that we want to track a hit for.
+     *
      * @return The JavaScript code that, when executed, will track the hit.
      */
     public static String trackJS(Component trackComponent) {

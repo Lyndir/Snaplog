@@ -21,18 +21,18 @@ import com.lyndir.lhunath.snaplog.data.user.User;
 /**
  * <h2>{@link Permission}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 14, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public enum Permission {
 
     /**
      * This permission grants a {@link User} no access to the objects it applies to.
-     * 
+     *
      * <p>
      * <b>NOTE:</b> This permission can't be provided.
      * </p>
@@ -41,7 +41,7 @@ public enum Permission {
 
     /**
      * This causes the {@link User}'s permissions to be resolved against the parent of the objects it applies to.
-     * 
+     *
      * <p>
      * <b>NOTE:</b> This permission can't be provided.
      * </p>

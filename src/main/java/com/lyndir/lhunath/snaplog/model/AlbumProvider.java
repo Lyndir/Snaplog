@@ -18,16 +18,16 @@ import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 /**
  * <h2>{@link AlbumProvider}<br>
  * <sub>Enumeration of all supported Album providers.</sub></h2>
- * 
+ *
  * <p>
  * <i>Jul 25, 2009</i>
  * </p>
- * 
- * @param <A>
- *            The type of {@link Album} we provide services for.
- * @param <M>
- *            The type of {@link Media} that is available from A.
+ *
  * @author lhunath
+ * @param <A>
+ * The type of {@link Album} we provide services for.
+ * @param <M>
+ * The type of {@link Media} that is available from A.
  */
 public class AlbumProvider<A extends Album, M extends Media> implements MediaProviderService<A, M> {
 
@@ -36,10 +36,8 @@ public class AlbumProvider<A extends Album, M extends Media> implements MediaPro
 
 
     /**
-     * @param albumType
-     *            The type of albums that this provider can provide.
-     * @param albumProviderServiceType
-     *            The type of the {@link MediaProviderService} that services these types of albums.
+     * @param albumType                The type of albums that this provider can provide.
+     * @param albumProviderServiceType The type of the {@link MediaProviderService} that services these types of albums.
      */
     public AlbumProvider(Class<A> albumType, Class<? extends MediaProviderService<A, M>> albumProviderServiceType) {
 

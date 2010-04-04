@@ -22,18 +22,18 @@ import org.apache.wicket.markup.html.panel.Panel;
 /**
  * <h2>{@link SnaplogTab}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Feb 28, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public interface SnaplogTab extends ITab {
 
     /**
-     * @param panelId
-     *            The wicket ID that the panel should use.
+     * @param panelId The wicket ID that the panel should use.
+     *
      * @return An optional panel that provides tools this tab contributes to the toolbar. <code>null</code> if this tab
      *         provides no tools.
      */

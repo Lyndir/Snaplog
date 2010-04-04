@@ -17,11 +17,6 @@ package com.lyndir.lhunath.snaplog.webapp;
 
 import static com.google.common.base.Preconditions.checkState;
 
-import org.apache.wicket.Request;
-import org.apache.wicket.Session;
-import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.protocol.http.WebSession;
-
 import com.google.common.base.Objects;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.SafeObjects;
@@ -29,20 +24,24 @@ import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
+import org.apache.wicket.Request;
+import org.apache.wicket.Session;
+import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.protocol.http.WebSession;
 
 
 /**
  * <h2>{@link SnaplogSession}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * [description / usage].
  * </p>
- * 
+ *
  * <p>
  * <i>Dec 31, 2009</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class SnaplogSession extends WebSession {
@@ -57,8 +56,7 @@ public class SnaplogSession extends WebSession {
 
 
     /**
-     * @param request
-     *            The {@link Request} that started the session.
+     * @param request The {@link Request} that started the session.
      */
     public SnaplogSession(Request request) {
 
@@ -82,8 +80,7 @@ public class SnaplogSession extends WebSession {
     }
 
     /**
-     * @param activeContent
-     *            The activeContent of this {@link SnaplogSession}.
+     * @param activeContent The activeContent of this {@link SnaplogSession}.
      */
     public void setActiveContent(Panel activeContent) {
 
@@ -99,8 +96,7 @@ public class SnaplogSession extends WebSession {
     }
 
     /**
-     * @param activeTab
-     *            The activeTab of this {@link SnaplogSession}.
+     * @param activeTab The activeTab of this {@link SnaplogSession}.
      */
     public void setActiveTab(Tab activeTab) {
 
@@ -118,8 +114,7 @@ public class SnaplogSession extends WebSession {
     }
 
     /**
-     * @param activeUser
-     *            The activeUser of this {@link SnaplogSession}.
+     * @param activeUser The activeUser of this {@link SnaplogSession}.
      */
     public void setActiveUser(User activeUser) {
 
@@ -156,8 +151,7 @@ public class SnaplogSession extends WebSession {
     }
 
     /**
-     * @param focussedUser
-     *            The focussedUser of this {@link SnaplogSession}.
+     * @param focussedUser The focussedUser of this {@link SnaplogSession}.
      */
     public void setFocussedUser(User focussedUser) {
 
@@ -181,8 +175,7 @@ public class SnaplogSession extends WebSession {
     }
 
     /**
-     * @param focussedAlbum
-     *            The focussedAlbum of this {@link SnaplogSession}.
+     * @param focussedAlbum The focussedAlbum of this {@link SnaplogSession}.
      */
     public void setFocussedAlbum(Album focussedAlbum) {
 

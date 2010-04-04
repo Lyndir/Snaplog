@@ -17,21 +17,20 @@ package com.lyndir.lhunath.snaplog.webapp.tab.model;
 
 import java.util.Date;
 
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
-
 import com.lyndir.lhunath.lib.wayward.model.ModelProvider;
 import com.lyndir.lhunath.snaplog.data.media.Album;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 
 
 /**
  * <h2>{@link AlbumTabModels}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 12, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class AlbumTabModels extends ModelProvider<AlbumTabModels, Album> {
@@ -40,8 +39,7 @@ public class AlbumTabModels extends ModelProvider<AlbumTabModels, Album> {
 
 
     /**
-     * @param model
-     *            The model providing the album to show.
+     * @param model The model providing the album to show.
      */
     public AlbumTabModels(IModel<Album> model) {
 

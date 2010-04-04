@@ -19,22 +19,21 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import java.util.Map;
 
-import org.jets3t.service.model.S3Object;
-
 import com.google.common.collect.Maps;
 import com.lyndir.lhunath.snaplog.data.media.Media;
-import com.lyndir.lhunath.snaplog.data.media.MediaData;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
+import com.lyndir.lhunath.snaplog.data.media.MediaData;
+import org.jets3t.service.model.S3Object;
 
 
 /**
  * <h2>{@link S3MediaData}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 6, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class S3MediaData extends MediaData {
@@ -45,9 +44,8 @@ public class S3MediaData extends MediaData {
 
     /**
      * Create a new {@link S3MediaData} instance.
-     * 
-     * @param media
-     *            The {@link S3Media} that we hold data for.
+     *
+     * @param media The {@link S3Media} that we hold data for.
      */
     public S3MediaData(S3Media media) {
 
@@ -67,15 +65,13 @@ public class S3MediaData extends MediaData {
 
     /**
      * Record an {@link S3Object} for a given {@link Quality} of the {@link Media} we hold data for.
-     * 
+     *
      * <p>
      * The {@link Quality#METADATA} quality is also updated with this object.
      * </p>
-     * 
-     * @param quality
-     *            The quality of the media that the given s3Object represents.
-     * @param s3Object
-     *            The S3 data of the media at the given quality.
+     *
+     * @param quality  The quality of the media that the given s3Object represents.
+     * @param s3Object The S3 data of the media at the given quality.
      */
     public void put(Quality quality, S3Object s3Object) {
 
@@ -88,9 +84,9 @@ public class S3MediaData extends MediaData {
 
     /**
      * Retrieve the s3Object for the {@link Media} we hold data for at the given quality.
-     * 
-     * @param quality
-     *            The {@link Quality} at which we want data.
+     *
+     * @param quality The {@link Quality} at which we want data.
+     *
      * @return An S3 data object.
      */
     public S3Object get(Quality quality) {

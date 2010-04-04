@@ -15,25 +15,6 @@
  */
 package com.lyndir.lhunath.snaplog.webapp;
 
-import net.link.safeonline.sdk.common.configuration.WebappConfig;
-
-import org.apache.wicket.MetaDataKey;
-import org.apache.wicket.Page;
-import org.apache.wicket.Request;
-import org.apache.wicket.RequestCycle;
-import org.apache.wicket.Response;
-import org.apache.wicket.Session;
-import org.apache.wicket.guice.InjectionFlagCachingGuiceComponentInjector;
-import org.apache.wicket.markup.IMarkupParserFactory;
-import org.apache.wicket.markup.MarkupParser;
-import org.apache.wicket.markup.MarkupResourceStream;
-import org.apache.wicket.protocol.http.WebApplication;
-import org.apache.wicket.protocol.http.WebRequest;
-import org.apache.wicket.protocol.http.WebRequestCycle;
-import org.apache.wicket.protocol.http.WebResponse;
-import org.apache.wicket.request.target.coding.HybridUrlCodingStrategy;
-import org.apache.wicket.settings.IExceptionSettings;
-
 import com.google.inject.Injector;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.state.ComponentStateListener;
@@ -47,16 +28,28 @@ import com.lyndir.lhunath.snaplog.webapp.page.NewUserPage.NewUserPageState;
 import com.lyndir.lhunath.snaplog.webapp.page.error.AccessDeniedErrorPage;
 import com.lyndir.lhunath.snaplog.webapp.page.error.InternalErrorPage;
 import com.lyndir.lhunath.snaplog.webapp.page.error.PageExpiredErrorPage;
+import net.link.safeonline.sdk.common.configuration.WebappConfig;
+import org.apache.wicket.*;
+import org.apache.wicket.guice.InjectionFlagCachingGuiceComponentInjector;
+import org.apache.wicket.markup.IMarkupParserFactory;
+import org.apache.wicket.markup.MarkupParser;
+import org.apache.wicket.markup.MarkupResourceStream;
+import org.apache.wicket.protocol.http.WebApplication;
+import org.apache.wicket.protocol.http.WebRequest;
+import org.apache.wicket.protocol.http.WebRequestCycle;
+import org.apache.wicket.protocol.http.WebResponse;
+import org.apache.wicket.request.target.coding.HybridUrlCodingStrategy;
+import org.apache.wicket.settings.IExceptionSettings;
 
 
 /**
  * <h2>{@link SnaplogWebApplication}<br>
  * <sub>Wicket {@link WebApplication} for the media album application.</sub></h2>
- * 
+ *
  * <p>
  * <i>May 31, 2009</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class SnaplogWebApplication extends WebApplication {
@@ -65,17 +58,18 @@ public class SnaplogWebApplication extends WebApplication {
 
     /**
      * Context-relative path to the page that indicates an error occurred during the linkID authentication protocol.
-     * 
+     *
      * TODO: Add a page for this.
      */
     public static final String PATH_LINKID_ERROR = "/linkid-error";
 
     /**
      * Metadata key for an {@link Issue} describing a {@link RuntimeException} that occurred.
-     * 
+     *
      * @see RequestCycle#getMetaData(MetaDataKey)
      */
-    public static final MetaDataKey<Issue> METADATA_RUNTIME_EXCEPTION_ISSUE = new MetaDataKey<Issue>() {};
+    public static final MetaDataKey<Issue> METADATA_RUNTIME_EXCEPTION_ISSUE = new MetaDataKey<Issue>() {
+    };
 
 
     /**

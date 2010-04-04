@@ -21,11 +21,11 @@ import com.lyndir.lhunath.snaplog.data.user.User;
 /**
  * <h2>{@link SecurityToken}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 14, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class SecurityToken {
@@ -48,8 +48,7 @@ public class SecurityToken {
 
 
     /**
-     * @param actor
-     *            The user that has requested or will gain access to the result of the operation.
+     * @param actor The user that has requested or will gain access to the result of the operation.
      */
     public SecurityToken(User actor) {
 

@@ -23,11 +23,11 @@ import org.apache.wicket.Page;
 /**
  * <h2>{@link Issue}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 3, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class Issue implements Serializable {
@@ -38,11 +38,9 @@ public class Issue implements Serializable {
 
     /**
      * Create a new {@link Issue} instance.
-     * 
-     * @param location
-     *            The page that the issue occurred on.
-     * @param cause
-     *            The exception that caused the issue.
+     *
+     * @param location The page that the issue occurred on.
+     * @param cause    The exception that caused the issue.
      */
     public Issue(Page location, Exception cause) {
 

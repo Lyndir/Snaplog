@@ -18,67 +18,62 @@ package com.lyndir.lhunath.snaplog.model;
 import java.io.File;
 import java.io.InputStream;
 
+import com.google.common.collect.ImmutableList;
 import org.jets3t.service.S3Service;
 import org.jets3t.service.model.S3Bucket;
 import org.jets3t.service.model.S3Object;
-
-import com.google.common.collect.ImmutableList;
 
 
 /**
  * <h2>{@link AWSService}<br>
  * <sub>A service for clean access to the S3 data.</sub></h2>
- * 
+ *
  * <p>
  * <i>Jan 9, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public interface AWSService {
 
     /**
      * Retrieve an object on S3 with a data stream available.
-     * 
+     *
      * <p>
      * <b>Note:</b> It is your responsibility to close this object's data stream when you are done!
      * </p>
-     * 
-     * @param objectKey
-     *            The key that identifies the object.
-     * 
+     *
+     * @param objectKey The key that identifies the object.
+     *
      * @return The object with metadata present.
      */
     S3Object readObject(String objectKey);
 
     /**
      * Look up metadata for an object on S3.
-     * 
-     * @param objectKey
-     *            The key that identifies the object.
-     * 
+     *
+     * @param objectKey The key that identifies the object.
+     *
      * @return The object with metadata present or <code>null</code> if no object exists at the given key.
      */
     S3Object findObjectDetails(String objectKey);
 
     /**
      * List all objects under a certain key on S3.
-     * 
-     * @param objectKey
-     *            The key that identifies the object.
-     * 
+     *
+     * @param objectKey The key that identifies the object.
+     *
      * @return A list of objects with minimal information present.
-     * 
+     *
      * @see S3Service#listObjects(S3Bucket)
      */
     ImmutableList<S3Object> listObjects(String objectKey);
 
     /**
      * Upload bytes to an S3 object at the given key.
-     * 
-     * @param source
-     *            The {@link S3Object} that provides the input data as an {@link InputStream} or {@link File}.
-     * 
+     *
+     * @param source The {@link S3Object} that provides the input data as an {@link InputStream} or {@link File}.
+     *
      * @return The resulting object with metadata present.
      */
     S3Object upload(S3Object source);

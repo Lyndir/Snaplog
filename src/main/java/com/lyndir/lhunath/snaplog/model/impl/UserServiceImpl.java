@@ -39,11 +39,11 @@ import com.lyndir.lhunath.snaplog.model.UserService;
 
 /**
  * <h2>{@link UserServiceImpl}<br>
- * 
+ *
  * <p>
  * <i>Jan 9, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class UserServiceImpl implements UserService {
@@ -53,10 +53,8 @@ public class UserServiceImpl implements UserService {
 
 
     /**
-     * @param db
-     *            See {@link ServicesModule}.
-     * @param securityService
-     *            See {@link ServicesModule}.
+     * @param db              See {@link ServicesModule}.
+     * @param securityService See {@link ServicesModule}.
      */
     @Inject
     public UserServiceImpl(ObjectContainer db, SecurityService securityService) {

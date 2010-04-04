@@ -18,11 +18,11 @@ package com.lyndir.lhunath.snaplog.webapp.tab;
 /**
  * <h2>{@link SnaplogTab}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Feb 28, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public enum Tab {

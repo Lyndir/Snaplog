@@ -33,11 +33,11 @@ import com.lyndir.lhunath.snaplog.model.SecurityService;
 /**
  * <h2>{@link SecurityServiceImpl}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 14, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class SecurityServiceImpl implements SecurityService {

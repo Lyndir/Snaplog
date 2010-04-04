@@ -17,10 +17,6 @@ package com.lyndir.lhunath.snaplog.webapp.tab;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-
 import com.lyndir.lhunath.lib.system.localization.UseKey;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
@@ -32,27 +28,28 @@ import com.lyndir.lhunath.snaplog.webapp.view.AccessView;
 import com.lyndir.lhunath.snaplog.webapp.view.BrowserView;
 import com.lyndir.lhunath.snaplog.webapp.view.TagsView;
 import com.lyndir.lhunath.snaplog.webapp.view.TimelineView;
+import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 
 
 /**
  * <h2>{@link AlbumTabPanel}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 1, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
 
     /**
      * Create a new {@link AlbumTabPanel} instance.
-     * 
-     * @param id
-     *            The wicket ID that will hold the {@link AlbumTabPanel}.
-     * @param model
-     *            Provides the album to show.
+     *
+     * @param id    The wicket ID that will hold the {@link AlbumTabPanel}.
+     * @param model Provides the album to show.
      */
     AlbumTabPanel(String id, IModel<Album> model) {
 
@@ -96,11 +93,11 @@ class AlbumTools extends Panel {
 /**
  * <h2>{@link AlbumTab}<br>
  * <sub>The interface panel for browsing through the album content.</sub></h2>
- * 
+ *
  * <p>
  * <i>May 31, 2009</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 class AlbumTab implements SnaplogTab {

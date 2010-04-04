@@ -21,11 +21,11 @@ import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 /**
  * <h2>{@link UsernameTakenException}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 17, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class UsernameTakenException extends Exception {
@@ -36,8 +36,7 @@ public class UsernameTakenException extends Exception {
 
 
     /**
-     * @param userName
-     *            The userName that is no longer available.
+     * @param userName The userName that is no longer available.
      */
     public UsernameTakenException(String userName) {
 

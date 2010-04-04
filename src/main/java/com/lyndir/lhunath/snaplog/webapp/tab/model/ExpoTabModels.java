@@ -15,25 +15,24 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab.model;
 
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.lib.wayward.model.EmptyModelProvider;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
-import com.lyndir.lhunath.snaplog.webapp.tab.GalleryTabPanel;
 import com.lyndir.lhunath.snaplog.webapp.tab.ExpoTabPanel.Messages;
+import com.lyndir.lhunath.snaplog.webapp.tab.GalleryTabPanel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 
 
 /**
  * <h2>{@link ExpoTabModels}<br>
  * <sub>Model provider for {@link GalleryTabPanel}.</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 11, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class ExpoTabModels extends EmptyModelProvider<ExpoTabModels> {

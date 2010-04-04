@@ -22,24 +22,22 @@ import com.lyndir.lhunath.snaplog.data.user.UserProfile;
 /**
  * <h2>{@link S3Album}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * [description / usage].
  * </p>
- * 
+ *
  * <p>
  * <i>Jan 10, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class S3Album extends Album {
 
     /**
-     * @param ownerProfile
-     *            The profile of the user that owns this album.
-     * @param name
-     *            A unique, user-visible name of this album amongst the user's albums.
+     * @param ownerProfile The profile of the user that owns this album.
+     * @param name         A unique, user-visible name of this album amongst the user's albums.
      */
     public S3Album(UserProfile ownerProfile, String name) {
 

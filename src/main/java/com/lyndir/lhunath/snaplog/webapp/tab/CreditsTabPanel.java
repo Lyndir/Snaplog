@@ -15,33 +15,31 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
+import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.system.logging.exception.TodoException;
+import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.system.logging.exception.TodoException;
-import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
-
 
 /**
  * <h2>{@link CreditsTabPanel}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 1, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class CreditsTabPanel extends Panel {
 
     /**
      * Create a new {@link CreditsTabPanel} instance.
-     * 
-     * @param id
-     *            The wicket ID that will hold the {@link CreditsTabPanel}.
+     *
+     * @param id The wicket ID that will hold the {@link CreditsTabPanel}.
      */
     public CreditsTabPanel(String id) {
 
@@ -58,15 +56,15 @@ public class CreditsTabPanel extends Panel {
 /**
  * <h2>{@link CreditsTab}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * [description / usage].
  * </p>
- * 
+ *
  * <p>
  * <i>May 31, 2009</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 class CreditsTab implements ITab {

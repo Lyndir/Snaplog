@@ -27,15 +27,15 @@ import com.lyndir.lhunath.snaplog.data.user.UserProfile;
 /**
  * <h2>{@link Album}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * [description / usage].
  * </p>
- * 
+ *
  * <p>
  * <i>Jan 9, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public abstract class Album extends AbstractSecureObject<UserProfile> implements Serializable {
@@ -46,10 +46,8 @@ public abstract class Album extends AbstractSecureObject<UserProfile> implements
 
 
     /**
-     * @param ownerProfile
-     *            The profile of the user that owns this album.
-     * @param name
-     *            A unique, ownerProfile-visible name of this album amongst the ownerProfile's albums.
+     * @param ownerProfile The profile of the user that owns this album.
+     * @param name         A unique, ownerProfile-visible name of this album amongst the ownerProfile's albums.
      */
     protected Album(UserProfile ownerProfile, String name) {
 
@@ -75,8 +73,7 @@ public abstract class Album extends AbstractSecureObject<UserProfile> implements
     }
 
     /**
-     * @param ownerProfile
-     *            The profile of the user that owns this album.
+     * @param ownerProfile The profile of the user that owns this album.
      */
     public void setOwnerProfile(UserProfile ownerProfile) {
 
@@ -92,8 +89,7 @@ public abstract class Album extends AbstractSecureObject<UserProfile> implements
     }
 
     /**
-     * @param name
-     *            The name of this {@link Album}.
+     * @param name The name of this {@link Album}.
      */
     public void setName(String name) {
 
@@ -109,8 +105,7 @@ public abstract class Album extends AbstractSecureObject<UserProfile> implements
     }
 
     /**
-     * @param description
-     *            The description of this {@link Album}.
+     * @param description The description of this {@link Album}.
      */
     public void setDescription(String description) {
 

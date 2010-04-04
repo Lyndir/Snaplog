@@ -25,11 +25,11 @@ import com.lyndir.lhunath.snaplog.data.security.Permission;
 /**
  * <h2>{@link UserProfile}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 24, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class UserProfile extends AbstractSecureObject<GlobalSecureObject> implements Serializable {
@@ -39,9 +39,8 @@ public class UserProfile extends AbstractSecureObject<GlobalSecureObject> implem
 
     /**
      * Create a new {@link UserProfile} instance.
-     * 
-     * @param user
-     *            The user that this profile describes.
+     *
+     * @param user The user that this profile describes.
      */
     public UserProfile(User user) {
 
@@ -69,8 +68,7 @@ public class UserProfile extends AbstractSecureObject<GlobalSecureObject> implem
     }
 
     /**
-     * @param user
-     *            The user of this {@link UserProfile}.
+     * @param user The user of this {@link UserProfile}.
      */
     public void setUser(User user) {
 

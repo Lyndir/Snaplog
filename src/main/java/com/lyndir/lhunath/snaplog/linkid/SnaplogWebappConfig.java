@@ -15,19 +15,18 @@
  */
 package com.lyndir.lhunath.snaplog.linkid;
 
-import net.link.safeonline.sdk.common.configuration.PropertiesWebappConfig;
-
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import net.link.safeonline.sdk.common.configuration.PropertiesWebappConfig;
 
 
 /**
  * <h2>{@link SnaplogWebappConfig}<br>
  * <sub>Configuration of the snaplog web application for linkID.</sub></h2>
- * 
+ *
  * <p>
  * <i>Jan 1, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class SnaplogWebappConfig extends PropertiesWebappConfig {
@@ -45,7 +44,7 @@ public class SnaplogWebappConfig extends PropertiesWebappConfig {
         super( WEBAPP_PROPERTIES_RESOURCE );
 
         logger.dbg( "SnaplogWebappConfig resource: %s", Thread.currentThread()
-                                                              .getContextClassLoader()
-                                                              .getResource( WEBAPP_PROPERTIES_RESOURCE ) );
+                .getContextClassLoader()
+                .getResource( WEBAPP_PROPERTIES_RESOURCE ) );
     }
 }

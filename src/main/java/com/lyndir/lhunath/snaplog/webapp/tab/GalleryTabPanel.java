@@ -17,20 +17,6 @@ package com.lyndir.lhunath.snaplog.webapp.tab;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.DropDownChoice;
-import org.apache.wicket.markup.html.form.EnumChoiceRenderer;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.RequiredTextField;
-import org.apache.wicket.markup.html.form.TextArea;
-import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.model.AbstractReadOnlyModel;
-import org.apache.wicket.model.IModel;
-
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.SafeObjects;
@@ -53,16 +39,25 @@ import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels.NewAlbumFormModels;
 import com.lyndir.lhunath.snaplog.webapp.view.AbstractAlbumsView;
 import com.lyndir.lhunath.snaplog.webapp.view.MediaView;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.*;
+import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.model.AbstractReadOnlyModel;
+import org.apache.wicket.model.IModel;
 
 
 /**
  * <h2>{@link GalleryTabPanel}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Mar 1, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
@@ -86,11 +81,9 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 
     /**
      * Create a new {@link GalleryTabPanel} instance.
-     * 
-     * @param id
-     *            The wicket ID that will hold the {@link GalleryTabPanel}.
-     * @param userModel
-     *            The user whose gallery to show.
+     *
+     * @param id        The wicket ID that will hold the {@link GalleryTabPanel}.
+     * @param userModel The user whose gallery to show.
      */
     public GalleryTabPanel(String id, IModel<User> userModel) {
 
@@ -161,12 +154,12 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
             {
                 final WebMarkupContainer container = this;
                 final Form<NewAlbumFormModels> newAlbumForm = new Form<NewAlbumFormModels>( "newAlbumForm",
-                        getModelObject().newAlbumForm().getModel() ) {
+                                                                                            getModelObject().newAlbumForm().getModel() ) {
 
                     {
                         add( new DropDownChoice<AlbumProviderType>( "type", getModelObject().type(),
-                                getModelObject().types(), new EnumChoiceRenderer<AlbumProviderType>() ) //
-                        .setRequired( true ) );
+                                                                    getModelObject().types(), new EnumChoiceRenderer<AlbumProviderType>() ) //
+                                .setRequired( true ) );
 
                         add( new RequiredTextField<String>( "name", getModelObject().name() ) );
                         add( new TextArea<String>( "description", getModelObject().description() ) );
@@ -243,11 +236,10 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         String galleryTab();
 
         /**
-         * @param authenticated
-         *            <code>true</code>: The current user has authenticated himself.<br>
-         *            <code>false</code>: The current user has not identified himself.
-         * @param username
-         *            The name of the user whose gallery is being viewed.
+         * @param authenticated <code>true</code>: The current user has authenticated himself.<br>
+         *                      <code>false</code>: The current user has not identified himself.
+         * @param username      The name of the user whose gallery is being viewed.
+         *
          * @return A text that explains to whom the albums in the gallery belong.
          */
         String anothersAlbumsHelp(@BooleanKeyAppender(y = "auth", n = "anon") boolean authenticated,
@@ -259,11 +251,10 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         String ownAlbumsHelp();
 
         /**
-         * @param authenticated
-         *            <code>true</code>: The current user has authenticated himself.<br>
-         *            <code>false</code>: The current user has not identified himself.
-         * @param username
-         *            The name of the user whose gallery is being viewed.
+         * @param authenticated <code>true</code>: The current user has authenticated himself.<br>
+         *                      <code>false</code>: The current user has not identified himself.
+         * @param username      The name of the user whose gallery is being viewed.
+         *
          * @return A text that explains that none of the user's albums are visible and what might be the cause.
          */
         String noAlbumsHelp(@BooleanKeyAppender(y = "auth", n = "anon") boolean authenticated, IModel<String> username);
@@ -274,15 +265,15 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 /**
  * <h2>{@link GalleryTab}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * [description / usage].
  * </p>
- * 
+ *
  * <p>
  * <i>May 31, 2009</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 class GalleryTab implements SnaplogTab {

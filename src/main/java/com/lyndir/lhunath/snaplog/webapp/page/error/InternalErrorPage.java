@@ -15,25 +15,24 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.page.error;
 
-import org.apache.wicket.markup.html.form.TextField;
-import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.Model;
-
 import com.google.gson.Gson;
 import com.lyndir.lhunath.lib.system.util.Utils;
 import com.lyndir.lhunath.snaplog.data.Issue;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogWebApplication;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
+import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.Model;
 
 
 /**
  * <h2>{@link InternalErrorPage}<br>
  * <sub>Page that is shown when an uncaught exception occurs.</sub></h2>
- * 
+ *
  * <p>
  * <i>Jun 10, 2009</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class InternalErrorPage extends LayoutPage {

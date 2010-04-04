@@ -9,12 +9,15 @@
     <entry key="anothersAlbumsHelp.auth">Here''s an overview of all {0}''s albums that are open to you.</entry>
     <entry key="anothersAlbumsHelp.anon">Here''s an overview of all {0}''s albums that are open to the public.</entry>
     <entry key="ownAlbumsHelp">Here's an overview of all your albums.</entry>
-    <entry key="noAlbumsHelp.auth">Either {0} hasn''t created any albums or hasn''t granted you access to them yet.</entry>
-    <entry key="noAlbumsHelp.anon">Either {0} hasn''t created any albums or hasn''t granted public access to any of them.  Sign in to view or request access to {0}''s albums.</entry>
+    <entry key="noAlbumsHelp.auth">Either {0} hasn''t created any albums or hasn''t granted you access to them yet.
+    </entry>
+    <entry key="noAlbumsHelp.anon">Either {0} hasn''t created any albums or hasn''t granted public access to any of
+        them. Sign in to view or request access to {0}''s albums.
+    </entry>
 
     <entry key="newAlbum">Create a new album</entry>
     <entry key="newAlbumType">Album Type:</entry>
     <entry key="newAlbumName">Album Name:</entry>
     <entry key="newAlbumDescription">Album Description:</entry>
 
-</properties> 
+</properties>

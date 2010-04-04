@@ -7,13 +7,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
-
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.collection.FixedDeque;
 import com.lyndir.lhunath.lib.system.logging.Logger;
@@ -24,16 +17,22 @@ import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 
 
 /**
  * <h2>{@link BrowserView}<br>
  * <sub>Component that allows users to browse through media chronologically.</sub></h2>
- * 
+ *
  * <p>
  * <i>Jan 6, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class BrowserView extends GenericPanel<Album> {
@@ -51,14 +50,11 @@ public class BrowserView extends GenericPanel<Album> {
 
     /**
      * Create a new {@link BrowserView} instance.
-     * 
-     * @param id
-     *            The wicket ID to put this component in the HTML.
-     * @param albumModel
-     *            The model contains the {@link Album} that the browser should get its media from.
-     * @param currentTimeModel
-     *            The model contains the {@link Date} upon which the browser should focus. The first image on or past
-     *            this date will be the focussed image.
+     *
+     * @param id               The wicket ID to put this component in the HTML.
+     * @param albumModel       The model contains the {@link Album} that the browser should get its media from.
+     * @param currentTimeModel The model contains the {@link Date} upon which the browser should focus. The first image on or past
+     *                         this date will be the focussed image.
      */
     public BrowserView(String id, IModel<Album> albumModel, IModel<Date> currentTimeModel) {
 
@@ -75,11 +71,11 @@ public class BrowserView extends GenericPanel<Album> {
     /**
      * <h2>{@link BrowserListView}<br>
      * <sub>A {@link ListView} which enumerates {@link Media}s.</sub></h2>
-     * 
+     *
      * <p>
      * <i>Jan 6, 2010</i>
      * </p>
-     * 
+     *
      * @author lhunath
      */
     private final class BrowserListView extends ListView<Media> {
@@ -116,11 +112,11 @@ public class BrowserView extends GenericPanel<Album> {
      * <h2>{@link BrowserFilesModel}<br>
      * <sub>A {@link Model} that enumerates all files the browser should display when centered on a certain point in
      * time.</sub></h2>
-     * 
+     *
      * <p>
      * <i>Jan 6, 2010</i>
      * </p>
-     * 
+     *
      * @author lhunath
      */
     private final class BrowserFilesModel extends LoadableDetachableModel<List<Media>> {

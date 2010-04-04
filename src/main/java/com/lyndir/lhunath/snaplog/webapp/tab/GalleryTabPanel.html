@@ -20,6 +20,7 @@
                 <a wicket:id="link" class="album block">
                     <wicket:container wicket:id="cover" />
                     <h4 wicket:id="title">[My Life]</h4>
+
                     <p wicket:id="description">[Everything I get up to in daily life.]</p>
                 </a>
             </wicket:container>
@@ -34,29 +35,32 @@
                     <div class="block">
                         <form wicket:id="newAlbumForm">
                             <p>
-                                <ul class="plain">
-                                    <li>
-                                        <label for="newAlbumType">
-                                            <wicket:message key="newAlbumType">[Album Type:]</wicket:message></label>
-                                        <select id="newAlbumType" wicket:id="type">
-                                            <option>[Amazon S3]</option>
-                                        </select>
-                                    </li>
-                                    <li>
-                                        <label for="newAlbumName">
-                                            <wicket:message key="newAlbumName">[Album Name:]</wicket:message></label>
-                                        <input id="newAlbumName" type="text" wicket:id="name" />
-                                    </li>
-                                    <li>
-                                        <label for="newAlbumDescription">
-                                            <wicket:message key="newAlbumDescription">[Album Description:]</wicket:message></label>
-                                        <textarea id="newAlbumDescription" wicket:id="description" />
-                                    </li>
-                                    <li>
-                                        <label></label>
-                                        <input type="submit" value="Create" />
-                                    </li>
-                                </ul>
+                            <ul class="plain">
+                                <li>
+                                    <label for="newAlbumType">
+                                        <wicket:message key="newAlbumType">[Album Type:]</wicket:message>
+                                    </label>
+                                    <select id="newAlbumType" wicket:id="type">
+                                        <option>[Amazon S3]</option>
+                                    </select>
+                                </li>
+                                <li>
+                                    <label for="newAlbumName">
+                                        <wicket:message key="newAlbumName">[Album Name:]</wicket:message>
+                                    </label>
+                                    <input id="newAlbumName" type="text" wicket:id="name" />
+                                </li>
+                                <li>
+                                    <label for="newAlbumDescription">
+                                        <wicket:message key="newAlbumDescription">[Album Description:]</wicket:message>
+                                    </label>
+                                    <textarea id="newAlbumDescription" wicket:id="description" />
+                                </li>
+                                <li>
+                                    <label></label>
+                                    <input type="submit" value="Create" />
+                                </li>
+                            </ul>
                             </p>
                         </form>
                     </div>

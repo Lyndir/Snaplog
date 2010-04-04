@@ -17,6 +17,7 @@ package com.lyndir.lhunath.snaplog.model.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -28,14 +29,6 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
-
-import javax.imageio.ImageIO;
-
-import org.jets3t.service.S3Service;
-import org.jets3t.service.S3ServiceException;
-import org.jets3t.service.acl.AccessControlList;
-import org.jets3t.service.model.S3Bucket;
-import org.jets3t.service.model.S3Object;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
@@ -61,15 +54,20 @@ import com.lyndir.lhunath.snaplog.model.AWSService;
 import com.lyndir.lhunath.snaplog.model.SecurityService;
 import com.lyndir.lhunath.snaplog.model.UserService;
 import com.lyndir.lhunath.snaplog.util.ImageUtils;
+import org.jets3t.service.S3Service;
+import org.jets3t.service.S3ServiceException;
+import org.jets3t.service.acl.AccessControlList;
+import org.jets3t.service.model.S3Bucket;
+import org.jets3t.service.model.S3Object;
 
 
 /**
  * <h2>{@link AWSMediaProviderServiceImpl}<br>
- * 
+ *
  * <p>
  * <i>Jan 10, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
@@ -85,14 +83,10 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
 
     /**
-     * @param db
-     *            See {@link ServicesModule}.
-     * @param awsService
-     *            See {@link ServicesModule}.
-     * @param userService
-     *            See {@link ServicesModule}.
-     * @param securityService
-     *            See {@link ServicesModule}.
+     * @param db              See {@link ServicesModule}.
+     * @param awsService      See {@link ServicesModule}.
+     * @param userService     See {@link ServicesModule}.
+     * @param securityService See {@link ServicesModule}.
      */
     @Inject
     public AWSMediaProviderServiceImpl(ObjectContainer db, AWSService awsService, UserService userService,
@@ -162,7 +156,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         if (s3ResourceObject == null) {
             if (quality == Quality.ORIGINAL)
                 throw logger.bug( "Can't create a file's original resource." ) //
-                            .toError( UnsupportedOperationException.class );
+                        .toError( UnsupportedOperationException.class );
 
             // Read the original.
             logger.inf( "S3 does not yet have an object for: %s, at quality: %s", media, quality );
@@ -177,22 +171,26 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
                     logger.dbg( "Read original image with dimensions %dx%d", qualityImage.getWidth(),
                                 qualityImage.getHeight() );
                     ImageUtils.write(
-                                      ImageUtils.rescale( qualityImage, quality.getMaxWidth(), quality.getMaxHeight() ), //
-                                      imageDataStream, "image/jpeg", quality.getCompression(), true );
-                } catch (IOException e) {
+                            ImageUtils.rescale( qualityImage, quality.getMaxWidth(), quality.getMaxHeight() ), //
+                            imageDataStream, "image/jpeg", quality.getCompression(), true );
+                }
+                catch (IOException e) {
                     throw logger.err( e, "Image data could not be read: %s", s3OriginalObject ) //
-                                .toError();
-                } finally {
+                            .toError();
+                }
+                finally {
                     try {
                         s3InputStream.close();
-                    } catch (IOException e) {
+                    }
+                    catch (IOException e) {
                         logger.err( e, "S3 original resource read stream cleanup failed for object: %s",
                                     s3OriginalObject );
                     }
                 }
-            } catch (S3ServiceException e) {
+            }
+            catch (S3ServiceException e) {
                 throw logger.err( e, "Image data could not be read: %s", s3OriginalObject ) //
-                            .toError();
+                        .toError();
             }
             logger.dbg( "Wrote rescaled image of quality: %s, size: %d", quality, imageDataStream.size() );
 
@@ -233,12 +231,10 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
     /**
      * Retrieve the object key for all resources of the given {@link Album} at the given quality.
-     * 
-     * @param album
-     *            The album whose resources are contained under the key.
-     * @param quality
-     *            The quality of the resources that are contained under the key.
-     * 
+     *
+     * @param album   The album whose resources are contained under the key.
+     * @param quality The quality of the resources that are contained under the key.
+     *
      * @return An S3 object key within the bucket.
      */
     protected String getObjectKey(S3Album album, Quality quality) {
@@ -249,12 +245,10 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
     /**
      * Retrieve the object key for the resource of the given {@link Media} at the given quality.
-     * 
-     * @param media
-     *            The media whose resource is referenced the key.
-     * @param quality
-     *            The quality of the referenced resource.
-     * 
+     *
+     * @param media   The media whose resource is referenced the key.
+     * @param quality The quality of the referenced resource.
+     *
      * @return An S3 object key within the bucket.
      */
     protected String getObjectKey(S3Media media, Quality quality) {
@@ -264,19 +258,17 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
     /**
      * Get an {@link S3Object} with all metadata and a data stream available.
-     * 
+     *
      * <p>
      * <b>Note:</b> The data stream to this object remains open so you can use it. <b>Don't forget to close it</b> when
      * you're done!
      * </p>
-     * 
-     * @param media
-     *            The {@link Media} whose data is will be referenced by the returned object.
-     * @param quality
-     *            The {@link Quality} of the {@link Media}'s data.
-     * 
+     *
+     * @param media   The {@link Media} whose data is will be referenced by the returned object.
+     * @param quality The {@link Quality} of the {@link Media}'s data.
+     *
      * @return An {@link S3Object} with metadata and a data stream.
-     * 
+     *
      * @see S3Service#getObject(S3Bucket, String)
      */
     protected S3Object readObject(S3Media media, Quality quality) {
@@ -294,15 +286,13 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
     /**
      * Look up all metadata for media at a certain quality.
-     * 
-     * @param media
-     *            The {@link Media} whose data is will be referenced by the returned object.
-     * @param quality
-     *            The {@link Quality} of the {@link Media}'s data.
-     * 
+     *
+     * @param media   The {@link Media} whose data is will be referenced by the returned object.
+     * @param quality The {@link Quality} of the {@link Media}'s data.
+     *
      * @return An {@link S3Object} with metadata or <code>null</code> if no object exists for the given media at the
      *         given quality.
-     * 
+     *
      * @see S3Service#getObject(S3Bucket, String)
      */
     protected S3Object findObjectDetails(S3Media media, Quality quality) {
@@ -325,12 +315,11 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
     /**
      * Get an {@link S3Object} with very basic metadata available.
-     * 
-     * @param media
-     *            The {@link Media} whose data is will be referenced by the returned object.
-     * 
+     *
+     * @param media The {@link Media} whose data is will be referenced by the returned object.
+     *
      * @return An {@link S3Object} with basic metadata.
-     * 
+     *
      * @see S3Service#listObjects(S3Bucket)
      */
     protected S3Object getObject(S3Media media) {
@@ -359,7 +348,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
         try {
             S3Album album = new S3Album( userService.getProfile( SecurityToken.INTERNAL_USE_ONLY, ownerUser ),
-                    albumName );
+                                         albumName );
             album.setDescription( albumDescription );
 
             return album;

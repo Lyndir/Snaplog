@@ -12,11 +12,11 @@ import com.lyndir.lhunath.snaplog.model.impl.SecurityServiceImpl;
 /**
  * <h2>{@link AlbumData}<br>
  * <sub>[in short] (TODO).</sub></h2>
- * 
+ *
  * <p>
  * <i>Jan 28, 2010</i>
  * </p>
- * 
+ *
  * @author lhunath
  */
 public abstract class AlbumData {
@@ -33,8 +33,7 @@ public abstract class AlbumData {
     public abstract Album getAlbum();
 
     /**
-     * @param internalFiles
-     *            All files in the album.
+     * @param internalFiles All files in the album.
      */
     public void setInternalFiles(List<Media> internalFiles) {
 
@@ -47,10 +46,10 @@ public abstract class AlbumData {
     /**
      * <b>NOTE:</b> No authorization checks have been performed for these files. <b>Check authorization before returning
      * any information on these to the user.</b>
-     * 
-     * @param onlyAllowedForSecurityService
-     *            Only {@link SecurityService} is allowed to call this method. Therefore, this field must not be
-     *            <code>null</code>.
+     *
+     * @param onlyAllowedForSecurityService Only {@link SecurityService} is allowed to call this method. Therefore, this field must not be
+     *                                      <code>null</code>.
+     *
      * @return All files in the album.
      */
     public List<Media> getInternalFiles(SecurityServiceImpl onlyAllowedForSecurityService) {
@@ -63,6 +62,7 @@ public abstract class AlbumData {
 
     /**
      * @return <code>true</code> only when the album's internalFiles are known.
+     *
      * @see #setInternalFiles(List)
      */
     // TODO: Add cache timeout logic.
@@ -72,8 +72,7 @@ public abstract class AlbumData {
     }
 
     /**
-     * @param internalTimeFrames
-     *            All the internalTimeFrames of the album.
+     * @param internalTimeFrames All the internalTimeFrames of the album.
      */
     public void setInternalTimeFrames(List<MediaTimeFrame> internalTimeFrames) {
 
@@ -85,10 +84,10 @@ public abstract class AlbumData {
     /**
      * <b>NOTE:</b> No authorization checks have been performed for these files. <b>Check authorization before returning
      * any information on these to the user.</b>
-     * 
-     * @param onlyAllowedForSecurityService
-     *            Only {@link SecurityService} is allowed to call this method. Therefore, this field must not be
-     *            <code>null</code>.
+     *
+     * @param onlyAllowedForSecurityService Only {@link SecurityService} is allowed to call this method. Therefore, this field must not be
+     *                                      <code>null</code>.
+     *
      * @return All the internalTimeFrames in the album.
      */
     public List<MediaTimeFrame> getInternalTimeFrames(SecurityServiceImpl onlyAllowedForSecurityService) {
@@ -100,6 +99,7 @@ public abstract class AlbumData {
 
     /**
      * @return <code>true</code> only when the album's internalTimeFrames are known.
+     *
      * @see #setInternalTimeFrames(List)
      */
     // TODO: Add cache timeout logic.
