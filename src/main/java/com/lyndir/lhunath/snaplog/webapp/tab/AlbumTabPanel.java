@@ -156,7 +156,7 @@ class AlbumTab implements SnaplogTab {
     @Override
     public Panel getTools(String panelId) {
 
-        return null;
+        return new AlbumTools( panelId );
     }
 
     /**

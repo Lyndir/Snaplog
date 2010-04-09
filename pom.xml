@@ -9,17 +9,17 @@
     <parent>
         <groupId>com.lyndir.lhunath</groupId>
         <artifactId>lyndir</artifactId>
-        <version>1.1-SNAPSHOT</version>
+        <version>SNAPSHOT</version>
     </parent>
 
     <groupId>com.lyndir.lhunath.snaplog</groupId>
     <artifactId>snaplog</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>Snaplog</name>
-    <url>http://gorillas.lyndir.com</url>
-    <inceptionYear>2009</inceptionYear>
+    <url>http://www.snaplog.net</url>
+    <inceptionYear>2010</inceptionYear>
     <description>
         A social photo network.
     </description>
@@ -52,7 +52,7 @@
 
     <!-- CODE MANAGEMENT -->
     <scm>
-        <url>http://snaplog.net</url>
+        <url>http://codaset.com/lhunath/snaplog</url>
         <connection>${scm.git.pubbase}/snaplog.git</connection>
         <developerConnection>${scm.git.devbase}/snaplog.git</developerConnection>
     </scm>
@@ -170,12 +170,12 @@
         <dependency>
             <groupId>com.lyndir.lhunath.jlibs</groupId>
             <artifactId>system</artifactId>
-            <version>1.1-SNAPSHOT</version>
+            <version>SNAPSHOT</version>
         </dependency>
         <dependency>
             <groupId>com.lyndir.lhunath.jlibs</groupId>
             <artifactId>wayward</artifactId>
-            <version>1.1-SNAPSHOT</version>
+            <version>SNAPSHOT</version>
         </dependency>
 
         <!-- LinkID -->

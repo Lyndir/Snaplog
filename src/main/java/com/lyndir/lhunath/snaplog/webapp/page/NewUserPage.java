@@ -15,6 +15,8 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.page;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.lib.wayward.component.WicketUtils;
