@@ -47,6 +47,8 @@ public enum AlbumProviderType {
 
     /**
      * Create a new {@link AlbumProviderType} instance.
+     *
+     * @param albumProvider The implementation of this AlbumProviderType.
      */
     private AlbumProviderType(AlbumProvider<?, ?> albumProvider) {
 

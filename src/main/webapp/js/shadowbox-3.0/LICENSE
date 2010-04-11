@@ -12,15 +12,15 @@ licenses. The first of these may be exercised by individuals and organizations
 who employ the software for non-commercial uses. This license grants the licensee
 the following privileges:
 
-  - Use
+- Use
 
-    The software, including code, images, and documentation may be used in a web
-    site or application that is not used for commercial purposes.
+The software, including code, images, and documentation may be used in a web
+site or application that is not used for commercial purposes.
 
-  - Modification
+- Modification
 
-    The software, including code, images, and documentation may be modified by the
-    user to suit his purpose.
+The software, including code, images, and documentation may be modified by the
+user to suit his purpose.
 
 The second type of license may be obtained for a fee from the copyright holder and
 removes the non-commercial restriction from the terms of use. This commercial
@@ -41,8 +41,10 @@ warranties of merchantability and fitness for a particular purpose are disclaime
 
 In no event shall the copyright holder or contributors be liable for any direct,
 indirect, incidental, special, exemplary, or consequential damages (including, but
-not limited to, procurement of substitute goods or services; loss of use, data, or
-profits; or business interruption) however caused and on any theory of liability,
+not limited to, procurement of substitute goods or services;
+loss of use, data, or
+profits;
+or business interruption) however caused and on any theory of liability,
 whether in contract, strict liability, or tort (including negligence or otherwise)
 arising in any way out of the use of this software, even if advised of the
 possibility of such damage.

@@ -62,6 +62,8 @@ public enum Tab {
 
     /**
      * Create a new {@link Tab} instance.
+     *
+     * @param tab The implementation of this tab.
      */
     private Tab(SnaplogTab tab) {
 
