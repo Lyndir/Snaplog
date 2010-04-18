@@ -147,7 +147,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
             @Override
             protected void populateItem(final ListItem<TabItem> item) {
 
-                TabItem itemModel = item.getModelObject();
+                final TabItem itemModel = item.getModelObject();
 
                 item.add( new AjaxLabelLink( "link", itemModel.title() ) {
 

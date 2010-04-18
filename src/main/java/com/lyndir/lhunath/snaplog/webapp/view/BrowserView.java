@@ -89,7 +89,7 @@ public class BrowserView extends GenericPanel<Album> {
         protected void populateItem(final ListItem<Media> item) {
 
             Media media = item.getModelObject();
-            long shotTime = media.shotTime();
+            final long shotTime = media.shotTime();
             boolean isCurrent = media.equals( currentFile );
             Quality imageQuality = isCurrent? Quality.PREVIEW: Quality.THUMBNAIL;
 

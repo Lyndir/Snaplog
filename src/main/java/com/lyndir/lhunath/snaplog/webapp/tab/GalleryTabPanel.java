@@ -153,8 +153,8 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         add( new WebMarkupContainer( "newAlbumContainer" ) {
 
             {
-                WebMarkupContainer container = this;
-                Form<NewAlbumFormModels> newAlbumForm = new Form<NewAlbumFormModels>( "newAlbumForm",
+                final WebMarkupContainer container = this;
+                final Form<NewAlbumFormModels> newAlbumForm = new Form<NewAlbumFormModels>( "newAlbumForm",
                                                                                       getModelObject()
                                                                                               .newAlbumForm().getModel() ) {
 
