@@ -32,8 +32,8 @@ import org.apache.wicket.Page;
  */
 public class Issue implements Serializable {
 
-    private Page location;
-    private Exception cause;
+    private final Page location;
+    private final Exception cause;
 
 
     /**
@@ -42,7 +42,7 @@ public class Issue implements Serializable {
      * @param location The page that the issue occurred on.
      * @param cause    The exception that caused the issue.
      */
-    public Issue(Page location, Exception cause) {
+    public Issue(final Page location, final Exception cause) {
 
         this.location = location;
         this.cause = cause;

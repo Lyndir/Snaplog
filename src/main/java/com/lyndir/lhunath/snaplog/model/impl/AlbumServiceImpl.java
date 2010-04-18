@@ -23,7 +23,7 @@ import java.util.LinkedList;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
-import com.db4o.query.Predicate;
+import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
@@ -53,8 +53,8 @@ public class AlbumServiceImpl implements AlbumService {
 
     private static final Logger logger = Logger.get( AlbumServiceImpl.class );
 
-    ObjectContainer db;
-    SecurityService securityService;
+    final ObjectContainer db;
+    final SecurityService securityService;
 
 
     /**
@@ -62,7 +62,7 @@ public class AlbumServiceImpl implements AlbumService {
      * @param securityService See {@link ServicesModule}.
      */
     @Inject
-    public AlbumServiceImpl(ObjectContainer db, SecurityService securityService) {
+    public AlbumServiceImpl(final ObjectContainer db, final SecurityService securityService) {
 
         this.db = db;
         this.securityService = securityService;
@@ -72,15 +72,14 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     @Override
-    public ObjectSet<Album> queryAlbums(final SecurityToken token,
-                                        final com.google.common.base.Predicate<Album> predicate) {
+    public ObjectSet<Album> queryAlbums(final SecurityToken token, final Predicate<Album> predicate) {
 
         checkNotNull( predicate, "Given predicate must not be null." );
 
-        return db.query( new Predicate<Album>() {
+        return db.query( new com.db4o.query.Predicate<Album>() {
 
             @Override
-            public boolean match(Album candidate) {
+            public boolean match(final Album candidate) {
 
                 return predicate.apply( candidate ) && securityService.hasAccess( Permission.VIEW, token, candidate );
             }
@@ -99,7 +98,7 @@ public class AlbumServiceImpl implements AlbumService {
         return db.query( new com.db4o.query.Predicate<Album>() {
 
             @Override
-            public boolean match(Album candidate) {
+            public boolean match(final Album candidate) {
 
                 return SafeObjects.equal( candidate.getOwnerProfile().getUser(), ownerUser )
                        && SafeObjects.equal( candidate.getName(), albumName )
@@ -120,7 +119,7 @@ public class AlbumServiceImpl implements AlbumService {
         ObjectSet<Media> mediaQuery = db.query( new com.db4o.query.Predicate<Media>() {
 
             @Override
-            public boolean match(Media candidate) {
+            public boolean match(final Media candidate) {
 
                 return SafeObjects.equal( candidate.getAlbum(), album ) && candidate.getName().endsWith( mediaName )
                        && securityService.hasAccess( Permission.VIEW, token, candidate );
@@ -137,7 +136,7 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     @Override
-    public Iterator<MediaTimeFrame> iterateYears(final SecurityToken token, Album album) {
+    public Iterator<MediaTimeFrame> iterateYears(final SecurityToken token, final Album album) {
 
         // TODO: This method should return an Iterable and should not cache the results.
 
@@ -187,7 +186,7 @@ public class AlbumServiceImpl implements AlbumService {
         ObjectSet<AlbumData> albumDataQuery = db.query( new com.db4o.query.Predicate<AlbumData>() {
 
             @Override
-            public boolean match(AlbumData candidate) {
+            public boolean match(final AlbumData candidate) {
 
                 return SafeObjects.equal( candidate.getAlbum(), album );
             }
@@ -202,15 +201,16 @@ public class AlbumServiceImpl implements AlbumService {
         return albumData;
     }
 
-    private static <A extends Album> AlbumProvider<A, Media> getAlbumProvider(A album) {
+    private static <A extends Album> AlbumProvider<A, Media> getAlbumProvider(final A album) {
 
         checkNotNull( album, "Given album must not be null." );
 
-        for (AlbumProviderType albumProviderType : AlbumProviderType.values())
+        for (final AlbumProviderType albumProviderType : AlbumProviderType.values())
             if (albumProviderType.getAlbumProvider().getAlbumType().isAssignableFrom( album.getClass() )) {
 
                 @SuppressWarnings("unchecked")
-                AlbumProvider<A, Media> checkedAlbumProvider = (AlbumProvider<A, Media>) albumProviderType.getAlbumProvider();
+                AlbumProvider<A, Media> checkedAlbumProvider = (AlbumProvider<A, Media>) albumProviderType
+                        .getAlbumProvider();
 
                 return checkedAlbumProvider;
             }
@@ -223,7 +223,7 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     @Override
-    public Iterator<Media> iterateFiles(final SecurityToken token, Album album) {
+    public Iterator<Media> iterateFiles(final SecurityToken token, final Album album) {
 
         // TODO: This should return an Iterable and we should check the security conditions as each object is requested.
         // Should probably do away with the cache since we shouldn't check security conditions in advance and cache the
@@ -247,7 +247,7 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     @Override
-    public URL getResourceURL(final SecurityToken token, Media media, Quality quality)
+    public URL getResourceURL(final SecurityToken token, final Media media, final Quality quality)
             throws PermissionDeniedException {
 
         checkNotNull( media, "Given media must not be null." );
@@ -260,7 +260,7 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     @Override
-    public long modifiedTime(final SecurityToken token, Media media)
+    public long modifiedTime(final SecurityToken token, final Media media)
             throws PermissionDeniedException {
 
         checkNotNull( media, "Given media must not be null." );
@@ -272,7 +272,7 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     @Override
-    public void registerAlbum(final SecurityToken token, Album album)
+    public void registerAlbum(final SecurityToken token, final Album album)
             throws PermissionDeniedException {
 
         checkNotNull( album );
@@ -289,7 +289,7 @@ public class AlbumServiceImpl implements AlbumService {
      */
     @Override
     @Deprecated
-    public AlbumData newAlbumData(Album album) {
+    public AlbumData newAlbumData(final Album album) {
 
         throw new UnsupportedOperationException();
     }
@@ -299,7 +299,7 @@ public class AlbumServiceImpl implements AlbumService {
      */
     @Override
     @Deprecated
-    public Album newAlbum(User ownerUser, String albumName, String albumDescription) {
+    public Album newAlbum(final User ownerUser, final String albumName, final String albumDescription) {
 
         throw new UnsupportedOperationException();
     }

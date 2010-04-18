@@ -40,7 +40,7 @@ public class ExpoTabModels extends EmptyModelProvider<ExpoTabModels> {
     static final Logger logger = Logger.get( ExpoTabModels.class );
     static final Messages msgs = MessagesFactory.create( Messages.class );
 
-    private IModel<String> usersHelp;
+    private final IModel<String> usersHelp;
 
 
     /**

@@ -38,8 +38,8 @@ import org.jets3t.service.model.S3Object;
  */
 public class S3MediaData extends MediaData {
 
-    private S3Media media;
-    private Map<Quality, S3Object> s3Objects;
+    private final S3Media media;
+    private final Map<Quality, S3Object> s3Objects;
 
 
     /**
@@ -47,7 +47,7 @@ public class S3MediaData extends MediaData {
      *
      * @param media The {@link S3Media} that we hold data for.
      */
-    public S3MediaData(S3Media media) {
+    public S3MediaData(final S3Media media) {
 
         this.media = media;
 
@@ -73,7 +73,7 @@ public class S3MediaData extends MediaData {
      * @param quality  The quality of the media that the given s3Object represents.
      * @param s3Object The S3 data of the media at the given quality.
      */
-    public void put(Quality quality, S3Object s3Object) {
+    public void put(final Quality quality, final S3Object s3Object) {
 
         checkNotNull( quality, "Given quality must not be null." );
         checkNotNull( s3Object, "Given S3 object must not be null." );
@@ -89,7 +89,7 @@ public class S3MediaData extends MediaData {
      *
      * @return An S3 data object.
      */
-    public S3Object get(Quality quality) {
+    public S3Object get(final Quality quality) {
 
         checkNotNull( quality, "Given quality must not be null." );
 

@@ -85,7 +85,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
      * @param id        The wicket ID that will hold the {@link GalleryTabPanel}.
      * @param userModel The user whose gallery to show.
      */
-    public GalleryTabPanel(String id, IModel<User> userModel) {
+    public GalleryTabPanel(final String id, final IModel<User> userModel) {
 
         super( id, new GalleryTabModels( userModel ).getModel() );
         checkNotNull( userModel.getObject(), "Model object of GalleryTabPanel must not be null" );
@@ -126,7 +126,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         add( albums = new AbstractAlbumsView( "albums", getModelObject(), ALBUMS_PER_PAGE ) {
 
             @Override
-            protected void populateItem(Item<Album> item) {
+            protected void populateItem(final Item<Album> item) {
 
                 item.add( new AjaxLink<Album>( "link", item.getModel() ) {
 
@@ -134,12 +134,13 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                         add( new MediaView( "cover", cover( getModel() ), Quality.THUMBNAIL, false ) );
                         add( new Label( "title", getModelObject().getName() ) );
                         // TODO: Fix HTML injection.
-                        add( new Label( "description", getModelObject().getDescription() ).setEscapeModelStrings( false ) );
+                        add( new Label( "description", getModelObject().getDescription() ).setEscapeModelStrings(
+                                false ) );
                     }
 
 
                     @Override
-                    public void onClick(AjaxRequestTarget target) {
+                    public void onClick(final AjaxRequestTarget target) {
 
                         SnaplogSession.get().setFocussedAlbum( getModelObject() );
                         LayoutPageUtils.setActiveTab( Tab.ALBUM, target );
@@ -152,13 +153,15 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         add( new WebMarkupContainer( "newAlbumContainer" ) {
 
             {
-                final WebMarkupContainer container = this;
-                final Form<NewAlbumFormModels> newAlbumForm = new Form<NewAlbumFormModels>( "newAlbumForm",
-                                                                                            getModelObject().newAlbumForm().getModel() ) {
+                WebMarkupContainer container = this;
+                Form<NewAlbumFormModels> newAlbumForm = new Form<NewAlbumFormModels>( "newAlbumForm",
+                                                                                      getModelObject()
+                                                                                              .newAlbumForm().getModel() ) {
 
                     {
                         add( new DropDownChoice<AlbumProviderType>( "type", getModelObject().type(),
-                                                                    getModelObject().types(), new EnumChoiceRenderer<AlbumProviderType>() ) //
+                                                                    getModelObject().types(),
+                                                                    new EnumChoiceRenderer<AlbumProviderType>() ) //
                                 .setRequired( true ) );
 
                         add( new RequiredTextField<String>( "name", getModelObject().name() ) );
@@ -169,10 +172,13 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                     @Override
                     protected void onSubmit() {
 
-                        AlbumProvider<?, ?> albumProvider = getModelObject().type().getObject().getAlbumProvider();
-                        Album album = albumProvider.newAlbum( GalleryTabPanel.this.getModelObject().getObject(), //
-                                                              getModelObject().name().getObject(), //
-                                                              getModelObject().description().getObject() );
+                        AlbumProvider<?, ?> albumProvider = getModelObject().type()
+                                .getObject()
+                                .getAlbumProvider();
+                        Album album = albumProvider
+                                .newAlbum( GalleryTabPanel.this.getModelObject().getObject(), //
+                                           getModelObject().name().getObject(), //
+                                           getModelObject().description().getObject() );
 
                         try {
                             albumService.registerAlbum( SnaplogSession.get().newToken(), album );
@@ -192,7 +198,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                 add( new AjaxLink<Object>( "newAlbum" ) {
 
                     @Override
-                    public void onClick(AjaxRequestTarget target) {
+                    public void onClick(final AjaxRequestTarget target) {
 
                         newAlbumForm.setVisible( !newAlbumForm.isVisible() );
 
@@ -220,7 +226,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                                                                               getModelObject().getObject() ) );
                 }
 
-                catch (PermissionDeniedException e) {
+                catch (PermissionDeniedException ignored) {
                     return false;
                 }
             }
@@ -228,7 +234,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
     }
 
 
-    static interface Messages {
+    interface Messages {
 
         /**
          * @return Text on the interface tab to activate the {@link GalleryTabPanel}.
@@ -242,8 +248,9 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
          *
          * @return A text that explains to whom the albums in the gallery belong.
          */
-        String anothersAlbumsHelp(@BooleanKeyAppender(y = "auth", n = "anon") boolean authenticated,
-                                  IModel<String> username);
+        String anothersAlbumsHelp(
+                @BooleanKeyAppender(y = "auth", n = "anon") boolean authenticated,
+                IModel<String> username);
 
         /**
          * @return A text that explains that the visible gallery belongs to the current user.
@@ -259,88 +266,84 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
          */
         String noAlbumsHelp(@BooleanKeyAppender(y = "auth", n = "anon") boolean authenticated, IModel<String> username);
     }
-}
-
-
-/**
- * <h2>{@link GalleryTab}<br>
- * <sub>[in short] (TODO).</sub></h2>
- *
- * <p>
- * [description / usage].
- * </p>
- *
- * <p>
- * <i>May 31, 2009</i>
- * </p>
- *
- * @author lhunath
- */
-class GalleryTab implements SnaplogTab {
-
-    static final Logger logger = Logger.get( GalleryTab.class );
-    static final GalleryTabPanel.Messages msgs = MessagesFactory.create( GalleryTabPanel.Messages.class,
-                                                                         GalleryTabPanel.class );
 
 
     /**
-     * {@inheritDoc}
+     * <h2>{@link GalleryTab}<br>
+     * <sub>[in short] (TODO).</sub></h2>
+     *
+     * <p>
+     * [description / usage].
+     * </p>
+     *
+     * <p>
+     * <i>May 31, 2009</i>
+     * </p>
+     *
+     * @author lhunath
      */
-    @Override
-    public IModel<String> getTitle() {
+    static class GalleryTab implements SnaplogTab {
 
-        return new AbstractReadOnlyModel<String>() {
 
-            @Override
-            public String getObject() {
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public IModel<String> getTitle() {
 
-                return msgs.galleryTab();
-            }
-        };
-    }
+            return new AbstractReadOnlyModel<String>() {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Panel getPanel(String panelId) {
+                @Override
+                public String getObject() {
 
-        return new GalleryTabPanel( panelId, new IModel<User>() {
+                    return msgs.galleryTab();
+                }
+            };
+        }
 
-            @Override
-            public void detach() {
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Panel getPanel(final String panelId) {
 
-            }
+            return new GalleryTabPanel( panelId, new IModel<User>() {
 
-            @Override
-            public User getObject() {
+                @Override
+                public void detach() {
 
-                return SnaplogSession.get().getFocussedUser();
-            }
+                }
 
-            @Override
-            public void setObject(User object) {
+                @Override
+                public User getObject() {
 
-                SnaplogSession.get().setFocussedUser( object );
-            }
-        } );
-    }
+                    return SnaplogSession.get().getFocussedUser();
+                }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Panel getTools(String panelId) {
+                @Override
+                public void setObject(final User object) {
 
-        return null;
-    }
+                    SnaplogSession.get().setFocussedUser( object );
+                }
+            } );
+        }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isVisible() {
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Panel getTools(final String panelId) {
 
-        return SnaplogSession.get().getFocussedUser() != null;
+            return null;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isVisible() {
+
+            return SnaplogSession.get().getFocussedUser() != null;
+        }
     }
 }

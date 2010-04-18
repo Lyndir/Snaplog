@@ -42,7 +42,7 @@ public enum AlbumProviderType {
      */
     AMAZON_S3( new AlbumProvider<S3Album, S3Media>( S3Album.class, AWSMediaProviderService.class ) );
 
-    private AlbumProvider<?, ?> albumProvider;
+    private final AlbumProvider<?, ?> albumProvider;
 
 
     /**
@@ -50,7 +50,7 @@ public enum AlbumProviderType {
      *
      * @param albumProvider The implementation of this AlbumProviderType.
      */
-    private AlbumProviderType(AlbumProvider<?, ?> albumProvider) {
+    AlbumProviderType(final AlbumProvider<?, ?> albumProvider) {
 
         this.albumProvider = albumProvider;
     }

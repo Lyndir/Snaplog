@@ -12,6 +12,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.parser.XmlTag;
 import org.apache.wicket.model.IModel;
 
+
 /**
  * <h2>{@link UserLink}<br>
  * <sub>[in short] (TODO).</sub></h2>
@@ -30,7 +31,7 @@ public class UserLink extends AjaxLink<User> {
      * @param id    The wicket ID to bind this component to.
      * @param model The model that provides the user to describe in the link and focus when clicked.
      */
-    public UserLink(String id, IModel<User> model) {
+    public UserLink(final String id, final IModel<User> model) {
 
         super( id, model );
     }
@@ -39,7 +40,7 @@ public class UserLink extends AjaxLink<User> {
      * {@inheritDoc}
      */
     @Override
-    public void onClick(AjaxRequestTarget target) {
+    public void onClick(final AjaxRequestTarget target) {
 
         SnaplogSession.get().setFocussedUser( getModelObject() );
         LayoutPageUtils.setActiveTab( Tab.GALLERY, target );
@@ -48,7 +49,7 @@ public class UserLink extends AjaxLink<User> {
     /**
      * {@inheritDoc}
      *
-     * @see Label#onComponentTagBody(org.apache.wicket.markup.MarkupStream, org.apache.wicket.markup.ComponentTag)
+     * @see Label#onComponentTagBody(MarkupStream, ComponentTag)
      */
     @Override
     protected void onComponentTagBody(final MarkupStream markupStream, final ComponentTag openTag) {
@@ -59,10 +60,10 @@ public class UserLink extends AjaxLink<User> {
     /**
      * {@inheritDoc}
      *
-     * @see Label#onComponentTag(org.apache.wicket.markup.ComponentTag)
+     * @see Label#onComponentTag(ComponentTag)
      */
     @Override
-    protected void onComponentTag(ComponentTag tag) {
+    protected void onComponentTag(final ComponentTag tag) {
 
         super.onComponentTag( tag );
         // always transform the tag to <span></span> so even labels defined as <span/> render

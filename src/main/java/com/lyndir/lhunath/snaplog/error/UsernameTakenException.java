@@ -32,13 +32,13 @@ public class UsernameTakenException extends Exception {
 
     static final Messages msgs = MessagesFactory.create( Messages.class );
 
-    private String userName;
+    private final String userName;
 
 
     /**
      * @param userName The userName that is no longer available.
      */
-    public UsernameTakenException(String userName) {
+    public UsernameTakenException(final String userName) {
 
         this.userName = userName;
     }

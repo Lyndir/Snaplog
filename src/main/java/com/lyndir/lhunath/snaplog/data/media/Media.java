@@ -56,7 +56,7 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
     /**
      * @param name The unique name of this media in the album.
      */
-    protected Media(String name) {
+    protected Media(final String name) {
 
         this.name = checkNotNull( name, "Given media name must not be null." );
     }
@@ -131,7 +131,7 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
      * {@inheritDoc}
      */
     @Override
-    public int compareTo(Media o) {
+    public int compareTo(final Media o) {
 
         if (shotTime() > o.shotTime())
             return 1;
@@ -145,7 +145,7 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
 
         if (o == this)
             return true;
@@ -218,7 +218,7 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
         private final float compression;
 
 
-        Quality(String name, int maxWidth, int maxHeight, float compression) {
+        Quality(final String name, final int maxWidth, final int maxHeight, final float compression) {
 
             this.name = checkNotNull( name, "Given quality name must not be null." );
             this.maxWidth = maxWidth;
@@ -268,9 +268,9 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
          *
          * @see #getName()
          */
-        public static Quality findQualityWithName(String qualityName) {
+        public static Quality findQualityWithName(final String qualityName) {
 
-            for (Quality quality : Quality.values())
+            for (final Quality quality : Quality.values())
                 if (quality.getName().equalsIgnoreCase( qualityName ))
                     return quality;
 

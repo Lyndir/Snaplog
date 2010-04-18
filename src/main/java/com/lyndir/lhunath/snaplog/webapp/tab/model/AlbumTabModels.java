@@ -35,13 +35,13 @@ import org.apache.wicket.model.Model;
  */
 public class AlbumTabModels extends ModelProvider<AlbumTabModels, Album> {
 
-    private IModel<Date> currentTime;
+    private final IModel<Date> currentTime;
 
 
     /**
      * @param model The model providing the album to show.
      */
-    public AlbumTabModels(IModel<Album> model) {
+    public AlbumTabModels(final IModel<Album> model) {
 
         super( model );
 

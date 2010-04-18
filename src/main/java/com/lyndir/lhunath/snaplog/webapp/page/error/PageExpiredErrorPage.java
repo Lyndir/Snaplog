@@ -35,7 +35,7 @@ public class PageExpiredErrorPage extends LayoutPage {
      * {@inheritDoc}
      */
     @Override
-    protected Panel getInitialContentPanel(String wicketId) {
+    protected Panel getInitialContentPanel(final String wicketId) {
 
         return new PageExpiredErrorPanel( wicketId );
     }
@@ -43,7 +43,7 @@ public class PageExpiredErrorPage extends LayoutPage {
 
     private static class PageExpiredErrorPanel extends Panel {
 
-        PageExpiredErrorPanel(String id) {
+        PageExpiredErrorPanel(final String id) {
 
             super( id );
         }

@@ -115,7 +115,7 @@ public class GuiceContext extends GuiceServletContextListener {
      * {@inheritDoc}
      */
     @Override
-    public void contextDestroyed(ServletContextEvent servletContextEvent) {
+    public void contextDestroyed(final ServletContextEvent servletContextEvent) {
 
         Injector injector = get( servletContextEvent.getServletContext() );
 
@@ -132,7 +132,7 @@ public class GuiceContext extends GuiceServletContextListener {
      *
      * @return The Guice {@link Injector} that was added to the given {@link ServletContext} on initialization.
      */
-    public static Injector get(ServletContext servletContext) {
+    public static Injector get(final ServletContext servletContext) {
 
         return (Injector) servletContext.getAttribute( Injector.class.getName() );
     }

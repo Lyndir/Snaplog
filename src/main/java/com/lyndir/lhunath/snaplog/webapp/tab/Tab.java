@@ -30,34 +30,34 @@ public enum Tab {
     /**
      * This is the initial tab that describes Snaplog.
      */
-    ABOUT( new AboutTab() ),
+    ABOUT( new AboutTabPanel.AboutTab() ),
 
     /**
      * This tab provides an exposition of other people on Snaplog.
      */
-    EXPO( new ExpoTab() ),
+    EXPO( new ExpoTabPanel.ExpoTab() ),
 
     /**
      * This tab provides a summary view of a user's account.
      */
-    GALLERY( new GalleryTab() ),
+    GALLERY( new GalleryTabPanel.GalleryTab() ),
 
     /**
      * This tab provides a way of browsing a specific album.
      */
-    ALBUM( new AlbumTab() ),
+    ALBUM( new AlbumTabPanel.AlbumTab() ),
 
     /**
      * This tab provides the tools to manipulate media.
      */
-    WORKBENCH( new WorkbenchTab() ),
+    WORKBENCH( new WorkbenchTabPanel.WorkbenchTab() ),
 
     /**
      * Using this tab, users can configure their profile and account settings.
      */
-    ADMINISTRATION( new AdministrationTab() );
+    ADMINISTRATION( new AdministrationTabPanel.AdministrationTab() );
 
-    private SnaplogTab tab;
+    private final SnaplogTab tab;
 
 
     /**
@@ -65,7 +65,7 @@ public enum Tab {
      *
      * @param tab The implementation of this tab.
      */
-    private Tab(SnaplogTab tab) {
+    Tab(final SnaplogTab tab) {
 
         this.tab = tab;
     }

@@ -33,14 +33,14 @@ import com.lyndir.lhunath.snaplog.data.media.Media;
  */
 public class S3Media extends Media {
 
-    private S3Album album;
+    private final S3Album album;
 
 
     /**
      * @param album The album to which this media belongs.
      * @param name  The unique name of this media in the album.
      */
-    public S3Media(S3Album album, String name) {
+    public S3Media(final S3Album album, final String name) {
 
         super( name );
 

@@ -35,7 +35,7 @@ public abstract class AlbumData {
     /**
      * @param internalFiles All files in the album.
      */
-    public void setInternalFiles(List<Media> internalFiles) {
+    public void setInternalFiles(final List<Media> internalFiles) {
 
         checkNotNull( internalFiles, "Given list of media internalFiles must not be null." );
 
@@ -52,7 +52,7 @@ public abstract class AlbumData {
      *
      * @return All files in the album.
      */
-    public List<Media> getInternalFiles(SecurityServiceImpl onlyAllowedForSecurityService) {
+    public List<Media> getInternalFiles(final SecurityServiceImpl onlyAllowedForSecurityService) {
 
         checkNotNull( onlyAllowedForSecurityService, "Only securityService is allowed to use this method." );
 
@@ -74,7 +74,7 @@ public abstract class AlbumData {
     /**
      * @param internalTimeFrames All the internalTimeFrames of the album.
      */
-    public void setInternalTimeFrames(List<MediaTimeFrame> internalTimeFrames) {
+    public void setInternalTimeFrames(final List<MediaTimeFrame> internalTimeFrames) {
 
         checkNotNull( internalTimeFrames, "Given list of internalTimeFrames must not be null." );
 
@@ -90,7 +90,7 @@ public abstract class AlbumData {
      *
      * @return All the internalTimeFrames in the album.
      */
-    public List<MediaTimeFrame> getInternalTimeFrames(SecurityServiceImpl onlyAllowedForSecurityService) {
+    public List<MediaTimeFrame> getInternalTimeFrames(final SecurityServiceImpl onlyAllowedForSecurityService) {
 
         checkNotNull( onlyAllowedForSecurityService, "Only securityService is allowed to use this method." );
 

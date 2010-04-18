@@ -52,7 +52,7 @@ public class AccessView extends GenericPanel<Album> {
      * @param id         Wicket component ID.
      * @param albumModel The {@link Album} to configure access controls for.
      */
-    public AccessView(String id, IModel<Album> albumModel) {
+    public AccessView(final String id, final IModel<Album> albumModel) {
 
         super( id, albumModel );
         checkNotNull( albumModel.getObject(), "Model object of AccessView must not be null" );
@@ -66,14 +66,14 @@ public class AccessView extends GenericPanel<Album> {
             }
 
             @Override
-            public IModel<User> model(User object) {
+            public IModel<User> model(final User object) {
 
                 return new Model<User>( object );
             }
         } ) {
 
             @Override
-            protected void populateItem(Item<User> userItem) {
+            protected void populateItem(final Item<User> userItem) {
 
                 User user = userItem.getModelObject();
 
@@ -83,7 +83,7 @@ public class AccessView extends GenericPanel<Album> {
                 userItem.add( new ListView<Permission>( "permissions", Arrays.asList( Permission.values() ) ) {
 
                     @Override
-                    protected void populateItem(ListItem<Permission> permissionItem) {
+                    protected void populateItem(final ListItem<Permission> permissionItem) {
 
                         Permission permission = permissionItem.getModelObject();
 

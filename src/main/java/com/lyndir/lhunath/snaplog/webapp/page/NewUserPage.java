@@ -54,7 +54,7 @@ public class NewUserPage extends LayoutPage {
      * {@inheritDoc}
      */
     @Override
-    protected Panel getInitialContentPanel(String wicketId) {
+    protected Panel getInitialContentPanel(final String wicketId) {
 
         return new NewUserPanel( wicketId );
     }
@@ -72,7 +72,7 @@ public class NewUserPage extends LayoutPage {
      */
     public class NewUserPanel extends GenericPanel<NewUserPanelModels> {
 
-        NewUserPanel(String id) {
+        NewUserPanel(final String id) {
 
             super( id, new NewUserPanelModels().getModel() );
 

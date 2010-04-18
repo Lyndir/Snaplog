@@ -49,7 +49,7 @@ public abstract class Album extends AbstractSecureObject<UserProfile> implements
      * @param ownerProfile The profile of the user that owns this album.
      * @param name         A unique, ownerProfile-visible name of this album amongst the ownerProfile's albums.
      */
-    protected Album(UserProfile ownerProfile, String name) {
+    protected Album(final UserProfile ownerProfile, final String name) {
 
         setOwnerProfile( ownerProfile );
         setName( name );
@@ -75,7 +75,7 @@ public abstract class Album extends AbstractSecureObject<UserProfile> implements
     /**
      * @param ownerProfile The profile of the user that owns this album.
      */
-    public void setOwnerProfile(UserProfile ownerProfile) {
+    public void setOwnerProfile(final UserProfile ownerProfile) {
 
         this.ownerProfile = checkNotNull( ownerProfile, "Given ownerProfile must not be null." );
     }
@@ -91,7 +91,7 @@ public abstract class Album extends AbstractSecureObject<UserProfile> implements
     /**
      * @param name The name of this {@link Album}.
      */
-    public void setName(String name) {
+    public void setName(final String name) {
 
         this.name = checkNotNull( name, "Given album name must not be null." );
     }
@@ -107,7 +107,7 @@ public abstract class Album extends AbstractSecureObject<UserProfile> implements
     /**
      * @param description The description of this {@link Album}.
      */
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
 
         this.description = description;
     }
@@ -116,7 +116,7 @@ public abstract class Album extends AbstractSecureObject<UserProfile> implements
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
 
         if (o == this)
             return true;

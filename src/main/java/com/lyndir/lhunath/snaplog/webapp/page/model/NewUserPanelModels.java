@@ -33,7 +33,7 @@ import org.apache.wicket.model.Model;
  */
 public class NewUserPanelModels extends EmptyModelProvider<NewUserPanelModels> {
 
-    private NewUserFormModels newUserForm;
+    private final NewUserFormModels newUserForm;
 
 
     /**
@@ -57,7 +57,7 @@ public class NewUserPanelModels extends EmptyModelProvider<NewUserPanelModels> {
      */
     public class NewUserFormModels extends EmptyModelProvider<NewUserFormModels> {
 
-        private IModel<String> userName;
+        private final IModel<String> userName;
 
 
         NewUserFormModels() {

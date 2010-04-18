@@ -56,7 +56,7 @@ public class MediaView extends GenericPanel<Media> {
      *                  <code>false</code>: The media will not be clickable. There is no need to implement
      *                  {@link #onClick(AjaxRequestTarget)}.
      */
-    public MediaView(String id, IModel<Media> model, final Quality quality, boolean clickable) {
+    public MediaView(final String id, final IModel<Media> model, final Quality quality, final boolean clickable) {
 
         super( id, model );
 
@@ -65,12 +65,12 @@ public class MediaView extends GenericPanel<Media> {
         add( media.add( new AttributeAppender( "class", new Model<String>( quality.getName() ), " " ) ) );
 
         // The media image link/container.
-        WebMarkupContainer image = null;
+        WebMarkupContainer image;
         if (clickable) {
             image = new AjaxFallbackLink<Media>( "image", getModel() ) {
 
                 @Override
-                public void onClick(AjaxRequestTarget target) {
+                public void onClick(final AjaxRequestTarget target) {
 
                     MediaView.this.onClick( target );
                 }
@@ -131,7 +131,8 @@ public class MediaView extends GenericPanel<Media> {
                                          @Override
                                          protected String load() {
 
-                                             return ImageServlet.getContextRelativePathFor( getModelObject(), Quality.FULLSCREEN );
+                                             return ImageServlet
+                                                     .getContextRelativePathFor( getModelObject(), Quality.FULLSCREEN );
                                          }
                                      } ) {
 
@@ -161,7 +162,7 @@ public class MediaView extends GenericPanel<Media> {
      *
      * @param target The AJAX request that fired fired this event.
      */
-    protected void onClick(@SuppressWarnings("unused") AjaxRequestTarget target) {
+    protected void onClick(@SuppressWarnings("unused") final AjaxRequestTarget target) {
 
         throw new UnsupportedOperationException();
     }

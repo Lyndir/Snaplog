@@ -97,7 +97,7 @@ public class SnaplogWebApplication extends WebApplication {
         getMarkupSettings().setMarkupParserFactory( new IMarkupParserFactory() {
 
             @Override
-            public MarkupParser newMarkupParser(MarkupResourceStream resource) {
+            public MarkupParser newMarkupParser(final MarkupResourceStream resource) {
 
                 MarkupParser markupParser = new MarkupParser( resource );
                 markupParser.appendMarkupFilter( new OpenCloseTagExpander() );
@@ -126,7 +126,7 @@ public class SnaplogWebApplication extends WebApplication {
      * {@inheritDoc}
      */
     @Override
-    public Session newSession(Request request, Response response) {
+    public Session newSession(final Request request, final Response response) {
 
         return new SnaplogSession( request );
     }
@@ -135,7 +135,7 @@ public class SnaplogWebApplication extends WebApplication {
      * {@inheritDoc}
      */
     @Override
-    public RequestCycle newRequestCycle(Request request, Response response) {
+    public RequestCycle newRequestCycle(final Request request, final Response response) {
 
         return new WebRequestCycle( this, (WebRequest) request, (WebResponse) response ) {
 
@@ -143,7 +143,7 @@ public class SnaplogWebApplication extends WebApplication {
              * {@inheritDoc}
              */
             @Override
-            public Page onRuntimeException(Page page, RuntimeException e) {
+            public Page onRuntimeException(final Page page, final RuntimeException e) {
 
                 setMetaData( METADATA_RUNTIME_EXCEPTION_ISSUE, new Issue( page, e ) );
 

@@ -37,5 +37,5 @@ public interface SnaplogTab extends ITab {
      * @return An optional panel that provides tools this tab contributes to the toolbar. <code>null</code> if this tab
      *         provides no tools.
      */
-    public Panel getTools(String panelId);
+    Panel getTools(String panelId);
 }

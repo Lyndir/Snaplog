@@ -41,13 +41,13 @@ public class AboutTabPanel extends Panel {
      *
      * @param id The wicket ID that will hold the {@link AboutTabPanel}.
      */
-    public AboutTabPanel(String id) {
+    public AboutTabPanel(final String id) {
 
         super( id );
     }
 
 
-    static interface Messages {
+    interface Messages {
 
         /**
          * @return Text on the interface tab to activate the {@link AboutTabPanel}.
@@ -55,70 +55,69 @@ public class AboutTabPanel extends Panel {
         @UseKey
         String aboutTab();
     }
-}
-
-
-/**
- * <h2>{@link AboutTab}<br>
- * <sub>[in short] (TODO).</sub></h2>
- *
- * <p>
- * [description / usage].
- * </p>
- *
- * <p>
- * <i>May 31, 2009</i>
- * </p>
- *
- * @author lhunath
- */
-class AboutTab implements SnaplogTab {
-
-    static final Logger logger = Logger.get( AboutTab.class );
-    static final AboutTabPanel.Messages msgs = MessagesFactory.create( AboutTabPanel.Messages.class,
-                                                                       AboutTabPanel.class );
 
 
     /**
-     * {@inheritDoc}
+     * <h2>{@link AboutTab}<br>
+     * <sub>[in short] (TODO).</sub></h2>
+     *
+     * <p>
+     * [description / usage].
+     * </p>
+     *
+     * <p>
+     * <i>May 31, 2009</i>
+     * </p>
+     *
+     * @author lhunath
      */
-    @Override
-    public IModel<String> getTitle() {
+    static class AboutTab implements SnaplogTab {
 
-        return new LoadableDetachableModel<String>() {
+        static final Logger logger = Logger.get( AboutTab.class );
+        static final Messages msgs = MessagesFactory.create( Messages.class, AboutTabPanel.class );
 
-            @Override
-            protected String load() {
 
-                return msgs.aboutTab();
-            }
-        };
-    }
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public IModel<String> getTitle() {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Panel getPanel(String panelId) {
+            return new LoadableDetachableModel<String>() {
 
-        return new AboutTabPanel( panelId );
-    }
+                @Override
+                protected String load() {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Panel getTools(String panelId) {
+                    return msgs.aboutTab();
+                }
+            };
+        }
 
-        return null;
-    }
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Panel getPanel(final String panelId) {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isVisible() {
+            return new AboutTabPanel( panelId );
+        }
 
-        return !SnaplogSession.get().isAuthenticated();
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Panel getTools(final String panelId) {
+
+            return null;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isVisible() {
+
+            return !SnaplogSession.get().isAuthenticated();
+        }
     }
 }

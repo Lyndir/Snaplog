@@ -30,7 +30,7 @@ public class TagsView extends GenericPanel<Album> {
      * @param id         The wicket ID of the tab.
      * @param albumModel The {@link Album} whose {@link Media} to scan for tags.
      */
-    public TagsView(String id, IModel<Album> albumModel) {
+    public TagsView(final String id, final IModel<Album> albumModel) {
 
         super( id, albumModel );
         checkNotNull( albumModel.getObject(), "Model object of TagsView must not be null" );

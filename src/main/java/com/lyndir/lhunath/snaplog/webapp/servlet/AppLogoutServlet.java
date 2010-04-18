@@ -56,7 +56,7 @@ public class AppLogoutServlet extends AbstractInjectionServlet {
      * {@inheritDoc}
      */
     @Override
-    public void invokeGet(HttpServletRequest request, HttpServletResponse response)
+    public void invokeGet(final HttpServletRequest request, final HttpServletResponse response)
             throws ServletException, IOException {
 
         LOG.debug( "invoke get" );

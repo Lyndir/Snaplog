@@ -8,7 +8,7 @@
 
             <h3>
                 <wicket:message key="albumsTitle">[Albums of ${albumsTitleUsername}]
-                    <span wicket:id="albumsTitleUsername" />
+                    <span wicket:id="albumsTitleUsername">[lhunath]</span>
                 </wicket:message>
             </h3>
             <p>
@@ -33,8 +33,7 @@
 
                 <wicket:enclosure child="newAlbumForm">
                     <div class="block">
-                        <form wicket:id="newAlbumForm">
-                            <p>
+                        <form wicket:id="newAlbumForm" action="post">
                             <ul class="plain">
                                 <li>
                                     <label for="newAlbumType">
@@ -54,14 +53,14 @@
                                     <label for="newAlbumDescription">
                                         <wicket:message key="newAlbumDescription">[Album Description:]</wicket:message>
                                     </label>
-                                    <textarea id="newAlbumDescription" wicket:id="description" />
+                                    <textarea cols="40" rows="5" id="newAlbumDescription"
+                                              wicket:id="description"></textarea>
                                 </li>
                                 <li>
                                     <label></label>
                                     <input type="submit" value="Create" />
                                 </li>
                             </ul>
-                            </p>
                         </form>
                     </div>
                 </wicket:enclosure>

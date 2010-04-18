@@ -46,7 +46,7 @@ public class User implements Serializable {
      * @param linkID   The user's {@link LinkID}.
      * @param userName The user's userName.
      */
-    public User(LinkID linkID, String userName) {
+    public User(final LinkID linkID, final String userName) {
 
         setLinkID( linkID );
         setUserName( userName );
@@ -63,7 +63,7 @@ public class User implements Serializable {
     /**
      * @param linkID The linkID of this {@link User}.
      */
-    public void setLinkID(LinkID linkID) {
+    public void setLinkID(final LinkID linkID) {
 
         this.linkID = checkNotNull( linkID, "Given linkID must not be null." );
     }
@@ -79,7 +79,7 @@ public class User implements Serializable {
     /**
      * @param userName The userName of this {@link User}.
      */
-    public void setUserName(String userName) {
+    public void setUserName(final String userName) {
 
         this.userName = checkNotNull( userName, "Given userName must not be null." );
     }
@@ -95,7 +95,7 @@ public class User implements Serializable {
     /**
      * @param badge The badge of this {@link User}.
      */
-    public void setBadge(char badge) {
+    public void setBadge(final char badge) {
 
         this.badge = badge;
     }
@@ -104,7 +104,7 @@ public class User implements Serializable {
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
 
         if (o == this)
             return true;

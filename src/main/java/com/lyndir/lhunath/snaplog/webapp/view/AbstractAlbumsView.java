@@ -43,12 +43,12 @@ public abstract class AbstractAlbumsView extends DataView<Album> {
      * @param ownerUser     The model that provides the owner whose albums to enumerate.
      * @param albumsPerPage The maximum amount of albums to show at once before hiding the rest behind a pager.
      */
-    public AbstractAlbumsView(String id, final IModel<User> ownerUser, int albumsPerPage) {
+    protected AbstractAlbumsView(final String id, final IModel<User> ownerUser, final int albumsPerPage) {
 
         this( id, new IPredicate<Album>() {
 
             @Override
-            public boolean apply(Album input) {
+            public boolean apply(final Album input) {
 
                 return input != null && SafeObjects.equal( input.getOwnerProfile().getUser(), ownerUser.getObject() );
             }
@@ -62,7 +62,7 @@ public abstract class AbstractAlbumsView extends DataView<Album> {
      * @param predicate     The predicate that should evaluate to <code>true</code> for each album to return.
      * @param albumsPerPage The maximum amount of albums to show at once before hiding the rest behind a pager.
      */
-    public AbstractAlbumsView(String id, final IPredicate<Album> predicate, int albumsPerPage) {
+    protected AbstractAlbumsView(final String id, final IPredicate<Album> predicate, final int albumsPerPage) {
 
         super( id, new AbstractListProvider<Album>() {
 
@@ -74,7 +74,7 @@ public abstract class AbstractAlbumsView extends DataView<Album> {
             }
 
             @Override
-            public IModel<Album> model(Album object) {
+            public IModel<Album> model(final Album object) {
 
                 return new Model<Album>( object );
             }
@@ -93,7 +93,8 @@ public abstract class AbstractAlbumsView extends DataView<Album> {
             @Override
             protected Media load() {
 
-                Iterator<Media> it = albumService.iterateFiles( SnaplogSession.get().newToken(), albumModel.getObject() );
+                Iterator<Media> it = albumService.iterateFiles( SnaplogSession.get().newToken(),
+                                                                albumModel.getObject() );
                 if (it.hasNext())
                     return Iterators.getLast( it );
 

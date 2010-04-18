@@ -47,7 +47,7 @@ public class TimelineView extends GenericPanel<Album> {
      * @param id         The wicket ID of the tab.
      * @param albumModel A model providing the album that the timeline should display media for.
      */
-    public TimelineView(String id, IModel<Album> albumModel) {
+    public TimelineView(final String id, final IModel<Album> albumModel) {
 
         super( id, albumModel );
         checkNotNull( albumModel.getObject(), "Model object of TimelineView must not be null" );
@@ -59,9 +59,10 @@ public class TimelineView extends GenericPanel<Album> {
             protected List<MediaTimeFrame> load() {
 
                 if (getModelObject() == null)
-                    return null;
+                    return ImmutableList.of();
 
-                return Lists.newArrayList( albumService.iterateYears( SnaplogSession.get().newToken(), getModelObject() ) );
+                return Lists
+                        .newArrayList( albumService.iterateYears( SnaplogSession.get().newToken(), getModelObject() ) );
             }
         } ) {
 
@@ -72,18 +73,19 @@ public class TimelineView extends GenericPanel<Album> {
             }
 
             @Override
-            protected void populateItem(ListItem<MediaTimeFrame> yearItem) {
+            protected void populateItem(final ListItem<MediaTimeFrame> yearItem) {
 
                 MediaTimeFrame mediaYear = yearItem.getModelObject();
 
                 yearItem.add( new Label( "name", Integer.toString( mediaYear.getTime().getYear() ) ) );
-                yearItem.add( new Label( "photos", msgs.albumTimelineYearPhotos( mediaYear.getFiles( true ).size() ) ) );
+                yearItem.add(
+                        new Label( "photos", msgs.albumTimelineYearPhotos( mediaYear.getFiles( true ).size() ) ) );
 
                 // Hide the months in the year initially.
                 yearItem.add( new ListView<MediaTimeFrame>( "months", ImmutableList.copyOf( mediaYear ) ) {
 
                     @Override
-                    protected void populateItem(ListItem<MediaTimeFrame> monthItem) {
+                    protected void populateItem(final ListItem<MediaTimeFrame> monthItem) {
 
                         MediaTimeFrame mediaMonth = monthItem.getModelObject();
 
@@ -91,7 +93,7 @@ public class TimelineView extends GenericPanel<Album> {
                         monthItem.add( new ListView<MediaTimeFrame>( "days", ImmutableList.copyOf( mediaMonth ) ) {
 
                             @Override
-                            protected void populateItem(ListItem<MediaTimeFrame> dayItem) {
+                            protected void populateItem(final ListItem<MediaTimeFrame> dayItem) {
 
                                 MediaTimeFrame mediaDay = dayItem.getModelObject();
                                 dayItem.add( new AttributeAppender( "style", daysStyle( dayItem ), ";" ) );
@@ -119,7 +121,7 @@ public class TimelineView extends GenericPanel<Album> {
     }
 
 
-    static interface Messages {
+    interface Messages {
 
         /**
          * @param numberOfPhotosInYear The amount of photos that exist in that year.

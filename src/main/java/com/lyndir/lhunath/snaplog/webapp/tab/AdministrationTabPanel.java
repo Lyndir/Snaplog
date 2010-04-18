@@ -41,13 +41,13 @@ public class AdministrationTabPanel extends Panel {
      *
      * @param id The wicket ID that will hold the {@link AdministrationTabPanel}.
      */
-    public AdministrationTabPanel(String id) {
+    public AdministrationTabPanel(final String id) {
 
         super( id );
     }
 
 
-    static interface Messages {
+    interface Messages {
 
         /**
          * @return Text on the interface tab to activate the {@link AdministrationTabPanel}
@@ -55,70 +55,69 @@ public class AdministrationTabPanel extends Panel {
         @UseKey
         String administrationTab();
     }
-}
-
-
-/**
- * <h2>{@link AdministrationTab}<br>
- * <sub>[in short] (TODO).</sub></h2>
- *
- * <p>
- * [description / usage].
- * </p>
- *
- * <p>
- * <i>May 31, 2009</i>
- * </p>
- *
- * @author lhunath
- */
-class AdministrationTab implements SnaplogTab {
-
-    static final Logger logger = Logger.get( AdministrationTab.class );
-    static final AdministrationTabPanel.Messages msgs = MessagesFactory.create( AdministrationTabPanel.Messages.class,
-                                                                                AdministrationTabPanel.class );
 
 
     /**
-     * {@inheritDoc}
+     * <h2>{@link AdministrationTab}<br>
+     * <sub>[in short] (TODO).</sub></h2>
+     *
+     * <p>
+     * [description / usage].
+     * </p>
+     *
+     * <p>
+     * <i>May 31, 2009</i>
+     * </p>
+     *
+     * @author lhunath
      */
-    @Override
-    public IModel<String> getTitle() {
+    static class AdministrationTab implements SnaplogTab {
 
-        return new LoadableDetachableModel<String>() {
+        static final Logger logger = Logger.get( AdministrationTab.class );
+        static final Messages msgs = MessagesFactory.create( Messages.class, AdministrationTabPanel.class );
 
-            @Override
-            protected String load() {
 
-                return msgs.administrationTab();
-            }
-        };
-    }
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public IModel<String> getTitle() {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Panel getPanel(String panelId) {
+            return new LoadableDetachableModel<String>() {
 
-        return new AdministrationTabPanel( panelId );
-    }
+                @Override
+                protected String load() {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Panel getTools(String panelId) {
+                    return msgs.administrationTab();
+                }
+            };
+        }
 
-        return null;
-    }
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Panel getPanel(final String panelId) {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isVisible() {
+            return new AdministrationTabPanel( panelId );
+        }
 
-        return SnaplogSession.get().isAuthenticated();
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Panel getTools(final String panelId) {
+
+            return null;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isVisible() {
+
+            return SnaplogSession.get().isAuthenticated();
+        }
     }
 }

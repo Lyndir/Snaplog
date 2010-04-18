@@ -47,7 +47,7 @@ public interface SecurityService {
      *                                   or the token doesn't grant the necessary permission on the object.
      * @see #hasAccess(Permission, SecurityToken, SecureObject)
      */
-    public void assertAccess(Permission permission, SecurityToken token, SecureObject<?> o)
+    void assertAccess(Permission permission, SecurityToken token, SecureObject<?> o)
             throws PermissionDeniedException;
 
     /**
@@ -60,7 +60,7 @@ public interface SecurityService {
      *
      * @return <code>true</code>: The given token grants the given permission on the given object.
      */
-    public boolean hasAccess(Permission permission, SecurityToken token, SecureObject<?> o);
+    boolean hasAccess(Permission permission, SecurityToken token, SecureObject<?> o);
 
     /**
      * @param token     Request authentication token should authorize {@link Permission#VIEW} on the album data's media to
@@ -69,7 +69,7 @@ public interface SecurityService {
      *
      * @return All files from the given albumData that the given token authorizes access to.
      */
-    public Iterator<Media> iterateFilesFor(SecurityToken token, AlbumData albumData);
+    Iterator<Media> iterateFilesFor(SecurityToken token, AlbumData albumData);
 
     /**
      * @param token     Request authentication token should authorize {@link Permission#VIEW} on the album data's media to
@@ -78,5 +78,5 @@ public interface SecurityService {
      *
      * @return All timeFrames from the given albumData that the given token authorizes access to.
      */
-    public Iterator<MediaTimeFrame> iterateTimeFramesFor(SecurityToken token, AlbumData albumData);
+    Iterator<MediaTimeFrame> iterateTimeFramesFor(SecurityToken token, AlbumData albumData);
 }

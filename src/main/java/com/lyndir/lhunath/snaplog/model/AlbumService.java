@@ -106,5 +106,5 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
      */
     @Override
     @Deprecated
-    public AlbumData newAlbumData(Album album);
+    AlbumData newAlbumData(Album album);
 }

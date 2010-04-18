@@ -58,10 +58,10 @@ public enum Permission {
      */
     CONTRIBUTE( VIEW );
 
-    private Permission[] provided;
+    private final Permission[] provided;
 
 
-    private Permission(Permission... provided) {
+    Permission(final Permission... provided) {
 
         this.provided = provided;
     }

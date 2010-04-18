@@ -60,7 +60,7 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
      * @param type       The type of timeframe indicates its time span.
      * @param timeMillis The time in milliseconds since the UNIX epoch of the beginning of this timeframe.
      */
-    public MediaTimeFrame(MediaTimeFrame parent, Type type, long timeMillis) {
+    public MediaTimeFrame(final MediaTimeFrame parent, final Type type, final long timeMillis) {
 
         Type parentType = type.findParentType();
         if (parentType == null) {
@@ -87,13 +87,13 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
      *
      * @return An unmodifiable list of {@link Media}s.
      */
-    public Set<Media> getFiles(boolean recurse) {
+    public Set<Media> getFiles(final boolean recurse) {
 
         if (!recurse)
             return ImmutableSet.copyOf( files );
 
         ImmutableSet.Builder<Media> fileSetBuilder = new ImmutableSet.Builder<Media>();
-        for (MediaTimeFrame childFrame : this)
+        for (final MediaTimeFrame childFrame : this)
             fileSetBuilder.addAll( childFrame.getFiles( true ) );
 
         return fileSetBuilder.build();
@@ -104,7 +104,7 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
      *
      * @param mediaFile The media to add to this time frame.
      */
-    public void addFile(Media mediaFile) {
+    public void addFile(final Media mediaFile) {
 
         // TODO: Validate that mediaFile is in this time frame.
         files.add( mediaFile );
@@ -126,7 +126,7 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
      *
      * @return <code>true</code> if the given point in time lays within this timeframe.
      */
-    public boolean containsTime(long instantMillis) {
+    public boolean containsTime(final long instantMillis) {
 
         long begin = getTime().toDateMidnight().getMillis();
         Interval interval = new Interval( begin, type.getDateType().getField( null ).add( begin, 1 ) );
@@ -154,7 +154,7 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
     /**
      * @param mediaTimeFrame The child {@link MediaTimeFrame} to add to this one.
      */
-    public void addTimeFrame(MediaTimeFrame mediaTimeFrame) {
+    public void addTimeFrame(final MediaTimeFrame mediaTimeFrame) {
 
         Type childType = type.findChildType();
         if (childType == null || childType != mediaTimeFrame.type)
@@ -177,7 +177,7 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
      * {@inheritDoc}
      */
     @Override
-    public int compareTo(MediaTimeFrame o) {
+    public int compareTo(final MediaTimeFrame o) {
 
         return typeTime.compareTo( o.typeTime );
     }
@@ -186,7 +186,7 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
 
         if (obj == this)
             return true;
@@ -239,7 +239,7 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
         private final String dateFormatString;
 
 
-        Type(DateTimeFieldType dateType, Type parentType, String dateFormatString) {
+        Type(final DateTimeFieldType dateType, final Type parentType, final String dateFormatString) {
 
             this.dateType = dateType;
             this.parentType = parentType;
@@ -267,7 +267,7 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
          */
         public Type findChildType() {
 
-            for (Type type : Type.values())
+            for (final Type type : Type.values())
                 if (this == type.findParentType())
                     return type;
 

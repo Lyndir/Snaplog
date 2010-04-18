@@ -44,7 +44,7 @@ public class AuthenticationListener implements IComponentOnBeforeRenderListener 
      * @param userService See {@link UserService}
      */
     @Inject
-    public AuthenticationListener(UserService userService) {
+    public AuthenticationListener(final UserService userService) {
 
         this.userService = userService;
     }
@@ -53,7 +53,7 @@ public class AuthenticationListener implements IComponentOnBeforeRenderListener 
      * {@inheritDoc}
      */
     @Override
-    public void onBeforeRender(Component component) {
+    public void onBeforeRender(final Component component) {
 
         String currentLinkID = LoginManager.findUserId( WicketUtils.getServletRequest() );
         if (currentLinkID == null)

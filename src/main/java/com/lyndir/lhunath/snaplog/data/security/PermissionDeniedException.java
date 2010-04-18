@@ -30,7 +30,7 @@ public class PermissionDeniedException extends Exception {
     /**
      * @param message Explain what was denied permission for and why.
      */
-    public PermissionDeniedException(String message) {
+    public PermissionDeniedException(final String message) {
 
         super( message );
     }
@@ -39,7 +39,7 @@ public class PermissionDeniedException extends Exception {
      * @param message Explain what was denied permission for and why.
      * @param cause   An optional exception that caused this one.
      */
-    public PermissionDeniedException(String message, Throwable cause) {
+    public PermissionDeniedException(final String message, final Throwable cause) {
 
         super( message, cause );
     }

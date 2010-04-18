@@ -47,7 +47,7 @@ public class LinkID implements Serializable {
      * @param applicationScopedUserIdentifier
      *         The user identifier that linkID uses to identify a certain user to this application.
      */
-    public LinkID(String applicationScopedUserIdentifier) {
+    public LinkID(final String applicationScopedUserIdentifier) {
 
         setApplicationScopedUserIdentifier( applicationScopedUserIdentifier );
     }
@@ -64,7 +64,7 @@ public class LinkID implements Serializable {
      * @param applicationScopedUserIdentifier
      *         The applicationScopedUserIdentifier of this {@link LinkID}.
      */
-    public void setApplicationScopedUserIdentifier(String applicationScopedUserIdentifier) {
+    public void setApplicationScopedUserIdentifier(final String applicationScopedUserIdentifier) {
 
         this.applicationScopedUserIdentifier = checkNotNull( applicationScopedUserIdentifier,
                                                              "Given applicationScopedUserIdentifier must not be null." );
@@ -83,7 +83,7 @@ public class LinkID implements Serializable {
      * {@inheritDoc}
      */
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
 
         if (o == this)
             return true;

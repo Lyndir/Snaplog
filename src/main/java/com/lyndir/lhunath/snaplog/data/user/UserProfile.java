@@ -42,7 +42,7 @@ public class UserProfile extends AbstractSecureObject<GlobalSecureObject> implem
      *
      * @param user The user that this profile describes.
      */
-    public UserProfile(User user) {
+    public UserProfile(final User user) {
 
         this.user = user;
 
@@ -70,7 +70,7 @@ public class UserProfile extends AbstractSecureObject<GlobalSecureObject> implem
     /**
      * @param user The user of this {@link UserProfile}.
      */
-    public void setUser(User user) {
+    public void setUser(final User user) {
 
         this.user = user;
     }

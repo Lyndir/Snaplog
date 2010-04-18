@@ -41,7 +41,7 @@ public class InternalErrorPage extends LayoutPage {
      * {@inheritDoc}
      */
     @Override
-    protected Panel getInitialContentPanel(String wicketId) {
+    protected Panel getInitialContentPanel(final String wicketId) {
 
         return new InternalErrorPanel( wicketId );
     }
@@ -49,7 +49,7 @@ public class InternalErrorPage extends LayoutPage {
 
     private static class InternalErrorPanel extends Panel {
 
-        InternalErrorPanel(String id) {
+        InternalErrorPanel(final String id) {
 
             super( id );
 

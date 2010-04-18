@@ -41,13 +41,13 @@ public class WorkbenchTabPanel extends Panel {
      *
      * @param id The wicket ID that will hold the {@link WorkbenchTabPanel}.
      */
-    public WorkbenchTabPanel(String id) {
+    public WorkbenchTabPanel(final String id) {
 
         super( id );
     }
 
 
-    static interface Messages {
+    interface Messages {
 
         /**
          * @return Text on the interface tab to activate the {@link WorkbenchTabPanel}
@@ -55,71 +55,70 @@ public class WorkbenchTabPanel extends Panel {
         @UseKey
         String workbenchTab();
     }
-}
-
-
-/**
- * <h2>{@link WorkbenchTab}<br>
- * <sub>[in short] (TODO).</sub></h2>
- *
- * <p>
- * [description / usage].
- * </p>
- *
- * <p>
- * <i>May 31, 2009</i>
- * </p>
- *
- * @author lhunath
- */
-class WorkbenchTab implements SnaplogTab {
-
-    static final Logger logger = Logger.get( WorkbenchTab.class );
-    static final WorkbenchTabPanel.Messages msgs = MessagesFactory.create( WorkbenchTabPanel.Messages.class,
-                                                                           WorkbenchTabPanel.class );
 
 
     /**
-     * {@inheritDoc}
+     * <h2>{@link WorkbenchTab}<br>
+     * <sub>[in short] (TODO).</sub></h2>
+     *
+     * <p>
+     * [description / usage].
+     * </p>
+     *
+     * <p>
+     * <i>May 31, 2009</i>
+     * </p>
+     *
+     * @author lhunath
      */
-    @Override
-    public IModel<String> getTitle() {
+    static class WorkbenchTab implements SnaplogTab {
 
-        return new LoadableDetachableModel<String>() {
+        static final Logger logger = Logger.get( WorkbenchTab.class );
+        static final Messages msgs = MessagesFactory.create( Messages.class, WorkbenchTabPanel.class );
 
-            @Override
-            protected String load() {
 
-                return msgs.workbenchTab();
-            }
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public IModel<String> getTitle() {
 
-        };
-    }
+            return new LoadableDetachableModel<String>() {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Panel getPanel(String panelId) {
+                @Override
+                protected String load() {
 
-        return new WorkbenchTabPanel( panelId );
-    }
+                    return msgs.workbenchTab();
+                }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Panel getTools(String panelId) {
+            };
+        }
 
-        return null;
-    }
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Panel getPanel(final String panelId) {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isVisible() {
+            return new WorkbenchTabPanel( panelId );
+        }
 
-        return SnaplogSession.get().getFocussedAlbum() != null;
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Panel getTools(final String panelId) {
+
+            return null;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isVisible() {
+
+            return SnaplogSession.get().getFocussedAlbum() != null;
+        }
     }
 }

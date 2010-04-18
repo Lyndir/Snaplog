@@ -16,7 +16,6 @@
 package com.lyndir.lhunath.snaplog.util;
 
 import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 
 import com.lyndir.lhunath.lib.wayward.component.WicketUtils;
@@ -54,7 +53,7 @@ public abstract class LinkIDUtils {
      * @return The first attribute value of attribute by the given name, or <code>null</code> if there are no attributes
      *         on the session, the given attribute is not on the session or there are no values for the given attribute.
      */
-    public static <T> T findSingleAttribute(String attributeName, Class<T> attributeClass) {
+    public static <T> T findSingleAttribute(final String attributeName, final Class<T> attributeClass) {
 
         Map<String, Object> attributes = LoginManager.findAttributes( WicketUtils.getServletRequest() );
         if (attributes == null)
@@ -63,7 +62,7 @@ public abstract class LinkIDUtils {
         Object attributeValue = attributes.get( attributeName );
         if (attributeValue instanceof Iterable<?>) {
             @SuppressWarnings("unchecked")
-            Iterator<T> attributeIt = ((List<T>) attributeValue).iterator();
+            Iterator<T> attributeIt = ((Iterable<T>) attributeValue).iterator();
 
             if (!attributeIt.hasNext())
                 return null;

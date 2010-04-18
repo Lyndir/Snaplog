@@ -78,7 +78,7 @@ public class ServicesModule extends AbstractModule {
         ObjectSet<User> defaultQuery = db.query( new Predicate<User>() {
 
             @Override
-            public boolean match(User candidate) {
+            public boolean match(final User candidate) {
 
                 return candidate.getLinkID().equals( ACL.DEFAULT.getLinkID() );
             }
@@ -110,6 +110,7 @@ public class ServicesModule extends AbstractModule {
             SnaplogConstants.DEFAULT_ALBUM = (Album) defaultAlbumQuery.next();
         else
             db.store( SnaplogConstants.DEFAULT_ALBUM );
-        SnaplogConstants.DEFAULT_ALBUM.setDescription( "<p>Arbitrary snapshots from Maarten's life.</p><p><label>Camera:</label><input value='Canon Powershot Pro1' /></p>" );
+        SnaplogConstants.DEFAULT_ALBUM.setDescription(
+                "<p>Arbitrary snapshots from Maarten's life.</p><p><label>Camera:</label><input value='Canon Powershot Pro1' /></p>" );
     }
 }

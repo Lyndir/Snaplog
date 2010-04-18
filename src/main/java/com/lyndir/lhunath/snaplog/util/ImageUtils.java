@@ -50,7 +50,7 @@ public class ImageUtils {
      *
      * @return The resized image.
      */
-    public static BufferedImage rescale(BufferedImage oldImage, int newMaxWidth, int newMaxHeight) {
+    public static BufferedImage rescale(final BufferedImage oldImage, final int newMaxWidth, final int newMaxHeight) {
 
         return resize( oldImage, DimensionConstrain.createMaxDimension( newMaxWidth, newMaxHeight ) );
     }
@@ -63,7 +63,7 @@ public class ImageUtils {
      *
      * @return The resized image.
      */
-    public static BufferedImage rescale(BufferedImage oldImage, float ratio) {
+    public static BufferedImage rescale(final BufferedImage oldImage, final float ratio) {
 
         return resize( oldImage, DimensionConstrain.createRelativeDimension( ratio ) );
     }
@@ -76,7 +76,7 @@ public class ImageUtils {
      *
      * @return The resized image.
      */
-    public static BufferedImage resize(BufferedImage oldImage, DimensionConstrain newDimension) {
+    public static BufferedImage resize(final BufferedImage oldImage, final DimensionConstrain newDimension) {
 
         // MultiStepRescaleOp resizeOperation = new MultiStepRescaleOp( newDimension,
         // RenderingHints.VALUE_INTERPOLATION_BICUBIC );
@@ -101,8 +101,9 @@ public class ImageUtils {
      * @throws IOException                   If the image could not be encoded or written to the output stream.
      * @throws UnsupportedOperationException If compression or progressiveness was requested but not supported by the output type.
      */
-    public static void write(RenderedImage image, OutputStream stream, String outputTypeMIME, Float compressionQuality,
-                             Boolean progressive)
+    public static void write(
+            final RenderedImage image, final OutputStream stream, final String outputTypeMIME,
+            final Float compressionQuality, final Boolean progressive)
             throws IOException {
 
         ImageWriter writer = ImageIO.getImageWritersByMIMEType( outputTypeMIME ).next();

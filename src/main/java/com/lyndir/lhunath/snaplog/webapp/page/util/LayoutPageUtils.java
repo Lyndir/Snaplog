@@ -50,7 +50,7 @@ public abstract class LayoutPageUtils {
      * @param target Optional AJAX request target. If specified, the components that need to be reloaded to update the page
      *               appropriately will be added to the target.
      */
-    public static void setActiveTab(Tab tab, AjaxRequestTarget target) {
+    public static void setActiveTab(final Tab tab, final AjaxRequestTarget target) {
 
         SnaplogSession.get().setActiveContent( null );
         SnaplogSession.get().setActiveTab( tab );
@@ -87,7 +87,7 @@ public abstract class LayoutPageUtils {
      *
      * @return The JavaScript code that, when executed, will track the hit.
      */
-    public static String trackJS(Component trackComponent) {
+    public static String trackJS(final Component trackComponent) {
 
         checkNotNull( trackComponent, "Given trackComponent must not be null." );
 
@@ -95,8 +95,8 @@ public abstract class LayoutPageUtils {
         trackVariables.put( "googleAnalyticsID", "UA-90535-10" ); // TODO: Unhardcode.
         trackVariables.put( "pageView", trackComponent.getClass().getSimpleName() );
 
-        JavaScriptTemplate trackJS = new JavaScriptTemplate(
-                new PackagedTextTemplate( LayoutPage.class, "trackPage.js" ) );
+        JavaScriptTemplate trackJS = new JavaScriptTemplate( new PackagedTextTemplate( LayoutPage.class,
+                                                                                       "trackPage.js" ) );
 
         return trackJS.asString( trackVariables );
     }

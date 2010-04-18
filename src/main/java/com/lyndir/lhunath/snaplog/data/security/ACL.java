@@ -45,7 +45,7 @@ public class ACL {
      */
     public static User DEFAULT;
 
-    private Map<User, Permission> userPermissions;
+    private final Map<User, Permission> userPermissions;
 
 
     /**
@@ -59,7 +59,7 @@ public class ACL {
     /**
      * @param defaultPermission The permission granted to users not explicitly specified.
      */
-    public ACL(Permission defaultPermission) {
+    public ACL(final Permission defaultPermission) {
 
         userPermissions = new HashMap<User, Permission>();
         setDefaultPermission( defaultPermission );
@@ -71,7 +71,7 @@ public class ACL {
      *
      * @param permission The permission that will be granted to the given user.
      */
-    public void setDefaultPermission(Permission permission) {
+    public void setDefaultPermission(final Permission permission) {
 
         checkNotNull( permission, "Given permission must not be null." );
 
@@ -85,7 +85,7 @@ public class ACL {
      * @param user       The user that will be granted the given permission.
      * @param permission The permission that will be granted to the given user.
      */
-    public void setUserPermission(User user, Permission permission) {
+    public void setUserPermission(final User user, final Permission permission) {
 
         checkNotNull( user, "Given user must not be null." );
         checkNotNull( permission, "Given permission must not be null." );
@@ -98,7 +98,7 @@ public class ACL {
      *
      * @param user The user that will be granted the given permission.
      */
-    public void revokeUserPermission(User user) {
+    public void revokeUserPermission(final User user) {
 
         checkNotNull( user, "Given user must not be null." );
 
@@ -113,7 +113,7 @@ public class ACL {
      *
      * @return The permission granted to the given user by this access control.
      */
-    public Permission getUserPermission(User user) {
+    public Permission getUserPermission(final User user) {
 
         if (!userPermissions.containsKey( user ))
             return checkNotNull( userPermissions.get( DEFAULT ), "Default permission is unset." );

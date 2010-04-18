@@ -35,7 +35,7 @@ public class AccessDeniedErrorPage extends LayoutPage {
      * {@inheritDoc}
      */
     @Override
-    protected Panel getInitialContentPanel(String wicketId) {
+    protected Panel getInitialContentPanel(final String wicketId) {
 
         return new AccessDeniedErrorPanel( wicketId );
     }
@@ -43,7 +43,7 @@ public class AccessDeniedErrorPage extends LayoutPage {
 
     private static class AccessDeniedErrorPanel extends Panel {
 
-        AccessDeniedErrorPanel(String id) {
+        AccessDeniedErrorPanel(final String id) {
 
             super( id );
         }

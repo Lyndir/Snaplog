@@ -39,7 +39,7 @@ public class S3Album extends Album {
      * @param ownerProfile The profile of the user that owns this album.
      * @param name         A unique, user-visible name of this album amongst the user's albums.
      */
-    public S3Album(UserProfile ownerProfile, String name) {
+    public S3Album(final UserProfile ownerProfile, final String name) {
 
         super( ownerProfile, name );
     }

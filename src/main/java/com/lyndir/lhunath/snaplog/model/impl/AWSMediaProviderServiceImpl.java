@@ -74,7 +74,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
     private static final Logger logger = Logger.get( AWSMediaProviderServiceImpl.class );
 
-    private static final Pattern BASENAME = Pattern.compile( ".*/" );
+    private static final Pattern BASE_NAME = Pattern.compile( ".*/" );
 
     private final ObjectContainer db;
     private final AWSService awsService;
@@ -89,8 +89,9 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * @param securityService See {@link ServicesModule}.
      */
     @Inject
-    public AWSMediaProviderServiceImpl(ObjectContainer db, AWSService awsService, UserService userService,
-                                       SecurityService securityService) {
+    public AWSMediaProviderServiceImpl(
+            final ObjectContainer db, final AWSService awsService,
+            final UserService userService, final SecurityService securityService) {
 
         this.db = db;
         this.awsService = awsService;
@@ -102,14 +103,14 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * {@inheritDoc}
      */
     @Override
-    public Iterator<S3Media> iterateFiles(final SecurityToken token, S3Album album) {
+    public Iterator<S3Media> iterateFiles(final SecurityToken token, final S3Album album) {
 
         checkNotNull( album, "Given album must not be null." );
 
         List<S3Media> files = new LinkedList<S3Media>();
-        for (S3Object albumObject : awsService.listObjects( getObjectKey( album, Quality.ORIGINAL ) )) {
+        for (final S3Object albumObject : awsService.listObjects( getObjectKey( album, Quality.ORIGINAL ) )) {
 
-            String mediaName = BASENAME.matcher( albumObject.getKey() ).replaceFirst( "" );
+            String mediaName = BASE_NAME.matcher( albumObject.getKey() ).replaceFirst( "" );
             S3MediaData mediaData = getMediaData( new S3Media( album, mediaName ) );
             mediaData.put( Quality.METADATA, albumObject );
             db.store( mediaData );
@@ -127,7 +128,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         ObjectSet<S3MediaData> s3mediaDataQuery = db.query( new Predicate<S3MediaData>() {
 
             @Override
-            public boolean match(S3MediaData candidate) {
+            public boolean match(final S3MediaData candidate) {
 
                 return SafeObjects.equal( candidate.getMedia(), media );
             }
@@ -145,7 +146,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * {@inheritDoc}
      */
     @Override
-    public URL getResourceURL(final SecurityToken token, S3Media media, Quality quality)
+    public URL getResourceURL(final SecurityToken token, final S3Media media, final Quality quality)
             throws PermissionDeniedException {
 
         checkNotNull( media, "Given media must not be null." );
@@ -220,7 +221,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * {@inheritDoc}
      */
     @Override
-    public long modifiedTime(final SecurityToken token, S3Media media)
+    public long modifiedTime(final SecurityToken token, final S3Media media)
             throws PermissionDeniedException {
 
         checkNotNull( media, "Given media must not be null." );
@@ -237,7 +238,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      *
      * @return An S3 object key within the bucket.
      */
-    protected String getObjectKey(S3Album album, Quality quality) {
+    protected static String getObjectKey(final S3Album album, final Quality quality) {
 
         return StringUtils.concat( "/", "users", album.getOwnerProfile().getUser().getUserName(), album.getName(),
                                    quality.getName() );
@@ -251,7 +252,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      *
      * @return An S3 object key within the bucket.
      */
-    protected String getObjectKey(S3Media media, Quality quality) {
+    protected static String getObjectKey(final S3Media media, final Quality quality) {
 
         return StringUtils.concat( "/", getObjectKey( media.getAlbum(), quality ), media.getName() );
     }
@@ -271,7 +272,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      *
      * @see S3Service#getObject(S3Bucket, String)
      */
-    protected S3Object readObject(S3Media media, Quality quality) {
+    protected S3Object readObject(final S3Media media, final Quality quality) {
 
         checkNotNull( media, "Given media must not be null." );
         checkNotNull( quality, "Given quality must not be null." );
@@ -295,7 +296,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      *
      * @see S3Service#getObject(S3Bucket, String)
      */
-    protected S3Object findObjectDetails(S3Media media, Quality quality) {
+    protected S3Object findObjectDetails(final S3Media media, final Quality quality) {
 
         checkNotNull( media, "Given media must not be null." );
         checkNotNull( quality, "Given quality must not be null." );
@@ -322,18 +323,19 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      *
      * @see S3Service#listObjects(S3Bucket)
      */
-    protected S3Object getObject(S3Media media) {
+    protected S3Object getObject(final S3Media media) {
 
         checkNotNull( media, "Given media must not be null." );
 
-        return checkNotNull( getMediaData( media ).get( Quality.METADATA ), "S3 object for %s must not be null.", media );
+        return checkNotNull( getMediaData( media ).get( Quality.METADATA ), "S3 object for %s must not be null.",
+                             media );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public S3AlbumData newAlbumData(S3Album album) {
+    public S3AlbumData newAlbumData(final S3Album album) {
 
         checkNotNull( album, "Given album must not be null." );
 
@@ -344,7 +346,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * {@inheritDoc}
      */
     @Override
-    public S3Album newAlbum(User ownerUser, String albumName, String albumDescription) {
+    public S3Album newAlbum(final User ownerUser, final String albumName, final String albumDescription) {
 
         try {
             S3Album album = new S3Album( userService.getProfile( SecurityToken.INTERNAL_USE_ONLY, ownerUser ),

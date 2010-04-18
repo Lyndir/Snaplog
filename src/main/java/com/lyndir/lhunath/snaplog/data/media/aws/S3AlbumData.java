@@ -30,13 +30,13 @@ import com.lyndir.lhunath.snaplog.data.media.AlbumData;
  */
 public class S3AlbumData extends AlbumData {
 
-    private S3Album album;
+    private final S3Album album;
 
 
     /**
      * @param album The album we provide data for.
      */
-    public S3AlbumData(S3Album album) {
+    public S3AlbumData(final S3Album album) {
 
         this.album = album;
     }

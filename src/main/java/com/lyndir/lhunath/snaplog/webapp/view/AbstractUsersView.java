@@ -36,7 +36,7 @@ public abstract class AbstractUsersView extends DataView<User> {
      * @param id           The wicket ID to bind this component on.
      * @param usersPerPage The maximum amount of users to show at once before hiding the rest behind a pager.
      */
-    public AbstractUsersView(String id, int usersPerPage) {
+    protected AbstractUsersView(final String id, final int usersPerPage) {
 
         this( id, null, usersPerPage );
     }
@@ -49,12 +49,12 @@ public abstract class AbstractUsersView extends DataView<User> {
      *                     <code>null</code>, all users implicitly match.
      * @param usersPerPage The maximum amount of users to show at once before hiding the rest behind a pager.
      */
-    public AbstractUsersView(String id, final IPredicate<User> predicate, int usersPerPage) {
+    protected AbstractUsersView(final String id, final IPredicate<User> predicate, final int usersPerPage) {
 
         super( id, new AbstractListProvider<User>() {
 
             @Override
-            public IModel<User> model(User object) {
+            public IModel<User> model(final User object) {
 
                 return new Model<User>( object );
             }

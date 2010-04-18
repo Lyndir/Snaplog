@@ -49,14 +49,14 @@ public class SecurityServiceImpl implements SecurityService {
      * {@inheritDoc}
      */
     @Override
-    public boolean hasAccess(Permission permission, SecurityToken token, SecureObject<?> o) {
+    public boolean hasAccess(final Permission permission, final SecurityToken token, final SecureObject<?> o) {
 
         try {
             assertAccess( permission, token, o );
             return true;
         }
 
-        catch (PermissionDeniedException e) {
+        catch (PermissionDeniedException ignored) {
             return false;
         }
     }
@@ -65,28 +65,28 @@ public class SecurityServiceImpl implements SecurityService {
      * {@inheritDoc}
      */
     @Override
-    public void assertAccess(Permission requestPermission, SecurityToken token, SecureObject<?> o)
+    public void assertAccess(final Permission permission, final SecurityToken token, final SecureObject<?> o)
             throws PermissionDeniedException {
 
-        if (o == null || requestPermission == Permission.NONE) {
+        if (o == null || permission == Permission.NONE) {
             // No permission required.
             logger.dbg( "Permisson Granted: No permission necessary for: %s@%s", //
-                        requestPermission, o );
+                        permission, o );
             return;
         }
 
         if (token == null) {
             // Permission required but no token given.
             logger.dbg( "Permission Denied: Missing security token for: %s@%s", //
-                        requestPermission, o );
+                        permission, o );
             throw new PermissionDeniedException( String.format( "No security token in request for %s@%s.", //
-                                                                requestPermission, o ) );
+                                                                permission, o ) );
         }
 
         if (token.isInternalUseOnly()) {
             // Token is "Internal Use", grant everything.
             logger.dbg( "Permisson Granted: INTERNAL_USE token for: %s@%s", //
-                        requestPermission, o );
+                        permission, o );
             return;
         }
 
@@ -94,38 +94,39 @@ public class SecurityServiceImpl implements SecurityService {
         if (tokenPermission == Permission.INHERIT) {
             if (o.getParent() == null) {
                 logger.dbg( "Permission Denied: Can't inherit permissions, no parent set for: %s@%s", //
-                            requestPermission, o );
+                            permission, o );
                 throw new PermissionDeniedException(
                         String.format( "Had to inherit permission for %s@%s but no parent set.", //
-                                       requestPermission, o ) );
+                                       permission, o ) );
             }
 
             logger.dbg( "Inheriting permission for: %s@%s", //
-                        requestPermission, o );
-            assertAccess( requestPermission, token, o.getParent() );
+                        permission, o );
+            assertAccess( permission, token, o.getParent() );
             return;
         }
 
-        if (!isPermissionProvided( tokenPermission, requestPermission )) {
+        if (!isPermissionProvided( tokenPermission, permission )) {
             logger.dbg( "Permission Denied: Token authorizes %s, insufficient for: %s@%s", //
-                        tokenPermission, requestPermission, o );
+                        tokenPermission, permission, o );
             throw new PermissionDeniedException(
                     String.format( "Security Token %s grants permissions %s but request required %s on object %s", //
-                                   token, tokenPermission, requestPermission, o ) );
+                                   token, tokenPermission, permission, o ) );
         }
 
         logger.dbg( "Permission Granted: Token authorization %s matches for: %s@%s", //
-                    tokenPermission, requestPermission, o );
+                    tokenPermission, permission, o );
     }
 
-    private boolean isPermissionProvided(Permission givenPermission, Permission requestedPermission) {
+    private static boolean isPermissionProvided(final Permission givenPermission,
+                                                final Permission requestedPermission) {
 
         if (givenPermission == requestedPermission)
             return true;
         if (givenPermission == null || requestedPermission == null)
             return false;
 
-        for (Permission inheritedGivenPermission : givenPermission.getProvided())
+        for (final Permission inheritedGivenPermission : givenPermission.getProvided())
             if (isPermissionProvided( inheritedGivenPermission, requestedPermission ))
                 return true;
 
@@ -136,12 +137,12 @@ public class SecurityServiceImpl implements SecurityService {
      * {@inheritDoc}
      */
     @Override
-    public Iterator<Media> iterateFilesFor(final SecurityToken token, AlbumData albumData) {
+    public Iterator<Media> iterateFilesFor(final SecurityToken token, final AlbumData albumData) {
 
         return Iterators.filter( albumData.getInternalFiles( this ).iterator(), new Predicate<Media>() {
 
             @Override
-            public boolean apply(Media input) {
+            public boolean apply(final Media input) {
 
                 return hasAccess( Permission.VIEW, token, input );
             }
@@ -152,12 +153,12 @@ public class SecurityServiceImpl implements SecurityService {
      * {@inheritDoc}
      */
     @Override
-    public Iterator<MediaTimeFrame> iterateTimeFramesFor(final SecurityToken token, AlbumData albumData) {
+    public Iterator<MediaTimeFrame> iterateTimeFramesFor(final SecurityToken token, final AlbumData albumData) {
 
         return Iterators.filter( albumData.getInternalTimeFrames( this ).iterator(), new Predicate<MediaTimeFrame>() {
 
             @Override
-            public boolean apply(MediaTimeFrame input) {
+            public boolean apply(final MediaTimeFrame input) {
 
                 // TODO: Implement security on MediaTimeFrames.
                 return true;// hasAccess( Permission.VIEW, token, input );

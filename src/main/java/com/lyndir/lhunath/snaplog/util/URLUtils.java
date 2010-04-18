@@ -47,7 +47,7 @@ public abstract class URLUtils {
      *
      * @return A string that is safe for use as a URL query parameter name or value.
      */
-    public static String encode(String str) {
+    public static String encode(final String str) {
 
         try {
             return URLEncoder.encode( str, "UTF-8" );

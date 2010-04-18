@@ -37,13 +37,15 @@ public class AlbumProvider<A extends Album, M extends Media> implements MediaPro
 
     /**
      * @param albumType                The type of albums that this provider can provide.
-     * @param albumProviderServiceType The type of the {@link MediaProviderService} that services these types of albums.
+     * @param mediaProviderServiceType The type of the {@link MediaProviderService} that services these types of albums.
      */
-    public AlbumProvider(Class<A> albumType, Class<? extends MediaProviderService<A, M>> albumProviderServiceType) {
+    public AlbumProvider(
+            final Class<A> albumType,
+            final Class<? extends MediaProviderService<A, M>> mediaProviderServiceType) {
 
         this.albumType = checkNotNull( albumType, "Given album class must not be null." );
-        mediaProviderServiceType = checkNotNull( albumProviderServiceType,
-                                                 "Given album provider class must not be null." );
+        this.mediaProviderServiceType = checkNotNull( mediaProviderServiceType,
+                                                      "Given media provider class must not be null." );
     }
 
     /**
@@ -66,7 +68,7 @@ public class AlbumProvider<A extends Album, M extends Media> implements MediaPro
      * {@inheritDoc}
      */
     @Override
-    public Iterator<M> iterateFiles(SecurityToken token, A album) {
+    public Iterator<M> iterateFiles(final SecurityToken token, final A album) {
 
         return getMediaProviderService().iterateFiles( token, album );
     }
@@ -75,7 +77,7 @@ public class AlbumProvider<A extends Album, M extends Media> implements MediaPro
      * {@inheritDoc}
      */
     @Override
-    public URL getResourceURL(SecurityToken token, M media, Quality quality)
+    public URL getResourceURL(final SecurityToken token, final M media, final Quality quality)
             throws PermissionDeniedException {
 
         return getMediaProviderService().getResourceURL( token, media, quality );
@@ -85,7 +87,7 @@ public class AlbumProvider<A extends Album, M extends Media> implements MediaPro
      * {@inheritDoc}
      */
     @Override
-    public long modifiedTime(SecurityToken token, M media)
+    public long modifiedTime(final SecurityToken token, final M media)
             throws PermissionDeniedException {
 
         return getMediaProviderService().modifiedTime( token, media );
@@ -95,7 +97,7 @@ public class AlbumProvider<A extends Album, M extends Media> implements MediaPro
      * {@inheritDoc}
      */
     @Override
-    public AlbumData newAlbumData(A album) {
+    public AlbumData newAlbumData(final A album) {
 
         return getMediaProviderService().newAlbumData( album );
     }
@@ -104,7 +106,7 @@ public class AlbumProvider<A extends Album, M extends Media> implements MediaPro
      * {@inheritDoc}
      */
     @Override
-    public A newAlbum(User ownerUser, String albumName, String albumDescription) {
+    public A newAlbum(final User ownerUser, final String albumName, final String albumDescription) {
 
         return getMediaProviderService().newAlbum( ownerUser, albumName, albumDescription );
     }

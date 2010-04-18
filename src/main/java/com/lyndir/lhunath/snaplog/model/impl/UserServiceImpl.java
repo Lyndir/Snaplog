@@ -48,8 +48,8 @@ import com.lyndir.lhunath.snaplog.model.UserService;
  */
 public class UserServiceImpl implements UserService {
 
-    ObjectContainer db;
-    SecurityService securityService;
+    final ObjectContainer db;
+    final SecurityService securityService;
 
 
     /**
@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
      * @param securityService See {@link ServicesModule}.
      */
     @Inject
-    public UserServiceImpl(ObjectContainer db, SecurityService securityService) {
+    public UserServiceImpl(final ObjectContainer db, final SecurityService securityService) {
 
         this.db = db;
         this.securityService = securityService;
@@ -67,7 +67,7 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public User registerUser(LinkID linkID, String userName)
+    public User registerUser(final LinkID linkID, final String userName)
             throws UsernameTakenException {
 
         checkNotNull( linkID, "Given linkID must not be null." );
@@ -93,7 +93,7 @@ public class UserServiceImpl implements UserService {
         ObjectSet<User> userQuery = queryUsers( new IPredicate<User>() {
 
             @Override
-            public boolean apply(User input) {
+            public boolean apply(final User input) {
 
                 return input != null && SafeObjects.equal( input.getLinkID(), linkID );
             }
@@ -116,7 +116,7 @@ public class UserServiceImpl implements UserService {
         ObjectSet<User> userQuery = queryUsers( new IPredicate<User>() {
 
             @Override
-            public boolean apply(User input) {
+            public boolean apply(final User input) {
 
                 return input != null && SafeObjects.equal( input.getUserName(), userName );
             }
@@ -137,17 +137,17 @@ public class UserServiceImpl implements UserService {
         return db.query( new Predicate<User>() {
 
             @Override
-            public boolean match(User candidate) {
+            public boolean match(final User candidate) {
 
                 // Never allow this user to be queried; it is purely for internal use only.
                 if (SafeObjects.equal( candidate, ACL.DEFAULT ))
                     return false;
 
-                com.google.common.base.Predicate<User> _predicate = predicate;
-                if (_predicate == null)
-                    _predicate = Predicates.alwaysTrue();
+                com.google.common.base.Predicate<User> predicate_ = predicate;
+                if (predicate_ == null)
+                    predicate_ = Predicates.alwaysTrue();
 
-                return _predicate.apply( candidate );
+                return predicate_.apply( candidate );
             }
         } );
     }
@@ -164,7 +164,7 @@ public class UserServiceImpl implements UserService {
         ObjectSet<UserProfile> profileQuery = db.query( new Predicate<UserProfile>() {
 
             @Override
-            public boolean match(UserProfile candidate) {
+            public boolean match(final UserProfile candidate) {
 
                 return candidate != null && candidate.getUser().equals( user );
             }

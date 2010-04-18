@@ -53,7 +53,7 @@ public class AWSServiceImpl implements AWSService {
 
         AWSCredentials awsCredentials = new AWSCredentials( ACCESS_KEY, SECRET_KEY );
         Jets3tProperties properties = Jets3tProperties.getInstance( Constants.JETS3T_PROPERTIES_FILENAME );
-        properties.setProperty( "s3service.https-only", Boolean.FALSE.toString() );
+        properties.setProperty( "s3service.https-only", String.valueOf( Boolean.FALSE ) );
         return new RestS3Service( awsCredentials, "Snaplog.net", null, properties );
     }
 
@@ -61,7 +61,7 @@ public class AWSServiceImpl implements AWSService {
      * {@inheritDoc}
      */
     @Override
-    public S3Object readObject(String objectKey) {
+    public S3Object readObject(final String objectKey) {
 
         try {
             logger.dbg( "Fetching S3 object data from bucket: %s, with key: %s", BUCKET, objectKey );
@@ -78,7 +78,7 @@ public class AWSServiceImpl implements AWSService {
      * {@inheritDoc}
      */
     @Override
-    public S3Object findObjectDetails(String objectKey) {
+    public S3Object findObjectDetails(final String objectKey) {
 
         try {
             logger.dbg( "Fetching S3 object metadata from bucket: %s, with key: %s", BUCKET, objectKey );
@@ -98,7 +98,7 @@ public class AWSServiceImpl implements AWSService {
      * {@inheritDoc}
      */
     @Override
-    public ImmutableList<S3Object> listObjects(String objectKey) {
+    public ImmutableList<S3Object> listObjects(final String objectKey) {
 
         try {
             logger.dbg( "Listing S3 objects from bucket: %s, with prefix: %s", BUCKET, objectKey );
@@ -115,7 +115,7 @@ public class AWSServiceImpl implements AWSService {
      * {@inheritDoc}
      */
     @Override
-    public S3Object upload(S3Object source) {
+    public S3Object upload(final S3Object source) {
 
         try {
             logger.dbg( "Uploading: %d bytes, to S3 objects in bucket: %s, with prefix: %s", //

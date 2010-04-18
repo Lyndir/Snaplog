@@ -45,7 +45,7 @@ public class BrowserView extends GenericPanel<Album> {
     AlbumService albumService;
 
     Media currentFile;
-    IModel<Date> currentTimeModel;
+    final IModel<Date> currentTimeModel;
 
 
     /**
@@ -54,9 +54,9 @@ public class BrowserView extends GenericPanel<Album> {
      * @param id               The wicket ID to put this component in the HTML.
      * @param albumModel       The model contains the {@link Album} that the browser should get its media from.
      * @param currentTimeModel The model contains the {@link Date} upon which the browser should focus. The first image on or past
-     *                         this date will be the focussed image.
+     *                         this date will be the focused image.
      */
-    public BrowserView(String id, IModel<Album> albumModel, IModel<Date> currentTimeModel) {
+    public BrowserView(final String id, final IModel<Album> albumModel, final IModel<Date> currentTimeModel) {
 
         super( id, albumModel );
         checkNotNull( albumModel.getObject(), "Model object of BrowserView must not be null" );
@@ -80,23 +80,23 @@ public class BrowserView extends GenericPanel<Album> {
      */
     private final class BrowserListView extends ListView<Media> {
 
-        BrowserListView(String id) {
+        BrowserListView(final String id) {
 
             super( id, new BrowserFilesModel() );
         }
 
         @Override
-        protected void populateItem(ListItem<Media> item) {
+        protected void populateItem(final ListItem<Media> item) {
 
             Media media = item.getModelObject();
-            final long shotTime = media.shotTime();
+            long shotTime = media.shotTime();
             boolean isCurrent = media.equals( currentFile );
             Quality imageQuality = isCurrent? Quality.PREVIEW: Quality.THUMBNAIL;
 
             item.add( new MediaView( "media", item.getModel(), imageQuality, !isCurrent ) {
 
                 @Override
-                public void onClick(AjaxRequestTarget target) {
+                public void onClick(final AjaxRequestTarget target) {
 
                     currentTimeModel.setObject( new Date( shotTime ) );
                     target.addComponent( BrowserView.this );

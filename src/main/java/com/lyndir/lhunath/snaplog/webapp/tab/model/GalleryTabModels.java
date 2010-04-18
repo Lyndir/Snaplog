@@ -44,16 +44,16 @@ public class GalleryTabModels extends ModelProvider<GalleryTabModels, User> {
 
     static final Logger logger = Logger.get( GalleryTabModels.class );
 
-    private IModel<String> decoratedUsername;
-    private IModel<String> username;
-    private NewAlbumFormModels newAlbumForm;
+    private final IModel<String> decoratedUsername;
+    private final IModel<String> username;
+    private final NewAlbumFormModels newAlbumForm;
 
 
     /**
      * @param model A model providing the user whose gallery to show.
      */
     @Inject
-    public GalleryTabModels(IModel<User> model) {
+    public GalleryTabModels(final IModel<User> model) {
 
         super( model );
 
@@ -90,19 +90,19 @@ public class GalleryTabModels extends ModelProvider<GalleryTabModels, User> {
      */
     public class NewAlbumFormModels extends EmptyModelProvider<NewAlbumFormModels> {
 
-        private IModel<List<? extends AlbumProviderType>> types;
+        private final IModel<List<AlbumProviderType>> types;
 
-        private IModel<AlbumProviderType> type;
-        private IModel<String> name;
-        private IModel<String> description;
+        private final IModel<AlbumProviderType> type;
+        private final IModel<String> name;
+        private final IModel<String> description;
 
 
         NewAlbumFormModels() {
 
-            types = new LoadableDetachableModel<List<? extends AlbumProviderType>>() {
+            types = new LoadableDetachableModel<List<AlbumProviderType>>() {
 
                 @Override
-                protected List<? extends AlbumProviderType> load() {
+                protected List<AlbumProviderType> load() {
 
                     return Arrays.asList( AlbumProviderType.values() );
                 }
@@ -127,7 +127,7 @@ public class GalleryTabModels extends ModelProvider<GalleryTabModels, User> {
         /**
          * @return A model that provides a list of available {@link AlbumProviderType}s.
          */
-        public IModel<List<? extends AlbumProviderType>> types() {
+        public IModel<List<AlbumProviderType>> types() {
 
             return types;
         }

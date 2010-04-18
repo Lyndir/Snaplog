@@ -67,7 +67,7 @@ public class ImageServlet extends HttpServlet {
      * @param albumService See {@link AlbumService}
      */
     @Inject
-    public ImageServlet(UserService userService, AlbumService albumService) {
+    public ImageServlet(final UserService userService, final AlbumService albumService) {
 
         this.userService = userService;
         this.albumService = albumService;
@@ -82,7 +82,7 @@ public class ImageServlet extends HttpServlet {
      *
      * @return A context-relative URL.
      */
-    public static String getContextRelativePathFor(Media media, Quality quality) {
+    public static String getContextRelativePathFor(final Media media, final Quality quality) {
 
         checkNotNull( media, "Given media must not be null." );
         checkNotNull( quality, "Given quality must not be null." );
@@ -103,7 +103,7 @@ public class ImageServlet extends HttpServlet {
      * {@inheritDoc}
      */
     @Override
-    protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+    protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
 
         try {

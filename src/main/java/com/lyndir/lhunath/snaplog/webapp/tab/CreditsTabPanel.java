@@ -41,70 +41,69 @@ public class CreditsTabPanel extends Panel {
      *
      * @param id The wicket ID that will hold the {@link CreditsTabPanel}.
      */
-    public CreditsTabPanel(String id) {
+    public CreditsTabPanel(final String id) {
 
         super( id );
     }
 
 
-    static interface Messages {
+    interface Messages {
 
     }
-}
-
-
-/**
- * <h2>{@link CreditsTab}<br>
- * <sub>[in short] (TODO).</sub></h2>
- *
- * <p>
- * [description / usage].
- * </p>
- *
- * <p>
- * <i>May 31, 2009</i>
- * </p>
- *
- * @author lhunath
- */
-class CreditsTab implements ITab {
-
-    static final Logger logger = Logger.get( CreditsTab.class );
-    static final CreditsTabPanel.Messages msgs = MessagesFactory.create( CreditsTabPanel.Messages.class,
-                                                                         CreditsTabPanel.class );
 
 
     /**
-     * {@inheritDoc}
+     * <h2>{@link CreditsTab}<br>
+     * <sub>[in short] (TODO).</sub></h2>
+     *
+     * <p>
+     * [description / usage].
+     * </p>
+     *
+     * <p>
+     * <i>May 31, 2009</i>
+     * </p>
+     *
+     * @author lhunath
      */
-    @Override
-    public IModel<String> getTitle() {
+    static class CreditsTab implements ITab {
 
-        return new LoadableDetachableModel<String>() {
+        static final Logger logger = Logger.get( CreditsTab.class );
+        static final Messages msgs = MessagesFactory.create( Messages.class, CreditsTabPanel.class );
 
-            @Override
-            protected String load() {
 
-                throw new TodoException();
-            }
-        };
-    }
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public IModel<String> getTitle() {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Panel getPanel(String panelId) {
+            return new LoadableDetachableModel<String>() {
 
-        return new CreditsTabPanel( panelId );
-    }
+                @Override
+                protected String load() {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isVisible() {
+                    throw new TodoException();
+                }
+            };
+        }
 
-        return true;
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Panel getPanel(final String panelId) {
+
+            return new CreditsTabPanel( panelId );
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isVisible() {
+
+            return true;
+        }
     }
 }

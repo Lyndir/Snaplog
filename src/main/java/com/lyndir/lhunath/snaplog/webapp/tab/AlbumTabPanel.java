@@ -51,7 +51,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
      * @param id    The wicket ID that will hold the {@link AlbumTabPanel}.
      * @param model Provides the album to show.
      */
-    AlbumTabPanel(String id, IModel<Album> model) {
+    AlbumTabPanel(final String id, final IModel<Album> model) {
 
         super( id, new AlbumTabModels( model ).getModel() );
         checkNotNull( model.getObject(), "Model object of AlbumTabPanel must not be null" );
@@ -59,7 +59,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         // Browser
         add( new BrowserView( "browser", getModelObject(), getModelObject().currentTime() ) );
 
-        // Timeline.
+        // Time line.
         add( new TimelineView( "timelinePopup", getModelObject() ) );
 
         // Tags.
@@ -70,7 +70,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
     }
 
 
-    static interface Messages {
+    interface Messages {
 
         /**
          * @return Text on the interface tab to activate the {@link AlbumTabPanel}.
@@ -78,93 +78,92 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         @UseKey
         String albumTab();
     }
-}
 
 
-class AlbumTools extends Panel {
+    static class AlbumTools extends Panel {
 
-    AlbumTools(String id) {
+        AlbumTools(final String id) {
 
-        super( id );
+            super( id );
+        }
     }
-}
-
-
-/**
- * <h2>{@link AlbumTab}<br>
- * <sub>The interface panel for browsing through the album content.</sub></h2>
- *
- * <p>
- * <i>May 31, 2009</i>
- * </p>
- *
- * @author lhunath
- */
-class AlbumTab implements SnaplogTab {
-
-    static final Logger logger = Logger.get( AlbumTab.class );
-    static final AlbumTabPanel.Messages msgs = MessagesFactory.create( AlbumTabPanel.Messages.class,
-                                                                       AlbumTabPanel.class );
 
 
     /**
-     * {@inheritDoc}
+     * <h2>{@link AlbumTab}<br>
+     * <sub>The interface panel for browsing through the album content.</sub></h2>
+     *
+     * <p>
+     * <i>May 31, 2009</i>
+     * </p>
+     *
+     * @author lhunath
      */
-    @Override
-    public IModel<String> getTitle() {
+    static class AlbumTab implements SnaplogTab {
 
-        return new LoadableDetachableModel<String>() {
+        static final Logger logger = Logger.get( AlbumTab.class );
+        static final Messages msgs = MessagesFactory.create( Messages.class, AlbumTabPanel.class );
 
-            @Override
-            protected String load() {
 
-                return msgs.albumTab();
-            }
-        };
-    }
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public IModel<String> getTitle() {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Panel getPanel(String panelId) {
+            return new LoadableDetachableModel<String>() {
 
-        return new AlbumTabPanel( panelId, new IModel<Album>() {
+                @Override
+                protected String load() {
 
-            @Override
-            public void detach() {
+                    return msgs.albumTab();
+                }
+            };
+        }
 
-            }
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Panel getPanel(final String panelId) {
 
-            @Override
-            public Album getObject() {
+            return new AlbumTabPanel( panelId, new IModel<Album>() {
 
-                return SnaplogSession.get().getFocussedAlbum();
-            }
+                @Override
+                public void detach() {
 
-            @Override
-            public void setObject(Album object) {
+                }
 
-                SnaplogSession.get().setFocussedAlbum( object );
-            }
-        } );
-    }
+                @Override
+                public Album getObject() {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Panel getTools(String panelId) {
+                    return SnaplogSession.get().getFocussedAlbum();
+                }
 
-        return new AlbumTools( panelId );
-    }
+                @Override
+                public void setObject(final Album object) {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isVisible() {
+                    SnaplogSession.get().setFocussedAlbum( object );
+                }
+            } );
+        }
 
-        return SnaplogSession.get().getFocussedAlbum() != null;
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Panel getTools(final String panelId) {
+
+            return new AlbumTools( panelId );
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isVisible() {
+
+            return SnaplogSession.get().getFocussedAlbum() != null;
+        }
     }
 }

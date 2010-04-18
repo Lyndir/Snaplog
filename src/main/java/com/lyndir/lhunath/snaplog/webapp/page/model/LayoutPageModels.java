@@ -50,14 +50,14 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
 
     protected final Messages msgs = MessagesFactory.create( Messages.class );
 
-    private IModel<String> pageTitle;
-    private IModel<String> userGuessWelcome;
-    private IModel<String> userBadge;
-    private IModel<String> userMessages;
-    private IModel<String> userRequests;
-    private IModel<? extends List<TabItem>> tabs;
-    private IModel<String> focussedUser;
-    private IModel<String> focussedContent;
+    private final IModel<String> pageTitle;
+    private final IModel<String> userGuessWelcome;
+    private final IModel<String> userBadge;
+    private final IModel<String> userMessages;
+    private final IModel<String> userRequests;
+    private final IModel<? extends List<TabItem>> tabs;
+    private final IModel<String> focussedUser;
+    private final IModel<String> focussedContent;
 
 
     /**
@@ -98,7 +98,8 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
             @Override
             protected String load() {
 
-                User user = checkNotNull( SnaplogSession.get().getFocussedUser(), "Focussed user must not be null." );
+                User user = checkNotNull( SnaplogSession.get().getFocussedUser(),
+                                          "Focussed user must not be null." );
 
                 return Character.toString( user.getBadge() );
             }
@@ -181,13 +182,13 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
      */
     public static class TabItem extends ModelProvider<TabItem, Tab> {
 
-        private IModel<String> styleClass;
+        private final IModel<String> styleClass;
 
 
         /**
          * @param model The base model for the tab component.
          */
-        public TabItem(IModel<Tab> model) {
+        public TabItem(final IModel<Tab> model) {
 
             super( model );
 

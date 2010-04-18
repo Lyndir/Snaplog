@@ -58,7 +58,7 @@ public class SnaplogSession extends WebSession {
     /**
      * @param request The {@link Request} that started the session.
      */
-    public SnaplogSession(Request request) {
+    public SnaplogSession(final Request request) {
 
         super( request );
     }
@@ -82,7 +82,7 @@ public class SnaplogSession extends WebSession {
     /**
      * @param activeContent The activeContent of this {@link SnaplogSession}.
      */
-    public void setActiveContent(Panel activeContent) {
+    public void setActiveContent(final Panel activeContent) {
 
         this.activeContent = activeContent;
     }
@@ -98,7 +98,7 @@ public class SnaplogSession extends WebSession {
     /**
      * @param activeTab The activeTab of this {@link SnaplogSession}.
      */
-    public void setActiveTab(Tab activeTab) {
+    public void setActiveTab(final Tab activeTab) {
 
         checkState( activeTab.get().isVisible(), "Cannot set the invisible tab %s as active.", activeTab );
 
@@ -116,7 +116,7 @@ public class SnaplogSession extends WebSession {
     /**
      * @param activeUser The activeUser of this {@link SnaplogSession}.
      */
-    public void setActiveUser(User activeUser) {
+    public void setActiveUser(final User activeUser) {
 
         if (Objects.equal( getActiveUser(), activeUser ))
             return;
@@ -153,7 +153,7 @@ public class SnaplogSession extends WebSession {
     /**
      * @param focussedUser The focussedUser of this {@link SnaplogSession}.
      */
-    public void setFocussedUser(User focussedUser) {
+    public void setFocussedUser(final User focussedUser) {
 
         if (focussedAlbum != null && !SafeObjects.equal( focussedAlbum.getOwnerProfile().getUser(), focussedUser ))
             // User is no longer the focussed album owner; unfocus the album.
@@ -177,7 +177,7 @@ public class SnaplogSession extends WebSession {
     /**
      * @param focussedAlbum The focussedAlbum of this {@link SnaplogSession}.
      */
-    public void setFocussedAlbum(Album focussedAlbum) {
+    public void setFocussedAlbum(final Album focussedAlbum) {
 
         if (focussedAlbum != null)
             // Focusing a specific album; set focussed user to the album owner.

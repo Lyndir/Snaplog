@@ -44,13 +44,13 @@ public class SecurityToken {
         }
     };
 
-    private User actor;
+    private final User actor;
 
 
     /**
      * @param actor The user that has requested or will gain access to the result of the operation.
      */
-    public SecurityToken(User actor) {
+    public SecurityToken(final User actor) {
 
         this.actor = actor;
     }

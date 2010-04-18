@@ -73,7 +73,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
     AlbumService albumService;
 
     // TODO: Remove when <https://issues.apache.org/jira/browse/WICKET-2797> is fixed.
-    Form<?> searchForm;
+    final Form<?> searchForm;
 
 
     /**
@@ -81,7 +81,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
      *
      * @param id The wicket ID that will hold the {@link ExpoTabPanel}.
      */
-    public ExpoTabPanel(String id) {
+    public ExpoTabPanel(final String id) {
 
         super( id, new ExpoTabModels().getModel() );
         getModelObject().attach( this );
@@ -96,13 +96,13 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
                 userItem.add( new AbstractAlbumsView( "albums", userItem.getModel(), ALBUMS_PER_PAGE ) {
 
                     @Override
-                    protected void populateItem(Item<Album> albumItem) {
+                    protected void populateItem(final Item<Album> albumItem) {
 
                         albumItem.add( new MediaView( "albumCover", cover( albumItem.getModel() ), Quality.THUMBNAIL,
                                                       true ) {
 
                             @Override
-                            protected void onClick(AjaxRequestTarget target) {
+                            protected void onClick(final AjaxRequestTarget target) {
 
                                 SnaplogSession.get().setFocussedAlbum( getModelObject().getAlbum() );
                                 LayoutPageUtils.setActiveTab( Tab.ALBUM, target );
@@ -131,8 +131,8 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
 
         add( (searchForm = new Form<String>( "searchForm", new Model<String>() ) {
 
-            AbstractUsersView usersView;
-            AbstractAlbumsView albumsView;
+            final AbstractUsersView usersView;
+            final AbstractAlbumsView albumsView;
 
             {
                 // Search Query
@@ -150,7 +150,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
                 } ) {
 
                     @Override
-                    protected void onComponentTagBody(MarkupStream markupStream, ComponentTag openTag) {
+                    protected void onComponentTagBody(final MarkupStream markupStream, final ComponentTag openTag) {
 
                         int resultCount = getModelObject();
                         if (resultCount == 0)
@@ -175,7 +175,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
                 add( usersView = new AbstractUsersView( "users", new IPredicate<User>() {
 
                     @Override
-                    public boolean apply(User input) {
+                    public boolean apply(final User input) {
 
                         // Applies for a user whose userName contains the search string (case insensitively).
                         return input != null && queryModel.getObject() != null && queryModel.getObject().length() > 0
@@ -190,13 +190,13 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
                         userItem.add( new AbstractAlbumsView( "albums", userItem.getModel(), ALBUMS_PER_PAGE ) {
 
                             @Override
-                            protected void populateItem(Item<Album> albumItem) {
+                            protected void populateItem(final Item<Album> albumItem) {
 
                                 albumItem.add( new MediaView( "albumCover", cover( albumItem.getModel() ),
                                                               Quality.THUMBNAIL, true ) {
 
                                     @Override
-                                    protected void onClick(AjaxRequestTarget target) {
+                                    protected void onClick(final AjaxRequestTarget target) {
 
                                         SnaplogSession.get().setFocussedAlbum( getModelObject().getAlbum() );
                                         LayoutPageUtils.setActiveTab( Tab.ALBUM, target );
@@ -217,7 +217,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
                 add( albumsView = new AbstractAlbumsView( "albums", new IPredicate<Album>() {
 
                     @Override
-                    public boolean apply(Album input) {
+                    public boolean apply(final Album input) {
 
                         // Applies for an album whose name contains the search string (case insensitively).
                         return input != null && queryModel.getObject() != null && queryModel.getObject().length() > 0
@@ -226,36 +226,37 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
                 }, ALBUMS_PER_PAGE ) {
 
                     @Override
-                    protected void populateItem(Item<Album> albumItem) {
+                    protected void populateItem(final Item<Album> albumItem) {
 
-                        albumItem.add( new MediaView( "cover", cover( albumItem.getModel() ), Quality.THUMBNAIL, true ) {
+                        albumItem
+                                .add( new MediaView( "cover", cover( albumItem.getModel() ), Quality.THUMBNAIL, true ) {
 
-                            @Override
-                            public void onClick(AjaxRequestTarget target) {
+                                    @Override
+                                    public void onClick(final AjaxRequestTarget target) {
 
-                                SnaplogSession.get().setFocussedAlbum( getModelObject().getAlbum() );
-                                LayoutPageUtils.setActiveTab( Tab.ALBUM, target );
-                            }
+                                        SnaplogSession.get().setFocussedAlbum( getModelObject().getAlbum() );
+                                        LayoutPageUtils.setActiveTab( Tab.ALBUM, target );
+                                    }
 
-                            @Override
-                            protected String getCaptionString() {
+                                    @Override
+                                    protected String getCaptionString() {
 
-                                return getModelObject().getAlbum().getName();
-                            }
-                        } );
+                                        return getModelObject().getAlbum().getName();
+                                    }
+                                } );
                     }
                 } );
             }
         }).add( new AjaxFormSubmitBehavior( searchForm, "onsubmit" ) {
 
             @Override
-            protected void onSubmit(AjaxRequestTarget target) {
+            protected void onSubmit(final AjaxRequestTarget target) {
 
                 target.addComponent( getForm() );
             }
 
             @Override
-            protected void onError(AjaxRequestTarget target) {
+            protected void onError(final AjaxRequestTarget target) {
 
                 // TODO: Feedback.
             }
@@ -282,7 +283,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
      *
      * @author lhunath
      */
-    public static interface Messages {
+    public interface Messages {
 
         /**
          * @return Text on the interface tab to activate the {@link ExpoTabPanel}.
@@ -316,69 +317,68 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
          */
         String usersHelp(@BooleanKeyAppender(y = "auth", n = "anon") boolean authenticated);
     }
-}
-
-
-/**
- * <h2>{@link ExpoTab}<br>
- * <sub>[in short] (TODO).</sub></h2>
- *
- * <p>
- * [description / usage].
- * </p>
- *
- * <p>
- * <i>May 31, 2009</i>
- * </p>
- *
- * @author lhunath
- */
-class ExpoTab implements SnaplogTab {
-
-    static final Logger logger = Logger.get( ExpoTab.class );
-    static final ExpoTabPanel.Messages msgs = MessagesFactory.create( ExpoTabPanel.Messages.class, ExpoTabPanel.class );
 
 
     /**
-     * {@inheritDoc}
+     * <h2>{@link ExpoTab}<br>
+     * <sub>[in short] (TODO).</sub></h2>
+     *
+     * <p>
+     * [description / usage].
+     * </p>
+     *
+     * <p>
+     * <i>May 31, 2009</i>
+     * </p>
+     *
+     * @author lhunath
      */
-    @Override
-    public IModel<String> getTitle() {
+    static class ExpoTab implements SnaplogTab {
 
-        return new LoadableDetachableModel<String>() {
+        static final Logger logger = Logger.get( ExpoTab.class );
 
-            @Override
-            protected String load() {
 
-                return msgs.expoTab();
-            }
-        };
-    }
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public IModel<String> getTitle() {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Panel getPanel(String panelId) {
+            return new LoadableDetachableModel<String>() {
 
-        return new ExpoTabPanel( panelId );
-    }
+                @Override
+                protected String load() {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Panel getTools(String panelId) {
+                    return msgs.expoTab();
+                }
+            };
+        }
 
-        return null;
-    }
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Panel getPanel(final String panelId) {
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public boolean isVisible() {
+            return new ExpoTabPanel( panelId );
+        }
 
-        return true;
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public Panel getTools(final String panelId) {
+
+            return null;
+        }
+
+        /**
+         * {@inheritDoc}
+         */
+        @Override
+        public boolean isVisible() {
+
+            return true;
+        }
     }
 }

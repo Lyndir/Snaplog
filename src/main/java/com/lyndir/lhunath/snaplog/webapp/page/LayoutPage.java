@@ -51,12 +51,12 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
     private static final String TOOLS_PANEL = "toolsPanel";
     private static final String CONTENT_PANEL = "contentPanel";
 
-    WebMarkupContainer userEntry;
-    WebMarkupContainer userSummary;
-    WebMarkupContainer tabsContainer;
-    WebMarkupContainer toolbar;
+    final WebMarkupContainer userEntry;
+    final WebMarkupContainer userSummary;
+    final WebMarkupContainer tabsContainer;
+    final WebMarkupContainer toolbar;
     WebMarkupContainer tools;
-    WebMarkupContainer container;
+    final WebMarkupContainer container;
 
 
     /**
@@ -95,7 +95,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
         userSummary.add( new BookmarkablePageLink<Page>( "userName", Page.class ) {
 
             @Override
-            protected void onComponentTagBody(MarkupStream markupStream, ComponentTag openTag) {
+            protected void onComponentTagBody(final MarkupStream markupStream, final ComponentTag openTag) {
 
                 replaceComponentTagBody( markupStream, openTag, SnaplogSession.get().getActiveUser().getUserName() );
             }
@@ -145,14 +145,14 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
         ListView<TabItem> headTabs = new ListView<TabItem>( "tabs", getModelObject().tabs() ) {
 
             @Override
-            protected void populateItem(ListItem<TabItem> item) {
+            protected void populateItem(final ListItem<TabItem> item) {
 
-                final TabItem itemModel = item.getModelObject();
+                TabItem itemModel = item.getModelObject();
 
                 item.add( new AjaxLabelLink( "link", itemModel.title() ) {
 
                     @Override
-                    public void onClick(AjaxRequestTarget target) {
+                    public void onClick(final AjaxRequestTarget target) {
 
                         // TAB click.
                         LayoutPageUtils.setActiveTab( itemModel.getObject(), null );
@@ -168,7 +168,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
         // Toolbar.
         add( toolbar = new WebMarkupContainer( "toolbar" ) {
 
-            IModel<Component> activeTools = new LoadableDetachableModel<Component>() {
+            final IModel<Component> activeTools = new LoadableDetachableModel<Component>() {
 
                 @Override
                 protected Component load() {
@@ -230,7 +230,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
      *
      * @return The panel to show when the page first loads.
      */
-    protected Panel getInitialContentPanel(@SuppressWarnings("unused") String wicketId) {
+    protected Panel getInitialContentPanel(@SuppressWarnings("unused") final String wicketId) {
 
         return null;
     }
@@ -240,7 +240,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
      *
      * @param target The target that will be servicing the reload response.
      */
-    public void reloadFor(AjaxRequestTarget target) {
+    public void reloadFor(final AjaxRequestTarget target) {
 
         checkNotNull( target, "Can't reload without a target." );
 
@@ -259,7 +259,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
      *
      * @author lhunath
      */
-    public static interface Messages {
+    public interface Messages {
 
         /**
          * @param albumOwnerBadge The badge character of the owner of the currently viewed album.
@@ -329,7 +329,8 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
          * @return A text indicating what the user's currently focusing on.
          */
         // TODO: If we want to allow focusing other content; this may need improvement. If not, this may be simplified?
-        String focussedContent(@KeyAppender(nullKey = "none", notNullKey = "album", useValue = true)//
-                String albumName);
+        String focussedContent(
+                @KeyAppender(nullKey = "none", notNullKey = "album", useValue = true)//
+                        String albumName);
     }
 }
