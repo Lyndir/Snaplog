@@ -104,7 +104,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
                             @Override
                             protected void onClick(final AjaxRequestTarget target) {
 
-                                SnaplogSession.get().setFocussedAlbum( getModelObject().getAlbum() );
+                                SnaplogSession.get().setFocusedAlbum( getModelObject().getAlbum() );
                                 LayoutPageUtils.setActiveTab( Tab.ALBUM, target );
                             }
 
@@ -198,7 +198,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
                                     @Override
                                     protected void onClick(final AjaxRequestTarget target) {
 
-                                        SnaplogSession.get().setFocussedAlbum( getModelObject().getAlbum() );
+                                        SnaplogSession.get().setFocusedAlbum( getModelObject().getAlbum() );
                                         LayoutPageUtils.setActiveTab( Tab.ALBUM, target );
                                     }
 
@@ -234,7 +234,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
                                     @Override
                                     public void onClick(final AjaxRequestTarget target) {
 
-                                        SnaplogSession.get().setFocussedAlbum( getModelObject().getAlbum() );
+                                        SnaplogSession.get().setFocusedAlbum( getModelObject().getAlbum() );
                                         LayoutPageUtils.setActiveTab( Tab.ALBUM, target );
                                     }
 

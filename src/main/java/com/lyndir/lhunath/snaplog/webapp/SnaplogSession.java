@@ -51,8 +51,8 @@ public class SnaplogSession extends WebSession {
     private Panel activeContent;
     private Tab activeTab;
     private User activeUser;
-    private User focussedUser;
-    private Album focussedAlbum;
+    private User focusedUser;
+    private Album focusedAlbum;
 
 
     /**
@@ -136,54 +136,54 @@ public class SnaplogSession extends WebSession {
     }
 
     /**
-     * @return The focussedUser of this {@link SnaplogSession}.
+     * @return The focusedUser of this {@link SnaplogSession}.
      */
-    public User getFocussedUser() {
+    public User getFocusedUser() {
 
-        if (focussedAlbum != null)
-            // These SHOULD always match if an album is focussed.
-            checkState( SafeObjects.equal( focussedAlbum.getOwnerProfile().getUser(), focussedUser ) );
-        if (focussedUser == null)
+        if (focusedAlbum != null)
+            // These SHOULD always match if an album is focused.
+            checkState( SafeObjects.equal( focusedAlbum.getOwnerProfile().getUser(), focusedUser ) );
+        if (focusedUser == null)
             // Focus on the active user if not focusing on anyone.
-            setFocussedUser( activeUser );
+            setFocusedUser( activeUser );
 
-        return focussedUser;
+        return focusedUser;
     }
 
     /**
-     * @param focussedUser The focussedUser of this {@link SnaplogSession}.
+     * @param focusedUser The focusedUser of this {@link SnaplogSession}.
      */
-    public void setFocussedUser(final User focussedUser) {
+    public void setFocusedUser(final User focusedUser) {
 
-        if (focussedAlbum != null && !SafeObjects.equal( focussedAlbum.getOwnerProfile().getUser(), focussedUser ))
-            // User is no longer the focussed album owner; unfocus the album.
-            setFocussedAlbum( null );
+        if (focusedAlbum != null && !SafeObjects.equal( focusedAlbum.getOwnerProfile().getUser(), focusedUser ))
+            // User is no longer the focused album owner; unfocus the album.
+            setFocusedAlbum( null );
 
-        this.focussedUser = focussedUser;
+        this.focusedUser = focusedUser;
     }
 
     /**
-     * @return The focussedAlbum of this {@link SnaplogSession}.
+     * @return The focusedAlbum of this {@link SnaplogSession}.
      */
-    public Album getFocussedAlbum() {
+    public Album getFocusedAlbum() {
 
-        if (focussedAlbum != null)
-            // These SHOULD always match if an album is focussed.
-            checkState( SafeObjects.equal( focussedAlbum.getOwnerProfile().getUser(), focussedUser ) );
+        if (focusedAlbum != null)
+            // These SHOULD always match if an album is focused.
+            checkState( SafeObjects.equal( focusedAlbum.getOwnerProfile().getUser(), focusedUser ) );
 
-        return focussedAlbum;
+        return focusedAlbum;
     }
 
     /**
-     * @param focussedAlbum The focussedAlbum of this {@link SnaplogSession}.
+     * @param focusedAlbum The focusedAlbum of this {@link SnaplogSession}.
      */
-    public void setFocussedAlbum(final Album focussedAlbum) {
+    public void setFocusedAlbum(final Album focusedAlbum) {
 
-        if (focussedAlbum != null)
-            // Focusing a specific album; set focussed user to the album owner.
-            setFocussedUser( focussedAlbum.getOwnerProfile().getUser() );
+        if (focusedAlbum != null)
+            // Focusing a specific album; set focused user to the album owner.
+            setFocusedUser( focusedAlbum.getOwnerProfile().getUser() );
 
-        this.focussedAlbum = focussedAlbum;
+        this.focusedAlbum = focusedAlbum;
     }
 
     /**

@@ -137,13 +137,13 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
                 @Override
                 public Album getObject() {
 
-                    return SnaplogSession.get().getFocussedAlbum();
+                    return SnaplogSession.get().getFocusedAlbum();
                 }
 
                 @Override
                 public void setObject(final Album object) {
 
-                    SnaplogSession.get().setFocussedAlbum( object );
+                    SnaplogSession.get().setFocusedAlbum( object );
                 }
             } );
         }
@@ -163,7 +163,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         @Override
         public boolean isVisible() {
 
-            return SnaplogSession.get().getFocussedAlbum() != null;
+            return SnaplogSession.get().getFocusedAlbum() != null;
         }
     }
 }

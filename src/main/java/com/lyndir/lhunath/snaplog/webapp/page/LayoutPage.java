@@ -182,8 +182,8 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
             };
 
             {
-                add( new Label( "focussedUser", getModelObject().focussedUser() ) );
-                add( new Label( "focussedContent", getModelObject().focussedContent() ) );
+                add( new Label( "focusedUser", getModelObject().focusedUser() ) );
+                add( new Label( "focusedContent", getModelObject().focusedContent() ) );
             }
 
 
@@ -198,7 +198,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
             @Override
             public boolean isVisible() {
 
-                return activeTools.getObject().isVisible() || getModelObject().focussedUser().getObject() != null;
+                return activeTools.getObject().isVisible() || getModelObject().focusedUser().getObject() != null;
             }
         } );
 
@@ -267,7 +267,6 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
          *
          * @return Text that will go in the page's title.
          */
-        @UseKey
         String pageTitle(char albumOwnerBadge, String albumOwnerName);
 
         /**
@@ -276,7 +275,6 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
          *
          * @return Welcoming text greeting the logged-in user.
          */
-        @UseKey
         String userWelcome(char userBadge, String userName);
 
         /**
@@ -286,13 +284,11 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
          * @return Welcoming the user back. The user has not yet authenticated himself. The identification is just a
          *         guess.
          */
-        @UseKey
         String userWelcomeBack(char userBadge, String userName);
 
         /**
          * @return The designation of a user who we can't identify.
          */
-        @UseKey
         String userNameUnknown();
 
         /**
@@ -300,7 +296,6 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
          *
          * @return Text indicating the user has messages.
          */
-        @UseKey
         String userMessages(
                 @KeyAppender(value = @KeyMatch(ifNum = 1, key = "singular", elseKey = "plural"), useValue = true)//
                         int messageCount);
@@ -310,26 +305,25 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
          *
          * @return Text indicating there are pending requests for the active user.
          */
-        @UseKey
         String userRequests(
                 @KeyAppender(value = @KeyMatch(ifNum = 1, key = "singular", elseKey = "plural"), useValue = true)//
                         int requestCount);
 
         /**
-         * @param userBadge The focussed user's badge.
-         * @param userName  The focussed user's userName.
+         * @param userBadge The focused user's badge.
+         * @param userName  The focused user's userName.
          *
          * @return A text indicating that the given user is the one currently focusing on.
          */
-        String focussedUser(char userBadge, String userName);
+        String focusedUser(char userBadge, String userName);
 
         /**
-         * @param albumName The name of the album that's being focussed on.
+         * @param albumName The name of the album that's being focused on.
          *
          * @return A text indicating what the user's currently focusing on.
          */
         // TODO: If we want to allow focusing other content; this may need improvement. If not, this may be simplified?
-        String focussedContent(
+        String focusedContent(
                 @KeyAppender(nullKey = "none", notNullKey = "album", useValue = true)//
                         String albumName);
     }

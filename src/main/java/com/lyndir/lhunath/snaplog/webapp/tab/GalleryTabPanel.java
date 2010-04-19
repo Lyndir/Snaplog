@@ -142,7 +142,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                     @Override
                     public void onClick(final AjaxRequestTarget target) {
 
-                        SnaplogSession.get().setFocussedAlbum( getModelObject() );
+                        SnaplogSession.get().setFocusedAlbum( getModelObject() );
                         LayoutPageUtils.setActiveTab( Tab.ALBUM, target );
                     }
                 } );
@@ -317,13 +317,13 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                 @Override
                 public User getObject() {
 
-                    return SnaplogSession.get().getFocussedUser();
+                    return SnaplogSession.get().getFocusedUser();
                 }
 
                 @Override
                 public void setObject(final User object) {
 
-                    SnaplogSession.get().setFocussedUser( object );
+                    SnaplogSession.get().setFocusedUser( object );
                 }
             } );
         }
@@ -343,7 +343,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         @Override
         public boolean isVisible() {
 
-            return SnaplogSession.get().getFocussedUser() != null;
+            return SnaplogSession.get().getFocusedUser() != null;
         }
     }
 }

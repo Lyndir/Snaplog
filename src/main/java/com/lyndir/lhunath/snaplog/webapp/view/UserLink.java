@@ -42,7 +42,7 @@ public class UserLink extends AjaxLink<User> {
     @Override
     public void onClick(final AjaxRequestTarget target) {
 
-        SnaplogSession.get().setFocussedUser( getModelObject() );
+        SnaplogSession.get().setFocusedUser( getModelObject() );
         LayoutPageUtils.setActiveTab( Tab.GALLERY, target );
     }
 

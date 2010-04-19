@@ -118,7 +118,7 @@ public class WorkbenchTabPanel extends Panel {
         @Override
         public boolean isVisible() {
 
-            return SnaplogSession.get().getFocussedAlbum() != null;
+            return SnaplogSession.get().getFocusedAlbum() != null;
         }
     }
 }

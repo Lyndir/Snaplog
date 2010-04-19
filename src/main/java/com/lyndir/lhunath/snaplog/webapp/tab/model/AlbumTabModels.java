@@ -51,7 +51,7 @@ public class AlbumTabModels extends ModelProvider<AlbumTabModels, Album> {
     // Accessors.
 
     /**
-     * @return A model that keeps track of the point in time of the album the user is focussed on.
+     * @return A model that keeps track of the point in time of the album the user is focused on.
      */
     public IModel<Date> currentTime() {
 

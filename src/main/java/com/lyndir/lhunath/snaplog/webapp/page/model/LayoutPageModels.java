@@ -56,8 +56,8 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
     private final IModel<String> userMessages;
     private final IModel<String> userRequests;
     private final IModel<? extends List<TabItem>> tabs;
-    private final IModel<String> focussedUser;
-    private final IModel<String> focussedContent;
+    private final IModel<String> focusedUser;
+    private final IModel<String> focusedContent;
 
 
     /**
@@ -70,7 +70,7 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
             @Override
             protected String load() {
 
-                User user = SnaplogSession.get().getFocussedUser();
+                User user = SnaplogSession.get().getFocusedUser();
 
                 if (user == null)
                     return msgs.pageTitle( ' ', msgs.userNameUnknown() );
@@ -98,8 +98,8 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
             @Override
             protected String load() {
 
-                User user = checkNotNull( SnaplogSession.get().getFocussedUser(),
-                                          "Focussed user must not be null." );
+                User user = checkNotNull( SnaplogSession.get().getFocusedUser(),
+                                          "focused user must not be null." );
 
                 return Character.toString( user.getBadge() );
             }
@@ -145,26 +145,26 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
             }
         };
 
-        focussedUser = new LoadableDetachableModel<String>() {
+        focusedUser = new LoadableDetachableModel<String>() {
 
             @Override
             protected String load() {
 
-                if (SnaplogSession.get().getFocussedUser() == null)
+                if (SnaplogSession.get().getFocusedUser() == null)
                     return null;
 
-                return msgs.focussedUser( SnaplogSession.get().getFocussedUser().getBadge(),
-                                          SnaplogSession.get().getFocussedUser().getUserName() );
+                return msgs.focusedUser( SnaplogSession.get().getFocusedUser().getBadge(),
+                                          SnaplogSession.get().getFocusedUser().getUserName() );
             }
         };
 
-        focussedContent = new LoadableDetachableModel<String>() {
+        focusedContent = new LoadableDetachableModel<String>() {
 
             @Override
             protected String load() {
 
-                Album focussedAlbum = SnaplogSession.get().getFocussedAlbum();
-                return msgs.focussedContent( focussedAlbum == null? null: focussedAlbum.getName() );
+                Album focusedAlbum = SnaplogSession.get().getFocusedAlbum();
+                return msgs.focusedContent( focusedAlbum == null? null: focusedAlbum.getName() );
             }
         };
     }
@@ -280,22 +280,22 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
     }
 
     /**
-     * @return A model that provides a description of the focussed user.
+     * @return A model that provides a description of the focused user.
      *
-     * @see SnaplogSession#getFocussedUser()
+     * @see SnaplogSession#getFocusedUser()
      */
-    public IModel<String> focussedUser() {
+    public IModel<String> focusedUser() {
 
-        return focussedUser;
+        return focusedUser;
     }
 
     /**
-     * @return A model that provides a description of the focussed content.
+     * @return A model that provides a description of the focused content.
      *
-     * @see SnaplogSession#getFocussedAlbum()
+     * @see SnaplogSession#getFocusedAlbum()
      */
-    public IModel<String> focussedContent() {
+    public IModel<String> focusedContent() {
 
-        return focussedContent;
+        return focusedContent;
     }
 }
