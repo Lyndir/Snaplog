@@ -107,7 +107,9 @@
                                 <taskdef name="db4o-enhance" classname="com.db4o.enhance.Db4oEnhancerAntTask" classpathref="project.classpath" />
                                 <db4o-enhance classtargetdir="${project.build.outputDirectory}" nq="true" ta="true" collections="true">
                                     <classpath refid="project.classpath" />
-                                    <sources dir="${project.build.outputDirectory}" />
+                                    <sources dir="${project.build.outputDirectory}">
+                                        <include name="**/*.class" />
+                                    </sources>
                                 </db4o-enhance>
                             </tasks>
                         </configuration>
