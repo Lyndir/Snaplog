@@ -88,4 +88,12 @@ public interface UserService {
      */
     UserProfile getProfile(SecurityToken token, User user)
             throws PermissionDeniedException;
+
+    /**
+     * @param token Request authentication token should authorize {@link Permission#VIEW} on the user's profile.
+     * @param user  The user whose profile access is being checked for.
+     *
+     * @return <code>true</code>: The token authorizes {@link Permission#VIEW} access on the given profile.
+     */
+    boolean hasProfileAccess(SecurityToken token, User user);
 }

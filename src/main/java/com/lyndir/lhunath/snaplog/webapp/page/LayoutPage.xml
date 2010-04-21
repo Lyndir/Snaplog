@@ -5,8 +5,12 @@
 
     <entry key="pageTitle">{0}{1}''s album</entry>
 
-    <entry key="userLogin">Sign in</entry>
-    <entry key="userLogout">Sign out</entry>
+    <entry key="userLogin">
+        <![CDATA[<span class="ss_sprite ss_status_offline">Sign in</span>]]>
+    </entry>
+    <entry key="userLogout">
+        <![CDATA[<span class="ss_sprite ss_status_online">Sign out</span>]]>
+    </entry>
 
     <entry key="welcome">Welcome</entry>
     <entry key="userWelcome">Welcome {0}{1}</entry>

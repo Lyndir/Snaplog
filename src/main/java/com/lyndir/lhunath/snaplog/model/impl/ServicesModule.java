@@ -25,6 +25,7 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.aws.S3Album;
 import com.lyndir.lhunath.snaplog.data.security.ACL;
+import com.lyndir.lhunath.snaplog.data.security.Permission;
 import com.lyndir.lhunath.snaplog.data.user.LinkID;
 import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.data.user.UserProfile;
@@ -103,6 +104,7 @@ public class ServicesModule extends AbstractModule {
             defaultUserProfile = defaultUserProfileQuery.next();
         else
             db.store( defaultUserProfile );
+        defaultUserProfile.getACL().setDefaultPermission( Permission.VIEW );
 
         SnaplogConstants.DEFAULT_ALBUM = new S3Album( defaultUserProfile, "Life" );
         ObjectSet<Object> defaultAlbumQuery = db.queryByExample( SnaplogConstants.DEFAULT_ALBUM );
@@ -110,6 +112,7 @@ public class ServicesModule extends AbstractModule {
             SnaplogConstants.DEFAULT_ALBUM = (Album) defaultAlbumQuery.next();
         else
             db.store( SnaplogConstants.DEFAULT_ALBUM );
+        SnaplogConstants.DEFAULT_ALBUM.getACL().setDefaultPermission( Permission.VIEW );
         SnaplogConstants.DEFAULT_ALBUM.setDescription(
                 "<p>Arbitrary snapshots from Maarten's life.</p><p><label>Camera:</label><input value='Canon Powershot Pro1' /></p>" );
     }

@@ -177,4 +177,24 @@ public class UserServiceImpl implements UserService {
 
         return profile;
     }
+
+    @Override
+    public boolean hasProfileAccess(final SecurityToken token, final User user) {
+
+        checkNotNull( user, "Given user must not be null." );
+
+        ObjectSet<UserProfile> profileQuery = db.query( new Predicate<UserProfile>() {
+
+            @Override
+            public boolean match(final UserProfile candidate) {
+
+                return candidate != null && candidate.getUser().equals( user );
+            }
+        } );
+
+        checkState( profileQuery.hasNext(), "User %s has no profile.", user );
+
+        UserProfile profile = profileQuery.next();
+        return securityService.hasAccess( Permission.VIEW, token, profile );
+    }
 }

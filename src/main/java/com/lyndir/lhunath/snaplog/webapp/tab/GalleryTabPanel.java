@@ -48,6 +48,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 
 
 /**
@@ -111,15 +112,24 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                        SafeObjects.equal( getModelObject().getObject(), SnaplogSession.get().getActiveUser() );
             }
         } );
-        add( new Label( "noAlbumsHelp", msgs.noAlbumsHelp( SnaplogSession.get().isAuthenticated(),
-                                                           getModelObject().username() ) ) {
+        add( new Label( "noAlbumsHelp", new LoadableDetachableModel<String>() {
+
+            @Override
+            protected String load() {
+
+                return msgs.noAlbumsHelp( SnaplogSession.get().isAuthenticated(),
+                                          userService.hasProfileAccess( SnaplogSession.get().newToken(),
+                                                                        getModelObject().getObject() ),
+                                          getModelObject().username() );
+            }
+        } ) {
 
             @Override
             public boolean isVisible() {
 
                 return albums.getItemCount() == 0;
             }
-        } );
+        }.setEscapeModelStrings( false ) );
 
         // List of albums
         // TODO: Make this data view top-level to provide Album enumeration elsewhere.
@@ -155,8 +165,8 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
             {
                 final WebMarkupContainer container = this;
                 final Form<NewAlbumFormModels> newAlbumForm = new Form<NewAlbumFormModels>( "newAlbumForm",
-                                                                                      getModelObject()
-                                                                                              .newAlbumForm().getModel() ) {
+                                                                                            getModelObject()
+                                                                                                    .newAlbumForm().getModel() ) {
 
                     {
                         add( new DropDownChoice<AlbumProviderType>( "type", getModelObject().type(),
@@ -258,13 +268,17 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         String ownAlbumsHelp();
 
         /**
-         * @param authenticated <code>true</code>: The current user has authenticated himself.<br>
-         *                      <code>false</code>: The current user has not identified himself.
-         * @param username      The name of the user whose gallery is being viewed.
+         * @param isAuthenticated <code>true</code>: The current user has authenticated himself.<br>
+         *                        <code>false</code>: The current user has not identified himself.
+         * @param hasAccess       <code>true</code>: The current user has access to see the gallery or any of the albums.<br>
+         *                        <code>false</code>: The current user has insufficient access to see the gallery or any of the albums.
+         * @param username        The name of the user whose gallery is being viewed.
          *
          * @return A text that explains that none of the user's albums are visible and what might be the cause.
          */
-        String noAlbumsHelp(@BooleanKeyAppender(y = "auth", n = "anon") boolean authenticated, IModel<String> username);
+        String noAlbumsHelp(@BooleanKeyAppender(y = "auth", n = "anon") boolean isAuthenticated,
+                            @BooleanKeyAppender(y = "access", n = "noaccess") boolean hasAccess,
+                            IModel<String> username);
     }
 
 

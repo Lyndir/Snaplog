@@ -182,8 +182,9 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
             };
 
             {
+                /* FIXME: Ugly.
                 add( new Label( "focusedUser", getModelObject().focusedUser() ) );
-                add( new Label( "focusedContent", getModelObject().focusedContent() ) );
+                add( new Label( "focusedContent", getModelObject().focusedContent() ) );*/
             }
 
 
@@ -198,7 +199,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
             @Override
             public boolean isVisible() {
 
-                return activeTools.getObject().isVisible() || getModelObject().focusedUser().getObject() != null;
+                return activeTools.getObject().isVisible() /*|| getModelObject().focusedUser().getObject() != null*/;
             }
         } );
 

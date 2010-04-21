@@ -12,8 +12,8 @@
     <logger name="org.jets3t.service.impl" level="WARN" />
 
     <!--
-    <logger name="com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory" level="INFO" />
     -->
+    <logger name="com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory" level="INFO" />
     <logger name="com.lyndir.lhunath.snaplog.model.impl.SecurityServiceImpl" level="INFO" />
 
     <root level="WARN">

@@ -417,6 +417,25 @@ a.block:hover, .block.link:hover {
 
 
 /*******************************************************************************
+ * TIP *
+ */
+.tip {
+    display:            block;
+    background:         #1A1A1A;
+    -khtml-border-radius:5px;
+    -o-border-radius:   5px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius:5px;
+    border-radius:      5px;
+
+    padding:            1ex 1em;
+    margin:             1ex 0;
+
+    font-weight:        bold;
+}
+
+
+/*******************************************************************************
  * MEDIA *
  */
 #viewer {
