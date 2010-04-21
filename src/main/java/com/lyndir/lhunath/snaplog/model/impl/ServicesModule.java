@@ -19,6 +19,10 @@ import com.db4o.Db4oEmbedded;
 import com.db4o.EmbeddedObjectContainer;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
+import com.db4o.internal.ObjectContainerBase;
+import com.db4o.internal.query.Db4oQueryExecutionListener;
+import com.db4o.internal.query.NQOptimizationInfo;
+import com.db4o.internal.query.NativeQueryHandler;
 import com.db4o.query.Predicate;
 import com.google.inject.AbstractModule;
 import com.lyndir.lhunath.lib.system.logging.Logger;
@@ -73,6 +77,14 @@ public class ServicesModule extends AbstractModule {
         logger.dbg( "Binding database" );
         EmbeddedObjectContainer db = Db4oEmbedded.openFile( "snaplog.db4o" );
         bind( ObjectContainer.class ).toInstance( db );
+
+        // Watch for unoptimized queries.
+        ((ObjectContainerBase) db).getNativeQueryHandler().addListener( new Db4oQueryExecutionListener() {
+            public void notifyQueryExecuted(NQOptimizationInfo info) {
+                //if (NativeQueryHandler.UNOPTIMIZED.equals(info.optimized()))
+                    logger.dbg( "%s", info );
+            }
+        } );
 
         // Update dummy data.
         ACL.DEFAULT = new User( new LinkID( ACL.class.getCanonicalName() ), "[DEFAULT]" );

@@ -46,7 +46,7 @@ public interface UserService {
      *
      * @return A newly registered user.
      *
-     * @throws UsernameTakenException When the given userName is already taken.
+     * @throws com.lyndir.lhunath.snaplog.error.UsernameTakenException When the given userName is already taken.
      */
     User registerUser(LinkID linkID, String userName)
             throws UsernameTakenException;

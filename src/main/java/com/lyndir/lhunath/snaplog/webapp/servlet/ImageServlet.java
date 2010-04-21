@@ -24,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import com.google.inject.Inject;
+import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
@@ -47,6 +48,8 @@ import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
  * @author lhunath
  */
 public class ImageServlet extends HttpServlet {
+
+    final Logger logger = Logger.get( ImageServlet.class );
 
     /**
      * Context-relative path of this servlet.
@@ -113,15 +116,19 @@ public class ImageServlet extends HttpServlet {
             String qualityName = req.getParameter( PARAM_QUALITY );
             SecurityToken token = SnaplogSession.get().newToken();
 
+            logger.dbg( "Getting image for media: %s, in album: %s, of user: %s, at quality: %s", //
+                        mediaName, albumName, userName, qualityName );
             User user = checkNotNull( userService.findUserWithUserName( userName ), //
-                                      "No user named %s.", userName );
+                                      "No user named: %s.", userName );
             Album album = checkNotNull( albumService.findAlbumWithName( token, user, albumName ), //
-                                        "User %s has no album named %s.", user, albumName );
+                                        "User: %s, has no album named: %s.", user, albumName );
             Media media = checkNotNull( albumService.findMediaWithName( token, album, mediaName ), //
-                                        "Album %s has no media named %s.", album, mediaName );
+                                        "Album: %s, has no media named: %s.", album, mediaName );
+            Quality quality = checkNotNull( Quality.findQualityWithName( qualityName ) );
+            logger.dbg( "Resolved image request for: %s, in: %s, of: %s, at: %s", //
+                        media, album, user, quality );
 
-            resp.sendRedirect( albumService.getResourceURL( token, media, Quality.findQualityWithName( qualityName ) )
-                    .toExternalForm() );
+            resp.sendRedirect( albumService.getResourceURL( token, media, quality ).toExternalForm() );
         }
 
         catch (PermissionDeniedException e) {

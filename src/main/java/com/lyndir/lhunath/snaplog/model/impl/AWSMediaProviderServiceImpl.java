@@ -151,8 +151,10 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
         checkNotNull( media, "Given media must not be null." );
         checkNotNull( quality, "Given quality must not be null." );
+        logger.dbg( "Asserting access to: %s", media );
         securityService.assertAccess( Permission.VIEW, token, media );
 
+        logger.dbg( "Finding S3 object details of: %s, at: %s", media, quality );
         S3Object s3ResourceObject = findObjectDetails( media, quality );
         if (s3ResourceObject == null) {
             if (quality == Quality.ORIGINAL)
@@ -209,6 +211,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         }
 
         try {
+            logger.dbg( "Resolved S3 object for: %s, at: %s, to key: %s", media, quality, s3ResourceObject.getKey() );
             return new URL( String.format( "http://snaplog.net.s3.amazonaws.com/%s", s3ResourceObject.getKey() ) );
         }
 

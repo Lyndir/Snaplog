@@ -89,6 +89,69 @@
         </resources>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <tasks>
+								<path id="project.classpath">
+									<path refid="maven.compile.classpath" />
+									<path refid="maven.plugin.classpath" />
+                                    <path refid="maven.runtime.classpath" />
+								</path>
+                                <taskdef name="db4o-enhance" classname="com.db4o.enhance.Db4oEnhancerAntTask" classpathref="project.classpath" />
+                                <db4o-enhance classtargetdir="${project.build.outputDirectory}" nq="true" ta="true" collections="true">
+                                    <classpath refid="project.classpath" />
+                                    <sources dir="${project.build.outputDirectory}" />
+                                </db4o-enhance>
+                            </tasks>
+                        </configuration>
+                    </execution>
+                </executions>
+				<dependencies>
+					<dependency>
+                        <groupId>com.db4o</groupId>
+                        <artifactId>db4o-tools</artifactId>
+                        <version>${version.db4o}</version>
+                        <classifier>java5</classifier>
+					</dependency>
+					<dependency>
+                        <groupId>com.db4o</groupId>
+                        <artifactId>db4o-instrumentation</artifactId>
+                        <version>${version.db4o}</version>
+                        <classifier>java5</classifier>
+					</dependency>
+					<dependency>
+                        <groupId>com.db4o</groupId>
+                        <artifactId>db4o-nqopt</artifactId>
+                        <version>${version.db4o}</version>
+                        <classifier>java5</classifier>
+					</dependency>
+					<dependency>
+                        <groupId>com.db4o</groupId>
+                        <artifactId>db4o-taj</artifactId>
+                        <version>${version.db4o}</version>
+                        <classifier>java5</classifier>
+					</dependency>
+					<dependency>
+                        <groupId>com.db4o</groupId>
+                        <artifactId>db4o-core</artifactId>
+                        <version>${version.db4o}</version>
+                        <classifier>java5</classifier>
+					</dependency>
+					<dependency>
+                        <groupId>edu.purdue.cs.bloat</groupId>
+                        <artifactId>edu.purdue.cs.bloat</artifactId>
+                        <version>1.0</version>
+					</dependency>
+				</dependencies>
+            </plugin>
+            <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>keytool-maven-plugin</artifactId>
                 <!--executions>
@@ -215,7 +278,8 @@
 
         <dependency>
             <groupId>com.db4o</groupId>
-            <artifactId>db4o-core-java5</artifactId>
+            <artifactId>db4o-core</artifactId>
+            <classifier>java5</classifier>
         </dependency>
 
         <dependency>
