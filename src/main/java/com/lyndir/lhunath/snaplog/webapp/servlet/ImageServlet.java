@@ -124,7 +124,8 @@ public class ImageServlet extends HttpServlet {
                                         "User: %s, has no album named: %s.", user, albumName );
             Media media = checkNotNull( albumService.findMediaWithName( token, album, mediaName ), //
                                         "Album: %s, has no media named: %s.", album, mediaName );
-            Quality quality = checkNotNull( Quality.findQualityWithName( qualityName ) );
+            Quality quality = checkNotNull( Quality.findQualityWithName( qualityName ), //
+                                            "No quality named: %s.", qualityName );
             logger.dbg( "Resolved image request for: %s, in: %s, of: %s, at: %s", //
                         media, album, user, quality );
 

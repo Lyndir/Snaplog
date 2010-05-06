@@ -118,37 +118,32 @@
 				<dependencies>
 					<dependency>
                         <groupId>com.db4o</groupId>
-                        <artifactId>db4o-tools</artifactId>
+                        <artifactId>db4o-tools-java5</artifactId>
                         <version>${version.db4o}</version>
-                        <classifier>java5</classifier>
 					</dependency>
 					<dependency>
                         <groupId>com.db4o</groupId>
-                        <artifactId>db4o-instrumentation</artifactId>
+                        <artifactId>db4o-instrumentation-java5</artifactId>
                         <version>${version.db4o}</version>
-                        <classifier>java5</classifier>
 					</dependency>
 					<dependency>
                         <groupId>com.db4o</groupId>
-                        <artifactId>db4o-nqopt</artifactId>
+                        <artifactId>db4o-nqopt-java5</artifactId>
                         <version>${version.db4o}</version>
-                        <classifier>java5</classifier>
 					</dependency>
 					<dependency>
                         <groupId>com.db4o</groupId>
-                        <artifactId>db4o-taj</artifactId>
+                        <artifactId>db4o-taj-java5</artifactId>
                         <version>${version.db4o}</version>
-                        <classifier>java5</classifier>
 					</dependency>
 					<dependency>
                         <groupId>com.db4o</groupId>
-                        <artifactId>db4o-core</artifactId>
+                        <artifactId>db4o-core-java5</artifactId>
                         <version>${version.db4o}</version>
-                        <classifier>java5</classifier>
 					</dependency>
 					<dependency>
                         <groupId>edu.purdue.cs.bloat</groupId>
-                        <artifactId>edu.purdue.cs.bloat</artifactId>
+                        <artifactId>bloat</artifactId>
                         <version>1.0</version>
 					</dependency>
 				</dependencies>
@@ -247,7 +242,7 @@
         <dependency>
             <groupId>net.lin-k.safe-online</groupId>
             <artifactId>safe-online-wicket-sdk</artifactId>
-            <version>1.11-p7</version>
+            <version>1.12-p5</version>
             <exclusions>
                 <!--
                 Because the JDK1.6 already include the Java Activation API,
@@ -280,8 +275,7 @@
 
         <dependency>
             <groupId>com.db4o</groupId>
-            <artifactId>db4o-core</artifactId>
-            <classifier>java5</classifier>
+            <artifactId>db4o-core-java5</artifactId>
         </dependency>
 
         <dependency>
