@@ -54,8 +54,10 @@ public abstract class LayoutPageUtils {
         if (!LayoutPage.class.equals( RequestCycle.get().getResponsePageClass() ))
             throw new RedirectToPageException( LayoutPage.class );
 
-        LayoutPage page = (LayoutPage) RequestCycle.get().getResponsePage();
-        page.addTabComponents( target );
+        if (target != null) {
+            LayoutPage page = (LayoutPage) RequestCycle.get().getResponsePage();
+            page.addTabComponents( target );
+        }
     }
 
     /**
