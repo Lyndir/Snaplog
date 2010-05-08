@@ -1,14 +1,14 @@
 package com.lyndir.lhunath.snaplog.webapp.view;
 
-import java.util.List;
-
 import com.google.inject.Inject;
+import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.collection.IPredicate;
 import com.lyndir.lhunath.lib.wayward.provider.AbstractListProvider;
 import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.model.UserService;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
+import java.util.List;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
@@ -25,6 +25,8 @@ import org.apache.wicket.model.Model;
  * @author lhunath
  */
 public abstract class AbstractUsersView extends DataView<User> {
+
+    static final Logger logger = Logger.get( AbstractUsersView.class );
 
     @Inject
     AlbumService albumService;
@@ -60,7 +62,7 @@ public abstract class AbstractUsersView extends DataView<User> {
             }
 
             @Override
-            protected List<User> loadObject() {
+            protected List<User> load() {
 
                 UserService userService = GuiceContext.get().getInstance( UserService.class );
                 return userService.queryUsers( predicate );

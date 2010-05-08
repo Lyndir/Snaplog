@@ -1,11 +1,11 @@
 package com.lyndir.lhunath.snaplog.webapp.view;
 
+import com.lyndir.lhunath.lib.system.util.ObjectUtils;
 import java.util.Iterator;
 import java.util.List;
 
 import com.google.common.collect.Iterators;
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.util.SafeObjects;
 import com.lyndir.lhunath.lib.wayward.collection.IPredicate;
 import com.lyndir.lhunath.lib.wayward.provider.AbstractListProvider;
 import com.lyndir.lhunath.snaplog.data.media.Album;
@@ -50,7 +50,7 @@ public abstract class AbstractAlbumsView extends DataView<Album> {
             @Override
             public boolean apply(final Album input) {
 
-                return input != null && SafeObjects.equal( input.getOwnerProfile().getUser(), ownerUser.getObject() );
+                return input != null && ObjectUtils.equal( input.getOwnerProfile().getUser(), ownerUser.getObject() );
             }
         }, albumsPerPage );
     }
@@ -67,7 +67,7 @@ public abstract class AbstractAlbumsView extends DataView<Album> {
         super( id, new AbstractListProvider<Album>() {
 
             @Override
-            protected List<Album> loadObject() {
+            protected List<Album> load() {
 
                 AlbumService albumService = GuiceContext.get().getInstance( AlbumService.class );
                 return albumService.queryAlbums( SnaplogSession.get().newToken(), predicate );

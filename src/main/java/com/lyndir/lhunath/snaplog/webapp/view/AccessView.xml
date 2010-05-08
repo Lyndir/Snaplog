@@ -10,9 +10,4 @@
         Only grant others the permissions they need when you can trust these won't be abused.
     </entry>
 
-    <entry key="permission.NONE">None</entry>
-    <entry key="permission.INHERIT">Inherit</entry>
-    <entry key="permission.VIEW">View</entry>
-    <entry key="permission.CONTRIBUTE">Contribute</entry>
-
 </properties>

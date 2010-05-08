@@ -17,6 +17,8 @@ package com.lyndir.lhunath.snaplog.model.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.lyndir.lhunath.lib.system.util.ObjectUtils;
+import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -27,12 +29,10 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.system.util.SafeObjects;
 import com.lyndir.lhunath.snaplog.data.media.*;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.media.MediaTimeFrame.Type;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
-import com.lyndir.lhunath.snaplog.data.security.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.model.AlbumProvider;
@@ -100,8 +100,8 @@ public class AlbumServiceImpl implements AlbumService {
             @Override
             public boolean match(final Album candidate) {
 
-                return SafeObjects.equal( candidate.getOwnerProfile().getUser(), ownerUser )
-                       && SafeObjects.equal( candidate.getName(), albumName )
+                return ObjectUtils.equal( candidate.getOwnerProfile().getUser(), ownerUser )
+                       && ObjectUtils.equal( candidate.getName(), albumName )
                        && securityService.hasAccess( Permission.VIEW, token, candidate );
             }
         } ).next();
@@ -121,7 +121,7 @@ public class AlbumServiceImpl implements AlbumService {
             @Override
             public boolean match(final Media candidate) {
 
-                return SafeObjects.equal( candidate.getAlbum(), album ) && candidate.getName().endsWith( mediaName )
+                return ObjectUtils.equal( candidate.getAlbum(), album ) && candidate.getName().endsWith( mediaName )
                        && securityService.hasAccess( Permission.VIEW, token, candidate );
             }
         } );
@@ -188,7 +188,7 @@ public class AlbumServiceImpl implements AlbumService {
             @Override
             public boolean match(final AlbumData candidate) {
 
-                return SafeObjects.equal( candidate.getAlbum(), album );
+                return ObjectUtils.equal( candidate.getAlbum(), album );
             }
         } );
         if (albumDataQuery.hasNext())

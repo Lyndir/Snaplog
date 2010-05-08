@@ -15,9 +15,6 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.listener;
 
-import javax.servlet.ServletContext;
-import javax.servlet.ServletContextEvent;
-
 import com.db4o.ObjectContainer;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
@@ -29,6 +26,8 @@ import com.lyndir.lhunath.snaplog.model.impl.ServicesModule;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogWebApplication;
 import com.lyndir.lhunath.snaplog.webapp.servlet.AppLogoutServlet;
 import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletContextEvent;
 import net.link.safeonline.sdk.auth.servlet.LoginServlet;
 import net.link.safeonline.sdk.auth.servlet.LogoutServlet;
 import org.apache.wicket.Application;
@@ -39,12 +38,9 @@ import org.apache.wicket.protocol.http.servlet.WicketSessionFilter;
 
 
 /**
- * <h2>{@link GuiceContext}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link GuiceContext}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * <i>Jan 11, 2010</i>
- * </p>
+ * <p> <i>Jan 11, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -57,7 +53,6 @@ public class GuiceContext extends GuiceServletContextListener {
     private static final String PATH_LINKID_LOGOUT = "/logout";
 
     static final Key<WicketFilter> wicketFilter = Key.get( WicketFilter.class );
-
 
     /**
      * {@inheritDoc}
@@ -74,8 +69,7 @@ public class GuiceContext extends GuiceServletContextListener {
 
                 // Wicket
                 paramBuilder = new ImmutableMap.Builder<String, String>();
-                paramBuilder.put( ContextParamWebApplicationFactory.APP_CLASS_PARAM,
-                                  SnaplogWebApplication.class.getCanonicalName() );
+                paramBuilder.put( ContextParamWebApplicationFactory.APP_CLASS_PARAM, SnaplogWebApplication.class.getCanonicalName() );
                 paramBuilder.put( WicketFilter.FILTER_MAPPING_PARAM, PATH_WICKET );
                 filter( PATH_WICKET ).through( wicketFilter, paramBuilder.build() );
                 bind( WicketFilter.class ).in( Scopes.SINGLETON );
@@ -118,10 +112,12 @@ public class GuiceContext extends GuiceServletContextListener {
     public void contextDestroyed(final ServletContextEvent servletContextEvent) {
 
         Injector injector = get( servletContextEvent.getServletContext() );
+        if (injector != null) {
 
-        // Shut down the database.
-        ObjectContainer db = injector.getInstance( ObjectContainer.class );
-        while (!db.close()) {
+            // Shut down the database.
+            ObjectContainer db = injector.getInstance( ObjectContainer.class );
+            while (!db.close()) {
+            }
         }
 
         super.contextDestroyed( servletContextEvent );

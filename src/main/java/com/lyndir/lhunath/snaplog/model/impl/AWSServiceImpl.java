@@ -102,7 +102,7 @@ public class AWSServiceImpl implements AWSService {
 
         try {
             logger.dbg( "Listing S3 objects from bucket: %s, with prefix: %s", BUCKET, objectKey );
-            return ImmutableList.of( newService().listObjects( BUCKET, objectKey, null ) );
+            return ImmutableList.copyOf( newService().listObjects( BUCKET, objectKey, null ) );
         }
 
         catch (S3ServiceException e) {

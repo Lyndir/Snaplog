@@ -18,21 +18,19 @@ package com.lyndir.lhunath.snaplog.model;
 import com.db4o.ObjectSet;
 import com.google.common.base.Predicate;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
-import com.lyndir.lhunath.snaplog.data.security.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.LinkID;
 import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.data.user.UserProfile;
+import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
+import com.lyndir.lhunath.snaplog.error.UserNotFoundException;
 import com.lyndir.lhunath.snaplog.error.UsernameTakenException;
 
 
 /**
- * <h2>{@link UserService}<br>
- * <sub>Service to manage and access {@link User}s.</sub></h2>
+ * <h2>{@link UserService}<br> <sub>Service to manage and access {@link User}s.</sub></h2>
  *
- * <p>
- * <i>Jan 9, 2010</i>
- * </p>
+ * <p> <i>Jan 9, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -46,7 +44,8 @@ public interface UserService {
      *
      * @return A newly registered user.
      *
-     * @throws com.lyndir.lhunath.snaplog.error.UsernameTakenException When the given userName is already taken.
+     * @throws com.lyndir.lhunath.snaplog.error.UsernameTakenException
+     *          When the given userName is already taken.
      */
     User registerUser(LinkID linkID, String userName)
             throws UsernameTakenException;
@@ -70,11 +69,22 @@ public interface UserService {
     User findUserWithUserName(String userName);
 
     /**
-     * @param predicate An optional predicate that should evaluate to <code>true</code> for each user to return. If
-     *                  <code>null</code>, all users implicitly match.
+     * Get the existing user registered with the given userName.
      *
-     * @return An {@link ObjectSet} of the {@link User}s that apply to the given predicate and are viewable using the
-     *         given token.
+     * @param userName The userName the user has registered with.
+     *
+     * @return The user with the given userName.
+     *
+     * @throws UserNotFoundException No user exists with the given userName.
+     */
+    User getUserWithUserName(final String userName)
+            throws UserNotFoundException;
+
+    /**
+     * @param predicate An optional predicate that should evaluate to <code>true</code> for each user to return. If <code>null</code>, all
+     *                  users implicitly match.
+     *
+     * @return An {@link ObjectSet} of the {@link User}s that apply to the given predicate and are viewable using the given token.
      */
     ObjectSet<User> queryUsers(Predicate<User> predicate);
 

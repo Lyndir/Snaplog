@@ -60,4 +60,10 @@ public class GlobalSecureObject extends AbstractSecureObject<SecureObject<?>> {
 
         return null;
     }
+
+    @Override
+    public String localizedString() {
+
+        throw new UnsupportedOperationException( "This object should not be shown publicly." );
+    }
 }

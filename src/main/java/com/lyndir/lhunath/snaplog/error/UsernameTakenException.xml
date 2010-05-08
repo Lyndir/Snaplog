@@ -3,6 +3,6 @@
 
 <properties>
 
-    <entry key="message">Username ''{0}'' is already taken.</entry>
+    <entry key="message">Username "{0}" is already taken.</entry>
 
 </properties>

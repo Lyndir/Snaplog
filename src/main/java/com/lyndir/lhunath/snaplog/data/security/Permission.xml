@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+
+    <entry key="description.NONE">none</entry>
+    <entry key="description.INHERIT">inherited</entry>
+    <entry key="description.VIEW">viewing</entry>
+    <entry key="description.CONTRIBUTE">contributing</entry>
+    <entry key="description.ADMINISTER">administration</entry>
+
+</properties>

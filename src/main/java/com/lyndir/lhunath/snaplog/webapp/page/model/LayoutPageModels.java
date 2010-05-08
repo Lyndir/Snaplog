@@ -134,7 +134,7 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
             @Override
             protected List<TabItem> load() {
 
-                return Lists.transform( ImmutableList.of( Tab.values() ), new Function<Tab, TabItem>() {
+                return Lists.transform( ImmutableList.copyOf( Tab.values() ), new Function<Tab, TabItem>() {
 
                     @Override
                     public TabItem apply(final Tab from) {

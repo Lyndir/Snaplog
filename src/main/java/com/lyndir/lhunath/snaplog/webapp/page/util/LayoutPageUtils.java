@@ -17,13 +17,12 @@ package com.lyndir.lhunath.snaplog.webapp.page.util;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.lyndir.lhunath.lib.wayward.component.RedirectToPageException;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
+import java.util.HashMap;
+import java.util.Map;
 import org.apache.wicket.Component;
 import org.apache.wicket.RequestCycle;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -32,12 +31,9 @@ import org.apache.wicket.util.template.PackagedTextTemplate;
 
 
 /**
- * <h2>{@link LayoutPageUtils}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link LayoutPageUtils}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * <i>Mar 13, 2010</i>
- * </p>
+ * <p> <i>Mar 13, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -47,8 +43,8 @@ public abstract class LayoutPageUtils {
      * Activate the given tab in the session and switch to it in the {@link LayoutPage}.
      *
      * @param tab    The tab to activate.
-     * @param target Optional AJAX request target. If specified, the components that need to be reloaded to update the page
-     *               appropriately will be added to the target.
+     * @param target Optional AJAX request target. If specified, the components that need to be reloaded to update the page appropriately
+     *               will be added to the target.
      */
     public static void setActiveTab(final Tab tab, final AjaxRequestTarget target) {
 
@@ -58,11 +54,8 @@ public abstract class LayoutPageUtils {
         if (!LayoutPage.class.equals( RequestCycle.get().getResponsePageClass() ))
             throw new RedirectToPageException( LayoutPage.class );
 
-        if (target != null) {
-            // Checked above.
-            LayoutPage layoutPage = (LayoutPage) RequestCycle.get().getResponsePage();
-            layoutPage.reloadFor( target );
-        }
+        LayoutPage page = (LayoutPage) RequestCycle.get().getResponsePage();
+        page.addTabComponents( target );
     }
 
     /**
@@ -95,8 +88,7 @@ public abstract class LayoutPageUtils {
         trackVariables.put( "googleAnalyticsID", "UA-90535-10" ); // TODO: Unhardcode.
         trackVariables.put( "pageView", trackComponent.getClass().getSimpleName() );
 
-        JavaScriptTemplate trackJS = new JavaScriptTemplate( new PackagedTextTemplate( LayoutPage.class,
-                                                                                       "trackPage.js" ) );
+        JavaScriptTemplate trackJS = new JavaScriptTemplate( new PackagedTextTemplate( LayoutPage.class, "trackPage.js" ) );
 
         return trackJS.asString( trackVariables );
     }

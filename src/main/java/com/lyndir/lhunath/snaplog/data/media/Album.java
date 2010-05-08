@@ -17,33 +17,30 @@ package com.lyndir.lhunath.snaplog.data.media;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.io.Serializable;
-
 import com.google.common.base.Objects;
+import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.security.AbstractSecureObject;
+import com.lyndir.lhunath.snaplog.data.security.Permission;
 import com.lyndir.lhunath.snaplog.data.user.UserProfile;
+import java.io.Serializable;
 
 
 /**
- * <h2>{@link Album}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link Album}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * [description / usage].
- * </p>
+ * <p> [description / usage]. </p>
  *
- * <p>
- * <i>Jan 9, 2010</i>
- * </p>
+ * <p> <i>Jan 9, 2010</i> </p>
  *
  * @author lhunath
  */
 public abstract class Album extends AbstractSecureObject<UserProfile> implements Serializable {
 
+    static final Messages msgs = MessagesFactory.create( Messages.class );
+
     private UserProfile ownerProfile;
     private String name;
     private String description;
-
 
     /**
      * @param ownerProfile The profile of the user that owns this album.
@@ -77,7 +74,15 @@ public abstract class Album extends AbstractSecureObject<UserProfile> implements
      */
     public void setOwnerProfile(final UserProfile ownerProfile) {
 
-        this.ownerProfile = checkNotNull( ownerProfile, "Given ownerProfile must not be null." );
+        checkNotNull( ownerProfile, "Given ownerProfile must not be null." );
+
+        if (this.ownerProfile != null)
+            getACL().unsetUserPermission( this.ownerProfile.getUser() );
+
+        this.ownerProfile = ownerProfile;
+
+        if (getACL().isUserPermissionDefault(this.ownerProfile.getUser()))
+            getACL().setUserPermission( this.ownerProfile.getUser(), Permission.INHERIT );
     }
 
     /**
@@ -122,8 +127,7 @@ public abstract class Album extends AbstractSecureObject<UserProfile> implements
             return true;
 
         if (o instanceof Album)
-            return Objects.equal( ((Album) o).getOwnerProfile(), getOwnerProfile() )
-                   && Objects.equal( ((Album) o).getName(), getName() );
+            return Objects.equal( ((Album) o).getOwnerProfile(), getOwnerProfile() ) && Objects.equal( ((Album) o).getName(), getName() );
 
         return false;
     }
@@ -144,5 +148,21 @@ public abstract class Album extends AbstractSecureObject<UserProfile> implements
     public String toString() {
 
         return String.format( "{album: name=%s, ownerProfile=%s}", name, ownerProfile );
+    }
+
+    @Override
+    public String localizedString() {
+
+        return msgs.description( name );
+    }
+
+    private interface Messages {
+
+        /**
+         * @param name The name of the album.
+         *
+         * @return A description of an album.
+         */
+        String description(String name);
     }
 }

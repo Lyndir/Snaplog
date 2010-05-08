@@ -57,7 +57,7 @@ public class UsernameTakenException extends Exception {
     @Override
     public String getMessage() {
 
-        return String.format( "Username '%s' is already taken.", userName );
+        return String.format( "Username taken: %s.", userName );
     }
 
     /**

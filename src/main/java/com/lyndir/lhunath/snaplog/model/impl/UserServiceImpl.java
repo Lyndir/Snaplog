@@ -21,17 +21,16 @@ import static com.google.common.base.Preconditions.checkState;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
-import com.google.common.base.Predicates;
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.util.SafeObjects;
+import com.lyndir.lhunath.lib.system.util.ObjectUtils;
 import com.lyndir.lhunath.lib.wayward.collection.IPredicate;
-import com.lyndir.lhunath.snaplog.data.security.ACL;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
-import com.lyndir.lhunath.snaplog.data.security.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.LinkID;
 import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.data.user.UserProfile;
+import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
+import com.lyndir.lhunath.snaplog.error.UserNotFoundException;
 import com.lyndir.lhunath.snaplog.error.UsernameTakenException;
 import com.lyndir.lhunath.snaplog.model.SecurityService;
 import com.lyndir.lhunath.snaplog.model.UserService;
@@ -40,9 +39,7 @@ import com.lyndir.lhunath.snaplog.model.UserService;
 /**
  * <h2>{@link UserServiceImpl}<br>
  *
- * <p>
- * <i>Jan 9, 2010</i>
- * </p>
+ * <p> <i>Jan 9, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -50,7 +47,6 @@ public class UserServiceImpl implements UserService {
 
     final ObjectContainer db;
     final SecurityService securityService;
-
 
     /**
      * @param db              See {@link ServicesModule}.
@@ -76,10 +72,10 @@ public class UserServiceImpl implements UserService {
         if (findUserWithUserName( userName ) != null)
             throw new UsernameTakenException( userName );
 
-        User user = new User( linkID, userName );
-        db.store( user );
+        UserProfile userProfile = new UserProfile( new User( linkID, userName ) );
+        db.store( userProfile );
 
-        return user;
+        return userProfile.getUser();
     }
 
     /**
@@ -95,7 +91,7 @@ public class UserServiceImpl implements UserService {
             @Override
             public boolean apply(final User input) {
 
-                return input != null && SafeObjects.equal( input.getLinkID(), linkID );
+                return input != null && ObjectUtils.equal( input.getLinkID(), linkID );
             }
         } );
         if (userQuery.hasNext())
@@ -118,7 +114,7 @@ public class UserServiceImpl implements UserService {
             @Override
             public boolean apply(final User input) {
 
-                return input != null && SafeObjects.equal( input.getUserName(), userName );
+                return input != null && ObjectUtils.equal( input.getUserName(), userName );
             }
         } );
         if (userQuery.hasNext())
@@ -128,26 +124,32 @@ public class UserServiceImpl implements UserService {
         return null;
     }
 
+    @Override
+    public User getUserWithUserName(final String userName)
+            throws UserNotFoundException {
+
+        User user = findUserWithUserName( userName );
+        if (user == null)
+            throw new UserNotFoundException( userName );
+
+        return user;
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public ObjectSet<User> queryUsers(final com.google.common.base.Predicate<User> predicate) {
 
+        if (predicate == null)
+            return db.query( User.class );
+
         return db.query( new Predicate<User>() {
 
             @Override
             public boolean match(final User candidate) {
 
-                // Never allow this user to be queried; it is purely for internal use only.
-                if (SafeObjects.equal( candidate, ACL.DEFAULT ))
-                    return false;
-
-                com.google.common.base.Predicate<User> predicate_ = predicate;
-                if (predicate_ == null)
-                    predicate_ = Predicates.alwaysTrue();
-
-                return predicate_.apply( candidate );
+                return predicate.apply( candidate );
             }
         } );
     }

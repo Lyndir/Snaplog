@@ -15,6 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.model;
 
+import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import java.net.URL;
 import java.util.Iterator;
 
@@ -23,7 +24,6 @@ import com.lyndir.lhunath.snaplog.data.media.AlbumData;
 import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
-import com.lyndir.lhunath.snaplog.data.security.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.User;
 

@@ -15,27 +15,23 @@
  */
 package com.lyndir.lhunath.snaplog.data.user;
 
-import java.io.Serializable;
-
+import com.google.common.base.Objects;
 import com.lyndir.lhunath.snaplog.data.security.AbstractSecureObject;
 import com.lyndir.lhunath.snaplog.data.security.GlobalSecureObject;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
+import java.io.Serializable;
 
 
 /**
- * <h2>{@link UserProfile}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link UserProfile}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * <i>Mar 24, 2010</i>
- * </p>
+ * <p> <i>Mar 24, 2010</i> </p>
  *
  * @author lhunath
  */
 public class UserProfile extends AbstractSecureObject<GlobalSecureObject> implements Serializable {
 
     private User user;
-
 
     /**
      * Create a new {@link UserProfile} instance.
@@ -46,8 +42,8 @@ public class UserProfile extends AbstractSecureObject<GlobalSecureObject> implem
 
         this.user = user;
 
-        // User automatically gets CONTRIBUTE permissions on himself.
-        getACL().setUserPermission( user, Permission.CONTRIBUTE );
+        // User automatically gets ADMINISTER permission on their own profile.
+        getACL().setUserPermission( user, Permission.ADMINISTER );
     }
 
     /**
@@ -73,5 +69,34 @@ public class UserProfile extends AbstractSecureObject<GlobalSecureObject> implem
     public void setUser(final User user) {
 
         this.user = user;
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+
+        if (this == o)
+            return true;
+        if (!(o instanceof UserProfile))
+            return false;
+
+        return Objects.equal( user, ((UserProfile) o).user );
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hashCode( user );
+    }
+
+    @Override
+    public String toString() {
+
+        return String.format( "{profile: user=%s}", user );
+    }
+
+    @Override
+    public String localizedString() {
+
+        return String.format( "%s's profile", user.getUserName() );
     }
 }

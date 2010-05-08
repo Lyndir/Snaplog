@@ -17,6 +17,7 @@ package com.lyndir.lhunath.snaplog.data.media;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import java.io.Serializable;
 import java.util.regex.Pattern;
 
@@ -42,6 +43,7 @@ import org.joda.time.format.ISODateTimeFormat;
 public abstract class Media extends AbstractSecureObject<Album> implements Comparable<Media>, Serializable {
 
     static final Logger logger = Logger.get( Media.class );
+    static final Messages msgs = MessagesFactory.create( Messages.class );
 
     private static final DateTimeFormatter filenameFormat = ISODateTimeFormat.basicDateTimeNoMillis();
 
@@ -174,6 +176,11 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
         return String.format( "{media: name=%s}", name );
     }
 
+    @Override
+    public String localizedString() {
+
+        return msgs.description( name );
+    }
 
     /**
      * <h2>{@link Quality}<br>
@@ -276,5 +283,15 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
 
             return null;
         }
+    }
+
+
+    private interface Messages {
+
+        /**
+         * @param name The name of the media.
+         * @return A description of a media.
+         */
+        String description(String name);
     }
 }

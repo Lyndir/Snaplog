@@ -1,7 +1,7 @@
 <!DOCTYPE html PUBLIC "-//W5C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
 
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd"
-      xml:lang="en" lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" xml:lang="en"
+      lang="en">
 
     <head>
         <wicket:head>
@@ -40,7 +40,7 @@
                 <div class="l"></div>
                 <div class="tl"></div>
 
-                <div class="scrollable">
+                <div class="scrollable" wicket:id="content">
                     <h1>
                         <wicket:message key="albumAccess" />
                     </h1>
@@ -48,16 +48,33 @@
                         <wicket:message key="albumAccessInfo" />
                     </p>
 
-                    <ul id="access" class="clearfix plain">
-                        <li wicket:id="users" class="users">
+                    <ul class="users">
+                        <li wicket:id="users">
                             <h2 wicket:id="name">[Username]</h2>
 
-                            <ul class="plain">
+                            <ul class="permissions">
                                 <li wicket:id="permissions">
-                                    <label wicket:id="label"></label>
-                                    <input type="checkbox" wicket:id="checkbox" />
+                                    <a wicket:id="toggle">
+                                        <img wicket:id="icon" />
+                                        <span wicket:id="label">[Permisson]</span>
+                                    </a>
                                 </li>
                             </ul>
+                        </li>
+
+                        <li>
+                            <form action="post" wicket:id="otherUser">
+                                <h2><input wicket:id="name" /></h2>
+
+                                <ul class="permissions">
+                                    <li wicket:id="permissions">
+                                        <a wicket:id="toggle">
+                                            <img wicket:id="icon" />
+                                            <span wicket:id="label">[Permission]</span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </form>
                         </li>
                     </ul>
                 </div>

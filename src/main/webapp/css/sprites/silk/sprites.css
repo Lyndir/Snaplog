@@ -1,5 +1,5 @@
 /* while read sel _ x y _; do [[ $sel ]] || continue; x=${x%px} y=${y%px}; let y+=2; echo "$sel {background-position: ${x}px ${y}px }"; done< src/main/webapp/css/sprites.css.old > src/main/webapp/css/sprites.css */
-.ss_sprite{display:inline;overflow:hidden;height:18px;padding-left:23px;background-repeat:no-repeat;background-image:url(../images/resources/sprites.png);}
+.ss_sprite{display:inline;overflow:hidden;height:18px;padding-left:23px;background-repeat:no-repeat;background-image:url("silk.png");}
 .ss_accept {background-position: 0px 2px }
 .ss_add {background-position: 0px -17px }
 .ss_anchor {background-position: 0px -35px }

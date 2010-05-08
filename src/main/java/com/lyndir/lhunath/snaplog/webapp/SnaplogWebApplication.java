@@ -30,6 +30,7 @@ import com.lyndir.lhunath.snaplog.webapp.page.error.InternalErrorPage;
 import com.lyndir.lhunath.snaplog.webapp.page.error.PageExpiredErrorPage;
 import net.link.safeonline.sdk.common.configuration.WebappConfig;
 import org.apache.wicket.*;
+import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.guice.InjectionFlagCachingGuiceComponentInjector;
 import org.apache.wicket.markup.IMarkupParserFactory;
 import org.apache.wicket.markup.MarkupParser;
@@ -43,12 +44,9 @@ import org.apache.wicket.settings.IExceptionSettings;
 
 
 /**
- * <h2>{@link SnaplogWebApplication}<br>
- * <sub>Wicket {@link WebApplication} for the media album application.</sub></h2>
+ * <h2>{@link SnaplogWebApplication}<br> <sub>Wicket {@link WebApplication} for the media album application.</sub></h2>
  *
- * <p>
- * <i>May 31, 2009</i>
- * </p>
+ * <p> <i>May 31, 2009</i> </p>
  *
  * @author lhunath
  */
@@ -70,7 +68,6 @@ public class SnaplogWebApplication extends WebApplication {
      */
     public static final MetaDataKey<Issue> METADATA_RUNTIME_EXCEPTION_ISSUE = new MetaDataKey<Issue>() {
     };
-
 
     /**
      * {@inheritDoc}
@@ -150,5 +147,15 @@ public class SnaplogWebApplication extends WebApplication {
                 return super.onRuntimeException( page, e );
             }
         };
+    }
+
+    @Override
+    public AjaxRequestTarget newAjaxRequestTarget(final Page page) {
+
+        AjaxRequestTarget target = super.newAjaxRequestTarget( page );
+        if (page instanceof LayoutPage)
+            ((LayoutPage) page).addComponents( target );
+
+        return target;
     }
 }

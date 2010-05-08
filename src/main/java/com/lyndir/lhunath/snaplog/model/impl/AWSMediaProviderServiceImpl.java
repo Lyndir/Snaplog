@@ -17,7 +17,30 @@ package com.lyndir.lhunath.snaplog.model.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import javax.imageio.ImageIO;
+import com.db4o.ObjectContainer;
+import com.db4o.ObjectSet;
+import com.db4o.query.Predicate;
+import com.google.inject.Inject;
+import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.system.logging.exception.InternalInconsistencyException;
+import com.lyndir.lhunath.lib.system.util.ObjectUtils;
+import com.lyndir.lhunath.lib.system.util.StringUtils;
+import com.lyndir.lhunath.snaplog.data.media.Album;
+import com.lyndir.lhunath.snaplog.data.media.Media;
+import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
+import com.lyndir.lhunath.snaplog.data.media.aws.S3Album;
+import com.lyndir.lhunath.snaplog.data.media.aws.S3AlbumData;
+import com.lyndir.lhunath.snaplog.data.media.aws.S3Media;
+import com.lyndir.lhunath.snaplog.data.media.aws.S3MediaData;
+import com.lyndir.lhunath.snaplog.data.security.Permission;
+import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
+import com.lyndir.lhunath.snaplog.data.user.User;
+import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
+import com.lyndir.lhunath.snaplog.model.AWSMediaProviderService;
+import com.lyndir.lhunath.snaplog.model.AWSService;
+import com.lyndir.lhunath.snaplog.model.SecurityService;
+import com.lyndir.lhunath.snaplog.model.UserService;
+import com.lyndir.lhunath.snaplog.util.ImageUtils;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -29,31 +52,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Pattern;
-
-import com.db4o.ObjectContainer;
-import com.db4o.ObjectSet;
-import com.db4o.query.Predicate;
-import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.system.logging.exception.InternalInconsistencyException;
-import com.lyndir.lhunath.lib.system.util.SafeObjects;
-import com.lyndir.lhunath.lib.system.util.StringUtils;
-import com.lyndir.lhunath.snaplog.data.media.Album;
-import com.lyndir.lhunath.snaplog.data.media.Media;
-import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
-import com.lyndir.lhunath.snaplog.data.media.aws.S3Album;
-import com.lyndir.lhunath.snaplog.data.media.aws.S3AlbumData;
-import com.lyndir.lhunath.snaplog.data.media.aws.S3Media;
-import com.lyndir.lhunath.snaplog.data.media.aws.S3MediaData;
-import com.lyndir.lhunath.snaplog.data.security.Permission;
-import com.lyndir.lhunath.snaplog.data.security.PermissionDeniedException;
-import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
-import com.lyndir.lhunath.snaplog.data.user.User;
-import com.lyndir.lhunath.snaplog.model.AWSMediaProviderService;
-import com.lyndir.lhunath.snaplog.model.AWSService;
-import com.lyndir.lhunath.snaplog.model.SecurityService;
-import com.lyndir.lhunath.snaplog.model.UserService;
-import com.lyndir.lhunath.snaplog.util.ImageUtils;
+import javax.imageio.ImageIO;
 import org.jets3t.service.S3Service;
 import org.jets3t.service.S3ServiceException;
 import org.jets3t.service.acl.AccessControlList;
@@ -64,9 +63,7 @@ import org.jets3t.service.model.S3Object;
 /**
  * <h2>{@link AWSMediaProviderServiceImpl}<br>
  *
- * <p>
- * <i>Jan 10, 2010</i>
- * </p>
+ * <p> <i>Jan 10, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -74,13 +71,13 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
     private static final Logger logger = Logger.get( AWSMediaProviderServiceImpl.class );
 
+    private static final Pattern VALID_NAME = Pattern.compile( "^.*\\.jpg" );
     private static final Pattern BASE_NAME = Pattern.compile( ".*/" );
 
     private final ObjectContainer db;
     private final AWSService awsService;
     private final UserService userService;
     private final SecurityService securityService;
-
 
     /**
      * @param db              See {@link ServicesModule}.
@@ -89,9 +86,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * @param securityService See {@link ServicesModule}.
      */
     @Inject
-    public AWSMediaProviderServiceImpl(
-            final ObjectContainer db, final AWSService awsService,
-            final UserService userService, final SecurityService securityService) {
+    public AWSMediaProviderServiceImpl(final ObjectContainer db, final AWSService awsService, final UserService userService, final SecurityService securityService) {
 
         this.db = db;
         this.awsService = awsService;
@@ -109,6 +104,10 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
         List<S3Media> files = new LinkedList<S3Media>();
         for (final S3Object albumObject : awsService.listObjects( getObjectKey( album, Quality.ORIGINAL ) )) {
+
+            if (!VALID_NAME.matcher( albumObject.getKey() ).matches())
+                // Ignore files that don't have a valid media name.
+                continue;
 
             String mediaName = BASE_NAME.matcher( albumObject.getKey() ).replaceFirst( "" );
             S3MediaData mediaData = getMediaData( new S3Media( album, mediaName ) );
@@ -130,7 +129,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
             @Override
             public boolean match(final S3MediaData candidate) {
 
-                return SafeObjects.equal( candidate.getMedia(), media );
+                return ObjectUtils.equal( candidate.getMedia(), media );
             }
         } );
         if (s3mediaDataQuery.hasNext())
@@ -171,11 +170,9 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
                 InputStream s3InputStream = s3OriginalObject.getDataInputStream();
                 try {
                     BufferedImage qualityImage = ImageIO.read( s3InputStream );
-                    logger.dbg( "Read original image with dimensions %dx%d", qualityImage.getWidth(),
-                                qualityImage.getHeight() );
-                    ImageUtils.write(
-                            ImageUtils.rescale( qualityImage, quality.getMaxWidth(), quality.getMaxHeight() ), //
-                            imageDataStream, "image/jpeg", quality.getCompression(), true );
+                    logger.dbg( "Read original image with dimensions %dx%d", qualityImage.getWidth(), qualityImage.getHeight() );
+                    ImageUtils.write( ImageUtils.rescale( qualityImage, quality.getMaxWidth(), quality.getMaxHeight() ), //
+                                      imageDataStream, "image/jpeg", quality.getCompression(), true );
                 }
                 catch (IOException e) {
                     throw logger.err( e, "Image data could not be read: %s", s3OriginalObject ) //
@@ -186,8 +183,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
                         s3InputStream.close();
                     }
                     catch (IOException e) {
-                        logger.err( e, "S3 original resource read stream cleanup failed for object: %s",
-                                    s3OriginalObject );
+                        logger.err( e, "S3 original resource read stream cleanup failed for object: %s", s3OriginalObject );
                     }
                 }
             }
@@ -243,8 +239,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      */
     protected static String getObjectKey(final S3Album album, final Quality quality) {
 
-        return StringUtils.concat( "/", "users", album.getOwnerProfile().getUser().getUserName(), album.getName(),
-                                   quality.getName() );
+        return StringUtils.concat( "/", "users", album.getOwnerProfile().getUser().getUserName(), album.getName(), quality.getName() );
     }
 
     /**
@@ -263,9 +258,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
     /**
      * Get an {@link S3Object} with all metadata and a data stream available.
      *
-     * <p>
-     * <b>Note:</b> The data stream to this object remains open so you can use it. <b>Don't forget to close it</b> when
-     * you're done!
+     * <p> <b>Note:</b> The data stream to this object remains open so you can use it. <b>Don't forget to close it</b> when you're done!
      * </p>
      *
      * @param media   The {@link Media} whose data is will be referenced by the returned object.
@@ -294,8 +287,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * @param media   The {@link Media} whose data is will be referenced by the returned object.
      * @param quality The {@link Quality} of the {@link Media}'s data.
      *
-     * @return An {@link S3Object} with metadata or <code>null</code> if no object exists for the given media at the
-     *         given quality.
+     * @return An {@link S3Object} with metadata or <code>null</code> if no object exists for the given media at the given quality.
      *
      * @see S3Service#getObject(S3Bucket, String)
      */
@@ -330,8 +322,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
         checkNotNull( media, "Given media must not be null." );
 
-        return checkNotNull( getMediaData( media ).get( Quality.METADATA ), "S3 object for %s must not be null.",
-                             media );
+        return checkNotNull( getMediaData( media ).get( Quality.METADATA ), "S3 object for %s must not be null.", media );
     }
 
     /**
@@ -352,8 +343,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
     public S3Album newAlbum(final User ownerUser, final String albumName, final String albumDescription) {
 
         try {
-            S3Album album = new S3Album( userService.getProfile( SecurityToken.INTERNAL_USE_ONLY, ownerUser ),
-                                         albumName );
+            S3Album album = new S3Album( userService.getProfile( SecurityToken.INTERNAL_USE_ONLY, ownerUser ), albumName );
             album.setDescription( albumDescription );
 
             return album;

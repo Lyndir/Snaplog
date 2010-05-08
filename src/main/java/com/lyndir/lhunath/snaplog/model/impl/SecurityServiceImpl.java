@@ -15,28 +15,32 @@
  */
 package com.lyndir.lhunath.snaplog.model.impl;
 
-import java.util.Iterator;
+import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.db4o.ObjectContainer;
 import com.google.common.base.Predicate;
+import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.Iterators;
+import com.google.inject.Inject;
+import com.lyndir.lhunath.lib.system.collection.Pair;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.system.logging.exception.InternalInconsistencyException;
 import com.lyndir.lhunath.snaplog.data.media.AlbumData;
 import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.data.media.MediaTimeFrame;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
-import com.lyndir.lhunath.snaplog.data.security.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.data.security.SecureObject;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
+import com.lyndir.lhunath.snaplog.data.user.User;
+import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.model.SecurityService;
+import java.util.Iterator;
 
 
 /**
- * <h2>{@link SecurityServiceImpl}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link SecurityServiceImpl}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * <i>Mar 14, 2010</i>
- * </p>
+ * <p> <i>Mar 14, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -44,6 +48,16 @@ public class SecurityServiceImpl implements SecurityService {
 
     static final Logger logger = Logger.get( SecurityServiceImpl.class );
 
+    final ObjectContainer db;
+
+    /**
+     * @param db See {@link ServicesModule}.
+     */
+    @Inject
+    public SecurityServiceImpl(final ObjectContainer db) {
+
+        this.db = db;
+    }
 
     /**
      * {@inheritDoc}
@@ -70,7 +84,7 @@ public class SecurityServiceImpl implements SecurityService {
 
         if (o == null || permission == Permission.NONE) {
             // No permission required.
-            logger.dbg( "Permisson Granted: No permission necessary for: %s@%s", //
+            logger.dbg( "Permission Granted: No permission necessary for: %s@%s", //
                         permission, o );
             return;
         }
@@ -79,13 +93,12 @@ public class SecurityServiceImpl implements SecurityService {
             // Permission required but no token given.
             logger.dbg( "Permission Denied: Missing security token for: %s@%s", //
                         permission, o );
-            throw new PermissionDeniedException( String.format( "No security token in request for %s@%s.", //
-                                                                permission, o ) );
+            throw new PermissionDeniedException( permission, o, "No security token" );
         }
 
         if (token.isInternalUseOnly()) {
             // Token is "Internal Use", grant everything.
-            logger.dbg( "Permisson Granted: INTERNAL_USE token for: %s@%s", //
+            logger.dbg( "Permission Granted: INTERNAL_USE token for: %s@%s", //
                         permission, o );
             return;
         }
@@ -95,9 +108,7 @@ public class SecurityServiceImpl implements SecurityService {
             if (o.getParent() == null) {
                 logger.dbg( "Permission Denied: Can't inherit permissions, no parent set for: %s@%s", //
                             permission, o );
-                throw new PermissionDeniedException(
-                        String.format( "Had to inherit permission for %s@%s but no parent set.", //
-                                       permission, o ) );
+                throw new PermissionDeniedException( permission, o, "Had to inherit permission but no parent set" );
             }
 
             logger.dbg( "Inheriting permission for: %s@%s", //
@@ -107,19 +118,16 @@ public class SecurityServiceImpl implements SecurityService {
         }
 
         if (!isPermissionProvided( tokenPermission, permission )) {
-            logger.dbg( "Permission Denied: Token authorizes %s, insufficient for: %s@%s", //
-                        tokenPermission, permission, o );
-            throw new PermissionDeniedException(
-                    String.format( "Security Token %s grants permissions %s but request required %s on object %s", //
-                                   token, tokenPermission, permission, o ) );
+            logger.dbg( "Permission Denied: Token authorizes %s (ACL default? %s), insufficient for: %s@%s", //
+                        tokenPermission, o.getACL().isUserPermissionDefault( token.getActor() ), permission, o );
+            throw new PermissionDeniedException( permission, o, "Security Token %s grants permissions %s ", token, tokenPermission );
         }
 
         logger.dbg( "Permission Granted: Token authorization %s matches for: %s@%s", //
                     tokenPermission, permission, o );
     }
 
-    private static boolean isPermissionProvided(final Permission givenPermission,
-                                                final Permission requestedPermission) {
+    private static boolean isPermissionProvided(final Permission givenPermission, final Permission requestedPermission) {
 
         if (givenPermission == requestedPermission)
             return true;
@@ -131,6 +139,71 @@ public class SecurityServiceImpl implements SecurityService {
                 return true;
 
         return false;
+    }
+
+    @Override
+    public Permission getEffectivePermissions(final SecurityToken token, final User user, final SecureObject<?> o)
+            throws PermissionDeniedException {
+
+        checkNotNull( o, "Given secure object must not be null." );
+        assertAccess( Permission.ADMINISTER, token, o );
+
+        Permission permission = o.getACL().getUserPermission( user );
+        if (permission == Permission.INHERIT) {
+            SecureObject<?> parent = checkNotNull( o.getParent(), "Secure object's default permission is INHERIT but has no parent." );
+
+            return getEffectivePermissions( token, user, parent );
+        }
+
+        return permission;
+    }
+
+    @Override
+    public Iterator<Pair<User, Permission>> iterateUserPermissions(final SecurityToken token, final SecureObject<?> o)
+            throws PermissionDeniedException {
+
+        assertAccess( Permission.ADMINISTER, token, o );
+
+        return Iterators.unmodifiableIterator( new AbstractIterator<Pair<User, Permission>>() {
+            public Iterator<User> permittedUsers;
+
+            {
+                permittedUsers = o.getACL().getPermittedUsers().iterator();
+            }
+
+            @Override
+            protected Pair<User, Permission> computeNext() {
+
+                try {
+                    if (permittedUsers.hasNext()) {
+                        User user = permittedUsers.next();
+                        return new Pair<User, Permission>( user, getEffectivePermissions( token, user, o ) );
+                    }
+                }
+                catch (PermissionDeniedException e) {
+                    throw new InternalInconsistencyException( "While evaluating user permissions", e );
+                }
+
+                return endOfData();
+            }
+        } );
+    }
+
+    @Override
+    public int countPermittedUsers(final SecurityToken token, final SecureObject<?> o)
+            throws PermissionDeniedException {
+
+        assertAccess( Permission.ADMINISTER, token, o );
+        return o.getACL().getPermittedUsers().size();
+    }
+
+    @Override
+    public void setUserPermission(final SecurityToken token, final SecureObject<?> o, final User user, final Permission permission)
+            throws PermissionDeniedException {
+
+        assertAccess( Permission.ADMINISTER, token, o );
+        o.getACL().setUserPermission( user, permission );
+        db.store( o );
     }
 
     /**

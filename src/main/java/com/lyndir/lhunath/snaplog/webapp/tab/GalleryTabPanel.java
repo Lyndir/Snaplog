@@ -19,7 +19,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.system.util.SafeObjects;
+import com.lyndir.lhunath.lib.system.util.ObjectUtils;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.lib.wayward.i18n.BooleanKeyAppender;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
@@ -27,8 +27,8 @@ import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.AlbumProviderType;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
-import com.lyndir.lhunath.snaplog.data.security.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.data.user.User;
+import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.model.AlbumProvider;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.model.SecurityService;
@@ -52,12 +52,9 @@ import org.apache.wicket.model.LoadableDetachableModel;
 
 
 /**
- * <h2>{@link GalleryTabPanel}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link GalleryTabPanel}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * <i>Mar 1, 2010</i>
- * </p>
+ * <p> <i>Mar 1, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -79,7 +76,6 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 
     AbstractAlbumsView albums;
 
-
     /**
      * Create a new {@link GalleryTabPanel} instance.
      *
@@ -93,14 +89,14 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 
         // Page info
         add( new Label( "albumsTitleUsername", getModelObject().decoratedUsername() ) );
-        add( new Label( "anothersAlbumsHelp", msgs.anothersAlbumsHelp( SnaplogSession.get().isAuthenticated(),
-                                                                       getModelObject().username() ) ) {
+        add( new Label( "anothersAlbumsHelp",
+                        msgs.anothersAlbumsHelp( SnaplogSession.get().isAuthenticated(), getModelObject().username() ) ) {
 
             @Override
             public boolean isVisible() {
 
                 return albums.getItemCount() > 0 && //
-                       !SafeObjects.equal( getModelObject().getObject(), SnaplogSession.get().getActiveUser() );
+                       !ObjectUtils.equal( getModelObject().getObject(), SnaplogSession.get().getActiveUser() );
             }
         } );
         add( new Label( "ownAlbumsHelp", msgs.ownAlbumsHelp() ) {
@@ -109,7 +105,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
             public boolean isVisible() {
 
                 return albums.getItemCount() > 0 && //
-                       SafeObjects.equal( getModelObject().getObject(), SnaplogSession.get().getActiveUser() );
+                       ObjectUtils.equal( getModelObject().getObject(), SnaplogSession.get().getActiveUser() );
             }
         } );
         add( new Label( "noAlbumsHelp", new LoadableDetachableModel<String>() {
@@ -118,8 +114,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
             protected String load() {
 
                 return msgs.noAlbumsHelp( SnaplogSession.get().isAuthenticated(),
-                                          userService.hasProfileAccess( SnaplogSession.get().newToken(),
-                                                                        getModelObject().getObject() ),
+                                          userService.hasProfileAccess( SnaplogSession.get().newToken(), getModelObject().getObject() ),
                                           getModelObject().username() );
             }
         } ) {
@@ -144,10 +139,8 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                         add( new MediaView( "cover", cover( getModel() ), Quality.THUMBNAIL, false ) );
                         add( new Label( "title", getModelObject().getName() ) );
                         // TODO: Fix HTML injection.
-                        add( new Label( "description", getModelObject().getDescription() ).setEscapeModelStrings(
-                                false ) );
+                        add( new Label( "description", getModelObject().getDescription() ).setEscapeModelStrings( false ) );
                     }
-
 
                     @Override
                     public void onClick(final AjaxRequestTarget target) {
@@ -165,12 +158,10 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
             {
                 final WebMarkupContainer container = this;
                 final Form<NewAlbumFormModels> newAlbumForm = new Form<NewAlbumFormModels>( "newAlbumForm",
-                                                                                            getModelObject()
-                                                                                                    .newAlbumForm().getModel() ) {
+                                                                                            getModelObject().newAlbumForm().getModel() ) {
 
                     {
-                        add( new DropDownChoice<AlbumProviderType>( "type", getModelObject().type(),
-                                                                    getModelObject().types(),
+                        add( new DropDownChoice<AlbumProviderType>( "type", getModelObject().type(), getModelObject().types(),
                                                                     new EnumChoiceRenderer<AlbumProviderType>() ) //
                                 .setRequired( true ) );
 
@@ -178,17 +169,13 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                         add( new TextArea<String>( "description", getModelObject().description() ) );
                     }
 
-
                     @Override
                     protected void onSubmit() {
 
-                        AlbumProvider<?, ?> albumProvider = getModelObject().type()
-                                .getObject()
-                                .getAlbumProvider();
-                        Album album = albumProvider
-                                .newAlbum( GalleryTabPanel.this.getModelObject().getObject(), //
-                                           getModelObject().name().getObject(), //
-                                           getModelObject().description().getObject() );
+                        AlbumProvider<?, ?> albumProvider = getModelObject().type().getObject().getAlbumProvider();
+                        Album album = albumProvider.newAlbum( GalleryTabPanel.this.getModelObject().getObject(), //
+                                                              getModelObject().name().getObject(), //
+                                                              getModelObject().description().getObject() );
 
                         try {
                             albumService.registerAlbum( SnaplogSession.get().newToken(), album );
@@ -200,7 +187,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                         }
 
                         catch (PermissionDeniedException e) {
-                            error( e );
+                            error( e.getLocalizedMessage() );
                         }
                     }
                 };
@@ -224,7 +211,6 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                 add( newAlbumForm.setVisible( false ) );
             }
 
-
             @Override
             public boolean isVisible() {
 
@@ -243,7 +229,6 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         }.setOutputMarkupPlaceholderTag( true ) );
     }
 
-
     interface Messages {
 
         /**
@@ -252,15 +237,13 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         String galleryTab();
 
         /**
-         * @param authenticated <code>true</code>: The current user has authenticated himself.<br>
-         *                      <code>false</code>: The current user has not identified himself.
+         * @param authenticated <code>true</code>: The current user has authenticated himself.<br> <code>false</code>: The current user has
+         *                      not identified himself.
          * @param username      The name of the user whose gallery is being viewed.
          *
          * @return A text that explains to whom the albums in the gallery belong.
          */
-        String anothersAlbumsHelp(
-                @BooleanKeyAppender(y = "auth", n = "anon") boolean authenticated,
-                IModel<String> username);
+        String anothersAlbumsHelp(@BooleanKeyAppender(y = "auth", n = "anon") boolean authenticated, IModel<String> username);
 
         /**
          * @return A text that explains that the visible gallery belongs to the current user.
@@ -268,8 +251,8 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         String ownAlbumsHelp();
 
         /**
-         * @param isAuthenticated <code>true</code>: The current user has authenticated himself.<br>
-         *                        <code>false</code>: The current user has not identified himself.
+         * @param isAuthenticated <code>true</code>: The current user has authenticated himself.<br> <code>false</code>: The current user
+         *                        has not identified himself.
          * @param hasAccess       <code>true</code>: The current user has access to see the gallery or any of the albums.<br>
          *                        <code>false</code>: The current user has insufficient access to see the gallery or any of the albums.
          * @param username        The name of the user whose gallery is being viewed.
@@ -277,27 +260,20 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
          * @return A text that explains that none of the user's albums are visible and what might be the cause.
          */
         String noAlbumsHelp(@BooleanKeyAppender(y = "auth", n = "anon") boolean isAuthenticated,
-                            @BooleanKeyAppender(y = "access", n = "noaccess") boolean hasAccess,
-                            IModel<String> username);
+                            @BooleanKeyAppender(y = "access", n = "noaccess") boolean hasAccess, IModel<String> username);
     }
 
 
     /**
-     * <h2>{@link GalleryTab}<br>
-     * <sub>[in short] (TODO).</sub></h2>
+     * <h2>{@link GalleryTab}<br> <sub>[in short] (TODO).</sub></h2>
      *
-     * <p>
-     * [description / usage].
-     * </p>
+     * <p> [description / usage]. </p>
      *
-     * <p>
-     * <i>May 31, 2009</i>
-     * </p>
+     * <p> <i>May 31, 2009</i> </p>
      *
      * @author lhunath
      */
     static class GalleryTab implements SnaplogTab {
-
 
         /**
          * {@inheritDoc}

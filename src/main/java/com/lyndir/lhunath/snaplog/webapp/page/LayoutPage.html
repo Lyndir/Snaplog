@@ -13,7 +13,8 @@
         <link rel="stylesheet" type="text/css" href="js/shadowbox-3.0/shadowbox.css" />
         <link rel="stylesheet" type="text/css" href="css/blueprint/screen.css" media="screen, projection" />
         <link rel="stylesheet" type="text/css" href="css/blueprint/print.css" media="print" />
-        <link rel="stylesheet" type="text/css" href="css/sprites.css" />
+        <link rel="stylesheet" type="text/css" href="css/sprites/glossy-white/sprites.css" />
+        <link rel="stylesheet" type="text/css" href="css/sprites/silk/sprites.css" />
         <!--[if lt IE 8]>
         <link rel="stylesheet" href="css/blueprint/ie.css" type="text/css" media="screen, projection">
         <![endif]-->
@@ -76,7 +77,12 @@
             </ul>
         </div>
 
-        <div class="container" wicket:id="container">
+        <div class="messages" wicket:id="messages">
+            <div class="errors" wicket:id="errors">[Errors]</div>
+            <div class="infos" wicket:id="infos">[Infos]</div>
+        </div>
+
+        <div class="container" wicket:id="contentContainer">
             <div wicket:id="contentPanel" class="span-24 prepend-top">[Page Contents]</div>
         </div>
     </body>

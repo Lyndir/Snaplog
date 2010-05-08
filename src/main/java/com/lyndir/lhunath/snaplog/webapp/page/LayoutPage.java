@@ -2,7 +2,6 @@ package com.lyndir.lhunath.snaplog.webapp.page;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.lyndir.lhunath.lib.system.localization.UseKey;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.behavior.CSSClassAttributeAppender;
 import com.lyndir.lhunath.lib.wayward.component.AjaxLabelLink;
@@ -21,6 +20,8 @@ import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.Session;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.behavior.StringHeaderContributor;
+import org.apache.wicket.feedback.FeedbackMessage;
+import org.apache.wicket.feedback.IFeedbackMessageFilter;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.MarkupStream;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -29,18 +30,16 @@ import org.apache.wicket.markup.html.link.BookmarkablePageLink;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
 
 /**
- * <h2>{@link LayoutPage}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link LayoutPage}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * <i>Jan 28, 2010</i>
- * </p>
+ * <p> <i>Jan 28, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -55,9 +54,8 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
     final WebMarkupContainer userSummary;
     final WebMarkupContainer tabsContainer;
     final WebMarkupContainer toolbar;
-    WebMarkupContainer tools;
-    final WebMarkupContainer container;
-
+    final WebMarkupContainer contentContainer;
+    final WebMarkupContainer messages;
 
     /**
      * Create a new {@link LayoutPage}.
@@ -187,7 +185,6 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
                 add( new Label( "focusedContent", getModelObject().focusedContent() ) );*/
             }
 
-
             @Override
             protected void onBeforeRender() {
 
@@ -203,8 +200,44 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
             }
         } );
 
+        // Global Messages.
+        add( messages = new WebMarkupContainer( "messages" ) {
+            {
+                setOutputMarkupId( true );
+
+                add( new FeedbackPanel( "errors", new IFeedbackMessageFilter() {
+
+                    @Override
+                    public boolean accept(final FeedbackMessage message) {
+
+                        return message.getLevel() >= FeedbackMessage.WARNING;
+                    }
+                } ) {
+
+                    @Override
+                    public boolean isVisible() {
+
+                        return anyMessage();
+                    }
+                } );
+                add( new FeedbackPanel( "infos", new IFeedbackMessageFilter() {
+
+                    @Override
+                    public boolean accept(final FeedbackMessage message) {
+
+                        return message.getLevel() <= FeedbackMessage.INFO;
+                    }
+                } ) {
+                    @Override
+                    public boolean isVisible() {
+
+                        return anyMessage();
+                    }
+                } );
+            }} );
+
         // Page Content.
-        add( (container = new WebMarkupContainer( "container" ) {
+        add( (contentContainer = new WebMarkupContainer( "contentContainer" ) {
 
             @Override
             protected void onBeforeRender() {
@@ -237,26 +270,34 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
     }
 
     /**
-     * Reload the page using the given target.
+     * Add components to the AJAX target that should be reloaded during every AJAX event on this page.
      *
-     * @param target The target that will be servicing the reload response.
+     * @param target The AJAX request target to add page components to.
      */
-    public void reloadFor(final AjaxRequestTarget target) {
+    public void addComponents(final AjaxRequestTarget target) {
 
-        checkNotNull( target, "Can't reload without a target." );
+        checkNotNull( target, "Given target cannot be null." );
 
+        target.addComponent( messages );
         target.addComponent( tabsContainer );
-        target.addComponent( container );
     }
 
+    /**
+     * Add components to the AJAX target that should be reloaded whenever the whole tab's content needs to be reloaded.
+     *
+     * @param target The AJAX request target to add page components to.
+     */
+    public void addTabComponents(final AjaxRequestTarget target) {
+
+        checkNotNull( target, "Given target cannot be null." );
+
+        target.addComponent( contentContainer );
+    }
 
     /**
-     * <h2>{@link Messages}<br>
-     * <sub>[in short] (TODO).</sub></h2>
+     * <h2>{@link Messages}<br> <sub>[in short] (TODO).</sub></h2>
      *
-     * <p>
-     * <i>Mar 31, 2010</i>
-     * </p>
+     * <p> <i>Mar 31, 2010</i> </p>
      *
      * @author lhunath
      */
@@ -282,8 +323,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
          * @param userBadge The badge of the user we guess is using the page.
          * @param userName  The name of the user we guess is using the page.
          *
-         * @return Welcoming the user back. The user has not yet authenticated himself. The identification is just a
-         *         guess.
+         * @return Welcoming the user back. The user has not yet authenticated himself. The identification is just a guess.
          */
         String userWelcomeBack(char userBadge, String userName);
 
@@ -297,18 +337,16 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
          *
          * @return Text indicating the user has messages.
          */
-        String userMessages(
-                @KeyAppender(value = @KeyMatch(ifNum = 1, key = "singular", elseKey = "plural"), useValue = true)//
-                        int messageCount);
+        String userMessages(@KeyAppender(value = @KeyMatch(ifNum = 1, key = "singular", elseKey = "plural"), useValue = true)//
+                int messageCount);
 
         /**
          * @param requestCount The amount of pending requests.
          *
          * @return Text indicating there are pending requests for the active user.
          */
-        String userRequests(
-                @KeyAppender(value = @KeyMatch(ifNum = 1, key = "singular", elseKey = "plural"), useValue = true)//
-                        int requestCount);
+        String userRequests(@KeyAppender(value = @KeyMatch(ifNum = 1, key = "singular", elseKey = "plural"), useValue = true)//
+                int requestCount);
 
         /**
          * @param userBadge The focused user's badge.
@@ -324,8 +362,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
          * @return A text indicating what the user's currently focusing on.
          */
         // TODO: If we want to allow focusing other content; this may need improvement. If not, this may be simplified?
-        String focusedContent(
-                @KeyAppender(nullKey = "none", notNullKey = "album", useValue = true)//
-                        String albumName);
+        String focusedContent(@KeyAppender(nullKey = "none", notNullKey = "album", useValue = true)//
+                String albumName);
     }
 }

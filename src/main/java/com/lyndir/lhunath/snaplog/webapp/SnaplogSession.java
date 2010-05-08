@@ -19,7 +19,7 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.base.Objects;
 import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.system.util.SafeObjects;
+import com.lyndir.lhunath.lib.system.util.ObjectUtils;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.User;
@@ -142,7 +142,7 @@ public class SnaplogSession extends WebSession {
 
         if (focusedAlbum != null)
             // These SHOULD always match if an album is focused.
-            checkState( SafeObjects.equal( focusedAlbum.getOwnerProfile().getUser(), focusedUser ) );
+            checkState( ObjectUtils.equal( focusedAlbum.getOwnerProfile().getUser(), focusedUser ) );
         if (focusedUser == null)
             // Focus on the active user if not focusing on anyone.
             setFocusedUser( activeUser );
@@ -155,7 +155,7 @@ public class SnaplogSession extends WebSession {
      */
     public void setFocusedUser(final User focusedUser) {
 
-        if (focusedAlbum != null && !SafeObjects.equal( focusedAlbum.getOwnerProfile().getUser(), focusedUser ))
+        if (focusedAlbum != null && !ObjectUtils.equal( focusedAlbum.getOwnerProfile().getUser(), focusedUser ))
             // User is no longer the focused album owner; unfocus the album.
             setFocusedAlbum( null );
 
@@ -169,7 +169,7 @@ public class SnaplogSession extends WebSession {
 
         if (focusedAlbum != null)
             // These SHOULD always match if an album is focused.
-            checkState( SafeObjects.equal( focusedAlbum.getOwnerProfile().getUser(), focusedUser ) );
+            checkState( ObjectUtils.equal( focusedAlbum.getOwnerProfile().getUser(), focusedUser ) );
 
         return focusedAlbum;
     }

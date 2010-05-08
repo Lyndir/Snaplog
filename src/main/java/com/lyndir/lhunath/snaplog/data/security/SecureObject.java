@@ -15,19 +15,21 @@
  */
 package com.lyndir.lhunath.snaplog.data.security;
 
+import com.lyndir.lhunath.lib.wayward.i18n.Localized;
+
+
 /**
- * <h2>{@link SecureObject}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link SecureObject}<br> <sub>Any object whose access should be controlled through access policies.</sub></h2>
  *
- * <p>
- * <i>Mar 14, 2010</i>
- * </p>
+ * <p> It is imperative that implementations that use SecureObject do not emit its #toString publicly!  #secureToString should be used
+ * instead. </p>
+ *
+ * <p> <i>Mar 14, 2010</i> </p>
  *
  * @author lhunath
- * @param <P>
- * The type of the parent object.
+ * @param <P> The type of the parent object.
  */
-public interface SecureObject<P extends SecureObject<?>> {
+public interface SecureObject<P extends SecureObject<?>> extends Localized {
 
     /**
      * @return The {@link SecureObject} that we inherit metadata from.

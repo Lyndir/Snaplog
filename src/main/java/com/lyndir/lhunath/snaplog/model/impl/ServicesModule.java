@@ -22,7 +22,6 @@ import com.db4o.ObjectSet;
 import com.db4o.internal.ObjectContainerBase;
 import com.db4o.internal.query.Db4oQueryExecutionListener;
 import com.db4o.internal.query.NQOptimizationInfo;
-import com.db4o.internal.query.NativeQueryHandler;
 import com.db4o.query.Predicate;
 import com.google.inject.AbstractModule;
 import com.lyndir.lhunath.lib.system.logging.Logger;
@@ -39,23 +38,17 @@ import com.lyndir.lhunath.snaplog.webapp.AuthenticationListener;
 
 
 /**
- * <h2>{@link ServicesModule}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link ServicesModule}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * [description / usage].
- * </p>
+ * <p> [description / usage]. </p>
  *
- * <p>
- * <i>Jan 9, 2010</i>
- * </p>
+ * <p> <i>Jan 9, 2010</i> </p>
  *
  * @author lhunath
  */
 public class ServicesModule extends AbstractModule {
 
     static final Logger logger = Logger.get( ServicesModule.class );
-
 
     /**
      * {@inheritDoc}
@@ -82,7 +75,7 @@ public class ServicesModule extends AbstractModule {
         ((ObjectContainerBase) db).getNativeQueryHandler().addListener( new Db4oQueryExecutionListener() {
             public void notifyQueryExecuted(NQOptimizationInfo info) {
                 //if (NativeQueryHandler.UNOPTIMIZED.equals(info.optimized()))
-                    logger.dbg( "%s", info );
+                logger.dbg( "%s", info );
             }
         } );
 
@@ -103,29 +96,38 @@ public class ServicesModule extends AbstractModule {
 
         db.store( SnaplogConstants.DEFAULT_ALBUM );
 
+        // Find default user.
         SnaplogConstants.DEFAULT_USER = new User( new LinkID( "b21e33e2-b63e-4f06-8f52-84509883e1d1" ), "lhunath" );
         ObjectSet<User> defaultUserQuery = db.queryByExample( SnaplogConstants.DEFAULT_USER );
         if (defaultUserQuery.hasNext())
             SnaplogConstants.DEFAULT_USER = defaultUserQuery.next();
-        else
-            db.store( SnaplogConstants.DEFAULT_USER );
+        // Configure default user.
+        db.store( SnaplogConstants.DEFAULT_USER );
 
+        // Find default user's profile.
         UserProfile defaultUserProfile = new UserProfile( SnaplogConstants.DEFAULT_USER );
         ObjectSet<UserProfile> defaultUserProfileQuery = db.queryByExample( defaultUserProfile );
         if (defaultUserProfileQuery.hasNext())
             defaultUserProfile = defaultUserProfileQuery.next();
-        else
-            db.store( defaultUserProfile );
+        // Configure default user's profile.
+        defaultUserProfile.getACL().setUserPermission( SnaplogConstants.DEFAULT_USER, Permission.ADMINISTER );
         defaultUserProfile.getACL().setDefaultPermission( Permission.VIEW );
+        db.store( defaultUserProfile );
 
+        // Find default user's album.
         SnaplogConstants.DEFAULT_ALBUM = new S3Album( defaultUserProfile, "Life" );
         ObjectSet<Object> defaultAlbumQuery = db.queryByExample( SnaplogConstants.DEFAULT_ALBUM );
         if (defaultAlbumQuery.hasNext())
             SnaplogConstants.DEFAULT_ALBUM = (Album) defaultAlbumQuery.next();
-        else
-            db.store( SnaplogConstants.DEFAULT_ALBUM );
+        // Configure default user's album.
+        SnaplogConstants.DEFAULT_ALBUM.setOwnerProfile( defaultUserProfile );
         SnaplogConstants.DEFAULT_ALBUM.getACL().setDefaultPermission( Permission.VIEW );
-        SnaplogConstants.DEFAULT_ALBUM.setDescription(
-                "<p>Arbitrary snapshots from Maarten's life.</p><p><label>Camera:</label><input value='Canon Powershot Pro1' /></p>" );
+        SnaplogConstants.DEFAULT_ALBUM
+                .setDescription(
+                        "<p>Arbitrary snapshots from Maarten's life.</p><p><label>Camera:</label><input value='Canon Powershot Pro1' /></p>" );
+        db.store( SnaplogConstants.DEFAULT_ALBUM );
+
+        logger.dbg( "Default user: %s, profile: %s (ACL: %s), album: %s (ACL: %s)", SnaplogConstants.DEFAULT_USER, defaultUserProfile,
+                    defaultUserProfile.getACL(), SnaplogConstants.DEFAULT_ALBUM, SnaplogConstants.DEFAULT_ALBUM.getACL() );
     }
 }

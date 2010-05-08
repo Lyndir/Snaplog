@@ -17,20 +17,17 @@ package com.lyndir.lhunath.snaplog.data.security;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.user.User;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
 
 
 /**
- * <h2>{@link ACL}<br>
- * <sub>A list of access control grants.</sub></h2>
+ * <h2>{@link ACL}<br> <sub>A list of access control grants.</sub></h2>
  *
- * <p>
- * <i>Mar 14, 2010</i>
- * </p>
+ * <p> <i>Mar 14, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -46,7 +43,6 @@ public class ACL {
     public static User DEFAULT;
 
     private final Map<User, Permission> userPermissions;
-
 
     /**
      * An {@link ACL} that grants users the {@link Permission#INHERIT} permission by default.
@@ -66,8 +62,8 @@ public class ACL {
     }
 
     /**
-     * Change the permission of a user in this access control. Any current permission of the user is revoked and
-     * replaced by the given permission.
+     * Change the permission of a user in this access control. Any current permission of the user is revoked and replaced by the given
+     * permission.
      *
      * @param permission The permission that will be granted to the given user.
      */
@@ -79,8 +75,8 @@ public class ACL {
     }
 
     /**
-     * Change the permission of a user in this access control. Any current permission of the user is revoked and
-     * replaced by the given permission.
+     * Change the permission of a user in this access control. Any current permission of the user is revoked and replaced by the given
+     * permission.
      *
      * @param user       The user that will be granted the given permission.
      * @param permission The permission that will be granted to the given user.
@@ -91,6 +87,22 @@ public class ACL {
         checkNotNull( permission, "Given permission must not be null." );
 
         userPermissions.put( user, permission );
+    }
+
+    /**
+     * Unset any specific permissions for the given users in this ACL.  After this operation, the user's permissions will be determined by
+     * the ACL's default permissions.
+     *
+     * @param user The user whose permissions to unset.
+     *
+     * @return The user's former permissions in this ACL or <code>null</code> if this user's permissions were already determined by the
+     *         default permissions.
+     */
+    public Permission unsetUserPermission(final User user) {
+
+        checkNotNull( user, "Given user must not be null." );
+
+        return userPermissions.remove( user );
     }
 
     /**
@@ -106,8 +118,8 @@ public class ACL {
     }
 
     /**
-     * The user's permission is either the one set for him through {@link #setUserPermission(User, Permission)} or the
-     * default permission of this ACL.
+     * The user's permission is either the one set for him through {@link #setUserPermission(User, Permission)} or the default permission of
+     * this ACL.
      *
      * @param user The user whose permission to look up. <code>null</code> represents an anonymous user.
      *
@@ -115,10 +127,28 @@ public class ACL {
      */
     public Permission getUserPermission(final User user) {
 
-        if (!userPermissions.containsKey( user ))
+        if (isUserPermissionDefault( user ))
             return checkNotNull( userPermissions.get( DEFAULT ), "Default permission is unset." );
 
         return checkNotNull( userPermissions.get( user ), "Permission for %s is unset.", user );
+    }
+
+    /**
+     * @param user The user whose permission to look up. <code>null</code> represents an anonymous user.
+     *
+     * @return <code>true</code> if the user's permissions in this ACL are determined by the default ACL.
+     */
+    public boolean isUserPermissionDefault(final User user) {
+
+        return !userPermissions.containsKey( user );
+    }
+
+    /**
+     * @return The users that have non-default permissions set in this ACL.
+     */
+    public Set<User> getPermittedUsers() {
+
+        return userPermissions.keySet();
     }
 
     /**
