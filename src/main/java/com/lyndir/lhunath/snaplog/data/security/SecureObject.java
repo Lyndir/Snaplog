@@ -16,6 +16,7 @@
 package com.lyndir.lhunath.snaplog.data.security;
 
 import com.lyndir.lhunath.lib.wayward.i18n.Localized;
+import com.lyndir.lhunath.snaplog.data.user.User;
 
 
 /**
@@ -35,6 +36,11 @@ public interface SecureObject<P extends SecureObject<?>> extends Localized {
      * @return The {@link SecureObject} that we inherit metadata from.
      */
     P getParent();
+
+    /**
+     * @return The user that owns this object.
+     */
+    User getOwner();
 
     /**
      * @return The access control set governing the permissions users have over this object.

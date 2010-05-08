@@ -110,7 +110,6 @@ public class ServicesModule extends AbstractModule {
         if (defaultUserProfileQuery.hasNext())
             defaultUserProfile = defaultUserProfileQuery.next();
         // Configure default user's profile.
-        defaultUserProfile.getACL().setUserPermission( SnaplogConstants.DEFAULT_USER, Permission.ADMINISTER );
         defaultUserProfile.getACL().setDefaultPermission( Permission.VIEW );
         db.store( defaultUserProfile );
 

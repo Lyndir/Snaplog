@@ -82,28 +82,30 @@ public class SecurityServiceImpl implements SecurityService {
     public void assertAccess(final Permission permission, final SecurityToken token, final SecureObject<?> o)
             throws PermissionDeniedException {
 
+        checkNotNull( token, "Given security token must not be null." );
+
+        // Automatically grant permission when no object is given or required permission is NONE.
         if (o == null || permission == Permission.NONE) {
-            // No permission required.
             logger.dbg( "Permission Granted: No permission necessary for: %s@%s", //
                         permission, o );
             return;
         }
 
-        if (token == null) {
-            // Permission required but no token given.
-            logger.dbg( "Permission Denied: Missing security token for: %s@%s", //
-                        permission, o );
-            throw new PermissionDeniedException( permission, o, "No security token" );
-        }
-
+        // Automatically grant permission to INTERNAL_USE token.
         if (token.isInternalUseOnly()) {
-            // Token is "Internal Use", grant everything.
             logger.dbg( "Permission Granted: INTERNAL_USE token for: %s@%s", //
                         permission, o );
             return;
         }
 
-        Permission tokenPermission = o.getACL().getUserPermission( token.getActor() );
+        // Determine what permission level to grant on the object for the token.
+        Permission tokenPermission;
+        if (o.getOwner().equals( token.getActor() ))
+            tokenPermission = Permission.ADMINISTER;
+        else
+            tokenPermission = o.getACL().getUserPermission( token.getActor() );
+
+        // If INHERIT, recurse.
         if (tokenPermission == Permission.INHERIT) {
             if (o.getParent() == null) {
                 logger.dbg( "Permission Denied: Can't inherit permissions, no parent set for: %s@%s", //
@@ -117,12 +119,14 @@ public class SecurityServiceImpl implements SecurityService {
             return;
         }
 
+        // Else, check if granted permission provides required permission.
         if (!isPermissionProvided( tokenPermission, permission )) {
             logger.dbg( "Permission Denied: Token authorizes %s (ACL default? %s), insufficient for: %s@%s", //
                         tokenPermission, o.getACL().isUserPermissionDefault( token.getActor() ), permission, o );
             throw new PermissionDeniedException( permission, o, "Security Token %s grants permissions %s ", token, tokenPermission );
         }
 
+        // No permission denied thrown, grant permission.
         logger.dbg( "Permission Granted: Token authorization %s matches for: %s@%s", //
                     tokenPermission, permission, o );
     }

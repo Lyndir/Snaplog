@@ -15,22 +15,42 @@
  */
 package com.lyndir.lhunath.snaplog.data.security;
 
+import com.lyndir.lhunath.lib.system.logging.exception.InternalInconsistencyException;
+import com.lyndir.lhunath.snaplog.data.user.User;
+
+
 /**
- * <h2>{@link AbstractSecureObject}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link AbstractSecureObject}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * <i>Mar 14, 2010</i>
- * </p>
+ * <p> <i>Mar 14, 2010</i> </p>
  *
  * @author lhunath
- * @param <P>
- * The type of the parent object.
+ * @param <P> The type of the parent object.
  */
 public abstract class AbstractSecureObject<P extends SecureObject<?>> implements SecureObject<P> {
 
+    private User owner;
     private final ACL acl = new ACL();
 
+    @Override
+    public User getOwner() {
+
+        if (owner == null) {
+            if (getParent() != null)
+                return getParent().getOwner();
+
+            throw new InternalInconsistencyException( "Cannot determine the owner since it is not set and the object has no parent." );
+        }
+
+        return owner;
+    }
+
+    /**
+     * @param owner The new owner of this object.
+     */
+    public void setOwner(final User owner) {
+        this.owner = owner;
+    }
 
     /**
      * {@inheritDoc}

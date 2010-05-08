@@ -18,7 +18,6 @@ package com.lyndir.lhunath.snaplog.data.user;
 import com.google.common.base.Objects;
 import com.lyndir.lhunath.snaplog.data.security.AbstractSecureObject;
 import com.lyndir.lhunath.snaplog.data.security.GlobalSecureObject;
-import com.lyndir.lhunath.snaplog.data.security.Permission;
 import java.io.Serializable;
 
 
@@ -40,10 +39,7 @@ public class UserProfile extends AbstractSecureObject<GlobalSecureObject> implem
      */
     public UserProfile(final User user) {
 
-        this.user = user;
-
-        // User automatically gets ADMINISTER permission on their own profile.
-        getACL().setUserPermission( user, Permission.ADMINISTER );
+        setUser( user );
     }
 
     /**
@@ -68,7 +64,7 @@ public class UserProfile extends AbstractSecureObject<GlobalSecureObject> implem
      */
     public void setUser(final User user) {
 
-        this.user = user;
+        setOwner( this.user = user );
     }
 
     @Override

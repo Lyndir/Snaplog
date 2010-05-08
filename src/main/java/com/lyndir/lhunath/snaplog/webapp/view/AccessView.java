@@ -126,7 +126,7 @@ public class AccessView extends GenericPanel<Album> {
                                     }
 
                                     @Override
-                                    public void onClick(AjaxRequestTarget target) {
+                                    public void onClick(final AjaxRequestTarget target) {
 
                                         try {
                                             securityService.setUserPermission( SnaplogSession.get().newToken(),
