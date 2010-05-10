@@ -49,6 +49,7 @@
                     </p>
 
                     <ul class="users">
+
                         <li wicket:id="users">
                             <h2 wicket:id="name">[Username]</h2>
 
@@ -57,6 +58,21 @@
                                     <a wicket:id="toggle">
                                         <img wicket:id="icon" />
                                         <span wicket:id="label">[Permisson]</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li wicket:id="defaultUser">
+                            <h2>
+                                <wicket:message key="defaultUser">[Everyone Else]</wicket:message>
+                            </h2>
+
+                            <ul class="permissions">
+                                <li wicket:id="permissions">
+                                    <a wicket:id="toggle">
+                                        <img wicket:id="icon" />
+                                        <span wicket:id="label">[Permission]</span>
                                     </a>
                                 </li>
                             </ul>

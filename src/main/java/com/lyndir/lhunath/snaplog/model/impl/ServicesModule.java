@@ -27,7 +27,6 @@ import com.google.inject.AbstractModule;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.aws.S3Album;
-import com.lyndir.lhunath.snaplog.data.security.ACL;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
 import com.lyndir.lhunath.snaplog.data.user.LinkID;
 import com.lyndir.lhunath.snaplog.data.user.User;
@@ -73,28 +72,12 @@ public class ServicesModule extends AbstractModule {
 
         // Watch for unoptimized queries.
         ((ObjectContainerBase) db).getNativeQueryHandler().addListener( new Db4oQueryExecutionListener() {
-            public void notifyQueryExecuted(NQOptimizationInfo info) {
+            @Override
+            public void notifyQueryExecuted(final NQOptimizationInfo info) {
                 //if (NativeQueryHandler.UNOPTIMIZED.equals(info.optimized()))
                 logger.dbg( "%s", info );
             }
         } );
-
-        // Update dummy data.
-        ACL.DEFAULT = new User( new LinkID( ACL.class.getCanonicalName() ), "[DEFAULT]" );
-        ObjectSet<User> defaultQuery = db.query( new Predicate<User>() {
-
-            @Override
-            public boolean match(final User candidate) {
-
-                return candidate.getLinkID().equals( ACL.DEFAULT.getLinkID() );
-            }
-        } );
-        if (defaultQuery.hasNext())
-            ACL.DEFAULT = defaultQuery.next();
-        else
-            db.store( ACL.DEFAULT );
-
-        db.store( SnaplogConstants.DEFAULT_ALBUM );
 
         // Find default user.
         SnaplogConstants.DEFAULT_USER = new User( new LinkID( "b21e33e2-b63e-4f06-8f52-84509883e1d1" ), "lhunath" );
@@ -102,31 +85,61 @@ public class ServicesModule extends AbstractModule {
         if (defaultUserQuery.hasNext())
             SnaplogConstants.DEFAULT_USER = defaultUserQuery.next();
         // Configure default user.
+        if (!((ObjectContainerBase) db).isActive( SnaplogConstants.DEFAULT_USER ))
+            logger.dbg( "Was not active: %s", SnaplogConstants.DEFAULT_USER );
         db.store( SnaplogConstants.DEFAULT_USER );
 
         // Find default user's profile.
-        UserProfile defaultUserProfile = new UserProfile( SnaplogConstants.DEFAULT_USER );
-        ObjectSet<UserProfile> defaultUserProfileQuery = db.queryByExample( defaultUserProfile );
+        UserProfile defaultUserProfile;
+        ObjectSet<UserProfile> defaultUserProfileQuery = db.query( new Predicate<UserProfile>() {
+            @Override
+            public boolean match(final UserProfile candidate) {
+
+                return candidate.getUser().equals( SnaplogConstants.DEFAULT_USER );
+            }
+        } );
         if (defaultUserProfileQuery.hasNext())
             defaultUserProfile = defaultUserProfileQuery.next();
+        else
+            defaultUserProfile = new UserProfile( SnaplogConstants.DEFAULT_USER );
         // Configure default user's profile.
         defaultUserProfile.getACL().setDefaultPermission( Permission.VIEW );
+        if (!((ObjectContainerBase) db).isActive( defaultUserProfile ))
+            logger.dbg( "Was not active: %s", defaultUserProfile );
         db.store( defaultUserProfile );
 
         // Find default user's album.
-        SnaplogConstants.DEFAULT_ALBUM = new S3Album( defaultUserProfile, "Life" );
-        ObjectSet<Object> defaultAlbumQuery = db.queryByExample( SnaplogConstants.DEFAULT_ALBUM );
+        ObjectSet<Album> defaultAlbumQuery = db.query( new Predicate<Album>() {
+            @Override
+            public boolean match(final Album candidate) {
+
+                return candidate.getOwner().equals( SnaplogConstants.DEFAULT_USER ) && "Life".equals( candidate.getName() );
+            }
+        } );
         if (defaultAlbumQuery.hasNext())
-            SnaplogConstants.DEFAULT_ALBUM = (Album) defaultAlbumQuery.next();
+            SnaplogConstants.DEFAULT_ALBUM = defaultAlbumQuery.next();
+        else
+            SnaplogConstants.DEFAULT_ALBUM = new S3Album( defaultUserProfile, "Life" );
         // Configure default user's album.
         SnaplogConstants.DEFAULT_ALBUM.setOwnerProfile( defaultUserProfile );
         SnaplogConstants.DEFAULT_ALBUM.getACL().setDefaultPermission( Permission.VIEW );
         SnaplogConstants.DEFAULT_ALBUM
                 .setDescription(
                         "<p>Arbitrary snapshots from Maarten's life.</p><p><label>Camera:</label><input value='Canon Powershot Pro1' /></p>" );
+        if (!((ObjectContainerBase) db).isActive( SnaplogConstants.DEFAULT_ALBUM ))
+            logger.dbg( "Was not active: %s", SnaplogConstants.DEFAULT_ALBUM );
         db.store( SnaplogConstants.DEFAULT_ALBUM );
 
         logger.dbg( "Default user: %s, profile: %s (ACL: %s), album: %s (ACL: %s)", SnaplogConstants.DEFAULT_USER, defaultUserProfile,
                     defaultUserProfile.getACL(), SnaplogConstants.DEFAULT_ALBUM, SnaplogConstants.DEFAULT_ALBUM.getACL() );
+        logger.dbg( "Known users:" );
+        for (final User user : db.query( User.class ))
+            logger.dbg( "    - %s", user );
+        logger.dbg( "Known profiles:" );
+        for (final UserProfile userProfile : db.query( UserProfile.class ))
+            logger.dbg( "    - %s", userProfile );
+        logger.dbg( "Known albums:" );
+        for (final Album album : db.query( Album.class ))
+            logger.dbg( "    - %s", album );
     }
 }

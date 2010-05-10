@@ -49,6 +49,7 @@ public abstract class AbstractSecureObject<P extends SecureObject<?>> implements
      * @param owner The new owner of this object.
      */
     public void setOwner(final User owner) {
+
         this.owner = owner;
     }
 

@@ -15,6 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.model.impl;
 
+import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.db4o.ObjectContainer;
@@ -146,6 +147,16 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
+    public Permission getDefaultPermission(final SecurityToken token, final SecureObject<?> o)
+            throws PermissionDeniedException {
+
+        checkNotNull( o, "Given secure object must not be null." );
+        assertAccess( Permission.ADMINISTER, token, o );
+
+        return o.getACL().getDefaultPermission();
+    }
+
+    @Override
     public Permission getEffectivePermissions(final SecurityToken token, final User user, final SecureObject<?> o)
             throws PermissionDeniedException {
 
@@ -166,6 +177,7 @@ public class SecurityServiceImpl implements SecurityService {
     public Iterator<Pair<User, Permission>> iterateUserPermissions(final SecurityToken token, final SecureObject<?> o)
             throws PermissionDeniedException {
 
+        checkNotNull( o, "Given secure object must not be null." );
         assertAccess( Permission.ADMINISTER, token, o );
 
         return Iterators.unmodifiableIterator( new AbstractIterator<Pair<User, Permission>>() {
@@ -197,13 +209,30 @@ public class SecurityServiceImpl implements SecurityService {
     public int countPermittedUsers(final SecurityToken token, final SecureObject<?> o)
             throws PermissionDeniedException {
 
+        checkNotNull( o, "Given secure object must not be null." );
+
         assertAccess( Permission.ADMINISTER, token, o );
         return o.getACL().getPermittedUsers().size();
     }
 
     @Override
+    public void setDefaultPermission(final SecurityToken token, final SecureObject<?> o, final Permission permission)
+            throws PermissionDeniedException {
+
+        checkNotNull( o, "Given secure object must not be null." );
+
+        assertAccess( Permission.ADMINISTER, token, o );
+        o.getACL().setDefaultPermission( permission );
+        db.store( o );
+    }
+
+    @Override
     public void setUserPermission(final SecurityToken token, final SecureObject<?> o, final User user, final Permission permission)
             throws PermissionDeniedException {
+
+        checkNotNull( o, "Given secure object must not be null." );
+        checkNotNull( user, "Given user must not be null." );
+        checkArgument( !o.getOwner().equals( user ), "Given user must not be the object's owner." );
 
         assertAccess( Permission.ADMINISTER, token, o );
         o.getACL().setUserPermission( user, permission );

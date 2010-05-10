@@ -144,11 +144,57 @@ public class AccessView extends GenericPanel<Album> {
                     }
                 } );
 
+                add( new WebMarkupContainer( "defaultUser" ) {
+
+                    {
+                        // Look up the default permission.
+                        Permission _defaultPermission = null;
+                        try {
+                            _defaultPermission = securityService.getDefaultPermission( SnaplogSession.get().newToken(), getModelObject() );
+                        }
+                        catch (PermissionDeniedException e) {
+                            error( e.getLocalizedMessage() );
+                        }
+                        final Permission defaultPermission = _defaultPermission;
+
+                        // Add the default permission UI.
+                        add( new ListView<Permission>( "permissions", ImmutableList.copyOf( Permission.values() ) ) {
+
+                            @Override
+                            protected void populateItem(final ListItem<Permission> permissionItem) {
+
+                                final Permission permission = permissionItem.getModelObject();
+
+                                permissionItem.add( new AjaxLink<Object>( "toggle" ) {
+
+                                    {
+                                        add( permission.newSprite( "icon", 64 ) );
+                                        add( new Label( "label", permission.localizedString() ) );
+                                    }
+
+                                    @Override
+                                    public void onClick(final AjaxRequestTarget target) {
+
+                                        try {
+                                            securityService.setDefaultPermission( SnaplogSession.get().newToken(), AccessView.this.getModelObject(), permission );
+
+                                            target.addComponent( content );
+                                        }
+                                        catch (PermissionDeniedException e) {
+                                            error( e.getLocalizedMessage() );
+                                        }
+                                    }
+                                }.add( new CSSClassAttributeAppender( permission == defaultPermission? "on": null ) ) );
+                            }
+                        } );
+                    }} );
+
                 add( new Form<Object>( "otherUser" ) {
 
                     IModel<String> name = new Model<String>();
 
                     {
+                        // Add the new user permission UI.
                         add( new RequiredTextField<String>( "name", name ) );
                         add( new ListView<Permission>( "permissions", ImmutableList.copyOf( Permission.values() ) ) {
 
@@ -169,8 +215,8 @@ public class AccessView extends GenericPanel<Album> {
 
                                         try {
                                             User user = userService.getUserWithUserName( name.getObject() );
-                                            securityService.setUserPermission( SnaplogSession.get().newToken(),
-                                                                               AccessView.this.getModelObject(), user, permission );
+                                            securityService.setUserPermission( SnaplogSession.get().newToken(), AccessView.this.getModelObject(),
+                                                                               user, permission );
 
                                             target.addComponent( content );
                                         }

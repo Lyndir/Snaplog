@@ -17,6 +17,7 @@ package com.lyndir.lhunath.snaplog.data.security;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.collect.ImmutableSet;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.user.User;
 import java.util.HashMap;
@@ -35,14 +36,8 @@ public class ACL {
 
     static final Logger logger = Logger.get( ACL.class );
 
-    /**
-     * TODO: Remove Me and use null key instead. Workaround for:
-     *
-     * @see <a href="http://tracker.db4o.com/browse/COR-1894">COR-1894</a>
-     */
-    public static User DEFAULT;
-
     private final Map<User, Permission> userPermissions;
+    private Permission defaultPermission;
 
     /**
      * An {@link ACL} that grants users the {@link Permission#INHERIT} permission by default.
@@ -71,7 +66,7 @@ public class ACL {
 
         checkNotNull( permission, "Given permission must not be null." );
 
-        userPermissions.put( DEFAULT, permission );
+        defaultPermission = permission;
     }
 
     /**
@@ -118,6 +113,14 @@ public class ACL {
     }
 
     /**
+     * @return The permission granted to users that have no specific user permission in this ACL.
+     */
+    public Permission getDefaultPermission() {
+
+        return checkNotNull( defaultPermission, "Default permission is unset." );
+    }
+
+    /**
      * The user's permission is either the one set for him through {@link #setUserPermission(User, Permission)} or the default permission of
      * this ACL.
      *
@@ -128,7 +131,7 @@ public class ACL {
     public Permission getUserPermission(final User user) {
 
         if (isUserPermissionDefault( user ))
-            return checkNotNull( userPermissions.get( DEFAULT ), "Default permission is unset." );
+            return getDefaultPermission();
 
         return checkNotNull( userPermissions.get( user ), "Permission for %s is unset.", user );
     }
@@ -148,7 +151,7 @@ public class ACL {
      */
     public Set<User> getPermittedUsers() {
 
-        return userPermissions.keySet();
+        return ImmutableSet.copyOf( userPermissions.keySet() );
     }
 
     /**
@@ -157,6 +160,6 @@ public class ACL {
     @Override
     public String toString() {
 
-        return String.format( "{acl: permissions=%s}", userPermissions );
+        return String.format( "{acl: default=%s, users=%s}", defaultPermission, userPermissions );
     }
 }

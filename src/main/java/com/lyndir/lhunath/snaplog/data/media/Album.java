@@ -20,7 +20,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Objects;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.security.AbstractSecureObject;
-import com.lyndir.lhunath.snaplog.data.security.Permission;
 import com.lyndir.lhunath.snaplog.data.user.UserProfile;
 import java.io.Serializable;
 
@@ -76,13 +75,7 @@ public abstract class Album extends AbstractSecureObject<UserProfile> implements
 
         checkNotNull( ownerProfile, "Given ownerProfile must not be null." );
 
-        if (this.ownerProfile != null)
-            getACL().unsetUserPermission( this.ownerProfile.getUser() );
-
         this.ownerProfile = ownerProfile;
-
-        if (getACL().isUserPermissionDefault(this.ownerProfile.getUser()))
-            getACL().setUserPermission( this.ownerProfile.getUser(), Permission.INHERIT );
     }
 
     /**

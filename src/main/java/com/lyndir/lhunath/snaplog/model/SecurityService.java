@@ -61,8 +61,18 @@ public interface SecurityService {
 
     /**
      * @param token The token used to authenticate the available permissions on the given object.
-     * @param user  The user who's permission on the given object to retrieve or <code>null</code> to retrieve the object's default
-     *              permissions.
+     * @param o     The object whose permissions to retrieve.
+     *
+     * @return The permissions granted to any user that doesn't have a specific user permission set on the object.
+     *
+     * @throws PermissionDeniedException When the security token doesn't grant {@link Permission#ADMINISTER} on the object.
+     */
+    Permission getDefaultPermission(final SecurityToken token, final SecureObject<?> o)
+            throws PermissionDeniedException;
+
+    /**
+     * @param token The token used to authenticate the available permissions on the given object.
+     * @param user  The user who's permission on the given object to retrieve.  <code>null</code> represents an anonymous user.
      * @param o     The object whose permissions to retrieve.
      *
      * @return The effective permissions granted for this object to the given user are this object's permissions for the user or its
@@ -96,13 +106,26 @@ public interface SecurityService {
             throws PermissionDeniedException;
 
     /**
+     * Change the permissions a given to any users without specific permissions.
+     *
+     * @param token      The token used to authenticate the available permissions on the given object.
+     * @param o          The object whose permissions must be modified.
+     * @param permission The new permissions the to set on the given secure object for the given user.
+     *
+     * @throws PermissionDeniedException When the security token doesn't grant {@link Permission#ADMINISTER} on the object.
+     */
+    void setDefaultPermission(SecurityToken token, SecureObject<?> o, Permission permission)
+            throws PermissionDeniedException;
+
+    /**
      * Change the permissions a given user has on a given secure object.
      *
      * @param token      The token used to authenticate the available permissions on the given object.
      * @param o          The object whose permissions must be modified.
      * @param user       The user for whom permissions must be modified.
      * @param permission The new permissions the to set on the given secure object for the given user.
-     * @throws PermissionDeniedException  When the security token doesn't grant {@link Permission#ADMINISTER} on the object.
+     *
+     * @throws PermissionDeniedException When the security token doesn't grant {@link Permission#ADMINISTER} on the object.
      */
     void setUserPermission(SecurityToken token, SecureObject<?> o, User user, Permission permission)
             throws PermissionDeniedException;

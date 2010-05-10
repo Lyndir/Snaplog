@@ -4,6 +4,7 @@
 <properties>
 
     <entry key="albumAccess">Access Controls</entry>
+    <entry key="defaultUser">Everyone Else</entry>
     <entry key="albumAccessInfo">
         These controls are used to grant others the rights to view or manage your albums.&lt;br /&gt;&lt;br /&gt;
         It is important to assume the principle of "&lt;dfn&gt;Secure By Default&lt;/dfn&gt;".
