@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
+import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.logging.exception.InternalInconsistencyException;
@@ -102,8 +103,13 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
         checkNotNull( album, "Given album must not be null." );
 
+        // TODO: Loading of media should happen on a completely separate thread; decoupled from web requests.
         List<S3Media> files = new LinkedList<S3Media>();
-        for (final S3Object albumObject : awsService.listObjects( getObjectKey( album, Quality.ORIGINAL ) )) {
+        ImmutableList<S3Object> objects = awsService.listObjects( getObjectKey( album, Quality.ORIGINAL ) );
+        int o = 0;
+        for (final S3Object albumObject : objects) {
+            if (o++ % 100 == 0)
+            logger.dbg( "Loading object %d / %d", ++o, objects.size() );
 
             if (!VALID_NAME.matcher( albumObject.getKey() ).matches())
                 // Ignore files that don't have a valid media name.

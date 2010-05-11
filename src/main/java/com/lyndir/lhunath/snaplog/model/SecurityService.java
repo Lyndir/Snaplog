@@ -23,6 +23,7 @@ import com.lyndir.lhunath.snaplog.data.security.Permission;
 import com.lyndir.lhunath.snaplog.data.security.SecureObject;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.User;
+import com.lyndir.lhunath.snaplog.error.IllegalOperationException;
 import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import java.util.Iterator;
 
@@ -126,9 +127,10 @@ public interface SecurityService {
      * @param permission The new permissions the to set on the given secure object for the given user.
      *
      * @throws PermissionDeniedException When the security token doesn't grant {@link Permission#ADMINISTER} on the object.
+     * @throws IllegalOperationException When the given user is the object's owner.
      */
     void setUserPermission(SecurityToken token, SecureObject<?> o, User user, Permission permission)
-            throws PermissionDeniedException;
+            throws PermissionDeniedException, IllegalOperationException;
 
     /**
      * @param token     Request authentication token should authorize {@link Permission#VIEW} on the album data's media to return.

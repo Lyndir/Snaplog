@@ -15,7 +15,6 @@
  */
 package com.lyndir.lhunath.snaplog.model.impl;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.db4o.ObjectContainer;
@@ -33,6 +32,7 @@ import com.lyndir.lhunath.snaplog.data.security.Permission;
 import com.lyndir.lhunath.snaplog.data.security.SecureObject;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.User;
+import com.lyndir.lhunath.snaplog.error.IllegalOperationException;
 import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.model.SecurityService;
 import java.util.Iterator;
@@ -228,11 +228,13 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public void setUserPermission(final SecurityToken token, final SecureObject<?> o, final User user, final Permission permission)
-            throws PermissionDeniedException {
+            throws PermissionDeniedException, IllegalOperationException {
 
         checkNotNull( o, "Given secure object must not be null." );
         checkNotNull( user, "Given user must not be null." );
-        checkArgument( !o.getOwner().equals( user ), "Given user must not be the object's owner." );
+
+        if(o.getOwner().equals( user ))
+            throw new IllegalOperationException( "Given user must not be the object's owner." );
 
         assertAccess( Permission.ADMINISTER, token, o );
         o.getACL().setUserPermission( user, permission );
