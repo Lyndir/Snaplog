@@ -17,6 +17,7 @@ package com.lyndir.lhunath.snaplog.webapp.tab;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.collect.ImmutableList;
 import com.lyndir.lhunath.lib.system.localization.UseKey;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
@@ -24,22 +25,21 @@ import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.AlbumTabModels;
-import com.lyndir.lhunath.snaplog.webapp.view.AccessView;
+import com.lyndir.lhunath.snaplog.webapp.tool.AccessPopup;
+import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import com.lyndir.lhunath.snaplog.webapp.view.BrowserView;
 import com.lyndir.lhunath.snaplog.webapp.view.TagsView;
 import com.lyndir.lhunath.snaplog.webapp.view.TimelineView;
+import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
 
 /**
- * <h2>{@link AlbumTabPanel}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link AlbumTabPanel}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * <i>Mar 1, 2010</i>
- * </p>
+ * <p> <i>Mar 1, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -59,6 +59,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         // Browser
         add( new BrowserView( "browser", getModelObject(), getModelObject().currentTime() ) );
 
+        // TODO: these panels should come from the SnaplogTool
         // Time line.
         add( new TimelineView( "timelinePopup", getModelObject() ) );
 
@@ -66,9 +67,8 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         add( new TagsView( "tagsPopup", getModelObject() ) );
 
         // Access.
-        add( new AccessView( "accessPopup", getModelObject() ) );
+        add( new AccessPopup( "accessPopup", getModelObject() ) );
     }
-
 
     interface Messages {
 
@@ -80,30 +80,37 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
     }
 
 
-    static class AlbumTools extends Panel {
-
-        AlbumTools(final String id) {
-
-            super( id );
-        }
-    }
-
-
     /**
-     * <h2>{@link AlbumTab}<br>
-     * <sub>The interface panel for browsing through the album content.</sub></h2>
+     * <h2>{@link AlbumTab}<br> <sub>The interface panel for browsing through the album content.</sub></h2>
      *
-     * <p>
-     * <i>May 31, 2009</i>
-     * </p>
+     * <p> <i>May 31, 2009</i> </p>
      *
      * @author lhunath
      */
     static class AlbumTab implements SnaplogTab {
 
         static final Logger logger = Logger.get( AlbumTab.class );
-        static final Messages msgs = MessagesFactory.create( Messages.class, AlbumTabPanel.class );
+        static final Messages msgs = MessagesFactory.create( Messages.class );
 
+        private final IModel<Album> model = new IModel<Album>() {
+
+            @Override
+            public void detach() {
+
+            }
+
+            @Override
+            public Album getObject() {
+
+                return SnaplogSession.get().getFocusedAlbum();
+            }
+
+            @Override
+            public void setObject(final Album object) {
+
+                SnaplogSession.get().setFocusedAlbum( object );
+            }
+        };
 
         /**
          * {@inheritDoc}
@@ -127,34 +134,16 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         @Override
         public Panel getPanel(final String panelId) {
 
-            return new AlbumTabPanel( panelId, new IModel<Album>() {
-
-                @Override
-                public void detach() {
-
-                }
-
-                @Override
-                public Album getObject() {
-
-                    return SnaplogSession.get().getFocusedAlbum();
-                }
-
-                @Override
-                public void setObject(final Album object) {
-
-                    SnaplogSession.get().setFocusedAlbum( object );
-                }
-            } );
+            return new AlbumTabPanel( panelId, model );
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public Panel getTools(final String panelId) {
+        public List<? extends SnaplogTool> listTools() {
 
-            return new AlbumTools( panelId );
+            return ImmutableList.of( new AccessPopup.AccessTool( "accessPopup", model ) );
         }
 
         /**

@@ -61,7 +61,7 @@ public class AlbumProvider<A extends Album, M extends Media> implements MediaPro
      */
     public MediaProviderService<A, M> getMediaProviderService() {
 
-        return GuiceContext.get().getInstance( mediaProviderServiceType );
+        return GuiceContext.inject( mediaProviderServiceType );
     }
 
     /**

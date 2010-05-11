@@ -15,10 +15,13 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
+import com.google.common.collect.ImmutableList;
 import com.lyndir.lhunath.lib.system.localization.UseKey;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
+import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
+import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
@@ -74,7 +77,7 @@ public class WorkbenchTabPanel extends Panel {
     static class WorkbenchTab implements SnaplogTab {
 
         static final Logger logger = Logger.get( WorkbenchTab.class );
-        static final Messages msgs = MessagesFactory.create( Messages.class, WorkbenchTabPanel.class );
+        static final Messages msgs = MessagesFactory.create( Messages.class );
 
 
         /**
@@ -107,18 +110,15 @@ public class WorkbenchTabPanel extends Panel {
          * {@inheritDoc}
          */
         @Override
-        public Panel getTools(final String panelId) {
-
-            return null;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
         public boolean isVisible() {
 
             return SnaplogSession.get().getFocusedAlbum() != null;
+        }
+
+        @Override
+        public List<? extends SnaplogTool> listTools() {
+
+            return ImmutableList.of();
         }
     }
 }

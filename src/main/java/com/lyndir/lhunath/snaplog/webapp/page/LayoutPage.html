@@ -64,17 +64,16 @@
                 </li>
             </ul>
 
-            <ul class="plain toolbar" wicket:id="toolbar">
-                <li class="start"></li>
-                <li class="end"></li>
+            <wicket:enclosure child="tools">
+                <ul class="plain toolbar">
+                    <li class="start"></li>
+                    <li class="end"></li>
 
-                <!--li>
-                    <span wicket:id="focusedUser">[Viewing lhunath's]</span>
-                    <span wicket:id="focusedContent">[content].</span>
-                </li-->
-
-                <wicket:container wicket:id="toolsPanel" />
-            </ul>
+                    <li wicket:id="tools"><a wicket:id="link" class="ss_sprite">
+                        [Tool]
+                    </a></li>
+                </ul>
+            </wicket:enclosure>
         </div>
 
         <div class="messages" wicket:id="messages">

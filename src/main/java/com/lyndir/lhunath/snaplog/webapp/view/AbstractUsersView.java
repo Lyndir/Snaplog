@@ -64,8 +64,7 @@ public abstract class AbstractUsersView extends DataView<User> {
             @Override
             protected List<User> load() {
 
-                UserService userService = GuiceContext.get().getInstance( UserService.class );
-                return userService.queryUsers( predicate );
+                return GuiceContext.inject( UserService.class ).queryUsers( predicate );
             }
         }, usersPerPage );
     }

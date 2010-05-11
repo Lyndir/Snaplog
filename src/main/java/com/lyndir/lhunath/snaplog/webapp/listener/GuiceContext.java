@@ -142,4 +142,17 @@ public class GuiceContext extends GuiceServletContextListener {
 
         return get( ((WebApplication) Application.get( wicketFilter.toString() )).getServletContext() );
     }
+
+    /**
+     * Convenience method for <code>get().getInstance( type );</code>.
+     *
+     * @param type The type to inject.
+     * @param <T>  The type of the type to inject.
+     *
+     * @return The injected instance of the given type.
+     */
+    public static <T> T inject(final Class<T> type) {
+
+        return get().getInstance( type );
+    }
 }

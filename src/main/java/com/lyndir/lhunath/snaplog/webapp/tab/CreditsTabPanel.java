@@ -69,7 +69,7 @@ public class CreditsTabPanel extends Panel {
     static class CreditsTab implements ITab {
 
         static final Logger logger = Logger.get( CreditsTab.class );
-        static final Messages msgs = MessagesFactory.create( Messages.class, CreditsTabPanel.class );
+        static final Messages msgs = MessagesFactory.create( Messages.class );
 
 
         /**

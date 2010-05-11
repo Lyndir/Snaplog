@@ -15,6 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
+import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.collection.IPredicate;
@@ -30,10 +31,12 @@ import com.lyndir.lhunath.snaplog.model.UserService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.page.util.LayoutPageUtils;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.ExpoTabModels;
+import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import com.lyndir.lhunath.snaplog.webapp.view.AbstractAlbumsView;
 import com.lyndir.lhunath.snaplog.webapp.view.AbstractUsersView;
 import com.lyndir.lhunath.snaplog.webapp.view.MediaView;
 import com.lyndir.lhunath.snaplog.webapp.view.UserLink;
+import java.util.List;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
 import org.apache.wicket.markup.ComponentTag;
@@ -367,18 +370,15 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
          * {@inheritDoc}
          */
         @Override
-        public Panel getTools(final String panelId) {
-
-            return null;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
         public boolean isVisible() {
 
             return true;
+        }
+
+        @Override
+        public List<? extends SnaplogTool> listTools() {
+
+            return ImmutableList.of();
         }
     }
 }

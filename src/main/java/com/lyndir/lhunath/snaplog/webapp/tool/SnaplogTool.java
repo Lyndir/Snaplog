@@ -13,15 +13,14 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.webapp.tab;
+package com.lyndir.lhunath.snaplog.webapp.tool;
 
-import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
-import java.util.List;
-import org.apache.wicket.extensions.markup.html.tabs.ITab;
+import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
 
 
 /**
- * <h2>{@link SnaplogTab}<br>
+ * <h2>{@link SnaplogTool}<br>
  * <sub>[in short] (TODO).</sub></h2>
  *
  * <p>
@@ -30,10 +29,20 @@ import org.apache.wicket.extensions.markup.html.tabs.ITab;
  *
  * @author lhunath
  */
-public interface SnaplogTab extends ITab {
+public interface SnaplogTool {
 
     /**
-     * @return A list of tools that this tab contributes to the toolbar.
+     * @return The title on the toolbar for this tool.
      */
-    List<? extends SnaplogTool> listTools();
+    IModel<String> getTitle();
+
+    /**
+     * @return The panel that provides the tool's features.
+     */
+    Panel getPanel();
+
+    /**
+     * @return <code>true</code> when this tool should be available from the toolbar.
+     */
+    boolean isVisible();
 }

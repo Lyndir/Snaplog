@@ -13,8 +13,9 @@ import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels.TabItem;
 import com.lyndir.lhunath.snaplog.webapp.page.util.LayoutPageUtils;
+import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
+import java.util.List;
 import net.link.safeonline.wicket.component.linkid.LinkIDLoginLink;
-import org.apache.wicket.Component;
 import org.apache.wicket.Page;
 import org.apache.wicket.RestartResponseException;
 import org.apache.wicket.Session;
@@ -32,7 +33,6 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
 
@@ -47,13 +47,11 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
 
     protected final Logger logger = Logger.get( getClass() );
 
-    private static final String TOOLS_PANEL = "toolsPanel";
     private static final String CONTENT_PANEL = "contentPanel";
 
     final WebMarkupContainer userEntry;
     final WebMarkupContainer userSummary;
     final WebMarkupContainer tabsContainer;
-    final WebMarkupContainer toolbar;
     final WebMarkupContainer contentContainer;
     final WebMarkupContainer messages;
 
@@ -164,39 +162,30 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
         tabsContainer.setOutputMarkupId( true );
 
         // Toolbar.
-        add( toolbar = new WebMarkupContainer( "toolbar" ) {
-
-            final IModel<Component> activeTools = new LoadableDetachableModel<Component>() {
-
-                @Override
-                protected Component load() {
-
-                    Component toolsPanel = LayoutPageUtils.getActiveTab().get().getTools( TOOLS_PANEL );
-                    if (toolsPanel == null)
-                        toolsPanel = new WebMarkupContainer( TOOLS_PANEL ).setVisible( false );
-
-                    return toolsPanel;
-                }
-            };
-
-            {
-                /* FIXME: Ugly.
-                add( new Label( "focusedUser", getModelObject().focusedUser() ) );
-                add( new Label( "focusedContent", getModelObject().focusedContent() ) );*/
-            }
+        add( new ListView<SnaplogTool>( "tools", new LoadableDetachableModel<List<? extends SnaplogTool>>() {
 
             @Override
-            protected void onBeforeRender() {
+            protected List<? extends SnaplogTool> load() {
 
-                addOrReplace( activeTools.getObject() );
+                return LayoutPageUtils.getActiveTab().get().listTools();
+            }
+        } ) {
 
-                super.onBeforeRender();
+            @Override
+            protected void populateItem(final ListItem<SnaplogTool> item) {
+
+                item.add( new Label( "link", item.getModelObject().getTitle() ) );
+                item.setVisible( item.getModelObject().isVisible() );
             }
 
             @Override
             public boolean isVisible() {
 
-                return activeTools.getObject().isVisible() /*|| getModelObject().focusedUser().getObject() != null*/;
+                for (final SnaplogTool tool : getList())
+                    if (tool.isVisible())
+                        return true;
+
+                return false;
             }
         } );
 

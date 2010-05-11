@@ -17,6 +17,7 @@ package com.lyndir.lhunath.snaplog.webapp.tab;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.ObjectUtils;
@@ -37,8 +38,10 @@ import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.page.util.LayoutPageUtils;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels.NewAlbumFormModels;
+import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import com.lyndir.lhunath.snaplog.webapp.view.AbstractAlbumsView;
 import com.lyndir.lhunath.snaplog.webapp.view.MediaView;
+import java.util.List;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -322,18 +325,15 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
          * {@inheritDoc}
          */
         @Override
-        public Panel getTools(final String panelId) {
-
-            return null;
-        }
-
-        /**
-         * {@inheritDoc}
-         */
-        @Override
         public boolean isVisible() {
 
             return SnaplogSession.get().getFocusedUser() != null;
+        }
+
+        @Override
+        public List<? extends SnaplogTool> listTools() {
+
+            return ImmutableList.of();
         }
     }
 }

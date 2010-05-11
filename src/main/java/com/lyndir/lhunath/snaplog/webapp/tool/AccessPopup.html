@@ -1,0 +1,88 @@
+<!DOCTYPE html PUBLIC "-//W5C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd" xml:lang="en"
+      lang="en">
+
+    <head>
+        <wicket:head>
+            <script type="text/javascript">
+
+                // Access
+                function access(action) {
+                    $('#accessPopup').animate({height:action});
+                }
+
+                $(document).ready(function() {
+                    $('#toolAccess').click(function () {
+                        access('toggle');
+                    });
+                    $('#accessPopupClose').click(function () {
+                        access('hide');
+                    });
+                });
+
+            </script>
+        </wicket:head>
+    </head>
+
+    <body>
+        <wicket:extend>
+
+            <h1>
+                <wicket:message key="title" />
+            </h1>
+            <p>
+                <wicket:message key="info" />
+            </p>
+
+            <ul class="users">
+
+                <li wicket:id="users">
+                    <h2 wicket:id="name">[Username]</h2>
+
+                    <ul class="permissions">
+                        <li wicket:id="permissions">
+                            <a wicket:id="toggle">
+                                <img wicket:id="icon" />
+                                <span wicket:id="label">[Permisson]</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li wicket:id="defaultUser">
+                    <h2>
+                        <wicket:message key="defaultUser">[Everyone Else]</wicket:message>
+                    </h2>
+
+                    <ul class="permissions">
+                        <li wicket:id="permissions">
+                            <a wicket:id="toggle">
+                                <img wicket:id="icon" />
+                                <span wicket:id="label">[Permission]</span>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+
+                <li>
+                    <form action="post" wicket:id="otherUser">
+                        <h2><input wicket:id="name" /></h2>
+
+                        <ul class="permissions">
+                            <li wicket:id="permissions">
+                                <a wicket:id="toggle">
+                                    <img wicket:id="icon" />
+                                    <span wicket:id="label">[Permission]</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </form>
+                </li>
+            </ul>
+
+        </wicket:extend>
+    </body>
+
+</html>
+
