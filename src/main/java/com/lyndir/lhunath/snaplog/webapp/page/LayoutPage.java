@@ -55,6 +55,8 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
     final WebMarkupContainer contentContainer;
     final WebMarkupContainer messages;
 
+    final LoadableDetachableModel<List<? extends SnaplogTool>> tools;
+
     /**
      * Create a new {@link LayoutPage}.
      */
@@ -162,20 +164,22 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
         tabsContainer.setOutputMarkupId( true );
 
         // Toolbar.
-        add( new ListView<SnaplogTool>( "tools", new LoadableDetachableModel<List<? extends SnaplogTool>>() {
+        tools = new LoadableDetachableModel<List<? extends SnaplogTool>>() {
 
             @Override
             protected List<? extends SnaplogTool> load() {
 
                 return LayoutPageUtils.getActiveTab().get().listTools();
             }
-        } ) {
+        };
+        add( new ListView<SnaplogTool>( "tools", tools ) {
 
             @Override
             protected void populateItem(final ListItem<SnaplogTool> item) {
 
-                item.add( new Label( "link", item.getModelObject().getTitle() ) );
-                item.setVisible( item.getModelObject().isVisible() );
+                SnaplogTool tool = item.getModelObject();
+                item.add( new Label( "link", tool.getTitle() ).add( CSSClassAttributeAppender.of( tool.getTitleClass() ) ) );
+                item.setVisible( tool.isVisible() );
             }
 
             @Override
@@ -227,6 +231,17 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
 
         // Page Content.
         add( (contentContainer = new WebMarkupContainer( "contentContainer" ) {
+
+            {
+                add( new ListView<SnaplogTool>( "toolPanels", tools ) {
+                    @Override
+                    protected void populateItem(final ListItem<SnaplogTool> item) {
+
+                        SnaplogTool tool = item.getModelObject();
+                        item.add( tool.getPanel( "panel" ).setVisible( tool.isVisible() ) );
+                    }
+                } );
+            }
 
             @Override
             protected void onBeforeRender() {

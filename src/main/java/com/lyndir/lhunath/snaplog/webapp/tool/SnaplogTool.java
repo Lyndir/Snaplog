@@ -20,12 +20,9 @@ import org.apache.wicket.model.IModel;
 
 
 /**
- * <h2>{@link SnaplogTool}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link SnaplogTool}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * <i>Feb 28, 2010</i>
- * </p>
+ * <p> <i>Feb 28, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -37,9 +34,16 @@ public interface SnaplogTool {
     IModel<String> getTitle();
 
     /**
+     * @return The CSS class to apply to the title.  Useful for setting an icon or so.
+     */
+    IModel<String> getTitleClass();
+
+    /**
+     * @param id The wicket ID that the panel should bind to.
+     *
      * @return The panel that provides the tool's features.
      */
-    Panel getPanel();
+    Panel getPanel(final String id);
 
     /**
      * @return <code>true</code> when this tool should be available from the toolbar.

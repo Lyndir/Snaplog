@@ -34,6 +34,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
+import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
@@ -267,14 +268,12 @@ public class AccessPopup extends PopupPanel<Album> {
 
     public static class AccessTool implements SnaplogTool {
 
-        private final String id;
         private final IModel<Album> model;
 
         /**
          * @param model The model that provides the album whose access should be managed through this tool.
          */
-        public AccessTool(final String id, final IModel<Album> model) {
-            this.id = id;
+        public AccessTool(final IModel<Album> model) {
 
             this.model = model;
         }
@@ -286,7 +285,19 @@ public class AccessPopup extends PopupPanel<Album> {
         }
 
         @Override
-        public Panel getPanel() {
+        public IModel<String> getTitleClass() {
+
+            return new AbstractReadOnlyModel<String>() {
+                @Override
+                public String getObject() {
+
+                    return "ss_sprite ss_key";
+                }
+            };
+        }
+
+        @Override
+        public Panel getPanel(final String id) {
 
             return new AccessPopup( id, model );
         }

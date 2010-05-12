@@ -28,8 +28,6 @@ import com.lyndir.lhunath.snaplog.webapp.tab.model.AlbumTabModels;
 import com.lyndir.lhunath.snaplog.webapp.tool.AccessPopup;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import com.lyndir.lhunath.snaplog.webapp.view.BrowserView;
-import com.lyndir.lhunath.snaplog.webapp.view.TagsView;
-import com.lyndir.lhunath.snaplog.webapp.view.TimelineView;
 import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
@@ -58,16 +56,6 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
 
         // Browser
         add( new BrowserView( "browser", getModelObject(), getModelObject().currentTime() ) );
-
-        // TODO: these panels should come from the SnaplogTool
-        // Time line.
-        add( new TimelineView( "timelinePopup", getModelObject() ) );
-
-        // Tags.
-        add( new TagsView( "tagsPopup", getModelObject() ) );
-
-        // Access.
-        add( new AccessPopup( "accessPopup", getModelObject() ) );
     }
 
     interface Messages {
@@ -143,7 +131,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         @Override
         public List<? extends SnaplogTool> listTools() {
 
-            return ImmutableList.of( new AccessPopup.AccessTool( "accessPopup", model ) );
+            return ImmutableList.of( new AccessPopup.AccessTool( model ) );
         }
 
         /**
