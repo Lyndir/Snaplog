@@ -144,12 +144,23 @@ public abstract class Album extends AbstractSecureObject<UserProfile> implements
     }
 
     @Override
-    public String localizedString() {
+    public String typeDescription() {
+
+        return msgs.type();
+    }
+
+    @Override
+    public String objectDescription() {
 
         return msgs.description( name );
     }
 
-    private interface Messages {
+    interface Messages {
+
+        /**
+         * @return The name of this type.
+         */
+        String type();
 
         /**
          * @param name The name of the album.

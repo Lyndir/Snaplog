@@ -7,6 +7,12 @@
         <wicket:head>
             <script type="text/javascript">
 
+                $(document).ready(function() {
+                    $('.popup .close').click(function () {
+                        popup($(this).closest('.popup').parent().attr('id'), 'hide');
+                    });
+                });
+
             </script>
         </wicket:head>
     </head>
@@ -14,7 +20,7 @@
     <body>
         <wicket:panel>
 
-            <div class="backdrop popup" wicket:id="popup">
+            <div class="backdrop popup">
                 <a class="close ss_sprite ss_cancel"></a>
 
                 <div class="t"></div>

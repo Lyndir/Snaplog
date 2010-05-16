@@ -3,6 +3,8 @@
 
 <properties>
 
+    <entry key="type">Album</entry>
+
     <entry key="description">album "{0}"</entry>
 
 </properties>

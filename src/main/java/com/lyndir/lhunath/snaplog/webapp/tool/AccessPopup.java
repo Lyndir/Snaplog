@@ -25,6 +25,7 @@ import java.util.Iterator;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
+import org.apache.wicket.behavior.SimpleAttributeModifier;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
@@ -74,6 +75,7 @@ public class AccessPopup extends PopupPanel<Album> {
     @Override
     protected void initContent(final WebMarkupContainer content) {
 
+        // TODO: We have three times a list of Permissions, perhaps this should be extracted into a View?
         content.add( new DataView<Pair<User, Permission>>( "users", new AbstractIteratorProvider<Pair<User, Permission>>() {
 
             @Override
@@ -124,7 +126,7 @@ public class AccessPopup extends PopupPanel<Album> {
                         permissionItem.add( new AjaxLink<Object>( "toggle" ) {
                             {
                                 add( permission.newSprite( "icon", 64 ) );
-                                add( new Label( "label", permission.localizedString() ) );
+                                add( new Label( "label", permission.objectDescription() ) );
                             }
 
                             @Override
@@ -143,7 +145,8 @@ public class AccessPopup extends PopupPanel<Album> {
                                     error( e.getLocalizedMessage() );
                                 }
                             }
-                        }.add( new CSSClassAttributeAppender( permission == userPermission? "on": null ) ) );
+                        }.add( new SimpleAttributeModifier( "title", permission.info( AccessPopup.this.getModelObject() ) ) ) //
+                                .add( new CSSClassAttributeAppender( permission == userPermission? "on": null ) ) );
                     }
                 } );
             }
@@ -163,7 +166,7 @@ public class AccessPopup extends PopupPanel<Album> {
 
                             {
                                 add( permission.newSprite( "icon", 64 ) );
-                                add( new Label( "label", permission.localizedString() ) );
+                                add( new Label( "label", permission.objectDescription() ) );
                             }
 
                             @Override
@@ -179,7 +182,8 @@ public class AccessPopup extends PopupPanel<Album> {
                                     error( e.getLocalizedMessage() );
                                 }
                             }
-                        }.add( CSSClassAttributeAppender.of( new LoadableDetachableModel<String>() {
+                        }.add( new SimpleAttributeModifier( "title", permission.info( AccessPopup.this.getModelObject() ) ) ) //
+                                .add( CSSClassAttributeAppender.of( new LoadableDetachableModel<String>() {
                             @Override
                             protected String load() {
 
@@ -217,8 +221,9 @@ public class AccessPopup extends PopupPanel<Album> {
 
                             {
                                 add( permission.newSprite( "icon", 64 ) );
-                                add( new Label( "label", permission.localizedString() ) );
-                            }}.add( new AjaxFormSubmitBehavior( "onclick" ) {
+                                add( new Label( "label", permission.objectDescription() ) );
+                            }}.add( new SimpleAttributeModifier( "title", permission.info( AccessPopup.this.getModelObject() ) ) ) //
+                                .add( new AjaxFormSubmitBehavior( "onclick" ) {
 
                             @Override
                             protected void onSubmit(final AjaxRequestTarget target) {
@@ -266,14 +271,14 @@ public class AccessPopup extends PopupPanel<Album> {
     }
 
 
-    public static class AccessTool implements SnaplogTool {
+    public static class Tool implements SnaplogTool {
 
         private final IModel<Album> model;
 
         /**
          * @param model The model that provides the album whose access should be managed through this tool.
          */
-        public AccessTool(final IModel<Album> model) {
+        public Tool(final IModel<Album> model) {
 
             this.model = model;
         }

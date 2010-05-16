@@ -70,7 +70,13 @@ public abstract class LayoutPageUtils {
         // Find the active tab.
         Tab activeTab = SnaplogSession.get().getActiveTab();
         if (activeTab == null)
-            SnaplogSession.get().setActiveTab( activeTab = Tab.ABOUT );
+            for (Tab tab : Tab.values()) {
+                if (tab.get().isVisible()) {
+                    SnaplogSession.get().setActiveTab( activeTab = tab );
+                    break;
+                }
+            }
+        checkNotNull( activeTab, "Couldn't find any tab to activate." );
 
         return activeTab;
     }

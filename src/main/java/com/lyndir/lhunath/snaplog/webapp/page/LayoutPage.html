@@ -23,17 +23,8 @@
         <script type="text/javascript" src="js/jquery-1.3.2.min.js"></script>
         <script type="text/javascript">
             function popup(id, action) {
-                $(id).animate({height:action});
+                $("#" + id + " .popup").animate({height:action});
             }
-
-            $(document).ready(function() {
-                $('#toolAccess').click(function () {
-                    access('toggle');
-                });
-                $('#accessPopupClose').click(function () {
-                    access('hide');
-                });
-            });
         </script>
         <!--script type="text/javascript" src="http://www.lhunath.com/.jquery/jquery.timers.js"></script>
         <script type="text/javascript" src="js/swfobject/swfobject.js"></script>
@@ -98,7 +89,7 @@
             <div wicket:id="contentPanel" class="span-24 prepend-top">[Page Contents]</div>
 
             <wicket:container wicket:id="toolPanels">
-                <wicket:container wicket:id="panel" />
+                <div wicket:id="panel"></div>
             </wicket:container>
         </div>
     </body>

@@ -20,10 +20,13 @@ import static com.google.common.base.Preconditions.checkState;
 import com.google.common.base.Objects;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.ObjectUtils;
+import com.lyndir.lhunath.lib.wayward.component.WicketUtils;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.User;
+import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
 import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
+import net.link.safeonline.sdk.auth.filter.LoginManager;
 import org.apache.wicket.Request;
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -61,6 +64,10 @@ public class SnaplogSession extends WebSession {
     public SnaplogSession(final Request request) {
 
         super( request );
+
+        setActiveUser( SnaplogConstants.DEFAULT_USER );
+        WicketUtils.getHttpSession()
+                .setAttribute( LoginManager.USERID_SESSION_ATTRIBUTE, getActiveUser().getLinkID().getApplicationScopedUserIdentifier() );
     }
 
     /**

@@ -16,6 +16,7 @@
 package com.lyndir.lhunath.snaplog.data.user;
 
 import com.google.common.base.Objects;
+import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.security.AbstractSecureObject;
 import com.lyndir.lhunath.snaplog.data.security.GlobalSecureObject;
 import java.io.Serializable;
@@ -29,6 +30,8 @@ import java.io.Serializable;
  * @author lhunath
  */
 public class UserProfile extends AbstractSecureObject<GlobalSecureObject> implements Serializable {
+
+    static final Messages msgs = MessagesFactory.create( Messages.class );
 
     private User user;
 
@@ -91,8 +94,29 @@ public class UserProfile extends AbstractSecureObject<GlobalSecureObject> implem
     }
 
     @Override
-    public String localizedString() {
+    public String typeDescription() {
 
-        return String.format( "%s's profile", user.getUserName() );
+        return msgs.type();
+    }
+
+    @Override
+    public String objectDescription() {
+
+        return msgs.description( user.getUserName() );
+    }
+
+    interface Messages {
+
+        /**
+         * @return The name of this type.
+         */
+        String type();
+
+        /**
+         * @param userName The userName of the profile's user.
+         *
+         * @return A description of this profile.
+         */
+        String description(String userName);
     }
 }

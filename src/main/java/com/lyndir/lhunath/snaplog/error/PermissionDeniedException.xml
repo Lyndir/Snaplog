@@ -3,6 +3,6 @@
 
 <properties>
 
-    <entry key="message">You do not have {0} permission on {1}.</entry>
+    <entry key="message">You do not have "{0}" permission on {1}.</entry>
 
 </properties>

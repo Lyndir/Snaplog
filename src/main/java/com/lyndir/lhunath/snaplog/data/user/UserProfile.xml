@@ -3,8 +3,8 @@
 
 <properties>
 
-    <entry key="type">Media</entry>
+    <entry key="type">User's Profile</entry>
 
-    <entry key="description">media "{0}"</entry>
+    <entry key="description">{0}''s profile</entry>
 
 </properties>

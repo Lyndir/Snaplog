@@ -3,8 +3,9 @@
 
 <properties>
 
-    <entry key="mediaTags">Tags</entry>
-    <entry key="mediaTagsInfo">
+    <entry key="tool">Tags</entry>
+    <entry key="title">Tags</entry>
+    <entry key="info">
         Tags are an excellent way to categorize your media.&lt;br /&gt;&lt;br /&gt;
         Assign a tag for every significant element in the picture.
         Make sure to consistently tag these elements in all your other pictures too.

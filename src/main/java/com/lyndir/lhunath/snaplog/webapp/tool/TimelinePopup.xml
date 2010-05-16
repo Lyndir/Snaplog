@@ -3,13 +3,15 @@
 
 <properties>
 
-    <entry key="albumTimeline">Timeline</entry>
-    <entry key="albumTimelineInfo">
+    <entry key="tool">Timeline</entry>
+    <entry key="title">Timeline</entry>
+    <entry key="info">
         The timeline gives you a quick way to jump through an album chronologically.&lt;br /&gt;&lt;br /&gt;
         Snaps are categorized into the years, months and days that they were taken.
         Unfold a category by clicking on it to see the subcategories it holds.
         Click on a day to jump to it in the album viewer.
     </entry>
-    <entry key="albumTimelineYearPhotos">({0} photos)</entry>
+
+    <entry key="yearPhotos">({0} photos)</entry>
 
 </properties>

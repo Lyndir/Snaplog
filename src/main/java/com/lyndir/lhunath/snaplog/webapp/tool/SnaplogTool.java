@@ -15,6 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tool;
 
+import java.io.Serializable;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 
@@ -26,7 +27,7 @@ import org.apache.wicket.model.IModel;
  *
  * @author lhunath
  */
-public interface SnaplogTool {
+public interface SnaplogTool extends Serializable {
 
     /**
      * @return The title on the toolbar for this tool.

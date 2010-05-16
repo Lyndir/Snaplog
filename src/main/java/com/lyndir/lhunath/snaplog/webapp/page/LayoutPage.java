@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.behavior.CSSClassAttributeAppender;
+import com.lyndir.lhunath.lib.wayward.behavior.JSLink;
 import com.lyndir.lhunath.lib.wayward.component.AjaxLabelLink;
 import com.lyndir.lhunath.lib.wayward.component.GenericWebPage;
 import com.lyndir.lhunath.lib.wayward.component.LabelLink;
@@ -14,6 +15,7 @@ import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels.TabItem;
 import com.lyndir.lhunath.snaplog.webapp.page.util.LayoutPageUtils;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
+import java.util.HashMap;
 import java.util.List;
 import net.link.safeonline.wicket.component.linkid.LinkIDLoginLink;
 import org.apache.wicket.Page;
@@ -55,6 +57,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
     final WebMarkupContainer contentContainer;
     final WebMarkupContainer messages;
 
+    final HashMap<SnaplogTool, Panel> toolPanels;
     final LoadableDetachableModel<List<? extends SnaplogTool>> tools;
 
     /**
@@ -164,21 +167,34 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
         tabsContainer.setOutputMarkupId( true );
 
         // Toolbar.
+        toolPanels = new HashMap<SnaplogTool, Panel>();
         tools = new LoadableDetachableModel<List<? extends SnaplogTool>>() {
 
             @Override
             protected List<? extends SnaplogTool> load() {
 
-                return LayoutPageUtils.getActiveTab().get().listTools();
+                toolPanels.clear();
+                List<? extends SnaplogTool> tools = LayoutPageUtils.getActiveTab().get().listTools();
+
+                // Load the panels for the tools and assign them a markup ID.
+                for (final SnaplogTool tool : tools) {
+                    Panel panel = tool.getPanel( "panel" );
+                    panel.setOutputMarkupId( true );
+                    toolPanels.put( tool, panel );
+                }
+
+                return tools;
             }
         };
+
         add( new ListView<SnaplogTool>( "tools", tools ) {
 
             @Override
             protected void populateItem(final ListItem<SnaplogTool> item) {
 
                 SnaplogTool tool = item.getModelObject();
-                item.add( new Label( "link", tool.getTitle() ).add( CSSClassAttributeAppender.of( tool.getTitleClass() ) ) );
+                item.add( new Label( "link", tool.getTitle() ).add( CSSClassAttributeAppender.of( tool.getTitleClass() ) ).add(
+                        new JSLink( "popup", toolPanels.get( tool ).getMarkupId(), "toggle" ) ) );
                 item.setVisible( tool.isVisible() );
             }
 
@@ -238,7 +254,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
                     protected void populateItem(final ListItem<SnaplogTool> item) {
 
                         SnaplogTool tool = item.getModelObject();
-                        item.add( tool.getPanel( "panel" ).setVisible( tool.isVisible() ) );
+                        item.add( toolPanels.get( tool ).setVisible( tool.isVisible() ) );
                     }
                 } );
             }

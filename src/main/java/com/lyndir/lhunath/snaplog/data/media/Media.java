@@ -46,13 +46,12 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
     static final Messages msgs = MessagesFactory.create( Messages.class );
 
     private static final DateTimeFormatter filenameFormat = ISODateTimeFormat.basicDateTimeNoMillis();
-
-    private final String name;
-
     private static final Pattern EXTENSION = Pattern.compile( "\\.[^\\.]*$" );
     private static final Pattern HIDDEN = Pattern.compile( "^\\." );
     private static final Pattern POSTFIX = Pattern.compile( "_.*" );
     private static final Pattern TIMEZONE = Pattern.compile( "[+-]\\d+$" );
+
+    private final String name;
 
 
     /**
@@ -177,7 +176,13 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
     }
 
     @Override
-    public String localizedString() {
+    public String typeDescription() {
+
+        return msgs.type();
+    }
+
+    @Override
+    public String objectDescription() {
 
         return msgs.description( name );
     }
@@ -286,7 +291,12 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
     }
 
 
-    private interface Messages {
+    interface Messages {
+
+        /**
+         * @return The name of this type.
+         */
+        String type();
 
         /**
          * @param name The name of the media.

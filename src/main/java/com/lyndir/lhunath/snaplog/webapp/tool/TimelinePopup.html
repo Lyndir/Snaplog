@@ -1,0 +1,58 @@
+<!DOCTYPE html PUBLIC "-//W5C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+
+    <head>
+        <wicket:head>
+            <script type="text/javascript">
+
+                // Timeline
+                function timeline(action) {
+                    $('#timelinePopup').animate({height:action});
+                }
+
+                $(document).ready(function() {
+                    $('[rel=yearLink]').click(function () {
+                        $(this).closest('li').find('ol').animate({opacity:'toggle', height:'toggle'});
+                    });
+                });
+
+            </script>
+        </wicket:head>
+    </head>
+
+    <body>
+        <wicket:extend>
+
+            <h1>
+                <wicket:message key="title" />
+            </h1>
+            <p>
+                <wicket:message key="info" />
+            </p>
+
+            <ol id="timeline" class="clearfix">
+                <li wicket:id="years" class="year">
+                    <h2><a rel="yearLink">
+                        <span wicket:id="name">[2010]</span>
+                        <sub wicket:id="photos">[(42 photos)]</sub>
+                    </a></h2>
+
+                    <ol>
+                        <li wicket:id="months" class="month">
+                            <h3 wicket:id="name">[October]</h3>
+
+                            <ol>
+                                <li wicket:id="days" class="day"><span wicket:id="name">21</span></li>
+                            </ol>
+                        </li>
+                    </ol>
+                </li>
+            </ol>
+
+        </wicket:extend>
+    </body>
+
+</html>
+

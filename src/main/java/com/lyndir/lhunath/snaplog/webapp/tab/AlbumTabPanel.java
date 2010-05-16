@@ -27,6 +27,8 @@ import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.AlbumTabModels;
 import com.lyndir.lhunath.snaplog.webapp.tool.AccessPopup;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
+import com.lyndir.lhunath.snaplog.webapp.tool.TagsPopup;
+import com.lyndir.lhunath.snaplog.webapp.tool.TimelinePopup;
 import com.lyndir.lhunath.snaplog.webapp.view.BrowserView;
 import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -131,7 +133,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         @Override
         public List<? extends SnaplogTool> listTools() {
 
-            return ImmutableList.of( new AccessPopup.AccessTool( model ) );
+            return ImmutableList.of( new TimelinePopup.Tool( model ), new TagsPopup.Tool( model ), new AccessPopup.Tool( model ) );
         }
 
         /**
