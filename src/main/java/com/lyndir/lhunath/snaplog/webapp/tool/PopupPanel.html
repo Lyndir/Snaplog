@@ -9,7 +9,7 @@
 
                 $(document).ready(function() {
                     $('.popup .close').click(function () {
-                        popup($(this).closest('.popup').parent().attr('id'), 'hide');
+                        popup($(this).closest('.popup').closest('*[id]').attr('id'), 'hide');
                     });
                 });
 
