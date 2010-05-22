@@ -433,6 +433,37 @@ a.block:hover, .block.link:hover {
 
 
 /*******************************************************************************
+ * BROWSER *
+ */
+.browser {
+    position:           absolute;
+    left:               50%;
+    padding:0;
+    margin:0;
+    margin-left:        -1746px;
+
+    list-style:         none;
+    white-space: nowrap;
+}
+.browser li {
+    display:            inline-block;
+    width:              1024px;
+    padding:            0 70px;
+    margin:             0;
+
+    text-align:         center;
+}
+.browser img {
+    display:            inline-block;
+    -webkit-box-shadow: 0 0 7px black;
+    box-shadow:         0 0 7px black;
+    -webkit-border-radius:20px;
+    -moz-border-radius: 20px;
+    border-radius:      20px;
+}
+
+
+/*******************************************************************************
  * MEDIA *
  */
 #viewer {

@@ -87,7 +87,7 @@ public abstract class AbstractAlbumsView extends DataView<Album> {
             @Override
             protected Media load() {
 
-                Iterator<Media> it = albumService.iterateFiles( SnaplogSession.get().newToken(), albumModel.getObject() );
+                Iterator<Media> it = albumService.queryMedia( SnaplogSession.get().newToken(), albumModel.getObject() ).iterator();
                 if (it.hasNext())
                     return Iterators.getLast( it );
 

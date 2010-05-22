@@ -17,35 +17,30 @@ package com.lyndir.lhunath.snaplog.model.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.lyndir.lhunath.lib.system.util.ObjectUtils;
-import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
-import java.net.URL;
-import java.util.Iterator;
-import java.util.LinkedList;
-
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.google.common.base.Predicate;
-import com.google.common.collect.Lists;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.snaplog.data.media.*;
+import com.lyndir.lhunath.lib.system.util.ObjectUtils;
+import com.lyndir.lhunath.snaplog.data.media.Album;
+import com.lyndir.lhunath.snaplog.data.media.AlbumProviderType;
+import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
-import com.lyndir.lhunath.snaplog.data.media.MediaTimeFrame.Type;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.User;
+import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.model.AlbumProvider;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.model.SecurityService;
+import java.net.URL;
 
 
 /**
  * <h2>{@link AlbumServiceImpl}</h2>
  *
- * <p>
- * <i>Jul 25, 2009</i>
- * </p>
+ * <p> <i>Jul 25, 2009</i> </p>
  *
  * @author lhunath
  */
@@ -55,7 +50,6 @@ public class AlbumServiceImpl implements AlbumService {
 
     final ObjectContainer db;
     final SecurityService securityService;
-
 
     /**
      * @param db              See {@link ServicesModule}.
@@ -101,8 +95,8 @@ public class AlbumServiceImpl implements AlbumService {
             public boolean match(final Album candidate) {
 
                 return ObjectUtils.equal( candidate.getOwnerProfile().getUser(), ownerUser )
-                       && ObjectUtils.equal( candidate.getName(), albumName )
-                       && securityService.hasAccess( Permission.VIEW, token, candidate );
+                       && ObjectUtils.equal( candidate.getName(), albumName ) && securityService.hasAccess( Permission.VIEW, token,
+                                                                                                            candidate );
             }
         } ).next();
     }
@@ -132,75 +126,6 @@ public class AlbumServiceImpl implements AlbumService {
         return null;
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Iterator<MediaTimeFrame> iterateYears(final SecurityToken token, final Album album) {
-
-        // TODO: This method should return an Iterable and should not cache the results.
-
-        checkNotNull( album, "Given album must not be null." );
-
-        AlbumData albumData = getAlbumData( album );
-        if (!albumData.hasInternalTimeFrames()) {
-            MediaTimeFrame currentYear = null, currentMonth = null, currentDay = null;
-            LinkedList<MediaTimeFrame> internalTimeFrames = new LinkedList<MediaTimeFrame>();
-
-            for (Iterator<Media> it = iterateFiles( token, album ); it.hasNext();) {
-                Media mediaFile = it.next();
-                long shotTime = mediaFile.shotTime();
-
-                if (currentYear == null || !currentYear.containsTime( shotTime ))
-                    internalTimeFrames.add( currentYear = new MediaTimeFrame( null, Type.YEAR, shotTime ) );
-
-                if (currentMonth == null || !currentMonth.containsTime( shotTime ))
-                    currentYear.addTimeFrame( currentMonth = new MediaTimeFrame( currentYear, Type.MONTH, shotTime ) );
-
-                if (currentDay == null || !currentDay.containsTime( shotTime ))
-                    currentMonth.addTimeFrame( currentDay = new MediaTimeFrame( currentMonth, Type.DAY, shotTime ) );
-
-                currentDay.addFile( mediaFile );
-            }
-
-            albumData.setInternalTimeFrames( internalTimeFrames );
-            db.store( albumData );
-        }
-
-        return securityService.iterateTimeFramesFor( token, albumData );
-    }
-
-    /**
-     * Obtain an {@link AlbumData} entry for the given album.
-     *
-     * If there is no data for the {@link Album} yet; an empty data object will be created.
-     *
-     * @param album The album whose data to get.
-     *
-     * @return The data for the given album.
-     */
-    private AlbumData getAlbumData(final Album album) {
-
-        checkNotNull( album, "Given album must not be null." );
-
-        ObjectSet<AlbumData> albumDataQuery = db.query( new com.db4o.query.Predicate<AlbumData>() {
-
-            @Override
-            public boolean match(final AlbumData candidate) {
-
-                return ObjectUtils.equal( candidate.getAlbum(), album );
-            }
-        } );
-        if (albumDataQuery.hasNext())
-            return albumDataQuery.next();
-
-        // No AlbumData yet for this album.
-        AlbumData albumData = getAlbumProvider( album ).newAlbumData( album );
-        db.store( albumData );
-
-        return albumData;
-    }
-
     private static <A extends Album> AlbumProvider<A, Media> getAlbumProvider(final A album) {
 
         checkNotNull( album, "Given album must not be null." );
@@ -209,8 +134,7 @@ public class AlbumServiceImpl implements AlbumService {
             if (albumProviderType.getAlbumProvider().getAlbumType().isAssignableFrom( album.getClass() )) {
 
                 @SuppressWarnings("unchecked")
-                AlbumProvider<A, Media> checkedAlbumProvider = (AlbumProvider<A, Media>) albumProviderType
-                        .getAlbumProvider();
+                AlbumProvider<A, Media> checkedAlbumProvider = (AlbumProvider<A, Media>) albumProviderType.getAlbumProvider();
 
                 return checkedAlbumProvider;
             }
@@ -223,24 +147,22 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     @Override
-    public Iterator<Media> iterateFiles(final SecurityToken token, final Album album) {
+    public void loadFiles(final SecurityToken token, final Album album) {
 
-        // TODO: This should return an Iterable and we should check the security conditions as each object is requested.
-        // Should probably do away with the cache since we shouldn't check security conditions in advance and cache the
-        // result of that.
+        getAlbumProvider( album ).loadFiles( token, album );
+    }
 
-        checkNotNull( album, "Given album must not be null." );
+    @Override
+    public ObjectSet<Media> queryMedia(final SecurityToken token, final Album album) {
 
-        // Load the album's media.
-        AlbumData albumData = getAlbumData( album );
-        if (!albumData.hasInternalFiles()) {
-            Iterator<Media> it = getAlbumProvider( album ).iterateFiles( SecurityToken.INTERNAL_USE_ONLY, album );
-            albumData.setInternalFiles( Lists.newArrayList( it ) );
-            db.store( albumData );
-        }
+        return db.query( new com.db4o.query.Predicate<Media>() {
 
-        // Create an iterator that will check permissions for each item.
-        return securityService.iterateFilesFor( token, albumData );
+            @Override
+            public boolean match(final Media candidate) {
+
+                return candidate.getAlbum().equals( album ) && securityService.hasAccess( Permission.VIEW, token, candidate );
+            }
+        } );
     }
 
     /**
@@ -251,7 +173,6 @@ public class AlbumServiceImpl implements AlbumService {
             throws PermissionDeniedException {
 
         checkNotNull( media, "Given media must not be null." );
-        checkNotNull( quality, "Given quality must not be null." );
 
         return getAlbumProvider( media.getAlbum() ).getResourceURL( token, media, quality );
     }
@@ -280,18 +201,6 @@ public class AlbumServiceImpl implements AlbumService {
         securityService.assertAccess( Permission.CONTRIBUTE, token, album.getOwnerProfile() );
 
         db.store( album );
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @deprecated
-     */
-    @Override
-    @Deprecated
-    public AlbumData newAlbumData(final Album album) {
-
-        throw new UnsupportedOperationException();
     }
 
     /**

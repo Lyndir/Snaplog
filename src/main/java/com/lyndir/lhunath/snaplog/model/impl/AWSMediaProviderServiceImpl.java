@@ -30,7 +30,6 @@ import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.media.aws.S3Album;
-import com.lyndir.lhunath.snaplog.data.media.aws.S3AlbumData;
 import com.lyndir.lhunath.snaplog.data.media.aws.S3Media;
 import com.lyndir.lhunath.snaplog.data.media.aws.S3MediaData;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
@@ -49,9 +48,6 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import org.jets3t.service.S3Service;
@@ -99,36 +95,34 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * {@inheritDoc}
      */
     @Override
-    public Iterator<S3Media> iterateFiles(final SecurityToken token, final S3Album album) {
+    public void loadFiles(final SecurityToken token, final S3Album album) {
 
         checkNotNull( album, "Given album must not be null." );
 
         // TODO: Loading of media should happen on a completely separate thread; decoupled from web requests.
-        List<S3Media> files = new LinkedList<S3Media>();
         ImmutableList<S3Object> objects = awsService.listObjects( getObjectKey( album, Quality.ORIGINAL ) );
         int o = 0;
-        for (final S3Object albumObject : objects) {
+        for (final S3Object mediaObject : objects) {
             if (o++ % 100 == 0)
-            logger.dbg( "Loading object %d / %d", ++o, objects.size() );
+                logger.dbg( "Loading object %d / %d", ++o, objects.size() );
 
-            if (!VALID_NAME.matcher( albumObject.getKey() ).matches())
+            if (!VALID_NAME.matcher( mediaObject.getKey() ).matches())
                 // Ignore files that don't have a valid media name.
                 continue;
 
-            String mediaName = BASE_NAME.matcher( albumObject.getKey() ).replaceFirst( "" );
-            S3MediaData mediaData = getMediaData( new S3Media( album, mediaName ) );
-            mediaData.put( Quality.METADATA, albumObject );
+            String mediaName = BASE_NAME.matcher( mediaObject.getKey() ).replaceFirst( "" );
+            S3Media media = new S3Media( album, mediaName );
+            S3MediaData mediaData = findMediaData( media );
+            if (mediaData == null)
+                mediaData = new S3MediaData( media, mediaObject );
+            else {
+                mediaData.put( Quality.METADATA, mediaObject );
+            }
             db.store( mediaData );
-
-            S3Media media = mediaData.getMedia();
-            if (securityService.hasAccess( Permission.VIEW, token, media ))
-                files.add( media );
         }
-
-        return files.iterator();
     }
 
-    private S3MediaData getMediaData(final S3Media media) {
+    private S3MediaData findMediaData(final S3Media media) {
 
         ObjectSet<S3MediaData> s3mediaDataQuery = db.query( new Predicate<S3MediaData>() {
 
@@ -141,10 +135,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         if (s3mediaDataQuery.hasNext())
             return s3mediaDataQuery.next();
 
-        S3MediaData s3MediaData = new S3MediaData( media );
-        db.store( s3MediaData );
-
-        return s3MediaData;
+        return null;
     }
 
     /**
@@ -207,7 +198,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
             s3UploadObject.setAcl( AccessControlList.REST_CANNED_PUBLIC_READ );
             s3UploadObject.setDataInputStream( new ByteArrayInputStream( imageDataStream.toByteArray() ) );
 
-            S3MediaData mediaData = getMediaData( media );
+            S3MediaData mediaData = findMediaData( media );
             mediaData.put( quality, s3ResourceObject = awsService.upload( s3UploadObject ) );
             db.store( mediaData );
         }
@@ -280,7 +271,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         checkNotNull( quality, "Given quality must not be null." );
 
         S3Object s3Object = awsService.readObject( getObjectKey( media, quality ) );
-        S3MediaData mediaData = getMediaData( media );
+        S3MediaData mediaData = findMediaData( media );
         mediaData.put( quality, s3Object );
         db.store( mediaData );
 
@@ -302,7 +293,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         checkNotNull( media, "Given media must not be null." );
         checkNotNull( quality, "Given quality must not be null." );
 
-        S3MediaData mediaData = getMediaData( media );
+        S3MediaData mediaData = findMediaData( media );
         S3Object s3Object = mediaData.get( quality );
         if (s3Object == null) {
             s3Object = awsService.findObjectDetails( getObjectKey( media, quality ) );
@@ -328,18 +319,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
         checkNotNull( media, "Given media must not be null." );
 
-        return checkNotNull( getMediaData( media ).get( Quality.METADATA ), "S3 object for %s must not be null.", media );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public S3AlbumData newAlbumData(final S3Album album) {
-
-        checkNotNull( album, "Given album must not be null." );
-
-        return new S3AlbumData( album );
+        return checkNotNull( findMediaData( media ).get( Quality.METADATA ), "S3 object for %s must not be null.", media );
     }
 
     /**

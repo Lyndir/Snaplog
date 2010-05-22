@@ -75,7 +75,7 @@ public class ServicesModule extends AbstractModule {
             @Override
             public void notifyQueryExecuted(final NQOptimizationInfo info) {
                 //if (NativeQueryHandler.UNOPTIMIZED.equals(info.optimized()))
-                logger.dbg( "%s", info );
+                //logger.dbg( "%s", info );
             }
         } );
 

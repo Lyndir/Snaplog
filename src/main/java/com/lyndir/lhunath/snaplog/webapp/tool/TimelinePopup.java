@@ -4,7 +4,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
-import com.google.inject.internal.Lists;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.MediaTimeFrame;
@@ -62,7 +61,7 @@ public class TimelinePopup extends PopupPanel<Album> {
                 if (getModelObject() == null)
                     return ImmutableList.of();
 
-                return Lists.newArrayList( albumService.iterateYears( SnaplogSession.get().newToken(), getModelObject() ) );
+                return null;// FIXME: Lists.newArrayList( albumService.iterateYears( SnaplogSession.get().newToken(), getModelObject() ) );
             }
         } ) {
 

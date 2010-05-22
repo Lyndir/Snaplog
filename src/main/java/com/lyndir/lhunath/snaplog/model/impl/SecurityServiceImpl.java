@@ -18,16 +18,12 @@ package com.lyndir.lhunath.snaplog.model.impl;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.db4o.ObjectContainer;
-import com.google.common.base.Predicate;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.Iterators;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.collection.Pair;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.logging.exception.InternalInconsistencyException;
-import com.lyndir.lhunath.snaplog.data.media.AlbumData;
-import com.lyndir.lhunath.snaplog.data.media.Media;
-import com.lyndir.lhunath.snaplog.data.media.MediaTimeFrame;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
 import com.lyndir.lhunath.snaplog.data.security.SecureObject;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
@@ -239,38 +235,5 @@ public class SecurityServiceImpl implements SecurityService {
         assertAccess( Permission.ADMINISTER, token, o );
         o.getACL().setUserPermission( user, permission );
         db.store( o );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Iterator<Media> iterateFilesFor(final SecurityToken token, final AlbumData albumData) {
-
-        return Iterators.filter( albumData.getInternalFiles( this ).iterator(), new Predicate<Media>() {
-
-            @Override
-            public boolean apply(final Media input) {
-
-                return hasAccess( Permission.VIEW, token, input );
-            }
-        } );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Iterator<MediaTimeFrame> iterateTimeFramesFor(final SecurityToken token, final AlbumData albumData) {
-
-        return Iterators.filter( albumData.getInternalTimeFrames( this ).iterator(), new Predicate<MediaTimeFrame>() {
-
-            @Override
-            public boolean apply(final MediaTimeFrame input) {
-
-                // TODO: Implement security on MediaTimeFrames.
-                return true;// hasAccess( Permission.VIEW, token, input );
-            }
-        } );
     }
 }

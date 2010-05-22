@@ -16,9 +16,6 @@
 package com.lyndir.lhunath.snaplog.model;
 
 import com.lyndir.lhunath.lib.system.collection.Pair;
-import com.lyndir.lhunath.snaplog.data.media.AlbumData;
-import com.lyndir.lhunath.snaplog.data.media.Media;
-import com.lyndir.lhunath.snaplog.data.media.MediaTimeFrame;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
 import com.lyndir.lhunath.snaplog.data.security.SecureObject;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
@@ -131,22 +128,4 @@ public interface SecurityService {
      */
     void setUserPermission(SecurityToken token, SecureObject<?> o, User user, Permission permission)
             throws PermissionDeniedException, IllegalOperationException;
-
-    /**
-     * @param token     Request authentication token should authorize {@link Permission#VIEW} on the album data's media to return.
-     * @param albumData The data to retrieve files from.
-     *
-     * @return All files from the given albumData that the given token authorizes access to.
-     */
-    Iterator<Media> iterateFilesFor(SecurityToken token, AlbumData albumData);
-
-    /**
-     * @param token     Request authentication token should authorize {@link Permission#VIEW} on the album data's media to return.
-     *
-     *                  TODO: Not implemented
-     * @param albumData The data to retrieve timeFrames from.
-     *
-     * @return All timeFrames from the given albumData that the given token authorizes access to.
-     */
-    Iterator<MediaTimeFrame> iterateTimeFramesFor(SecurityToken token, AlbumData albumData);
 }

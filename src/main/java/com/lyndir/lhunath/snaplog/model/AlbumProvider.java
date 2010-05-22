@@ -2,17 +2,14 @@ package com.lyndir.lhunath.snaplog.model;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
-import java.net.URL;
-import java.util.Iterator;
-
 import com.lyndir.lhunath.snaplog.data.media.Album;
-import com.lyndir.lhunath.snaplog.data.media.AlbumData;
 import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.User;
+import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
+import java.net.URL;
 
 
 /**
@@ -68,9 +65,9 @@ public class AlbumProvider<A extends Album, M extends Media> implements MediaPro
      * {@inheritDoc}
      */
     @Override
-    public Iterator<M> iterateFiles(final SecurityToken token, final A album) {
+    public void loadFiles(final SecurityToken token, final A album) {
 
-        return getMediaProviderService().iterateFiles( token, album );
+        getMediaProviderService().loadFiles( token, album );
     }
 
     /**
@@ -91,15 +88,6 @@ public class AlbumProvider<A extends Album, M extends Media> implements MediaPro
             throws PermissionDeniedException {
 
         return getMediaProviderService().modifiedTime( token, media );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public AlbumData newAlbumData(final A album) {
-
-        return getMediaProviderService().newAlbumData( album );
     }
 
     /**

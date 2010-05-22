@@ -15,32 +15,24 @@
  */
 package com.lyndir.lhunath.snaplog.model;
 
-import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
-import java.net.URL;
-import java.util.Iterator;
-
 import com.lyndir.lhunath.snaplog.data.media.Album;
-import com.lyndir.lhunath.snaplog.data.media.AlbumData;
 import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.User;
+import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
+import java.net.URL;
 
 
 /**
- * <h2>{@link MediaProviderService}<br>
- * <sub>Services requests on {@link Media} hosted at a certain provider.</sub></h2>
+ * <h2>{@link MediaProviderService}<br> <sub>Services requests on {@link Media} hosted at a certain provider.</sub></h2>
  *
- * <p>
- * <i>Jan 10, 2010</i>
- * </p>
+ * <p> <i>Jan 10, 2010</i> </p>
  *
  * @author lhunath
- * @param <A>
- * The type of {@link Album} this {@link MediaProviderService} provides.
- * @param <M>
- * The type of {@link Media} this {@link MediaProviderService} provides.
+ * @param <A> The type of {@link Album} this {@link MediaProviderService} provides.
+ * @param <M> The type of {@link Media} this {@link MediaProviderService} provides.
  */
 public interface MediaProviderService<A extends Album, M extends Media> {
 
@@ -52,13 +44,12 @@ public interface MediaProviderService<A extends Album, M extends Media> {
      *
      * @return All the {@link Media} from the given {@link Album}.
      */
-    Iterator<M> iterateFiles(SecurityToken token, A album);
+    void loadFiles(SecurityToken token, A album);
 
     /**
      * Obtain a reference to the resource of media at a certain quality.
      *
-     * @param token   Request authentication token should authorize {@link Permission#VIEW} on the media whose URL to
-     *                return.
+     * @param token   Request authentication token should authorize {@link Permission#VIEW} on the media whose URL to return.
      * @param media   The {@link Media} whose resource you want to obtain a reference to.
      * @param quality The {@link Quality} of the {@link Media}'s resource you want to obtain a reference to.
      *
@@ -72,8 +63,7 @@ public interface MediaProviderService<A extends Album, M extends Media> {
     /**
      * Obtain the timestamp at which the given media was created.
      *
-     * @param token Request authentication token should authorize {@link Permission#VIEW} on the media whose modification
-     *              time to return.
+     * @param token Request authentication token should authorize {@link Permission#VIEW} on the media whose modification time to return.
      * @param media The media whose creation time you want to obtain.
      *
      * @return A timestamp in milliseconds since the UNIX epoch.
@@ -82,15 +72,6 @@ public interface MediaProviderService<A extends Album, M extends Media> {
      */
     long modifiedTime(SecurityToken token, M media)
             throws PermissionDeniedException;
-
-    /**
-     * Create an {@link AlbumData} instance.
-     *
-     * @param album The {@link Album} to generate a data instance for.
-     *
-     * @return A new data instance.
-     */
-    AlbumData newAlbumData(A album);
 
     /**
      * Create a new {@link Album} with the given metadata.

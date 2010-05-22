@@ -15,31 +15,22 @@
  */
 package com.lyndir.lhunath.snaplog.model;
 
-import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
-import java.util.Iterator;
-
 import com.db4o.ObjectSet;
 import com.google.common.base.Predicate;
 import com.lyndir.lhunath.snaplog.data.media.Album;
-import com.lyndir.lhunath.snaplog.data.media.AlbumData;
 import com.lyndir.lhunath.snaplog.data.media.Media;
-import com.lyndir.lhunath.snaplog.data.media.MediaTimeFrame;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.User;
+import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 
 
 /**
- * <h2>{@link AlbumService}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link AlbumService}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * [description / usage].
- * </p>
+ * <p> [description / usage]. </p>
  *
- * <p>
- * <i>Jan 9, 2010</i>
- * </p>
+ * <p> <i>Jan 9, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -54,6 +45,14 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
      * @return An {@link ObjectSet} of albums owned by the given owner that are visible to the given observer.
      */
     ObjectSet<Album> queryAlbums(SecurityToken token, Predicate<Album> predicate);
+
+    /**
+     * @param token Request authentication token should authorize {@link Permission#VIEW} on the album's media to return.
+     * @param album The album to retrieve media from.
+     *
+     * @return An {@link ObjectSet} of media in the given album that are visible to the given observer.
+     */
+    ObjectSet<Media> queryMedia(SecurityToken token, Album album);
 
     /**
      * Look for an album owned by a user.
@@ -73,38 +72,18 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
      * @param album     The album to look through.
      * @param mediaName The name of the media to search for in the album.
      *
-     * @return The media by the given name in the given album or <code>null</code> if no media exists by the given name
-     *         in the given album.
+     * @return The media by the given name in the given album or <code>null</code> if no media exists by the given name in the given album.
      */
     Media findMediaWithName(SecurityToken token, Album album, String mediaName);
 
     /**
-     * Iterate year-based time frames of the media in the given album.
+     * Register a new {@link Album} owned by the given user whose media is provided by the given provider and with the given metadata.
      *
-     * @param token Request authentication token should authorize {@link Permission#VIEW} on the album's media to return.
-     * @param album The album to generate a list of time frames for.
-     *
-     * @return A list of year-type time frames on the given album's media.
-     */
-    Iterator<MediaTimeFrame> iterateYears(SecurityToken token, Album album);
-
-    /**
-     * Register a new {@link Album} owned by the given user whose media is provided by the given provider and with the
-     * given metadata.
-     *
-     * @param token Request authentication token should authorize {@link Permission#CONTRIBUTE} on the album owner's
-     *              profile.
+     * @param token Request authentication token should authorize {@link Permission#CONTRIBUTE} on the album owner's profile.
      * @param album The new album that should be persisted.
      *
      * @throws PermissionDeniedException The token does not authorize {@link Permission#CONTRIBUTE} on the album owner's profile.
      */
     void registerAlbum(final SecurityToken token, Album album)
             throws PermissionDeniedException;
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    @Deprecated
-    AlbumData newAlbumData(Album album);
 }
