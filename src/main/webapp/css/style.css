@@ -5,12 +5,10 @@
  * GLOBAL PROPERTIES *
  */
 html {
-    background:         #4c4c4c url("../images/layout/canvas.c.c.png") repeat center center;
-
     overflow-x:         hidden;
 }
 body {
-    background:         url("../images/layout/back.c.t.png") repeat-x center top;
+    background:         #222 url("../images/layout/canvas.c.c.png") repeat center center;
     color:              #DDD;
 
     padding:            0 0 1em;
@@ -96,21 +94,25 @@ ul.plain li {
  * PAGE STRUCTURE *
  */
 #header {
-    background:         url("../images/layout/header.l.t.png") no-repeat left top;
+    background:         url("../images/layout/back.c.t.png") repeat-x center top;
 
-    height:             30px;
+    position:           relative;
+    z-index:            9;
+    height:             56px;
     padding:            0;
-    padding-left:       350px;
 
     color:              #edd;
     text-shadow:        black 0 1px 0;
     font-size:          90%;
 }
 #header p {
+    background:         url("../images/layout/header.l.t.png") no-repeat left top;
+
     float:              left;
 
     height:             23px;
     padding:            5px;
+    padding-left:       350px;
 }
 #header .tabs {
     background:         url("../images/layout/separator.png") no-repeat left top;
@@ -160,7 +162,7 @@ ul.plain li {
     background:         url("../images/layout/toolbar.c.t.png") repeat-x center top;
 
     position:           absolute;
-    top:                37px;
+    top:                36px;
     right:              4em;
     padding:            0;
 
@@ -178,6 +180,7 @@ ul.plain li {
     width:              15px;
     height:             35px;
     padding:            0;
+    margin-left:        -15px;
 }
 .toolbar li.end {
     background:         url("../images/layout/toolbar.r.t.png") no-repeat right top;
@@ -186,6 +189,7 @@ ul.plain li {
     width:              15px;
     height:             35px;
     padding:            0;
+    margin-right:       -15px;
 }
 
 
@@ -443,13 +447,14 @@ a.block:hover, .block.link:hover {
  */
 .browser {
     position:           absolute;
+    top:                30px;
     left:               50%;
-    padding:0;
-    margin:0;
+    padding:            0;
+    margin:             0;
     margin-left:        -1746px;
 
     list-style:         none;
-    white-space: nowrap;
+    white-space:        nowrap;
 }
 .browser li {
     display:            inline-block;
@@ -466,6 +471,7 @@ a.block:hover, .block.link:hover {
     -webkit-border-radius:20px;
     -moz-border-radius: 20px;
     border-radius:      20px;
+    height:             100%;
 }
 
 
