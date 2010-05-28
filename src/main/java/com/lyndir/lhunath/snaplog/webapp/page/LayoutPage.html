@@ -46,6 +46,12 @@
 
     <body>
         <div id="header">
+            <ul wicket:id="tabsContainer" class="plain tabs">
+                <li wicket:id="tabs">
+                    <a wicket:id="link">[Tab]</a>
+                </li>
+            </ul>
+
             <p wicket:id="userEntry">
                 <span wicket:id="userGuessWelcome">[Welcome back ~lhunath]</span>.
                 <a wicket:id="userLogin" class="ss_sprite ss_status_offline">
@@ -64,11 +70,6 @@
                     <wicket:message key="userLogout" />
                 </a>
             </p>
-            <ul wicket:id="tabsContainer" class="plain tabs">
-                <li wicket:id="tabs">
-                    <a wicket:id="link">[Tab]</a>
-                </li>
-            </ul>
 
             <wicket:enclosure child="tools">
                 <ul class="plain toolbar">

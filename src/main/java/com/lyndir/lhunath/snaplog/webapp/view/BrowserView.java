@@ -12,15 +12,12 @@ import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
-import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.ListIterator;
-import org.apache.wicket.markup.html.image.ContextImage;
+import java.util.*;
+import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.markup.repeater.data.DataView;
-import org.apache.wicket.markup.repeater.data.IDataProvider;
+import org.apache.wicket.markup.repeater.RefreshingView;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 
 
@@ -43,7 +40,6 @@ public class BrowserView extends GenericPanel<Album> {
     Media currentFile;
     final IModel<Date> currentTimeModel;
     final ListIteratorView<Media> mediaView;
-    final DataView<Media> pager;
 
     /**
      * Create a new {@link BrowserView} instance.
@@ -86,77 +82,104 @@ public class BrowserView extends GenericPanel<Album> {
             }
         };
 
-        add( pager = new DataView<Media>( "pager", new IDataProvider<Media>() {
+        add( new MediaView( "media", new LoadableDetachableModel<Media>() {
             @Override
-            public Iterator<? extends Media> iterator(final int first, final int count) {
+            protected Media load() {
 
-                // Adjust the mediaView so that its cursor starts at 'first'.
-                if (first == 0)
-                    mediaView.reset();
+                resetMediaToCurrent();
+                return mediaView.current();
+            }
+        }, Media.Quality.FULLSCREEN, false ) );
+        add( new RefreshingView<Media>( "before" ) {
 
-                else {
-                    while (mediaView.currentIndex() >= first)
+            @Override
+            protected Iterator<IModel<Media>> getItemModels() {
+
+                resetMediaToCurrent();
+                Media current = mediaView.current();
+
+                List<IModel<Media>> models = new LinkedList<IModel<Media>>();
+                for (int i = 0; i < 6; ++i)
+                    if (mediaView.hasPrevious())
                         mediaView.previous();
-                    while (mediaView.currentIndex() < first - 1)
-                        mediaView.next();
+
+                for (int i = 0; i < 6; ++i) {
+                    if (!mediaView.hasNext())
+                        break;
+                    if (mediaView.next().equals( current ))
+                        break;
+
+                    models.add( new Model<Media>( mediaView.current() ) );
                 }
 
                 // Return an iterator limited at 'count'.
-                logger.dbg( "Pager iterating at offset: %d, count: %d", first, count );
-                return Iterators.limit( mediaView, count );
+                return models.iterator();
             }
 
-            @Override
-            public int size() {
-
-                return mediaView.size();
-            }
-
-            @Override
-            public IModel<Media> model(final Media object) {
-
-                return new Model<Media>( object );
-            }
-
-            @Override
-            public void detach() {
-
-            }
-        }, 3 ) {
             @Override
             protected void populateItem(final Item<Media> item) {
 
-                item.add( new ContextImage( "image",
-                                            ImageServlet.getContextRelativePathFor( item.getModelObject(), Media.Quality.FULLSCREEN ) ) );
+                item.add( new MediaView( "media", item.getModel(), Media.Quality.THUMBNAIL, true ) {
+                    @Override
+                    protected void onClick(final AjaxRequestTarget target) {
+
+                        currentTimeModel.setObject( new Date( item.getModelObject().shotTime() ) );
+                        target.addComponent( BrowserView.this );
+                    }
+                } );
+            }
+        } );
+        add( new RefreshingView<Media>( "after" ) {
+
+            @Override
+            protected Iterator<IModel<Media>> getItemModels() {
+
+                resetMediaToCurrent();
+                Media current = mediaView.current();
+
+                List<IModel<Media>> models = new LinkedList<IModel<Media>>();
+                for (int i = 0; i < 8; ++i) {
+                    if (mediaView.hasNext())
+                        models.add( new Model<Media>( mediaView.next() ) );
+                }
+
+                // Return an iterator limited at 'count'.
+                return models.iterator();
             }
 
             @Override
-            protected int getViewOffset() {
+            protected void populateItem(final Item<Media> item) {
 
-                // Find current media in mediaView
-                if (currentTimeModel.getObject() == null) {
-                    // No time set, fast-forward to the before-last one.
-                    if (mediaView.hasNext())
-                        Iterators.getLast( mediaView ); // cursor to after last.
-                    if (mediaView.hasPrevious())
-                        mediaView.previous(); // back to last.
-                    if (mediaView.hasPrevious())
-                        mediaView.previous(); // to before-last.
-                } else {
-                    // Find the one on or just after the currentTime.
-                    long currentTime = currentTimeModel.getObject().getTime();
-                    while (mediaView.current().shotTime() > currentTime) {
-                        mediaView.previous();
-                    }
-                    while (mediaView.current().shotTime() < currentTime) {
-                        mediaView.next();
-                    }
-                }
+                item.add( new MediaView( "media", item.getModel(), Media.Quality.THUMBNAIL, true ) {
+                    @Override
+                    protected void onClick(final AjaxRequestTarget target) {
 
-                // ViewOffset is the index of the current media - 1 (since we show one before, current, and one after)
-                logger.dbg( "MediaView previous previous: %d", mediaView.previousIndex() );
-                return Math.max( 0, mediaView.previousIndex() );
+                        currentTimeModel.setObject( new Date( item.getModelObject().shotTime() ) );
+                        target.addComponent( BrowserView.this );
+                    }
+                } );
             }
         } );
+    }
+
+    void resetMediaToCurrent() {
+
+        // Find current media in mediaView
+        if (currentTimeModel.getObject() == null) {
+            // No time set, fast-forward to the last one.
+            if (mediaView.hasNext())
+                Iterators.getLast( mediaView ); // cursor to after last.
+            if (mediaView.hasPrevious())
+                mediaView.previous(); // back to last.
+        } else {
+            // Find the one on or just after the currentTime.
+            long currentTime = currentTimeModel.getObject().getTime();
+            while (mediaView.current().shotTime() > currentTime) {
+                mediaView.previous();
+            }
+            while (mediaView.current().shotTime() < currentTime) {
+                mediaView.next();
+            }
+        }
     }
 }

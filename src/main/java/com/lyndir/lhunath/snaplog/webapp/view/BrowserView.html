@@ -18,11 +18,20 @@
     <body>
         <wicket:panel>
 
-            <ul class="browser">
-                <li wicket:id="pager">
-                    <img wicket:id="image" />
-                </li>
-            </ul>
+            <div class="browser">
+                <div class="current" wicket:id="media"></div>
+
+                <ul class="before">
+                    <li wicket:id="before">
+                        <div wicket:id="media"></div>
+                    </li>
+                </ul>
+                <ul class="after">
+                    <li wicket:id="after">
+                        <div wicket:id="media"></div>
+                    </li>
+                </ul>
+            </div>
 
         </wicket:panel>
     </body>

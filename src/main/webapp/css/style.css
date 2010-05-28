@@ -103,16 +103,15 @@ ul.plain li {
 
     color:              #edd;
     text-shadow:        black 0 1px 0;
+    text-align:         center;
     font-size:          90%;
 }
 #header p {
     background:         url("../images/layout/header.l.t.png") no-repeat left top;
 
-    float:              left;
-
     height:             23px;
     padding:            5px;
-    padding-left:       350px;
+    margin:             0;
 }
 #header .tabs {
     background:         url("../images/layout/separator.png") no-repeat left top;
@@ -139,7 +138,6 @@ ul.plain li {
     border:             0 dashed transparent;
 
     color:              inherit;
-    text-align:         center;
     text-decoration:    none;
 }
 #header .tabs .active a {
@@ -161,10 +159,9 @@ ul.plain li {
 .toolbar {
     background:         url("../images/layout/toolbar.c.t.png") repeat-x center top;
 
-    position:           absolute;
-    top:                36px;
-    right:              4em;
+    display:            inline-block;
     padding:            0;
+    margin:             0;
 
     text-shadow:        black 0 1px 0;
 }
@@ -447,31 +444,44 @@ a.block:hover, .block.link:hover {
  */
 .browser {
     position:           absolute;
-    top:                30px;
-    left:               50%;
-    padding:            0;
+    top:                0;
+    left:               0;
+    width:              100%;
+    height:             100%;
     margin:             0;
-    margin-left:        -1746px;
+    padding:            0;
+    overflow:           hidden;
 
     list-style:         none;
     white-space:        nowrap;
-}
-.browser li {
-    display:            inline-block;
-    width:              1024px;
-    padding:            0 70px;
-    margin:             0;
 
     text-align:         center;
 }
-.browser img {
-    display:            inline-block;
-    -webkit-box-shadow: 0 0 7px black;
-    box-shadow:         0 0 7px black;
-    -webkit-border-radius:20px;
-    -moz-border-radius: 20px;
-    border-radius:      20px;
+.browser .current .image img {
+    min-width:          auto;
+    max-width:          auto;
+    min-height:         100%;
+    max-height:         100%;
+}
+.browser .before, .browser .after {
+    background:         rgba(0, 0, 0, 0.5);
+
+    position:           absolute;
+    z-index:            1;
+    display:            block;
+    top:                0;
+    left:               0;
+    width:              205px;
     height:             100%;
+    margin:             0;
+    padding:            30px 0 0;
+    overflow:           hidden;
+
+    list-style:         none;
+}
+.browser .after {
+    left:               auto;
+    right:              0;
 }
 
 
@@ -489,7 +499,7 @@ a.block:hover, .block.link:hover {
 #viewer li.current {
     display:            block;
 }
-.media:hover {
+.media.link:hover {
     border-color:       #EEE;
 }
 .media .image {

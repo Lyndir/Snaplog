@@ -81,7 +81,7 @@ public class MediaView extends GenericPanel<Media> {
                     return getModelObject() != null;
                 }
             };
-            image.add( new CSSClassAttributeAppender( "link" ) );
+            media.add( new CSSClassAttributeAppender( "link" ) );
         } else
             image = new WebMarkupContainer( "image" ) {
 
