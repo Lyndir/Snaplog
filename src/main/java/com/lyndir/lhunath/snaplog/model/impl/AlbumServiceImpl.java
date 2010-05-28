@@ -147,9 +147,16 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     @Override
-    public void loadFiles(final SecurityToken token, final Album album) {
+    public void syncMedia(final Album album) {
 
-        getAlbumProvider( album ).loadFiles( token, album );
+        getAlbumProvider( album ).syncMedia( album );
+    }
+
+    @Override
+    public void syncAllAlbums() {
+
+        for (final Album album : db.query( Album.class ))
+            syncMedia( album );
     }
 
     @Override

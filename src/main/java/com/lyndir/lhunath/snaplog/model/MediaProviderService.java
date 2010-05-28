@@ -37,14 +37,11 @@ import java.net.URL;
 public interface MediaProviderService<A extends Album, M extends Media> {
 
     /**
-     * Iterate all accessible media in a certain album.
+     * Update all media in the given album with what the album's backend provides.
      *
-     * @param token Request authentication token should authorize {@link Permission#VIEW} on the album's media to return.
-     * @param album The album whose {@link Media} you want to enumerate.
-     *
-     * @return All the {@link Media} from the given {@link Album}.
+     * @param album The album whose {@link Media} should be updated.
      */
-    void loadFiles(SecurityToken token, A album);
+    void syncMedia(A album);
 
     /**
      * Obtain a reference to the resource of media at a certain quality.

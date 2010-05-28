@@ -136,9 +136,12 @@ public class BrowserView extends GenericPanel<Album> {
                 // Find current media in mediaView
                 if (currentTimeModel.getObject() == null) {
                     // No time set, fast-forward to the before-last one.
-                    Iterators.getLast( mediaView ); // cursor to after last.
-                    mediaView.previous(); // back to last.
-                    mediaView.previous(); // to before-last.
+                    if (mediaView.hasNext())
+                        Iterators.getLast( mediaView ); // cursor to after last.
+                    if (mediaView.hasPrevious())
+                        mediaView.previous(); // back to last.
+                    if (mediaView.hasPrevious())
+                        mediaView.previous(); // to before-last.
                 } else {
                     // Find the one on or just after the currentTime.
                     long currentTime = currentTimeModel.getObject().getTime();

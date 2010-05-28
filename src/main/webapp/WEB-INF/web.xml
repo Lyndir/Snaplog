@@ -74,5 +74,8 @@
     <listener>
         <listener-class>com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext</listener-class>
     </listener>
+    <listener>
+        <listener-class>com.lyndir.lhunath.snaplog.webapp.listener.QuartzContext</listener-class>
+    </listener>
 
 </web-app>

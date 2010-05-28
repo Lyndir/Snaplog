@@ -95,11 +95,11 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * {@inheritDoc}
      */
     @Override
-    public void loadFiles(final SecurityToken token, final S3Album album) {
+    public void syncMedia(final S3Album album) {
 
         checkNotNull( album, "Given album must not be null." );
 
-        // TODO: Loading of media should happen on a completely separate thread; decoupled from web requests.
+        // TODO: Can we be smarter about which media to update?
         ImmutableList<S3Object> objects = awsService.listObjects( getObjectKey( album, Quality.ORIGINAL ) );
         int o = 0;
         for (final S3Object mediaObject : objects) {
@@ -115,9 +115,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
             S3MediaData mediaData = findMediaData( media );
             if (mediaData == null)
                 mediaData = new S3MediaData( media, mediaObject );
-            else {
-                mediaData.put( Quality.METADATA, mediaObject );
-            }
+
             db.store( mediaData );
         }
     }

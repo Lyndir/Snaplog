@@ -141,5 +141,7 @@ public class ServicesModule extends AbstractModule {
         logger.dbg( "Known albums:" );
         for (final Album album : db.query( Album.class ))
             logger.dbg( "    - %s", album );
+
+        logger.inf( "Guice services initialization completed." );
     }
 }

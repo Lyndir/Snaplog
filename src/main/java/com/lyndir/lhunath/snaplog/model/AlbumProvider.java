@@ -13,36 +13,27 @@ import java.net.URL;
 
 
 /**
- * <h2>{@link AlbumProvider}<br>
- * <sub>Enumeration of all supported Album providers.</sub></h2>
+ * <h2>{@link AlbumProvider}<br> <sub>Enumeration of all supported Album providers.</sub></h2>
  *
- * <p>
- * <i>Jul 25, 2009</i>
- * </p>
+ * <p> <i>Jul 25, 2009</i> </p>
  *
  * @author lhunath
- * @param <A>
- * The type of {@link Album} we provide services for.
- * @param <M>
- * The type of {@link Media} that is available from A.
+ * @param <A> The type of {@link Album} we provide services for.
+ * @param <M> The type of {@link Media} that is available from A.
  */
 public class AlbumProvider<A extends Album, M extends Media> implements MediaProviderService<A, M> {
 
     private final Class<A> albumType;
     private final Class<? extends MediaProviderService<A, M>> mediaProviderServiceType;
 
-
     /**
      * @param albumType                The type of albums that this provider can provide.
      * @param mediaProviderServiceType The type of the {@link MediaProviderService} that services these types of albums.
      */
-    public AlbumProvider(
-            final Class<A> albumType,
-            final Class<? extends MediaProviderService<A, M>> mediaProviderServiceType) {
+    public AlbumProvider(final Class<A> albumType, final Class<? extends MediaProviderService<A, M>> mediaProviderServiceType) {
 
         this.albumType = checkNotNull( albumType, "Given album class must not be null." );
-        this.mediaProviderServiceType = checkNotNull( mediaProviderServiceType,
-                                                      "Given media provider class must not be null." );
+        this.mediaProviderServiceType = checkNotNull( mediaProviderServiceType, "Given media provider class must not be null." );
     }
 
     /**
@@ -65,9 +56,9 @@ public class AlbumProvider<A extends Album, M extends Media> implements MediaPro
      * {@inheritDoc}
      */
     @Override
-    public void loadFiles(final SecurityToken token, final A album) {
+    public void syncMedia(final A album) {
 
-        getMediaProviderService().loadFiles( token, album );
+        getMediaProviderService().syncMedia( album );
     }
 
     /**

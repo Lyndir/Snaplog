@@ -5,12 +5,12 @@
  * GLOBAL PROPERTIES *
  */
 html {
-    background:         #4c4c4c url("../images/layout/canvas.png");
+    background:         #4c4c4c url("../images/layout/canvas.c.c.png") repeat center center;
 
     overflow-x:         hidden;
 }
 body {
-    background:         url("../images/layout/backdrop.png") repeat-x;
+    background:         url("../images/layout/back.c.t.png") repeat-x center top;
     color:              #DDD;
 
     padding:            0 0 1em;
@@ -93,13 +93,14 @@ ul.plain li {
 
 
 /*******************************************************************************
- * HEADER *
+ * PAGE STRUCTURE *
  */
 #header {
-    background:         url("../images/layout/header.png") no-repeat;
+    background:         url("../images/layout/header.l.t.png") no-repeat left top;
 
-    height:             100px;
-    padding:            64px 0 0 400px;
+    height:             30px;
+    padding:            0;
+    padding-left:       350px;
 
     color:              #edd;
     text-shadow:        black 0 1px 0;
@@ -109,7 +110,7 @@ ul.plain li {
     float:              left;
 
     height:             23px;
-    padding:            7px;
+    padding:            5px;
 }
 #header .tabs {
     background:         url("../images/layout/separator.png") no-repeat left top;
@@ -145,16 +146,21 @@ ul.plain li {
 #header .tabs .active a, #header .tabs a:hover {
     color:              white;
 }
+#content {
+    margin:             3em auto 0;
+    width:              80%;
+    min-width:          900px;
+}
 
 
 /*******************************************************************************
  * TOOLBAR *
  */
 .toolbar {
-    background:         url("../images/layout/toolbar.middle.png") repeat-x;
+    background:         url("../images/layout/toolbar.c.t.png") repeat-x center top;
 
     position:           absolute;
-    top:                100px;
+    top:                37px;
     right:              4em;
     padding:            0;
 
@@ -167,14 +173,14 @@ ul.plain li {
     padding:            5px 1em;
 }
 .toolbar li.start {
-    background:         url("../images/layout/toolbar.left.png") no-repeat left top;
+    background:         url("../images/layout/toolbar.l.t.png") no-repeat left top;
 
     width:              15px;
     height:             35px;
     padding:            0;
 }
 .toolbar li.end {
-    background:         url("../images/layout/toolbar.right.png") no-repeat right top;
+    background:         url("../images/layout/toolbar.r.t.png") no-repeat right top;
 
     float:              right;
     width:              15px;
@@ -274,7 +280,7 @@ div.popup {
     /*background: rgba(0, 128, 0, 0.9) !important;/**/
 }
 .backdrop .t {
-    background:         url("../images/layout/photo.t.png") repeat-x;
+    background:         url("../images/layout/photo.c.t.png") repeat-x center top;
     clip:               rect(0 99999px 5px 20px);
 
     position:           absolute;
@@ -289,7 +295,7 @@ div.popup {
     margin-top:         -1px;
 }
 .backdrop .tr {
-    background:         url("../images/layout/photo.tr.png") no-repeat;
+    background:         url("../images/layout/photo.r.t.png") no-repeat right top;
 
     position:           absolute;
     top:                -5px;
@@ -301,7 +307,7 @@ div.popup {
     margin-right:       -1px;
 }
 .backdrop .r {
-    background:         url("../images/layout/photo.r.png") repeat-y;
+    background:         url("../images/layout/photo.r.c.png") repeat-y right center;
     clip:               rect(20px 15px 99999px 0);
 
     position:           absolute;
@@ -316,7 +322,7 @@ div.popup {
     margin-right:       -1px;
 }
 .backdrop .br {
-    background:         url("../images/layout/photo.br.png") no-repeat;
+    background:         url("../images/layout/photo.r.b.png") no-repeat right bottom;
 
     position:           absolute;
     bottom:             -15px;
@@ -328,7 +334,7 @@ div.popup {
     margin-right:       -1px;
 }
 .backdrop .b {
-    background:         url("../images/layout/photo.b.png") repeat-x;
+    background:         url("../images/layout/photo.c.b.png") repeat-x center bottom;
     clip:               rect(0 99999px 15px 20px);
 
     position:           absolute;
@@ -343,7 +349,7 @@ div.popup {
     padding-right:      1px;
 }
 .backdrop .bl {
-    background:         url("../images/layout/photo.bl.png") no-repeat;
+    background:         url("../images/layout/photo.l.b.png") no-repeat left bottom;
 
     position:           absolute;
     bottom:             -15px;
@@ -355,7 +361,7 @@ div.popup {
     margin-left:        -1px;
 }
 .backdrop .l {
-    background:         url("../images/layout/photo.l.png") repeat-y;
+    background:         url("../images/layout/photo.l.c.png") repeat-y left center;
     clip:               rect(20px 15px 99999px 0);
 
     position:           absolute;
@@ -370,7 +376,7 @@ div.popup {
     margin-left:        -1px;
 }
 .backdrop .tl {
-    background:         url("../images/layout/photo.tl.png") no-repeat;
+    background:         url("../images/layout/photo.l.t.png") no-repeat left top;
 
     position:           absolute;
     top:                -5px;

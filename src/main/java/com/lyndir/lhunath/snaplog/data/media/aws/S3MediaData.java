@@ -48,12 +48,10 @@ public class S3MediaData extends MediaData {
 
         checkNotNull( media, "Given media must not be null." );
         checkNotNull( metaDataObject, "Given S3 object must not be null." );
-        checkArgument( metaDataObject.isMetadataComplete(), "Given S3 object does not have complete metadata." );
 
         this.media = media;
 
         s3Objects = Maps.newHashMapWithExpectedSize( Quality.values().length );
-        s3Objects.put( Quality.METADATA, metaDataObject );
     }
 
     /**

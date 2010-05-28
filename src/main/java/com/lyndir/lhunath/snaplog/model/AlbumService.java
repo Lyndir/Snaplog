@@ -86,4 +86,9 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
      */
     void registerAlbum(final SecurityToken token, Album album)
             throws PermissionDeniedException;
+
+    /**
+     * Synchronize media metadata for all albums.
+     */
+    void syncAllAlbums();
 }
