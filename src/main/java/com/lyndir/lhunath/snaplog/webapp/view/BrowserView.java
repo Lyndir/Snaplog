@@ -99,17 +99,20 @@ public class BrowserView extends GenericPanel<Album> {
                 Media current = mediaView.current();
 
                 List<IModel<Media>> models = new LinkedList<IModel<Media>>();
-                for (int i = 0; i < 6; ++i)
+                // Go back 6 (or less)
+                for (int i = 0; i < 10; ++i)
                     if (mediaView.hasPrevious())
                         mediaView.previous();
 
-                for (int i = 0; i < 6; ++i) {
-                    if (!mediaView.hasNext())
+                // Add 6 or up to the current or last media to the models list.
+                for (int i = 0; i < 10; ++i) {
+                    if (mediaView.current().equals( current ))
                         break;
-                    if (mediaView.next().equals( current ))
+                    if (!mediaView.hasNext())
                         break;
 
                     models.add( new Model<Media>( mediaView.current() ) );
+                    mediaView.next();
                 }
 
                 // Return an iterator limited at 'count'.
@@ -135,10 +138,10 @@ public class BrowserView extends GenericPanel<Album> {
             protected Iterator<IModel<Media>> getItemModels() {
 
                 resetMediaToCurrent();
-                Media current = mediaView.current();
 
                 List<IModel<Media>> models = new LinkedList<IModel<Media>>();
-                for (int i = 0; i < 8; ++i) {
+                // Add 6 or up to the last media to the models list.
+                for (int i = 0; i < 10; ++i) {
                     if (mediaView.hasNext())
                         models.add( new Model<Media>( mediaView.next() ) );
                 }
@@ -169,8 +172,6 @@ public class BrowserView extends GenericPanel<Album> {
             // No time set, fast-forward to the last one.
             if (mediaView.hasNext())
                 Iterators.getLast( mediaView ); // cursor to after last.
-            if (mediaView.hasPrevious())
-                mediaView.previous(); // back to last.
         } else {
             // Find the one on or just after the currentTime.
             long currentTime = currentTimeModel.getObject().getTime();

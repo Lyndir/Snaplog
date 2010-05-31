@@ -103,7 +103,6 @@ ul.plain li {
 
     color:              #edd;
     text-shadow:        black 0 1px 0;
-    text-align:         center;
     font-size:          90%;
 }
 #header p {
@@ -111,6 +110,7 @@ ul.plain li {
 
     height:             23px;
     padding:            5px;
+    padding-left:       250px;
     margin:             0;
 }
 #header .tabs {
@@ -119,6 +119,8 @@ ul.plain li {
 
     height:             30px;
     padding:            0;
+
+    text-align:         center;
 }
 #header .tabs li {
     background:         url("../images/layout/separator.png") no-repeat right top;
@@ -131,9 +133,8 @@ ul.plain li {
 }
 #header .tabs a {
     display:            block;
-    width:              8em;
     height:             23px;
-    padding-top:        5px;
+    padding:            5px 2ex;
 
     border:             0 dashed transparent;
 
@@ -162,6 +163,7 @@ ul.plain li {
     display:            inline-block;
     padding:            0;
     margin:             0;
+    margin-left:        250px;
 
     text-shadow:        black 0 1px 0;
 }
@@ -457,12 +459,6 @@ a.block:hover, .block.link:hover {
 
     text-align:         center;
 }
-.browser .current .image img {
-    min-width:          auto;
-    max-width:          auto;
-    min-height:         100%;
-    max-height:         100%;
-}
 .browser .before, .browser .after {
     background:         rgba(0, 0, 0, 0.5);
 
@@ -474,14 +470,23 @@ a.block:hover, .block.link:hover {
     width:              205px;
     height:             100%;
     margin:             0;
-    padding:            30px 0 0;
+    padding:            40px 0 0;
     overflow:           hidden;
-
-    list-style:         none;
 }
 .browser .after {
     left:               auto;
     right:              0;
+}
+.browser .before li, .browser .after li {
+    list-style:         none;
+}
+.browser .media.thumbnail {
+    margin:             3%;
+}
+.browser .media.thumbnail img {
+    width:              10px;
+    min-height:         0 !important;
+    min-width:          0 !important;
 }
 
 

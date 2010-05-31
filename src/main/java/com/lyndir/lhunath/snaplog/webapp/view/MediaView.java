@@ -113,7 +113,13 @@ public class MediaView extends GenericPanel<Media> {
 
                 return ImageServlet.getContextRelativePathFor( getModelObject(), Quality.THUMBNAIL );
             }
-        } ) );
+        } ) {
+            @Override
+            public boolean isVisible() {
+
+                return quality != Quality.THUMBNAIL;
+            }
+        });
         image.add( new ContextImage( "photo", new LoadableDetachableModel<String>() {
 
             @Override

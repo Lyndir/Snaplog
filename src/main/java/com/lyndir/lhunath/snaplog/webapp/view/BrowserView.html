@@ -5,11 +5,39 @@
 
     <head>
         <wicket:head>
+            <script type="text/javascript" src="js/mootools-1.2.4-core-yc.js"></script>
+            <script type="text/javascript" src="js/ifisheye-full.js"></script>
             <script type="text/javascript">
+
+                function installFishEye() {
+
+                    new iFishEye({
+                        container: $$('.browser .before')[0],
+                        targetImageClass: '.browser .before .photo',
+                        targetCaptionClass: '.browser .before .caption',
+                        dimThumb: {height: 50},
+                        dimFocus: {height: 100},
+                        useAxis: 'y',
+                        norm: 'L2'
+                    });
+                    new iFishEye({
+                        container: $$('.browser .after')[0],
+                        targetImageClass: '.browser .after .photo',
+                        targetCaptionClass: '.browser .after .caption',
+                        dimThumb: {height: 50},
+                        dimFocus: {height: 100},
+                        useAxis: 'y',
+                        norm: 'L2'
+                    });
+                }
 
                 // Browser
                 $(document).ready(function() {
+
+                    installFishEye();
                 });
+
+                AjaxHooks.registerPostAjax(installFishEye);
 
             </script>
         </wicket:head>
@@ -21,16 +49,20 @@
             <div class="browser">
                 <div class="current" wicket:id="media"></div>
 
-                <ul class="before">
-                    <li wicket:id="before">
-                        <div wicket:id="media"></div>
-                    </li>
-                </ul>
-                <ul class="after">
-                    <li wicket:id="after">
-                        <div wicket:id="media"></div>
-                    </li>
-                </ul>
+                <div class="before">
+                    <ul>
+                        <li wicket:id="before">
+                            <div wicket:id="media"></div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="after">
+                    <ul>
+                        <li wicket:id="after">
+                            <div wicket:id="media"></div>
+                        </li>
+                    </ul>
+                </div>
             </div>
 
         </wicket:panel>

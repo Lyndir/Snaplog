@@ -10,9 +10,8 @@ import com.lyndir.lhunath.lib.wayward.component.GenericWebPage;
 import com.lyndir.lhunath.lib.wayward.component.LabelLink;
 import com.lyndir.lhunath.lib.wayward.i18n.KeyAppender;
 import com.lyndir.lhunath.lib.wayward.i18n.KeyMatch;
-import com.lyndir.lhunath.snaplog.model.AlbumService;
+import com.lyndir.lhunath.lib.wayward.js.AjaxHooks;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
-import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels.TabItem;
 import com.lyndir.lhunath.snaplog.webapp.page.util.LayoutPageUtils;
@@ -69,6 +68,9 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
 
         super( new LayoutPageModels().getModel() );
         getModelObject().attach( this );
+
+        // Ajax Hooks
+        AjaxHooks.install( this );
 
         // Page Title.
         Label pageTitle = new Label( "pageTitle", getModelObject().pageTitle() );

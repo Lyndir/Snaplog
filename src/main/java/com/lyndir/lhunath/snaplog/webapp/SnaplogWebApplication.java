@@ -17,6 +17,7 @@ package com.lyndir.lhunath.snaplog.webapp;
 
 import com.google.inject.Injector;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.wayward.js.AjaxHooks;
 import com.lyndir.lhunath.lib.wayward.state.ComponentStateListener;
 import com.lyndir.lhunath.snaplog.data.Issue;
 import com.lyndir.lhunath.snaplog.linkid.SnaplogWebappConfig;
@@ -153,6 +154,8 @@ public class SnaplogWebApplication extends WebApplication {
     public AjaxRequestTarget newAjaxRequestTarget(final Page page) {
 
         AjaxRequestTarget target = super.newAjaxRequestTarget( page );
+        AjaxHooks.install(target);
+
         if (page instanceof LayoutPage)
             ((LayoutPage) page).addComponents( target );
 
