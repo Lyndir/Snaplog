@@ -95,6 +95,7 @@ ul.plain li {
  */
 #header {
     background:         url("../images/layout/back.c.t.png") repeat-x center top;
+    opacity:            0.9;
 
     position:           relative;
     z-index:            9;
@@ -450,7 +451,7 @@ a.block:hover, .block.link:hover {
     left:               0;
     width:              100%;
     height:             100%;
-    margin:             0;
+    margin:             0 0 0;
     padding:            0;
     overflow:           hidden;
 
@@ -459,23 +460,29 @@ a.block:hover, .block.link:hover {
 
     text-align:         center;
 }
+.browser .current {
+    position:           absolute;
+    z-index:            -1;
+    width:              100%;
+}
+.browser .current .media img {
+    min-height:         100% !important;
+}
 .browser .before, .browser .after {
     background:         rgba(0, 0, 0, 0.5);
 
-    position:           absolute;
-    z-index:            1;
-    display:            block;
-    top:                0;
-    left:               0;
-    width:              205px;
+    float:              left;
+    width:              150px;
     height:             100%;
-    margin:             0;
     padding:            40px 0 0;
     overflow:           hidden;
 }
 .browser .after {
-    left:               auto;
-    right:              0;
+    float:              right;
+}
+.browser .before ul, .browser .after ul {
+    margin:             0;
+    padding:            0;
 }
 .browser .before li, .browser .after li {
     list-style:         none;
@@ -484,7 +491,6 @@ a.block:hover, .block.link:hover {
     margin:             3%;
 }
 .browser .media.thumbnail img {
-    width:              10px;
     min-height:         0 !important;
     min-width:          0 !important;
 }
@@ -504,6 +510,9 @@ a.block:hover, .block.link:hover {
 #viewer li.current {
     display:            block;
 }
+.media {
+    display:            inline-block;
+}
 .media.link:hover {
     border-color:       #EEE;
 }
@@ -517,32 +526,35 @@ a.block:hover, .block.link:hover {
 }
 .media .image img {
     background:         rgba(0, 0, 0, 0.5) url("../images/resources/loader.boxes.black.gif") no-repeat center center;
+    border:             1px solid black;
 
     display:            block;
     position:           relative;
     z-index:            1;
 }
-.media .image img.thumb {
+.media .image .thumb {
+    background:         transparent;
+
     position:           absolute;
+    z-index:            0;
 
     height:             100%;
-    z-index:            0;
 }
 .media .image:hover {
     border-color:       #eee;
 }
 .media .image .caption {
-    background:         rgba(32, 32, 32, 0.7);
+    background:         rgba(0, 0, 0, 0.7);
     text-shadow:        black 0 1px 1px;
 
     display:            block;
     position:           absolute;
     z-index:            3;
-    bottom:             0.5em;
+    bottom:             0.8em;
     left:               0;
     width:              100%;
-    padding:            0.4em 0;
-    margin:             -0.4em 0 0 0;
+    padding:            0.5em 0;
+    margin:             -0.5em 0 0 0;
 
     text-align:         center;
 }
@@ -561,7 +573,7 @@ a.block:hover, .block.link:hover {
 }
 .media .fullscreen img {
     border:             1px solid white;
-    background:         #222 url("../images/resources/loader.boxes.black.gif") no-repeat center center;
+    background-color:   #222;
 
     position:           relative;
     top:                50%;
@@ -576,13 +588,24 @@ a.block:hover, .block.link:hover {
 .media.thumbnail .image:hover .caption {
     visibility:         visible;
 
-    font-size:          0.8em;
+    font-size:          0.7em;
 }
 .media.thumbnail img {
+    -webkit-border-radius:8px;
+    -moz-border-radius: 8px;
+    border-radius:      8px;
+
     min-width:          75px;
     max-width:          134px;
     min-height:         100px;
     max-height:         100px;
+}
+.media.thumbnail .image:hover {
+    outline:            auto 3px -webkit-focus-ring-color;
+    outline-offset:     -1px;
+    -moz-outline:       -moz-mac-focusring solid 2px;
+    -moz-outline-radius: 0 5px 5px;
+    -moz-outline-offset: 0;
 }
 .media.thumbnail.wide img {
     min-width:          134px;
