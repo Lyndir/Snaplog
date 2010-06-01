@@ -491,6 +491,7 @@ a.block:hover, .block.link:hover {
     margin:             3%;
 }
 .browser .media.thumbnail img {
+    height:             7%;
     min-height:         0 !important;
     min-width:          0 !important;
 }
@@ -548,6 +549,7 @@ a.block:hover, .block.link:hover {
     text-shadow:        black 0 1px 1px;
 
     display:            block;
+    display:none;
     position:           absolute;
     z-index:            3;
     bottom:             0.8em;
@@ -591,21 +593,17 @@ a.block:hover, .block.link:hover {
     font-size:          0.7em;
 }
 .media.thumbnail img {
-    -webkit-border-radius:8px;
-    -moz-border-radius: 8px;
-    border-radius:      8px;
+    -webkit-border-radius:7px;
+    -moz-border-radius: 7px;
+    border-radius:      7px;
 
     min-width:          75px;
     max-width:          134px;
     min-height:         100px;
     max-height:         100px;
 }
-.media.thumbnail .image:hover {
-    outline:            auto 3px -webkit-focus-ring-color;
-    outline-offset:     -1px;
-    -moz-outline:       -moz-mac-focusring solid 2px;
-    -moz-outline-radius: 0 5px 5px;
-    -moz-outline-offset: 0;
+.media.thumbnail .image:hover img {
+    border-color:       white;
 }
 .media.thumbnail.wide img {
     min-width:          134px;

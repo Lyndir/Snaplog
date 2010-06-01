@@ -48,11 +48,6 @@ public enum Tab {
     ALBUM( new AlbumTabPanel.AlbumTab() ),
 
     /**
-     * This tab provides the tools to manipulate media.
-     */
-    WORKBENCH( new WorkbenchTabPanel.WorkbenchTab() ),
-
-    /**
      * Using this tab, users can configure their profile and account settings.
      */
     ADMINISTRATION( new AdministrationTabPanel.AdministrationTab() );
