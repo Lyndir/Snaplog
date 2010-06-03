@@ -154,7 +154,7 @@ public class SnaplogWebApplication extends WebApplication {
     public AjaxRequestTarget newAjaxRequestTarget(final Page page) {
 
         AjaxRequestTarget target = super.newAjaxRequestTarget( page );
-        AjaxHooks.install(target);
+        AjaxHooks.installAjaxEvents(target);
 
         if (page instanceof LayoutPage)
             ((LayoutPage) page).addComponents( target );

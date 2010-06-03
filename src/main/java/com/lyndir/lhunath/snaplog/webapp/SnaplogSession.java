@@ -27,20 +27,16 @@ import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
 import org.apache.wicket.Request;
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.protocol.http.WebSession;
 
 
 /**
- * <h2>{@link SnaplogSession}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link SnaplogSession}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * [description / usage].
- * </p>
+ * <p> [description / usage]. </p>
  *
- * <p>
- * <i>Dec 31, 2009</i>
- * </p>
+ * <p> <i>Dec 31, 2009</i> </p>
  *
  * @author lhunath
  */
@@ -53,7 +49,6 @@ public class SnaplogSession extends WebSession {
     private User activeUser;
     private User focusedUser;
     private Album focusedAlbum;
-
 
     /**
      * @param request The {@link Request} that started the session.
@@ -80,6 +75,9 @@ public class SnaplogSession extends WebSession {
     }
 
     /**
+     * Active content is a panel that is shown regardless of the active tab.  When a tab gets activated (LayoutPageUtils#setActiveTab), the
+     * active content is unset.
+     *
      * @param activeContent The activeContent of this {@link SnaplogSession}.
      */
     public void setActiveContent(final Panel activeContent) {
@@ -96,6 +94,9 @@ public class SnaplogSession extends WebSession {
     }
 
     /**
+     * The tab that should be considered active.  It is highlighted in the tab bar and while no active content is set, the panel for this
+     * tab is requested and used as the page's content.
+     *
      * @param activeTab The activeTab of this {@link SnaplogSession}.
      */
     public void setActiveTab(final Tab activeTab) {
@@ -192,5 +193,28 @@ public class SnaplogSession extends WebSession {
     public SecurityToken newToken() {
 
         return new SecurityToken( getActiveUser() );
+    }
+
+    public static IModel<Album> getFocusedAlbumProxyModel() {
+
+        return new IModel<Album>() {
+
+            @Override
+            public void detach() {
+
+            }
+
+            @Override
+            public Album getObject() {
+
+                return get().getFocusedAlbum();
+            }
+
+            @Override
+            public void setObject(final Album object) {
+
+                get().setFocusedAlbum( object );
+            }
+        };
     }
 }

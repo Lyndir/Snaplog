@@ -380,5 +380,17 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
 
             return ImmutableList.of();
         }
+
+        @Override
+        public String getFragment() {
+
+            return "expo";
+        }
+
+        @Override
+        public void applyFragmentState(final Panel panel, final String... arguments) {
+
+            // No state.
+        }
     }
 }

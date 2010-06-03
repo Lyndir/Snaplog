@@ -335,5 +335,17 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 
             return ImmutableList.of();
         }
+
+        @Override
+        public String getFragment() {
+
+            return "gallery";
+        }
+
+        @Override
+        public void applyFragmentState(final Panel panel, final String... arguments) {
+
+            // No state.
+        }
     }
 }

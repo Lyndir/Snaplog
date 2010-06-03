@@ -17,6 +17,7 @@ package com.lyndir.lhunath.snaplog.webapp.page.util;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.component.RedirectToPageException;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
@@ -39,6 +40,8 @@ import org.apache.wicket.util.template.PackagedTextTemplate;
  */
 public abstract class LayoutPageUtils {
 
+    static final Logger logger = Logger.get( LayoutPageUtils.class );
+
     /**
      * Activate the given tab in the session and switch to it in the {@link LayoutPage}.
      *
@@ -51,7 +54,7 @@ public abstract class LayoutPageUtils {
         SnaplogSession.get().setActiveContent( null );
         SnaplogSession.get().setActiveTab( tab );
 
-        if (!LayoutPage.class.equals( RequestCycle.get().getResponsePageClass() ))
+        if (!LayoutPage.class.isInstance( RequestCycle.get().getResponsePage() ))
             throw new RedirectToPageException( LayoutPage.class );
 
         if (target != null) {
@@ -70,7 +73,7 @@ public abstract class LayoutPageUtils {
         // Find the active tab.
         Tab activeTab = SnaplogSession.get().getActiveTab();
         if (activeTab == null)
-            for (Tab tab : Tab.values()) {
+            for (final Tab tab : Tab.values()) {
                 if (tab.get().isVisible()) {
                     SnaplogSession.get().setActiveTab( activeTab = tab );
                     break;

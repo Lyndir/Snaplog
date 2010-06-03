@@ -17,19 +17,27 @@ package com.lyndir.lhunath.snaplog.webapp.tab;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.lyndir.lhunath.lib.system.localization.UseKey;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.system.util.ArrayUtils;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.media.Album;
+import com.lyndir.lhunath.snaplog.data.media.Media;
+import com.lyndir.lhunath.snaplog.data.user.User;
+import com.lyndir.lhunath.snaplog.model.AlbumService;
+import com.lyndir.lhunath.snaplog.model.UserService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
+import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.AlbumTabModels;
 import com.lyndir.lhunath.snaplog.webapp.tool.AccessPopup;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import com.lyndir.lhunath.snaplog.webapp.tool.TagsPopup;
 import com.lyndir.lhunath.snaplog.webapp.tool.TimelinePopup;
 import com.lyndir.lhunath.snaplog.webapp.view.BrowserView;
+import java.util.Date;
 import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
@@ -54,7 +62,6 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
     AlbumTabPanel(final String id, final IModel<Album> model) {
 
         super( id, new AlbumTabModels( model ).getModel() );
-        checkNotNull( model.getObject(), "Model object of AlbumTabPanel must not be null" );
 
         // Browser
         add( new BrowserView( "browser", getModelObject(), getModelObject().currentTime() ) );
@@ -82,26 +89,6 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         static final Logger logger = Logger.get( AlbumTab.class );
         static final Messages msgs = MessagesFactory.create( Messages.class );
 
-        private final IModel<Album> model = new IModel<Album>() {
-
-            @Override
-            public void detach() {
-
-            }
-
-            @Override
-            public Album getObject() {
-
-                return SnaplogSession.get().getFocusedAlbum();
-            }
-
-            @Override
-            public void setObject(final Album object) {
-
-                SnaplogSession.get().setFocusedAlbum( object );
-            }
-        };
-
         /**
          * {@inheritDoc}
          */
@@ -124,7 +111,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         @Override
         public Panel getPanel(final String panelId) {
 
-            return new AlbumTabPanel( panelId, model );
+            return new AlbumTabPanel( panelId, SnaplogSession.getFocusedAlbumProxyModel() );
         }
 
         /**
@@ -133,7 +120,45 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         @Override
         public List<? extends SnaplogTool> listTools() {
 
+            IModel<Album> model = SnaplogSession.getFocusedAlbumProxyModel();
             return ImmutableList.of( new TimelinePopup.Tool( model ), new TagsPopup.Tool( model ), new AccessPopup.Tool( model ) );
+        }
+
+        @Override
+        public String getFragment() {
+
+            return "album";
+        }
+
+        @Override
+        public void applyFragmentState(final Panel panel, final String... arguments) {
+
+            checkNotNull( panel, "Panel must not be null." );
+            Preconditions.checkArgument( AlbumTabPanel.class.isInstance( panel ), "Panel must be an %s.", AlbumTabPanel.class );
+            AlbumTabPanel albumPanel = (AlbumTabPanel) panel;
+
+            if (ArrayUtils.hasIndex(1, arguments )) {
+                String userName = arguments[1];
+
+                User user = GuiceContext.get().getInstance( UserService.class ).findUserWithUserName( userName );
+                SnaplogSession.get().setFocusedUser( user );
+            }
+            if (ArrayUtils.hasIndex( 2, arguments ) && SnaplogSession.get().getFocusedUser() != null) {
+                String albumName = arguments[2];
+
+                Album album = GuiceContext.get()
+                        .getInstance( AlbumService.class )
+                        .findAlbumWithName( SnaplogSession.get().newToken(), SnaplogSession.get().getFocusedUser(), albumName );
+                SnaplogSession.get().setFocusedAlbum( album );
+            }
+            if (ArrayUtils.hasIndex( 3, arguments ) && SnaplogSession.get().getFocusedAlbum() != null) {
+                String mediaName = arguments[3];
+
+                Media media = GuiceContext.get()
+                        .getInstance( AlbumService.class )
+                        .findMediaWithName( SnaplogSession.get().newToken(), SnaplogSession.get().getFocusedAlbum(), mediaName );
+                albumPanel.getModelObject().currentTime().setObject( new Date( media.shotTime() ) );
+            }
         }
 
         /**

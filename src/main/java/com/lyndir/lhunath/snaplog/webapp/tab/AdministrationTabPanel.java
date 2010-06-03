@@ -119,5 +119,17 @@ public class AdministrationTabPanel extends Panel {
 
             return ImmutableList.of();
         }
+
+        @Override
+        public String getFragment() {
+
+            return "admin";
+        }
+
+        @Override
+        public void applyFragmentState(final Panel panel, final String... arguments) {
+
+            // No state.
+        }
     }
 }

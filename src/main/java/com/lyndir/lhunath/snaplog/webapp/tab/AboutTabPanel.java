@@ -109,5 +109,17 @@ public class AboutTabPanel extends Panel {
 
             return ImmutableList.of();
         }
+
+        @Override
+        public String getFragment() {
+
+            return "about";
+        }
+
+        @Override
+        public void applyFragmentState(final Panel panel, final String... arguments) {
+
+            // No state.
+        }
     }
 }

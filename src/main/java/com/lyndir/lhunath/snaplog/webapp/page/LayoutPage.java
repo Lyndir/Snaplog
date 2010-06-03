@@ -2,6 +2,8 @@ package com.lyndir.lhunath.snaplog.webapp.page;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.Iterables;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.behavior.CSSClassAttributeAppender;
 import com.lyndir.lhunath.lib.wayward.behavior.JSLink;
@@ -15,7 +17,9 @@ import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels.TabItem;
 import com.lyndir.lhunath.snaplog.webapp.page.util.LayoutPageUtils;
+import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import net.link.safeonline.wicket.component.linkid.LinkIDLoginLink;
@@ -70,7 +74,32 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
         getModelObject().attach( this );
 
         // Ajax Hooks
-        AjaxHooks.install( this );
+        AjaxHooks.installAjaxEvents( this );
+        AjaxHooks.installPageEvents( this, new AjaxHooks.IPageListener() {
+            @Override
+            public void onReady(final AjaxRequestTarget target, final String pageUrl) {
+
+                URI uri = URI.create( pageUrl );
+                if (uri.getFragment() == null)
+                    // No fragment, don't try to load state from it.
+                    return;
+
+                Iterable<String> arguments = Splitter.on( '/' ).split( uri.getFragment() );
+                String tabFragment = arguments.iterator().next();
+
+                for (final Tab tab : Tab.values()) {
+                    if (tab.get().getFragment().equalsIgnoreCase( tabFragment )) {
+                        // Apply tab state from fragment.
+                        Panel activeContent = tab.get().getPanel( CONTENT_PANEL );
+                        tab.get().applyFragmentState( activeContent, Iterables.toArray( arguments, String.class ) );
+
+                        // Activate the tab and set our state-applied content as the active content.
+                        LayoutPageUtils.setActiveTab( tab, target );
+                        SnaplogSession.get().setActiveContent( activeContent );
+                    }
+                }
+            }
+        } );
 
         // Page Title.
         Label pageTitle = new Label( "pageTitle", getModelObject().pageTitle() );
