@@ -25,6 +25,7 @@ import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import net.link.safeonline.wicket.component.linkid.LinkIDLoginLink;
 import org.apache.wicket.*;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -365,11 +366,21 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
         checkNotNull( target, "Given target cannot be null." );
 
         target.addComponent( messages );
+        target.addListener( new AjaxRequestTarget.IListener() {
+            @Override
+            public void onBeforeRespond(final Map<String, Component> map, final AjaxRequestTarget target) {
 
-        SnaplogTab<?> activeTab = getModelObject().activeTab().getObject().get();
-        Component contentPanel = contentContainer.get( CONTENT_PANEL );
-        if (activeTab.getPanelClass().isInstance( contentPanel ))
-            target.appendJavascript( "window.location.hash = " + JSUtils.quote( Joiner.on( '/' ).join( activeTab.getFragmentState( (Panel) contentPanel ) ) ) );
+            }
+
+            @Override
+            public void onAfterRespond(final Map<String, Component> map, final AjaxRequestTarget.IJavascriptResponse response) {
+
+                SnaplogTab<?> activeTab = getModelObject().activeTab().getObject().get();
+                Component contentPanel = contentContainer.get( CONTENT_PANEL );
+                if (activeTab.getPanelClass().isInstance( contentPanel ))
+                    response.addJavascript( "window.location.hash = " + JSUtils.quote( Joiner.on( '/' ).join( activeTab.getFragmentState( (Panel) contentPanel ) ) ) );
+            }
+        } );
     }
 
     /**
