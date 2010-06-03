@@ -172,4 +172,10 @@ public class MediaView extends GenericPanel<Media> {
 
         throw new UnsupportedOperationException();
     }
+
+    @Override
+    public boolean isVisible() {
+
+        return super.isVisible() && getModelObject() != null;
+    }
 }

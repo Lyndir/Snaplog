@@ -17,8 +17,6 @@ package com.lyndir.lhunath.snaplog.webapp.page.model;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.util.List;
-
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
@@ -31,24 +29,22 @@ import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.cookie.LastUserCookieManager;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage.Messages;
 import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
+import java.util.List;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 
 
 /**
- * <h2>{@link LayoutPageModels}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link LayoutPageModels}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * <i>Mar 11, 2010</i>
- * </p>
+ * <p> <i>Mar 11, 2010</i> </p>
  *
  * @author lhunath
  */
 public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
 
-    protected final Messages msgs = MessagesFactory.create( Messages.class );
+    protected final transient Messages msgs = MessagesFactory.create( Messages.class );
 
     private final IModel<String> pageTitle;
     private final IModel<String> userGuessWelcome;
@@ -56,9 +52,9 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
     private final IModel<String> userMessages;
     private final IModel<String> userRequests;
     private final IModel<? extends List<TabItem>> tabs;
+    private final IModel<Tab> activeTab;
     private final IModel<String> focusedUser;
     private final IModel<String> focusedContent;
-
 
     /**
      * Create a new {@link LayoutPageModels} instance.
@@ -98,8 +94,7 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
             @Override
             protected String load() {
 
-                User user = checkNotNull( SnaplogSession.get().getFocusedUser(),
-                                          "focused user must not be null." );
+                User user = checkNotNull( SnaplogSession.get().getFocusedUser(), "focused user must not be null." );
 
                 return Character.toString( user.getBadge() );
             }
@@ -145,6 +140,22 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
             }
         };
 
+        activeTab = new Model<Tab>() {
+            @Override
+            public Tab getObject() {
+
+                Tab activeTabObject = super.getObject();
+                if (activeTabObject == null)
+                    for (final Tab tab : Tab.values())
+                        if (tab.get().isVisible()) {
+                            setObject( activeTabObject = tab );
+                            break;
+                        }
+
+                return activeTabObject;
+            }
+        };
+
         focusedUser = new LoadableDetachableModel<String>() {
 
             @Override
@@ -153,8 +164,7 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
                 if (SnaplogSession.get().getFocusedUser() == null)
                     return null;
 
-                return msgs.focusedUser( SnaplogSession.get().getFocusedUser().getBadge(),
-                                          SnaplogSession.get().getFocusedUser().getUserName() );
+                return msgs.focusedUser( SnaplogSession.get().getFocusedUser().getBadge(), SnaplogSession.get().getFocusedUser().getUserName() );
             }
         };
 
@@ -169,21 +179,16 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
         };
     }
 
-
     /**
-     * <h2>{@link TabItem}<br>
-     * <sub>Model provider for {@link Tab} items.</sub></h2>
+     * <h2>{@link TabItem}<br> <sub>Model provider for {@link Tab} items.</sub></h2>
      *
-     * <p>
-     * <i>Mar 12, 2010</i>
-     * </p>
+     * <p> <i>Mar 12, 2010</i> </p>
      *
      * @author lhunath
      */
-    public static class TabItem extends ModelProvider<TabItem, Tab> {
+    public class TabItem extends ModelProvider<TabItem, Tab> {
 
         private final IModel<String> styleClass;
-
 
         /**
          * @param model The base model for the tab component.
@@ -197,7 +202,7 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
                 @Override
                 protected String load() {
 
-                    if (getModelObject() == SnaplogSession.get().getActiveTab())
+                    if (getModelObject() == activeTab().getObject())
                         return "active";
 
                     return "";
@@ -223,7 +228,6 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
             return styleClass;
         }
     }
-
 
     // Accessors.
 
@@ -277,6 +281,14 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
     public IModel<? extends List<TabItem>> tabs() {
 
         return tabs;
+    }
+
+    /**
+     * @return A model that provides and allows modification of the currently active page tab.
+     */
+    public IModel<Tab> activeTab() {
+
+        return activeTab;
     }
 
     /**

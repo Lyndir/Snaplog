@@ -1,16 +1,20 @@
 package com.lyndir.lhunath.snaplog.webapp.view;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.db4o.ObjectSet;
 import com.google.common.collect.Iterators;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.collection.ListIteratorView;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
-import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
-import java.util.*;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.ListIterator;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.RefreshingView;
@@ -26,7 +30,7 @@ import org.apache.wicket.model.Model;
  *
  * @author lhunath
  */
-public class BrowserView extends GenericPanel<Album> {
+public class BrowserView extends GenericPanel<Media> {
 
     static final Logger logger = Logger.get( BrowserView.class );
 
@@ -36,23 +40,18 @@ public class BrowserView extends GenericPanel<Album> {
     AlbumService albumService;
 
     Media currentFile;
-    final IModel<Date> currentTimeModel;
     final ListIteratorView<Media> mediaView;
 
     /**
      * Create a new {@link BrowserView} instance.
      *
-     * @param id               The wicket ID to put this component in the HTML.
-     * @param albumModel       The model contains the {@link Album} that the browser should get its media from.
-     * @param currentTimeModel The model contains the {@link Date} upon which the browser should focus. The first image on or past this date
-     *                         will be the focused image.
+     * @param id         The wicket ID to put this component in the HTML.
+     * @param mediaModel The model contains the {@link Media} that the browser should focus on.
      */
-    public BrowserView(final String id, final IModel<Album> albumModel, final IModel<Date> currentTimeModel) {
+    public BrowserView(final String id, final IModel<Media> mediaModel) {
 
-        super( id, albumModel );
+        super( id, mediaModel );
         setOutputMarkupId( true );
-
-        this.currentTimeModel = currentTimeModel;
 
         mediaView = new ListIteratorView<Media>() {
 
@@ -61,7 +60,7 @@ public class BrowserView extends GenericPanel<Album> {
             private ObjectSet<Media> getObjectSet() {
 
                 if (objectSet == null)
-                    objectSet = albumService.queryMedia( SnaplogSession.get().newToken(), albumModel.getObject() );
+                    objectSet = albumService.queryMedia( SnaplogSession.get().newToken(), mediaModel.getObject().getAlbum() );
 
                 return objectSet;
             }
@@ -83,7 +82,9 @@ public class BrowserView extends GenericPanel<Album> {
             @Override
             protected Media load() {
 
-                resetMediaToCurrent();
+                if (!resetMediaToCurrent())
+                    return null;
+
                 return mediaView.current();
             }
         }, Media.Quality.FULLSCREEN, false ) );
@@ -92,10 +93,12 @@ public class BrowserView extends GenericPanel<Album> {
             @Override
             protected Iterator<IModel<Media>> getItemModels() {
 
-                resetMediaToCurrent();
-                Media current = mediaView.current();
+                if (!resetMediaToCurrent())
+                    return Iterators.emptyIterator();
 
+                Media current = mediaView.current();
                 List<IModel<Media>> models = new LinkedList<IModel<Media>>();
+
                 // Go back 6 (or less)
                 for (int i = 0; i < 10; ++i)
                     if (mediaView.hasPrevious())
@@ -123,7 +126,7 @@ public class BrowserView extends GenericPanel<Album> {
                     @Override
                     protected void onClick(final AjaxRequestTarget target) {
 
-                        currentTimeModel.setObject( new Date( item.getModelObject().shotTime() ) );
+                        BrowserView.this.getModel().setObject( item.getModelObject() );
                         target.addComponent( BrowserView.this );
                     }
                 } );
@@ -134,7 +137,8 @@ public class BrowserView extends GenericPanel<Album> {
             @Override
             protected Iterator<IModel<Media>> getItemModels() {
 
-                resetMediaToCurrent();
+                if (!resetMediaToCurrent())
+                    return Iterators.emptyIterator();
 
                 List<IModel<Media>> models = new LinkedList<IModel<Media>>();
                 // Add 6 or up to the last media to the models list.
@@ -154,7 +158,7 @@ public class BrowserView extends GenericPanel<Album> {
                     @Override
                     protected void onClick(final AjaxRequestTarget target) {
 
-                        currentTimeModel.setObject( new Date( item.getModelObject().shotTime() ) );
+                        BrowserView.this.getModel().setObject( item.getModelObject() );
                         target.addComponent( BrowserView.this );
                     }
                 } );
@@ -162,22 +166,27 @@ public class BrowserView extends GenericPanel<Album> {
         } );
     }
 
-    void resetMediaToCurrent() {
+    /**
+     * @return <code>true</code> if a current element has been selected in #mediaView or <code>false</code> if there is no media to select.
+     */
+    boolean resetMediaToCurrent() {
+
+        Media media = getModelObject();
+        checkNotNull( media, "Media model not set, cannot navigate to current media." );
+
+        // Pick an element in the media view if one hasn't been picked yet.
+        if (!mediaView.hasCurrent())
+            if (!mediaView.hasNext())
+                return false;
+            else
+                mediaView.next();
 
         // Find current media in mediaView
-        if (currentTimeModel.getObject() == null) {
-            // No time set, fast-forward to the last one.
-            if (mediaView.hasNext())
-                Iterators.getLast( mediaView ); // cursor to after last.
-        } else {
-            // Find the one on or just after the currentTime.
-            long currentTime = currentTimeModel.getObject().getTime();
-            while (mediaView.current().shotTime() > currentTime) {
-                mediaView.previous();
-            }
-            while (mediaView.current().shotTime() < currentTime) {
-                mediaView.next();
-            }
-        }
+        while (mediaView.current().compareTo( media ) > 0)
+            mediaView.previous();
+        while (mediaView.current().compareTo( media ) < 0)
+            mediaView.next();
+
+        return true;
     }
 }

@@ -29,9 +29,9 @@ import com.lyndir.lhunath.snaplog.webapp.page.model.NewUserPanelModels;
 import com.lyndir.lhunath.snaplog.webapp.page.model.NewUserPanelModels.NewUserFormModels;
 import net.link.safeonline.sdk.auth.filter.LoginManager;
 import net.link.safeonline.wicket.util.RedirectToPageException;
+import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
-import org.apache.wicket.markup.html.panel.Panel;
 
 
 /**
@@ -54,7 +54,7 @@ public class NewUserPage extends LayoutPage {
      * {@inheritDoc}
      */
     @Override
-    protected Panel getInitialContentPanel(final String wicketId) {
+    protected Component getInitialContent(final String wicketId) {
 
         return new NewUserPanel( wicketId );
     }

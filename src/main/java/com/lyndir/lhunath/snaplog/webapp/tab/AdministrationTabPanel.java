@@ -74,7 +74,7 @@ public class AdministrationTabPanel extends Panel {
      *
      * @author lhunath
      */
-    static class AdministrationTab implements SnaplogTab {
+    static class AdministrationTab implements SnaplogTab<AdministrationTabPanel> {
 
         static final Logger logger = Logger.get( AdministrationTab.class );
         static final Messages msgs = MessagesFactory.create( Messages.class );
@@ -100,9 +100,15 @@ public class AdministrationTabPanel extends Panel {
          * {@inheritDoc}
          */
         @Override
-        public Panel getPanel(final String panelId) {
+        public AdministrationTabPanel getPanel(final String panelId) {
 
             return new AdministrationTabPanel( panelId );
+        }
+
+        @Override
+        public Class<AdministrationTabPanel> getPanelClass() {
+
+            return AdministrationTabPanel.class;
         }
 
         /**
@@ -124,6 +130,12 @@ public class AdministrationTabPanel extends Panel {
         public String getFragment() {
 
             return "admin";
+        }
+
+        @Override
+        public Iterable<String> getFragmentState(final Panel panel) {
+
+            return ImmutableList.of( getFragment() );
         }
 
         @Override

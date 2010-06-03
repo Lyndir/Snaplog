@@ -20,6 +20,7 @@ import com.lyndir.lhunath.lib.system.util.Utils;
 import com.lyndir.lhunath.snaplog.data.Issue;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogWebApplication;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
+import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
@@ -41,7 +42,7 @@ public class InternalErrorPage extends LayoutPage {
      * {@inheritDoc}
      */
     @Override
-    protected Panel getInitialContentPanel(final String wicketId) {
+    protected Component getInitialContent(final String wicketId) {
 
         return new InternalErrorPanel( wicketId );
     }

@@ -37,7 +37,6 @@ import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import com.lyndir.lhunath.snaplog.webapp.tool.TagsPopup;
 import com.lyndir.lhunath.snaplog.webapp.tool.TimelinePopup;
 import com.lyndir.lhunath.snaplog.webapp.view.BrowserView;
-import java.util.Date;
 import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
@@ -64,7 +63,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         super( id, new AlbumTabModels( model ).getModel() );
 
         // Browser
-        add( new BrowserView( "browser", getModelObject(), getModelObject().currentTime() ) );
+        add( new BrowserView( "browser", getModelObject().focusedMedia() ) );
     }
 
     interface Messages {
@@ -84,7 +83,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
      *
      * @author lhunath
      */
-    static class AlbumTab implements SnaplogTab {
+    static class AlbumTab implements SnaplogTab<AlbumTabPanel> {
 
         static final Logger logger = Logger.get( AlbumTab.class );
         static final Messages msgs = MessagesFactory.create( Messages.class );
@@ -109,9 +108,15 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
          * {@inheritDoc}
          */
         @Override
-        public Panel getPanel(final String panelId) {
+        public AlbumTabPanel getPanel(final String panelId) {
 
             return new AlbumTabPanel( panelId, SnaplogSession.getFocusedAlbumProxyModel() );
+        }
+
+        @Override
+        public Class<AlbumTabPanel> getPanelClass() {
+
+            return AlbumTabPanel.class;
         }
 
         /**
@@ -131,13 +136,27 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         }
 
         @Override
+        public Iterable<String> getFragmentState(final Panel panel) {
+
+            checkNotNull( panel, "Panel must not be null." );
+            Preconditions.checkArgument( AlbumTabPanel.class.isInstance( panel ), "Panel must be an %s.", AlbumTabPanel.class );
+            AlbumTabPanel albumPanel = (AlbumTabPanel) panel;
+
+            return ImmutableList.of( getFragment(), // 0
+                                     SnaplogSession.get().getFocusedUser().getUserName(), // 1
+                                     SnaplogSession.get().getFocusedAlbum().getName(), // 2
+                                     albumPanel.getModelObject().focusedMedia().getObject().getName() // 3
+            );
+        }
+
+        @Override
         public void applyFragmentState(final Panel panel, final String... arguments) {
 
             checkNotNull( panel, "Panel must not be null." );
             Preconditions.checkArgument( AlbumTabPanel.class.isInstance( panel ), "Panel must be an %s.", AlbumTabPanel.class );
             AlbumTabPanel albumPanel = (AlbumTabPanel) panel;
 
-            if (ArrayUtils.hasIndex(1, arguments )) {
+            if (ArrayUtils.hasIndex( 1, arguments )) {
                 String userName = arguments[1];
 
                 User user = GuiceContext.get().getInstance( UserService.class ).findUserWithUserName( userName );
@@ -157,7 +176,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
                 Media media = GuiceContext.get()
                         .getInstance( AlbumService.class )
                         .findMediaWithName( SnaplogSession.get().newToken(), SnaplogSession.get().getFocusedAlbum(), mediaName );
-                albumPanel.getModelObject().currentTime().setObject( new Date( media.shotTime() ) );
+                albumPanel.getModelObject().focusedMedia().setObject( media );
             }
         }
 

@@ -2,6 +2,8 @@ package com.lyndir.lhunath.snaplog.webapp.page;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.base.Joiner;
+import com.google.common.base.Preconditions;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import com.lyndir.lhunath.lib.system.logging.Logger;
@@ -13,25 +15,24 @@ import com.lyndir.lhunath.lib.wayward.component.LabelLink;
 import com.lyndir.lhunath.lib.wayward.i18n.KeyAppender;
 import com.lyndir.lhunath.lib.wayward.i18n.KeyMatch;
 import com.lyndir.lhunath.lib.wayward.js.AjaxHooks;
+import com.lyndir.lhunath.lib.wayward.js.JSUtils;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels.TabItem;
-import com.lyndir.lhunath.snaplog.webapp.page.util.LayoutPageUtils;
+import com.lyndir.lhunath.snaplog.webapp.tab.SnaplogTab;
 import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import net.link.safeonline.wicket.component.linkid.LinkIDLoginLink;
-import org.apache.wicket.Page;
-import org.apache.wicket.RestartResponseException;
-import org.apache.wicket.Session;
+import org.apache.wicket.*;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.behavior.StringHeaderContributor;
 import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.feedback.IFeedbackMessageFilter;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.MarkupStream;
+import org.apache.wicket.markup.html.WebComponent;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.BookmarkablePageLink;
@@ -90,12 +91,11 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
                 for (final Tab tab : Tab.values()) {
                     if (tab.get().getFragment().equalsIgnoreCase( tabFragment )) {
                         // Apply tab state from fragment.
-                        Panel activeContent = tab.get().getPanel( CONTENT_PANEL );
-                        tab.get().applyFragmentState( activeContent, Iterables.toArray( arguments, String.class ) );
+                        Panel tabPanel = tab.get().getPanel( CONTENT_PANEL );
+                        tab.get().applyFragmentState( tabPanel, Iterables.toArray( arguments, String.class ) );
 
-                        // Activate the tab and set our state-applied content as the active content.
-                        LayoutPageUtils.setActiveTab( tab, target );
-                        SnaplogSession.get().setActiveContent( activeContent );
+                        setActiveTab( tab, tabPanel, target );
+                        break;
                     }
                 }
             }
@@ -188,8 +188,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
                     @Override
                     public void onClick(final AjaxRequestTarget target) {
 
-                        // TAB click.
-                        LayoutPageUtils.setActiveTab( itemModel.getObject(), null );
+                        setActiveTab( itemModel.getObject(), target );
                     }
                 } );
                 item.add( CSSClassAttributeAppender.ofString( item.getModelObject().styleClass() ) );
@@ -207,7 +206,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
             protected List<? extends SnaplogTool> load() {
 
                 toolPanels.clear();
-                List<? extends SnaplogTool> _tools = LayoutPageUtils.getActiveTab().get().listTools();
+                List<? extends SnaplogTool> _tools = getModelObject().activeTab().getObject().get().listTools();
 
                 // Load the panels for the tools and assign them a markup ID.
                 for (final SnaplogTool tool : _tools) {
@@ -290,24 +289,58 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
                         item.add( toolPanels.get( tool ).setVisible( tool.isVisible() ) );
                     }
                 } );
-            }
-
-            @Override
-            protected void onBeforeRender() {
-
-                Panel activeContent = SnaplogSession.get().getActiveContent();
-                if (activeContent == null)
-                    activeContent = LayoutPageUtils.getActiveTab().get().getPanel( CONTENT_PANEL );
-                addOrReplace( activeContent );
-
-                add( new StringHeaderContributor( LayoutPageUtils.trackJS( activeContent ) ) );
-
-                super.onBeforeRender();
-            }
-        }).setMarkupId( "content" /* TODO: Wicket should REALLY dig this out of the markup! */ ).setOutputMarkupId( true ) );
-        SnaplogSession.get().setActiveContent( getInitialContentPanel( CONTENT_PANEL ) );
+                add( getInitialContent( CONTENT_PANEL ) );
+            }}).setMarkupId( "content" /* TODO: Wicket should REALLY dig this out of the markup! */ ).setOutputMarkupId( true ) );
 
         add( pageTitle, userEntry, userSummary, tabsContainer );
+    }
+
+    /**
+     * Change the currently active tab on this page.  <b>Note: Only valid when the response page is a LayoutPage.</b>
+     *
+     * @param tab The tab to activate and display a new panel for.
+     */
+    public static void setActiveTab(final Tab tab) {
+
+        setActiveTab( tab, null );
+    }
+
+    /**
+     * Change the currently active tab on this page.  <b>Note: Only valid when the response page is a LayoutPage.</b>
+     *
+     * @param tab    The tab to activate and display a new panel for.
+     * @param target The AJAX request that we should use to update the page with or <code>null</code> if we aren't responding via AJAX.
+     */
+    public static void setActiveTab(final Tab tab, final AjaxRequestTarget target) {
+
+        Page responsePage = RequestCycle.get().getResponsePage();
+        Preconditions.checkState( LayoutPage.class.isInstance( responsePage ),
+                                  "Can't change the active tab; response page is not LayoutPage but %s.", responsePage );
+
+        LayoutPage layoutPage = (LayoutPage) responsePage;
+        layoutPage.setActiveTab( tab, null, target );
+    }
+
+    /**
+     * Change the currently active tab on this page.
+     *
+     * @param tab      The tab to activate and display the given panel for.
+     * @param tabPanel The panel to load for this tab or <code>null</code> if we should make a new panel for this tab.
+     * @param target   The AJAX request that we should use to update the page with or <code>null</code> if we aren't responding via AJAX.
+     */
+    protected void setActiveTab(final Tab tab, final Panel tabPanel, final AjaxRequestTarget target) {
+
+        getModelObject().activeTab().setObject( tab );
+
+        Panel contentPanel = tabPanel;
+        if (contentPanel == null)
+            contentPanel = tab.get().getPanel( CONTENT_PANEL );
+        contentContainer.addOrReplace( contentPanel );
+
+        if (target != null) {
+            target.addComponent( tabsContainer );
+            target.addComponent( contentContainer );
+        }
     }
 
     /**
@@ -317,9 +350,9 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
      *
      * @return The panel to show when the page first loads.
      */
-    protected Panel getInitialContentPanel(@SuppressWarnings("unused") final String wicketId) {
+    protected Component getInitialContent(final String wicketId) {
 
-        return null;
+        return new WebComponent( wicketId );
     }
 
     /**
@@ -332,19 +365,11 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
         checkNotNull( target, "Given target cannot be null." );
 
         target.addComponent( messages );
-        target.addComponent( tabsContainer );
-    }
 
-    /**
-     * Add components to the AJAX target that should be reloaded whenever the whole tab's content needs to be reloaded.
-     *
-     * @param target The AJAX request target to add page components to.
-     */
-    public void addTabComponents(final AjaxRequestTarget target) {
-
-        checkNotNull( target, "Given target cannot be null." );
-
-        target.addComponent( contentContainer );
+        SnaplogTab<?> activeTab = getModelObject().activeTab().getObject().get();
+        Component contentPanel = contentContainer.get( CONTENT_PANEL );
+        if (activeTab.getPanelClass().isInstance( contentPanel ))
+            target.appendJavascript( "window.location.hash = " + JSUtils.quote( Joiner.on( '/' ).join( activeTab.getFragmentState( (Panel) contentPanel ) ) ) );
     }
 
     /**

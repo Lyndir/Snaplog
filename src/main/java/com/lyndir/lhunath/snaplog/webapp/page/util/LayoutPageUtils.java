@@ -18,15 +18,10 @@ package com.lyndir.lhunath.snaplog.webapp.page.util;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.wayward.component.RedirectToPageException;
-import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
-import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
 import java.util.HashMap;
 import java.util.Map;
 import org.apache.wicket.Component;
-import org.apache.wicket.RequestCycle;
-import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.util.template.JavaScriptTemplate;
 import org.apache.wicket.util.template.PackagedTextTemplate;
 
@@ -41,48 +36,6 @@ import org.apache.wicket.util.template.PackagedTextTemplate;
 public abstract class LayoutPageUtils {
 
     static final Logger logger = Logger.get( LayoutPageUtils.class );
-
-    /**
-     * Activate the given tab in the session and switch to it in the {@link LayoutPage}.
-     *
-     * @param tab    The tab to activate.
-     * @param target Optional AJAX request target. If specified, the components that need to be reloaded to update the page appropriately
-     *               will be added to the target.
-     */
-    public static void setActiveTab(final Tab tab, final AjaxRequestTarget target) {
-
-        SnaplogSession.get().setActiveContent( null );
-        SnaplogSession.get().setActiveTab( tab );
-
-        if (!LayoutPage.class.isInstance( RequestCycle.get().getResponsePage() ))
-            throw new RedirectToPageException( LayoutPage.class );
-
-        if (target != null) {
-            LayoutPage page = (LayoutPage) RequestCycle.get().getResponsePage();
-            page.addTabComponents( target );
-        }
-    }
-
-    /**
-     * @return The tab that should be activated in the layout.
-     *
-     * @see SnaplogSession#getActiveTab()
-     */
-    public static Tab getActiveTab() {
-
-        // Find the active tab.
-        Tab activeTab = SnaplogSession.get().getActiveTab();
-        if (activeTab == null)
-            for (final Tab tab : Tab.values()) {
-                if (tab.get().isVisible()) {
-                    SnaplogSession.get().setActiveTab( activeTab = tab );
-                    break;
-                }
-            }
-        checkNotNull( activeTab, "Couldn't find any tab to activate." );
-
-        return activeTab;
-    }
 
     /**
      * Generate some JavaScript to track a user hit on the given component in the analytics tracker.

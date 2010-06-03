@@ -35,7 +35,7 @@ import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.model.SecurityService;
 import com.lyndir.lhunath.snaplog.model.UserService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
-import com.lyndir.lhunath.snaplog.webapp.page.util.LayoutPageUtils;
+import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels.NewAlbumFormModels;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
@@ -149,7 +149,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                     public void onClick(final AjaxRequestTarget target) {
 
                         SnaplogSession.get().setFocusedAlbum( getModelObject() );
-                        LayoutPageUtils.setActiveTab( Tab.ALBUM, target );
+                        LayoutPage.setActiveTab( Tab.ALBUM, target );
                     }
                 } );
             }
@@ -276,7 +276,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
      *
      * @author lhunath
      */
-    static class GalleryTab implements SnaplogTab {
+    static class GalleryTab implements SnaplogTab<GalleryTabPanel> {
 
         /**
          * {@inheritDoc}
@@ -298,7 +298,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
          * {@inheritDoc}
          */
         @Override
-        public Panel getPanel(final String panelId) {
+        public GalleryTabPanel getPanel(final String panelId) {
 
             return new GalleryTabPanel( panelId, new IModel<User>() {
 
@@ -321,6 +321,12 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
             } );
         }
 
+        @Override
+        public Class<GalleryTabPanel> getPanelClass() {
+
+            return GalleryTabPanel.class;
+        }
+
         /**
          * {@inheritDoc}
          */
@@ -340,6 +346,12 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         public String getFragment() {
 
             return "gallery";
+        }
+
+        @Override
+        public Iterable<String> getFragmentState(final Panel panel) {
+
+            return ImmutableList.of( getFragment() );
         }
 
         @Override

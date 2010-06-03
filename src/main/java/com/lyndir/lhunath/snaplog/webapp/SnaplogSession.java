@@ -23,10 +23,8 @@ import com.lyndir.lhunath.lib.system.util.ObjectUtils;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.User;
-import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
 import org.apache.wicket.Request;
 import org.apache.wicket.Session;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.protocol.http.WebSession;
 
@@ -44,8 +42,6 @@ public class SnaplogSession extends WebSession {
 
     private static final Logger logger = Logger.get( SnaplogSession.class );
 
-    private Panel activeContent;
-    private Tab activeTab;
     private User activeUser;
     private User focusedUser;
     private Album focusedAlbum;
@@ -64,46 +60,6 @@ public class SnaplogSession extends WebSession {
     public static SnaplogSession get() {
 
         return (SnaplogSession) Session.get();
-    }
-
-    /**
-     * @return The activeContent of this {@link SnaplogSession}.
-     */
-    public Panel getActiveContent() {
-
-        return activeContent;
-    }
-
-    /**
-     * Active content is a panel that is shown regardless of the active tab.  When a tab gets activated (LayoutPageUtils#setActiveTab), the
-     * active content is unset.
-     *
-     * @param activeContent The activeContent of this {@link SnaplogSession}.
-     */
-    public void setActiveContent(final Panel activeContent) {
-
-        this.activeContent = activeContent;
-    }
-
-    /**
-     * @return The activeTab of this {@link SnaplogSession}.
-     */
-    public Tab getActiveTab() {
-
-        return activeTab;
-    }
-
-    /**
-     * The tab that should be considered active.  It is highlighted in the tab bar and while no active content is set, the panel for this
-     * tab is requested and used as the page's content.
-     *
-     * @param activeTab The activeTab of this {@link SnaplogSession}.
-     */
-    public void setActiveTab(final Tab activeTab) {
-
-        checkState( activeTab.get().isVisible(), "Cannot set the invisible tab %s as active.", activeTab );
-
-        this.activeTab = activeTab;
     }
 
     /**

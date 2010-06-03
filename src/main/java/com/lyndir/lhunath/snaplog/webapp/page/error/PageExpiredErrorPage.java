@@ -16,6 +16,7 @@
 package com.lyndir.lhunath.snaplog.webapp.page.error;
 
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
+import org.apache.wicket.Component;
 import org.apache.wicket.markup.html.panel.Panel;
 
 
@@ -35,7 +36,7 @@ public class PageExpiredErrorPage extends LayoutPage {
      * {@inheritDoc}
      */
     @Override
-    protected Panel getInitialContentPanel(final String wicketId) {
+    protected Component getInitialContent(final String wicketId) {
 
         return new PageExpiredErrorPanel( wicketId );
     }

@@ -2,7 +2,7 @@ package com.lyndir.lhunath.snaplog.webapp.view;
 
 import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
-import com.lyndir.lhunath.snaplog.webapp.page.util.LayoutPageUtils;
+import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
@@ -43,7 +43,7 @@ public class UserLink extends AjaxLink<User> {
     public void onClick(final AjaxRequestTarget target) {
 
         SnaplogSession.get().setFocusedUser( getModelObject() );
-        LayoutPageUtils.setActiveTab( Tab.GALLERY, target );
+        LayoutPage.setActiveTab( Tab.GALLERY, target );
     }
 
     /**

@@ -65,7 +65,7 @@ public class AboutTabPanel extends Panel {
      *
      * @author lhunath
      */
-    static class AboutTab implements SnaplogTab {
+    static class AboutTab implements SnaplogTab<AboutTabPanel> {
 
         static final Logger logger = Logger.get( AboutTab.class );
         static final Messages msgs = MessagesFactory.create( Messages.class );
@@ -90,9 +90,15 @@ public class AboutTabPanel extends Panel {
          * {@inheritDoc}
          */
         @Override
-        public Panel getPanel(final String panelId) {
+        public AboutTabPanel getPanel(final String panelId) {
 
             return new AboutTabPanel( panelId );
+        }
+
+        @Override
+        public Class<AboutTabPanel> getPanelClass() {
+
+            return AboutTabPanel.class;
         }
 
         /**
@@ -114,6 +120,12 @@ public class AboutTabPanel extends Panel {
         public String getFragment() {
 
             return "about";
+        }
+
+        @Override
+        public Iterable<String> getFragmentState(final Panel panel) {
+
+            return ImmutableList.of( getFragment() );
         }
 
         @Override

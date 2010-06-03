@@ -15,28 +15,27 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab.model;
 
-import java.util.Date;
-
+import com.google.common.collect.Iterables;
 import com.lyndir.lhunath.lib.wayward.model.ModelProvider;
 import com.lyndir.lhunath.snaplog.data.media.Album;
+import com.lyndir.lhunath.snaplog.data.media.Media;
+import com.lyndir.lhunath.snaplog.model.AlbumService;
+import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
+import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
 
 /**
- * <h2>{@link AlbumTabModels}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link AlbumTabModels}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * <i>Mar 12, 2010</i>
- * </p>
+ * <p> <i>Mar 12, 2010</i> </p>
  *
  * @author lhunath
  */
 public class AlbumTabModels extends ModelProvider<AlbumTabModels, Album> {
 
-    private final IModel<Date> currentTime;
-
+    private final IModel<Media> focusedMedia;
 
     /**
      * @param model The model providing the album to show.
@@ -45,16 +44,30 @@ public class AlbumTabModels extends ModelProvider<AlbumTabModels, Album> {
 
         super( model );
 
-        currentTime = new Model<Date>();
+        focusedMedia = new Model<Media>() {
+            @Override
+            public Media getObject() {
+
+                Media media = super.getObject();
+                if (media == null) {
+                    Media defaultMedia = Iterables.getLast(
+                            GuiceContext.inject( AlbumService.class ).queryMedia( SnaplogSession.get().newToken(), getModelObject() ) );
+
+                    setObject( media = defaultMedia );
+                }
+
+                return media;
+            }
+        };
     }
 
     // Accessors.
 
     /**
-     * @return A model that keeps track of the point in time of the album the user is focused on.
+     * @return A model that keeps track of the media the user is focusing on.
      */
-    public IModel<Date> currentTime() {
+    public IModel<Media> focusedMedia() {
 
-        return currentTime;
+        return focusedMedia;
     }
 }
