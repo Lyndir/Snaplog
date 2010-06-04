@@ -295,6 +295,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         S3Object s3Object = mediaData.get( quality );
         if (s3Object == null) {
             s3Object = awsService.findObjectDetails( getObjectKey( media, quality ) );
+
             if (s3Object != null) {
                 mediaData.put( quality, s3Object );
                 db.store( mediaData );

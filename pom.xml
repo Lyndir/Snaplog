@@ -274,6 +274,15 @@
             <groupId>com.db4o</groupId>
             <artifactId>db4o-core-java5</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.db4o</groupId>
+            <artifactId>db4o-nqopt-java5</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>edu.purdue.cs.bloat</groupId>
+            <artifactId>bloat</artifactId>
+            <version>1.0</version>
+        </dependency>
 
         <dependency>
             <groupId>com.google.code.gson</groupId>

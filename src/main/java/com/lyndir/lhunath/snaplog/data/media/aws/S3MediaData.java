@@ -22,7 +22,9 @@ import com.google.common.collect.Maps;
 import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.data.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.media.MediaData;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import org.jets3t.service.model.S3Object;
 
 
@@ -78,15 +80,12 @@ public class S3MediaData extends MediaData {
         checkNotNull( quality, "Given quality must not be null." );
         checkNotNull( s3Object, "Given S3 object must not be null." );
 
-        if (quality != Quality.METADATA)
-            // If quality is METADATA, the next step will take care of it.
-            s3Objects.put( quality, s3Object );
-
-        if (s3Object.isMetadataComplete())
+        if (quality == Quality.METADATA) {
+            checkArgument( s3Object.isMetadataComplete(),
+                           "Can't store METADATA on given S3 object since it does not have complete metadata." );
             s3Objects.put( Quality.METADATA, s3Object );
-        else
-            // Tried to store an object under quality of METADATA while it doesn't have complete metadata.
-            checkArgument( quality != Quality.METADATA, "Can't store METADATA on given S3 object since it does not have complete metadata." );
+        } else
+            s3Objects.put( quality, s3Object );
 
         return this;
     }
@@ -103,5 +102,16 @@ public class S3MediaData extends MediaData {
         checkNotNull( quality, "Given quality must not be null." );
 
         return s3Objects.get( quality );
+    }
+
+    @Override
+    public String toString() {
+
+        Set<Quality> s3ObjectKeys = new HashSet<Quality>();
+        for (final Map.Entry<Quality, S3Object> entry : s3Objects.entrySet())
+            if (entry.getValue() != null)
+                s3ObjectKeys.add( entry.getKey() );
+
+        return String.format( "{s3MediaData: media=%s, cached=%s}", media, s3ObjectKeys );
     }
 }

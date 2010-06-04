@@ -29,6 +29,7 @@ import java.util.Map;
 import net.link.safeonline.wicket.component.linkid.LinkIDLoginLink;
 import org.apache.wicket.*;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.IAjaxIndicatorAware;
 import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.feedback.IFeedbackMessageFilter;
 import org.apache.wicket.markup.ComponentTag;
@@ -52,7 +53,7 @@ import org.apache.wicket.model.LoadableDetachableModel;
  *
  * @author lhunath
  */
-public class LayoutPage extends GenericWebPage<LayoutPageModels> {
+public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAjaxIndicatorAware {
 
     protected final Logger logger = Logger.get( getClass() );
 
@@ -381,6 +382,12 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> {
                     response.addJavascript( "window.location.hash = " + JSUtils.quote( Joiner.on( '/' ).join( activeTab.getFragmentState( (Panel) contentPanel ) ) ) );
             }
         } );
+    }
+
+    @Override
+    public String getAjaxIndicatorMarkupId() {
+
+        return "headerIndicator";
     }
 
     /**

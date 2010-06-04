@@ -19,6 +19,8 @@ import com.db4o.Db4oEmbedded;
 import com.db4o.EmbeddedObjectContainer;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
+import com.db4o.config.EmbeddedConfiguration;
+import com.db4o.config.QueryEvaluationMode;
 import com.db4o.internal.ObjectContainerBase;
 import com.db4o.internal.query.Db4oQueryExecutionListener;
 import com.db4o.internal.query.NQOptimizationInfo;
@@ -67,15 +69,18 @@ public class ServicesModule extends AbstractModule {
 
         // Database
         logger.dbg( "Binding database" );
-        EmbeddedObjectContainer db = Db4oEmbedded.openFile( "snaplog.db4o" );
+        EmbeddedConfiguration configuration = Db4oEmbedded.newConfiguration();
+        configuration.common().updateDepth( 2 );
+        configuration.common().queries().evaluationMode( QueryEvaluationMode.LAZY );
+        EmbeddedObjectContainer db = Db4oEmbedded.openFile( configuration, "snaplog.db4o" );
         bind( ObjectContainer.class ).toInstance( db );
 
         // Watch for unoptimized queries.
         ((ObjectContainerBase) db).getNativeQueryHandler().addListener( new Db4oQueryExecutionListener() {
             @Override
             public void notifyQueryExecuted(final NQOptimizationInfo info) {
-                //if (NativeQueryHandler.UNOPTIMIZED.equals(info.optimized()))
-                //logger.dbg( "%s", info );
+                if (info.optimized() != null)
+                    logger.dbg( "%s", info );
             }
         } );
 
