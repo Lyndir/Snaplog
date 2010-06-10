@@ -173,7 +173,7 @@ public class TimelinePopup extends PopupPanel<Album> {
         @Override
         public boolean isVisible() {
 
-            return GuiceContext.inject( SecurityService.class )
+            return GuiceContext.getInstance( SecurityService.class )
                     .hasAccess( Permission.VIEW, SnaplogSession.get().newToken(), model.getObject() );
         }
     }

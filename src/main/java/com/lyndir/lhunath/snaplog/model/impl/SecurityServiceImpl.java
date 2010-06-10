@@ -18,9 +18,11 @@ package com.lyndir.lhunath.snaplog.model.impl;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.db4o.ObjectContainer;
+import com.google.common.base.Predicate;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.Iterators;
 import com.google.inject.Inject;
+import com.lyndir.lhunath.lib.system.collection.Iterators2;
 import com.lyndir.lhunath.lib.system.collection.Pair;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.logging.exception.InternalInconsistencyException;
@@ -32,6 +34,7 @@ import com.lyndir.lhunath.snaplog.error.IllegalOperationException;
 import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.model.SecurityService;
 import java.util.Iterator;
+import java.util.ListIterator;
 
 
 /**
@@ -70,6 +73,31 @@ public class SecurityServiceImpl implements SecurityService {
         catch (PermissionDeniedException ignored) {
             return false;
         }
+    }
+
+    @Override
+    public <T extends SecureObject<?>> Iterator<T> filterAccess(final Permission permission, final SecurityToken token, final Iterator<T> source) {
+
+        return Iterators.filter( source, new Predicate<T>() {
+            @Override
+            public boolean apply(final T input) {
+
+                return hasAccess( permission, token, input );
+            }
+        } );
+    }
+
+    @Override
+    public <T extends SecureObject<?>> ListIterator<T> filterAccess(final Permission permission, final SecurityToken token,
+                                                                    final ListIterator<T> source) {
+
+        return Iterators2.filter( source, new Predicate<T>() {
+            @Override
+            public boolean apply(final T input) {
+
+                return hasAccess( permission, token, input );
+            }
+        } );
     }
 
     /**
@@ -229,7 +257,7 @@ public class SecurityServiceImpl implements SecurityService {
         checkNotNull( o, "Given secure object must not be null." );
         checkNotNull( user, "Given user must not be null." );
 
-        if(o.getOwner().equals( user ))
+        if (o.getOwner().equals( user ))
             throw new IllegalOperationException( "Given user must not be the object's owner." );
 
         assertAccess( Permission.ADMINISTER, token, o );

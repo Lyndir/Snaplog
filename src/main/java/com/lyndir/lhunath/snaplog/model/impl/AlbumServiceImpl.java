@@ -21,6 +21,7 @@ import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.google.common.base.Predicate;
 import com.google.inject.Inject;
+import com.lyndir.lhunath.lib.system.collection.SizedListIterator;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.ObjectUtils;
 import com.lyndir.lhunath.snaplog.data.media.Album;
@@ -35,6 +36,7 @@ import com.lyndir.lhunath.snaplog.model.AlbumProvider;
 import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.model.SecurityService;
 import java.net.URL;
+import java.util.Iterator;
 
 
 /**
@@ -66,18 +68,19 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     @Override
-    public ObjectSet<Album> queryAlbums(final SecurityToken token, final Predicate<Album> predicate) {
+    public SizedListIterator<Album> iterateAlbums(final SecurityToken token, final Predicate<Album> predicate) {
 
         checkNotNull( predicate, "Given predicate must not be null." );
 
-        return db.query( new com.db4o.query.Predicate<Album>() {
+        ObjectSet<Album> results = db.query( new com.db4o.query.Predicate<Album>() {
 
             @Override
             public boolean match(final Album candidate) {
 
-                return predicate.apply( candidate ) && securityService.hasAccess( Permission.VIEW, token, candidate );
+                return predicate.apply( candidate );
             }
         } );
+        return SizedListIterator.of( securityService.filterAccess( Permission.VIEW, token, results.listIterator() ), results.size() );
     }
 
     /**
@@ -89,16 +92,15 @@ public class AlbumServiceImpl implements AlbumService {
         checkNotNull( ownerUser, "Given ownerUser must not be null." );
         checkNotNull( albumName, "Given album name must not be null." );
 
-        return db.query( new com.db4o.query.Predicate<Album>() {
+        return securityService.filterAccess( Permission.VIEW, token, db.query( new com.db4o.query.Predicate<Album>() {
 
             @Override
             public boolean match(final Album candidate) {
 
-                return ObjectUtils.equal( candidate.getOwnerProfile().getUser(), ownerUser )
-                       && ObjectUtils.equal( candidate.getName(), albumName ) && securityService.hasAccess( Permission.VIEW, token,
-                                                                                                            candidate );
+                return ObjectUtils.equal( candidate.getOwnerProfile().getUser(), ownerUser ) && ObjectUtils.equal( candidate.getName(),
+                                                                                                                   albumName );
             }
-        } ).next();
+        } ).iterator() ).next();
     }
 
     /**
@@ -110,17 +112,16 @@ public class AlbumServiceImpl implements AlbumService {
         checkNotNull( album, "Given album must not be null." );
         checkNotNull( mediaName, "Given media name must not be null." );
 
-        ObjectSet<Media> mediaQuery = db.query( new com.db4o.query.Predicate<Media>() {
+        Iterator<Media> results = securityService.filterAccess( Permission.VIEW, token, db.query( new com.db4o.query.Predicate<Media>() {
 
             @Override
             public boolean match(final Media candidate) {
 
-                return ObjectUtils.equal( candidate.getAlbum(), album ) && candidate.getName().endsWith( mediaName )
-                       && securityService.hasAccess( Permission.VIEW, token, candidate );
+                return ObjectUtils.equal( candidate.getAlbum(), album ) && candidate.getName().endsWith( mediaName );
             }
-        } );
-        if (mediaQuery.hasNext())
-            return mediaQuery.next();
+        } ).iterator() );
+        if (results.hasNext())
+            return results.next();
 
         // Media in album by mediaName not found.
         return null;
@@ -160,16 +161,17 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
-    public ObjectSet<Media> queryMedia(final SecurityToken token, final Album album) {
+    public SizedListIterator<Media> iterateMedia(final SecurityToken token, final Album album) {
 
-        return db.query( new com.db4o.query.Predicate<Media>() {
+        ObjectSet<Media> results = db.query( new com.db4o.query.Predicate<Media>() {
 
             @Override
             public boolean match(final Media candidate) {
 
-                return candidate.getAlbum().equals( album ) && securityService.hasAccess( Permission.VIEW, token, candidate );
+                return candidate.getAlbum().equals( album );
             }
         } );
+        return SizedListIterator.of( securityService.filterAccess( Permission.VIEW, token, results.listIterator() ), results.size() );
     }
 
     /**

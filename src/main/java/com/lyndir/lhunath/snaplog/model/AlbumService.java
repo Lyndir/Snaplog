@@ -17,6 +17,7 @@ package com.lyndir.lhunath.snaplog.model;
 
 import com.db4o.ObjectSet;
 import com.google.common.base.Predicate;
+import com.lyndir.lhunath.lib.system.collection.SizedListIterator;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
@@ -44,7 +45,7 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
      *
      * @return An {@link ObjectSet} of albums owned by the given owner that are visible to the given observer.
      */
-    ObjectSet<Album> queryAlbums(SecurityToken token, Predicate<Album> predicate);
+    SizedListIterator<Album> iterateAlbums(SecurityToken token, Predicate<Album> predicate);
 
     /**
      * @param token Request authentication token should authorize {@link Permission#VIEW} on the album's media to return.
@@ -52,7 +53,7 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
      *
      * @return An {@link ObjectSet} of media in the given album that are visible to the given observer.
      */
-    ObjectSet<Media> queryMedia(SecurityToken token, Album album);
+    SizedListIterator<Media> iterateMedia(SecurityToken token, Album album);
 
     /**
      * Look for an album owned by a user.

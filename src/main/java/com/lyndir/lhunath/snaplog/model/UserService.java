@@ -17,6 +17,7 @@ package com.lyndir.lhunath.snaplog.model;
 
 import com.db4o.ObjectSet;
 import com.google.common.base.Predicate;
+import com.lyndir.lhunath.lib.system.collection.SizedListIterator;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
 import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.user.LinkID;
@@ -86,7 +87,7 @@ public interface UserService {
      *
      * @return An {@link ObjectSet} of the {@link User}s that apply to the given predicate and are viewable using the given token.
      */
-    ObjectSet<User> queryUsers(Predicate<User> predicate);
+    SizedListIterator<User> iterateUsers(Predicate<User> predicate);
 
     /**
      * @param token Request authentication token should authorize {@link Permission#VIEW} on the user's profile.

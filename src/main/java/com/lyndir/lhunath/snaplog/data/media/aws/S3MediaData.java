@@ -65,6 +65,12 @@ public class S3MediaData extends MediaData {
         return media;
     }
 
+    @Override
+    public void purge() {
+
+        s3Objects.clear();
+    }
+
     /**
      * Record an {@link S3Object} for a given {@link Quality} of the {@link Media} we hold data for.
      *

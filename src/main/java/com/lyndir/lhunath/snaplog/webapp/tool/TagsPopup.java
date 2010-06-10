@@ -88,7 +88,7 @@ public class TagsPopup extends PopupPanel<Album> {
         @Override
         public boolean isVisible() {
 
-            return GuiceContext.inject( SecurityService.class )
+            return GuiceContext.getInstance( SecurityService.class )
                     .hasAccess( Permission.CONTRIBUTE, SnaplogSession.get().newToken(), model.getObject() );
         }
     }

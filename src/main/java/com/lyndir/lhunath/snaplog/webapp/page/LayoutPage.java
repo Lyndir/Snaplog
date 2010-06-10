@@ -379,7 +379,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
                 SnaplogTab<?> activeTab = getModelObject().activeTab().getObject().get();
                 Component contentPanel = contentContainer.get( CONTENT_PANEL );
                 if (activeTab.getPanelClass().isInstance( contentPanel ))
-                    response.addJavascript( "window.location.hash = " + JSUtils.quote( Joiner.on( '/' ).join( activeTab.getFragmentState( (Panel) contentPanel ) ) ) );
+                    response.addJavascript( "window.location.hash = " + JSUtils.toString( Joiner.on( '/' ).join( activeTab.getFragmentState( (Panel) contentPanel ) ) ) );
             }
         } );
     }

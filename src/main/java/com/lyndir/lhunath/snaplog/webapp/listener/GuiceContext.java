@@ -48,6 +48,7 @@ public class GuiceContext extends GuiceServletContextListener {
 
     static final Logger logger = Logger.get( GuiceContext.class );
 
+    private static Injector injector;
     private static final String PATH_WICKET = "/*";
     private static final String PATH_LINKID_LOGIN = "/login";
     private static final String PATH_LINKID_LOGOUT = "/logout";
@@ -116,6 +117,8 @@ public class GuiceContext extends GuiceServletContextListener {
 
             // Shut down the database.
             ObjectContainer db = injector.getInstance( ObjectContainer.class );
+            if (!db.ext().isClosed())
+                db.commit();
             while (!db.close()) {
             }
         }
@@ -140,7 +143,20 @@ public class GuiceContext extends GuiceServletContextListener {
      */
     public static Injector get() {
 
+        if (injector != null)
+            return injector;
+
         return get( ((WebApplication) Application.get( wicketFilter.toString() )).getServletContext() );
+    }
+
+    /**
+     * This method should only be used from outside servlet contexts.
+     *
+     * @param injector The Guice injector to return from #get
+     */
+    public static void setInjector(final Injector injector) {
+
+        GuiceContext.injector = injector;
     }
 
     /**
@@ -151,7 +167,7 @@ public class GuiceContext extends GuiceServletContextListener {
      *
      * @return The injected instance of the given type.
      */
-    public static <T> T inject(final Class<T> type) {
+    public static <T> T getInstance(final Class<T> type) {
 
         return get().getInstance( type );
     }

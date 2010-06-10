@@ -1,11 +1,9 @@
 package com.lyndir.lhunath.snaplog.webapp.view;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
-import com.db4o.ObjectSet;
 import com.google.common.collect.Iterators;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.collection.ListIteratorView;
+import com.lyndir.lhunath.lib.system.collection.SizedListIterator;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.snaplog.data.media.Media;
@@ -55,26 +53,26 @@ public class BrowserView extends GenericPanel<Media> {
 
         mediaView = new ListIteratorView<Media>() {
 
-            transient ObjectSet<Media> objectSet;
+            transient SizedListIterator<Media> iterator;
 
-            private ObjectSet<Media> getObjectSet() {
+            private SizedListIterator<Media> getIterator() {
 
-                if (objectSet == null)
-                    objectSet = albumService.queryMedia( SnaplogSession.get().newToken(), mediaModel.getObject().getAlbum() );
+                if (iterator == null)
+                    iterator = albumService.iterateMedia( SnaplogSession.get().newToken(), mediaModel.getObject().getAlbum() );
 
-                return objectSet;
+                return iterator;
             }
 
             @Override
             public int size() {
 
-                return getObjectSet().size();
+                return getIterator().size();
             }
 
             @Override
             protected ListIterator<Media> load() {
 
-                return getObjectSet().listIterator();
+                return getIterator();
             }
         };
 
@@ -172,7 +170,8 @@ public class BrowserView extends GenericPanel<Media> {
     boolean resetMediaToCurrent() {
 
         Media media = getModelObject();
-        checkNotNull( media, "Media model not set, cannot navigate to current media." );
+        if (media == null)
+            return false;
 
         // Pick an element in the media view if one hasn't been picked yet.
         if (!mediaView.hasCurrent())

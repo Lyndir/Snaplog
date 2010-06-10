@@ -16,12 +16,9 @@
 package com.lyndir.lhunath.snaplog.data.media;
 
 /**
- * <h2>{@link MediaData}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link MediaData}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * <i>Mar 6, 2010</i>
- * </p>
+ * <p> <i>Mar 6, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -31,4 +28,9 @@ public abstract class MediaData {
      * @return The media of this {@link MediaData}.
      */
     public abstract Media getMedia();
+
+    /**
+     * Purge cached data for this media.
+     */
+    public abstract void purge();
 }

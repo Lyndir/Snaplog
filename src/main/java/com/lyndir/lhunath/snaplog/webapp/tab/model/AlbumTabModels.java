@@ -15,7 +15,8 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab.model;
 
-import com.google.common.collect.Iterables;
+import com.google.common.collect.Iterators;
+import com.lyndir.lhunath.lib.system.collection.SizedListIterator;
 import com.lyndir.lhunath.lib.wayward.model.ModelProvider;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.Media;
@@ -50,10 +51,11 @@ public class AlbumTabModels extends ModelProvider<AlbumTabModels, Album> {
 
                 Media media = super.getObject();
                 if (media == null) {
-                    Media defaultMedia = Iterables.getLast(
-                            GuiceContext.inject( AlbumService.class ).queryMedia( SnaplogSession.get().newToken(), getModelObject() ) );
+                    SizedListIterator<Media> albumMedia = GuiceContext.getInstance( AlbumService.class )
+                            .iterateMedia( SnaplogSession.get().newToken(), getModelObject() );
 
-                    setObject( media = defaultMedia );
+                    if (albumMedia.hasNext())
+                        setObject( media = Iterators.getLast( albumMedia ) );
                 }
 
                 return media;

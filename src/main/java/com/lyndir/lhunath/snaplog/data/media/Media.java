@@ -17,26 +17,22 @@ package com.lyndir.lhunath.snaplog.data.media;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
-import java.io.Serializable;
-import java.util.regex.Pattern;
-
 import com.google.common.base.Objects;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.security.AbstractSecureObject;
 import com.lyndir.lhunath.snaplog.model.WebUtil;
+import java.io.Serializable;
+import java.util.regex.Pattern;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
 
 
 /**
- * <h2>{@link Media}<br>
- * <sub>DO for .</sub></h2>
+ * <h2>{@link Media}<br> <sub>DO for .</sub></h2>
  *
- * <p>
- * <i>Jul 25, 2009</i>
- * </p>
+ * <p> <i>Jul 25, 2009</i> </p>
  *
  * @author lhunath
  */
@@ -52,7 +48,6 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
     private static final Pattern TIMEZONE = Pattern.compile( "[+-]\\d+$" );
 
     private final String name;
-
 
     /**
      * @param name The unique name of this media in the album.
@@ -118,8 +113,7 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
     }
 
     /**
-     * Generate a string to express the time at which the shot was taken; formatted according to the active web
-     * session's locale.
+     * Generate a string to express the time at which the shot was taken; formatted according to the active web session's locale.
      *
      * @return A date formatted according to the active locale.
      */
@@ -150,11 +144,10 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
 
         if (o == this)
             return true;
-        if (o instanceof Media)
-            return Objects.equal( ((Media) o).getName(), getName() )
-                   && Objects.equal( ((Media) o).getAlbum(), getAlbum() );
+        if (!getClass().isInstance( o ))
+            return false;
 
-        return false;
+        return Objects.equal( ((Media) o).getName(), getName() ) && Objects.equal( ((Media) o).getAlbum(), getAlbum() );
     }
 
     /**
@@ -188,12 +181,9 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
     }
 
     /**
-     * <h2>{@link Quality}<br>
-     * <sub>The media resource is available at different {@link Quality} levels.</sub></h2>
+     * <h2>{@link Quality}<br> <sub>The media resource is available at different {@link Quality} levels.</sub></h2>
      *
-     * <p>
-     * <i>Jan 6, 2010</i>
-     * </p>
+     * <p> <i>Jan 6, 2010</i> </p>
      *
      * @author lhunath
      */
@@ -229,7 +219,6 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
         private final int maxHeight;
         private final float compression;
 
-
         Quality(final String name, final int maxWidth, final int maxHeight, final float compression) {
 
             this.name = checkNotNull( name, "Given quality name must not be null." );
@@ -263,8 +252,8 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
         }
 
         /**
-         * @return The compression ratio media at this quality should use. A decimal number between <code>0</code> and
-         *         <code>1</code> (inclusive) where <code>1</code> indicates maximum quality.
+         * @return The compression ratio media at this quality should use. A decimal number between <code>0</code> and <code>1</code>
+         *         (inclusive) where <code>1</code> indicates maximum quality.
          */
         public float getCompression() {
 
@@ -300,6 +289,7 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
 
         /**
          * @param name The name of the media.
+         *
          * @return A description of a media.
          */
         String description(String name);

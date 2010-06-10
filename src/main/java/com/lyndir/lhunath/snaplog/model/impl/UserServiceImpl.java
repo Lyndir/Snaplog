@@ -22,6 +22,7 @@ import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import com.google.inject.Inject;
+import com.lyndir.lhunath.lib.system.collection.SizedListIterator;
 import com.lyndir.lhunath.lib.system.util.ObjectUtils;
 import com.lyndir.lhunath.lib.wayward.collection.IPredicate;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
@@ -86,7 +87,7 @@ public class UserServiceImpl implements UserService {
 
         checkNotNull( linkID, "Given linkID must not be null." );
 
-        ObjectSet<User> userQuery = queryUsers( new IPredicate<User>() {
+        SizedListIterator<User> userQuery = iterateUsers( new IPredicate<User>() {
 
             @Override
             public boolean apply(final User input) {
@@ -109,7 +110,7 @@ public class UserServiceImpl implements UserService {
 
         checkNotNull( userName, "Given userName must not be null." );
 
-        ObjectSet<User> userQuery = queryUsers( new IPredicate<User>() {
+        SizedListIterator<User> userQuery = iterateUsers( new IPredicate<User>() {
 
             @Override
             public boolean apply(final User input) {
@@ -139,19 +140,19 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public ObjectSet<User> queryUsers(final com.google.common.base.Predicate<User> predicate) {
+    public SizedListIterator<User> iterateUsers(final com.google.common.base.Predicate<User> predicate) {
 
         if (predicate == null)
-            return db.query( User.class );
+            return SizedListIterator.of( db.query( User.class ) );
 
-        return db.query( new Predicate<User>() {
+        return SizedListIterator.of( db.query( new Predicate<User>() {
 
             @Override
             public boolean match(final User candidate) {
 
                 return predicate.apply( candidate );
             }
-        } );
+        } ) );
     }
 
     /**

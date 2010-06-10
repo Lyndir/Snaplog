@@ -2,9 +2,10 @@ package com.lyndir.lhunath.snaplog.webapp.view;
 
 import com.google.common.collect.Iterators;
 import com.google.inject.Inject;
+import com.lyndir.lhunath.lib.system.collection.SizedIterator;
 import com.lyndir.lhunath.lib.system.util.ObjectUtils;
 import com.lyndir.lhunath.lib.wayward.collection.IPredicate;
-import com.lyndir.lhunath.lib.wayward.provider.AbstractListProvider;
+import com.lyndir.lhunath.lib.wayward.provider.AbstractSizedIteratorProvider;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.Media;
 import com.lyndir.lhunath.snaplog.data.user.User;
@@ -12,11 +13,9 @@ import com.lyndir.lhunath.snaplog.model.AlbumService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 import java.util.Iterator;
-import java.util.List;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
 
 
 /**
@@ -59,18 +58,12 @@ public abstract class AbstractAlbumsView extends DataView<Album> {
      */
     protected AbstractAlbumsView(final String id, final IPredicate<Album> predicate, final int albumsPerPage) {
 
-        super( id, new AbstractListProvider<Album>() {
+        super( id, new AbstractSizedIteratorProvider<Album>() {
 
             @Override
-            protected List<Album> load() {
+            protected SizedIterator<Album> load() {
 
-                return GuiceContext.inject( AlbumService.class ).queryAlbums( SnaplogSession.get().newToken(), predicate );
-            }
-
-            @Override
-            public IModel<Album> model(final Album object) {
-
-                return new Model<Album>( object );
+                return GuiceContext.getInstance( AlbumService.class ).iterateAlbums( SnaplogSession.get().newToken(), predicate );
             }
         }, albumsPerPage );
     }
@@ -87,7 +80,7 @@ public abstract class AbstractAlbumsView extends DataView<Album> {
             @Override
             protected Media load() {
 
-                Iterator<Media> it = albumService.queryMedia( SnaplogSession.get().newToken(), albumModel.getObject() ).iterator();
+                Iterator<Media> it = albumService.iterateMedia( SnaplogSession.get().newToken(), albumModel.getObject() );
                 if (it.hasNext())
                     return Iterators.getLast( it );
 

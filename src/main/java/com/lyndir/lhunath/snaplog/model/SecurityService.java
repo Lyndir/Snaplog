@@ -23,6 +23,7 @@ import com.lyndir.lhunath.snaplog.data.user.User;
 import com.lyndir.lhunath.snaplog.error.IllegalOperationException;
 import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import java.util.Iterator;
+import java.util.ListIterator;
 
 
 /**
@@ -56,6 +57,28 @@ public interface SecurityService {
      * @return <code>true</code>: The given token grants the given permission on the given object.
      */
     boolean hasAccess(Permission permission, SecurityToken token, SecureObject<?> o);
+
+    /**
+     * Filter an iterator of SecureObjects, only allowing those on which the given token provides the given permission.
+     *
+     * @param permission The permission required on objects from the given iterator.
+     * @param token      The token used to authenticate the available permissions on the given object.
+     * @param source     The source of objects to filter.
+     *
+     * @return An iterator that provides elements from the source on which the given permission is granted for the given token.
+     */
+    <T extends SecureObject<?>> Iterator<T> filterAccess(Permission permission, SecurityToken token, Iterator<T> source);
+
+    /**
+     * Filter an iterator of SecureObjects, only allowing those on which the given token provides the given permission.
+     *
+     * @param permission The permission required on objects from the given iterator.
+     * @param token      The token used to authenticate the available permissions on the given object.
+     * @param source     The source of objects to filter.
+     *
+     * @return An iterator that provides elements from the source on which the given permission is granted for the given token.
+     */
+    <T extends SecureObject<?>> ListIterator<T> filterAccess(Permission permission, SecurityToken token, ListIterator<T> source);
 
     /**
      * @param token The token used to authenticate the available permissions on the given object.

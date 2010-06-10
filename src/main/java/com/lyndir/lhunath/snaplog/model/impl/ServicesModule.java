@@ -21,14 +21,19 @@ import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.config.EmbeddedConfiguration;
 import com.db4o.config.QueryEvaluationMode;
+import com.db4o.events.EventRegistry;
+import com.db4o.events.EventRegistryFactory;
 import com.db4o.internal.ObjectContainerBase;
 import com.db4o.internal.query.Db4oQueryExecutionListener;
 import com.db4o.internal.query.NQOptimizationInfo;
 import com.db4o.query.Predicate;
+import com.db4o.ta.TransparentPersistenceSupport;
 import com.google.inject.AbstractModule;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.media.Album;
 import com.lyndir.lhunath.snaplog.data.media.aws.S3Album;
+import com.lyndir.lhunath.snaplog.data.media.aws.S3Media;
+import com.lyndir.lhunath.snaplog.data.media.aws.S3MediaData;
 import com.lyndir.lhunath.snaplog.data.security.Permission;
 import com.lyndir.lhunath.snaplog.data.user.LinkID;
 import com.lyndir.lhunath.snaplog.data.user.User;
@@ -70,17 +75,43 @@ public class ServicesModule extends AbstractModule {
         // Database
         logger.dbg( "Binding database" );
         EmbeddedConfiguration configuration = Db4oEmbedded.newConfiguration();
-        configuration.common().updateDepth( 2 );
+        // TODO: Figure out why transparent persistence doesn't work with S3MediaData's map.
+        configuration.common().add( new TransparentPersistenceSupport() );
+        configuration.common().updateDepth( 5 );
         configuration.common().queries().evaluationMode( QueryEvaluationMode.LAZY );
+        // TODO: Do this smarter; annotations or such.
+        configuration.common().objectClass( User.class ).objectField( "userName" ).indexed( true );
+        configuration.common().objectClass( User.class ).objectField( "linkID" ).indexed( true );
+        configuration.common().objectClass( UserProfile.class ).objectField( "user" ).indexed( true );
+        configuration.common().objectClass( Album.class ).objectField( "name" ).indexed( true );
+        configuration.common().objectClass( Album.class ).objectField( "ownerProfile" ).indexed( true );
+        configuration.common().objectClass( S3Media.class ).objectField( "album" ).indexed( true );
+        configuration.common().objectClass( S3MediaData.class ).objectField( "media" ).indexed( true );
+        // TODO: NQ optimization isn't working.  Fix it or convert to SODA style or find a way to do better SODA through annotations.
+        //        configuration.common().diagnostic().addListener( new DiagnosticListener() {
+        //
+        //            @Override
+        //            public void onDiagnostic(final Diagnostic diagnostic) {
+        //                logger.dbg( "[DB4O-DIAG] %s", diagnostic );
+        //            }
+        //        } );
         EmbeddedObjectContainer db = Db4oEmbedded.openFile( configuration, "snaplog.db4o" );
         bind( ObjectContainer.class ).toInstance( db );
 
         // Watch for unoptimized queries.
+        EventRegistry registry = EventRegistryFactory.forObjectContainer( db );
+        //        registry.activated().addListener( new EventListener4<ObjectInfoEventArgs>() {
+        //            @Override
+        //            public void onEvent(final Event4<ObjectInfoEventArgs> e, final ObjectInfoEventArgs args) {
+        //
+        //                logger.dbg( "[DB4O-ACT-EVENT] %s", args.object() );
+        //            }
+        //        } );
         ((ObjectContainerBase) db).getNativeQueryHandler().addListener( new Db4oQueryExecutionListener() {
             @Override
             public void notifyQueryExecuted(final NQOptimizationInfo info) {
                 if (info.optimized() != null)
-                    logger.dbg( "%s", info );
+                    logger.dbg( "[DB4O-NQ] %s", info );
             }
         } );
 

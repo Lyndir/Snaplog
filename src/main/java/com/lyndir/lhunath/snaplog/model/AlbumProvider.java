@@ -27,8 +27,8 @@ public class AlbumProvider<A extends Album, M extends Media> implements MediaPro
     private final Class<? extends MediaProviderService<A, M>> mediaProviderServiceType;
 
     /**
-     * @param albumType                The type of albums that this provider can provide.
-     * @param mediaProviderServiceType The type of the {@link MediaProviderService} that services these types of albums.
+     * @param albumType                    The type of albums that this provider can provide.
+     * @param mediaProviderServiceType     The type of the {@link MediaProviderService} that services these types of albums.
      */
     public AlbumProvider(final Class<A> albumType, final Class<? extends MediaProviderService<A, M>> mediaProviderServiceType) {
 
@@ -49,7 +49,7 @@ public class AlbumProvider<A extends Album, M extends Media> implements MediaPro
      */
     public MediaProviderService<A, M> getMediaProviderService() {
 
-        return GuiceContext.inject( mediaProviderServiceType );
+        return GuiceContext.getInstance( mediaProviderServiceType );
     }
 
     /**
