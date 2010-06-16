@@ -5,9 +5,9 @@ import com.lyndir.lhunath.lib.system.collection.SizedIterator;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.collection.IPredicate;
 import com.lyndir.lhunath.lib.wayward.provider.AbstractSizedIteratorProvider;
-import com.lyndir.lhunath.snaplog.data.user.User;
-import com.lyndir.lhunath.snaplog.model.AlbumService;
-import com.lyndir.lhunath.snaplog.model.UserService;
+import com.lyndir.lhunath.snaplog.data.object.user.User;
+import com.lyndir.lhunath.snaplog.model.service.AlbumService;
+import com.lyndir.lhunath.snaplog.model.service.UserService;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 import org.apache.wicket.markup.repeater.data.DataView;
 

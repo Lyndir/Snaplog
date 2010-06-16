@@ -17,7 +17,7 @@ package com.lyndir.lhunath.snaplog.webapp.page.error;
 
 import com.google.gson.Gson;
 import com.lyndir.lhunath.lib.system.util.Utils;
-import com.lyndir.lhunath.snaplog.data.Issue;
+import com.lyndir.lhunath.snaplog.data.object.Issue;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogWebApplication;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 import org.apache.wicket.Component;

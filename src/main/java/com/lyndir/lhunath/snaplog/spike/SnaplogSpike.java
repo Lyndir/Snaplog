@@ -6,13 +6,13 @@ import com.db4o.query.Predicate;
 import com.google.common.base.Preconditions;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
-import com.lyndir.lhunath.snaplog.data.media.Media;
-import com.lyndir.lhunath.snaplog.data.media.MediaData;
-import com.lyndir.lhunath.snaplog.data.media.aws.S3Media;
-import com.lyndir.lhunath.snaplog.data.security.SecurityToken;
-import com.lyndir.lhunath.snaplog.model.AlbumService;
-import com.lyndir.lhunath.snaplog.model.impl.AWSMediaProviderServiceImpl;
-import com.lyndir.lhunath.snaplog.model.impl.ServicesModule;
+import com.lyndir.lhunath.snaplog.data.object.media.Media;
+import com.lyndir.lhunath.snaplog.data.object.media.MediaData;
+import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Media;
+import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
+import com.lyndir.lhunath.snaplog.model.service.AlbumService;
+import com.lyndir.lhunath.snaplog.model.service.impl.AWSMediaProviderServiceImpl;
+import com.lyndir.lhunath.snaplog.model.service.impl.ServicesModule;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 
 
@@ -36,7 +36,7 @@ public class SnaplogSpike {
         db = injector.getInstance( ObjectContainer.class );
 
         injector.getInstance( AlbumService.class ).syncAllAlbums();
-        
+
         Media media = getMedia();
         MediaData mediaData = getMediaData( media );
         System.err.println( "1. Media data: " + mediaData );

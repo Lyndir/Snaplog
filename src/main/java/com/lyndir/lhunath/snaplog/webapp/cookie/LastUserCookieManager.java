@@ -15,7 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.cookie;
 
-import com.lyndir.lhunath.snaplog.data.user.User;
+import com.lyndir.lhunath.snaplog.data.object.user.User;
 
 
 /**

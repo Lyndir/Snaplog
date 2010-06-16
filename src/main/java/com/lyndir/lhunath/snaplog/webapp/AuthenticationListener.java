@@ -17,9 +17,9 @@ package com.lyndir.lhunath.snaplog.webapp;
 
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.wayward.component.WicketUtils;
-import com.lyndir.lhunath.snaplog.data.user.LinkID;
-import com.lyndir.lhunath.snaplog.data.user.User;
-import com.lyndir.lhunath.snaplog.model.UserService;
+import com.lyndir.lhunath.snaplog.data.object.user.LinkID;
+import com.lyndir.lhunath.snaplog.data.object.user.User;
+import com.lyndir.lhunath.snaplog.model.service.UserService;
 import net.link.safeonline.sdk.auth.filter.LoginManager;
 import org.apache.wicket.Component;
 import org.apache.wicket.application.IComponentOnBeforeRenderListener;

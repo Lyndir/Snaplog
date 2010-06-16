@@ -2,7 +2,7 @@ package com.lyndir.lhunath.snaplog.job;
 
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.lyndir.lhunath.snaplog.model.AlbumService;
+import com.lyndir.lhunath.snaplog.model.service.AlbumService;
 import org.quartz.Job;
 import org.quartz.JobExecutionContext;
 import org.quartz.JobExecutionException;
