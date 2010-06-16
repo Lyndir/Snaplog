@@ -27,7 +27,6 @@ import com.lyndir.lhunath.snaplog.webapp.SnaplogWebApplication;
 import com.lyndir.lhunath.snaplog.webapp.servlet.AppLogoutServlet;
 import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
 import com.lyndir.lhunath.snaplog.webapp.servlet.InitServlet;
-import com.lyndir.lhunath.snaplog.webapp.servlet.TestServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import net.link.safeonline.sdk.auth.servlet.LoginServlet;
@@ -89,10 +88,6 @@ public class GuiceContext extends GuiceServletContextListener {
                 // Snaplog Init Servlet
                 serve( InitServlet.PATH ).with( InitServlet.class );
                 bind( InitServlet.class ).in( Scopes.SINGLETON );
-
-                // Snaplog Test Servlet
-                serve( TestServlet.PATH ).with( TestServlet.class );
-                bind( TestServlet.class ).in( Scopes.SINGLETON );
 
                 // Snaplog Logout Servlet
                 paramBuilder = new ImmutableMap.Builder<String, String>();

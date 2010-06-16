@@ -17,7 +17,9 @@ package com.lyndir.lhunath.snaplog.model.service.impl;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.base.Splitter;
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.logging.exception.InternalInconsistencyException;
@@ -103,15 +105,14 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
             if (o++ % 100 == 0)
                 logger.dbg( "Loading object %d / %d", ++o, objects.size() );
 
-            if (!VALID_NAME.matcher( mediaObject.getKey() ).matches())
+            if (!mediaObject.getKey().endsWith( ".jpg" ))
                 // Ignore files that don't have a valid media name.
                 continue;
 
-            String mediaName = BASE_NAME.matcher( mediaObject.getKey() ).replaceFirst( "" );
-            S3Media media = new S3Media( album, mediaName );
-            S3MediaData mediaData = mediaDAO.findMediaData( media );
+            String mediaName = Iterables.getLast( Splitter.on( '/' ).split( mediaObject.getKey() ) );
+            S3MediaData mediaData = mediaDAO.findMediaData( album, mediaName );
             if (mediaData == null)
-                mediaData = new S3MediaData( media, mediaObject );
+                mediaData = new S3MediaData( new S3Media( album, mediaName ), mediaObject );
 
             mediaDAO.update( mediaData );
         }

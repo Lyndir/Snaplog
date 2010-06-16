@@ -1,10 +1,10 @@
-package com.lyndir.lhunath.snaplog.data.service.impl;
+package com.lyndir.lhunath.snaplog.data.service.impl.db4o.nq;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
-import com.google.common.base.Predicate;
+import com.db4o.query.Predicate;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
@@ -48,9 +48,9 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public List<User> listUsers(final Predicate<User> predicate) {
+    public List<User> listUsers(final com.google.common.base.Predicate<User> predicate) {
 
-        return db.query( new com.db4o.query.Predicate<User>() {
+        return db.query( new Predicate<User>() {
 
             @Override
             public boolean match(final User candidate) {
@@ -65,7 +65,7 @@ public class UserDAOImpl implements UserDAO {
 
         checkNotNull( user, "Given user must not be null." );
 
-        ObjectSet<UserProfile> userProfiles = db.query( new com.db4o.query.Predicate<UserProfile>() {
+        ObjectSet<UserProfile> userProfiles = db.query( new Predicate<UserProfile>() {
 
             @Override
             public boolean match(final UserProfile candidate) {

@@ -1,4 +1,4 @@
-package com.lyndir.lhunath.snaplog.data.service.impl;
+package com.lyndir.lhunath.snaplog.data.service.impl.db4o.nq;
 
 import com.db4o.ObjectContainer;
 import com.google.inject.Inject;
