@@ -83,14 +83,18 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
         StringBuffer shotTimeString = new StringBuffer( getName() );
 
         // Trim the extension off the filename.
-        shotTimeString.delete( shotTimeString.lastIndexOf( "." ), shotTimeString.length() );
+        int extensionIndex = shotTimeString.lastIndexOf( "." );
+        if (extensionIndex > 0)
+            shotTimeString.delete( extensionIndex, shotTimeString.length() );
 
         // Trim the "hidden file prefix" off the filename.
         while (shotTimeString.charAt( 0 ) == '.')
             shotTimeString.deleteCharAt( 0 );
 
         // Trim "_extras" off the filename.
-        shotTimeString.delete( shotTimeString.lastIndexOf( "_" ), shotTimeString.length() );
+        int extraIndex = shotTimeString.lastIndexOf( "_" );
+        if (extraIndex > 0)
+            shotTimeString.delete( extraIndex, shotTimeString.length() );
 
         // No time zone == UTC.
         if (shotTimeString.indexOf( "+" ) < 0 && shotTimeString.indexOf( "-" ) < 0)
