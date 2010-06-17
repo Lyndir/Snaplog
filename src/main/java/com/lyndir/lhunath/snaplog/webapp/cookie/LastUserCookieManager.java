@@ -19,16 +19,11 @@ import com.lyndir.lhunath.snaplog.data.object.user.User;
 
 
 /**
- * <h2>{@link LastUserCookieManager}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link LastUserCookieManager}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * [description / usage].
- * </p>
+ * <p> [description / usage]. </p>
  *
- * <p>
- * <i>Dec 31, 2009</i>
- * </p>
+ * <p> <i>Dec 31, 2009</i> </p>
  *
  * @author lhunath
  */

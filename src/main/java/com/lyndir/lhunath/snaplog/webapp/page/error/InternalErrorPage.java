@@ -27,12 +27,9 @@ import org.apache.wicket.model.Model;
 
 
 /**
- * <h2>{@link InternalErrorPage}<br>
- * <sub>Page that is shown when an uncaught exception occurs.</sub></h2>
+ * <h2>{@link InternalErrorPage}<br> <sub>Page that is shown when an uncaught exception occurs.</sub></h2>
  *
- * <p>
- * <i>Jun 10, 2009</i>
- * </p>
+ * <p> <i>Jun 10, 2009</i> </p>
  *
  * @author lhunath
  */
@@ -46,7 +43,6 @@ public class InternalErrorPage extends LayoutPage {
 
         return new InternalErrorPanel( wicketId );
     }
-
 
     private static class InternalErrorPanel extends Panel {
 

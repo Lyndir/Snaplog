@@ -15,30 +15,23 @@
  */
 package com.lyndir.lhunath.snaplog.util;
 
+import com.lyndir.lhunath.lib.system.logging.Logger;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import com.lyndir.lhunath.lib.system.logging.Logger;
-
 
 /**
- * <h2>{@link URLUtils}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link URLUtils}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * [description / usage].
- * </p>
+ * <p> [description / usage]. </p>
  *
- * <p>
- * <i>Jan 19, 2010</i>
- * </p>
+ * <p> <i>Jan 19, 2010</i> </p>
  *
  * @author lhunath
  */
 public abstract class URLUtils {
 
     private static final Logger logger = Logger.get( URLUtils.class );
-
 
     /**
      * Encode the given string for use in a URL query parameter.

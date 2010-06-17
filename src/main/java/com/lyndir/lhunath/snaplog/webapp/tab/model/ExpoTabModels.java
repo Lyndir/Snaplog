@@ -26,12 +26,9 @@ import org.apache.wicket.model.LoadableDetachableModel;
 
 
 /**
- * <h2>{@link ExpoTabModels}<br>
- * <sub>Model provider for {@link GalleryTabPanel}.</sub></h2>
+ * <h2>{@link ExpoTabModels}<br> <sub>Model provider for {@link GalleryTabPanel}.</sub></h2>
  *
- * <p>
- * <i>Mar 11, 2010</i>
- * </p>
+ * <p> <i>Mar 11, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -41,7 +38,6 @@ public class ExpoTabModels extends EmptyModelProvider<ExpoTabModels> {
     static final Messages msgs = MessagesFactory.create( Messages.class );
 
     private final IModel<String> usersHelp;
-
 
     /**
      * Create a new {@link ExpoTabModels} instance.

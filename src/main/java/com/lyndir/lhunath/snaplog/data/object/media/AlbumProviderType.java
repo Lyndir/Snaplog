@@ -22,12 +22,9 @@ import com.lyndir.lhunath.snaplog.model.service.AlbumProvider;
 
 
 /**
- * <h2>{@link AlbumProviderType}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link AlbumProviderType}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * <i>Mar 11, 2010</i>
- * </p>
+ * <p> <i>Mar 11, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -36,14 +33,11 @@ public enum AlbumProviderType {
     /**
      * Amazon S3.
      *
-     * <p>
-     * Provides storage hosted at the Amazon cloud.
-     * </p>
+     * <p> Provides storage hosted at the Amazon cloud. </p>
      */
     AMAZON_S3( new AlbumProvider<S3Album, S3Media>( S3Album.class, AWSMediaProviderService.class ) );
 
     private final AlbumProvider<?, ?> albumProvider;
-
 
     /**
      * Create a new {@link AlbumProviderType} instance.

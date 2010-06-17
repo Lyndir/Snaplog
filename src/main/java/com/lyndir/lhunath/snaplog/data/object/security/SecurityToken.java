@@ -19,20 +19,17 @@ import com.lyndir.lhunath.snaplog.data.object.user.User;
 
 
 /**
- * <h2>{@link SecurityToken}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link SecurityToken}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * <i>Mar 14, 2010</i>
- * </p>
+ * <p> <i>Mar 14, 2010</i> </p>
  *
  * @author lhunath
  */
 public class SecurityToken {
 
     /**
-     * Use this token <b>ONLY</b> for requests that the user can't gain anything from. The result must not be given or
-     * hinted at to the user.
+     * Use this token <b>ONLY</b> for requests that the user can't gain anything from. The result must not be given or hinted at to the
+     * user.
      */
     // TODO: Should this be moved into SecurityServiceImpl and made private?
     public static final SecurityToken INTERNAL_USE_ONLY = new SecurityToken( null ) {
@@ -45,7 +42,6 @@ public class SecurityToken {
     };
 
     private final User actor;
-
 
     /**
      * @param actor The user that has requested or will gain access to the result of the operation.
@@ -64,8 +60,8 @@ public class SecurityToken {
     }
 
     /**
-     * @return <code>true</code>: This token should allow operations regardless. It can only be <code>true</code> for
-     *         requests made using the {@link #INTERNAL_USE_ONLY} token.
+     * @return <code>true</code>: This token should allow operations regardless. It can only be <code>true</code> for requests made using
+     *         the {@link #INTERNAL_USE_ONLY} token.
      */
     public boolean isInternalUseOnly() {
 

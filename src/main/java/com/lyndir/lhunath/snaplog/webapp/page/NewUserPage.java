@@ -35,12 +35,9 @@ import org.apache.wicket.markup.html.form.RequiredTextField;
 
 
 /**
- * <h2>{@link NewUserPage}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link NewUserPage}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * <i>Mar 17, 2010</i>
- * </p>
+ * <p> <i>Mar 17, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -48,7 +45,6 @@ public class NewUserPage extends LayoutPage {
 
     @Inject
     UserService userService;
-
 
     /**
      * {@inheritDoc}
@@ -59,14 +55,10 @@ public class NewUserPage extends LayoutPage {
         return new NewUserPanel( wicketId );
     }
 
-
     /**
-     * <h2>{@link NewUserPanel}<br>
-     * <sub>Content panel for the {@link NewUserPage}.</sub></h2>
+     * <h2>{@link NewUserPanel}<br> <sub>Content panel for the {@link NewUserPage}.</sub></h2>
      *
-     * <p>
-     * <i>Mar 17, 2010</i>
-     * </p>
+     * <p> <i>Mar 17, 2010</i> </p>
      *
      * @author lhunath
      */
@@ -81,7 +73,6 @@ public class NewUserPage extends LayoutPage {
                 {
                     add( new RequiredTextField<String>( "userName", getModelObject().userName() ) );
                 }
-
 
                 @Override
                 protected void onSubmit() {
@@ -115,12 +106,9 @@ public class NewUserPage extends LayoutPage {
 
 
     /**
-     * <h2>{@link NewUserPageState}<br>
-     * <sub>[in short] (TODO).</sub></h2>
+     * <h2>{@link NewUserPageState}<br> <sub>[in short] (TODO).</sub></h2>
      *
-     * <p>
-     * <i>Mar 21, 2010</i>
-     * </p>
+     * <p> <i>Mar 21, 2010</i> </p>
      *
      * @author lhunath
      */
@@ -140,8 +128,7 @@ public class NewUserPage extends LayoutPage {
         @Override
         public boolean isNecessary() {
 
-            return LoginManager.isAuthenticated( WicketUtils.getServletRequest() )
-                   && !SnaplogSession.get().isAuthenticated();
+            return LoginManager.isAuthenticated( WicketUtils.getServletRequest() ) && !SnaplogSession.get().isAuthenticated();
         }
     }
 }

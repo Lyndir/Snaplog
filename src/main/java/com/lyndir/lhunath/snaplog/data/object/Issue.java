@@ -16,17 +16,13 @@
 package com.lyndir.lhunath.snaplog.data.object;
 
 import java.io.Serializable;
-
 import org.apache.wicket.Page;
 
 
 /**
- * <h2>{@link Issue}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link Issue}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * <i>Mar 3, 2010</i>
- * </p>
+ * <p> <i>Mar 3, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -34,7 +30,6 @@ public class Issue implements Serializable {
 
     private final Page location;
     private final Exception cause;
-
 
     /**
      * Create a new {@link Issue} instance.

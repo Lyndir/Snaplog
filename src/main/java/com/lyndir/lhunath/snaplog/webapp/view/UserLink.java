@@ -14,12 +14,9 @@ import org.apache.wicket.model.IModel;
 
 
 /**
- * <h2>{@link UserLink}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link UserLink}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * <i>Mar 24, 2010</i>
- * </p>
+ * <p> <i>Mar 24, 2010</i> </p>
  *
  * @author lhunath
  */

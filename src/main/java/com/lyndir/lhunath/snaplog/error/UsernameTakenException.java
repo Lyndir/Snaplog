@@ -19,12 +19,9 @@ import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 
 
 /**
- * <h2>{@link UsernameTakenException}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link UsernameTakenException}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * <i>Mar 17, 2010</i>
- * </p>
+ * <p> <i>Mar 17, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -33,7 +30,6 @@ public class UsernameTakenException extends Exception {
     static final Messages msgs = MessagesFactory.create( Messages.class );
 
     private final String userName;
-
 
     /**
      * @param userName The userName that is no longer available.
@@ -68,7 +64,6 @@ public class UsernameTakenException extends Exception {
 
         return msgs.message( userName );
     }
-
 
     interface Messages {
 

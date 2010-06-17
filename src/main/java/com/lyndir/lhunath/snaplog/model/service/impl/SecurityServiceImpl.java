@@ -75,7 +75,8 @@ public class SecurityServiceImpl implements SecurityService {
     }
 
     @Override
-    public <T extends SecureObject<?>> Iterator<T> filterAccess(final Permission permission, final SecurityToken token, final Iterator<T> source) {
+    public <T extends SecureObject<?>> Iterator<T> filterAccess(final Permission permission, final SecurityToken token,
+                                                                final Iterator<T> source) {
 
         return Iterators.filter( source, new Predicate<T>() {
             @Override

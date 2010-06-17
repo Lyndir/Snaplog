@@ -33,12 +33,9 @@ import org.apache.wicket.model.Model;
 
 
 /**
- * <h2>{@link MediaView}<br>
- * <sub>A view that renders media at a certain quality.</sub></h2>
+ * <h2>{@link MediaView}<br> <sub>A view that renders media at a certain quality.</sub></h2>
  *
- * <p>
- * <i>Mar 13, 2010</i>
- * </p>
+ * <p> <i>Mar 13, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -46,15 +43,13 @@ public class MediaView extends GenericPanel<Media> {
 
     static final Logger logger = Logger.get( MediaView.class );
 
-
     /**
      * @param id        The wicket ID of this component.
      * @param model     The model that will provide the {@link Media} to show in this view.
      * @param quality   The quality at which to show the {@link Media}.
-     * @param clickable <code>true</code>: The media will be clickable. When clicked, the {@link #onClick(AjaxRequestTarget)}
-     *                  will be fired.<br>
-     *                  <code>false</code>: The media will not be clickable. There is no need to implement
-     *                  {@link #onClick(AjaxRequestTarget)}.
+     * @param clickable <code>true</code>: The media will be clickable. When clicked, the {@link #onClick(AjaxRequestTarget)} will be
+     *                  fired.<br> <code>false</code>: The media will not be clickable. There is no need to implement {@link
+     *                  #onClick(AjaxRequestTarget)}.
      */
     public MediaView(final String id, final IModel<Media> model, final Quality quality, final boolean clickable) {
 
@@ -119,7 +114,7 @@ public class MediaView extends GenericPanel<Media> {
 
                 return quality != Quality.THUMBNAIL;
             }
-        });
+        } );
         image.add( new ContextImage( "photo", new LoadableDetachableModel<String>() {
 
             @Override
@@ -137,8 +132,7 @@ public class MediaView extends GenericPanel<Media> {
                                          @Override
                                          protected String load() {
 
-                                             return ImageServlet
-                                                     .getContextRelativePathFor( getModelObject(), Quality.FULLSCREEN );
+                                             return ImageServlet.getContextRelativePathFor( getModelObject(), Quality.FULLSCREEN );
                                          }
                                      } ) {
 
@@ -161,10 +155,8 @@ public class MediaView extends GenericPanel<Media> {
     /**
      * Fired when the user clicks the media.
      *
-     * <p>
-     * You only need to implement this method when you're actually creating a clickable {@link MediaView}. See the
-     * <code>clickable</code> argument of {@link #MediaView(String, IModel, Quality, boolean)}.
-     * </p>
+     * <p> You only need to implement this method when you're actually creating a clickable {@link MediaView}. See the
+     * <code>clickable</code> argument of {@link #MediaView(String, IModel, Quality, boolean)}. </p>
      *
      * @param target The AJAX request that fired fired this event.
      */

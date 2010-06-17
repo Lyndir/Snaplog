@@ -82,7 +82,8 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * @param securityService See {@link ServicesModule}.
      */
     @Inject
-    public AWSMediaProviderServiceImpl(final MediaDAO mediaDAO, final AWSService awsService, final UserService userService, final SecurityService securityService) {
+    public AWSMediaProviderServiceImpl(final MediaDAO mediaDAO, final AWSService awsService, final UserService userService,
+                                       final SecurityService securityService) {
 
         this.mediaDAO = mediaDAO;
         this.awsService = awsService;

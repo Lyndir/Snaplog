@@ -31,9 +31,7 @@ import org.jets3t.service.security.AWSCredentials;
 /**
  * <h2>{@link AWSServiceImpl}<br>
  *
- * <p>
- * <i>Jan 9, 2010</i>
- * </p>
+ * <p> <i>Jan 9, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -46,7 +44,6 @@ public class AWSServiceImpl implements AWSService {
     private static final S3Bucket BUCKET = new S3Bucket( "snaplog.net" );
     private static final String ACCESS_KEY = "AKIAJKXN44SDAGP7TINQ";
     private static final String SECRET_KEY = "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";
-
 
     private static S3Service newService()
             throws S3ServiceException {

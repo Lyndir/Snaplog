@@ -20,6 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.collect.ImmutableSet;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
@@ -32,7 +33,7 @@ import java.util.Set;
  *
  * @author lhunath
  */
-public class ACL {
+public class ACL implements Serializable {
 
     static final Logger logger = Logger.get( ACL.class );
 

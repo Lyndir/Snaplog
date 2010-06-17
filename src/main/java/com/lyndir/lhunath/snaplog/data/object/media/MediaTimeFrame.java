@@ -15,34 +15,27 @@
  */
 package com.lyndir.lhunath.snaplog.data.object.media;
 
-import java.io.Serializable;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.Set;
-
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableSet;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.Set;
 import org.joda.time.*;
 import org.joda.time.format.DateTimeFormat;
 
 
 /**
- * <h2>{@link MediaTimeFrame}<br>
- * <sub>A time span with an offset that groups a chronological range of media.</sub></h2>
+ * <h2>{@link MediaTimeFrame}<br> <sub>A time span with an offset that groups a chronological range of media.</sub></h2>
  *
- * <p>
- * {@link MediaTimeFrame}s are spans of time of a certain {@link Type} that span an amount of time defined by the type
- * and are offset by a timestamp of milliseconds since the UNIX epoch.
- * </p>
+ * <p> {@link MediaTimeFrame}s are spans of time of a certain {@link Type} that span an amount of time defined by the type and are offset by
+ * a timestamp of milliseconds since the UNIX epoch. </p>
  *
- * <p>
- * <i>Jul 25, 2009</i>
- * </p>
+ * <p> <i>Jul 25, 2009</i> </p>
  *
  * @author lhunath
  */
-public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<MediaTimeFrame>, Serializable {
+public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<MediaTimeFrame> {
 
     private static final Logger logger = Logger.get( MediaTimeFrame.class );
 
@@ -53,7 +46,6 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
     private final Partial typeTime;
 
     private final LinkedList<Media> files;
-
 
     /**
      * @param parent     The timeframe that contains this one, or <code>null</code> if this timeframe is top-level.
@@ -82,8 +74,7 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
     /**
      * Get a list of all the media created in this time frame.
      *
-     * @param recurse <code>true</code>: retrieves all media belonging to this time frame and every time frame that is a
-     *                part of it.
+     * @param recurse <code>true</code>: retrieves all media belonging to this time frame and every time frame that is a part of it.
      *
      * @return An unmodifiable list of {@link Media}s.
      */
@@ -206,14 +197,10 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
         return Objects.hashCode( type, typeTime );
     }
 
-
     /**
-     * <h2>{@link Type}<br>
-     * <sub>[in short] (TODO).</sub></h2>
+     * <h2>{@link Type}<br> <sub>[in short] (TODO).</sub></h2>
      *
-     * <p>
-     * <i>Jan 28, 2010</i>
-     * </p>
+     * <p> <i>Jan 28, 2010</i> </p>
      *
      * @author lhunath
      */
@@ -237,7 +224,6 @@ public class MediaTimeFrame implements Comparable<MediaTimeFrame>, Iterable<Medi
         private final DateTimeFieldType dateType;
         private final Type parentType;
         private final String dateFormatString;
-
 
         Type(final DateTimeFieldType dateType, final Type parentType, final String dateFormatString) {
 

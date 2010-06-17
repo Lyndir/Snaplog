@@ -44,7 +44,7 @@ import org.apache.wicket.model.Model;
  */
 public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
 
-    protected final transient Messages msgs = MessagesFactory.create( Messages.class );
+    static final Messages msgs = MessagesFactory.create( Messages.class );
 
     private final IModel<String> pageTitle;
     private final IModel<String> userGuessWelcome;
@@ -164,7 +164,8 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
                 if (SnaplogSession.get().getFocusedUser() == null)
                     return null;
 
-                return msgs.focusedUser( SnaplogSession.get().getFocusedUser().getBadge(), SnaplogSession.get().getFocusedUser().getUserName() );
+                return msgs.focusedUser( SnaplogSession.get().getFocusedUser().getBadge(),
+                                         SnaplogSession.get().getFocusedUser().getUserName() );
             }
         };
 

@@ -20,16 +20,11 @@ import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
 
 
 /**
- * <h2>{@link S3Album}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link S3Album}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * [description / usage].
- * </p>
+ * <p> [description / usage]. </p>
  *
- * <p>
- * <i>Jan 10, 2010</i>
- * </p>
+ * <p> <i>Jan 10, 2010</i> </p>
  *
  * @author lhunath
  */

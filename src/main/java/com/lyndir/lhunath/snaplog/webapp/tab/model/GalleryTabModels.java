@@ -15,9 +15,6 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab.model;
 
-import java.util.Arrays;
-import java.util.List;
-
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.model.EmptyModelProvider;
@@ -25,18 +22,17 @@ import com.lyndir.lhunath.lib.wayward.model.ModelProvider;
 import com.lyndir.lhunath.snaplog.data.object.media.AlbumProviderType;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.webapp.tab.GalleryTabPanel;
+import java.util.Arrays;
+import java.util.List;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 
 
 /**
- * <h2>{@link GalleryTabModels}<br>
- * <sub>Model provider for {@link GalleryTabPanel}.</sub></h2>
+ * <h2>{@link GalleryTabModels}<br> <sub>Model provider for {@link GalleryTabPanel}.</sub></h2>
  *
- * <p>
- * <i>Mar 11, 2010</i>
- * </p>
+ * <p> <i>Mar 11, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -47,7 +43,6 @@ public class GalleryTabModels extends ModelProvider<GalleryTabModels, User> {
     private final IModel<String> decoratedUsername;
     private final IModel<String> username;
     private final NewAlbumFormModels newAlbumForm;
-
 
     /**
      * @param model A model providing the user whose gallery to show.
@@ -77,14 +72,10 @@ public class GalleryTabModels extends ModelProvider<GalleryTabModels, User> {
         newAlbumForm = new NewAlbumFormModels();
     }
 
-
     /**
-     * <h2>{@link NewAlbumFormModels}<br>
-     * <sub>Model provider for the New Album form.</sub></h2>
+     * <h2>{@link NewAlbumFormModels}<br> <sub>Model provider for the New Album form.</sub></h2>
      *
-     * <p>
-     * <i>Mar 12, 2010</i>
-     * </p>
+     * <p> <i>Mar 12, 2010</i> </p>
      *
      * @author lhunath
      */
@@ -95,7 +86,6 @@ public class GalleryTabModels extends ModelProvider<GalleryTabModels, User> {
         private final IModel<AlbumProviderType> type;
         private final IModel<String> name;
         private final IModel<String> description;
-
 
         NewAlbumFormModels() {
 
@@ -116,8 +106,7 @@ public class GalleryTabModels extends ModelProvider<GalleryTabModels, User> {
         // Accessors.
 
         /**
-         * @return A model that holds the user-selected {@link AlbumProviderType} which will provide media for the new
-         *         album.
+         * @return A model that holds the user-selected {@link AlbumProviderType} which will provide media for the new album.
          */
         public IModel<AlbumProviderType> type() {
 
@@ -148,7 +137,6 @@ public class GalleryTabModels extends ModelProvider<GalleryTabModels, User> {
             return description;
         }
     }
-
 
     // Accessors.
 

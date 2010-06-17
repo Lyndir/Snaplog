@@ -49,6 +49,7 @@ public class TagsPopup extends PopupPanel<Album> {
         IModel<String> tool();
     }
 
+
     public static class Tool implements SnaplogTool {
 
         private final IModel<Album> model;

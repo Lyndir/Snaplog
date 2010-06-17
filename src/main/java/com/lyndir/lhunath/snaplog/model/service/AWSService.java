@@ -15,22 +15,18 @@
  */
 package com.lyndir.lhunath.snaplog.model.service;
 
+import com.google.common.collect.ImmutableList;
 import java.io.File;
 import java.io.InputStream;
-
-import com.google.common.collect.ImmutableList;
 import org.jets3t.service.S3Service;
 import org.jets3t.service.model.S3Bucket;
 import org.jets3t.service.model.S3Object;
 
 
 /**
- * <h2>{@link AWSService}<br>
- * <sub>A service for clean access to the S3 data.</sub></h2>
+ * <h2>{@link AWSService}<br> <sub>A service for clean access to the S3 data.</sub></h2>
  *
- * <p>
- * <i>Jan 9, 2010</i>
- * </p>
+ * <p> <i>Jan 9, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -39,9 +35,7 @@ public interface AWSService {
     /**
      * Retrieve an object on S3 with a data stream available.
      *
-     * <p>
-     * <b>Note:</b> It is your responsibility to close this object's data stream when you are done!
-     * </p>
+     * <p> <b>Note:</b> It is your responsibility to close this object's data stream when you are done! </p>
      *
      * @param objectKey The key that identifies the object.
      *

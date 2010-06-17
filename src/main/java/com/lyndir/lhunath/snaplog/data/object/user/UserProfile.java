@@ -19,7 +19,8 @@ import com.google.common.base.Objects;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.object.security.AbstractSecureObject;
 import com.lyndir.lhunath.snaplog.data.object.security.GlobalSecureObject;
-import java.io.Serializable;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 
 
 /**
@@ -29,7 +30,7 @@ import java.io.Serializable;
  *
  * @author lhunath
  */
-public class UserProfile extends AbstractSecureObject<GlobalSecureObject> implements Serializable {
+public class UserProfile extends AbstractSecureObject<GlobalSecureObject> {
 
     static final Messages msgs = MessagesFactory.create( Messages.class );
 
@@ -103,6 +104,16 @@ public class UserProfile extends AbstractSecureObject<GlobalSecureObject> implem
     public String objectDescription() {
 
         return msgs.description( user.getUserName() );
+    }
+
+    private void readObject(final ObjectInputStream stream)
+            throws IOException, ClassNotFoundException {
+
+        // Default deserialization.
+        stream.defaultReadObject();
+
+        // Manually load a new Messages proxy.
+        MessagesFactory.initialize( this, Messages.class );
     }
 
     interface Messages {

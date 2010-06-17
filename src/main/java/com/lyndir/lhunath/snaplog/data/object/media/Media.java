@@ -22,8 +22,6 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.object.security.AbstractSecureObject;
 import com.lyndir.lhunath.snaplog.model.service.WebUtil;
-import java.io.Serializable;
-import java.util.regex.Pattern;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -36,16 +34,12 @@ import org.joda.time.format.ISODateTimeFormat;
  *
  * @author lhunath
  */
-public abstract class Media extends AbstractSecureObject<Album> implements Comparable<Media>, Serializable {
+public abstract class Media extends AbstractSecureObject<Album> implements Comparable<Media> {
 
     static final Logger logger = Logger.get( Media.class );
     static final Messages msgs = MessagesFactory.create( Messages.class );
 
-    private static final DateTimeFormatter filenameFormat = ISODateTimeFormat.basicDateTimeNoMillis();
-    private static final Pattern EXTENSION = Pattern.compile( "\\.[^\\.]*$" );
-    private static final Pattern HIDDEN = Pattern.compile( "^\\." );
-    private static final Pattern POSTFIX = Pattern.compile( "_.*" );
-    private static final Pattern TIMEZONE = Pattern.compile( "[+-]\\d+$" );
+    private static final transient DateTimeFormatter filenameFormat = ISODateTimeFormat.basicDateTimeNoMillis();
 
     private final String name;
 
@@ -86,23 +80,24 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
      */
     public long shotTime() {
 
-        String shotTimeString = getName();
+        StringBuffer shotTimeString = new StringBuffer( getName() );
 
         // Trim the extension off the filename.
-        shotTimeString = EXTENSION.matcher( shotTimeString ).replaceFirst( "" );
+        shotTimeString.delete( shotTimeString.lastIndexOf( "." ), shotTimeString.length() );
 
         // Trim the "hidden file prefix" off the filename.
-        shotTimeString = HIDDEN.matcher( shotTimeString ).replaceFirst( "" );
+        while (shotTimeString.charAt( 0 ) == '.')
+            shotTimeString.deleteCharAt( 0 );
 
         // Trim "_extras" off the filename.
-        shotTimeString = POSTFIX.matcher( shotTimeString ).replaceFirst( "" );
+        shotTimeString.delete( shotTimeString.lastIndexOf( "_" ), shotTimeString.length() );
 
         // No time zone == UTC.
-        if (!TIMEZONE.matcher( shotTimeString ).matches())
-            shotTimeString += "+0000";
+        if (shotTimeString.indexOf( "+" ) < 0 && shotTimeString.indexOf( "-" ) < 0)
+            shotTimeString.append( "+0000" );
 
         try {
-            return filenameFormat.parseMillis( shotTimeString );
+            return filenameFormat.parseMillis( shotTimeString.toString() );
         }
 
         catch (IllegalArgumentException e) {

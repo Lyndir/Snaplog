@@ -28,12 +28,9 @@ import org.apache.wicket.model.LoadableDetachableModel;
 
 
 /**
- * <h2>{@link AdministrationTabPanel}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link AdministrationTabPanel}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * <i>Mar 1, 2010</i>
- * </p>
+ * <p> <i>Mar 1, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -49,7 +46,6 @@ public class AdministrationTabPanel extends Panel {
         super( id );
     }
 
-
     interface Messages {
 
         /**
@@ -61,16 +57,11 @@ public class AdministrationTabPanel extends Panel {
 
 
     /**
-     * <h2>{@link AdministrationTab}<br>
-     * <sub>[in short] (TODO).</sub></h2>
+     * <h2>{@link AdministrationTab}<br> <sub>[in short] (TODO).</sub></h2>
      *
-     * <p>
-     * [description / usage].
-     * </p>
+     * <p> [description / usage]. </p>
      *
-     * <p>
-     * <i>May 31, 2009</i>
-     * </p>
+     * <p> <i>May 31, 2009</i> </p>
      *
      * @author lhunath
      */
@@ -78,7 +69,6 @@ public class AdministrationTabPanel extends Panel {
 
         static final Logger logger = Logger.get( AdministrationTab.class );
         static final Messages msgs = MessagesFactory.create( Messages.class );
-
 
         /**
          * {@inheritDoc}

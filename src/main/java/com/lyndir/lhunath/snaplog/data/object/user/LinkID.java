@@ -17,29 +17,22 @@ package com.lyndir.lhunath.snaplog.data.object.user;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.io.Serializable;
-
 import com.google.common.base.Objects;
+import java.io.Serializable;
 
 
 /**
- * <h2>{@link LinkID}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link LinkID}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * [description / usage].
- * </p>
+ * <p> [description / usage]. </p>
  *
- * <p>
- * <i>Jan 9, 2010</i>
- * </p>
+ * <p> <i>Jan 9, 2010</i> </p>
  *
  * @author lhunath
  */
 public class LinkID implements Serializable {
 
     private String applicationScopedUserIdentifier;
-
 
     /**
      * Create a new {@link LinkID} instance.
@@ -88,8 +81,7 @@ public class LinkID implements Serializable {
         if (o == this)
             return true;
         if (o instanceof LinkID)
-            return Objects.equal( ((LinkID) o).getApplicationScopedUserIdentifier(),
-                                  getApplicationScopedUserIdentifier() );
+            return Objects.equal( ((LinkID) o).getApplicationScopedUserIdentifier(), getApplicationScopedUserIdentifier() );
 
         return false;
     }

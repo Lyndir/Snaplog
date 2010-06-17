@@ -20,7 +20,6 @@ import java.text.ParseException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.MarkupElement;
 import org.apache.wicket.markup.parser.AbstractMarkupFilter;
@@ -29,9 +28,8 @@ import org.apache.wicket.markup.parser.XmlTag;
 
 
 /**
- * MarkupFilter that expands certain open-close tag as separate open and close tags. Firefox, unless it gets text/xml
- * mime type, treats these open-close tags as open tags which results in corrupted DOM. This happens even with xhtml
- * doctype.
+ * MarkupFilter that expands certain open-close tag as separate open and close tags. Firefox, unless it gets text/xml mime type, treats
+ * these open-close tags as open tags which results in corrupted DOM. This happens even with xhtml doctype.
  *
  * In addition, some tags are required open-body-close for Wicket to work properly.
  *
@@ -41,16 +39,13 @@ import org.apache.wicket.markup.parser.XmlTag;
  */
 public class OpenCloseTagExpander extends AbstractMarkupFilter {
 
-    private static final List<String> replaceForTags = Arrays.asList( "div", "span", "p", "strong", "b", "e", "select",
-                                                                      "a", "q", "sub", "sup", "abbr", "acronym",
-                                                                      "cite", "code", "del", "dfn", "em", "ins", "kbd",
-                                                                      "samp", "var", "label", "textarea", "tr", "td",
-                                                                      "th", "caption", "thead", "tbody", "tfoot", "dl",
-                                                                      "dt", "dd", "li", "ol", "ul", "h1", "h2", "h3",
-                                                                      "h4", "h5", "h6", "pre", "title" );
+    private static final List<String> replaceForTags = Arrays.asList( "div", "span", "p", "strong", "b", "e", "select", "a", "q", "sub",
+                                                                      "sup", "abbr", "acronym", "cite", "code", "del", "dfn", "em", "ins",
+                                                                      "kbd", "samp", "var", "label", "textarea", "tr", "td", "th",
+                                                                      "caption", "thead", "tbody", "tfoot", "dl", "dt", "dd", "li", "ol",
+                                                                      "ul", "h1", "h2", "h3", "h4", "h5", "h6", "pre", "title" );
 
     private ComponentTag next;
-
 
     /**
      * @see IMarkupFilter#nextTag()

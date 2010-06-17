@@ -1,13 +1,11 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
 
 <properties>
 
     <entry key="expoTab">Expo</entry>
 
     <entry key="usersHelp.anon">These people are showcasing some of their albums publicly.</entry>
-    <entry key="usersHelp.auth">These people are showcasing some of their albums either publicly or to you
-        specifically.
+    <entry key="usersHelp.auth">These people are showcasing some of their albums either publicly or to you specifically.
     </entry>
 
     <entry key="query">Find:</entry>

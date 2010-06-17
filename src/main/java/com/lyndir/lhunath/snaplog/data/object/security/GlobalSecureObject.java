@@ -21,12 +21,9 @@ import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 
 
 /**
- * <h2>{@link GlobalSecureObject}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link GlobalSecureObject}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * <i>Mar 14, 2010</i>
- * </p>
+ * <p> <i>Mar 14, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -35,7 +32,7 @@ public class GlobalSecureObject extends AbstractSecureObject<SecureObject<?>> {
     /**
      * The default {@link SecureObject} that all top-level objects should use as their parent.
      */
-    public static final GlobalSecureObject DEFAULT;
+    public static final transient GlobalSecureObject DEFAULT;
 
     static {
         ObjectContainer db = GuiceContext.get().getInstance( ObjectContainer.class );
@@ -50,7 +47,6 @@ public class GlobalSecureObject extends AbstractSecureObject<SecureObject<?>> {
         DEFAULT.getACL().setDefaultPermission( Permission.NONE );
         db.store( DEFAULT );
     }
-
 
     /**
      * {@inheritDoc}

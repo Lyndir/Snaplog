@@ -26,19 +26,15 @@ import org.apache.wicket.application.IComponentOnBeforeRenderListener;
 
 
 /**
- * <h2>{@link AuthenticationListener}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link AuthenticationListener}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * <i>Jan 2, 2010</i>
- * </p>
+ * <p> <i>Jan 2, 2010</i> </p>
  *
  * @author lhunath
  */
 public class AuthenticationListener implements IComponentOnBeforeRenderListener {
 
     final UserService userService;
-
 
     /**
      * @param userService See {@link UserService}

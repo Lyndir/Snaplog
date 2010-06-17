@@ -21,8 +21,6 @@ import com.lyndir.lhunath.lib.wayward.i18n.LocalizedType;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.webapp.component.Sprite;
-import java.io.IOException;
-import java.io.ObjectInputStream;
 
 
 /**
@@ -63,7 +61,7 @@ public enum Permission implements Localized {
      */
     ADMINISTER( "business", "toolset-sc44", VIEW, CONTRIBUTE );
 
-    private static final transient Messages msgs = MessagesFactory.create( Messages.class );
+    private static final Messages msgs = MessagesFactory.create( Messages.class );
 
     private final String spriteName;
     private final String spriteCategory;
@@ -115,16 +113,6 @@ public enum Permission implements Localized {
     public String info(final SecureObject<?> of) {
 
         return msgs.info( this, of, of.getParent() );
-    }
-
-    private void readObject(final ObjectInputStream stream)
-            throws IOException, ClassNotFoundException {
-
-        // Default deserialization.
-        stream.defaultReadObject();
-
-        // Manually load a new Messages proxy.
-        MessagesFactory.initialize( this, "msgs", Messages.class );
     }
 
     private interface Messages {

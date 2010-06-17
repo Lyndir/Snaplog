@@ -21,12 +21,9 @@ import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Media;
 
 
 /**
- * <h2>{@link AWSMediaProviderService}<br>
- * <sub>Service {@link Media} hosted at Amazon's S3.</sub></h2>
+ * <h2>{@link AWSMediaProviderService}<br> <sub>Service {@link Media} hosted at Amazon's S3.</sub></h2>
  *
- * <p>
- * <i>Jan 10, 2010</i>
- * </p>
+ * <p> <i>Jan 10, 2010</i> </p>
  *
  * @author lhunath
  */

@@ -15,34 +15,30 @@
  */
 package com.lyndir.lhunath.snaplog.util;
 
-import javax.imageio.IIOImage;
-import javax.imageio.ImageIO;
-import javax.imageio.ImageWriteParam;
-import javax.imageio.ImageWriter;
+import com.mortennobel.imagescaling.DimensionConstrain;
+import com.mortennobel.imagescaling.ResampleOp;
 import java.awt.image.BufferedImage;
 import java.awt.image.RenderedImage;
 import java.io.IOException;
 import java.io.OutputStream;
-
-import com.mortennobel.imagescaling.DimensionConstrain;
-import com.mortennobel.imagescaling.ResampleOp;
+import javax.imageio.IIOImage;
+import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
 
 
 /**
- * <h2>{@link ImageUtils}<br>
- * <sub>Image manipulation utilities.</sub></h2>
+ * <h2>{@link ImageUtils}<br> <sub>Image manipulation utilities.</sub></h2>
  *
- * <p>
- * <i>Jan 6, 2010</i>
- * </p>
+ * <p> <i>Jan 6, 2010</i> </p>
  *
  * @author lhunath
  */
 public class ImageUtils {
 
     /**
-     * Resize the given image to the new dimensions <b>while maintaining the aspect ratio</b>. The old image will be
-     * sized to fit within the new dimensions.
+     * Resize the given image to the new dimensions <b>while maintaining the aspect ratio</b>. The old image will be sized to fit within the
+     * new dimensions.
      *
      * @param oldImage     The image to resize.
      * @param newMaxWidth  The maximum width of the new image.
@@ -92,18 +88,17 @@ public class ImageUtils {
      * @param image              The image that should be written.
      * @param stream             The stream where the encoded image data should be written to.
      * @param outputTypeMIME     The MIME type of the image encoding to use for encoding the image on the output stream.
-     * @param compressionQuality If non-<code>null</code>, explicitly set the compression quality to use for encoding. Value must be
-     *                           between (inclusive) 0-1.
-     * @param progressive        If non-<code>null</code>, explicitly set whether or not to use progressive encoding. This results in
-     *                           the image loading through the use of scan lines which makes the image appear in lower quality and
-     *                           improve in quality as it continues loading.
+     * @param compressionQuality If non-<code>null</code>, explicitly set the compression quality to use for encoding. Value must be between
+     *                           (inclusive) 0-1.
+     * @param progressive        If non-<code>null</code>, explicitly set whether or not to use progressive encoding. This results in the
+     *                           image loading through the use of scan lines which makes the image appear in lower quality and improve in
+     *                           quality as it continues loading.
      *
      * @throws IOException                   If the image could not be encoded or written to the output stream.
      * @throws UnsupportedOperationException If compression or progressiveness was requested but not supported by the output type.
      */
-    public static void write(
-            final RenderedImage image, final OutputStream stream, final String outputTypeMIME,
-            final Float compressionQuality, final Boolean progressive)
+    public static void write(final RenderedImage image, final OutputStream stream, final String outputTypeMIME,
+                             final Float compressionQuality, final Boolean progressive)
             throws IOException {
 
         ImageWriter writer = ImageIO.getImageWritersByMIMEType( outputTypeMIME ).next();

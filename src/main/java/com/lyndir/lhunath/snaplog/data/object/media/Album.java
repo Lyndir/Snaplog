@@ -21,7 +21,6 @@ import com.google.common.base.Objects;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.object.security.AbstractSecureObject;
 import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
-import java.io.Serializable;
 
 
 /**
@@ -33,7 +32,7 @@ import java.io.Serializable;
  *
  * @author lhunath
  */
-public abstract class Album extends AbstractSecureObject<UserProfile> implements Serializable {
+public abstract class Album extends AbstractSecureObject<UserProfile> {
 
     static final Messages msgs = MessagesFactory.create( Messages.class );
 

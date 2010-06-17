@@ -47,7 +47,8 @@ public class QuartzContext implements ServletContextListener {
 
             scheduler.start();
             scheduler.setJobFactory( new GuiceJobFactory( sce.getServletContext() ) );
-            scheduler.scheduleJob( new JobDetail( "Media Synchronization Job", MediaSynchronizationJob.class ), new CronTrigger( "Media Synchronization Trigger: Daily", null, "0 0 3 * * ?" ) );
+            scheduler.scheduleJob( new JobDetail( "Media Synchronization Job", MediaSynchronizationJob.class ),
+                                   new CronTrigger( "Media Synchronization Trigger: Daily", null, "0 0 3 * * ?" ) );
             logger.inf( "Quartz scheduler initialization completed." );
         }
 

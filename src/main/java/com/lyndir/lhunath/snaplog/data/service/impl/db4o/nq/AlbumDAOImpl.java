@@ -50,7 +50,6 @@ public class AlbumDAOImpl implements AlbumDAO {
         } );
     }
 
-
     @Override
     // TODO: Can probably be deprecated and replaced by the above as soon as we can assert that the above can implement this more specific case without loosing the ability to optimize the query.
     public List<Album> listAlbums(final User ownerUser, final String albumName) {

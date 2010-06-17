@@ -21,12 +21,9 @@ import org.apache.wicket.markup.html.panel.Panel;
 
 
 /**
- * <h2>{@link AccessDeniedErrorPage}<br>
- * <sub>Page that is shown when the user is denied access to a resource.</sub></h2>
+ * <h2>{@link AccessDeniedErrorPage}<br> <sub>Page that is shown when the user is denied access to a resource.</sub></h2>
  *
- * <p>
- * <i>Jun 10, 2009</i>
- * </p>
+ * <p> <i>Jun 10, 2009</i> </p>
  *
  * @author lhunath
  */
@@ -40,7 +37,6 @@ public class AccessDeniedErrorPage extends LayoutPage {
 
         return new AccessDeniedErrorPanel( wicketId );
     }
-
 
     private static class AccessDeniedErrorPanel extends Panel {
 

@@ -23,8 +23,8 @@ public class SnaplogSpike {
 
         long start = System.currentTimeMillis();
         for (int i = 0; i < 10000000; ++i) {
-//            VALID_NAME.matcher( MEDIA_NAME ).matches();
-//            BASE_NAME.matcher( MEDIA_NAME ).replaceFirst( "" );
+            //            VALID_NAME.matcher( MEDIA_NAME ).matches();
+            //            BASE_NAME.matcher( MEDIA_NAME ).replaceFirst( "" );
             MEDIA_NAME.endsWith( ".jpg" );
             Iterables.getLast( Splitter.on( '/' ).split( MEDIA_NAME ) );
         }

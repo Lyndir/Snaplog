@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
@@ -63,8 +62,7 @@
 
 
     <!-- DEFAULT PROPERTIES -->
-    <properties>
-    </properties>
+    <properties></properties>
 
     <!-- BUILD CONFIGURATION -->
     <build>
@@ -99,12 +97,13 @@
                         </goals>
                         <configuration>
                             <tasks>
-								<path id="project.classpath">
-									<path refid="maven.compile.classpath" />
-									<path refid="maven.plugin.classpath" />
+                                <path id="project.classpath">
+                                    <path refid="maven.compile.classpath" />
+                                    <path refid="maven.plugin.classpath" />
                                     <path refid="maven.runtime.classpath" />
-								</path>
-                                <taskdef name="db4o-enhance" classname="com.db4o.enhance.Db4oEnhancerAntTask" classpathref="project.classpath" />
+                                </path>
+                                <taskdef name="db4o-enhance" classname="com.db4o.enhance.Db4oEnhancerAntTask"
+                                         classpathref="project.classpath" />
                                 <db4o-enhance classtargetdir="${project.build.outputDirectory}" nq="true" ta="true" collections="true">
                                     <classpath refid="project.classpath" />
                                     <sources dir="${project.build.outputDirectory}">
@@ -115,38 +114,38 @@
                         </configuration>
                     </execution>
                 </executions>
-				<dependencies>
-					<dependency>
+                <dependencies>
+                    <dependency>
                         <groupId>com.db4o</groupId>
                         <artifactId>db4o-tools-java5</artifactId>
                         <version>${version.db4o}</version>
-					</dependency>
-					<dependency>
+                    </dependency>
+                    <dependency>
                         <groupId>com.db4o</groupId>
                         <artifactId>db4o-instrumentation-java5</artifactId>
                         <version>${version.db4o}</version>
-					</dependency>
-					<dependency>
+                    </dependency>
+                    <dependency>
                         <groupId>com.db4o</groupId>
                         <artifactId>db4o-nqopt-java5</artifactId>
                         <version>${version.db4o}</version>
-					</dependency>
-					<dependency>
+                    </dependency>
+                    <dependency>
                         <groupId>com.db4o</groupId>
                         <artifactId>db4o-taj-java5</artifactId>
                         <version>${version.db4o}</version>
-					</dependency>
-					<dependency>
+                    </dependency>
+                    <dependency>
                         <groupId>com.db4o</groupId>
                         <artifactId>db4o-core-java5</artifactId>
                         <version>${version.db4o}</version>
-					</dependency>
-					<dependency>
+                    </dependency>
+                    <dependency>
                         <groupId>edu.purdue.cs.bloat</groupId>
                         <artifactId>bloat</artifactId>
                         <version>1.0</version>
-					</dependency>
-				</dependencies>
+                    </dependency>
+                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -165,8 +164,7 @@
                         ${project.build.directory}/classes/${pom.artifactId}.jks
                     </keystore>
                     <dname>
-                        CN=snaplog.net
-                        L=Sint-Amandsberg, ST=VL, O=Lhunath, C=BE
+                        CN=snaplog.net L=Sint-Amandsberg, ST=VL, O=Lhunath, C=BE
                     </dname>
                     <keypass>secret</keypass>
                     <storepass>secret</storepass>
@@ -283,21 +281,21 @@
             <artifactId>bloat</artifactId>
             <version>1.0</version>
         </dependency>
-					<dependency>
-                        <groupId>com.db4o</groupId>
-                        <artifactId>db4o-tools-java5</artifactId>
-                        <version>${version.db4o}</version>
-					</dependency>
-					<dependency>
-                        <groupId>com.db4o</groupId>
-                        <artifactId>db4o-instrumentation-java5</artifactId>
-                        <version>${version.db4o}</version>
-					</dependency>
-					<dependency>
-                        <groupId>com.db4o</groupId>
-                        <artifactId>db4o-taj-java5</artifactId>
-                        <version>${version.db4o}</version>
-					</dependency>
+        <dependency>
+            <groupId>com.db4o</groupId>
+            <artifactId>db4o-tools-java5</artifactId>
+            <version>${version.db4o}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.db4o</groupId>
+            <artifactId>db4o-instrumentation-java5</artifactId>
+            <version>${version.db4o}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.db4o</groupId>
+            <artifactId>db4o-taj-java5</artifactId>
+            <version>${version.db4o}</version>
+        </dependency>
 
         <dependency>
             <groupId>com.google.code.gson</groupId>

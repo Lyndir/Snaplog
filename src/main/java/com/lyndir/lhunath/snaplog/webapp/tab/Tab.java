@@ -16,12 +16,9 @@
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
 /**
- * <h2>{@link SnaplogTab}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link SnaplogTab}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * <i>Feb 28, 2010</i>
- * </p>
+ * <p> <i>Feb 28, 2010</i> </p>
  *
  * @author lhunath
  */
@@ -53,7 +50,6 @@ public enum Tab {
     ADMINISTRATION( new AdministrationTabPanel.AdministrationTab() );
 
     private final SnaplogTab tab;
-
 
     /**
      * Create a new {@link Tab} instance.

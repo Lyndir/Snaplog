@@ -22,19 +22,15 @@ import org.apache.wicket.model.Model;
 
 
 /**
- * <h2>{@link NewUserPanelModels}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link NewUserPanelModels}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * <i>Mar 17, 2010</i>
- * </p>
+ * <p> <i>Mar 17, 2010</i> </p>
  *
  * @author lhunath
  */
 public class NewUserPanelModels extends EmptyModelProvider<NewUserPanelModels> {
 
     private final NewUserFormModels newUserForm;
-
 
     /**
      * Create a new {@link NewUserPanelModels} instance.
@@ -44,21 +40,16 @@ public class NewUserPanelModels extends EmptyModelProvider<NewUserPanelModels> {
         newUserForm = new NewUserFormModels();
     }
 
-
     /**
-     * <h2>{@link NewUserFormModels}<br>
-     * <sub>Model provider for the New User Form.</sub></h2>
+     * <h2>{@link NewUserFormModels}<br> <sub>Model provider for the New User Form.</sub></h2>
      *
-     * <p>
-     * <i>Mar 17, 2010</i>
-     * </p>
+     * <p> <i>Mar 17, 2010</i> </p>
      *
      * @author lhunath
      */
     public class NewUserFormModels extends EmptyModelProvider<NewUserFormModels> {
 
         private final IModel<String> userName;
-
 
         NewUserFormModels() {
 
@@ -86,7 +77,6 @@ public class NewUserPanelModels extends EmptyModelProvider<NewUserPanelModels> {
             return userName;
         }
     }
-
 
     // Accessors.
 

@@ -17,18 +17,14 @@ package com.lyndir.lhunath.snaplog.data.object.user;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import java.io.Serializable;
-
 import com.google.common.base.Objects;
+import java.io.Serializable;
 
 
 /**
- * <h2>{@link User}<br>
- * <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link User}<br> <sub>[in short] (TODO).</sub></h2>
  *
- * <p>
- * <i>Dec 31, 2009</i>
- * </p>
+ * <p> <i>Dec 31, 2009</i> </p>
  *
  * @author lhunath
  */
@@ -38,7 +34,6 @@ public class User implements Serializable {
 
     private String userName;
     private char badge = '~';
-
 
     /**
      * Create a new {@link User} instance.
