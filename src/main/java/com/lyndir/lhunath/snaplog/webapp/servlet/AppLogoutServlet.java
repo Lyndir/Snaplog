@@ -32,7 +32,7 @@ public class AppLogoutServlet extends AbstractInjectionServlet {
     /**
      * Context-relative servlet path.
      */
-    public static final String PATH = "/applogout";
+    public static final String PATH = "/_applogout";
 
     /**
      * Context parameter that contains the context-relative path to the linkID SDK servlet that handles the finalization of the logout.

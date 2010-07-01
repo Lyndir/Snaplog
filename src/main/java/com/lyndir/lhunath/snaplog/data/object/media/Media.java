@@ -22,6 +22,8 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.object.security.AbstractSecureObject;
 import com.lyndir.lhunath.snaplog.model.service.WebUtil;
+import org.joda.time.Instant;
+import org.joda.time.ReadableInstant;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.joda.time.format.ISODateTimeFormat;
@@ -78,7 +80,7 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
      *
      * @return The amount of milliseconds, or 0 if it could not be determined.
      */
-    public long shotTime() {
+    public ReadableInstant shotTime() {
 
         StringBuffer shotTimeString = new StringBuffer( getName() );
 
@@ -101,13 +103,13 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
             shotTimeString.append( "+0000" );
 
         try {
-            return filenameFormat.parseMillis( shotTimeString.toString() );
+            return filenameFormat.parseDateTime( shotTimeString.toString() );
         }
 
         catch (IllegalArgumentException e) {
             logger.wrn( e, "Couldn't parse shot time: %s, for file: %s", shotTimeString, name );
 
-            return 0;
+            return new Instant( 0 );
         }
     }
 
@@ -127,12 +129,7 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
     @Override
     public int compareTo(final Media o) {
 
-        if (shotTime() > o.shotTime())
-            return 1;
-        else if (shotTime() < o.shotTime())
-            return -1;
-
-        return 0;
+        return shotTime().compareTo( o.shotTime() );
     }
 
     /**

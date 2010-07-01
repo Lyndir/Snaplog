@@ -19,7 +19,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
-import com.lyndir.lhunath.lib.system.localization.UseKey;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.ArrayUtils;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
@@ -37,6 +36,7 @@ import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import com.lyndir.lhunath.snaplog.webapp.tool.TagsPopup;
 import com.lyndir.lhunath.snaplog.webapp.tool.TimelinePopup;
 import com.lyndir.lhunath.snaplog.webapp.view.BrowserView;
+import com.lyndir.lhunath.snaplog.webapp.view.FocusedView;
 import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
@@ -62,8 +62,8 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
 
         super( id, new AlbumTabModels( model ).getModel() );
 
-        // Browser
-        add( new BrowserView( "browser", getModelObject().focusedMedia() ) );
+        add( new BrowserView( "browser", model ) );
+        add( new FocusedView( "focused", getModelObject().focusedMedia() ) );
     }
 
     interface Messages {
@@ -71,8 +71,15 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         /**
          * @return Text on the interface tab to activate the {@link AlbumTabPanel}.
          */
-        @UseKey
         String albumTab();
+
+        /**
+         * @param mediaName The name of the media that couldn't be found.
+         * @param album     The album in which we attempted to find the media.
+         *
+         * @return An error message explaining that a certain media was requested but couldn't be found in a certain album.
+         */
+        String errorMediaNotFound(String mediaName, Album album);
     }
 
 
@@ -142,11 +149,18 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
             Preconditions.checkArgument( AlbumTabPanel.class.isInstance( panel ), "Panel must be an %s.", AlbumTabPanel.class );
             AlbumTabPanel albumPanel = (AlbumTabPanel) panel;
 
-            return ImmutableList.of( getFragment(), // 0
-                                     SnaplogSession.get().getFocusedUser().getUserName(), // 1
-                                     SnaplogSession.get().getFocusedAlbum().getName(), // 2
-                                     albumPanel.getModelObject().focusedMedia().getObject().getName() // 3
-            );
+            Media focusedMedia = albumPanel.getModelObject().focusedMedia().getObject();
+            if (focusedMedia == null)
+                return ImmutableList.of( getFragment(), // 0
+                                         SnaplogSession.get().getFocusedUser().getUserName(), // 1
+                                         SnaplogSession.get().getFocusedAlbum().getName() // 2
+                );
+            else
+                return ImmutableList.of( getFragment(), // 0
+                                         SnaplogSession.get().getFocusedUser().getUserName(), // 1
+                                         SnaplogSession.get().getFocusedAlbum().getName(), // 2
+                                         focusedMedia.getName() // 3
+                );
         }
 
         @Override
@@ -170,12 +184,17 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
                         .findAlbumWithName( SnaplogSession.get().newToken(), SnaplogSession.get().getFocusedUser(), albumName );
                 SnaplogSession.get().setFocusedAlbum( album );
             }
-            if (ArrayUtils.hasIndex( 3, arguments ) && SnaplogSession.get().getFocusedAlbum() != null) {
+            Album focusedAlbum = SnaplogSession.get().getFocusedAlbum();
+            if (ArrayUtils.hasIndex( 3, arguments ) && focusedAlbum != null) {
                 String mediaName = arguments[3];
 
                 Media media = GuiceContext.get()
                         .getInstance( AlbumService.class )
-                        .findMediaWithName( SnaplogSession.get().newToken(), SnaplogSession.get().getFocusedAlbum(), mediaName );
+                        .findMediaWithName( SnaplogSession.get().newToken(), focusedAlbum, mediaName );
+
+                if (media == null)
+                    albumPanel.error( msgs.errorMediaNotFound( mediaName, focusedAlbum ) );
+
                 albumPanel.getModelObject().focusedMedia().setObject( media );
             }
         }

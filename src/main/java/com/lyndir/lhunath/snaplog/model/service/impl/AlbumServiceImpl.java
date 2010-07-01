@@ -18,13 +18,17 @@ package com.lyndir.lhunath.snaplog.model.service.impl;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Predicate;
+import com.google.common.collect.AbstractIterator;
+import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.collection.SizedListIterator;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.system.util.DateUtils;
 import com.lyndir.lhunath.snaplog.data.object.media.Album;
 import com.lyndir.lhunath.snaplog.data.object.media.AlbumProviderType;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.media.Media.Quality;
+import com.lyndir.lhunath.snaplog.data.object.media.MediaTimeFrame;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
@@ -37,6 +41,9 @@ import com.lyndir.lhunath.snaplog.model.service.SecurityService;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
+import org.joda.time.DateTimeFieldType;
+import org.joda.time.ReadableInstant;
+import org.joda.time.ReadablePeriod;
 
 
 /**
@@ -138,6 +145,41 @@ public class AlbumServiceImpl implements AlbumService {
 
         List<Media> results = mediaDAO.listMedia( album );
         return SizedListIterator.of( securityService.filterAccess( Permission.VIEW, token, results.listIterator() ), results.size() );
+    }
+
+    @Override
+    public Iterator<MediaTimeFrame> iterateMediaTimeFrames(final SecurityToken token, final Album album, final DateTimeFieldType frame) {
+
+        return new AbstractIterator<MediaTimeFrame>() {
+
+            private final Iterator<Media> media = iterateMedia( token, album );
+            public Media lastMedia;
+
+            @Override
+            protected MediaTimeFrame computeNext() {
+
+                if (!media.hasNext())
+                    return endOfData();
+
+                ImmutableList.Builder<Media> frameMedia = ImmutableList.builder();
+                if (lastMedia == null)
+                    lastMedia = media.next();
+
+                // The offset and range of the frame.
+                ReadableInstant offset = DateUtils.truncate( lastMedia.shotTime(), frame );
+                ReadablePeriod range = DateUtils.period( offset, offset.toInstant().toDateTime().property( frame ).addToCopy( 1 ), frame );
+
+                do {
+                    frameMedia.add( lastMedia );
+                    if (!media.hasNext())
+                        break;
+                    lastMedia = media.next();
+                } // Continue to add this lastMedia to the current list of media while its shotTime truncates to the offset.
+                while (DateUtils.truncate( lastMedia.shotTime(), frame ).equals( offset ));
+
+                return new MediaTimeFrame( offset, range, frameMedia.build() );
+            }
+        };
     }
 
     /**

@@ -83,21 +83,28 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
             public void onReady(final AjaxRequestTarget target, final String pageUrl) {
 
                 URI uri = URI.create( pageUrl );
-                if (uri.getFragment() == null)
-                    // No fragment, don't try to load state from it.
-                    return;
+                if (uri.getFragment() == null) {
+                    // No fragment, find and set a default tab.
+                    for (final Tab tab : Tab.values()) {
+                        if (tab.get().isVisible()) {
+                            setActiveTab( tab, target );
+                            break;
+                        }
+                    }
+                } else {
+                    // There is a fragment, load state from it.
+                    Iterable<String> arguments = Splitter.on( '/' ).split( uri.getFragment() );
+                    String tabFragment = arguments.iterator().next();
 
-                Iterable<String> arguments = Splitter.on( '/' ).split( uri.getFragment() );
-                String tabFragment = arguments.iterator().next();
+                    for (final Tab tab : Tab.values()) {
+                        if (tab.get().getFragment().equalsIgnoreCase( tabFragment ) && tab.get().isVisible()) {
+                            // Apply tab state from fragment.
+                            Panel tabPanel = tab.get().getPanel( CONTENT_PANEL );
+                            tab.get().applyFragmentState( tabPanel, Iterables.toArray( arguments, String.class ) );
 
-                for (final Tab tab : Tab.values()) {
-                    if (tab.get().getFragment().equalsIgnoreCase( tabFragment )) {
-                        // Apply tab state from fragment.
-                        Panel tabPanel = tab.get().getPanel( CONTENT_PANEL );
-                        tab.get().applyFragmentState( tabPanel, Iterables.toArray( arguments, String.class ) );
-
-                        setActiveTab( tab, tabPanel, target );
-                        break;
+                            setActiveTab( tab, tabPanel, target );
+                            break;
+                        }
                     }
                 }
             }

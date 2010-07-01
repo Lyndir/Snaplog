@@ -12,11 +12,8 @@ import com.lyndir.lhunath.snaplog.model.service.AlbumService;
 import com.lyndir.lhunath.snaplog.model.service.SecurityService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
-import java.text.MessageFormat;
 import java.util.List;
-import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -76,44 +73,44 @@ public class TimelinePopup extends PopupPanel<Album> {
 
                 MediaTimeFrame mediaYear = yearItem.getModelObject();
 
-                yearItem.add( new Label( "name", Integer.toString( mediaYear.getTime().getYear() ) ) );
-                yearItem.add( new Label( "photos", msgs.yearPhotos( mediaYear.getFiles( true ).size() ) ) );
+                //                yearItem.add( new Label( "name", Integer.toString( mediaYear.getTime().getYear() ) ) );
+                //                yearItem.add( new Label( "photos", msgs.yearPhotos( mediaYear.getFiles( true ).size() ) ) );
 
                 // Hide the months in the year initially.
-                yearItem.add( new ListView<MediaTimeFrame>( "months", ImmutableList.copyOf( mediaYear ) ) {
-
-                    @Override
-                    protected void populateItem(final ListItem<MediaTimeFrame> monthItem) {
-
-                        MediaTimeFrame mediaMonth = monthItem.getModelObject();
-
-                        monthItem.add( new Label( "name", mediaMonth.getShortName() ) );
-                        monthItem.add( new ListView<MediaTimeFrame>( "days", ImmutableList.copyOf( mediaMonth ) ) {
-
-                            @Override
-                            protected void populateItem(final ListItem<MediaTimeFrame> dayItem) {
-
-                                MediaTimeFrame mediaDay = dayItem.getModelObject();
-                                dayItem.add( new AttributeAppender( "style", daysStyle( dayItem ), ";" ) );
-                                dayItem.add( new Label( "name", mediaDay.getShortName() ) );
-                            }
-
-                            private IModel<String> daysStyle(final ListItem<MediaTimeFrame> dayItem) {
-
-                                return new AbstractReadOnlyModel<String>() {
-
-                                    @Override
-                                    public String getObject() {
-
-                                        int photos = dayItem.getModelObject().getFiles( true ).size();
-                                        double height = photos == 0? 0: Math.log10( photos ) * 10;
-                                        return MessageFormat.format( "border-width: {0}px", height );
-                                    }
-                                };
-                            }
-                        } );
-                    }
-                } );
+                //                yearItem.add( new ListView<MediaTimeFrame>( "months", ImmutableList.copyOf( mediaYear ) ) {
+                //
+                //                    @Override
+                //                    protected void populateItem(final ListItem<MediaTimeFrame> monthItem) {
+                //
+                //                        MediaTimeFrame mediaMonth = monthItem.getModelObject();
+                //
+                //                        monthItem.add( new Label( "name", mediaMonth.getShortName() ) );
+                //                        monthItem.add( new ListView<MediaTimeFrame>( "days", ImmutableList.copyOf( mediaMonth ) ) {
+                //
+                //                            @Override
+                //                            protected void populateItem(final ListItem<MediaTimeFrame> dayItem) {
+                //
+                //                                MediaTimeFrame mediaDay = dayItem.getModelObject();
+                //                                dayItem.add( new AttributeAppender( "style", daysStyle( dayItem ), ";" ) );
+                //                                dayItem.add( new Label( "name", mediaDay.getShortName() ) );
+                //                            }
+                //
+                //                            private IModel<String> daysStyle(final ListItem<MediaTimeFrame> dayItem) {
+                //
+                //                                return new AbstractReadOnlyModel<String>() {
+                //
+                //                                    @Override
+                //                                    public String getObject() {
+                //
+                //                                        int photos = dayItem.getModelObject().getFiles( true ).size();
+                //                                        double height = photos == 0? 0: Math.log10( photos ) * 10;
+                //                                        return MessageFormat.format( "border-width: {0}px", height );
+                //                                    }
+                //                                };
+                //                            }
+                //                        } );
+                //                    }
+                //                } );
             }
         } );
     }
@@ -173,8 +170,7 @@ public class TimelinePopup extends PopupPanel<Album> {
         @Override
         public boolean isVisible() {
 
-            return GuiceContext.getInstance( SecurityService.class )
-                    .hasAccess( Permission.VIEW, SnaplogSession.get().newToken(), model.getObject() );
+            return GuiceContext.getInstance( SecurityService.class ).hasAccess( Permission.VIEW, SnaplogSession.get().newToken(), model.getObject() );
         }
     }
 }

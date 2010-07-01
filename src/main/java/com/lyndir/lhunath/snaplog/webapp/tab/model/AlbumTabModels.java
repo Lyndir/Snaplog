@@ -15,14 +15,9 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab.model;
 
-import com.google.common.collect.Iterators;
-import com.lyndir.lhunath.lib.system.collection.SizedListIterator;
 import com.lyndir.lhunath.lib.wayward.model.ModelProvider;
 import com.lyndir.lhunath.snaplog.data.object.media.Album;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
-import com.lyndir.lhunath.snaplog.model.service.AlbumService;
-import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
-import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
@@ -45,22 +40,7 @@ public class AlbumTabModels extends ModelProvider<AlbumTabModels, Album> {
 
         super( model );
 
-        focusedMedia = new Model<Media>() {
-            @Override
-            public Media getObject() {
-
-                Media media = super.getObject();
-                if (media == null) {
-                    SizedListIterator<Media> albumMedia = GuiceContext.getInstance( AlbumService.class )
-                            .iterateMedia( SnaplogSession.get().newToken(), getModelObject() );
-
-                    if (albumMedia.hasNext())
-                        setObject( media = Iterators.getLast( albumMedia ) );
-                }
-
-                return media;
-            }
-        };
+        focusedMedia = new Model<Media>();
     }
 
     // Accessors.
