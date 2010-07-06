@@ -15,11 +15,20 @@
  */
 package com.lyndir.lhunath.snaplog.data.object.media;
 
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import java.io.Serializable;
+import static com.google.common.base.Preconditions.checkNotNull;
+
+import com.lyndir.lhunath.lib.system.util.DateUtils;
+import com.lyndir.lhunath.lib.system.util.ObjectUtils;
+import com.lyndir.lhunath.lib.wayward.i18n.Localized;
+import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import java.util.Collection;
-import org.joda.time.ReadableInstant;
-import org.joda.time.ReadablePeriod;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import org.apache.wicket.Session;
+import org.joda.time.*;
+import org.joda.time.format.DateTimeFormatter;
+import org.joda.time.format.DateTimeFormatterBuilder;
 
 
 /**
@@ -29,19 +38,22 @@ import org.joda.time.ReadablePeriod;
  *
  * @author lhunath
  */
-public class MediaTimeFrame implements Serializable {
+public class MediaTimeFrame implements Localized {
 
-    private static final Logger logger = Logger.get( MediaTimeFrame.class );
+    static final transient DateTimeFormatterBuilder formatterBuilder = new DateTimeFormatterBuilder();
+    static final Messages msgs = MessagesFactory.create( Messages.class );
 
-    private final ReadableInstant offset;
-    private final ReadablePeriod range;
+    private final Instant offset;
+    private final Period range;
     private final Collection<Media> media;
+
+    private transient DateTimeFormatter formatter;
 
     public MediaTimeFrame(final ReadableInstant offset, final ReadablePeriod range, final Collection<Media> media) {
 
-        this.offset = offset;
-        this.range = range;
-        this.media = media;
+        this.offset = checkNotNull( offset, "A MediaTimeFrame must have an offset." ).toInstant();
+        this.range = checkNotNull( range, "A MediaTimeFrame must have a range." ).toPeriod();
+        this.media = checkNotNull( media, "A MediaTimeFrame must have a collection of media." );
     }
 
     public ReadableInstant getOffset() {
@@ -57,5 +69,50 @@ public class MediaTimeFrame implements Serializable {
     public Collection<Media> getMedia() {
 
         return media;
+    }
+
+    private DateTimeFormatter getFormatter() {
+
+        if (formatter == null) {
+            // Find all the fields to include in the formatter.
+            DurationFieldType[] fields = range.toPeriod().getFieldTypes();
+            DurationFieldType smallestField = fields[fields.length - 1];
+            List<DateTimeFieldType> types = DateUtils.fieldsFrom( DateUtils.convert( smallestField ) );
+
+            // Build a formatter from the fields.
+            formatterBuilder.clear();
+            for (Iterator<DateTimeFieldType> it = types.iterator(); it.hasNext();) {
+                DateTimeFieldType type = it.next();
+
+                formatterBuilder.appendShortText( type );
+                if (it.hasNext())
+                    formatterBuilder.appendLiteral( ' ' );
+            }
+            formatter = formatterBuilder.toFormatter();
+        }
+
+        // Switch formatter to the active locale.
+        Locale locale = Session.exists()? Session.get().getLocale(): null;
+        if (!ObjectUtils.equal( locale, formatter.getLocale() ))
+            formatter = formatter.withLocale( locale );
+
+        return formatter;
+    }
+
+    @Override
+    public String typeDescription() {
+
+        return msgs.type();
+    }
+
+    @Override
+    public String objectDescription() {
+
+        return getFormatter().print( offset );
+    }
+
+    interface Messages {
+
+        String type();
     }
 }

@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+source bashlib
+
+basedir=${0%/*}/../../../
+[[ $basedir = /* ]] || basedir=$PWD/$basedir
+
+jetty_path=~/.share/jetty/
+
+emit "Deploying web application" #--
+    war=("$basedir/target/"*.war)
+    rsync -vP --chmod=ugo=rX "$war" "$jetty_path/webapps/" && \
+    touch "$(grep -lF "${war##*/}" "$jetty_path"/contexts/*.xml)" 2>/dev/null
+#emit -$?

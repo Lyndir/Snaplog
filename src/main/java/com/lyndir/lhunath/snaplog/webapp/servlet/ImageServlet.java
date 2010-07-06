@@ -34,6 +34,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.apache.wicket.RequestCycle;
 
 
 /**
@@ -93,7 +94,7 @@ public class ImageServlet extends HttpServlet {
         path.append( PARAM_MEDIA ).append( '=' ).append( URLUtils.encode( media.getName() ) ).append( '&' );
         path.append( PARAM_QUALITY ).append( '=' ).append( URLUtils.encode( quality.getName() ) ).append( '&' );
 
-        return path.substring( 0, path.length() - 1 );
+        return RequestCycle.get().getRequest().getRelativePathPrefixToContextRoot() + path.substring( 0, path.length() - 1 );
     }
 
     /**

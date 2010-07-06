@@ -110,12 +110,17 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
                 // Ignore files that don't have a valid media name.
                 continue;
 
+            // Create mediaData for the object.
             String mediaName = Iterables.getLast( Splitter.on( '/' ).split( mediaObject.getKey() ) );
             S3MediaData mediaData = mediaDAO.findMediaData( album, mediaName );
-            if (mediaData == null)
+            if (mediaData == null) {
                 mediaData = new S3MediaData( new S3Media( album, mediaName ), mediaObject );
+                mediaDAO.update( mediaData );
+            }
 
-            mediaDAO.update( mediaData );
+            // Load and create missing media objects at all qualities.
+            for (final Quality quality : Quality.values())
+                getObjectDetails( mediaData.getMedia(), quality );
         }
     }
 
@@ -131,62 +136,11 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         logger.dbg( "Asserting access to: %s", media );
         securityService.assertAccess( Permission.VIEW, token, media );
 
-        logger.dbg( "Finding S3 object details of: %s, at: %s", media, quality );
-        S3Object s3ResourceObject = findObjectDetails( media, quality );
-        if (s3ResourceObject == null) {
-            if (quality == Quality.ORIGINAL)
-                throw logger.bug( "Can't create a file's original resource." ) //
-                        .toError( UnsupportedOperationException.class );
-
-            // Read the original.
-            logger.inf( "S3 does not yet have an object for: %s, at quality: %s", media, quality );
-            S3Object s3OriginalObject = awsService.readObject( getObjectKey( media, Quality.ORIGINAL ) );
-            ByteArrayOutputStream imageDataStream = new ByteArrayOutputStream();
-
-            // Rescale to the appropriate quality.
-            try {
-                InputStream s3InputStream = s3OriginalObject.getDataInputStream();
-                try {
-                    BufferedImage qualityImage = ImageIO.read( s3InputStream );
-                    logger.dbg( "Read original image with dimensions %dx%d", qualityImage.getWidth(), qualityImage.getHeight() );
-                    ImageUtils.write( ImageUtils.rescale( qualityImage, quality.getMaxWidth(), quality.getMaxHeight() ), //
-                                      imageDataStream, "image/jpeg", quality.getCompression(), true );
-                }
-                catch (IOException e) {
-                    throw logger.err( e, "Image data could not be read: %s", s3OriginalObject ) //
-                            .toError();
-                }
-                finally {
-                    try {
-                        s3InputStream.close();
-                    }
-                    catch (IOException e) {
-                        logger.err( e, "S3 original resource read stream cleanup failed for object: %s", s3OriginalObject );
-                    }
-                }
-            }
-            catch (S3ServiceException e) {
-                throw logger.err( e, "Image data could not be read: %s", s3OriginalObject ) //
-                        .toError();
-            }
-            logger.dbg( "Wrote rescaled image of quality: %s, size: %d", quality, imageDataStream.size() );
-
-            // Upload to S3.
-            // TODO: Could probably improve this by using Piped*Stream instead and multi-threading instead.
-            S3Object s3UploadObject = new S3Object( getObjectKey( media, quality ) );
-            s3UploadObject.setContentType( "image/jpeg" );
-            s3UploadObject.setContentLength( imageDataStream.size() );
-            s3UploadObject.setAcl( AccessControlList.REST_CANNED_PUBLIC_READ );
-            s3UploadObject.setDataInputStream( new ByteArrayInputStream( imageDataStream.toByteArray() ) );
-
-            S3MediaData mediaData = mediaDAO.findMediaData( media );
-            mediaData.put( quality, s3ResourceObject = awsService.upload( s3UploadObject ) );
-            mediaDAO.update( mediaData );
-        }
+        String s3ResourcePath = getObjectDetails( media, quality ).getKey();
+        logger.dbg( "Resolved S3 object for: %s, at: %s, to path: %s", media, quality, s3ResourcePath );
 
         try {
-            logger.dbg( "Resolved S3 object for: %s, at: %s, to key: %s", media, quality, s3ResourceObject.getKey() );
-            return new URL( String.format( "http://snaplog.net.s3.amazonaws.com/%s", s3ResourceObject.getKey() ) );
+            return new URL( String.format( "http://snaplog.net.s3.amazonaws.com/%s", s3ResourcePath ) );
         }
 
         catch (MalformedURLException e) {
@@ -286,6 +240,73 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         }
 
         return s3Object;
+    }
+
+    /**
+     * Retrieve all metadata for media at a certain quality.  If the media does not yet exist in storage at the given quality, it will be
+     * generated from original quality first. <b>This operation can take quite some time.</b>
+     *
+     * @param media   The {@link Media} whose data is will be referenced by the returned object.
+     * @param quality The {@link Quality} of the {@link Media}'s data.
+     *
+     * @return An {@link S3Object} with all the media storage object's metadata.
+     */
+    protected S3Object getObjectDetails(final S3Media media, final Quality quality) {
+
+        logger.dbg( "Finding S3 object details of: %s, at: %s", media, quality );
+        S3Object s3ResourceObject = findObjectDetails( media, quality );
+        if (s3ResourceObject != null)
+            return s3ResourceObject;
+
+        // Read the original.
+        if (quality == Quality.ORIGINAL)
+            throw logger.err( "Media's original resource does not exist." ).toError();
+
+        logger.inf( "S3 does not yet have an object for: %s, at quality: %s", media, quality );
+        S3Object s3OriginalObject = awsService.readObject( getObjectKey( media, Quality.ORIGINAL ) );
+        ByteArrayOutputStream imageDataStream = new ByteArrayOutputStream();
+
+        // Rescale to the appropriate quality.
+        try {
+            InputStream s3InputStream = s3OriginalObject.getDataInputStream();
+            try {
+                BufferedImage qualityImage = ImageIO.read( s3InputStream );
+                logger.dbg( "Read original image with dimensions %dx%d", qualityImage.getWidth(), qualityImage.getHeight() );
+                ImageUtils.write( ImageUtils.rescale( qualityImage, quality.getMaxWidth(), quality.getMaxHeight() ), //
+                                  imageDataStream, "image/jpeg", quality.getCompression(), true );
+            }
+            catch (IOException e) {
+                throw logger.err( e, "Image data could not be read: %s", s3OriginalObject ) //
+                        .toError();
+            }
+            finally {
+                try {
+                    s3InputStream.close();
+                }
+                catch (IOException e) {
+                    logger.err( e, "S3 original resource read stream cleanup failed for object: %s", s3OriginalObject );
+                }
+            }
+        }
+        catch (S3ServiceException e) {
+            throw logger.err( e, "Image data could not be read: %s", s3OriginalObject ) //
+                    .toError();
+        }
+        logger.dbg( "Wrote rescaled image of quality: %s, size: %d", quality, imageDataStream.size() );
+
+        // Upload to S3.
+        // TODO: Could probably improve this by using Piped*Stream instead and multi-threading instead.
+        S3Object s3UploadObject = new S3Object( getObjectKey( media, quality ) );
+        s3UploadObject.setContentType( "image/jpeg" );
+        s3UploadObject.setContentLength( imageDataStream.size() );
+        s3UploadObject.setAcl( AccessControlList.REST_CANNED_PUBLIC_READ );
+        s3UploadObject.setDataInputStream( new ByteArrayInputStream( imageDataStream.toByteArray() ) );
+
+        S3MediaData mediaData = mediaDAO.findMediaData( media );
+        mediaData.put( quality, s3ResourceObject = awsService.upload( s3UploadObject ) );
+        mediaDAO.update( mediaData );
+
+        return s3ResourceObject;
     }
 
     /**

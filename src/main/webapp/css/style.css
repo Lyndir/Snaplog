@@ -463,7 +463,25 @@ a.block:hover, .block.link:hover {
 /*******************************************************************************
  * BROWSER *
  */
-.browser {
+.browser ul {
+    list-style:         none;
+}
+.browser .br_month ul {
+    overflow:           hidden;
+    text-align:         justify;
+}
+.browser .br_month .br_media {
+    display:            inline;
+}
+.browser .br_month .media {
+    margin:             5px;
+}
+
+
+/*******************************************************************************
+ * VIEWER *
+ */
+.viewer {
     position:           absolute;
     top:                0;
     left:               0;
@@ -478,15 +496,15 @@ a.block:hover, .block.link:hover {
 
     text-align:         center;
 }
-.browser .current {
+.viewer .current {
     position:           absolute;
     z-index:            -1;
     width:              100%;
 }
-.browser .current .media img {
+.viewer .current .media img {
     min-height:         100% !important;
 }
-.browser .before, .browser .after {
+.viewer .before, .viewer .after {
     background:         rgba(0, 0, 0, 0.5);
 
     float:              left;
@@ -495,20 +513,20 @@ a.block:hover, .block.link:hover {
     padding:            40px 0 0;
     overflow:           hidden;
 }
-.browser .after {
+.viewer .after {
     float:              right;
 }
-.browser .before ul, .browser .after ul {
+.viewer .before ul, .viewer .after ul {
     margin:             0;
     padding:            0;
 }
-.browser .before li, .browser .after li {
+.viewer .before li, .viewer .after li {
     list-style:         none;
 }
-.browser .media.thumbnail {
+.viewer .media.thumbnail {
     margin:             3%;
 }
-.browser .media.thumbnail img {
+.viewer .media.thumbnail img {
     height:             7%;
     min-height:         0 !important;
     min-width:          0 !important;
@@ -529,27 +547,22 @@ a.block:hover, .block.link:hover {
 #viewer li.current {
     display:            block;
 }
-.media {
+.media.link {
     display:            inline-block;
 }
-.media.link:hover {
-    border-color:       #EEE;
+.media.link {
+    text-decoration:    none;
 }
 .media .image {
-    display:            block;
-    z-index:            1;
     position:           relative;
+    z-index:            1;
 
     font-size:          14px;
     text-decoration:    none !important;
 }
-.media .image img {
+.media .image .photo {
     background:         rgba(0, 0, 0, 0.7) url("../images/resources/loader.3dr.black.gif") no-repeat center center;
     border:             1px solid black;
-
-    display:            block;
-    position:           relative;
-    z-index:            1;
 }
 .media .image .thumb {
     background:         transparent;
@@ -567,7 +580,6 @@ a.block:hover, .block.link:hover {
     text-shadow:        black 0 1px 1px;
 
     display:            block;
-    display:none;
     position:           absolute;
     z-index:            3;
     bottom:             0.8em;

@@ -4,8 +4,7 @@
       xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
 
     <head>
-        <wicket:head>
-        </wicket:head>
+        <wicket:head></wicket:head>
     </head>
 
     <body>
@@ -14,10 +13,10 @@
             <div class="browser">
                 <ul>
                     <li class="br_month" wicket:id="months">
-                        <ul>
-                            <li class="br_head" wicket:id="name">[June 2010]</li>
+                        <h4 class="br_head link" wicket:id="name">[June 2010]</h4>
+                        <ul wicket:id="mediaList">
                             <li class="br_media" wicket:id="media">
-                                <div wicket:id="media"></div>
+                                <wicket:container wicket:id="media" />
                             </li>
                         </ul>
                     </li>

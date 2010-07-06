@@ -98,7 +98,7 @@ public class MediaView extends GenericPanel<Media> {
             @Override
             public boolean isVisible() {
 
-                return getModelObject() != null;
+                return getModelObject() != null && false; // TODO: Show caption with appropriate qualities and make pretty.
             }
         } );
         image.add( new ContextImage( "thumb", new LoadableDetachableModel<String>() {
@@ -112,7 +112,7 @@ public class MediaView extends GenericPanel<Media> {
             @Override
             public boolean isVisible() {
 
-                return quality != Quality.THUMBNAIL;
+                return getModelObject() != null && quality != Quality.THUMBNAIL;
             }
         } );
         image.add( new ContextImage( "photo", new LoadableDetachableModel<String>() {
@@ -124,7 +124,7 @@ public class MediaView extends GenericPanel<Media> {
             }
         } ) );
 
-        // Add the image and the fullscreen image to the media container.
+        // Add the image and the full-screen image to the media container.
         media.add( image );
         media.add( new ContextImage( "fullImage", //
                                      new LoadableDetachableModel<String>() {
