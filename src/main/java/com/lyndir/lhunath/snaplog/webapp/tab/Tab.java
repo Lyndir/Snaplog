@@ -68,4 +68,13 @@ public enum Tab {
 
         return tab;
     }
+
+    public static Tab of(final FragmentNavigationTab<?> tab) {
+
+        for (final Tab enumTab : values())
+            if (enumTab.get().equals( tab ))
+                return enumTab;
+
+        return null;
+    }
 }

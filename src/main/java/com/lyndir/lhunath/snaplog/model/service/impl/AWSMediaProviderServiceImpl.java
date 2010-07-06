@@ -219,7 +219,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * @param media   The {@link Media} whose data is will be referenced by the returned object.
      * @param quality The {@link Quality} of the {@link Media}'s data.
      *
-     * @return An {@link S3Object} with metadata or <code>null</code> if no object exists for the given media at the given quality.
+     * @return An {@link S3Object} with metadata or <code>null</code> if no object exists in S3 for the given media at the given quality.
      *
      * @see S3Service#getObject(S3Bucket, String)
      */

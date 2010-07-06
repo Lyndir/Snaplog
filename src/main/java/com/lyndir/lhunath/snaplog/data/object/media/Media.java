@@ -186,9 +186,9 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
     public enum Quality {
 
         /**
-         * The full quality of the original media file.
+         * Media metadata.
          */
-        METADATA( "metadata", 0, 0, 0 ),
+        METADATA( "original", 0, 0, 0 ),
 
         /**
          * The full quality of the original media file.

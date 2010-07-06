@@ -4,8 +4,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Joiner;
 import com.google.common.base.Preconditions;
-import com.google.common.base.Splitter;
-import com.google.common.collect.Iterables;
+import com.google.common.collect.ImmutableList;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.behavior.CSSClassAttributeAppender;
 import com.lyndir.lhunath.lib.wayward.behavior.JSLink;
@@ -17,12 +16,13 @@ import com.lyndir.lhunath.lib.wayward.i18n.KeyMatch;
 import com.lyndir.lhunath.lib.wayward.js.AjaxHooks;
 import com.lyndir.lhunath.lib.wayward.js.JSUtils;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
+import com.lyndir.lhunath.snaplog.webapp.listener.FragmentNavigationListener;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels.TabItem;
+import com.lyndir.lhunath.snaplog.webapp.tab.FragmentNavigationTab;
 import com.lyndir.lhunath.snaplog.webapp.tab.SnaplogTab;
 import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
-import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -78,35 +78,27 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
 
         // Ajax Hooks
         AjaxHooks.installAjaxEvents( this );
-        AjaxHooks.installPageEvents( this, new AjaxHooks.IPageListener() {
+        AjaxHooks.installPageEvents( this, new FragmentNavigationListener() {
             @Override
-            public void onReady(final AjaxRequestTarget target, final String pageUrl) {
+            protected void setActiveTab(final FragmentNavigationTab<?> tab, final Panel tabPanel, final AjaxRequestTarget target) {
 
-                URI uri = URI.create( pageUrl );
-                if (uri.getFragment() == null) {
-                    // No fragment, find and set a default tab.
-                    for (final Tab tab : Tab.values()) {
-                        if (tab.get().isVisible()) {
-                            setActiveTab( tab, target );
-                            break;
-                        }
-                    }
-                } else {
-                    // There is a fragment, load state from it.
-                    Iterable<String> arguments = Splitter.on( '/' ).split( uri.getFragment() );
-                    String tabFragment = arguments.iterator().next();
+                LayoutPage.this.setActiveTab( Tab.of( tab ), tabPanel, target );
+            }
 
-                    for (final Tab tab : Tab.values()) {
-                        if (tab.get().getFragment().equalsIgnoreCase( tabFragment ) && tab.get().isVisible()) {
-                            // Apply tab state from fragment.
-                            Panel tabPanel = tab.get().getPanel( CONTENT_PANEL );
-                            tab.get().applyFragmentState( tabPanel, Iterables.toArray( arguments, String.class ) );
+            @Override
+            protected String getTabContentId() {
 
-                            setActiveTab( tab, tabPanel, target );
-                            break;
-                        }
-                    }
-                }
+                return CONTENT_PANEL;
+            }
+
+            @Override
+            protected Iterable<FragmentNavigationTab<?>> getTabs() {
+
+                ImmutableList.Builder<FragmentNavigationTab<?>> tabsBuilder = ImmutableList.builder();
+                for (final Tab tab : Tab.values())
+                    tabsBuilder.add( tab.get() );
+
+                return tabsBuilder.build();
             }
         } );
 

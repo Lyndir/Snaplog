@@ -92,6 +92,7 @@ public class MediaDAOImpl implements MediaDAO {
         query.constrain( Media.class ) //
                 .and( query.descend( "album" ).constrain( album ) );
 
-        return query.execute();
+        // TODO: Set the sort order in nq. package too.
+        return query.orderAscending().execute();
     }
 }
