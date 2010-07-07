@@ -123,13 +123,13 @@ public class AboutTabPanel extends Panel {
         }
 
         @Override
-        public Iterable<String> getFragmentState(final Panel panel) {
+        public Iterable<String> getFragmentState(final AboutTabPanel panel) {
 
-            return ImmutableList.of( getFragment() );
+            return ImmutableList.of();
         }
 
         @Override
-        public void applyFragmentState(final Panel panel, final String... arguments) {
+        public void applyFragmentState(final AboutTabPanel panel, final String... arguments) {
 
             // No state.
         }

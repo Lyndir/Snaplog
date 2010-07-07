@@ -38,7 +38,6 @@ import com.lyndir.lhunath.snaplog.webapp.tool.TimelinePopup;
 import com.lyndir.lhunath.snaplog.webapp.view.BrowserView;
 import com.lyndir.lhunath.snaplog.webapp.view.FocusedView;
 import java.util.List;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
@@ -143,7 +142,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         }
 
         @Override
-        public Iterable<String> getFragmentState(final Panel panel) {
+        public Iterable<String> getFragmentState(final AlbumTabPanel panel) {
 
             checkNotNull( panel, "Panel must not be null." );
             Preconditions.checkArgument( AlbumTabPanel.class.isInstance( panel ), "Panel must be an %s.", AlbumTabPanel.class );
@@ -151,20 +150,18 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
 
             Media focusedMedia = albumPanel.getModelObject().focusedMedia().getObject();
             if (focusedMedia == null)
-                return ImmutableList.of( getFragment(), // 0
-                                         SnaplogSession.get().getFocusedUser().getUserName(), // 1
+                return ImmutableList.of( SnaplogSession.get().getFocusedUser().getUserName(), // 1
                                          SnaplogSession.get().getFocusedAlbum().getName() // 2
                 );
             else
-                return ImmutableList.of( getFragment(), // 0
-                                         SnaplogSession.get().getFocusedUser().getUserName(), // 1
+                return ImmutableList.of( SnaplogSession.get().getFocusedUser().getUserName(), // 1
                                          SnaplogSession.get().getFocusedAlbum().getName(), // 2
                                          focusedMedia.getName() // 3
                 );
         }
 
         @Override
-        public void applyFragmentState(final Panel panel, final String... arguments) {
+        public void applyFragmentState(final AlbumTabPanel panel, final String... arguments) {
 
             checkNotNull( panel, "Panel must not be null." );
             Preconditions.checkArgument( AlbumTabPanel.class.isInstance( panel ), "Panel must be an %s.", AlbumTabPanel.class );

@@ -140,21 +140,7 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
             }
         };
 
-        activeTab = new Model<Tab>() {
-            @Override
-            public Tab getObject() {
-
-                Tab activeTabObject = super.getObject();
-                if (activeTabObject == null)
-                    for (final Tab tab : Tab.values())
-                        if (tab.get().isVisible()) {
-                            setObject( activeTabObject = tab );
-                            break;
-                        }
-
-                return activeTabObject;
-            }
-        };
+        activeTab = new Model<Tab>();
 
         focusedUser = new LoadableDetachableModel<String>() {
 

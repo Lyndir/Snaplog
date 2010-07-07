@@ -1,6 +1,7 @@
 package com.lyndir.lhunath.snaplog.spike;
 
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import java.net.URL;
 
 
 /**
@@ -17,5 +18,6 @@ public class SnaplogSpike {
     public static void main(final String... args)
             throws Exception {
 
+        new URL( "http://sebeco-dev-10:8080/demos/css/linkid-for.css?a36e0618-dddc-40b0-94e4-93d7ea6c5f0d" );
     }
 }

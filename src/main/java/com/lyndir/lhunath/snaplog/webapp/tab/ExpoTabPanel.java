@@ -29,7 +29,6 @@ import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.model.service.AlbumService;
 import com.lyndir.lhunath.snaplog.model.service.UserService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
-import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.ExpoTabModels;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import com.lyndir.lhunath.snaplog.webapp.view.AbstractAlbumsView;
@@ -44,7 +43,6 @@ import org.apache.wicket.markup.MarkupStream;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
@@ -103,7 +101,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
                             protected void onClick(final AjaxRequestTarget target) {
 
                                 SnaplogSession.get().setFocusedAlbum( getModelObject().getAlbum() );
-                                LayoutPage.setActiveTab( Tab.ALBUM, target );
+                                Tab.ALBUM.activate();
                             }
 
                             @Override
@@ -197,7 +195,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
                                     protected void onClick(final AjaxRequestTarget target) {
 
                                         SnaplogSession.get().setFocusedAlbum( getModelObject().getAlbum() );
-                                        LayoutPage.setActiveTab( Tab.ALBUM, target );
+                                        Tab.ALBUM.activate();
                                     }
 
                                     @Override
@@ -233,7 +231,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
                             public void onClick(final AjaxRequestTarget target) {
 
                                 SnaplogSession.get().setFocusedAlbum( getModelObject().getAlbum() );
-                                LayoutPage.setActiveTab( Tab.ALBUM, target );
+                                Tab.ALBUM.activate();
                             }
 
                             @Override
@@ -378,13 +376,13 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
         }
 
         @Override
-        public Iterable<String> getFragmentState(final Panel panel) {
+        public Iterable<String> getFragmentState(final ExpoTabPanel panel) {
 
-            return ImmutableList.of( getFragment() );
+            return ImmutableList.of();
         }
 
         @Override
-        public void applyFragmentState(final Panel panel, final String... arguments) {
+        public void applyFragmentState(final ExpoTabPanel panel, final String... arguments) {
 
             // No state.
         }

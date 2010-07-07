@@ -15,6 +15,11 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
+import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationTab;
+import com.lyndir.lhunath.snaplog.data.object.media.Media;
+import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
+
+
 /**
  * <h2>{@link SnaplogTab}<br> <sub>[in short] (TODO).</sub></h2>
  *
@@ -42,21 +47,36 @@ public enum Tab {
     /**
      * This tab provides a way of browsing a specific album.
      */
-    ALBUM( new AlbumTabPanel.AlbumTab() ),
+    ALBUM( new AlbumTabPanel.AlbumTab() ) {
+
+        /**
+         * Activate this tab in the current page.
+         *
+         * @param media Media to focus on in the album tab.
+         */
+        public void activateWith(final Media media) {
+
+            LayoutPage.getController().activateTabWithState( get(), //
+                                                             media.getAlbum().getOwner().getUserName(), // 1
+                                                             media.getAlbum().getName(), // 2
+                                                             media.getName() // 3
+            );
+        }
+    },
 
     /**
      * Using this tab, users can configure their profile and account settings.
      */
     ADMINISTRATION( new AdministrationTabPanel.AdministrationTab() );
 
-    private final SnaplogTab tab;
+    private final SnaplogTab<?> tab;
 
     /**
      * Create a new {@link Tab} instance.
      *
      * @param tab The implementation of this tab.
      */
-    Tab(final SnaplogTab tab) {
+    Tab(final SnaplogTab<?> tab) {
 
         this.tab = tab;
     }
@@ -64,9 +84,17 @@ public enum Tab {
     /**
      * @return The {@link SnaplogTab} that describes the UI elements of this tab.
      */
-    public SnaplogTab get() {
+    public SnaplogTab<?> get() {
 
         return tab;
+    }
+
+    /**
+     * Activate this tab in the current page.
+     */
+    public void activate() {
+
+        LayoutPage.getController().activateTab( get() );
     }
 
     public static Tab of(final FragmentNavigationTab<?> tab) {

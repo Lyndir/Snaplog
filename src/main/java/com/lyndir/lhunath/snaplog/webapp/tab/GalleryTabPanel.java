@@ -35,7 +35,6 @@ import com.lyndir.lhunath.snaplog.model.service.AlbumService;
 import com.lyndir.lhunath.snaplog.model.service.SecurityService;
 import com.lyndir.lhunath.snaplog.model.service.UserService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
-import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels.NewAlbumFormModels;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
@@ -47,7 +46,6 @@ import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.*;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
@@ -149,7 +147,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                     public void onClick(final AjaxRequestTarget target) {
 
                         SnaplogSession.get().setFocusedAlbum( getModelObject() );
-                        LayoutPage.setActiveTab( Tab.ALBUM, target );
+                        Tab.ALBUM.activate(  );
                     }
                 } );
             }
@@ -349,13 +347,13 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         }
 
         @Override
-        public Iterable<String> getFragmentState(final Panel panel) {
+        public Iterable<String> getFragmentState(final GalleryTabPanel panel) {
 
-            return ImmutableList.of( getFragment() );
+            return ImmutableList.of();
         }
 
         @Override
-        public void applyFragmentState(final Panel panel, final String... arguments) {
+        public void applyFragmentState(final GalleryTabPanel panel, final String... arguments) {
 
             // No state.
         }

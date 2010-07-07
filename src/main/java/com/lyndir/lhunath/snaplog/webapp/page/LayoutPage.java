@@ -1,9 +1,8 @@
 package com.lyndir.lhunath.snaplog.webapp.page;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
-import com.google.common.base.Joiner;
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.behavior.CSSClassAttributeAppender;
@@ -14,18 +13,15 @@ import com.lyndir.lhunath.lib.wayward.component.LabelLink;
 import com.lyndir.lhunath.lib.wayward.i18n.KeyAppender;
 import com.lyndir.lhunath.lib.wayward.i18n.KeyMatch;
 import com.lyndir.lhunath.lib.wayward.js.AjaxHooks;
-import com.lyndir.lhunath.lib.wayward.js.JSUtils;
+import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationListener;
+import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationTab;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
-import com.lyndir.lhunath.snaplog.webapp.listener.FragmentNavigationListener;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels.TabItem;
-import com.lyndir.lhunath.snaplog.webapp.tab.FragmentNavigationTab;
-import com.lyndir.lhunath.snaplog.webapp.tab.SnaplogTab;
 import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import net.link.safeonline.wicket.component.linkid.LinkIDLoginLink;
 import org.apache.wicket.*;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -59,6 +55,8 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
 
     private static final String CONTENT_PANEL = "contentPanel";
 
+    final FragmentNavigationController navigationController = new FragmentNavigationController();
+
     final WebMarkupContainer userEntry;
     final WebMarkupContainer userSummary;
     final WebMarkupContainer tabsContainer;
@@ -78,29 +76,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
 
         // Ajax Hooks
         AjaxHooks.installAjaxEvents( this );
-        AjaxHooks.installPageEvents( this, new FragmentNavigationListener() {
-            @Override
-            protected void setActiveTab(final FragmentNavigationTab<?> tab, final Panel tabPanel, final AjaxRequestTarget target) {
-
-                LayoutPage.this.setActiveTab( Tab.of( tab ), tabPanel, target );
-            }
-
-            @Override
-            protected String getTabContentId() {
-
-                return CONTENT_PANEL;
-            }
-
-            @Override
-            protected Iterable<FragmentNavigationTab<?>> getTabs() {
-
-                ImmutableList.Builder<FragmentNavigationTab<?>> tabsBuilder = ImmutableList.builder();
-                for (final Tab tab : Tab.values())
-                    tabsBuilder.add( tab.get() );
-
-                return tabsBuilder.build();
-            }
-        } );
+        AjaxHooks.installPageEvents( this, new FragmentNavigationListener.PageListener( navigationController ) );
 
         // Page Title.
         Label pageTitle = new Label( "pageTitle", getModelObject().pageTitle() );
@@ -189,7 +165,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
                     @Override
                     public void onClick(final AjaxRequestTarget target) {
 
-                        setActiveTab( itemModel.getObject(), target );
+                        itemModel.getObject().activate();
                     }
                 } );
                 item.add( CSSClassAttributeAppender.ofString( item.getModelObject().styleClass() ) );
@@ -207,16 +183,19 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
             protected List<? extends SnaplogTool> load() {
 
                 toolPanels.clear();
-                List<? extends SnaplogTool> _tools = getModelObject().activeTab().getObject().get().listTools();
+                Tab activeTab = getModelObject().activeTab().getObject();
+                if (activeTab == null)
+                    return ImmutableList.of();
 
                 // Load the panels for the tools and assign them a markup ID.
-                for (final SnaplogTool tool : _tools) {
+                List<? extends SnaplogTool> activeTools = activeTab.get().listTools();
+                for (final SnaplogTool tool : activeTools) {
                     Panel panel = tool.getPanel( "panel" );
                     panel.setOutputMarkupId( true );
                     toolPanels.put( tool, panel );
                 }
 
-                return _tools;
+                return activeTools;
             }
         };
 
@@ -297,54 +276,6 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
     }
 
     /**
-     * Change the currently active tab on this page.  <b>Note: Only valid when the response page is a LayoutPage.</b>
-     *
-     * @param tab The tab to activate and display a new panel for.
-     */
-    public static void setActiveTab(final Tab tab) {
-
-        setActiveTab( tab, null );
-    }
-
-    /**
-     * Change the currently active tab on this page.  <b>Note: Only valid when the response page is a LayoutPage.</b>
-     *
-     * @param tab    The tab to activate and display a new panel for.
-     * @param target The AJAX request that we should use to update the page with or <code>null</code> if we aren't responding via AJAX.
-     */
-    public static void setActiveTab(final Tab tab, final AjaxRequestTarget target) {
-
-        Page responsePage = RequestCycle.get().getResponsePage();
-        Preconditions.checkState( LayoutPage.class.isInstance( responsePage ),
-                                  "Can't change the active tab; response page is not LayoutPage but %s.", responsePage );
-
-        LayoutPage layoutPage = (LayoutPage) responsePage;
-        layoutPage.setActiveTab( tab, null, target );
-    }
-
-    /**
-     * Change the currently active tab on this page.
-     *
-     * @param tab      The tab to activate and display the given panel for.
-     * @param tabPanel The panel to load for this tab or <code>null</code> if we should make a new panel for this tab.
-     * @param target   The AJAX request that we should use to update the page with or <code>null</code> if we aren't responding via AJAX.
-     */
-    protected void setActiveTab(final Tab tab, final Panel tabPanel, final AjaxRequestTarget target) {
-
-        getModelObject().activeTab().setObject( tab );
-
-        Panel contentPanel = tabPanel;
-        if (contentPanel == null)
-            contentPanel = tab.get().getPanel( CONTENT_PANEL );
-        contentContainer.addOrReplace( contentPanel );
-
-        if (target != null) {
-            target.addComponent( tabsContainer );
-            target.addComponent( contentContainer );
-        }
-    }
-
-    /**
      * Override me to define a custom panel to show initially when this page is constructed.
      *
      * @param wicketId The wicket ID that the panel should use.
@@ -357,6 +288,20 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
     }
 
     /**
+     * <b>Note:</b> This method may only be invoked when this page is currently active.
+     *
+     * @return The fragment navigation controller that manages this page.
+     */
+    public static FragmentNavigationController getController() {
+
+        Page responsePage = RequestCycle.get().getResponsePage();
+        checkState( LayoutPage.class.isInstance( responsePage ), //
+                    "Can't access LayoutPage's controller, while it isn't the response page.  Response page is: %s.", responsePage );
+
+        return ((LayoutPage) responsePage).navigationController;
+    }
+
+    /**
      * Add components to the AJAX target that should be reloaded during every AJAX event on this page.
      *
      * @param target The AJAX request target to add page components to.
@@ -366,20 +311,18 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
         checkNotNull( target, "Given target cannot be null." );
 
         target.addComponent( messages );
-        target.addListener( new AjaxRequestTarget.IListener() {
+        target.addListener( new FragmentNavigationListener.AjaxRequestListener() {
             @Override
-            public void onBeforeRespond(final Map<String, Component> map, final AjaxRequestTarget target) {
+            protected FragmentNavigationTab<?> getActiveTab() {
 
+                Tab activeTab = getModelObject().activeTab().getObject();
+                return activeTab == null? null: activeTab.get();
             }
 
             @Override
-            public void onAfterRespond(final Map<String, Component> map, final AjaxRequestTarget.IJavascriptResponse response) {
+            protected Component getActiveContent() {
 
-                SnaplogTab<?> activeTab = getModelObject().activeTab().getObject().get();
-                Component contentPanel = contentContainer.get( CONTENT_PANEL );
-                if (activeTab.getPanelClass().isInstance( contentPanel ))
-                    response.addJavascript( "window.location.hash = " + JSUtils.toString(
-                            Joiner.on( '/' ).join( activeTab.getFragmentState( (Panel) contentPanel ) ) ) );
+                return contentContainer.get( CONTENT_PANEL );
             }
         } );
     }
@@ -460,5 +403,42 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
         // TODO: If we want to allow focusing other content; this may need improvement. If not, this may be simplified?
         String focusedContent(@KeyAppender(nullKey = "none", notNullKey = "album", useValue = true)//
                 String albumName);
+    }
+
+
+    public class FragmentNavigationController extends FragmentNavigationListener.Controller {
+
+        @Override
+        protected void setActiveTab(final FragmentNavigationTab<?> tab, final Panel tabPanel) {
+
+            getModelObject().activeTab().setObject( Tab.of( tab ) );
+
+            Panel contentPanel = tabPanel;
+            if (contentPanel == null)
+                contentPanel = tab.getPanel( CONTENT_PANEL );
+            contentContainer.addOrReplace( contentPanel );
+
+            AjaxRequestTarget target = AjaxRequestTarget.get();
+            if (target != null) {
+                target.addComponent( tabsContainer );
+                target.addComponent( contentContainer );
+            }
+        }
+
+        @Override
+        protected String getTabContentId() {
+
+            return CONTENT_PANEL;
+        }
+
+        @Override
+        protected Iterable<FragmentNavigationTab<?>> getTabs() {
+
+            ImmutableList.Builder<FragmentNavigationTab<?>> tabsBuilder = ImmutableList.builder();
+            for (final Tab tab : Tab.values())
+                tabsBuilder.add( tab.get() );
+
+            return tabsBuilder.build();
+        }
     }
 }
