@@ -62,23 +62,6 @@ public class MediaDAOImpl implements MediaDAO {
     }
 
     @Override
-    public <D extends MediaData<M>, M extends Media> D findMediaData(final M media) {
-
-        ObjectSet<D> mediaDataQuery = db.query( new Predicate<D>() {
-
-            @Override
-            public boolean match(final D candidate) {
-
-                return ObjectUtils.equal( candidate.getMedia(), media );
-            }
-        } );
-        if (mediaDataQuery.hasNext())
-            return mediaDataQuery.next();
-
-        return null;
-    }
-
-    @Override
     public List<Media> listMedia(final Album album, final String mediaName) {
 
         checkNotNull( album, "Given album must not be null." );

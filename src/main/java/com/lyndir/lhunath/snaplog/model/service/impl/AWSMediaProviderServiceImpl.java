@@ -23,6 +23,7 @@ import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.logging.exception.InternalInconsistencyException;
+import com.lyndir.lhunath.lib.system.util.ObjectUtils;
 import com.lyndir.lhunath.lib.system.util.StringUtils;
 import com.lyndir.lhunath.snaplog.data.object.media.Album;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
@@ -112,16 +113,95 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
             // Create mediaData for the object.
             String mediaName = Iterables.getLast( Splitter.on( '/' ).split( mediaObject.getKey() ) );
-            S3MediaData mediaData = mediaDAO.findMediaData( album, mediaName );
-            if (mediaData == null) {
-                mediaData = new S3MediaData( new S3Media( album, mediaName ), mediaObject );
-                mediaDAO.update( mediaData );
-            }
+            S3MediaData mediaData = setMediaData( album, mediaName, Quality.ORIGINAL, mediaObject );
 
             // Load and create missing media objects at all qualities.
             for (final Quality quality : Quality.values())
                 getObjectDetails( mediaData.getMedia(), quality );
         }
+    }
+
+    /**
+     * Update meta data by assign metadata to a given quality of it.
+     *
+     * @param album     The album in which to look for the media.
+     * @param mediaName The name of the media to look for.  If no media exists by this name, <b>it will be created</b>.
+     * @param quality   The quality of the metadata to update the media data with.  May be <code>null</code> if no updating should occur but
+     *                  we're just interested in obtaining the media's media data.
+     *
+     * @return A media data object for the given media with the metadata at the given quality updated if desired.
+     */
+    private S3MediaData setMediaData(final S3Album album, final String mediaName, final Quality quality, final S3Object mediaObject) {
+
+        S3MediaData mediaData = mediaDAO.findMediaData( album, mediaName );
+        boolean needsUpdate = false;
+
+        if (mediaData == null) {
+            mediaData = new S3MediaData( new S3Media( album, mediaName ) );
+            needsUpdate = true;
+        }
+
+        if (quality != null && !ObjectUtils.equal( mediaData.get( quality ), mediaObject )) {
+            mediaData.put( quality, mediaObject );
+            needsUpdate = true;
+        }
+
+        if (needsUpdate)
+            mediaDAO.update( mediaData );
+
+        return mediaData;
+    }
+
+    /**
+     * Update meta data by assign metadata to a given quality of it.
+     *
+     * @param media   The media whose media data is required.
+     * @param quality The quality of the metadata to update the media data with.  May be <code>null</code> if no updating should occur but
+     *                we're just interested in obtaining the media's media data.
+     *
+     * @return A media data object for the given media with the metadata at the given quality updated if desired.
+     */
+    private S3MediaData setMediaData(final S3Media media, final Quality quality, final S3Object mediaObject) {
+
+        return setMediaData( media.getAlbum(), media.getName(), quality, mediaObject );
+    }
+
+    /**
+     * Obtain media data for the given media.
+     *
+     * @param media The media whose media data is required.
+     *
+     * @return A media data object for the given media.
+     */
+    private S3MediaData getMediaData(final S3Media media) {
+
+        return setMediaData( media, null, null );
+    }
+
+    /**
+     * Obtain media data for the given media and indicate metadata for the given quality is required.
+     *
+     * @param media   The media whose media data is required.
+     * @param quality The quality whose metadata is needed.
+     *
+     * @return A media data object for the given media with metadata for the given quality present <b>if the object at the given quality
+     *         exists in storage</b>.
+     */
+    private S3MediaData getMediaData(final S3Media media, final Quality quality) {
+
+        S3MediaData mediaData = getMediaData( media );
+
+        S3Object mediaObject = mediaData.get( quality );
+        if (mediaObject == null) {
+            mediaObject = awsService.findObjectDetails( getObjectKey( media, quality ) );
+
+            if (mediaObject != null) {
+                mediaData.put( quality, mediaObject );
+                mediaDAO.update( mediaData );
+            }
+        }
+
+        return mediaData;
     }
 
     /**
@@ -205,12 +285,10 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         checkNotNull( media, "Given media must not be null." );
         checkNotNull( quality, "Given quality must not be null." );
 
-        S3Object s3Object = awsService.readObject( getObjectKey( media, quality ) );
-        S3MediaData mediaData = mediaDAO.findMediaData( media );
-        mediaData.put( quality, s3Object );
-        mediaDAO.update( mediaData );
+        S3Object mediaObject = awsService.readObject( getObjectKey( media, quality ) );
+        setMediaData( media, quality, mediaObject );
 
-        return checkNotNull( s3Object, "S3 object must not be null." );
+        return checkNotNull( mediaObject, "S3 object must not be null." );
     }
 
     /**
@@ -228,18 +306,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         checkNotNull( media, "Given media must not be null." );
         checkNotNull( quality, "Given quality must not be null." );
 
-        S3MediaData mediaData = mediaDAO.findMediaData( media );
-        S3Object s3Object = mediaData.get( quality );
-        if (s3Object == null) {
-            s3Object = awsService.findObjectDetails( getObjectKey( media, quality ) );
-
-            if (s3Object != null) {
-                mediaData.put( quality, s3Object );
-                mediaDAO.update( mediaData );
-            }
-        }
-
-        return s3Object;
+        return getMediaData( media, quality ).get( quality );
     }
 
     /**
@@ -302,15 +369,13 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         s3UploadObject.setAcl( AccessControlList.REST_CANNED_PUBLIC_READ );
         s3UploadObject.setDataInputStream( new ByteArrayInputStream( imageDataStream.toByteArray() ) );
 
-        S3MediaData mediaData = mediaDAO.findMediaData( media );
-        mediaData.put( quality, s3ResourceObject = awsService.upload( s3UploadObject ) );
-        mediaDAO.update( mediaData );
+        setMediaData( media, quality, s3ResourceObject = awsService.upload( s3UploadObject ) );
 
         return s3ResourceObject;
     }
 
     /**
-     * Get an {@link S3Object} with very basic metadata available.
+     * Get an {@link S3Object} with full metadata available.
      *
      * @param media The {@link Media} whose data is will be referenced by the returned object.
      *
@@ -322,7 +387,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
         checkNotNull( media, "Given media must not be null." );
 
-        S3MediaData mediaData = mediaDAO.findMediaData( media );
+        S3MediaData mediaData = getMediaData( media );
         return checkNotNull( mediaData.get( Quality.METADATA ), "S3 object for %s must not be null.", media );
     }
 

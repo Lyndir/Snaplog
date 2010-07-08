@@ -21,8 +21,6 @@ public interface MediaDAO {
 
     <D extends MediaData<?>> D findMediaData(Album album, String mediaName);
 
-    <D extends MediaData<M>, M extends Media> D findMediaData(M media);
-
     List<Media> listMedia(Album album, String mediaName);
 
     List<Media> listMedia(Album album);

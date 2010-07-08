@@ -44,12 +44,10 @@ public class S3MediaData implements MediaData<S3Media> {
      * Create a new {@link S3MediaData} instance.
      *
      * @param media          The {@link S3Media} that we hold data for.
-     * @param metaDataObject The {@link S3Object} that contains the metadata for the media.
      */
-    public S3MediaData(final S3Media media, final S3Object metaDataObject) {
+    public S3MediaData(final S3Media media) {
 
         checkNotNull( media, "Given media must not be null." );
-        checkNotNull( metaDataObject, "Given S3 object must not be null." );
 
         this.media = media;
 
@@ -86,11 +84,12 @@ public class S3MediaData implements MediaData<S3Media> {
         checkNotNull( quality, "Given quality must not be null." );
         checkNotNull( s3Object, "Given S3 object must not be null." );
 
-        if (quality == Quality.METADATA) {
+        if (quality == Quality.METADATA || s3Object.isMetadataComplete()) {
             checkArgument( s3Object.isMetadataComplete(),
                            "Can't store METADATA on given S3 object since it does not have complete metadata." );
             s3Objects.put( Quality.METADATA, s3Object );
-        } else
+        }
+        if (quality != Quality.METADATA)
             s3Objects.put( quality, s3Object );
 
         return this;
