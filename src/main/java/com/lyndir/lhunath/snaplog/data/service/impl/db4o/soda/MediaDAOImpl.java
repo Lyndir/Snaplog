@@ -58,20 +58,6 @@ public class MediaDAOImpl implements MediaDAO {
     }
 
     @Override
-    public <D extends MediaData<M>, M extends Media> D findMediaData(final M media) {
-
-        Query query = db.query();
-        query.constrain( MediaData.class ) //
-                .and( query.descend( "media" ).constrain( media ) );
-
-        ObjectSet<D> mediaDataQuery = query.execute();
-        if (mediaDataQuery.hasNext())
-            return mediaDataQuery.next();
-
-        return null;
-    }
-
-    @Override
     public List<Media> listMedia(final Album album, final String mediaName) {
 
         checkNotNull( album, "Given album must not be null." );
@@ -79,8 +65,9 @@ public class MediaDAOImpl implements MediaDAO {
 
         Query query = db.query();
         query.constrain( Media.class ) //
+                // FIXME: Might not work for Media implementations that have no album field?
                 .and( query.descend( "album" ).constrain( album ) ) //
-                .and( query.descend( "name" ).constrain( mediaName ) );
+                .and( query.descend( "name" ).orderAscending().constrain( mediaName ) );
 
         return query.execute();
     }
@@ -91,8 +78,9 @@ public class MediaDAOImpl implements MediaDAO {
         Query query = db.query();
         query.constrain( Media.class ) //
                 .and( query.descend( "album" ).constrain( album ) );
-
         // TODO: Set the sort order in nq. package too.
-        return query.orderAscending().execute();
+        query.descend( "name" ).orderAscending();
+
+        return query.execute();
     }
 }
