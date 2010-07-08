@@ -56,19 +56,28 @@ public class AlbumProvider<A extends Album, M extends Media> implements MediaPro
      * {@inheritDoc}
      */
     @Override
-    public void syncMedia(final A album) {
+    public void loadMedia(final A album) {
 
-        getMediaProviderService().syncMedia( album );
+        getMediaProviderService().loadMedia( album );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public URL getResourceURL(final SecurityToken token, final M media, final Quality quality)
+    public void loadMediaData(final A album) {
+
+        getMediaProviderService().loadMediaData( album );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public URL findResourceURL(final SecurityToken token, final M media, final Quality quality)
             throws PermissionDeniedException {
 
-        return getMediaProviderService().getResourceURL( token, media, quality );
+        return getMediaProviderService().findResourceURL( token, media, quality );
     }
 
     /**

@@ -16,6 +16,7 @@
 package com.lyndir.lhunath.snaplog.webapp.servlet;
 
 import com.google.inject.Inject;
+import com.google.inject.Provider;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.model.service.AlbumService;
 import java.io.IOException;
@@ -23,6 +24,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.joda.time.Duration;
+import org.joda.time.Instant;
 
 
 /**
@@ -41,15 +44,15 @@ public class InitServlet extends HttpServlet {
      */
     public static final String PATH = "/init";
 
-    private final AlbumService albumService;
+    private final Provider<AlbumService> albumServiceProvider;
 
     /**
-     * @param albumService See {@link AlbumService}
+     * @param albumServiceProvider See {@link AlbumService}
      */
     @Inject
-    public InitServlet(final AlbumService albumService) {
+    public InitServlet(final Provider<AlbumService> albumServiceProvider) {
 
-        this.albumService = albumService;
+        this.albumServiceProvider = albumServiceProvider;
     }
 
     /**
@@ -59,6 +62,32 @@ public class InitServlet extends HttpServlet {
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
 
-        albumService.syncAllAlbums();
+        if (req.getParameter( "media" ) != null) {
+            Instant start = new Instant();
+            logger.inf( "Loading all album media..." );
+            resp.getWriter().format( "Loading all album media...\n" );
+            resp.flushBuffer();
+
+            albumServiceProvider.get().loadAllAlbumMedia();
+
+            Duration duration = new Duration( start, new Instant() );
+            logger.inf( "Done loading all album media (%s).", duration );
+            resp.getWriter().format( "Done loading all album media (%s).\n", duration );
+            resp.flushBuffer();
+        }
+
+        if (req.getParameter( "mediaData" ) != null) {
+            Instant start = new Instant();
+            logger.inf( "Loading all album media data..." );
+            resp.getWriter().format( "Loading all album media data...\n" );
+            resp.flushBuffer();
+
+            albumServiceProvider.get().loadAllAlbumMediaData();
+
+            Duration duration = new Duration( start, new Instant() );
+            logger.inf( "Done loading all album media data (%s).", duration );
+            resp.getWriter().format( "Done loading all album media data (%s).\n", duration );
+            resp.flushBuffer();
+        }
     }
 }

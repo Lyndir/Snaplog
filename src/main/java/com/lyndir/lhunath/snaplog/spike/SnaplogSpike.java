@@ -32,10 +32,10 @@ public class SnaplogSpike {
 
         GuiceContext.setInjector( injector = Guice.createInjector( new ServicesModule() ) );
         injector.getInstance( AlbumService.class )
-                .getResourceURL( SecurityToken.INTERNAL_USE_ONLY, new S3Media( (S3Album) SnaplogConstants.DEFAULT_ALBUM, "20100605T103809.jpg" ),
+                .findResourceURL( SecurityToken.INTERNAL_USE_ONLY, new S3Media( (S3Album) SnaplogConstants.DEFAULT_ALBUM, "20100605T103809.jpg" ),
                                  Media.Quality.ORIGINAL );
         injector.getInstance( AlbumService.class )
-                .getResourceURL( SecurityToken.INTERNAL_USE_ONLY, new S3Media( (S3Album) SnaplogConstants.DEFAULT_ALBUM, "20100605T103809.jpg" ),
+                .findResourceURL( SecurityToken.INTERNAL_USE_ONLY, new S3Media( (S3Album) SnaplogConstants.DEFAULT_ALBUM, "20100605T103809.jpg" ),
                                  Media.Quality.ORIGINAL );
 
         // Shut down the database.
@@ -47,10 +47,10 @@ public class SnaplogSpike {
 
         GuiceContext.setInjector( injector = Guice.createInjector( new ServicesModule() ) );
         injector.getInstance( AlbumService.class )
-                .getResourceURL( SecurityToken.INTERNAL_USE_ONLY, new S3Media( (S3Album) SnaplogConstants.DEFAULT_ALBUM, "20100605T103809.jpg" ),
+                .findResourceURL( SecurityToken.INTERNAL_USE_ONLY, new S3Media( (S3Album) SnaplogConstants.DEFAULT_ALBUM, "20100605T103809.jpg" ),
                                  Media.Quality.ORIGINAL );
         injector.getInstance( AlbumService.class )
-                .getResourceURL( SecurityToken.INTERNAL_USE_ONLY, new S3Media( (S3Album) SnaplogConstants.DEFAULT_ALBUM, "20100605T103809.jpg" ),
+                .findResourceURL( SecurityToken.INTERNAL_USE_ONLY, new S3Media( (S3Album) SnaplogConstants.DEFAULT_ALBUM, "20100605T103809.jpg" ),
                                  Media.Quality.ORIGINAL );
 
         // Shut down the database.

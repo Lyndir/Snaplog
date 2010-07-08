@@ -128,16 +128,32 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     @Override
-    public void syncMedia(final Album album) {
+    public void loadMedia(final Album album) {
 
-        getAlbumProvider( album ).syncMedia( album );
+        getAlbumProvider( album ).loadMedia( album );
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void loadMediaData(final Album album) {
+
+        getAlbumProvider( album ).loadMediaData( album );
     }
 
     @Override
-    public void syncAllAlbums() {
+    public void loadAllAlbumMedia() {
 
         for (final Album album : albumDAO.listAlbums())
-            syncMedia( album );
+            loadMedia( album );
+    }
+
+    @Override
+    public void loadAllAlbumMediaData() {
+
+        for (final Album album : albumDAO.listAlbums())
+            loadMediaData( album );
     }
 
     @Override
@@ -186,12 +202,12 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     @Override
-    public URL getResourceURL(final SecurityToken token, final Media media, final Quality quality)
+    public URL findResourceURL(final SecurityToken token, final Media media, final Quality quality)
             throws PermissionDeniedException {
 
         checkNotNull( media, "Given media must not be null." );
 
-        return getAlbumProvider( media.getAlbum() ).getResourceURL( token, media, quality );
+        return getAlbumProvider( media.getAlbum() ).findResourceURL( token, media, quality );
     }
 
     /**

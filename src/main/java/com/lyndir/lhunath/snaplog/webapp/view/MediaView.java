@@ -15,12 +15,16 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.view;
 
+import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.behavior.CSSClassAttributeAppender;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.media.Media.Quality;
-import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
+import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
+import com.lyndir.lhunath.snaplog.model.service.AlbumService;
+import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
+import java.net.URL;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.behavior.AttributeAppender;
@@ -42,6 +46,9 @@ import org.apache.wicket.model.Model;
 public class MediaView extends GenericPanel<Media> {
 
     static final Logger logger = Logger.get( MediaView.class );
+
+    @Inject
+    AlbumService albumService;
 
     /**
      * @param id        The wicket ID of this component.
@@ -106,7 +113,18 @@ public class MediaView extends GenericPanel<Media> {
             @Override
             protected String load() {
 
-                return ImageServlet.getContextRelativePathFor( getModelObject(), Quality.THUMBNAIL );
+                try {
+                    URL resourceURL = albumService.findResourceURL( SnaplogSession.get().newToken(), getModelObject(), Quality.THUMBNAIL );
+                    if (resourceURL == null)
+                        // TODO: May want to display something useful to the user like a specific "not-found" thumbnail.
+                        return null;
+
+                    return resourceURL.toExternalForm();
+                }
+                catch (PermissionDeniedException ignored) {
+                    // TODO: May want to display something useful to the user like a specific "denied" thumbnail.
+                    return null;
+                }
             }
         } ) {
             @Override
@@ -120,7 +138,18 @@ public class MediaView extends GenericPanel<Media> {
             @Override
             protected String load() {
 
-                return ImageServlet.getContextRelativePathFor( getModelObject(), quality );
+                try {
+                    URL resourceURL = albumService.findResourceURL( SnaplogSession.get().newToken(), getModelObject(), quality );
+                    if (resourceURL == null)
+                        // TODO: May want to display something useful to the user like a specific "not-found" thumbnail.
+                        return null;
+
+                    return resourceURL.toExternalForm();
+                }
+                catch (PermissionDeniedException ignored) {
+                    // TODO: May want to display something useful to the user like a specific "denied" thumbnail.
+                    return null;
+                }
             }
         } ) );
 
@@ -132,7 +161,19 @@ public class MediaView extends GenericPanel<Media> {
                                          @Override
                                          protected String load() {
 
-                                             return ImageServlet.getContextRelativePathFor( getModelObject(), Quality.FULLSCREEN );
+                                             try {
+                                                 URL resourceURL = albumService.findResourceURL( SnaplogSession.get().newToken(),
+                                                                                                 getModelObject(), Quality.FULLSCREEN );
+                                                 if (resourceURL == null)
+                                                     // TODO: May want to display something useful to the user like a specific "not-found" thumbnail.
+                                                     return null;
+
+                                                 return resourceURL.toExternalForm();
+                                             }
+                                             catch (PermissionDeniedException ignored) {
+                                                 // TODO: May want to display something useful to the user like a specific "denied" thumbnail.
+                                                 return null;
+                                             }
                                          }
                                      } ) {
 

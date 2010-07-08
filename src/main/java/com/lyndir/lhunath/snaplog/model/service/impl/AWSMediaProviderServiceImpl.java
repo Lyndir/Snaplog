@@ -48,6 +48,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.List;
 import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import org.jets3t.service.S3Service;
@@ -96,28 +97,44 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * {@inheritDoc}
      */
     @Override
-    public void syncMedia(final S3Album album) {
+    public void loadMedia(final S3Album album) {
 
         checkNotNull( album, "Given album must not be null." );
 
         // TODO: Can we be smarter about which media to update?
-        ImmutableList<S3Object> objects = awsService.listObjects( getObjectKey( album, Quality.ORIGINAL ) );
         int o = 0;
-        for (final S3Object mediaObject : objects) {
+        ImmutableList<S3Object> mediaObjects = awsService.listObjects( getObjectKey( album, Quality.ORIGINAL ) );
+        for (final S3Object mediaObject : mediaObjects) {
             if (o++ % 100 == 0)
-                logger.dbg( "Loading object %d / %d", ++o, objects.size() );
+                logger.dbg( "Loading media %d / %d", ++o, mediaObjects.size() );
 
             if (!mediaObject.getKey().endsWith( ".jpg" ))
                 // Ignore files that don't have a valid media name.
                 continue;
 
-            // Create mediaData for the object.
+            // Create/update mediaData for the object.
             String mediaName = Iterables.getLast( Splitter.on( '/' ).split( mediaObject.getKey() ) );
-            S3MediaData mediaData = setMediaData( album, mediaName, Quality.ORIGINAL, mediaObject );
+            setMediaData( album, mediaName, Quality.ORIGINAL, mediaObject );
+        }
+    }
 
-            // Load and create missing media objects at all qualities.
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public void loadMediaData(final S3Album album) {
+
+        checkNotNull( album, "Given album must not be null." );
+
+        int o = 0;
+        List<S3Media> albumMedia = mediaDAO.listMedia( album );
+        for (final S3Media media : albumMedia) {
+            if (o++ % 100 == 0)
+                logger.dbg( "Loading media data %d / %d", ++o, albumMedia.size() );
+
+            // Load existing and create missing media objects at all qualities.
             for (final Quality quality : Quality.values())
-                getObjectDetails( mediaData.getMedia(), quality );
+                loadObjectDetails( media, quality );
         }
     }
 
@@ -208,7 +225,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * {@inheritDoc}
      */
     @Override
-    public URL getResourceURL(final SecurityToken token, final S3Media media, final Quality quality)
+    public URL findResourceURL(final SecurityToken token, final S3Media media, final Quality quality)
             throws PermissionDeniedException {
 
         checkNotNull( media, "Given media must not be null." );
@@ -216,7 +233,11 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         logger.dbg( "Asserting access to: %s", media );
         securityService.assertAccess( Permission.VIEW, token, media );
 
-        String s3ResourcePath = getObjectDetails( media, quality ).getKey();
+        S3Object mediaObject = findObjectDetails( media, quality );
+        if (mediaObject == null)
+            return null;
+
+        String s3ResourcePath = mediaObject.getKey();
         logger.dbg( "Resolved S3 object for: %s, at: %s, to path: %s", media, quality, s3ResourcePath );
 
         try {
@@ -318,7 +339,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      *
      * @return An {@link S3Object} with all the media storage object's metadata.
      */
-    protected S3Object getObjectDetails(final S3Media media, final Quality quality) {
+    protected S3Object loadObjectDetails(final S3Media media, final Quality quality) {
 
         logger.dbg( "Finding S3 object details of: %s, at: %s", media, quality );
         S3Object s3ResourceObject = findObjectDetails( media, quality );

@@ -17,6 +17,7 @@ package com.lyndir.lhunath.snaplog.webapp.listener;
 
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.snaplog.job.MediaDataSynchronizationJob;
 import com.lyndir.lhunath.snaplog.job.MediaSynchronizationJob;
 import java.text.ParseException;
 import javax.servlet.ServletContext;
@@ -47,8 +48,13 @@ public class QuartzContext implements ServletContextListener {
 
             scheduler.start();
             scheduler.setJobFactory( new GuiceJobFactory( sce.getServletContext() ) );
+
             scheduler.scheduleJob( new JobDetail( "Media Synchronization Job", MediaSynchronizationJob.class ),
-                                   new CronTrigger( "Media Synchronization Trigger: Daily", null, "0 0 3 * * ?" ) );
+                                   new CronTrigger( "Media Synchronization Trigger: Daily", null, "0 0 1 * * ?" ) );
+
+            scheduler.scheduleJob( new JobDetail( "Media Data Synchronization Job", MediaDataSynchronizationJob.class ),
+                                   new CronTrigger( "Media Data Synchronization Trigger: Daily", null, "0 0 3 * * ?" ) );
+
             logger.inf( "Quartz scheduler initialization completed." );
         }
 

@@ -41,7 +41,14 @@ public interface MediaProviderService<A extends Album, M extends Media> {
      *
      * @param album The album whose {@link Media} should be updated.
      */
-    void syncMedia(A album);
+    void loadMedia(A album);
+
+    /**
+     * Update all media in the given album with what the album's backend provides.
+     *
+     * @param album The album whose {@link Media} should be updated.
+     */
+    void loadMediaData(A album);
 
     /**
      * Obtain a reference to the resource of media at a certain quality.
@@ -54,7 +61,7 @@ public interface MediaProviderService<A extends Album, M extends Media> {
      *
      * @throws PermissionDeniedException When the token does not grant {@link Permission#VIEW} to the media.
      */
-    URL getResourceURL(SecurityToken token, M media, Quality quality)
+    URL findResourceURL(SecurityToken token, M media, Quality quality)
             throws PermissionDeniedException;
 
     /**

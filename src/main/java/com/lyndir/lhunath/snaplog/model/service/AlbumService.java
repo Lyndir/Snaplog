@@ -101,7 +101,13 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
             throws PermissionDeniedException;
 
     /**
-     * Synchronize media metadata for all albums.
+     * Load the media of all albums from their storage back-ends; updating the list of media in the local database.
      */
-    void syncAllAlbums();
+    void loadAllAlbumMedia();
+
+    /**
+     * Load the media data for all media of all albums from their storage back-ends; creating media at missing non-original qualities from
+     * the original quality as necessary; updating the metadata in the local database.
+     */
+    void loadAllAlbumMediaData();
 }

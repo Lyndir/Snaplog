@@ -5,6 +5,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
+import com.db4o.query.QueryComparator;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.util.ObjectUtils;
 import com.lyndir.lhunath.snaplog.data.object.media.Album;
@@ -62,30 +63,42 @@ public class MediaDAOImpl implements MediaDAO {
     }
 
     @Override
-    public List<Media> listMedia(final Album album, final String mediaName) {
+    public <M extends Media> List<M> listMedia(final Album album, final String mediaName) {
 
         checkNotNull( album, "Given album must not be null." );
         checkNotNull( mediaName, "Given media name must not be null." );
 
-        return db.query( new Predicate<Media>() {
+        return db.query( new Predicate<M>() {
 
             @Override
-            public boolean match(final Media candidate) {
+            public boolean match(final M candidate) {
 
                 return ObjectUtils.equal( candidate.getAlbum(), album ) && candidate.getName().endsWith( mediaName );
+            }
+        }, new QueryComparator<M>() {
+            @Override
+            public int compare(final M first, final M second) {
+
+                return first.compareTo( second );
             }
         } );
     }
 
     @Override
-    public List<Media> listMedia(final Album album) {
+    public <M extends Media> List<M> listMedia(final Album album) {
 
-        return db.query( new Predicate<Media>() {
+        return db.query( new Predicate<M>() {
 
             @Override
-            public boolean match(final Media candidate) {
+            public boolean match(final M candidate) {
 
                 return candidate.getAlbum().equals( album );
+            }
+        }, new QueryComparator<M>() {
+            @Override
+            public int compare(final M first, final M second) {
+
+                return first.compareTo( second );
             }
         } );
     }

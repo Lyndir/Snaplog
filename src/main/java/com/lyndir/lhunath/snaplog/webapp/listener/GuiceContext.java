@@ -25,7 +25,6 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.model.service.impl.ServicesModule;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogWebApplication;
 import com.lyndir.lhunath.snaplog.webapp.servlet.AppLogoutServlet;
-import com.lyndir.lhunath.snaplog.webapp.servlet.ImageServlet;
 import com.lyndir.lhunath.snaplog.webapp.servlet.InitServlet;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -78,12 +77,12 @@ public class GuiceContext extends GuiceServletContextListener {
 
                 paramBuilder = new ImmutableMap.Builder<String, String>();
                 paramBuilder.put( "filterName", wicketFilter.toString() );
-                filter( ImageServlet.PATH ).through( WicketSessionFilter.class, paramBuilder.build() );
+                // filter( ImageServlet.PATH ).through( WicketSessionFilter.class, paramBuilder.build() );
                 bind( WicketSessionFilter.class ).in( Scopes.SINGLETON );
 
                 // Snaplog Image Servlet
-                serve( ImageServlet.PATH ).with( ImageServlet.class );
-                bind( ImageServlet.class ).in( Scopes.SINGLETON );
+                // serve( ImageServlet.PATH ).with( ImageServlet.class );
+                // bind( ImageServlet.class ).in( Scopes.SINGLETON );
 
                 // Snaplog Init Servlet
                 serve( InitServlet.PATH ).with( InitServlet.class );
@@ -122,9 +121,13 @@ public class GuiceContext extends GuiceServletContextListener {
 
             // Shut down the database.
             ObjectContainer db = injector.getInstance( ObjectContainer.class );
-            if (!db.ext().isClosed())
+            if (!db.ext().isClosed()) {
                 db.commit();
-            while (!db.close()) {
+
+                do {
+                    logger.inf( "Closing the database." );
+                }
+                while (!db.close());
             }
         }
 

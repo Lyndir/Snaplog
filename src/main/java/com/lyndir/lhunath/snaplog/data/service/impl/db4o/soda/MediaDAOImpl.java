@@ -47,7 +47,7 @@ public class MediaDAOImpl implements MediaDAO {
 
         Query query = db.query();
         query.constrain( MediaData.class ) //
-                .and( query.descend( "media" ).constrain( mediaName ) ) //
+                .and( query.descend( "media" ).descend( "name" ).constrain( mediaName ) ) //
                 .and( query.descend( "media" ).descend( "album" ).constrain( album ) );
 
         ObjectSet<D> mediaDataQuery = query.execute();
@@ -58,7 +58,7 @@ public class MediaDAOImpl implements MediaDAO {
     }
 
     @Override
-    public List<Media> listMedia(final Album album, final String mediaName) {
+    public <M extends Media> List<M> listMedia(final Album album, final String mediaName) {
 
         checkNotNull( album, "Given album must not be null." );
         checkNotNull( mediaName, "Given media name must not be null." );
@@ -73,7 +73,7 @@ public class MediaDAOImpl implements MediaDAO {
     }
 
     @Override
-    public List<Media> listMedia(final Album album) {
+    public <M extends Media> List<M> listMedia(final Album album) {
 
         Query query = db.query();
         query.constrain( Media.class ) //
