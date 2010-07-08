@@ -17,6 +17,7 @@ package com.lyndir.lhunath.snaplog.data.object.media;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
+import com.google.common.base.Objects;
 import com.lyndir.lhunath.lib.system.util.DateUtils;
 import com.lyndir.lhunath.lib.system.util.ObjectUtils;
 import com.lyndir.lhunath.lib.wayward.i18n.Localized;
@@ -38,7 +39,7 @@ import org.joda.time.format.DateTimeFormatterBuilder;
  *
  * @author lhunath
  */
-public class MediaTimeFrame implements Localized {
+public class MediaTimeFrame implements Localized, Comparable<MediaTimeFrame> {
 
     static final transient DateTimeFormatterBuilder formatterBuilder = new DateTimeFormatterBuilder();
     static final Messages msgs = MessagesFactory.create( Messages.class );
@@ -97,6 +98,31 @@ public class MediaTimeFrame implements Localized {
             formatter = formatter.withLocale( locale );
 
         return formatter;
+    }
+
+    @Override
+    public int compareTo(final MediaTimeFrame o) {
+
+        return offset.compareTo( o.offset );
+    }
+
+    @Override
+    public int hashCode() {
+
+        return Objects.hashCode( getOffset(), getRange() );
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+
+        if (this == obj)
+            return true;
+        if (!getClass().isInstance( obj ))
+            return false;
+
+        MediaTimeFrame mtfObj = (MediaTimeFrame) obj;
+
+        return Objects.equal( getOffset(), mtfObj.getOffset() ) && Objects.equal( getRange(), mtfObj.getRange() );
     }
 
     @Override
