@@ -62,7 +62,9 @@
 
 
     <!-- DEFAULT PROPERTIES -->
-    <properties></properties>
+    <properties>
+        <version.db4o>7.12-SNAPSHOT</version.db4o>
+    </properties>
 
     <!-- BUILD CONFIGURATION -->
     <build>
@@ -93,7 +95,7 @@
                     <execution>
                         <phase>compile</phase>
                         <goals>
-                            <goal>run</goal>
+                            <!--goal>run</goal--><!-- For db4o 8.0 only -->
                         </goals>
                         <configuration>
                             <tasks>
@@ -103,6 +105,7 @@
                                     <path refid="maven.runtime.classpath" />
                                 </path>
                                 <taskdef name="db4o-enhance" classname="com.db4o.enhance.Db4oEnhancerAntTask"
+
                                          classpathref="project.classpath" />
                                 <db4o-enhance classtargetdir="${project.build.outputDirectory}" nq="true" ta="true" collections="true">
                                     <classpath refid="project.classpath" />

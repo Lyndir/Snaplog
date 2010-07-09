@@ -108,6 +108,10 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
             if (o++ % 100 == 0)
                 logger.dbg( "Loading media %d / %d", ++o, mediaObjects.size() );
 
+            if (mediaObject.getKey().startsWith( "." ))
+                // Ignore hidden files.
+                continue;
+
             if (!mediaObject.getKey().endsWith( ".jpg" ))
                 // Ignore files that don't have a valid media name.
                 continue;

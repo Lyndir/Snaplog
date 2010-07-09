@@ -15,7 +15,6 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.listener;
 
-import com.db4o.ObjectContainer;
 import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.ImmutableMap.Builder;
 import com.google.inject.*;
@@ -111,35 +110,27 @@ public class GuiceContext extends GuiceServletContextListener {
     }
 
     /**
-     * {@inheritDoc}
+     * @param servletContextEvent The servlet context event that a listener was invoked for.  If <code>null</code>, behaves like #get().
+     *
+     * @return The Guice {@link Injector} that was added to the given event's {@link ServletContext} on initialization.
      */
-    @Override
-    public void contextDestroyed(final ServletContextEvent servletContextEvent) {
+    public static Injector get(final ServletContextEvent servletContextEvent) {
 
-        Injector injector = get( servletContextEvent.getServletContext() );
-        if (injector != null) {
+        if (servletContextEvent == null)
+            return get();
 
-            // Shut down the database.
-            ObjectContainer db = injector.getInstance( ObjectContainer.class );
-            if (!db.ext().isClosed()) {
-                db.commit();
-
-                do {
-                    logger.inf( "Closing the database." );
-                }
-                while (!db.close());
-            }
-        }
-
-        super.contextDestroyed( servletContextEvent );
+        return (Injector) servletContextEvent.getServletContext().getAttribute( Injector.class.getName() );
     }
 
     /**
-     * @param servletContext The request's servlet context.
+     * @param servletContext The request's servlet context.  If <code>null</code>, behaves like #get().
      *
      * @return The Guice {@link Injector} that was added to the given {@link ServletContext} on initialization.
      */
     public static Injector get(final ServletContext servletContext) {
+
+        if (servletContext == null)
+            return get();
 
         return (Injector) servletContext.getAttribute( Injector.class.getName() );
     }
