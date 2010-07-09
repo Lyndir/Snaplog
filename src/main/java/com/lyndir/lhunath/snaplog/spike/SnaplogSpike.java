@@ -12,6 +12,7 @@ import com.lyndir.lhunath.snaplog.model.service.AlbumService;
 import com.lyndir.lhunath.snaplog.model.service.impl.ServicesModule;
 import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
+import java.io.File;
 
 
 /**
@@ -30,13 +31,15 @@ public class SnaplogSpike {
     public static void main(final String... args)
             throws Exception {
 
+        new File( "snaplog.db4o" ).delete();
+
         GuiceContext.setInjector( injector = Guice.createInjector( new ServicesModule() ) );
         injector.getInstance( AlbumService.class )
-                .findResourceURL( SecurityToken.INTERNAL_USE_ONLY, new S3Media( (S3Album) SnaplogConstants.DEFAULT_ALBUM, "20100605T103809.jpg" ),
-                                 Media.Quality.ORIGINAL );
+                .findResourceURL( SecurityToken.INTERNAL_USE_ONLY,
+                                  new S3Media( (S3Album) SnaplogConstants.DEFAULT_ALBUM, "20100605T103809.jpg" ), Media.Quality.ORIGINAL );
         injector.getInstance( AlbumService.class )
-                .findResourceURL( SecurityToken.INTERNAL_USE_ONLY, new S3Media( (S3Album) SnaplogConstants.DEFAULT_ALBUM, "20100605T103809.jpg" ),
-                                 Media.Quality.ORIGINAL );
+                .findResourceURL( SecurityToken.INTERNAL_USE_ONLY,
+                                  new S3Media( (S3Album) SnaplogConstants.DEFAULT_ALBUM, "20100605T103809.jpg" ), Media.Quality.ORIGINAL );
 
         // Shut down the database.
         db = injector.getInstance( ObjectContainer.class );
@@ -47,11 +50,11 @@ public class SnaplogSpike {
 
         GuiceContext.setInjector( injector = Guice.createInjector( new ServicesModule() ) );
         injector.getInstance( AlbumService.class )
-                .findResourceURL( SecurityToken.INTERNAL_USE_ONLY, new S3Media( (S3Album) SnaplogConstants.DEFAULT_ALBUM, "20100605T103809.jpg" ),
-                                 Media.Quality.ORIGINAL );
+                .findResourceURL( SecurityToken.INTERNAL_USE_ONLY,
+                                  new S3Media( (S3Album) SnaplogConstants.DEFAULT_ALBUM, "20100605T103809.jpg" ), Media.Quality.ORIGINAL );
         injector.getInstance( AlbumService.class )
-                .findResourceURL( SecurityToken.INTERNAL_USE_ONLY, new S3Media( (S3Album) SnaplogConstants.DEFAULT_ALBUM, "20100605T103809.jpg" ),
-                                 Media.Quality.ORIGINAL );
+                .findResourceURL( SecurityToken.INTERNAL_USE_ONLY,
+                                  new S3Media( (S3Album) SnaplogConstants.DEFAULT_ALBUM, "20100605T103809.jpg" ), Media.Quality.ORIGINAL );
 
         // Shut down the database.
         db = injector.getInstance( ObjectContainer.class );

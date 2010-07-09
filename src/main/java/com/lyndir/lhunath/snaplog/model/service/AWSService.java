@@ -50,7 +50,7 @@ public interface AWSService {
      *
      * @return The object with metadata present or <code>null</code> if no object exists at the given key.
      */
-    S3Object findObjectDetails(String objectKey);
+    S3Object fetchObjectDetails(String objectKey);
 
     /**
      * List all objects under a certain key on S3.

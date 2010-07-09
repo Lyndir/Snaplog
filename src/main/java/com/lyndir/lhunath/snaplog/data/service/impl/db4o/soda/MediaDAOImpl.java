@@ -6,6 +6,7 @@ import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Query;
 import com.google.inject.Inject;
+import com.lyndir.lhunath.lib.system.util.DateUtils;
 import com.lyndir.lhunath.snaplog.data.object.media.Album;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.media.MediaData;
@@ -33,28 +34,46 @@ public class MediaDAOImpl implements MediaDAO {
     @Override
     public void update(final Media media) {
 
-        db.store( media );
+        DateUtils.startTiming( "updateMedia" );
+        try {
+            db.store( media );
+        }
+        finally {
+            DateUtils.popTimer().logFinish();
+        }
     }
 
     @Override
     public void update(final MediaData<?> mediaData) {
 
-        db.store( mediaData );
+        DateUtils.startTiming( "updateMediaData" );
+        try {
+            db.store( mediaData );
+        }
+        finally {
+            DateUtils.popTimer().logFinish();
+        }
     }
 
     @Override
     public <D extends MediaData<?>> D findMediaData(final Album album, final String mediaName) {
 
-        Query query = db.query();
-        query.constrain( MediaData.class ) //
-                .and( query.descend( "media" ).descend( "name" ).constrain( mediaName ) ) //
-                .and( query.descend( "media" ).descend( "album" ).constrain( album ) );
+        DateUtils.startTiming( "findMediaData" );
+        try {
+            Query query = db.query();
+            query.constrain( MediaData.class ) //
+                    .and( query.descend( "media" ).descend( "name" ).constrain( mediaName ) ) //
+                    .and( query.descend( "media" ).descend( "album" ).constrain( album ) );
 
-        ObjectSet<D> mediaDataQuery = query.execute();
-        if (mediaDataQuery.hasNext())
-            return mediaDataQuery.next();
+            ObjectSet<D> mediaDataQuery = query.execute();
+            if (mediaDataQuery.hasNext())
+                return mediaDataQuery.next();
 
-        return null;
+            return null;
+        }
+        finally {
+            DateUtils.popTimer().logFinish();
+        }
     }
 
     @Override

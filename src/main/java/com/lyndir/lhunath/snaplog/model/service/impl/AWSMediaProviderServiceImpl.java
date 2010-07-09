@@ -206,11 +206,12 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      */
     private S3MediaData getMediaData(final S3Media media, final Quality quality) {
 
+        logger.dbg( "Finding S3 object details of: %s, at: %s", media, quality );
         S3MediaData mediaData = getMediaData( media );
 
         S3Object mediaObject = mediaData.get( quality );
         if (mediaObject == null) {
-            mediaObject = awsService.findObjectDetails( getObjectKey( media, quality ) );
+            mediaObject = awsService.fetchObjectDetails( getObjectKey( media, quality ) );
 
             if (mediaObject != null) {
                 mediaData.put( quality, mediaObject );
@@ -230,7 +231,6 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
         checkNotNull( media, "Given media must not be null." );
         checkNotNull( quality, "Given quality must not be null." );
-        logger.dbg( "Asserting access to: %s", media );
         securityService.assertAccess( Permission.VIEW, token, media );
 
         S3Object mediaObject = findObjectDetails( media, quality );
@@ -341,7 +341,6 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      */
     protected S3Object loadObjectDetails(final S3Media media, final Quality quality) {
 
-        logger.dbg( "Finding S3 object details of: %s, at: %s", media, quality );
         S3Object s3ResourceObject = findObjectDetails( media, quality );
         if (s3ResourceObject != null)
             return s3ResourceObject;

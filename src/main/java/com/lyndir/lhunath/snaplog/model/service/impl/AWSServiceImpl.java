@@ -17,6 +17,7 @@ package com.lyndir.lhunath.snaplog.model.service.impl;
 
 import com.google.common.collect.ImmutableList;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.system.util.DateUtils;
 import com.lyndir.lhunath.snaplog.model.service.AWSService;
 import org.jets3t.service.Constants;
 import org.jets3t.service.Jets3tProperties;
@@ -60,6 +61,7 @@ public class AWSServiceImpl implements AWSService {
     @Override
     public S3Object readObject(final String objectKey) {
 
+        DateUtils.startTiming( "readObject" );
         try {
             logger.dbg( "Fetching S3 object data from bucket: %s, with key: %s", BUCKET, objectKey );
             return newService().getObject( BUCKET, objectKey );
@@ -69,14 +71,19 @@ public class AWSServiceImpl implements AWSService {
             throw logger.err( e, ERR_AWS_SERVICE ) //
                     .toError();
         }
+
+        finally {
+            DateUtils.popTimer().logFinish();
+        }
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public S3Object findObjectDetails(final String objectKey) {
+    public S3Object fetchObjectDetails(final String objectKey) {
 
+        DateUtils.startTiming( "fetchObjectDetails" );
         try {
             logger.dbg( "Fetching S3 object metadata from bucket: %s, with key: %s", BUCKET, objectKey );
             return newService().getObjectDetails( BUCKET, objectKey );
@@ -89,6 +96,10 @@ public class AWSServiceImpl implements AWSService {
             throw logger.err( e, ERR_AWS_SERVICE ) //
                     .toError();
         }
+
+        finally {
+            DateUtils.popTimer().logFinish();
+        }
     }
 
     /**
@@ -97,6 +108,7 @@ public class AWSServiceImpl implements AWSService {
     @Override
     public ImmutableList<S3Object> listObjects(final String objectKey) {
 
+        DateUtils.startTiming( "listObjects" );
         try {
             logger.dbg( "Listing S3 objects from bucket: %s, with prefix: %s", BUCKET, objectKey );
             return ImmutableList.copyOf( newService().listObjects( BUCKET, objectKey, null ) );
@@ -106,6 +118,10 @@ public class AWSServiceImpl implements AWSService {
             throw logger.err( e, ERR_AWS_SERVICE ) //
                     .toError();
         }
+
+        finally {
+            DateUtils.popTimer().logFinish();
+        }
     }
 
     /**
@@ -114,6 +130,7 @@ public class AWSServiceImpl implements AWSService {
     @Override
     public S3Object upload(final S3Object source) {
 
+        DateUtils.startTiming( "upload" );
         try {
             logger.dbg( "Uploading: %d bytes, to S3 objects in bucket: %s, with prefix: %s", //
                         source.getContentLength(), BUCKET, source.getKey() );
@@ -123,6 +140,10 @@ public class AWSServiceImpl implements AWSService {
         catch (S3ServiceException e) {
             throw logger.err( e, ERR_AWS_SERVICE ) //
                     .toError();
+        }
+
+        finally {
+            DateUtils.popTimer().logFinish();
         }
     }
 }
