@@ -23,6 +23,8 @@ import com.lyndir.lhunath.lib.wayward.component.GenericLabel;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.lib.wayward.i18n.BooleanKeyAppender;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
+import com.lyndir.lhunath.lib.wayward.navigation.AbstractFragmentState;
+import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationTab;
 import com.lyndir.lhunath.snaplog.data.object.media.Album;
 import com.lyndir.lhunath.snaplog.data.object.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
@@ -319,7 +321,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
      *
      * @author lhunath
      */
-    static class ExpoTab implements SnaplogTab<ExpoTabPanel> {
+    static class ExpoTab implements SnaplogTab<ExpoTabPanel, ExpoTabState> {
 
         static final Logger logger = Logger.get( ExpoTab.class );
 
@@ -354,6 +356,12 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
             return ExpoTabPanel.class;
         }
 
+        @Override
+        public ExpoTabState getState(final String fragment) {
+
+            return new ExpoTabState( fragment );
+        }
+
         /**
          * {@inheritDoc}
          */
@@ -370,7 +378,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
         }
 
         @Override
-        public String getFragment() {
+        public String getTabFragment() {
 
             return "expo";
         }
@@ -382,9 +390,26 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
         }
 
         @Override
-        public void applyFragmentState(final ExpoTabPanel panel, final String... arguments) {
+        public void applyFragmentState(final ExpoTabPanel panel, final ExpoTabState state) {
 
             // No state.
+        }
+    }
+
+
+    public static class ExpoTabState extends AbstractFragmentState<ExpoTabPanel, ExpoTabState> {
+
+        private static final ExpoTab TAB = new ExpoTab();
+
+        public ExpoTabState(final String fragment) {
+
+            super( fragment );
+        }
+
+        @Override
+        public FragmentNavigationTab<ExpoTabPanel, ExpoTabState> getFragmentTab() {
+
+            return TAB;
         }
     }
 }

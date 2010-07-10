@@ -17,6 +17,7 @@ package com.lyndir.lhunath.snaplog.model.service.impl;
 
 import com.db4o.ObjectContainer;
 import com.google.inject.AbstractModule;
+import com.google.inject.Scopes;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.service.AlbumDAO;
 import com.lyndir.lhunath.snaplog.data.service.MediaDAO;
@@ -67,6 +68,6 @@ public class ServicesModule extends AbstractModule {
 
         // Database
         logger.dbg( "Binding database" );
-        bind( ObjectContainer.class ).toProvider( Db4oProvider.class );
+        bind( ObjectContainer.class ).toProvider( Db4oProvider.class ).in( Scopes.SINGLETON );
     }
 }

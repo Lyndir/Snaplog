@@ -19,6 +19,8 @@ import com.google.common.collect.ImmutableList;
 import com.lyndir.lhunath.lib.system.localization.UseKey;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
+import com.lyndir.lhunath.lib.wayward.navigation.AbstractFragmentState;
+import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationTab;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import java.util.List;
@@ -65,7 +67,7 @@ public class AboutTabPanel extends Panel {
      *
      * @author lhunath
      */
-    static class AboutTab implements SnaplogTab<AboutTabPanel> {
+    static class AboutTab implements SnaplogTab<AboutTabPanel, AboutTabState> {
 
         static final Logger logger = Logger.get( AboutTab.class );
         static final Messages msgs = MessagesFactory.create( Messages.class );
@@ -101,6 +103,12 @@ public class AboutTabPanel extends Panel {
             return AboutTabPanel.class;
         }
 
+        @Override
+        public AboutTabState getState(final String fragment) {
+
+            return new AboutTabState( fragment );
+        }
+
         /**
          * {@inheritDoc}
          */
@@ -117,7 +125,7 @@ public class AboutTabPanel extends Panel {
         }
 
         @Override
-        public String getFragment() {
+        public String getTabFragment() {
 
             return "about";
         }
@@ -129,9 +137,25 @@ public class AboutTabPanel extends Panel {
         }
 
         @Override
-        public void applyFragmentState(final AboutTabPanel panel, final String... arguments) {
+        public void applyFragmentState(final AboutTabPanel panel, final AboutTabState state) {
 
-            // No state.
+        }
+    }
+
+
+    public static class AboutTabState extends AbstractFragmentState<AboutTabPanel, AboutTabState> {
+
+        private static final AboutTab TAB = new AboutTab();
+
+        public AboutTabState(final String fragment) {
+
+            super( fragment );
+        }
+
+        @Override
+        public FragmentNavigationTab<AboutTabPanel, AboutTabState> getFragmentTab() {
+
+            return TAB;
         }
     }
 }

@@ -24,6 +24,8 @@ import com.lyndir.lhunath.lib.system.util.ObjectUtils;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.lib.wayward.i18n.BooleanKeyAppender;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
+import com.lyndir.lhunath.lib.wayward.navigation.AbstractFragmentState;
+import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationTab;
 import com.lyndir.lhunath.snaplog.data.object.media.Album;
 import com.lyndir.lhunath.snaplog.data.object.media.AlbumProviderType;
 import com.lyndir.lhunath.snaplog.data.object.media.Media.Quality;
@@ -147,7 +149,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                     public void onClick(final AjaxRequestTarget target) {
 
                         SnaplogSession.get().setFocusedAlbum( getModelObject() );
-                        Tab.ALBUM.activate(  );
+                        Tab.ALBUM.activate();
                     }
                 } );
             }
@@ -274,7 +276,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
      *
      * @author lhunath
      */
-    static class GalleryTab implements SnaplogTab<GalleryTabPanel> {
+    static class GalleryTab implements SnaplogTab<GalleryTabPanel, GalleryTabState> {
 
         /**
          * {@inheritDoc}
@@ -325,6 +327,12 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
             return GalleryTabPanel.class;
         }
 
+        @Override
+        public GalleryTabState getState(final String fragment) {
+
+            return new GalleryTabState( fragment );
+        }
+
         /**
          * {@inheritDoc}
          */
@@ -341,7 +349,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         }
 
         @Override
-        public String getFragment() {
+        public String getTabFragment() {
 
             return "gallery";
         }
@@ -353,9 +361,26 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         }
 
         @Override
-        public void applyFragmentState(final GalleryTabPanel panel, final String... arguments) {
+        public void applyFragmentState(final GalleryTabPanel panel, final GalleryTabState state) {
 
             // No state.
+        }
+    }
+
+
+    public static class GalleryTabState extends AbstractFragmentState<GalleryTabPanel, GalleryTabState> {
+
+        private static final GalleryTab TAB = new GalleryTab();
+
+        public GalleryTabState(final String fragment) {
+
+            super( fragment );
+        }
+
+        @Override
+        public FragmentNavigationTab<GalleryTabPanel, GalleryTabState> getFragmentTab() {
+
+            return TAB;
         }
     }
 }

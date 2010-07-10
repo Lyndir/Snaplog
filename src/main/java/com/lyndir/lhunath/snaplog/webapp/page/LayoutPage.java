@@ -15,6 +15,7 @@ import com.lyndir.lhunath.lib.wayward.i18n.KeyMatch;
 import com.lyndir.lhunath.lib.wayward.js.AjaxHooks;
 import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationListener;
 import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationTab;
+import com.lyndir.lhunath.lib.wayward.navigation.FragmentState;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels.TabItem;
@@ -313,7 +314,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
         target.addComponent( messages );
         target.addListener( new FragmentNavigationListener.AjaxRequestListener() {
             @Override
-            protected FragmentNavigationTab<?> getActiveTab() {
+            protected FragmentNavigationTab<?, ? extends FragmentState<?, ?>> getActiveTab() {
 
                 Tab activeTab = getModelObject().activeTab().getObject();
                 return activeTab == null? null: activeTab.get();
@@ -409,7 +410,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
     public class FragmentNavigationController extends FragmentNavigationListener.Controller {
 
         @Override
-        protected void setActiveTab(final FragmentNavigationTab<?> tab, final Panel tabPanel) {
+        protected void setActiveTab(final FragmentNavigationTab<?, ?> tab, final Panel tabPanel) {
 
             getModelObject().activeTab().setObject( Tab.of( tab ) );
 
@@ -432,9 +433,9 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
         }
 
         @Override
-        protected Iterable<FragmentNavigationTab<?>> getTabs() {
+        protected Iterable<FragmentNavigationTab<?, ?>> getTabs() {
 
-            ImmutableList.Builder<FragmentNavigationTab<?>> tabsBuilder = ImmutableList.builder();
+            ImmutableList.Builder<FragmentNavigationTab<?, ?>> tabsBuilder = ImmutableList.builder();
             for (final Tab tab : Tab.values())
                 tabsBuilder.add( tab.get() );
 

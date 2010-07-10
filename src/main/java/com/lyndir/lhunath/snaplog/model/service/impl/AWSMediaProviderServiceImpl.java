@@ -49,7 +49,6 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
-import java.util.regex.Pattern;
 import javax.imageio.ImageIO;
 import org.jets3t.service.S3Service;
 import org.jets3t.service.S3ServiceException;
@@ -68,9 +67,6 @@ import org.jets3t.service.model.S3Object;
 public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
     private static final Logger logger = Logger.get( AWSMediaProviderServiceImpl.class );
-
-    private static final Pattern VALID_NAME = Pattern.compile( "^.*\\.jpg" );
-    private static final Pattern BASE_NAME = Pattern.compile( ".*/" );
 
     private final MediaDAO mediaDAO;
     private final AWSService awsService;
@@ -101,23 +97,24 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
         checkNotNull( album, "Given album must not be null." );
 
-        // TODO: Can we be smarter about which media to update?
+        // TODO: Remove media that has disappeared.
         int o = 0;
         ImmutableList<S3Object> mediaObjects = awsService.listObjects( getObjectKey( album, Quality.ORIGINAL ) );
         for (final S3Object mediaObject : mediaObjects) {
             if (o++ % 100 == 0)
                 logger.dbg( "Loading media %d / %d", ++o, mediaObjects.size() );
 
-            if (mediaObject.getKey().startsWith( "." ))
-                // Ignore hidden files.
-                continue;
-
             if (!mediaObject.getKey().endsWith( ".jpg" ))
                 // Ignore files that don't have a valid media name.
                 continue;
 
-            // Create/update mediaData for the object.
             String mediaName = Iterables.getLast( Splitter.on( '/' ).split( mediaObject.getKey() ) );
+
+            if (mediaName.startsWith( "." ))
+                // Ignore hidden files.
+                continue;
+
+            // Create/update mediaData for the object.
             setMediaData( album, mediaName, Quality.ORIGINAL, mediaObject );
         }
     }
@@ -145,10 +142,11 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
     /**
      * Update meta data by assign metadata to a given quality of it.
      *
-     * @param album     The album in which to look for the media.
-     * @param mediaName The name of the media to look for.  If no media exists by this name, <b>it will be created</b>.
-     * @param quality   The quality of the metadata to update the media data with.  May be <code>null</code> if no updating should occur but
-     *                  we're just interested in obtaining the media's media data.
+     * @param album       The album in which to look for the media.
+     * @param mediaName   The name of the media to look for.  If no media exists by this name, <b>it will be created</b>.
+     * @param quality     The quality of the metadata to update the media data with.  May be <code>null</code> if no updating should occur
+     *                    but we're just interested in obtaining the media's media data.
+     * @param mediaObject The object to save in the media's data under the given quality.
      *
      * @return A media data object for the given media with the metadata at the given quality updated if desired.
      */
@@ -176,9 +174,10 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
     /**
      * Update meta data by assign metadata to a given quality of it.
      *
-     * @param media   The media whose media data is required.
-     * @param quality The quality of the metadata to update the media data with.  May be <code>null</code> if no updating should occur but
-     *                we're just interested in obtaining the media's media data.
+     * @param media       The media whose media data is required.
+     * @param quality     The quality of the metadata to update the media data with.  May be <code>null</code> if no updating should occur
+     *                    but we're just interested in obtaining the media's media data.
+     * @param mediaObject The object to save in the media's data under the given quality.
      *
      * @return A media data object for the given media with the metadata at the given quality updated if desired.
      */

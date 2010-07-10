@@ -55,7 +55,7 @@ import org.joda.time.ReadablePeriod;
  */
 public class AlbumServiceImpl implements AlbumService {
 
-    private static final Logger logger = Logger.get( AlbumServiceImpl.class );
+    static final Logger logger = Logger.get( AlbumServiceImpl.class );
 
     private final MediaDAO mediaDAO;
     final SecurityService securityService;
@@ -184,6 +184,7 @@ public class AlbumServiceImpl implements AlbumService {
                 // The offset and range of the frame.
                 ReadableInstant offset = DateUtils.truncate( lastMedia.shotTime(), frame );
                 ReadablePeriod range = DateUtils.period( offset, offset.toInstant().toDateTime().property( frame ).addToCopy( 1 ), frame );
+                logger.dbg( "Frame starting at %s, range %s, starting with: %s", offset, range, lastMedia );
 
                 do {
                     frameMedia.add( lastMedia );

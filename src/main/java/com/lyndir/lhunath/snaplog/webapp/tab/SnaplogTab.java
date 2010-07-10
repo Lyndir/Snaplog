@@ -16,6 +16,7 @@
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
 import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationTab;
+import com.lyndir.lhunath.lib.wayward.navigation.FragmentState;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -28,7 +29,7 @@ import org.apache.wicket.markup.html.panel.Panel;
  *
  * @author lhunath
  */
-public interface SnaplogTab<P extends Panel> extends FragmentNavigationTab<P> {
+public interface SnaplogTab<P extends Panel, S extends FragmentState<P, S>> extends FragmentNavigationTab<P, S> {
 
     /**
      * @return A list of tools that this tab contributes to the toolbar.

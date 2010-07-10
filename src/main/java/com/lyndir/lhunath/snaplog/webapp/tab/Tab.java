@@ -16,8 +16,9 @@
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
 import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationTab;
-import com.lyndir.lhunath.snaplog.data.object.media.Media;
+import com.lyndir.lhunath.lib.wayward.navigation.FragmentState;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
+import org.apache.wicket.markup.html.panel.Panel;
 
 
 /**
@@ -47,36 +48,21 @@ public enum Tab {
     /**
      * This tab provides a way of browsing a specific album.
      */
-    ALBUM( new AlbumTabPanel.AlbumTab() ) {
-
-        /**
-         * Activate this tab in the current page.
-         *
-         * @param media Media to focus on in the album tab.
-         */
-        public void activateWith(final Media media) {
-
-            LayoutPage.getController().activateTabWithState( get(), //
-                                                             media.getAlbum().getOwner().getUserName(), // 1
-                                                             media.getAlbum().getName(), // 2
-                                                             media.getName() // 3
-            );
-        }
-    },
+    ALBUM( new AlbumTabPanel.AlbumTab() ),
 
     /**
      * Using this tab, users can configure their profile and account settings.
      */
     ADMINISTRATION( new AdministrationTabPanel.AdministrationTab() );
 
-    private final SnaplogTab<?> tab;
+    private final SnaplogTab<?, ?> tab;
 
     /**
      * Create a new {@link Tab} instance.
      *
      * @param tab The implementation of this tab.
      */
-    Tab(final SnaplogTab<?> tab) {
+    <P extends Panel, S extends FragmentState<P, S>> Tab(final SnaplogTab<P, S> tab) {
 
         this.tab = tab;
     }
@@ -84,7 +70,7 @@ public enum Tab {
     /**
      * @return The {@link SnaplogTab} that describes the UI elements of this tab.
      */
-    public SnaplogTab<?> get() {
+    public SnaplogTab<?, ? extends FragmentState<?, ?>> get() {
 
         return tab;
     }
@@ -97,7 +83,7 @@ public enum Tab {
         LayoutPage.getController().activateTab( get() );
     }
 
-    public static Tab of(final FragmentNavigationTab<?> tab) {
+    public static Tab of(final FragmentNavigationTab<?, ?> tab) {
 
         for (final Tab enumTab : values())
             if (enumTab.get().equals( tab ))
