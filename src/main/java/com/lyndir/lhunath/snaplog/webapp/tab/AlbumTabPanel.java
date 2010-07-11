@@ -17,7 +17,6 @@ package com.lyndir.lhunath.snaplog.webapp.tab;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.google.common.base.Preconditions;
 import com.google.common.collect.ImmutableList;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
@@ -62,7 +61,13 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
 
         super( id, new AlbumTabModels( model ).getModel() );
 
-        add( new BrowserView( "browser", model ) );
+        add( new BrowserView( "browser", model ) {
+            @Override
+            public boolean isVisible() {
+
+                return super.isVisible() && AlbumTabPanel.this.getModelObject().focusedMedia().getObject() == null;
+            }
+        } );
         add( new FocusedView( "focused", getModelObject().focusedMedia() ) );
     }
 
@@ -149,34 +154,21 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         }
 
         @Override
-        public Iterable<String> getFragmentState(final AlbumTabPanel panel) {
+        public AlbumTabState getFragmentState(final AlbumTabPanel panel) {
 
-            checkNotNull( panel, "Panel must not be null." );
-            Preconditions.checkArgument( AlbumTabPanel.class.isInstance( panel ), "Panel must be an %s.", AlbumTabPanel.class );
-            AlbumTabPanel albumPanel = (AlbumTabPanel) panel;
+            Media focusedMedia = panel.getModelObject().focusedMedia().getObject();
+            if (focusedMedia != null)
+                return new AlbumTabState( focusedMedia );
 
-            Media focusedMedia = albumPanel.getModelObject().focusedMedia().getObject();
-            if (focusedMedia == null)
-                return ImmutableList.of( SnaplogSession.get().getFocusedUser().getUserName(), // 1
-                                         SnaplogSession.get().getFocusedAlbum().getName() // 2
-                );
-            else
-                return ImmutableList.of( SnaplogSession.get().getFocusedUser().getUserName(), // 1
-                                         SnaplogSession.get().getFocusedAlbum().getName(), // 2
-                                         focusedMedia.getName() // 3
-                );
+            return new AlbumTabState( SnaplogSession.get().getFocusedAlbum() );
         }
 
         @Override
         public void applyFragmentState(final AlbumTabPanel panel, final AlbumTabState state) {
 
-            checkNotNull( panel, "Panel must not be null." );
-            Preconditions.checkArgument( AlbumTabPanel.class.isInstance( panel ), "Panel must be an %s.", AlbumTabPanel.class );
-            AlbumTabPanel albumPanel = (AlbumTabPanel) panel;
-
             SnaplogSession.get().setFocusedUser( state.getUser() );
             SnaplogSession.get().setFocusedAlbum( state.getAlbum() );
-            albumPanel.getModelObject().focusedMedia().setObject( state.getMedia() );
+            panel.getModelObject().focusedMedia().setObject( state.getMedia() );
         }
 
         /**
@@ -201,10 +193,18 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         final String albumName;
         final String mediaName;
 
+        public AlbumTabState() {
+
+            userName = null;
+            albumName = null;
+            mediaName = null;
+        }
+
         public AlbumTabState(final String fragment) {
 
             super( fragment );
 
+            // Load fields from fragments.
             userName = findFragment( 1 );
             albumName = findFragment( 2 );
             mediaName = findFragment( 3 );
@@ -212,35 +212,37 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
 
         public AlbumTabState(final Album album) {
 
-            super( ImmutableList.of( TAB.getTabFragment() ) );
+            checkNotNull( album, "Album can't be null when creating state based on it." );
 
-            userName = album.getOwner().getUserName();
-            albumName = album.getName();
-            mediaName = null;
+            // Load fields and fragments from parameter.
+            appendFragment( userName = album.getOwner().getUserName() );
+            appendFragment( albumName = album.getName() );
+            appendFragment( mediaName = null );
         }
 
         public AlbumTabState(final Media media) {
 
-            super( ImmutableList.of( TAB.getTabFragment() ) );
+            checkNotNull( media, "Media can't be null when creating state based on it." );
 
-            userName = media.getAlbum().getOwner().getUserName();
-            albumName = media.getAlbum().getName();
-            mediaName = media.getName();
+            // Load fields and fragments from parameter.
+            appendFragment( userName = media.getAlbum().getOwner().getUserName() );
+            appendFragment( albumName = media.getAlbum().getName() );
+            appendFragment( mediaName = media.getName() );
         }
 
         public User getUser() {
 
-            return userService.findUserWithUserName( userName );
+            return userName == null? null: userService.findUserWithUserName( userName );
         }
 
         public Album getAlbum() {
 
-            return albumService.findAlbumWithName( SnaplogSession.get().newToken(), getUser(), albumName );
+            return albumName == null? null: albumService.findAlbumWithName( SnaplogSession.get().newToken(), getUser(), albumName );
         }
 
         public Media getMedia() {
 
-            return albumService.findMediaWithName( SnaplogSession.get().newToken(), getAlbum(), mediaName );
+            return mediaName == null? null: albumService.findMediaWithName( SnaplogSession.get().newToken(), getAlbum(), mediaName );
         }
 
         @Override

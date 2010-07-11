@@ -131,9 +131,9 @@ public class AboutTabPanel extends Panel {
         }
 
         @Override
-        public Iterable<String> getFragmentState(final AboutTabPanel panel) {
+        public AboutTabState getFragmentState(final AboutTabPanel panel) {
 
-            return ImmutableList.of();
+            return new AboutTabState();
         }
 
         @Override
@@ -146,6 +146,10 @@ public class AboutTabPanel extends Panel {
     public static class AboutTabState extends AbstractFragmentState<AboutTabPanel, AboutTabState> {
 
         private static final AboutTab TAB = new AboutTab();
+
+        public AboutTabState() {
+            
+        }
 
         public AboutTabState(final String fragment) {
 

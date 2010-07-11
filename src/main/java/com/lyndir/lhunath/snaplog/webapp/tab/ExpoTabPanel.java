@@ -380,9 +380,9 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
         }
 
         @Override
-        public Iterable<String> getFragmentState(final ExpoTabPanel panel) {
+        public ExpoTabState getFragmentState(final ExpoTabPanel panel) {
 
-            return ImmutableList.of();
+            return new ExpoTabState();
         }
 
         @Override
@@ -396,6 +396,10 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
     public static class ExpoTabState extends AbstractFragmentState<ExpoTabPanel, ExpoTabState> {
 
         private static final ExpoTab TAB = new ExpoTab();
+
+        public ExpoTabState() {
+            
+        }
 
         public ExpoTabState(final String fragment) {
 

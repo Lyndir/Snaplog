@@ -355,15 +355,15 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         }
 
         @Override
-        public Iterable<String> getFragmentState(final GalleryTabPanel panel) {
+        public GalleryTabState getFragmentState(final GalleryTabPanel panel) {
 
-            return ImmutableList.of();
+            return new GalleryTabState( SnaplogSession.get().getFocusedUser() );
         }
 
         @Override
         public void applyFragmentState(final GalleryTabPanel panel, final GalleryTabState state) {
 
-            // No state.
+            SnaplogSession.get().setFocusedUser( state.getUser() );
         }
     }
 
@@ -376,6 +376,11 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 
         final String userName;
 
+        public GalleryTabState() {
+
+            userName = null;
+        }
+
         public GalleryTabState(final String fragment) {
 
             super( fragment );
@@ -385,9 +390,13 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 
         public GalleryTabState(final User user) {
 
-            super( ImmutableList.of( TAB.getTabFragment() ) );
+            // Load fields and fragments from parameter.
+            appendFragment( userName = user.getUserName() );
+        }
 
-            userName = user.getUserName();
+        public User getUser() {
+
+            return userName == null? null: userService.findUserWithUserName( userName );
         }
 
         @Override
