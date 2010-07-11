@@ -166,7 +166,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
                     @Override
                     public void onClick(final AjaxRequestTarget target) {
 
-                        itemModel.getObject().activate();
+                        itemModel.getObject().activateNew();
                     }
                 } );
                 item.add( CSSClassAttributeAppender.ofString( item.getModelObject().styleClass() ) );
@@ -317,7 +317,10 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
             protected FragmentNavigationTab<?, ? extends FragmentState<?, ?>> getActiveTab() {
 
                 Tab activeTab = getModelObject().activeTab().getObject();
-                return activeTab == null? null: activeTab.get();
+                if (activeTab == null)
+                    return null;
+
+                return activeTab.get();
             }
 
             @Override

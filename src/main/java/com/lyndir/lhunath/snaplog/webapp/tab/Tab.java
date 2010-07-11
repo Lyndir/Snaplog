@@ -70,7 +70,7 @@ public enum Tab {
     /**
      * @return The {@link SnaplogTab} that describes the UI elements of this tab.
      */
-    public SnaplogTab<?, ? extends FragmentState<?, ?>> get() {
+    public SnaplogTab<?, ?> get() {
 
         return tab;
     }
@@ -78,9 +78,21 @@ public enum Tab {
     /**
      * Activate this tab in the current page.
      */
-    public void activate() {
+    public void activateNew() {
 
-        LayoutPage.getController().activateTab( get() );
+        LayoutPage.getController().activateNewTab( get() );
+    }
+
+    /**
+     * Activate this tab in the current page and apply the given state to it.
+     *
+     * @param state The state to apply on the tab's new panel.
+     */
+    @SuppressWarnings({ "unchecked" })
+    public <P extends Panel, S extends FragmentState<P, S>> void activateWithState(final S state) {
+
+        // Because the field can't remember the strong type constraint imposed by the constructor.
+        LayoutPage.getController().activateTabWithState( (FragmentNavigationTab<P, S>) get(), state );
     }
 
     public static Tab of(final FragmentNavigationTab<?, ?> tab) {

@@ -11,6 +11,8 @@ import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.media.MediaTimeFrame;
 import com.lyndir.lhunath.snaplog.model.service.AlbumService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
+import com.lyndir.lhunath.snaplog.webapp.tab.AlbumTabPanel;
+import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
 import java.util.Collection;
 import java.util.Iterator;
 import org.apache.wicket.Component;
@@ -77,7 +79,7 @@ public class BrowserView extends GenericPanel<Album> {
                                     @Override
                                     protected void onClick(@SuppressWarnings("unused") final AjaxRequestTarget target) {
 
-                                        // TODO: Open Media viewer with current media as state.
+                                        Tab.ALBUM.activateWithState( new AlbumTabPanel.AlbumTabState( getModelObject() ) );
                                     }
                                 } );
                             }

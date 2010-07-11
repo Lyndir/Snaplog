@@ -37,6 +37,7 @@ import com.lyndir.lhunath.snaplog.model.service.AlbumService;
 import com.lyndir.lhunath.snaplog.model.service.SecurityService;
 import com.lyndir.lhunath.snaplog.model.service.UserService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
+import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels.NewAlbumFormModels;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
@@ -148,8 +149,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                     @Override
                     public void onClick(final AjaxRequestTarget target) {
 
-                        SnaplogSession.get().setFocusedAlbum( getModelObject() );
-                        Tab.ALBUM.activate();
+                        Tab.ALBUM.activateWithState( new AlbumTabPanel.AlbumTabState( getModelObject() ) );
                     }
                 } );
             }
@@ -372,9 +372,22 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 
         private static final GalleryTab TAB = new GalleryTab();
 
+        private final UserService userService = GuiceContext.getInstance( UserService.class );
+
+        final String userName;
+
         public GalleryTabState(final String fragment) {
 
             super( fragment );
+
+            userName = findFragment( 1 );
+        }
+
+        public GalleryTabState(final User user) {
+
+            super( ImmutableList.of( TAB.getTabFragment() ) );
+
+            userName = user.getUserName();
         }
 
         @Override

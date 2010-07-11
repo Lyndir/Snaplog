@@ -30,7 +30,6 @@ import com.lyndir.lhunath.snaplog.data.object.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.model.service.AlbumService;
 import com.lyndir.lhunath.snaplog.model.service.UserService;
-import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.ExpoTabModels;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import com.lyndir.lhunath.snaplog.webapp.view.AbstractAlbumsView;
@@ -102,8 +101,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
                             @Override
                             protected void onClick(final AjaxRequestTarget target) {
 
-                                SnaplogSession.get().setFocusedAlbum( getModelObject().getAlbum() );
-                                Tab.ALBUM.activate();
+                                Tab.ALBUM.activateWithState( new AlbumTabPanel.AlbumTabState( getModelObject().getAlbum() ) );
                             }
 
                             @Override
@@ -196,8 +194,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
                                     @Override
                                     protected void onClick(final AjaxRequestTarget target) {
 
-                                        SnaplogSession.get().setFocusedAlbum( getModelObject().getAlbum() );
-                                        Tab.ALBUM.activate();
+                                        Tab.ALBUM.activateWithState( new AlbumTabPanel.AlbumTabState( getModelObject().getAlbum() ) );
                                     }
 
                                     @Override
@@ -232,8 +229,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
                             @Override
                             public void onClick(final AjaxRequestTarget target) {
 
-                                SnaplogSession.get().setFocusedAlbum( getModelObject().getAlbum() );
-                                Tab.ALBUM.activate();
+                                Tab.ALBUM.activateWithState( new AlbumTabPanel.AlbumTabState( getModelObject().getAlbum() ) );
                             }
 
                             @Override
