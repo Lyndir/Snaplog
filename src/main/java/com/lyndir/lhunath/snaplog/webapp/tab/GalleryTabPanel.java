@@ -15,8 +15,6 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
@@ -89,7 +87,6 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
     public GalleryTabPanel(final String id, final IModel<User> userModel) {
 
         super( id, new GalleryTabModels( userModel ).getModel() );
-        checkNotNull( userModel.getObject(), "Model object of GalleryTabPanel must not be null" );
 
         // Page info
         add( new Label( "albumsTitleUsername", getModelObject().decoratedUsername() ) );
