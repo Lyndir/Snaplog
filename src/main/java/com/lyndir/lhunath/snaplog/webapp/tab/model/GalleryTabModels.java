@@ -57,7 +57,7 @@ public class GalleryTabModels extends ModelProvider<GalleryTabModels, User> {
             @Override
             protected String load() {
 
-                return getModelObject().toString();
+                return getModelObject() == null? null: getModelObject().toString();
             }
         };
         username = new LoadableDetachableModel<String>() {
@@ -65,7 +65,7 @@ public class GalleryTabModels extends ModelProvider<GalleryTabModels, User> {
             @Override
             protected String load() {
 
-                return getModelObject().getUserName();
+                return getModelObject() == null? null: getModelObject().getUserName();
             }
         };
 

@@ -26,21 +26,6 @@
                 $("#" + id + " .popup").animate({opacity:action});
             }
         </script>
-        <!--script type="text/javascript" src="http://www.lhunath.com/.jquery/jquery.timers.js"></script>
-        <script type="text/javascript" src="js/swfobject/swfobject.js"></script>
-        <script type="text/javascript" src="js/flowplayer/flowplayer-3.1.1.min.js"></script>
-        <script type="text/javascript" src="js/shadowbox-3.0/shadowbox.js"></script>
-
-        <script type="text/javascript">
-            // Google Analytics
-            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
-            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
-        </script><script type="text/javascript">
-            // Shadowbox
-            Shadowbox.init({
-                players:        ["img","flv"]
-            });
-        </script-->
 
     </head>
 
@@ -48,35 +33,35 @@
         <div id="header">
             <h2 id="headerIndicator" style="display:none">Loading</h2>
 
-            <ul wicket:id="tabsContainer" class="plain tabs">
-                <li wicket:id="tabs">
-                    <a wicket:id="link">[Tab]</a>
-                </li>
-            </ul>
+            <wicket:container wicket:id="tabsContainer">
+                <ul class="plain tabs">
+                    <li wicket:id="tabs">
+                        <a wicket:id="link">[Tab]</a>
+                    </li>
+                </ul>
+
+                <wicket:enclosure child="tools">
+                    <ul class="plain toolbar">
+                        <li class="start"></li>
+                        <li class="end"></li>
+
+                        <li wicket:id="tools"><a wicket:id="link">[Tool]</a></li>
+                    </ul>
+                </wicket:enclosure>
+            </wicket:container>
 
             <p wicket:id="userEntry">
                 <span wicket:id="userGuessWelcome">[Welcome back ~lhunath]</span>. <a wicket:id="userLogin" class="ss_sprite ss_status_offline">
-                <wicket:message key="userLogin" />
-            </a>
+            <wicket:message key="userLogin" /> </a>
             </p>
+
             <p wicket:id="userSummary">
                 <wicket:message key="welcome" />
                 <span wicket:id="userBadge" class="userBadge">[~]</span><a wicket:id="userName">[lhunath]</a>
                 <wicket:enclosure>, <a wicket:id="userMessages">[1 message]</a></wicket:enclosure>
                 <wicket:enclosure>, <a wicket:id="userRequests">[1 request]</a></wicket:enclosure>
-                , <a wicket:id="userLogout" class="ss_sprite ss_status_online">
-                <wicket:message key="userLogout" />
-            </a>
+                , <a wicket:id="userLogout" class="ss_sprite ss_status_online"> <wicket:message key="userLogout" /> </a>
             </p>
-
-            <wicket:enclosure child="tools">
-                <ul class="plain toolbar">
-                    <li class="start"></li>
-                    <li class="end"></li>
-
-                    <li wicket:id="tools"><a wicket:id="link">[Tool]</a></li>
-                </ul>
-            </wicket:enclosure>
         </div>
 
         <div class="messages" wicket:id="messages">

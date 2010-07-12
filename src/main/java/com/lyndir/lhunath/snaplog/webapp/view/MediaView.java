@@ -25,6 +25,7 @@ import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.model.service.AlbumService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import java.net.URL;
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.behavior.AttributeAppender;
@@ -126,14 +127,8 @@ public class MediaView extends GenericPanel<Media> {
                     return null;
                 }
             }
-        } ) {
-            @Override
-            public boolean isVisible() {
-
-                return getModelObject() != null && quality != Quality.THUMBNAIL;
-            }
-        } );
-        image.add( new ContextImage( "photo", new LoadableDetachableModel<String>() {
+        } ) );
+        image.add( new AttributeModifier( "style", true, new LoadableDetachableModel<String>() {
 
             @Override
             protected String load() {
@@ -144,7 +139,7 @@ public class MediaView extends GenericPanel<Media> {
                         // TODO: May want to display something useful to the user like a specific "not-found" thumbnail.
                         return null;
 
-                    return resourceURL.toExternalForm();
+                    return String.format( "background-image: url('%s')", resourceURL.toExternalForm() );
                 }
                 catch (PermissionDeniedException ignored) {
                     // TODO: May want to display something useful to the user like a specific "denied" thumbnail.

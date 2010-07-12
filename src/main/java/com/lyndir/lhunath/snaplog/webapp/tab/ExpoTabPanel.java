@@ -368,7 +368,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
         }
 
         @Override
-        public List<? extends SnaplogTool> listTools() {
+        public List<? extends SnaplogTool> listTools(final ExpoTabPanel panel) {
 
             return ImmutableList.of();
         }
@@ -398,7 +398,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
         private static final ExpoTab TAB = new ExpoTab();
 
         public ExpoTabState() {
-            
+
         }
 
         public ExpoTabState(final String fragment) {

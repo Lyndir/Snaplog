@@ -4,6 +4,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Lists;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.behavior.CSSClassAttributeAppender;
 import com.lyndir.lhunath.lib.wayward.behavior.JSLink;
@@ -20,11 +21,14 @@ import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels.TabItem;
 import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
+import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogLinkTool;
+import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogPanelTool;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import java.util.HashMap;
 import java.util.List;
 import net.link.safeonline.wicket.component.linkid.LinkIDLoginLink;
 import org.apache.wicket.*;
+import org.apache.wicket.ajax.AjaxEventBehavior;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.IAjaxIndicatorAware;
 import org.apache.wicket.feedback.FeedbackMessage;
@@ -64,7 +68,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
     final WebMarkupContainer contentContainer;
     final WebMarkupContainer messages;
 
-    final HashMap<SnaplogTool, Panel> toolPanels;
+    final HashMap<SnaplogPanelTool, Panel> toolPanels;
     final LoadableDetachableModel<List<? extends SnaplogTool>> tools;
 
     /**
@@ -173,11 +177,9 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
                 item.setVisible( itemModel.getObject().get().isVisible() );
             }
         };
-        tabsContainer.add( headTabs );
-        tabsContainer.setOutputMarkupId( true );
 
         // Toolbar.
-        toolPanels = new HashMap<SnaplogTool, Panel>();
+        toolPanels = new HashMap<SnaplogPanelTool, Panel>();
         tools = new LoadableDetachableModel<List<? extends SnaplogTool>>() {
 
             @Override
@@ -189,26 +191,46 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
                     return ImmutableList.of();
 
                 // Load the panels for the tools and assign them a markup ID.
-                List<? extends SnaplogTool> activeTools = activeTab.get().listTools();
+                Panel tabPanel = (Panel) contentContainer.get( CONTENT_PANEL );
+                List<? extends SnaplogTool> activeTools = activeTab.get().listTools( tabPanel );
                 for (final SnaplogTool tool : activeTools) {
-                    Panel panel = tool.getPanel( "panel" );
-                    panel.setOutputMarkupId( true );
-                    toolPanels.put( tool, panel );
+                    if (tool instanceof SnaplogPanelTool) {
+                        Panel panel = ((SnaplogPanelTool) tool).getPanel( "panel" );
+                        panel.setOutputMarkupId( true );
+
+                        toolPanels.put( (SnaplogPanelTool) tool, panel );
+                    }
                 }
 
                 return activeTools;
             }
         };
 
-        add( new ListView<SnaplogTool>( "tools", tools ) {
+        tabsContainer.setOutputMarkupId( true );
+        tabsContainer.add( headTabs, new ListView<SnaplogTool>( "tools", tools ) {
 
             @Override
             protected void populateItem(final ListItem<SnaplogTool> item) {
 
                 SnaplogTool tool = item.getModelObject();
-                item.add( new Label( "link", tool.getTitle() ).add( CSSClassAttributeAppender.of( tool.getTitleClass() ) ).add(
-                        new JSLink( "popup", toolPanels.get( tool ).getMarkupId(), "toggle" ) ) );
-                item.setVisible( tool.isVisible() );
+                Component link = new Label( "link", tool.getTitle() ).add( CSSClassAttributeAppender.of( tool.getTitleClass() ) );
+
+                // Add tool-type specific behaviour.
+                if (tool instanceof SnaplogPanelTool) {
+                    SnaplogPanelTool panelTool = (SnaplogPanelTool) tool;
+                    link.add( new JSLink( "popup", toolPanels.get( panelTool ).getMarkupId(), "toggle" ) );
+                } else if (tool instanceof SnaplogLinkTool) {
+                    final SnaplogLinkTool linkTool = (SnaplogLinkTool) tool;
+                    link.add( new AjaxEventBehavior( "onClick" ) {
+                        @Override
+                        protected void onEvent(final AjaxRequestTarget target) {
+
+                            linkTool.onClick( target );
+                        }
+                    } );
+                }
+
+                item.add( link ).setVisible( tool.isVisible() );
             }
 
             @Override
@@ -262,11 +284,11 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
         add( (contentContainer = new WebMarkupContainer( "contentContainer" ) {
 
             {
-                add( new ListView<SnaplogTool>( "toolPanels", tools ) {
+                add( new ListView<SnaplogPanelTool>( "toolPanels", Lists.newLinkedList(toolPanels.keySet()) ) {
                     @Override
-                    protected void populateItem(final ListItem<SnaplogTool> item) {
+                    protected void populateItem(final ListItem<SnaplogPanelTool> item) {
 
-                        SnaplogTool tool = item.getModelObject();
+                        SnaplogPanelTool tool = item.getModelObject();
                         item.add( toolPanels.get( tool ).setVisible( tool.isVisible() ) );
                     }
                 } );

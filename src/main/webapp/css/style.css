@@ -483,11 +483,11 @@ a.block:hover, .block.link:hover {
  */
 .viewer {
     position:           absolute;
-    top:                0;
+    top:                50%;
     left:               0;
+    margin-top:         -385px;             /* 770 / 2 */
     width:              100%;
-    height:             100%;
-    margin:             0 0 0;
+    height:             770px;              /* 768 (fullscreen media height) + 2 (.image border) */
     padding:            0;
     overflow:           hidden;
 
@@ -497,24 +497,22 @@ a.block:hover, .block.link:hover {
     text-align:         center;
 }
 .viewer .current {
-    position:           absolute;
-    z-index:            -1;
-    width:              100%;
-}
-.viewer .current .media img {
-    min-height:         100% !important;
 }
 .viewer .before, .viewer .after {
-    background:         rgba(0, 0, 0, 0.5);
+    background:         rgba(0, 0, 0, 0.7);
 
-    float:              left;
-    width:              150px;
+    position:           absolute;
+    z-index:            1;
+    top:                0;
+    left:               0;
+    width:              170px;
     height:             100%;
     padding:            40px 0 0;
     overflow:           hidden;
 }
 .viewer .after {
-    float:              right;
+    left:               auto;
+    right:              0;
 }
 .viewer .before ul, .viewer .after ul {
     margin:             0;
@@ -526,8 +524,8 @@ a.block:hover, .block.link:hover {
 .viewer .media.thumbnail {
     margin:             3%;
 }
-.viewer .media.thumbnail img {
-    height:             7%;
+.viewer .media.thumbnail .image {
+    height:             11%;
     min-height:         0 !important;
     min-width:          0 !important;
 }
@@ -536,44 +534,31 @@ a.block:hover, .block.link:hover {
 /*******************************************************************************
  * MEDIA *
  */
-#viewer {
-    text-align:         center;
-}
-#viewer li {
+.media.link {
     display:            inline-block;
 
-    list-style:         none;
-}
-#viewer li.current {
-    display:            block;
-}
-.media.link {
-    display:            inline-block;
-}
-.media.link {
     text-decoration:    none;
 }
 .media .image {
+    background:         black no-repeat center center;
+    border:             1px solid black;
+    -webkit-border-radius:7px;
+    -moz-border-radius: 7px;
+    border-radius:      7px;
+
+
     position:           relative;
     z-index:            1;
+    display:            inline-block;
 
     font-size:          14px;
-    text-decoration:    none !important;
-}
-.media .image .photo {
-    background:         rgba(0, 0, 0, 0.7) url("../images/resources/loader.3dr.black.gif") no-repeat center center;
-    border:             1px solid black;
 }
 .media .image .thumb {
-    background:         transparent;
-
-    position:           absolute;
-    z-index:            0;
-
     height:             100%;
+    visibility:         hidden;
 }
 .media .image:hover {
-    border-color:       #eee;
+    border-color:       #EEE;
 }
 .media .image .caption {
     background:         rgba(0, 0, 0, 0.7);
@@ -603,14 +588,6 @@ a.block:hover, .block.link:hover {
 
     overflow:           auto;
 }
-.media .fullscreen img {
-    border:             1px solid white;
-    background-color:   #222;
-
-    position:           relative;
-    top:                50%;
-    margin-top:         -384px;
-}
 .media.thumbnail .caption {
     visibility:         hidden;
     left:               0%;
@@ -622,39 +599,21 @@ a.block:hover, .block.link:hover {
 
     font-size:          0.7em;
 }
-.media.thumbnail img {
-    -webkit-border-radius:7px;
-    -moz-border-radius: 7px;
-    border-radius:      7px;
-
+/* See com.lyndir.lhunath.snaplog.data.object.media.Media.Quality */
+.media.thumbnail .image {
     min-width:          75px;
-    max-width:          134px;
-    min-height:         100px;
-    max-height:         100px;
+    max-width:          1000px;
+    height:             100px;
 }
-.media.thumbnail .image:hover img {
-    border-color:       white;
-}
-.media.thumbnail.wide img {
-    min-width:          134px;
-}
-.media.preview img {
+.media.preview .image {
     min-width:          338px;
-    max-width:          600px;
-    min-height:         450px;
-    max-height:         450px;
+    max-width:          10000px;
+    height:             450px;
 }
-.media.preview.wide img {
-    min-width:          600px;
-}
-.media.fullscreen img, .media .fullscreen img {
+.media.fullscreen .image {
     min-width:          576px;
-    max-width:          1024px;
-    min-height:         768px;
-    max-height:         768px;
-}
-.media.fullscreen.wide img, .media .fullscreen.wide img {
-    min-width:          1024px;
+    max-width:          10000px;
+    height:             768px;
 }
 
 

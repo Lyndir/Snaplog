@@ -119,7 +119,7 @@ public class AboutTabPanel extends Panel {
         }
 
         @Override
-        public List<? extends SnaplogTool> listTools() {
+        public List<? extends SnaplogTool> listTools(final AboutTabPanel panel) {
 
             return ImmutableList.of();
         }
@@ -148,7 +148,7 @@ public class AboutTabPanel extends Panel {
         private static final AboutTab TAB = new AboutTab();
 
         public AboutTabState() {
-            
+
         }
 
         public AboutTabState(final String fragment) {

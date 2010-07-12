@@ -21,6 +21,7 @@ import com.google.inject.*;
 import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.wayward.servlet.DisableURLSessionFilter;
 import com.lyndir.lhunath.snaplog.model.service.impl.ServicesModule;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogWebApplication;
 import com.lyndir.lhunath.snaplog.webapp.servlet.AppLogoutServlet;
@@ -43,12 +44,14 @@ import org.apache.wicket.protocol.http.servlet.WicketSessionFilter;
  *
  * @author lhunath
  */
-public class GuiceContext extends GuiceServletContextListener {
+public class
+        GuiceContext extends GuiceServletContextListener {
 
     static final Logger logger = Logger.get( GuiceContext.class );
 
     private static Injector injector;
-    private static final String PATH_WICKET = "/*";
+    private static final String PATH_ALL = "/*";
+    private static final String PATH_WICKET = PATH_ALL;
     private static final String PATH_LINKID_LOGIN = "/login";
     private static final String PATH_LINKID_LOGOUT = "/logout";
 
@@ -66,6 +69,10 @@ public class GuiceContext extends GuiceServletContextListener {
             protected void configureServlets() {
 
                 Builder<String, String> paramBuilder;
+
+                // Disable jsessionid in URLs.
+                filter( PATH_ALL ).through( DisableURLSessionFilter.class );
+                bind( DisableURLSessionFilter.class ).in( Scopes.SINGLETON );
 
                 // Wicket
                 paramBuilder = new ImmutableMap.Builder<String, String>();

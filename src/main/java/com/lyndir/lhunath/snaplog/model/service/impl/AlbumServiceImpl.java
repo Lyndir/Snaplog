@@ -112,7 +112,7 @@ public class AlbumServiceImpl implements AlbumService {
         checkNotNull( album, "Given album must not be null." );
 
         for (final AlbumProviderType albumProviderType : AlbumProviderType.values())
-            if (albumProviderType.getAlbumProvider().getAlbumType().isAssignableFrom( album.getClass() )) {
+            if (albumProviderType.getAlbumProvider().getAlbumType().isInstance( album )) {
 
                 @SuppressWarnings("unchecked")
                 AlbumProvider<A, Media> checkedAlbumProvider = (AlbumProvider<A, Media>) albumProviderType.getAlbumProvider();

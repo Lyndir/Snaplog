@@ -119,7 +119,7 @@ public class AdministrationTabPanel extends Panel {
         }
 
         @Override
-        public List<? extends SnaplogTool> listTools() {
+        public List<? extends SnaplogTool> listTools(final AdministrationTabPanel panel) {
 
             return ImmutableList.of();
         }

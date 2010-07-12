@@ -19,16 +19,6 @@
                         $(this).animate({opacity:'toggle'});
                     });
                 });
-
-                // When the image thumbnail loads; use it to determine whether
-                // the image is wide or tall.  This is necessary to size the
-                // media container when the actual media image hasn't loaded
-                // yet but the low-quality up-scaled thumbnail has.
-                function checkWide(t) {
-                    if (t.innerWidth() > t.innerHeight()) {
-                        t.closest('.media').addClass('wide');
-                    }
-                }
             </script>
         </wicket:head>
     </head>
@@ -38,8 +28,7 @@
 
             <span class="media" wicket:id="media">
                 <span class="image" wicket:id="image">
-                    <img src="" alt="" wicket:id="thumb" class="thumb" onload="checkWide($(this))" />
-                    <img src="" alt="" wicket:id="photo" class="photo" />
+                    <img src="" alt="" wicket:id="thumb" class="thumb" />
                     <span class="caption" wicket:id="caption">[Caption]</span>
                 </span>
 

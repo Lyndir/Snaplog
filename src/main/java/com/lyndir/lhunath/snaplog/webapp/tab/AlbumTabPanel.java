@@ -31,13 +31,12 @@ import com.lyndir.lhunath.snaplog.model.service.UserService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.AlbumTabModels;
-import com.lyndir.lhunath.snaplog.webapp.tool.AccessPopup;
-import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
-import com.lyndir.lhunath.snaplog.webapp.tool.TagsPopup;
-import com.lyndir.lhunath.snaplog.webapp.tool.TimelinePopup;
+import com.lyndir.lhunath.snaplog.webapp.tool.*;
 import com.lyndir.lhunath.snaplog.webapp.view.BrowserView;
 import com.lyndir.lhunath.snaplog.webapp.view.FocusedView;
 import java.util.List;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
@@ -141,10 +140,13 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
          * {@inheritDoc}
          */
         @Override
-        public List<? extends SnaplogTool> listTools() {
+        public List<? extends SnaplogTool> listTools(AlbumTabPanel panel) {
 
-            IModel<Album> model = SnaplogSession.getFocusedAlbumProxyModel();
-            return ImmutableList.of( new TimelinePopup.Tool( model ), new TagsPopup.Tool( model ), new AccessPopup.Tool( model ) );
+            return ImmutableList.of( new BackTool( panel.getModelObject() ), //
+                                     new TimelinePopup.Tool( panel.getModelObject() ), //
+                                     new TagsPopup.Tool( panel.getModelObject() ), //
+                                     new AccessPopup.Tool( panel.getModelObject() ) //
+            );
         }
 
         @Override
@@ -178,6 +180,53 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         public boolean isVisible() {
 
             return SnaplogSession.get().getFocusedAlbum() != null;
+        }
+    }
+
+
+    static class BackTool implements SnaplogLinkTool {
+
+        private final AlbumTabModels model;
+
+        BackTool(final AlbumTabModels model) {
+
+            this.model = model;
+        }
+
+        @Override
+        public void onClick(final AjaxRequestTarget target) {
+
+            model.focusedMedia().setObject( null );
+        }
+
+        @Override
+        public IModel<String> getTitle() {
+
+            return new AbstractReadOnlyModel<String>() {
+                @Override
+                public String getObject() {
+
+                    return model.getObject().getName();
+                }
+            };
+        }
+
+        @Override
+        public IModel<String> getTitleClass() {
+
+            return new AbstractReadOnlyModel<String>() {
+                @Override
+                public String getObject() {
+
+                    return "ss_sprite ss_application_view_tile";
+                }
+            };
+        }
+
+        @Override
+        public boolean isVisible() {
+
+            return model.getObject() != null;
         }
     }
 

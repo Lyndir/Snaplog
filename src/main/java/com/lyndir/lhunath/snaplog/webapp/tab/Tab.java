@@ -15,6 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
+import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationTab;
 import com.lyndir.lhunath.lib.wayward.navigation.FragmentState;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
@@ -55,6 +56,8 @@ public enum Tab {
      */
     ADMINISTRATION( new AdministrationTabPanel.AdministrationTab() );
 
+    static final Logger logger = Logger.get( Tab.class );
+
     private final SnaplogTab<?, ?> tab;
 
     /**
@@ -70,9 +73,11 @@ public enum Tab {
     /**
      * @return The {@link SnaplogTab} that describes the UI elements of this tab.
      */
-    public SnaplogTab<?, ?> get() {
+    @SuppressWarnings({ "unchecked" })
+    public SnaplogTab<Panel, ?> get() {
 
-        return tab;
+        // Hack to make tab methods that take P as argument usable.
+        return (SnaplogTab<Panel, ?>) tab;
     }
 
     /**
@@ -98,9 +103,9 @@ public enum Tab {
     public static Tab of(final FragmentNavigationTab<?, ?> tab) {
 
         for (final Tab enumTab : values())
-            if (enumTab.get().equals( tab ))
+            if (enumTab.get().getClass().isInstance( tab ))
                 return enumTab;
 
-        return null;
+        throw logger.err( "No known tab provides: %s", tab ).toError( IllegalArgumentException.class );
     }
 }

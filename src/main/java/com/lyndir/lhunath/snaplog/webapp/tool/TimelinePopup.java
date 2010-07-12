@@ -131,7 +131,7 @@ public class TimelinePopup extends PopupPanel<Album> {
     }
 
 
-    public static class Tool implements SnaplogTool {
+    public static class Tool implements SnaplogPanelTool {
 
         private final IModel<Album> model;
 

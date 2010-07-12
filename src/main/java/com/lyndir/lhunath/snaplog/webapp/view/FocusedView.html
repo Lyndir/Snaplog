@@ -12,18 +12,18 @@
                 function installFishEye() {
 
                     new iFishEye({
-                        container: $$('.browser .before')[0],
-                        targetImageClass: '.browser .before .photo',
-                        targetCaptionClass: '.browser .before .caption',
+                        container: $$('.viewer .before')[0],
+                        targetImageClass: '.viewer .before .photo',
+                        targetCaptionClass: '.viewer .before .caption',
                         dimThumb: {height: 50},
                         dimFocus: {height: 100},
                         useAxis: 'y',
                         norm: 'L2'
                     });
                     new iFishEye({
-                        container: $$('.browser .after')[0],
-                        targetImageClass: '.browser .after .photo',
-                        targetCaptionClass: '.browser .after .caption',
+                        container: $$('.viewer .after')[0],
+                        targetImageClass: '.viewer .after .photo',
+                        targetCaptionClass: '.viewer .after .caption',
                         dimThumb: {height: 50},
                         dimFocus: {height: 100},
                         useAxis: 'y',
@@ -31,7 +31,7 @@
                     });
                 }
 
-                // Browser
+                // Viewer
                 $(document).ready(function() {
 
                     //installFishEye();
@@ -46,7 +46,7 @@
     <body>
         <wicket:panel>
 
-            <div class="browser">
+            <div class="viewer">
                 <div class="current" wicket:id="media"></div>
 
                 <div class="before">

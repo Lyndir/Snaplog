@@ -198,17 +198,17 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
         /**
          * Media quality fit for displaying the media such that it fills the screen.
          */
-        FULLSCREEN( "fullscreen", 1024, 768, 0.9f ),
+        FULLSCREEN( "fullscreen", 10000, 768, 0.9f ),
 
         /**
          * Media quality fit for previewing the media at a size where it is easy to tell what it depicts.
          */
-        PREVIEW( "preview", 600, 450, 0.8f ),
+        PREVIEW( "preview", 10000, 450, 0.8f ),
 
         /**
          * Media quality fit for giving a hint on what the media is about.
          */
-        THUMBNAIL( "thumbnail", 150, 100, 0.75f );
+        THUMBNAIL( "thumbnail", 1000, 100, 0.75f );
 
         private final String name;
         private final int maxWidth;

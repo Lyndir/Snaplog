@@ -13,28 +13,24 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  */
-package com.lyndir.lhunath.snaplog.webapp.tab;
+package com.lyndir.lhunath.snaplog.webapp.tool;
 
-import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationTab;
-import com.lyndir.lhunath.lib.wayward.navigation.FragmentState;
-import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
-import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
 
 
 /**
- * <h2>{@link SnaplogTab}<br> <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link SnaplogPanelTool}<br> <sub>[in short] (TODO).</sub></h2>
  *
  * <p> <i>Feb 28, 2010</i> </p>
  *
  * @author lhunath
  */
-public interface SnaplogTab<P extends Panel, S extends FragmentState<P, S>> extends FragmentNavigationTab<P, S> {
+public interface SnaplogPanelTool extends SnaplogTool {
 
     /**
-     * @param panel The panel for which we need tools.  Use this to access the panel's state for the tools.
+     * @param id The wicket ID that the panel should bind to.
      *
-     * @return A list of tools that this tab contributes to the toolbar.
+     * @return The panel that provides the tool's features.
      */
-    List<? extends SnaplogTool> listTools(P panel);
+    Panel getPanel(final String id);
 }

@@ -140,7 +140,14 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
             }
         };
 
-        activeTab = new Model<Tab>();
+        activeTab = new LoadableDetachableModel<Tab>() {
+            @Override
+            protected Tab load() {
+
+                // Always begin empty.
+                return null;
+            }
+        };
 
         focusedUser = new LoadableDetachableModel<String>() {
 

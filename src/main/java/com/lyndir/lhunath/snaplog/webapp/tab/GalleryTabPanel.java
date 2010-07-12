@@ -340,7 +340,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         }
 
         @Override
-        public List<? extends SnaplogTool> listTools() {
+        public List<? extends SnaplogTool> listTools(final GalleryTabPanel panel) {
 
             return ImmutableList.of();
         }
