@@ -179,7 +179,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
             // Load existing and create missing media objects at all qualities.
             for (final Quality quality : Quality.values())
-                if (mediaData.get( quality ) == null)
+                if (mediaData.get( quality ) == null && mediaData.get( Quality.ORIGINAL ) != null)
                     loadObjectDetails( mediaData.getMedia(), quality, true );
         }
     }
