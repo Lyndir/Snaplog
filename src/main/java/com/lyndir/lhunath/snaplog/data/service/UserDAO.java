@@ -19,9 +19,9 @@ public interface UserDAO {
 
     void update(UserProfile userProfile);
 
+    UserProfile findUserProfile(User user);
+
     List<User> listUsers();
 
     List<User> listUsers(Predicate<User> predicate);
-
-    UserProfile findUserProfile(User user);
 }

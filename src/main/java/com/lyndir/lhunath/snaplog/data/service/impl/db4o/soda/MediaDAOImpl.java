@@ -57,21 +57,48 @@ public class MediaDAOImpl implements MediaDAO {
     }
 
     @Override
-    public <D extends MediaData<?>> D findMediaData(final Album album, final String mediaName) {
+    public <M extends Media> M findMedia(final Album album, final String mediaName) {
+
+        DateUtils.startTiming( "findMedia" );
+        try {
+            Query query = db.query();
+            query.constrain( Media.class ) //
+                    .and( query.descend( "name" ) //
+                            .constrain( mediaName ) ) //
+                    .and( query.descend( "album" ) //
+                            .constrain( album ) );
+
+            ObjectSet<M> results = query.execute();
+            if (results.hasNext()) {
+                M result = results.next();
+                checkState( !results.hasNext(), "Multiple media data found for %s named %s", album, mediaName );
+
+                return result;
+            }
+
+            return null;
+        }
+        finally {
+            DateUtils.popTimer().logFinish();
+        }
+    }
+
+    @Override
+    public <D extends MediaData<M>, M extends Media> D findMediaData(final M media) {
 
         DateUtils.startTiming( "findMediaData" );
         try {
             Query query = db.query();
             query.constrain( MediaData.class ) //
-                    .and( query.descend( "media" ).descend( "name" ) //
-                            .constrain( mediaName ) ) //
-                    .and( query.descend( "media" ).descend( "album" ) //
-                            .constrain( album ).identity() );
+                    .and( query.descend( "media" ) //
+                            .constrain( media ) );
 
-            ObjectSet<D> result = query.execute();
-            if (result.hasNext()) {
-                checkState( result.size() == 1, "Multiple media data found for %s named %s", album, mediaName );
-                return result.next();
+            ObjectSet<D> results = query.execute();
+            if (results.hasNext()) {
+                D result = results.next();
+                checkState( !results.hasNext(), "Multiple media data found for %s", media );
+
+                return result;
             }
 
             return null;

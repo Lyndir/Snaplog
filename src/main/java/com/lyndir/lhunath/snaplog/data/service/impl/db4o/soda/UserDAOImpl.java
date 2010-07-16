@@ -1,6 +1,7 @@
 package com.lyndir.lhunath.snaplog.data.service.impl.db4o.soda;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
@@ -43,6 +44,26 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
+    public UserProfile findUserProfile(final User user) {
+
+        checkNotNull( user, "Given user must not be null." );
+
+        Query query = db.query();
+        query.constrain( UserProfile.class ) //
+                .and( query.descend( "user" ).constrain( user ) );
+
+        ObjectSet<UserProfile> results = query.execute();
+        if (results.hasNext()) {
+            UserProfile result = results.next();
+            checkState( !results.hasNext(), "Multiple profiles found for %s", user );
+
+            return result;
+        }
+
+        return null;
+    }
+
+    @Override
     public List<User> listUsers() {
 
         Query query = db.query();
@@ -63,21 +84,5 @@ public class UserDAOImpl implements UserDAO {
                 return predicate.apply( candidate );
             }
         } );
-    }
-
-    @Override
-    public UserProfile findUserProfile(final User user) {
-
-        checkNotNull( user, "Given user must not be null." );
-
-        Query query = db.query();
-        query.constrain( UserProfile.class ) //
-                .and( query.descend( "user" ).constrain( user ) );
-
-        ObjectSet<UserProfile> userProfiles = query.execute();
-        if (userProfiles.hasNext())
-            return userProfiles.next();
-
-        return null;
     }
 }

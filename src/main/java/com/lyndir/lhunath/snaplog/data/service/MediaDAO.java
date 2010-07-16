@@ -19,7 +19,9 @@ public interface MediaDAO {
 
     void update(MediaData<?> mediaData);
 
-    <D extends MediaData<?>> D findMediaData(Album album, String mediaName);
+    <M extends Media> M findMedia(final Album album, final String mediaName);
+
+    <D extends MediaData<M>, M extends Media> D findMediaData(final M media);
 
     <M extends Media> List<M> listMedia(Album album, String mediaName, final boolean ascending);
 

@@ -43,7 +43,7 @@ public class AlbumDAOImpl implements AlbumDAO {
         checkNotNull( ownerUser, "Given ownerUser must not be null." );
         checkNotNull( albumName, "Given album name must not be null." );
 
-        ObjectSet<Album> result = db.query( new Predicate<Album>() {
+        ObjectSet<Album> results = db.query( new Predicate<Album>() {
 
             @Override
             public boolean match(final Album candidate) {
@@ -52,9 +52,11 @@ public class AlbumDAOImpl implements AlbumDAO {
                                                                                                                    albumName );
             }
         } );
-        if (result.hasNext()) {
-            checkState( result.size() == 1, "Multiple albums found for %s named %s", ownerUser, albumName );
-            return result.next();
+        if (results.hasNext()) {
+            Album result = results.next();
+            checkState( !results.hasNext(), "Multiple albums found for %s named %s", ownerUser, albumName );
+
+            return result;
         }
 
         return null;

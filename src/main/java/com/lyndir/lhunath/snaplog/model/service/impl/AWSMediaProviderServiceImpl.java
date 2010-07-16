@@ -148,12 +148,16 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
             String mediaName = mediaObjectsEntry.getKey();
             Map<Quality, S3Object> qualityObjects = mediaObjectsEntry.getValue();
 
+            S3Media media = mediaDAO.findMedia( album, mediaName );
+            if (media == null)
+                media = new S3Media( album, mediaName );
+
             // Create/update mediaData for the object.
             for (final Map.Entry<Quality, S3Object> qualityObjectsEntry : qualityObjects.entrySet()) {
                 Quality quality = qualityObjectsEntry.getKey();
                 S3Object mediaObject = qualityObjectsEntry.getValue();
 
-                setMediaData( album, mediaName, quality, mediaObject );
+                setMediaData( media, quality, mediaObject );
             }
         }
     }
@@ -181,23 +185,22 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
     }
 
     /**
-     * Update meta data by assign metadata to a given quality of it.
+     * Update meta data by assign metadata to a given quality of it.  If the media's data does not exist; it will be created.
      *
-     * @param album       The album in which to look for the media.
-     * @param mediaName   The name of the media to look for.  If no media exists by this name, <b>it will be created</b>.
+     * @param media       The media whose media data is required.
      * @param quality     The quality of the metadata to update the media data with.  May be <code>null</code> if no updating should occur
      *                    but we're just interested in obtaining the media's media data.
      * @param mediaObject The object to save in the media's data under the given quality.
      *
      * @return A media data object for the given media with the metadata at the given quality updated if desired.
      */
-    private S3MediaData setMediaData(final S3Album album, final String mediaName, final Quality quality, final S3Object mediaObject) {
+    private S3MediaData setMediaData(final S3Media media, final Quality quality, final S3Object mediaObject) {
 
-        S3MediaData mediaData = mediaDAO.findMediaData( album, mediaName );
+        S3MediaData mediaData = mediaDAO.findMediaData( media );
         boolean needsUpdate = false;
 
         if (mediaData == null) {
-            mediaData = new S3MediaData( new S3Media( album, mediaName ) );
+            mediaData = new S3MediaData( media );
             needsUpdate = true;
         }
 
@@ -210,21 +213,6 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
             mediaDAO.update( mediaData );
 
         return mediaData;
-    }
-
-    /**
-     * Update meta data by assign metadata to a given quality of it.
-     *
-     * @param media       The media whose media data is required.
-     * @param quality     The quality of the metadata to update the media data with.  May be <code>null</code> if no updating should occur
-     *                    but we're just interested in obtaining the media's media data.
-     * @param mediaObject The object to save in the media's data under the given quality.
-     *
-     * @return A media data object for the given media with the metadata at the given quality updated if desired.
-     */
-    private S3MediaData setMediaData(final S3Media media, final Quality quality, final S3Object mediaObject) {
-
-        return setMediaData( media.getAlbum(), media.getName(), quality, mediaObject );
     }
 
     /**

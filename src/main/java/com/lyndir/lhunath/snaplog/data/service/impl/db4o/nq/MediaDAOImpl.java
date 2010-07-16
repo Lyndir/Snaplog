@@ -8,6 +8,7 @@ import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import com.db4o.query.QueryComparator;
 import com.google.inject.Inject;
+import com.lyndir.lhunath.lib.system.util.DateUtils;
 import com.lyndir.lhunath.lib.system.util.ObjectUtils;
 import com.lyndir.lhunath.snaplog.data.object.media.Album;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
@@ -46,23 +47,57 @@ public class MediaDAOImpl implements MediaDAO {
     }
 
     @Override
-    public <D extends MediaData<?>> D findMediaData(final Album album, final String mediaName) {
+    public <M extends Media> M findMedia(final Album album, final String mediaName) {
 
-        ObjectSet<D> result = db.query( new Predicate<D>() {
+        DateUtils.startTiming( "findMedia" );
+        try {
+            ObjectSet<M> results = db.query( new Predicate<M>() {
 
-            @Override
-            public boolean match(final D candidate) {
+                @Override
+                public boolean match(final M candidate) {
 
-                Media media = candidate.getMedia();
-                return ObjectUtils.equal( media.getAlbum(), album ) && ObjectUtils.equal( media.getName(), mediaName );
+                    return ObjectUtils.equal( candidate.getAlbum(), album ) && ObjectUtils.equal( candidate.getName(), mediaName );
+                }
+            } );
+            if (results.hasNext()) {
+                M result = results.next();
+                checkState( !results.hasNext(), "Multiple media data found for %s named %s", album, mediaName );
+
+                return result;
             }
-        } );
-        if (result.hasNext()) {
-            checkState( result.size() == 1, "Multiple media data found for %s named %s", album, mediaName );
-            return result.next();
-        }
 
-        return null;
+            return null;
+        }
+        finally {
+            DateUtils.popTimer().logFinish();
+        }
+    }
+
+    @Override
+    public <D extends MediaData<M>, M extends Media> D findMediaData(final M media) {
+
+        DateUtils.startTiming( "findMediaData" );
+        try {
+            ObjectSet<D> results = db.query( new Predicate<D>() {
+
+                @Override
+                public boolean match(final D candidate) {
+
+                    return ObjectUtils.equal( candidate.getMedia(), media );
+                }
+            } );
+            if (results.hasNext()) {
+                D result = results.next();
+                checkState( !results.hasNext(), "Multiple media data found for %s", media );
+
+                return result;
+            }
+
+            return null;
+        }
+        finally {
+            DateUtils.popTimer().logFinish();
+        }
     }
 
     @Override

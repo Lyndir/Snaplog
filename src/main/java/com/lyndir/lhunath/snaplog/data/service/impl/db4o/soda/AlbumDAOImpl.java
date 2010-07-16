@@ -48,10 +48,12 @@ public class AlbumDAOImpl implements AlbumDAO {
                 .and( query.descend( "name" ).constrain( albumName ) ) //
                 .and( query.descend( "ownerProfile" ).descend( "user" ).constrain( ownerUser ) );
 
-        ObjectSet<Album> result = query.execute();
-        if (result.hasNext()) {
-            checkState( result.size() == 1, "Multiple albums found for %s named %s", ownerUser, albumName );
-            return result.next();
+        ObjectSet<Album> results = query.execute();
+        if (results.hasNext()) {
+            Album result = results.next();
+            checkState( !results.hasNext(), "Multiple albums found for %s named %s", ownerUser, albumName );
+
+            return result;
         }
 
         return null;

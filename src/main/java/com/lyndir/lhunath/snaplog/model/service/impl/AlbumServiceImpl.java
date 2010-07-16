@@ -106,10 +106,8 @@ public class AlbumServiceImpl implements AlbumService {
     @Override
     public Media findMediaWithName(final SecurityToken token, final Album album, final String mediaName) {
 
-        Media media = mediaDAO.findMediaData( album, mediaName ).getMedia();
-
         try {
-            return securityService.assertAccess( Permission.VIEW, token, media );
+            return securityService.assertAccess( Permission.VIEW, token, mediaDAO.findMedia( album, mediaName ) );
         }
 
         catch (PermissionDeniedException ignored) {
@@ -171,7 +169,7 @@ public class AlbumServiceImpl implements AlbumService {
     public SizedListIterator<Media> iterateMedia(final SecurityToken token, final Album album) {
 
         List<Media> results = mediaDAO.listMedia( album, true );
-        
+
         return SizedListIterator.of( securityService.filterAccess( Permission.VIEW, token, results.listIterator() ), results.size() );
     }
 
