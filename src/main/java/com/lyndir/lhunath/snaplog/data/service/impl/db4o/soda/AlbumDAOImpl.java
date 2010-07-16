@@ -1,8 +1,10 @@
 package com.lyndir.lhunath.snaplog.data.service.impl.db4o.soda;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.db4o.ObjectContainer;
+import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import com.db4o.query.Query;
 import com.google.inject.Inject;
@@ -36,6 +38,26 @@ public class AlbumDAOImpl implements AlbumDAO {
     }
 
     @Override
+    public Album findAlbum(final User ownerUser, final String albumName) {
+
+        checkNotNull( ownerUser, "Given ownerUser must not be null." );
+        checkNotNull( albumName, "Given album name must not be null." );
+
+        Query query = db.query();
+        query.constrain( Album.class ) //
+                .and( query.descend( "name" ).constrain( albumName ) ) //
+                .and( query.descend( "ownerProfile" ).descend( "user" ).constrain( ownerUser ) );
+
+        ObjectSet<Album> result = query.execute();
+        if (result.hasNext()) {
+            checkState( result.size() == 1, "Multiple albums found for %s named %s", ownerUser, albumName );
+            return result.next();
+        }
+
+        return null;
+    }
+
+    @Override
     public List<Album> listAlbums(final com.google.common.base.Predicate<Album> predicate) {
 
         checkNotNull( predicate, "Given predicate must not be null." );
@@ -49,21 +71,6 @@ public class AlbumDAOImpl implements AlbumDAO {
                 return predicate.apply( candidate );
             }
         } );
-    }
-
-    @Override
-    // TODO: Can probably be deprecated and replaced by the above as soon as we can assert that the above can implement this more specific case without loosing the ability to optimize the query.
-    public List<Album> listAlbums(final User ownerUser, final String albumName) {
-
-        checkNotNull( ownerUser, "Given ownerUser must not be null." );
-        checkNotNull( albumName, "Given album name must not be null." );
-
-        Query query = db.query();
-        query.constrain( Album.class ) //
-                .and( query.descend( "name" ).constrain( albumName ) ) //
-                .and( query.descend( "ownerProfile" ).descend( "user" ).constrain( ownerUser ) );
-
-        return query.execute();
     }
 
     @Override

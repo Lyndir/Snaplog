@@ -17,9 +17,9 @@ public interface AlbumDAO {
 
     void update(Album album);
 
-    List<Album> listAlbums(Predicate<Album> predicate);
+    Album findAlbum(User ownerUser, String albumName);
 
-    List<Album> listAlbums(User ownerUser, String albumName);
+    List<Album> listAlbums(Predicate<Album> predicate);
 
     List<Album> listAlbums();
 }

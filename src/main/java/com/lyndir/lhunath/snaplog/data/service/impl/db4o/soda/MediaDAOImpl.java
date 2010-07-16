@@ -1,6 +1,7 @@
 package com.lyndir.lhunath.snaplog.data.service.impl.db4o.soda;
 
 import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.checkState;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
@@ -67,9 +68,11 @@ public class MediaDAOImpl implements MediaDAO {
                     .and( query.descend( "media" ).descend( "album" ) //
                             .constrain( album ).identity() );
 
-            ObjectSet<D> mediaDataQuery = query.execute();
-            if (mediaDataQuery.hasNext())
-                return mediaDataQuery.next();
+            ObjectSet<D> result = query.execute();
+            if (result.hasNext()) {
+                checkState( result.size() == 1, "Multiple media data found for %s named %s", album, mediaName );
+                return result.next();
+            }
 
             return null;
         }
@@ -79,7 +82,7 @@ public class MediaDAOImpl implements MediaDAO {
     }
 
     @Override
-    public <M extends Media> List<M> listMedia(final Album album, final String mediaName) {
+    public <M extends Media> List<M> listMedia(final Album album, final String mediaName, final boolean ascending) {
 
         checkNotNull( album, "Given album must not be null." );
         checkNotNull( mediaName, "Given media name must not be null." );
@@ -89,32 +92,48 @@ public class MediaDAOImpl implements MediaDAO {
                 // FIXME: Might not work for Media implementations that have no album field?
                 .and( query.descend( "album" )//
                         .constrain( album ).identity() ) //
-                .and( query.descend( "name" ).orderAscending() //
+                .and( query.descend( "name" ) //
                         .constrain( mediaName ) );
+
+        // TODO: Set the sort order in nq. package too.
+        if (ascending)
+            query.descend( "name" ).orderAscending();
+        else
+            query.descend( "name" ).orderDescending();
 
         return query.execute();
     }
 
     @Override
-    public <M extends Media> List<M> listMedia(final Album album) {
+    public <M extends Media> List<M> listMedia(final Album album, final boolean ascending) {
 
         Query query = db.query();
         query.constrain( Media.class ) //
                 .and( query.descend( "album" ) //
                         .constrain( album ).identity() );
+
         // TODO: Set the sort order in nq. package too.
-        query.descend( "name" ).orderAscending();
+        if (ascending)
+            query.descend( "name" ).orderAscending();
+        else
+            query.descend( "name" ).orderDescending();
 
         return query.execute();
     }
 
     @Override
-    public <D extends MediaData<?>> List<D> listMediaData(final Album album) {
+    public <D extends MediaData<?>> List<D> listMediaData(final Album album, final boolean ascending) {
 
         Query query = db.query();
         query.constrain( MediaData.class ) //
                 .and( query.descend( "media" ).descend( "album" )//
                         .constrain( album ).identity() );
+
+        // TODO: Set the sort order in nq. package too.
+        if (ascending)
+            query.descend( "media" ).descend( "name" ).orderAscending();
+        else
+            query.descend( "media" ).descend( "name" ).orderDescending();
 
         return query.execute();
     }

@@ -127,7 +127,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         // These are media that have been removed from S3 since the last sync; purge them.
         logger.dbg( "Looking for media to purge..." );
         ImmutableMap.Builder<String, Media> existingMediaBuilder = ImmutableMap.builder();
-        for (final Media media : mediaDAO.listMedia( album ))
+        for (final Media media : mediaDAO.listMedia( album, true ))
             existingMediaBuilder.put( media.getName(), media );
         ImmutableMap<String, Media> existingMedia = existingMediaBuilder.build();
         Set<Media> purgeMedia = Sets.newHashSet( existingMedia.values() );
@@ -166,8 +166,9 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
         checkNotNull( album, "Given album must not be null." );
 
+        List<S3MediaData> mediaDatas = mediaDAO.listMediaData( album, false );
+
         int o = 0;
-        List<S3MediaData> mediaDatas = mediaDAO.listMediaData( album );
         for (final S3MediaData mediaData : mediaDatas) {
             if (o++ % 100 == 0)
                 logger.dbg( "Loading media data %d / %d", ++o, mediaDatas.size() );

@@ -100,11 +100,8 @@ public class SecurityServiceImpl implements SecurityService {
         } );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public void assertAccess(final Permission permission, final SecurityToken token, final SecureObject<?> o)
+    public <S extends SecureObject<?>> S assertAccess(final Permission permission, final SecurityToken token, final S o)
             throws PermissionDeniedException {
 
         checkNotNull( token, "Given security token must not be null." );
@@ -113,14 +110,14 @@ public class SecurityServiceImpl implements SecurityService {
         if (o == null || permission == Permission.NONE) {
             logger.dbg( "Permission Granted: No permission necessary for: %s@%s", //
                         permission, o );
-            return;
+            return o;
         }
 
         // Automatically grant permission to INTERNAL_USE token.
         if (token.isInternalUseOnly()) {
             logger.dbg( "Permission Granted: INTERNAL_USE token for: %s@%s", //
                         permission, o );
-            return;
+            return o;
         }
 
         // Determine what permission level to grant on the object for the token.
@@ -141,7 +138,7 @@ public class SecurityServiceImpl implements SecurityService {
             logger.dbg( "Inheriting permission for: %s@%s", //
                         permission, o );
             assertAccess( permission, token, o.getParent() );
-            return;
+            return o;
         }
 
         // Else, check if granted permission provides required permission.
@@ -154,6 +151,7 @@ public class SecurityServiceImpl implements SecurityService {
         // No permission denied thrown, grant permission.
         logger.dbg( "Permission Granted: Token authorization %s matches for: %s@%s", //
                     tokenPermission, permission, o );
+        return o;
     }
 
     private static boolean isPermissionProvided(final Permission givenPermission, final Permission requestedPermission) {

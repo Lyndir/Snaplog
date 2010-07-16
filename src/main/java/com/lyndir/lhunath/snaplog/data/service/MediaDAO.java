@@ -21,11 +21,11 @@ public interface MediaDAO {
 
     <D extends MediaData<?>> D findMediaData(Album album, String mediaName);
 
-    <M extends Media> List<M> listMedia(Album album, String mediaName);
+    <M extends Media> List<M> listMedia(Album album, String mediaName, final boolean ascending);
 
-    <M extends Media> List<M> listMedia(Album album);
+    <M extends Media> List<M> listMedia(Album album, final boolean ascending);
 
-    <D extends MediaData<?>> List<D> listMediaData(Album album);
+    <D extends MediaData<?>> List<D> listMediaData(Album album, final boolean ascending);
 
     void delete(Iterable<Media> medias);
 }

@@ -90,7 +90,14 @@ public class AlbumServiceImpl implements AlbumService {
     @Override
     public Album findAlbumWithName(final SecurityToken token, final User ownerUser, final String albumName) {
 
-        return securityService.filterAccess( Permission.VIEW, token, albumDAO.listAlbums( ownerUser, albumName ).iterator() ).next();
+        try {
+            return securityService.assertAccess( Permission.VIEW, token, albumDAO.findAlbum( ownerUser, albumName ) );
+        }
+
+        catch (PermissionDeniedException e) {
+            // Don't provide information to the outside world that this album exists.
+            return null;
+        }
     }
 
     /**
@@ -99,12 +106,16 @@ public class AlbumServiceImpl implements AlbumService {
     @Override
     public Media findMediaWithName(final SecurityToken token, final Album album, final String mediaName) {
 
-        Iterator<Media> results = securityService.filterAccess( Permission.VIEW, token, mediaDAO.listMedia( album, mediaName ).iterator() );
-        if (results.hasNext())
-            return results.next();
+        Media media = mediaDAO.findMediaData( album, mediaName ).getMedia();
 
-        // Media in album by mediaName not found.
-        return null;
+        try {
+            return securityService.assertAccess( Permission.VIEW, token, media );
+        }
+
+        catch (PermissionDeniedException ignored) {
+            // Don't provide information to the outside world that this media exists.
+            return null;
+        }
     }
 
     private static <A extends Album> AlbumProvider<A, Media> getAlbumProvider(final A album) {
@@ -159,7 +170,8 @@ public class AlbumServiceImpl implements AlbumService {
     @Override
     public SizedListIterator<Media> iterateMedia(final SecurityToken token, final Album album) {
 
-        List<Media> results = mediaDAO.listMedia( album );
+        List<Media> results = mediaDAO.listMedia( album, true );
+        
         return SizedListIterator.of( securityService.filterAccess( Permission.VIEW, token, results.listIterator() ), results.size() );
     }
 

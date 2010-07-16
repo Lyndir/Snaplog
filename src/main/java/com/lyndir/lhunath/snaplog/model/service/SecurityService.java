@@ -40,11 +40,13 @@ public interface SecurityService {
      * @param token      The token used to authenticate the available permissions on the given object.
      * @param o          The object that is the target of the request.
      *
+     * @return The object from parameter <code>o</code>.
+     *
      * @throws PermissionDeniedException When permission is required and the object is not <code>null</code> while there is no security
      *                                   token or the token doesn't grant the necessary permission on the object.
      * @see #hasAccess(Permission, SecurityToken, SecureObject)
      */
-    void assertAccess(Permission permission, SecurityToken token, SecureObject<?> o)
+    <S extends SecureObject<?>> S assertAccess(Permission permission, SecurityToken token, S o)
             throws PermissionDeniedException;
 
     /**
