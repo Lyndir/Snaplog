@@ -239,10 +239,11 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
     }
 
     /**
-     * Obtain media data for the given media and indicate metadata for the given quality is required.
+     * Obtain media data for the given media.
      *
-     * @param media   The media whose media data is required.
-     * @param quality The quality whose metadata is needed.
+     * @param media    The media whose media data is needed.
+     * @param quality  The quality whose storage object is needed.
+     * @param metadata <code>true</code> if the storage object's full metadata is necessary.
      *
      * @return A media data object for the given media with metadata for the given quality present <b>if the object at the given quality
      *         exists in storage</b>.
@@ -356,10 +357,11 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
     }
 
     /**
-     * Look up all metadata for media at a certain quality.
+     * Look up the storage object for media at a certain quality.
      *
-     * @param media   The {@link Media} whose data is will be referenced by the returned object.
-     * @param quality The {@link Quality} of the {@link Media}'s data.
+     * @param media    The {@link Media} whose data is will be referenced by the returned object.
+     * @param quality  The {@link Quality} of the {@link Media}'s data.
+     * @param metadata <code>true</code> if the storage object's full metadata is necessary.
      *
      * @return An {@link S3Object} with metadata or <code>null</code> if no object exists in S3 for the given media at the given quality.
      *
@@ -377,8 +379,9 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * Retrieve the storage object for media at a certain quality.  If the media does not yet exist in storage at the given quality, it will
      * be generated from original quality first. <b>This operation can take quite some time.</b>
      *
-     * @param media   The {@link Media} whose data is will be referenced by the returned object.
-     * @param quality The {@link Quality} of the {@link Media}'s data.
+     * @param media    The {@link Media} whose data is will be referenced by the returned object.
+     * @param quality  The {@link Quality} of the {@link Media}'s data.
+     * @param metadata <code>true</code> if the storage object's full metadata is necessary.
      *
      * @return An {@link S3Object} with all the media storage object's metadata.
      */
@@ -442,7 +445,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      *
      * @param media The {@link Media} whose data is will be referenced by the returned object.
      *
-     * @return An {@link S3Object} with basic metadata.
+     * @return An {@link S3Object} with full metadata.
      *
      * @see S3Service#listObjects(S3Bucket)
      */
@@ -450,8 +453,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
         checkNotNull( media, "Given media must not be null." );
 
-        S3MediaData mediaData = getMediaData( media );
-        return checkNotNull( mediaData.get( Quality.METADATA ), "S3 object for %s must not be null.", media );
+        return getMediaData( media, Quality.ORIGINAL, true ).get( Quality.ORIGINAL );
     }
 
     /**

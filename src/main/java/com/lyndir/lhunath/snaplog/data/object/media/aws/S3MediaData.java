@@ -15,14 +15,13 @@
  */
 package com.lyndir.lhunath.snaplog.data.object.media.aws;
 
-import static com.google.common.base.Preconditions.checkArgument;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.Maps;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.object.media.MediaData;
-import java.util.HashSet;
+import java.util.EnumSet;
 import java.util.Map;
 import java.util.Set;
 import org.jets3t.service.model.S3Object;
@@ -43,7 +42,7 @@ public class S3MediaData implements MediaData<S3Media> {
     /**
      * Create a new {@link S3MediaData} instance.
      *
-     * @param media          The {@link S3Media} that we hold data for.
+     * @param media The {@link S3Media} that we hold data for.
      */
     public S3MediaData(final S3Media media) {
 
@@ -72,25 +71,17 @@ public class S3MediaData implements MediaData<S3Media> {
     /**
      * Record an {@link S3Object} for a given {@link Quality} of the {@link Media} we hold data for.
      *
-     * <p> The {@link Quality#METADATA} quality is also updated with this object. </p>
-     *
      * @param quality  The quality of the media that the given s3Object represents.
      * @param s3Object The S3 data of the media at the given quality.
      *
      * @return <code>this</code> for chaining.
      */
-    public MediaData put(final Quality quality, final S3Object s3Object) {
+    public MediaData<S3Media> put(final Quality quality, final S3Object s3Object) {
 
         checkNotNull( quality, "Given quality must not be null." );
         checkNotNull( s3Object, "Given S3 object must not be null." );
 
-        if (quality == Quality.METADATA || s3Object.isMetadataComplete()) {
-            checkArgument( s3Object.isMetadataComplete(),
-                           "Can't store METADATA on given S3 object since it does not have complete metadata." );
-            s3Objects.put( Quality.METADATA, s3Object );
-        }
-        if (quality != Quality.METADATA)
-            s3Objects.put( quality, s3Object );
+        s3Objects.put( quality, s3Object );
 
         return this;
     }
@@ -112,7 +103,7 @@ public class S3MediaData implements MediaData<S3Media> {
     @Override
     public String toString() {
 
-        Set<Quality> s3ObjectKeys = new HashSet<Quality>();
+        Set<Quality> s3ObjectKeys = EnumSet.noneOf( Quality.class );
         for (final Map.Entry<Quality, S3Object> entry : s3Objects.entrySet())
             if (entry.getValue() != null)
                 s3ObjectKeys.add( entry.getKey() );
