@@ -114,4 +114,11 @@ public class MediaDAOImpl implements MediaDAO {
             }
         } );
     }
+
+    @Override
+    public void delete(final Iterable<Media> medias) {
+
+        for (final Media media : medias)
+            db.delete( media );
+    }
 }

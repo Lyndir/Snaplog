@@ -18,8 +18,10 @@ package com.lyndir.lhunath.snaplog.model.service.impl;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Splitter;
+import com.google.common.collect.ImmutableMap;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.logging.exception.InternalInconsistencyException;
@@ -50,6 +52,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import javax.imageio.ImageIO;
 import org.jets3t.service.S3Service;
 import org.jets3t.service.S3ServiceException;
@@ -120,7 +123,23 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
             }
         }
 
-        // TODO: Remove media that has disappeared.
+        // Find all existing media that is not contained in the set of media fetched from S3
+        // These are media that have been removed from S3 since the last sync; purge them.
+        logger.dbg( "Looking for media to purge..." );
+        ImmutableMap.Builder<String, Media> existingMediaBuilder = ImmutableMap.builder();
+        for (final Media media : mediaDAO.listMedia( album ))
+            existingMediaBuilder.put( media.getName(), media );
+        ImmutableMap<String, Media> existingMedia = existingMediaBuilder.build();
+        Set<Media> purgeMedia = Sets.newHashSet( existingMedia.values() );
+        for (final String mediaName : mediaObjects.keySet()) {
+            Media media = existingMedia.get( mediaName );
+            if (media != null)
+                // This media was found in S3's list of current media data; don't purge it.
+                purgeMedia.remove( media );
+        }
+        logger.dbg( "Purging %d / %d media from db", purgeMedia.size(), existingMedia.size() );
+        mediaDAO.delete( purgeMedia );
+
         int o = 0;
         for (final Map.Entry<String, Map<Quality, S3Object>> mediaObjectsEntry : mediaObjects.entrySet()) {
             if (o++ % 100 == 0)

@@ -118,4 +118,11 @@ public class MediaDAOImpl implements MediaDAO {
 
         return query.execute();
     }
+
+    @Override
+    public void delete(final Iterable<Media> medias) {
+
+        for (final Media media : medias)
+            db.delete( media );
+    }
 }

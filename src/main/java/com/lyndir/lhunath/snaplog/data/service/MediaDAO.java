@@ -26,4 +26,6 @@ public interface MediaDAO {
     <M extends Media> List<M> listMedia(Album album);
 
     <D extends MediaData<?>> List<D> listMediaData(Album album);
+
+    void delete(Iterable<Media> medias);
 }
