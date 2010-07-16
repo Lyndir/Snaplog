@@ -102,4 +102,16 @@ public class MediaDAOImpl implements MediaDAO {
             }
         } );
     }
+
+    @Override
+    public <D extends MediaData<?>> List<D> listMediaData(final Album album) {
+
+        return db.query( new Predicate<D>() {
+            @Override
+            public boolean match(final D candidate) {
+
+                return candidate.getMedia().getAlbum().equals( album );
+            }
+        } );
+    }
 }

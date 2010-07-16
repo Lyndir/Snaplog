@@ -62,8 +62,10 @@ public class MediaDAOImpl implements MediaDAO {
         try {
             Query query = db.query();
             query.constrain( MediaData.class ) //
-                    .and( query.descend( "media" ).descend( "name" ).constrain( mediaName ) ) //
-                    .and( query.descend( "media" ).descend( "album" ).constrain( album ) );
+                    .and( query.descend( "media" ).descend( "name" ) //
+                            .constrain( mediaName ) ) //
+                    .and( query.descend( "media" ).descend( "album" ) //
+                            .constrain( album ).identity() );
 
             ObjectSet<D> mediaDataQuery = query.execute();
             if (mediaDataQuery.hasNext())
@@ -85,8 +87,10 @@ public class MediaDAOImpl implements MediaDAO {
         Query query = db.query();
         query.constrain( Media.class ) //
                 // FIXME: Might not work for Media implementations that have no album field?
-                .and( query.descend( "album" ).constrain( album ) ) //
-                .and( query.descend( "name" ).orderAscending().constrain( mediaName ) );
+                .and( query.descend( "album" )//
+                        .constrain( album ).identity() ) //
+                .and( query.descend( "name" ).orderAscending() //
+                        .constrain( mediaName ) );
 
         return query.execute();
     }
@@ -96,9 +100,21 @@ public class MediaDAOImpl implements MediaDAO {
 
         Query query = db.query();
         query.constrain( Media.class ) //
-                .and( query.descend( "album" ).constrain( album ) );
+                .and( query.descend( "album" ) //
+                        .constrain( album ).identity() );
         // TODO: Set the sort order in nq. package too.
         query.descend( "name" ).orderAscending();
+
+        return query.execute();
+    }
+
+    @Override
+    public <D extends MediaData<?>> List<D> listMediaData(final Album album) {
+
+        Query query = db.query();
+        query.constrain( MediaData.class ) //
+                .and( query.descend( "media" ).descend( "album" )//
+                        .constrain( album ).identity() );
 
         return query.execute();
     }

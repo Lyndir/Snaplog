@@ -63,7 +63,7 @@
 
     <!-- DEFAULT PROPERTIES -->
     <properties>
-        <version.db4o>7.12-SNAPSHOT</version.db4o>
+        <!--version.db4o>7.12-SNAPSHOT</version.db4o-->
     </properties>
 
     <!-- BUILD CONFIGURATION -->

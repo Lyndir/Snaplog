@@ -18,8 +18,8 @@ package com.lyndir.lhunath.snaplog.model.service.impl;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Splitter;
-import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
+import com.google.common.collect.Maps;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.logging.exception.InternalInconsistencyException;
@@ -49,6 +49,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
+import java.util.Map;
 import javax.imageio.ImageIO;
 import org.jets3t.service.S3Service;
 import org.jets3t.service.S3ServiceException;
@@ -97,25 +98,44 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
 
         checkNotNull( album, "Given album must not be null." );
 
+        // Fetch objects at all qualities from S3
+        Map<String, Map<Quality, S3Object>> mediaObjects = Maps.newHashMap();
+        for (final Quality quality : Quality.values()) {
+
+            for (final S3Object s3Object : awsService.listObjects( getObjectKey( album, quality ) )) {
+
+                if (!s3Object.getKey().endsWith( ".jpg" ))
+                    // Ignore files that don't have a valid media name.
+                    continue;
+
+                String mediaName = Iterables.getLast( Splitter.on( '/' ).split( s3Object.getKey() ) );
+                if (mediaName.startsWith( "." ))
+                    // Ignore hidden files.
+                    continue;
+
+                Map<Quality, S3Object> qualityObjects = mediaObjects.get( mediaName );
+                if (qualityObjects == null)
+                    mediaObjects.put( mediaName, qualityObjects = Maps.newHashMap() );
+                qualityObjects.put( quality, s3Object );
+            }
+        }
+
         // TODO: Remove media that has disappeared.
         int o = 0;
-        ImmutableList<S3Object> mediaObjects = awsService.listObjects( getObjectKey( album, Quality.ORIGINAL ) );
-        for (final S3Object mediaObject : mediaObjects) {
+        for (final Map.Entry<String, Map<Quality, S3Object>> mediaObjectsEntry : mediaObjects.entrySet()) {
             if (o++ % 100 == 0)
                 logger.dbg( "Loading media %d / %d", ++o, mediaObjects.size() );
 
-            if (!mediaObject.getKey().endsWith( ".jpg" ))
-                // Ignore files that don't have a valid media name.
-                continue;
-
-            String mediaName = Iterables.getLast( Splitter.on( '/' ).split( mediaObject.getKey() ) );
-
-            if (mediaName.startsWith( "." ))
-                // Ignore hidden files.
-                continue;
+            String mediaName = mediaObjectsEntry.getKey();
+            Map<Quality, S3Object> qualityObjects = mediaObjectsEntry.getValue();
 
             // Create/update mediaData for the object.
-            setMediaData( album, mediaName, Quality.ORIGINAL, mediaObject );
+            for (final Map.Entry<Quality, S3Object> qualityObjectsEntry : qualityObjects.entrySet()) {
+                Quality quality = qualityObjectsEntry.getKey();
+                S3Object mediaObject = qualityObjectsEntry.getValue();
+
+                setMediaData( album, mediaName, quality, mediaObject );
+            }
         }
     }
 
@@ -128,14 +148,15 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         checkNotNull( album, "Given album must not be null." );
 
         int o = 0;
-        List<S3Media> albumMedia = mediaDAO.listMedia( album );
-        for (final S3Media media : albumMedia) {
+        List<S3MediaData> mediaDatas = mediaDAO.listMediaData( album );
+        for (final S3MediaData mediaData : mediaDatas) {
             if (o++ % 100 == 0)
-                logger.dbg( "Loading media data %d / %d", ++o, albumMedia.size() );
+                logger.dbg( "Loading media data %d / %d", ++o, mediaDatas.size() );
 
             // Load existing and create missing media objects at all qualities.
             for (final Quality quality : Quality.values())
-                loadObjectDetails( media, quality );
+                if (mediaData.get( quality ) == null)
+                    loadObjectDetails( mediaData.getMedia(), quality, true );
         }
     }
 
@@ -207,13 +228,13 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      * @return A media data object for the given media with metadata for the given quality present <b>if the object at the given quality
      *         exists in storage</b>.
      */
-    private S3MediaData getMediaData(final S3Media media, final Quality quality) {
+    private S3MediaData getMediaData(final S3Media media, final Quality quality, final boolean metadata) {
 
         logger.dbg( "Finding S3 object details of: %s, at: %s", media, quality );
         S3MediaData mediaData = getMediaData( media );
 
         S3Object mediaObject = mediaData.get( quality );
-        if (mediaObject == null) {
+        if (mediaObject == null || metadata && !mediaObject.isMetadataComplete()) {
             mediaObject = awsService.fetchObjectDetails( getObjectKey( media, quality ) );
 
             if (mediaObject != null) {
@@ -236,7 +257,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         checkNotNull( quality, "Given quality must not be null." );
         securityService.assertAccess( Permission.VIEW, token, media );
 
-        S3Object mediaObject = findObjectDetails( media, quality );
+        S3Object mediaObject = findObjectDetails( media, quality, false );
         if (mediaObject == null)
             return null;
 
@@ -325,26 +346,26 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      *
      * @see S3Service#getObject(S3Bucket, String)
      */
-    protected S3Object findObjectDetails(final S3Media media, final Quality quality) {
+    protected S3Object findObjectDetails(final S3Media media, final Quality quality, final boolean metadata) {
 
         checkNotNull( media, "Given media must not be null." );
         checkNotNull( quality, "Given quality must not be null." );
 
-        return getMediaData( media, quality ).get( quality );
+        return getMediaData( media, quality, metadata ).get( quality );
     }
 
     /**
-     * Retrieve all metadata for media at a certain quality.  If the media does not yet exist in storage at the given quality, it will be
-     * generated from original quality first. <b>This operation can take quite some time.</b>
+     * Retrieve the storage object for media at a certain quality.  If the media does not yet exist in storage at the given quality, it will
+     * be generated from original quality first. <b>This operation can take quite some time.</b>
      *
      * @param media   The {@link Media} whose data is will be referenced by the returned object.
      * @param quality The {@link Quality} of the {@link Media}'s data.
      *
      * @return An {@link S3Object} with all the media storage object's metadata.
      */
-    protected S3Object loadObjectDetails(final S3Media media, final Quality quality) {
+    protected S3Object loadObjectDetails(final S3Media media, final Quality quality, final boolean metadata) {
 
-        S3Object s3ResourceObject = findObjectDetails( media, quality );
+        S3Object s3ResourceObject = findObjectDetails( media, quality, metadata );
         if (s3ResourceObject != null)
             return s3ResourceObject;
 
