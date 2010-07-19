@@ -25,6 +25,7 @@ import com.lyndir.lhunath.lib.system.collection.Iterators2;
 import com.lyndir.lhunath.lib.system.collection.Pair;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.logging.exception.InternalInconsistencyException;
+import com.lyndir.lhunath.lib.system.util.ObjectUtils;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.data.object.security.SecureObject;
 import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
@@ -32,6 +33,7 @@ import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.data.service.SecurityDAO;
 import com.lyndir.lhunath.snaplog.error.IllegalOperationException;
 import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
+import com.lyndir.lhunath.snaplog.model.ServiceModule;
 import com.lyndir.lhunath.snaplog.model.service.SecurityService;
 import java.util.Iterator;
 import java.util.ListIterator;
@@ -50,7 +52,7 @@ public class SecurityServiceImpl implements SecurityService {
     private final SecurityDAO securityDAO;
 
     /**
-     * @param securityDAO See {@link ServicesModule}.
+     * @param securityDAO See {@link ServiceModule}.
      */
     @Inject
     public SecurityServiceImpl(final SecurityDAO securityDAO) {
@@ -122,7 +124,7 @@ public class SecurityServiceImpl implements SecurityService {
 
         // Determine what permission level to grant on the object for the token.
         Permission tokenPermission;
-        if (o.getOwner().equals( token.getActor() ))
+        if (ObjectUtils.equal( o.getOwner(), token.getActor() ))
             tokenPermission = Permission.ADMINISTER;
         else
             tokenPermission = o.getACL().getUserPermission( token.getActor() );
@@ -255,7 +257,7 @@ public class SecurityServiceImpl implements SecurityService {
         checkNotNull( o, "Given secure object must not be null." );
         checkNotNull( user, "Given user must not be null." );
 
-        if (o.getOwner().equals( user ))
+        if (ObjectUtils.equal( o.getOwner(), user ))
             throw new IllegalOperationException( "Given user must not be the object's owner." );
 
         assertAccess( Permission.ADMINISTER, token, o );

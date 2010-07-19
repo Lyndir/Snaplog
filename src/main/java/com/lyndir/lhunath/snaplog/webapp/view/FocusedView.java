@@ -5,6 +5,7 @@ import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.collection.ListIteratorView;
 import com.lyndir.lhunath.lib.system.collection.SizedListIterator;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.system.util.ObjectUtils;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.model.service.AlbumService;
@@ -104,13 +105,12 @@ public class FocusedView extends GenericPanel<Media> {
 
                 // Add 6 or up to the current or last media to the models list.
                 for (int i = 0; i < SIDE_IMAGES; ++i) {
-                    if (mediaView.current().equals( current ))
+                    if (ObjectUtils.equal( mediaView.current(), current ))
                         break;
                     if (!mediaView.hasNext())
                         break;
 
-                    models.add( new Model<Media>( mediaView.current() ) );
-                    mediaView.next();
+                    models.add( new Model<Media>( mediaView.next() ) );
                 }
 
                 // Return an iterator limited at 'count'.

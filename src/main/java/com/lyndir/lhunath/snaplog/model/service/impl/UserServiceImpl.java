@@ -31,6 +31,7 @@ import com.lyndir.lhunath.snaplog.data.service.UserDAO;
 import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.error.UserNotFoundException;
 import com.lyndir.lhunath.snaplog.error.UsernameTakenException;
+import com.lyndir.lhunath.snaplog.model.ServiceModule;
 import com.lyndir.lhunath.snaplog.model.service.SecurityService;
 import com.lyndir.lhunath.snaplog.model.service.UserService;
 
@@ -48,8 +49,8 @@ public class UserServiceImpl implements UserService {
     private final UserDAO userDAO;
 
     /**
-     * @param userDAO         See {@link ServicesModule}.
-     * @param securityService See {@link ServicesModule}.
+     * @param userDAO         See {@link ServiceModule}.
+     * @param securityService See {@link ServiceModule}.
      */
     @Inject
     public UserServiceImpl(final UserDAO userDAO, final SecurityService securityService) {
@@ -83,21 +84,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findUserWithLinkID(final LinkID linkID) {
 
-        checkNotNull( linkID, "Given linkID must not be null." );
-
-        SizedListIterator<User> userQuery = iterateUsers( new IPredicate<User>() {
-
-            @Override
-            public boolean apply(final User input) {
-
-                return input != null && ObjectUtils.equal( input.getLinkID(), linkID );
-            }
-        } );
-        if (userQuery.hasNext())
-            return userQuery.next();
-
-        // No user exists yet for given linkID.
-        return null;
+        return userDAO.findUser( linkID );
     }
 
     /**

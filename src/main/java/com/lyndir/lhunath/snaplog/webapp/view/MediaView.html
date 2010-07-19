@@ -10,14 +10,14 @@
                 // Media
                 $(document).ready(function() {
                     // Clicking a preview image toggles the fullscreen version.
-                    $('.preview .image').live("click", function() {
+                    /*$('.media.preview .image').live("click", function() {
                         $(this).closest('.media').find('.fullscreen').animate({opacity:'toggle'});
                     });
 
                     // Clicking the fullscreen version toggles it off again.
-                    $('.fullscreen').live("click", function() {
+                    $('.media .fullscreen').live("click", function() {
                         $(this).animate({opacity:'toggle'});
-                    });
+                    });*/
                 });
             </script>
         </wicket:head>
@@ -30,13 +30,13 @@
                 <span class="image" wicket:id="image">
                     <img src="" alt="" wicket:id="thumb" class="thumb" />
                     <span class="caption" wicket:id="caption">[Caption]</span>
-                </span>
 
-                <wicket:enclosure>
-                    <div class="fullscreen">
-                        <img src="" alt="" wicket:id="fullImage" />
-                    </div>
-                </wicket:enclosure>
+                    <wicket:container wicket:id="tools">
+                        <div class="tools">
+                            <a class="ss_sprite ss_picture_save" wicket:id="originalTool" target="_blank"><wicket:message key="tools.original">Download</wicket:message></a>
+                        </div>
+                    </wicket:container>
+                </span>
             </span>
 
         </wicket:panel>

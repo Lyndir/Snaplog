@@ -19,11 +19,11 @@ public interface MediaDAO {
 
     void update(MediaData<?> mediaData);
 
+    void update(Iterable<MediaData<?>> mediaDatas);
+
     <M extends Media> M findMedia(final Album album, final String mediaName);
 
     <D extends MediaData<M>, M extends Media> D findMediaData(final M media);
-
-    <M extends Media> List<M> listMedia(Album album, String mediaName, final boolean ascending);
 
     <M extends Media> List<M> listMedia(Album album, final boolean ascending);
 

@@ -1,6 +1,7 @@
 package com.lyndir.lhunath.snaplog.data.service;
 
 import com.google.common.base.Predicate;
+import com.lyndir.lhunath.snaplog.data.object.user.LinkID;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
 import java.util.List;
@@ -18,6 +19,8 @@ public interface UserDAO {
     void update(User user);
 
     void update(UserProfile userProfile);
+
+    User findUser(LinkID linkID);
 
     UserProfile findUserProfile(User user);
 

@@ -140,7 +140,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
          * {@inheritDoc}
          */
         @Override
-        public List<? extends SnaplogTool> listTools(AlbumTabPanel panel) {
+        public List<? extends SnaplogTool> listTools(final AlbumTabPanel panel) {
 
             return ImmutableList.of( new BackTool( panel.getModelObject() ), //
                                      new TimelinePopup.Tool( panel.getModelObject() ), //
@@ -185,6 +185,8 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
 
 
     static class BackTool implements SnaplogLinkTool {
+
+        static final Logger logger = Logger.get( BackTool.class );
 
         private final AlbumTabModels model;
 

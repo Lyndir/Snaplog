@@ -32,6 +32,7 @@ import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.ContextImage;
+import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
@@ -94,6 +95,8 @@ public class MediaView extends GenericPanel<Media> {
                     return getModelObject() != null;
                 }
             };
+        media.add( image );
+
         image.add( new Label( "caption", new LoadableDetachableModel<String>() {
 
             @Override
@@ -106,7 +109,7 @@ public class MediaView extends GenericPanel<Media> {
             @Override
             public boolean isVisible() {
 
-                return getModelObject() != null && false; // TODO: Show caption with appropriate qualities and make pretty.
+                return getModelObject() != null;
             }
         } );
         image.add( new ContextImage( "thumb", new LoadableDetachableModel<String>() {
@@ -147,35 +150,34 @@ public class MediaView extends GenericPanel<Media> {
                 }
             }
         } ) );
+        image.add( new WebMarkupContainer( "tools" ) {
 
-        // Add the image and the full-screen image to the media container.
-        media.add( image );
-        media.add( new ContextImage( "fullImage", //
-                                     new LoadableDetachableModel<String>() {
+            {
+                add( new ExternalLink( "originalTool", new LoadableDetachableModel<String>() {
 
-                                         @Override
-                                         protected String load() {
+                    @Override
+                    protected String load() {
 
-                                             try {
-                                                 URL resourceURL = albumService.findResourceURL( SnaplogSession.get().newToken(),
-                                                                                                 getModelObject(), Quality.FULLSCREEN );
-                                                 if (resourceURL == null)
-                                                     // TODO: May want to display something useful to the user like a specific "not-found" thumbnail.
-                                                     return null;
+                        try {
+                            URL resourceURL = albumService.findResourceURL( SnaplogSession.get().newToken(), getModelObject(), Quality.ORIGINAL );
+                            if (resourceURL == null)
+                                // TODO: May want to display something useful to the user like a specific "not-found" thumbnail.
+                                return null;
 
-                                                 return resourceURL.toExternalForm();
-                                             }
-                                             catch (PermissionDeniedException ignored) {
-                                                 // TODO: May want to display something useful to the user like a specific "denied" thumbnail.
-                                                 return null;
-                                             }
-                                         }
-                                     } ) {
+                            return resourceURL.toExternalForm();
+                        }
+                        catch (PermissionDeniedException ignored) {
+                            // TODO: May want to display something useful to the user like a specific "denied" thumbnail.
+                            return null;
+                        }
+                    }
+                } ) );
+            }
 
             @Override
             public boolean isVisible() {
 
-                return getModelObject() != null && quality == Quality.PREVIEW;
+                return getModelObject() != null && quality == Quality.PREVIEW || quality == Quality.FULLSCREEN;
             }
         } );
     }

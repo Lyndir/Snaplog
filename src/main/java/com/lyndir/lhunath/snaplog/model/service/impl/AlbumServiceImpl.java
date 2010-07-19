@@ -24,6 +24,7 @@ import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.collection.SizedListIterator;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.DateUtils;
+import com.lyndir.lhunath.lib.system.util.ObjectUtils;
 import com.lyndir.lhunath.snaplog.data.object.media.Album;
 import com.lyndir.lhunath.snaplog.data.object.media.AlbumProviderType;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
@@ -35,6 +36,7 @@ import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.data.service.AlbumDAO;
 import com.lyndir.lhunath.snaplog.data.service.MediaDAO;
 import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
+import com.lyndir.lhunath.snaplog.model.ServiceModule;
 import com.lyndir.lhunath.snaplog.model.service.AlbumProvider;
 import com.lyndir.lhunath.snaplog.model.service.AlbumService;
 import com.lyndir.lhunath.snaplog.model.service.SecurityService;
@@ -62,9 +64,9 @@ public class AlbumServiceImpl implements AlbumService {
     private final AlbumDAO albumDAO;
 
     /**
-     * @param albumDAO        See {@link ServicesModule}.
-     * @param mediaDAO        See {@link ServicesModule}.
-     * @param securityService See {@link ServicesModule}.
+     * @param albumDAO        See {@link ServiceModule}.
+     * @param mediaDAO        See {@link ServiceModule}.
+     * @param securityService See {@link ServiceModule}.
      */
     @Inject
     public AlbumServiceImpl(final AlbumDAO albumDAO, final MediaDAO mediaDAO, final SecurityService securityService) {
@@ -202,7 +204,7 @@ public class AlbumServiceImpl implements AlbumService {
                         break;
                     lastMedia = media.next();
                 } // Continue to add this lastMedia to the current list of media while its shotTime truncates to the offset.
-                while (DateUtils.truncate( lastMedia.shotTime(), frame ).equals( offset ));
+                while (ObjectUtils.equal( DateUtils.truncate( lastMedia.shotTime(), frame ), offset ));
 
                 return new MediaTimeFrame( offset, range, frameMedia.build() );
             }

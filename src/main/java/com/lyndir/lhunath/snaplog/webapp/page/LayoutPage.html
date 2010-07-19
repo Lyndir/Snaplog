@@ -20,7 +20,7 @@
         <![endif]-->
         <link rel="stylesheet" type="text/css" href="css/style.css" />
 
-        <script type="text/javascript" src="js/jquery-1.4.2.min.js"></script>
+        <script type="text/javascript" src="js/jquery-1.4.2.js"></script>
         <script type="text/javascript">
             function popup(id, action) {
                 $("#" + id + " .popup").animate({opacity:action});
@@ -33,7 +33,7 @@
         <div id="header">
             <h2 id="headerIndicator" style="display:none">Loading</h2>
 
-            <wicket:container wicket:id="tabsContainer">
+            <div wicket:id="tabsContainer">
                 <ul class="plain tabs">
                     <li wicket:id="tabs">
                         <a wicket:id="link">[Tab]</a>
@@ -48,7 +48,7 @@
                         <li wicket:id="tools"><a wicket:id="link">[Tool]</a></li>
                     </ul>
                 </wicket:enclosure>
-            </wicket:container>
+            </div>
 
             <p wicket:id="userEntry">
                 <span wicket:id="userGuessWelcome">[Welcome back ~lhunath]</span>. <a wicket:id="userLogin" class="ss_sprite ss_status_offline">

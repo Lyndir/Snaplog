@@ -1,11 +1,11 @@
 package com.lyndir.lhunath.snaplog.spike;
 
-import com.db4o.ObjectContainer;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.DateUtils;
+import com.lyndir.lhunath.snaplog.data.DAOModule;
 import com.lyndir.lhunath.snaplog.data.object.media.MediaData;
 import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Album;
 import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Media;
@@ -13,8 +13,9 @@ import com.lyndir.lhunath.snaplog.data.object.media.aws.S3MediaData;
 import com.lyndir.lhunath.snaplog.data.object.user.LinkID;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
+import com.lyndir.lhunath.snaplog.data.service.AlbumDAO;
 import com.lyndir.lhunath.snaplog.data.service.MediaDAO;
-import com.lyndir.lhunath.snaplog.model.service.impl.ServicesModule;
+import com.lyndir.lhunath.snaplog.model.ServiceModule;
 import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 import java.io.File;
@@ -35,11 +36,18 @@ public class SnaplogSpike {
     public static void main(final String... args)
             throws Exception {
 
-        GuiceContext.setInjector( injector = Guice.createInjector( new ServicesModule() ) );
+        GuiceContext.setInjector( injector = Guice.createInjector( new DAOModule(), new ServiceModule() ) );
 
+        // foo();
         prepare();
-
         test();
+    }
+
+    private static void foo() {
+
+        SnaplogConstants.DEFAULT_ALBUM = new S3Album( new UserProfile( new User( new LinkID( "linkid" ), "lhunath" ) ), "Life" );
+        injector.getInstance( AlbumDAO.class ).update( SnaplogConstants.DEFAULT_ALBUM );
+        logger.inf( "Albums in db: %s", injector.getInstance( AlbumDAO.class ).listAlbums() );
     }
 
     private static void test() {
@@ -59,6 +67,7 @@ public class SnaplogSpike {
     }
 
     private static void prepare() {
+
         SnaplogConstants.DEFAULT_ALBUM = new S3Album( new UserProfile( new User( new LinkID( "linkid" ), "lhunath" ) ), "Life" );
 
         ImmutableList.Builder<MediaData<?>> mediaDatas = ImmutableList.builder();
@@ -67,8 +76,11 @@ public class SnaplogSpike {
             mediaDatas.add( new S3MediaData( new S3Media( (S3Album) SnaplogConstants.DEFAULT_ALBUM, Integer.toString( i ) ) ) );
         }
 
+        new File( "snaplog.odb" ).delete();
         new File( "snaplog.db4o" ).delete();
         logger.inf( "Storing all media datas" );
-        injector.getInstance( ObjectContainer.class ).store( mediaDatas );
+        for (final MediaData<?> mediaData : mediaDatas.build()) {
+            injector.getInstance( MediaDAO.class ).update( mediaData );
+        }
     }
 }

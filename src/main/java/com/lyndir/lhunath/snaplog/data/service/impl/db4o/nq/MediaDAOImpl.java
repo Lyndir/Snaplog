@@ -1,6 +1,5 @@
 package com.lyndir.lhunath.snaplog.data.service.impl.db4o.nq;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.db4o.ObjectContainer;
@@ -44,6 +43,18 @@ public class MediaDAOImpl implements MediaDAO {
     public void update(final MediaData<?> mediaData) {
 
         db.store( mediaData );
+    }
+
+    @Override
+    public void update(final Iterable<MediaData<?>> mediaDatas) {
+
+        DateUtils.startTiming( "updateMediaDatas" );
+        try {
+            db.store( mediaDatas );
+        }
+        finally {
+            DateUtils.popTimer().logFinish();
+        }
     }
 
     @Override
@@ -101,28 +112,6 @@ public class MediaDAOImpl implements MediaDAO {
     }
 
     @Override
-    public <M extends Media> List<M> listMedia(final Album album, final String mediaName, final boolean ascending) {
-
-        checkNotNull( album, "Given album must not be null." );
-        checkNotNull( mediaName, "Given media name must not be null." );
-
-        return db.query( new Predicate<M>() {
-
-            @Override
-            public boolean match(final M candidate) {
-
-                return ObjectUtils.equal( candidate.getAlbum(), album ) && candidate.getName().endsWith( mediaName );
-            }
-        }, new QueryComparator<M>() {
-            @Override
-            public int compare(final M first, final M second) {
-
-                return first.compareTo( second ) * (ascending? 1: -1);
-            }
-        } );
-    }
-
-    @Override
     public <M extends Media> List<M> listMedia(final Album album, final boolean ascending) {
 
         return db.query( new Predicate<M>() {
@@ -130,7 +119,7 @@ public class MediaDAOImpl implements MediaDAO {
             @Override
             public boolean match(final M candidate) {
 
-                return candidate.getAlbum().equals( album );
+                return ObjectUtils.equal( candidate.getAlbum(), album );
             }
         }, new QueryComparator<M>() {
             @Override
@@ -148,7 +137,7 @@ public class MediaDAOImpl implements MediaDAO {
             @Override
             public boolean match(final D candidate) {
 
-                return candidate.getMedia().getAlbum().equals( album );
+                return ObjectUtils.equal(candidate.getMedia().getAlbum(),album );
             }
         }, new QueryComparator<D>() {
             @Override

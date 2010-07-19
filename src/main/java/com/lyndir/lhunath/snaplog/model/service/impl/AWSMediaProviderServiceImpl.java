@@ -38,6 +38,7 @@ import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.data.service.MediaDAO;
 import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
+import com.lyndir.lhunath.snaplog.model.ServiceModule;
 import com.lyndir.lhunath.snaplog.model.service.AWSMediaProviderService;
 import com.lyndir.lhunath.snaplog.model.service.AWSService;
 import com.lyndir.lhunath.snaplog.model.service.SecurityService;
@@ -78,10 +79,10 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
     private final SecurityService securityService;
 
     /**
-     * @param mediaDAO        See {@link ServicesModule}.
-     * @param awsService      See {@link ServicesModule}.
-     * @param userService     See {@link ServicesModule}.
-     * @param securityService See {@link ServicesModule}.
+     * @param mediaDAO        See {@link ServiceModule}.
+     * @param awsService      See {@link ServiceModule}.
+     * @param userService     See {@link ServiceModule}.
+     * @param securityService See {@link ServiceModule}.
      */
     @Inject
     public AWSMediaProviderServiceImpl(final MediaDAO mediaDAO, final AWSService awsService, final UserService userService,

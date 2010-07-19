@@ -157,7 +157,6 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
         } );
 
         // Page Tab.
-        tabsContainer = new WebMarkupContainer( "tabsContainer" );
         ListView<TabItem> headTabs = new ListView<TabItem>( "tabs", getModelObject().tabs() ) {
 
             @Override
@@ -206,6 +205,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
             }
         };
 
+        tabsContainer = new WebMarkupContainer( "tabsContainer" );
         tabsContainer.setOutputMarkupId( true );
         tabsContainer.add( headTabs, new ListView<SnaplogTool>( "tools", tools ) {
 
@@ -284,7 +284,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
         add( (contentContainer = new WebMarkupContainer( "contentContainer" ) {
 
             {
-                add( new ListView<SnaplogPanelTool>( "toolPanels", Lists.newLinkedList(toolPanels.keySet()) ) {
+                add( new ListView<SnaplogPanelTool>( "toolPanels", Lists.newLinkedList( toolPanels.keySet() ) ) {
                     @Override
                     protected void populateItem(final ListItem<SnaplogPanelTool> item) {
 
@@ -334,7 +334,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
         checkNotNull( target, "Given target cannot be null." );
 
         target.addComponent( messages );
-        target.addListener( new FragmentNavigationListener.AjaxRequestListener() {
+        target.addListener( new FragmentNavigationListener.AjaxRequestListener( navigationController ) {
             @Override
             protected FragmentNavigationTab<?, ? extends FragmentState<?, ?>> getActiveTab() {
 
@@ -443,12 +443,12 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
             if (contentPanel == null)
                 contentPanel = tab.getPanel( CONTENT_PANEL );
             contentContainer.addOrReplace( contentPanel );
+        }
 
-            AjaxRequestTarget target = AjaxRequestTarget.get();
-            if (target != null) {
-                target.addComponent( tabsContainer );
-                target.addComponent( contentContainer );
-            }
+        @Override
+        protected Iterable<? extends Component> getNavigationComponents() {
+
+            return ImmutableList.of( tabsContainer, contentContainer );
         }
 
         @Override

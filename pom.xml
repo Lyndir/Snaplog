@@ -63,7 +63,7 @@
 
     <!-- DEFAULT PROPERTIES -->
     <properties>
-        <!--version.db4o>7.12-SNAPSHOT</version.db4o-->
+        <version.db4o>7.12-SNAPSHOT</version.db4o>
     </properties>
 
     <!-- BUILD CONFIGURATION -->
@@ -277,27 +277,11 @@
         </dependency>
         <dependency>
             <groupId>com.db4o</groupId>
-            <artifactId>db4o-nqopt-java5</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>edu.purdue.cs.bloat</groupId>
-            <artifactId>bloat</artifactId>
-            <version>1.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.db4o</groupId>
-            <artifactId>db4o-tools-java5</artifactId>
-            <version>${version.db4o}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.db4o</groupId>
-            <artifactId>db4o-instrumentation-java5</artifactId>
-            <version>${version.db4o}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.db4o</groupId>
             <artifactId>db4o-taj-java5</artifactId>
-            <version>${version.db4o}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.neodatis</groupId>
+            <artifactId>neodatis-odb</artifactId>
         </dependency>
 
         <dependency>

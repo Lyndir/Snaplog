@@ -22,7 +22,8 @@ import com.google.inject.servlet.GuiceServletContextListener;
 import com.google.inject.servlet.ServletModule;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.servlet.DisableURLSessionFilter;
-import com.lyndir.lhunath.snaplog.model.service.impl.ServicesModule;
+import com.lyndir.lhunath.snaplog.data.DAOModule;
+import com.lyndir.lhunath.snaplog.model.ServiceModule;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogWebApplication;
 import com.lyndir.lhunath.snaplog.webapp.servlet.AppLogoutServlet;
 import com.lyndir.lhunath.snaplog.webapp.servlet.InitServlet;
@@ -44,8 +45,7 @@ import org.apache.wicket.protocol.http.servlet.WicketSessionFilter;
  *
  * @author lhunath
  */
-public class
-        GuiceContext extends GuiceServletContextListener {
+public class GuiceContext extends GuiceServletContextListener {
 
     static final Logger logger = Logger.get( GuiceContext.class );
 
@@ -63,7 +63,7 @@ public class
     @Override
     protected Injector getInjector() {
 
-        return Guice.createInjector( Stage.DEVELOPMENT, new ServicesModule(), new ServletModule() {
+        return Guice.createInjector( Stage.DEVELOPMENT, new DAOModule(), new ServiceModule(), new ServletModule() {
 
             @Override
             protected void configureServlets() {

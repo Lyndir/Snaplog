@@ -8,6 +8,7 @@ import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import com.db4o.query.Query;
 import com.google.inject.Inject;
+import com.lyndir.lhunath.snaplog.data.object.user.LinkID;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
 import com.lyndir.lhunath.snaplog.data.service.UserDAO;
@@ -41,6 +42,26 @@ public class UserDAOImpl implements UserDAO {
     public void update(final UserProfile userProfile) {
 
         db.store( userProfile );
+    }
+
+    @Override
+    public User findUser(final LinkID linkID) {
+
+        checkNotNull( linkID, "Given linkID must not be null." );
+
+        Query query = db.query();
+        query.constrain( User.class ) //
+                .and( query.descend( "linkID" ).constrain( linkID ) );
+
+        ObjectSet<User> results = query.execute();
+        if (results.hasNext()) {
+            User result = results.next();
+            checkState( !results.hasNext(), "Multiple users found for %s", linkID );
+
+            return result;
+        }
+
+        return null;
     }
 
     @Override

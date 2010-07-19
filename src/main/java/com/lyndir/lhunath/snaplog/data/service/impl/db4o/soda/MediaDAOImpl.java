@@ -1,6 +1,5 @@
 package com.lyndir.lhunath.snaplog.data.service.impl.db4o.soda;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.db4o.ObjectContainer;
@@ -57,6 +56,18 @@ public class MediaDAOImpl implements MediaDAO {
     }
 
     @Override
+    public void update(final Iterable<MediaData<?>> mediaDatas) {
+
+        DateUtils.startTiming( "updateMediaDatas" );
+        try {
+            db.store( mediaDatas );
+        }
+        finally {
+            DateUtils.popTimer().logFinish();
+        }
+    }
+
+    @Override
     public <M extends Media> M findMedia(final Album album, final String mediaName) {
 
         DateUtils.startTiming( "findMedia" );
@@ -106,29 +117,6 @@ public class MediaDAOImpl implements MediaDAO {
         finally {
             DateUtils.popTimer().logFinish();
         }
-    }
-
-    @Override
-    public <M extends Media> List<M> listMedia(final Album album, final String mediaName, final boolean ascending) {
-
-        checkNotNull( album, "Given album must not be null." );
-        checkNotNull( mediaName, "Given media name must not be null." );
-
-        Query query = db.query();
-        query.constrain( Media.class ) //
-                // FIXME: Might not work for Media implementations that have no album field?
-                .and( query.descend( "album" )//
-                        .constrain( album ).identity() ) //
-                .and( query.descend( "name" ) //
-                        .constrain( mediaName ) );
-
-        // TODO: Set the sort order in nq. package too.
-        if (ascending)
-            query.descend( "name" ).orderAscending();
-        else
-            query.descend( "name" ).orderDescending();
-
-        return query.execute();
     }
 
     @Override

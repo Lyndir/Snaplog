@@ -1,4 +1,4 @@
-<configuration>
+<configuration scan="true">
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -9,7 +9,7 @@
     <logger name="com.lyndir" level="DEBUG" />
     <logger name="net.lin-k" level="DEBUG" />
     <logger name="org.opensaml" level="WARN" />
-    <logger name="org.jets3t.service.impl" level="WARN" />
+    <logger name="org.jets3t.service.impl" level="OFF" />
 
     <!--
     <logger name="org.apache.wicket" level="DEBUG" />
