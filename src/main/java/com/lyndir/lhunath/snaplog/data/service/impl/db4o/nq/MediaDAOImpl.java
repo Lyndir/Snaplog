@@ -137,7 +137,7 @@ public class MediaDAOImpl implements MediaDAO {
             @Override
             public boolean match(final D candidate) {
 
-                return ObjectUtils.equal(candidate.getMedia().getAlbum(),album );
+                return ObjectUtils.equal( candidate.getMedia().getAlbum(), album );
             }
         }, new QueryComparator<D>() {
             @Override

@@ -159,7 +159,8 @@ public class MediaView extends GenericPanel<Media> {
                     protected String load() {
 
                         try {
-                            URL resourceURL = albumService.findResourceURL( SnaplogSession.get().newToken(), getModelObject(), Quality.ORIGINAL );
+                            URL resourceURL = albumService.findResourceURL( SnaplogSession.get().newToken(), getModelObject(),
+                                                                            Quality.ORIGINAL );
                             if (resourceURL == null)
                                 // TODO: May want to display something useful to the user like a specific "not-found" thumbnail.
                                 return null;

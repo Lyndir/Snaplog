@@ -90,7 +90,8 @@ public class InitDAOImpl implements InitDAO {
             @Override
             public boolean match(final Album candidate) {
 
-                return ObjectUtils.equal( candidate.getOwner(), SnaplogConstants.DEFAULT_USER ) && ObjectUtils.equal( "Life", candidate.getName() );
+                return ObjectUtils.equal( candidate.getOwner(), SnaplogConstants.DEFAULT_USER ) && ObjectUtils.equal( "Life",
+                                                                                                                      candidate.getName() );
             }
         } );
         if (defaultAlbumQuery.hasNext())

@@ -48,8 +48,8 @@ public class InitDAOImpl implements InitDAO {
         if (SnaplogConstants.DEFAULT_USER == null)
             SnaplogConstants.DEFAULT_USER = new User( defaultLinkID, "lhunath" );
         // Configure default user.
-//        if (db.getObjectId( SnaplogConstants.DEFAULT_USER ) == null)
-//            logger.dbg( "Was not active: %s", SnaplogConstants.DEFAULT_USER );
+        //        if (db.getObjectId( SnaplogConstants.DEFAULT_USER ) == null)
+        //            logger.dbg( "Was not active: %s", SnaplogConstants.DEFAULT_USER );
         db.store( SnaplogConstants.DEFAULT_USER );
 
         // Find default user's profile.
@@ -58,8 +58,8 @@ public class InitDAOImpl implements InitDAO {
             defaultUserProfile = new UserProfile( SnaplogConstants.DEFAULT_USER );
         // Configure default user's profile.
         defaultUserProfile.getACL().setDefaultPermission( Permission.VIEW );
-//        if (db.getObjectId( defaultUserProfile ) == null)
-//            logger.dbg( "Was not active: %s", defaultUserProfile );
+        //        if (db.getObjectId( defaultUserProfile ) == null)
+        //            logger.dbg( "Was not active: %s", defaultUserProfile );
         db.store( defaultUserProfile );
 
         // Find default user's album.
@@ -72,8 +72,8 @@ public class InitDAOImpl implements InitDAO {
         SnaplogConstants.DEFAULT_ALBUM
                 .setDescription(
                         "<p>Arbitrary snapshots from Maarten's life.</p><p><label>Camera:</label><input value='Canon Powershot Pro1' /></p>" );
-//        if (db.getObjectId( SnaplogConstants.DEFAULT_ALBUM ) == null)
-//            logger.dbg( "Was not active: %s", SnaplogConstants.DEFAULT_ALBUM );
+        //        if (db.getObjectId( SnaplogConstants.DEFAULT_ALBUM ) == null)
+        //            logger.dbg( "Was not active: %s", SnaplogConstants.DEFAULT_ALBUM );
         db.store( SnaplogConstants.DEFAULT_ALBUM );
 
         logger.dbg( "Default user: %s, profile: %s (ACL: %s), album: %s (ACL: %s)", SnaplogConstants.DEFAULT_USER, defaultUserProfile,
