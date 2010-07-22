@@ -38,7 +38,6 @@ import java.util.List;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
 
 
 /**
@@ -75,7 +74,12 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         /**
          * @return Text on the interface tab to activate the {@link AlbumTabPanel}.
          */
-        String albumTab();
+        IModel<String> albumTab();
+
+        /**
+         * @return Text on the "Back to Album" tool.
+         */
+        IModel<String> back();
 
         /**
          * @param mediaName The name of the media that couldn't be found.
@@ -83,7 +87,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
          *
          * @return An error message explaining that a certain media was requested but couldn't be found in a certain album.
          */
-        String errorMediaNotFound(String mediaName, Album album);
+        IModel<String> errorMediaNotFound(String mediaName, Album album);
     }
 
 
@@ -105,14 +109,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         @Override
         public IModel<String> getTitle() {
 
-            return new LoadableDetachableModel<String>() {
-
-                @Override
-                protected String load() {
-
-                    return msgs.albumTab();
-                }
-            };
+            return msgs.albumTab();
         }
 
         /**
@@ -186,6 +183,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
 
     static class BackTool implements SnaplogLinkTool {
 
+        static final Messages msgs = MessagesFactory.create( Messages.class );
         static final Logger logger = Logger.get( BackTool.class );
 
         private final AlbumTabModels model;
@@ -198,19 +196,14 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         @Override
         public void onClick(final AjaxRequestTarget target) {
 
+            // TODO: Figure out why state change isn't triggering tabContainer and contentContainer to get updated on page.
             model.focusedMedia().setObject( null );
         }
 
         @Override
         public IModel<String> getTitle() {
 
-            return new AbstractReadOnlyModel<String>() {
-                @Override
-                public String getObject() {
-
-                    return model.getObject().getName();
-                }
-            };
+            return msgs.back();
         }
 
         @Override

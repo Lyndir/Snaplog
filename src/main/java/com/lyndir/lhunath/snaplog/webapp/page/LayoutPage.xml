@@ -2,15 +2,14 @@
 
 <properties>
 
-    <entry key="pageTitle">{0}{1}''s album</entry>
+    <entry key="pageTitle">snaplog.net</entry>
 
     <entry key="userLogin">Sign in</entry>
     <entry key="userLogout">Sign out</entry>
 
     <entry key="welcome">Welcome</entry>
-    <entry key="userWelcome">Welcome {0}{1}</entry>
-    <entry key="userWelcomeBack">Welcome back {0}{1}</entry>
-    <entry key="userNameUnknown">stranger</entry>
+    <entry key="userWelcome.knownUser">Welcome back, {0}</entry>
+    <entry key="userWelcome.unknownUser">Welcome, stranger</entry>
 
     <entry key="userMessages.singular">{0} message</entry>
     <entry key="userMessages.plural">{0} messages</entry>

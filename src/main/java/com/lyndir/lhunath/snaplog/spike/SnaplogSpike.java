@@ -62,7 +62,7 @@ public class SnaplogSpike {
             mediaDAO.findMediaData( mediaDAO.findMedia( SnaplogConstants.DEFAULT_ALBUM, "199998" ) );
         }
         finally {
-            DateUtils.popTimer().logFinish();
+            DateUtils.popTimer().logFinish( logger );
         }
     }
 

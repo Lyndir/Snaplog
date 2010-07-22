@@ -73,7 +73,7 @@ public class AWSServiceImpl implements AWSService {
         }
 
         finally {
-            DateUtils.popTimer().logFinish();
+            DateUtils.popTimer().logFinish( logger );
         }
     }
 
@@ -98,7 +98,7 @@ public class AWSServiceImpl implements AWSService {
         }
 
         finally {
-            DateUtils.popTimer().logFinish();
+            DateUtils.popTimer().logFinish( logger );
         }
     }
 
@@ -120,7 +120,7 @@ public class AWSServiceImpl implements AWSService {
         }
 
         finally {
-            DateUtils.popTimer().logFinish();
+            DateUtils.popTimer().logFinish( logger );
         }
     }
 
@@ -143,7 +143,7 @@ public class AWSServiceImpl implements AWSService {
         }
 
         finally {
-            DateUtils.popTimer().logFinish();
+            DateUtils.popTimer().logFinish( logger );
         }
     }
 }

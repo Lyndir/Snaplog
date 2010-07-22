@@ -22,6 +22,8 @@ import com.lyndir.lhunath.lib.system.util.DateUtils;
 import com.lyndir.lhunath.lib.system.util.ObjectUtils;
 import com.lyndir.lhunath.lib.wayward.i18n.Localized;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -41,7 +43,7 @@ import org.joda.time.format.DateTimeFormatterBuilder;
  */
 public class MediaTimeFrame implements Localized, Comparable<MediaTimeFrame> {
 
-    static final transient DateTimeFormatterBuilder formatterBuilder = new DateTimeFormatterBuilder();
+    static final DateTimeFormatterBuilder formatterBuilder = new DateTimeFormatterBuilder();
     static final Messages msgs = MessagesFactory.create( Messages.class );
 
     private final Instant offset;
@@ -135,6 +137,16 @@ public class MediaTimeFrame implements Localized, Comparable<MediaTimeFrame> {
     public String objectDescription() {
 
         return getFormatter().print( offset );
+    }
+
+    private void readObject(final ObjectInputStream stream)
+            throws IOException, ClassNotFoundException {
+
+        // Default deserialization.
+        stream.defaultReadObject();
+
+        // Manually load a new Messages proxy.
+        MessagesFactory.initialize( this, Messages.class );
     }
 
     interface Messages {

@@ -44,14 +44,13 @@ public class ExpoTabModels extends EmptyModelProvider<ExpoTabModels> {
      */
     public ExpoTabModels() {
 
-        usersHelp = new LoadableDetachableModel<String>() {
-
+        usersHelp = msgs.usersHelp( new LoadableDetachableModel<Boolean>() {
             @Override
-            protected String load() {
+            protected Boolean load() {
 
-                return msgs.usersHelp( SnaplogSession.get().isAuthenticated() );
+                return SnaplogSession.get().isAuthenticated();
             }
-        };
+        } );
     }
 
     // Accessors.

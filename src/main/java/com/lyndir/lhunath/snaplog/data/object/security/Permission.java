@@ -61,7 +61,7 @@ public enum Permission implements Localized {
      */
     ADMINISTER( "business", "toolset-sc44", VIEW, CONTRIBUTE );
 
-    private static final Messages msgs = MessagesFactory.create( Messages.class );
+    private static final transient Messages msgs = MessagesFactory.create( Messages.class );
 
     private final String spriteName;
     private final String spriteCategory;

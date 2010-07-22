@@ -6,8 +6,9 @@
         </layout>
     </appender>
 
-    <logger name="com.lyndir" level="DEBUG" />
-    <logger name="net.lin-k" level="DEBUG" />
+    <logger name="com.lyndir" level="TRACE" />
+    <logger name="com.lyndir.lhunath.snaplog.data.service.impl" level="DEBUG" />
+    <logger name="net.lin-k" level="INFO" />
     <logger name="org.opensaml" level="WARN" />
     <logger name="org.jets3t.service.impl" level="OFF" />
 

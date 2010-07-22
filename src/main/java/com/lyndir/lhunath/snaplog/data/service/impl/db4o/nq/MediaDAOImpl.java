@@ -7,6 +7,7 @@ import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import com.db4o.query.QueryComparator;
 import com.google.inject.Inject;
+import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.DateUtils;
 import com.lyndir.lhunath.lib.system.util.ObjectUtils;
 import com.lyndir.lhunath.snaplog.data.object.media.Album;
@@ -24,6 +25,8 @@ import java.util.List;
  * @author lhunath
  */
 public class MediaDAOImpl implements MediaDAO {
+
+    static final Logger logger = Logger.get( MediaDAOImpl.class );
 
     private final ObjectContainer db;
 
@@ -53,7 +56,7 @@ public class MediaDAOImpl implements MediaDAO {
             db.store( mediaDatas );
         }
         finally {
-            DateUtils.popTimer().logFinish();
+            DateUtils.popTimer().logFinish( logger );
         }
     }
 
@@ -80,7 +83,7 @@ public class MediaDAOImpl implements MediaDAO {
             return null;
         }
         finally {
-            DateUtils.popTimer().logFinish();
+            DateUtils.popTimer().logFinish( logger );
         }
     }
 
@@ -107,7 +110,7 @@ public class MediaDAOImpl implements MediaDAO {
             return null;
         }
         finally {
-            DateUtils.popTimer().logFinish();
+            DateUtils.popTimer().logFinish( logger );
         }
     }
 

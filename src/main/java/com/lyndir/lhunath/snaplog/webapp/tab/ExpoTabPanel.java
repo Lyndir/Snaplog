@@ -19,7 +19,6 @@ import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.collection.IPredicate;
-import com.lyndir.lhunath.lib.wayward.component.GenericLabel;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.lib.wayward.i18n.BooleanKeyAppender;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
@@ -39,8 +38,6 @@ import com.lyndir.lhunath.snaplog.webapp.view.UserLink;
 import java.util.List;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
-import org.apache.wicket.markup.ComponentTag;
-import org.apache.wicket.markup.MarkupStream;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
@@ -136,29 +133,21 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
                 add( new RequiredTextField<String>( "query", queryModel ) );
 
                 // Results
-                add( new GenericLabel<Integer>( "results", new LoadableDetachableModel<Integer>() {
+                add( new Label( "results", new LoadableDetachableModel<String>() {
 
                     @Override
-                    protected Integer load() {
+                    protected String load() {
 
-                        return usersView.getItemCount() + albumsView.getItemCount();
+                        int resultCount = usersView.getItemCount() + albumsView.getItemCount();
+
+                        if (resultCount == 0)
+                            return msgs.noResults();
+                        else if (resultCount == 1)
+                            return msgs.singularResult( resultCount );
+                        else
+                            return msgs.multipleResults( resultCount );
                     }
                 } ) {
-
-                    @Override
-                    protected void onComponentTagBody(final MarkupStream markupStream, final ComponentTag openTag) {
-
-                        int resultCount = getModelObject();
-                        if (resultCount == 0)
-                            replaceComponentTagBody( markupStream, openTag, //
-                                                     msgs.noResults() );
-                        else if (resultCount == 1)
-                            replaceComponentTagBody( markupStream, openTag, //
-                                                     msgs.singularResult( resultCount ) );
-                        else
-                            replaceComponentTagBody( markupStream, openTag, //
-                                                     msgs.multipleResults( resultCount ) );
-                    }
 
                     @Override
                     public boolean isVisible() {
@@ -277,7 +266,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
         /**
          * @return Text on the interface tab to activate the {@link ExpoTabPanel}.
          */
-        String expoTab();
+        IModel<String> expoTab();
 
         /**
          * @return The text to show when a search yields no results.
@@ -304,7 +293,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
          *
          * @return The text that explains which albums are being shown.
          */
-        String usersHelp(@BooleanKeyAppender(y = "auth", n = "anon") boolean authenticated);
+        IModel<String> usersHelp(@BooleanKeyAppender(y = "auth", n = "anon") IModel<Boolean> authenticated);
     }
 
 
@@ -327,14 +316,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
         @Override
         public IModel<String> getTitle() {
 
-            return new LoadableDetachableModel<String>() {
-
-                @Override
-                protected String load() {
-
-                    return msgs.expoTab();
-                }
-            };
+            return msgs.expoTab();
         }
 
         /**

@@ -68,7 +68,7 @@ public class InitDAOImpl implements InitDAO {
             SnaplogConstants.DEFAULT_ALBUM = new S3Album( defaultUserProfile, "Life" );
         // Configure default user's album.
         SnaplogConstants.DEFAULT_ALBUM.setOwnerProfile( defaultUserProfile );
-        SnaplogConstants.DEFAULT_ALBUM.getACL().setDefaultPermission( Permission.VIEW );
+        SnaplogConstants.DEFAULT_ALBUM.getACL().setDefaultPermission( Permission.NONE );
         SnaplogConstants.DEFAULT_ALBUM
                 .setDescription(
                         "<p>Arbitrary snapshots from Maarten's life.</p><p><label>Camera:</label><input value='Canon Powershot Pro1' /></p>" );

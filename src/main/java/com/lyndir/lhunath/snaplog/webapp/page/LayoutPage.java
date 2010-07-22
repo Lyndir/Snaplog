@@ -17,6 +17,8 @@ import com.lyndir.lhunath.lib.wayward.js.AjaxHooks;
 import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationListener;
 import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationTab;
 import com.lyndir.lhunath.lib.wayward.navigation.FragmentState;
+import com.lyndir.lhunath.snaplog.data.object.media.Album;
+import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels.TabItem;
@@ -44,6 +46,7 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
 
@@ -289,6 +292,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
                     protected void populateItem(final ListItem<SnaplogPanelTool> item) {
 
                         SnaplogPanelTool tool = item.getModelObject();
+                        logger.dbg( "Adding tool panel for tool: %s (visible? %s)", tool, tool.isVisible() );
                         item.add( toolPanels.get( tool ).setVisible( tool.isVisible() ) );
                     }
                 } );
@@ -369,40 +373,24 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
     public interface Messages {
 
         /**
-         * @param albumOwnerBadge The badge character of the owner of the currently viewed album.
-         * @param albumOwnerName  The name of the owner of the currently viewed album.
-         *
          * @return Text that will go in the page's title.
          */
-        String pageTitle(char albumOwnerBadge, String albumOwnerName);
+        IModel<String> pageTitle();
 
         /**
-         * @param userBadge The badge character of the logged-in user.
-         * @param userName  The name of the logged-in user.
+         * @param userName The name of the logged-in user.
          *
          * @return Welcoming text greeting the logged-in user.
          */
-        String userWelcome(char userBadge, String userName);
-
-        /**
-         * @param userBadge The badge of the user we guess is using the page.
-         * @param userName  The name of the user we guess is using the page.
-         *
-         * @return Welcoming the user back. The user has not yet authenticated himself. The identification is just a guess.
-         */
-        String userWelcomeBack(char userBadge, String userName);
-
-        /**
-         * @return The designation of a user who we can't identify.
-         */
-        String userNameUnknown();
+        IModel<String> userWelcome(
+                @KeyAppender(nullKey = "unknownUser", notNullKey = "knownUser", useValue = true) IModel<String> userName);
 
         /**
          * @param messageCount The amount of messages the user has.
          *
          * @return Text indicating the user has messages.
          */
-        String userMessages(@KeyAppender(value = @KeyMatch(ifNum = 1, key = "singular", elseKey = "plural"), useValue = true)//
+        IModel<String> userMessages(@KeyAppender(value = @KeyMatch(ifNum = 1, key = "singular", elseKey = "plural"), useValue = true)//
                 int messageCount);
 
         /**
@@ -410,25 +398,24 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
          *
          * @return Text indicating there are pending requests for the active user.
          */
-        String userRequests(@KeyAppender(value = @KeyMatch(ifNum = 1, key = "singular", elseKey = "plural"), useValue = true)//
+        IModel<String> userRequests(@KeyAppender(value = @KeyMatch(ifNum = 1, key = "singular", elseKey = "plural"), useValue = true)//
                 int requestCount);
 
         /**
-         * @param userBadge The focused user's badge.
-         * @param userName  The focused user's userName.
+         * @param user The focused user.
          *
          * @return A text indicating that the given user is the one currently focusing on.
          */
-        String focusedUser(char userBadge, String userName);
+        IModel<String> focusedUser(IModel<User> user);
 
         /**
-         * @param albumName The name of the album that's being focused on.
+         * @param album The album that's being focused on.
          *
          * @return A text indicating what the user's currently focusing on.
          */
         // TODO: If we want to allow focusing other content; this may need improvement. If not, this may be simplified?
-        String focusedContent(@KeyAppender(nullKey = "none", notNullKey = "album", useValue = true)//
-                String albumName);
+        IModel<String> focusedContent(@KeyAppender(nullKey = "none", notNullKey = "album", useValue = true) //
+                IModel<Album> album);
     }
 
 

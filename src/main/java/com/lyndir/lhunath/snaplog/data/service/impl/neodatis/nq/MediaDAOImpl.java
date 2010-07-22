@@ -60,7 +60,7 @@ public class MediaDAOImpl implements MediaDAO {
             db.store( mediaDatas );
         }
         finally {
-            DateUtils.popTimer().logFinish();
+            DateUtils.popTimer().logFinish( logger );
         }
     }
 
@@ -86,7 +86,7 @@ public class MediaDAOImpl implements MediaDAO {
             return null;
         }
         finally {
-            DateUtils.popTimer().logFinish();
+            DateUtils.popTimer().logFinish( logger );
         }
     }
 
@@ -112,7 +112,7 @@ public class MediaDAOImpl implements MediaDAO {
             return null;
         }
         finally {
-            DateUtils.popTimer().logFinish();
+            DateUtils.popTimer().logFinish( logger );
         }
     }
 

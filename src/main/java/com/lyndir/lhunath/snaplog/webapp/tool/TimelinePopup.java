@@ -122,7 +122,7 @@ public class TimelinePopup extends PopupPanel<Album> {
          *
          * @return Text on the year component of the timeline view.
          */
-        String yearPhotos(int numberOfPhotosInYear);
+        IModel<String> yearPhotos(int numberOfPhotosInYear);
 
         /**
          * @return The title of the toolbar tool that will activate the Timeline popup.

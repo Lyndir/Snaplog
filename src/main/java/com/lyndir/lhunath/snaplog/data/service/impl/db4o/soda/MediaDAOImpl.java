@@ -6,6 +6,7 @@ import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Query;
 import com.google.inject.Inject;
+import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.DateUtils;
 import com.lyndir.lhunath.snaplog.data.object.media.Album;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
@@ -23,6 +24,8 @@ import java.util.List;
  */
 public class MediaDAOImpl implements MediaDAO {
 
+    static final Logger logger = Logger.get( MediaDAOImpl.class );
+
     private final ObjectContainer db;
 
     @Inject
@@ -39,7 +42,7 @@ public class MediaDAOImpl implements MediaDAO {
             db.store( media );
         }
         finally {
-            DateUtils.popTimer().logFinish();
+            DateUtils.popTimer().logFinish( logger );
         }
     }
 
@@ -51,7 +54,7 @@ public class MediaDAOImpl implements MediaDAO {
             db.store( mediaData );
         }
         finally {
-            DateUtils.popTimer().logFinish();
+            DateUtils.popTimer().logFinish( logger );
         }
     }
 
@@ -63,7 +66,7 @@ public class MediaDAOImpl implements MediaDAO {
             db.store( mediaDatas );
         }
         finally {
-            DateUtils.popTimer().logFinish();
+            DateUtils.popTimer().logFinish( logger );
         }
     }
 
@@ -90,7 +93,7 @@ public class MediaDAOImpl implements MediaDAO {
             return null;
         }
         finally {
-            DateUtils.popTimer().logFinish();
+            DateUtils.popTimer().logFinish( logger );
         }
     }
 
@@ -115,7 +118,7 @@ public class MediaDAOImpl implements MediaDAO {
             return null;
         }
         finally {
-            DateUtils.popTimer().logFinish();
+            DateUtils.popTimer().logFinish( logger );
         }
     }
 

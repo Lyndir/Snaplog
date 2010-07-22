@@ -48,7 +48,6 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.*;
 import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.model.AbstractReadOnlyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 
@@ -90,8 +89,13 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 
         // Page info
         add( new Label( "albumsTitleUsername", getModelObject().decoratedUsername() ) );
-        add( new Label( "anothersAlbumsHelp",
-                        msgs.anothersAlbumsHelp( SnaplogSession.get().isAuthenticated(), getModelObject().username() ) ) {
+        add( new Label( "anothersAlbumsHelp", msgs.anothersAlbumsHelp( new LoadableDetachableModel<Boolean>() {
+            @Override
+            protected Boolean load() {
+
+                return SnaplogSession.get().isAuthenticated();
+            }
+        }, getModelObject().username() ) ) {
 
             @Override
             public boolean isVisible() {
@@ -109,16 +113,19 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                        ObjectUtils.equal( getModelObject().getObject(), SnaplogSession.get().getActiveUser() );
             }
         } );
-        add( new Label( "noAlbumsHelp", new LoadableDetachableModel<String>() {
-
+        add( new Label( "noAlbumsHelp", msgs.noAlbumsHelp( new LoadableDetachableModel<Boolean>() {
             @Override
-            protected String load() {
+            protected Boolean load() {
 
-                return msgs.noAlbumsHelp( SnaplogSession.get().isAuthenticated(),
-                                          userService.hasProfileAccess( SnaplogSession.get().newToken(), getModelObject().getObject() ),
-                                          getModelObject().username() );
+                return SnaplogSession.get().isAuthenticated();
             }
-        } ) {
+        }, new LoadableDetachableModel<Boolean>() {
+            @Override
+            protected Boolean load() {
+
+                return userService.hasProfileAccess( SnaplogSession.get().newToken(), getModelObject().getObject() );
+            }
+        }, getModelObject().username() ) ) {
 
             @Override
             public boolean isVisible() {
@@ -234,7 +241,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         /**
          * @return Text on the interface tab to activate the {@link GalleryTabPanel}.
          */
-        String galleryTab();
+        IModel<String> galleryTab();
 
         /**
          * @param authenticated <code>true</code>: The current user has authenticated himself.<br> <code>false</code>: The current user has
@@ -243,12 +250,13 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
          *
          * @return A text that explains to whom the albums in the gallery belong.
          */
-        String anothersAlbumsHelp(@BooleanKeyAppender(y = "auth", n = "anon") boolean authenticated, IModel<String> username);
+        IModel<String> anothersAlbumsHelp(@BooleanKeyAppender(y = "auth", n = "anon") IModel<Boolean> authenticated,
+                                          IModel<String> username);
 
         /**
          * @return A text that explains that the visible gallery belongs to the current user.
          */
-        String ownAlbumsHelp();
+        IModel<String> ownAlbumsHelp();
 
         /**
          * @param isAuthenticated <code>true</code>: The current user has authenticated himself.<br> <code>false</code>: The current user
@@ -259,8 +267,8 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
          *
          * @return A text that explains that none of the user's albums are visible and what might be the cause.
          */
-        String noAlbumsHelp(@BooleanKeyAppender(y = "auth", n = "anon") boolean isAuthenticated,
-                            @BooleanKeyAppender(y = "access", n = "noaccess") boolean hasAccess, IModel<String> username);
+        IModel<String> noAlbumsHelp(@BooleanKeyAppender(y = "auth", n = "anon") IModel<Boolean> isAuthenticated,
+                                    @BooleanKeyAppender(y = "access", n = "noaccess") IModel<Boolean> hasAccess, IModel<String> username);
     }
 
 
@@ -281,14 +289,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         @Override
         public IModel<String> getTitle() {
 
-            return new AbstractReadOnlyModel<String>() {
-
-                @Override
-                public String getObject() {
-
-                    return msgs.galleryTab();
-                }
-            };
+            return msgs.galleryTab();
         }
 
         /**

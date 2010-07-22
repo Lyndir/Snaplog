@@ -4,6 +4,8 @@
 
     <entry key="albumTab">Album</entry>
 
+    <entry key="back">Back to album</entry>
+
     <entry key="errorMediaNotFound">Could not find media named '{0}' in {1}.</entry>
 
 </properties>

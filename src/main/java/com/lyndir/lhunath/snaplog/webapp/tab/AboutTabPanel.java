@@ -26,7 +26,6 @@ import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
 
 
 /**
@@ -54,7 +53,7 @@ public class AboutTabPanel extends Panel {
          * @return Text on the interface tab to activate the {@link AboutTabPanel}.
          */
         @UseKey
-        String aboutTab();
+        IModel<String> aboutTab();
     }
 
 
@@ -78,14 +77,7 @@ public class AboutTabPanel extends Panel {
         @Override
         public IModel<String> getTitle() {
 
-            return new LoadableDetachableModel<String>() {
-
-                @Override
-                protected String load() {
-
-                    return msgs.aboutTab();
-                }
-            };
+            return msgs.aboutTab();
         }
 
         /**

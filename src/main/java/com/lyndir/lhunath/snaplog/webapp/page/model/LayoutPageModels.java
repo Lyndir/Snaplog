@@ -61,33 +61,20 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
      */
     public LayoutPageModels() {
 
-        pageTitle = new LoadableDetachableModel<String>() {
+        pageTitle = msgs.pageTitle();
 
-            @Override
-            protected String load() {
-
-                User user = SnaplogSession.get().getFocusedUser();
-
-                if (user == null)
-                    return msgs.pageTitle( ' ', msgs.userNameUnknown() );
-
-                return msgs.pageTitle( user.getBadge(), user.getUserName() );
-            }
-        };
-
-        userGuessWelcome = new LoadableDetachableModel<String>() {
+        userGuessWelcome = msgs.userWelcome( new LoadableDetachableModel<String>() {
 
             @Override
             protected String load() {
 
                 User lastUser = LastUserCookieManager.findLastUser();
-
                 if (lastUser == null)
-                    return msgs.userWelcome( ' ', msgs.userNameUnknown() );
+                    return null;
 
-                return msgs.userWelcomeBack( lastUser.getBadge(), lastUser.getUserName() );
+                return lastUser.getUserName();
             }
-        };
+        } );
 
         userBadge = new LoadableDetachableModel<String>() {
 
@@ -100,29 +87,9 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
             }
         };
 
-        userMessages = new LoadableDetachableModel<String>() {
+        userMessages = msgs.userMessages( 1 );
 
-            @Override
-            protected String load() {
-
-                // TODO: unhardcode.
-                int messageCount = 1;
-
-                return msgs.userMessages( messageCount );
-            }
-        };
-
-        userRequests = new LoadableDetachableModel<String>() {
-
-            @Override
-            protected String load() {
-
-                // TODO: unhardcode.
-                int requestCount = 1;
-
-                return msgs.userRequests( requestCount );
-            }
-        };
+        userRequests = msgs.userRequests( 1 );
 
         tabs = new LoadableDetachableModel<List<TabItem>>() {
 
@@ -149,28 +116,21 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
             }
         };
 
-        focusedUser = new LoadableDetachableModel<String>() {
-
+        focusedUser = msgs.focusedUser( new LoadableDetachableModel<User>() {
             @Override
-            protected String load() {
+            protected User load() {
 
-                if (SnaplogSession.get().getFocusedUser() == null)
-                    return null;
-
-                return msgs.focusedUser( SnaplogSession.get().getFocusedUser().getBadge(),
-                                         SnaplogSession.get().getFocusedUser().getUserName() );
+                return SnaplogSession.get().getFocusedUser();
             }
-        };
+        } );
 
-        focusedContent = new LoadableDetachableModel<String>() {
-
+        focusedContent = msgs.focusedContent( new LoadableDetachableModel<Album>() {
             @Override
-            protected String load() {
+            protected Album load() {
 
-                Album focusedAlbum = SnaplogSession.get().getFocusedAlbum();
-                return msgs.focusedContent( focusedAlbum == null? null: focusedAlbum.getName() );
+                return SnaplogSession.get().getFocusedAlbum();
             }
-        };
+        } );
     }
 
     /**

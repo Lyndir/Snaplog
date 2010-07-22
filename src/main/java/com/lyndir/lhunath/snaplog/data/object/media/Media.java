@@ -22,6 +22,8 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.object.security.AbstractSecureObject;
 import com.lyndir.lhunath.snaplog.model.service.WebUtil;
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import org.joda.time.Instant;
 import org.joda.time.ReadableInstant;
 import org.joda.time.format.DateTimeFormat;
@@ -174,6 +176,16 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
     public String objectDescription() {
 
         return msgs.description( name );
+    }
+
+    private void readObject(final ObjectInputStream stream)
+            throws IOException, ClassNotFoundException {
+
+        // Default deserialization.
+        stream.defaultReadObject();
+
+        // Manually load a new Messages proxy.
+        MessagesFactory.initialize( this, Messages.class );
     }
 
     /**
