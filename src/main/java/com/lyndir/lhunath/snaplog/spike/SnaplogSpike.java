@@ -1,24 +1,19 @@
 package com.lyndir.lhunath.snaplog.spike;
 
-import com.google.common.collect.ImmutableList;
+import com.db4o.ObjectContainer;
 import com.google.inject.Guice;
 import com.google.inject.Injector;
 import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.system.util.DateUtils;
 import com.lyndir.lhunath.snaplog.data.DAOModule;
-import com.lyndir.lhunath.snaplog.data.object.media.MediaData;
+import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Album;
 import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Media;
-import com.lyndir.lhunath.snaplog.data.object.media.aws.S3MediaData;
-import com.lyndir.lhunath.snaplog.data.object.user.LinkID;
-import com.lyndir.lhunath.snaplog.data.object.user.User;
-import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
-import com.lyndir.lhunath.snaplog.data.service.AlbumDAO;
-import com.lyndir.lhunath.snaplog.data.service.MediaDAO;
+import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
+import com.lyndir.lhunath.snaplog.data.service.InitDAO;
 import com.lyndir.lhunath.snaplog.model.ServiceModule;
+import com.lyndir.lhunath.snaplog.model.service.AlbumService;
 import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
-import java.io.File;
 
 
 /**
@@ -32,55 +27,41 @@ public class SnaplogSpike {
 
     static final Logger logger = Logger.get( SnaplogSpike.class );
     private static Injector injector;
+    private static ObjectContainer db;
 
     public static void main(final String... args)
             throws Exception {
 
         GuiceContext.setInjector( injector = Guice.createInjector( new DAOModule(), new ServiceModule() ) );
+        injector.getInstance( InitDAO.class ).initialize();
+        injector.getInstance( AlbumService.class )
+                .findResourceURL( SecurityToken.INTERNAL_USE_ONLY, new S3Media( (S3Album) SnaplogConstants.DEFAULT_ALBUM, "20100605T103809.jpg" ),
+                                 Media.Quality.ORIGINAL );
+        injector.getInstance( AlbumService.class )
+                .findResourceURL( SecurityToken.INTERNAL_USE_ONLY, new S3Media( (S3Album) SnaplogConstants.DEFAULT_ALBUM, "20100605T103809.jpg" ),
+                                 Media.Quality.ORIGINAL );
 
-        // foo();
-        prepare();
-        test();
-    }
-
-    private static void foo() {
-
-        SnaplogConstants.DEFAULT_ALBUM = new S3Album( new UserProfile( new User( new LinkID( "linkid" ), "lhunath" ) ), "Life" );
-        injector.getInstance( AlbumDAO.class ).update( SnaplogConstants.DEFAULT_ALBUM );
-        logger.inf( "Albums in db: %s", injector.getInstance( AlbumDAO.class ).listAlbums() );
-    }
-
-    private static void test() {
-
-        MediaDAO mediaDAO = injector.getInstance( MediaDAO.class );
-
-        DateUtils.startTiming( "test" );
-        try {
-            mediaDAO.findMediaData( mediaDAO.findMedia( SnaplogConstants.DEFAULT_ALBUM, "1" ) );
-            mediaDAO.findMediaData( mediaDAO.findMedia( SnaplogConstants.DEFAULT_ALBUM, "199998" ) );
-            mediaDAO.findMediaData( mediaDAO.findMedia( SnaplogConstants.DEFAULT_ALBUM, "1" ) );
-            mediaDAO.findMediaData( mediaDAO.findMedia( SnaplogConstants.DEFAULT_ALBUM, "199998" ) );
-        }
-        finally {
-            DateUtils.popTimer().logFinish( logger );
-        }
-    }
-
-    private static void prepare() {
-
-        SnaplogConstants.DEFAULT_ALBUM = new S3Album( new UserProfile( new User( new LinkID( "linkid" ), "lhunath" ) ), "Life" );
-
-        ImmutableList.Builder<MediaData<?>> mediaDatas = ImmutableList.builder();
-        for (int i = 0; i < 20000; ++i) {
-            logger.inf( "Creating media data #%d", i );
-            mediaDatas.add( new S3MediaData( new S3Media( (S3Album) SnaplogConstants.DEFAULT_ALBUM, Integer.toString( i ) ) ) );
+        // Shut down the database.
+        db = injector.getInstance( ObjectContainer.class );
+        if (!db.ext().isClosed())
+            db.commit();
+        while (!db.close()) {
         }
 
-        new File( "snaplog.odb" ).delete();
-        new File( "snaplog.db4o" ).delete();
-        logger.inf( "Storing all media datas" );
-        for (final MediaData<?> mediaData : mediaDatas.build()) {
-            injector.getInstance( MediaDAO.class ).update( mediaData );
+        GuiceContext.setInjector( injector = Guice.createInjector( new DAOModule(), new ServiceModule() ) );
+        injector.getInstance( InitDAO.class ).initialize();
+        injector.getInstance( AlbumService.class )
+                .findResourceURL( SecurityToken.INTERNAL_USE_ONLY, new S3Media( (S3Album) SnaplogConstants.DEFAULT_ALBUM, "20100605T103809.jpg" ),
+                                 Media.Quality.ORIGINAL );
+        injector.getInstance( AlbumService.class )
+                .findResourceURL( SecurityToken.INTERNAL_USE_ONLY, new S3Media( (S3Album) SnaplogConstants.DEFAULT_ALBUM, "20100605T103809.jpg" ),
+                                 Media.Quality.ORIGINAL );
+
+        // Shut down the database.
+        db = injector.getInstance( ObjectContainer.class );
+        if (!db.ext().isClosed())
+            db.commit();
+        while (!db.close()) {
         }
     }
 }
