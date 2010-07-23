@@ -217,7 +217,7 @@ public class SecurityServiceImpl implements SecurityService {
                 try {
                     if (permittedUsers.hasNext()) {
                         User user = permittedUsers.next();
-                        return new Pair<User, Permission>( user, getEffectivePermissions( token, user, o ) );
+                        return Pair.of( user, getEffectivePermissions( token, user, o ) );
                     }
                 }
                 catch (PermissionDeniedException e) {
