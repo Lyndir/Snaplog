@@ -12,7 +12,7 @@
 
     <groupId>com.lyndir.lhunath.snaplog</groupId>
     <artifactId>snaplog</artifactId>
-    <version>0.1-COR-1999</version>
+    <version>SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>Snaplog</name>
