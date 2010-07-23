@@ -51,9 +51,9 @@
 
     <!-- CODE MANAGEMENT -->
     <scm>
-        <url>http://codaset.com/lhunath/snaplog</url>
-        <connection>${scm.git.pubbase}/snaplog.git</connection>
-        <developerConnection>${scm.git.devbase}/snaplog.git</developerConnection>
+        <url>${scm.github.webbase}/Snaplog</url>
+        <connection>${scm.github.pubbase}/Snaplog.git</connection>
+        <developerConnection>${scm.github.devbase}/Snaplog.git</developerConnection>
     </scm>
     <issueManagement>
         <system>Codaset</system>
