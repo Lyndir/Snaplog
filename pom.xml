@@ -8,7 +8,7 @@
     <parent>
         <groupId>com.lyndir.lhunath</groupId>
         <artifactId>lyndir</artifactId>
-        <version>SNAPSHOT</version>
+        <version>1.4</version>
     </parent>
 
     <groupId>com.lyndir.lhunath.snaplog</groupId>
@@ -63,7 +63,8 @@
 
     <!-- DEFAULT PROPERTIES -->
     <properties>
-        <version.db4o>7.12-SNAPSHOT</version.db4o>
+        <release.version>0.1</release.version>
+        <!--version.db4o>7.12-SNAPSHOT</version.db4o-->
     </properties>
 
     <!-- BUILD CONFIGURATION -->
@@ -231,12 +232,12 @@
         <dependency>
             <groupId>com.lyndir.lhunath.jlibs</groupId>
             <artifactId>system</artifactId>
-            <version>SNAPSHOT</version>
+            <version>1.3-p3</version>
         </dependency>
         <dependency>
             <groupId>com.lyndir.lhunath.jlibs</groupId>
             <artifactId>wayward</artifactId>
-            <version>SNAPSHOT</version>
+            <version>1.3-p3</version>
         </dependency>
 
         <!-- LinkID -->
