@@ -22,11 +22,15 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.lib.wayward.navigation.AbstractFragmentState;
-import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationTab;
+import com.lyndir.lhunath.lib.wayward.navigation.IncompatibleStateException;
 import com.lyndir.lhunath.snaplog.data.object.media.Album;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
+import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
+import com.lyndir.lhunath.snaplog.error.AlbumUnavailableException;
+import com.lyndir.lhunath.snaplog.error.UserNotFoundException;
 import com.lyndir.lhunath.snaplog.model.service.AlbumService;
+import com.lyndir.lhunath.snaplog.model.service.SecurityService;
 import com.lyndir.lhunath.snaplog.model.service.UserService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
@@ -100,6 +104,8 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
      */
     static class AlbumTab implements SnaplogTab<AlbumTabPanel, AlbumTabState> {
 
+        public static final AlbumTab instance = new AlbumTab();
+
         static final Logger logger = Logger.get( AlbumTab.class );
         static final Messages msgs = MessagesFactory.create( Messages.class );
 
@@ -153,7 +159,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         }
 
         @Override
-        public AlbumTabState getFragmentState(final AlbumTabPanel panel) {
+        public AlbumTabState buildFragmentState(final AlbumTabPanel panel) {
 
             Media focusedMedia = panel.getModelObject().focusedMedia().getObject();
             if (focusedMedia != null)
@@ -163,11 +169,24 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         }
 
         @Override
-        public void applyFragmentState(final AlbumTabPanel panel, final AlbumTabState state) {
+        public void applyFragmentState(final AlbumTabPanel panel, final AlbumTabState state)
+                throws IncompatibleStateException {
 
-            SnaplogSession.get().setFocusedUser( state.getUser() );
-            SnaplogSession.get().setFocusedAlbum( state.getAlbum() );
-            panel.getModelObject().focusedMedia().setObject( state.getMedia() );
+            try {
+                logger.dbg( "Activating state: %s, on album tab.", state );
+                SnaplogSession.get().setFocusedUser( state.getUser() );
+                SnaplogSession.get().setFocusedAlbum( state.getAlbum() );
+                panel.getModelObject().focusedMedia().setObject( state.findMedia() );
+                logger.dbg( "State is now: focused album=%s, focused media=%s", SnaplogSession.get().getFocusedAlbum(),
+                            panel.getModelObject().focusedMedia().getObject() );
+            }
+
+            catch (UserNotFoundException e) {
+                throw new IncompatibleStateException( e );
+            }
+            catch (AlbumUnavailableException e) {
+                throw new IncompatibleStateException( e );
+            }
         }
 
         /**
@@ -221,14 +240,15 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         @Override
         public boolean isVisible() {
 
-            return model.getObject() != null;
+            return model.focusedMedia().getObject() != null && model.getObject() != null && GuiceContext.getInstance(
+                    SecurityService.class ).hasAccess( Permission.VIEW, SnaplogSession.get().newToken(), model.getObject() );
         }
     }
 
 
-    public static class AlbumTabState extends AbstractFragmentState<AlbumTabPanel, AlbumTabState> {
+    public static class AlbumTabState extends AbstractFragmentState {
 
-        private static final AlbumTab TAB = new AlbumTab();
+        static final Logger logger = Logger.get( AlbumTabState.class );
 
         private final UserService userService = GuiceContext.getInstance( UserService.class );
         private final AlbumService albumService = GuiceContext.getInstance( AlbumService.class );
@@ -274,25 +294,33 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
             appendFragment( mediaName = media.getName() );
         }
 
-        public User getUser() {
+        public User getUser()
+                throws UserNotFoundException {
 
-            return userName == null? null: userService.findUserWithUserName( userName );
+            return userService.getUserWithUserName( checkNotNull( userName, "Username must not be null in this state." ) );
         }
 
-        public Album getAlbum() {
+        public Album getAlbum()
+                throws AlbumUnavailableException, UserNotFoundException {
 
-            return albumName == null? null: albumService.findAlbumWithName( SnaplogSession.get().newToken(), getUser(), albumName );
+            User user = getUser();
+            Album album = albumService.findAlbumWithName( SnaplogSession.get().newToken(), user, albumName );
+            if (album == null)
+                throw new AlbumUnavailableException( user, albumName );
+
+            return album;
         }
 
-        public Media getMedia() {
+        public Media findMedia()
+                throws AlbumUnavailableException, UserNotFoundException {
 
             return mediaName == null? null: albumService.findMediaWithName( SnaplogSession.get().newToken(), getAlbum(), mediaName );
         }
 
         @Override
-        public FragmentNavigationTab<AlbumTabPanel, AlbumTabState> getFragmentTab() {
+        protected String getTabFragment() {
 
-            return TAB;
+            return AlbumTab.instance.getTabFragment();
         }
     }
 }

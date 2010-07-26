@@ -15,6 +15,8 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
@@ -23,13 +25,14 @@ import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.lib.wayward.i18n.BooleanKeyAppender;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.lib.wayward.navigation.AbstractFragmentState;
-import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationTab;
+import com.lyndir.lhunath.lib.wayward.navigation.IncompatibleStateException;
 import com.lyndir.lhunath.snaplog.data.object.media.Album;
 import com.lyndir.lhunath.snaplog.data.object.media.AlbumProviderType;
 import com.lyndir.lhunath.snaplog.data.object.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
+import com.lyndir.lhunath.snaplog.error.UserNotFoundException;
 import com.lyndir.lhunath.snaplog.model.service.AlbumProvider;
 import com.lyndir.lhunath.snaplog.model.service.AlbumService;
 import com.lyndir.lhunath.snaplog.model.service.SecurityService;
@@ -100,7 +103,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
             @Override
             public boolean isVisible() {
 
-                return albums.getItemCount() > 0 && //
+                return albums.isVisible() && //
                        !ObjectUtils.equal( getModelObject().getObject(), SnaplogSession.get().getActiveUser() );
             }
         } );
@@ -109,7 +112,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
             @Override
             public boolean isVisible() {
 
-                return albums.getItemCount() > 0 && //
+                return albums.isVisible() && //
                        ObjectUtils.equal( getModelObject().getObject(), SnaplogSession.get().getActiveUser() );
             }
         } );
@@ -119,18 +122,12 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 
                 return SnaplogSession.get().isAuthenticated();
             }
-        }, new LoadableDetachableModel<Boolean>() {
-            @Override
-            protected Boolean load() {
-
-                return userService.hasProfileAccess( SnaplogSession.get().newToken(), getModelObject().getObject() );
-            }
         }, getModelObject().username() ) ) {
 
             @Override
             public boolean isVisible() {
 
-                return albums.getItemCount() == 0;
+                return !albums.isVisible();
             }
         }.setEscapeModelStrings( false ) );
 
@@ -261,14 +258,11 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         /**
          * @param isAuthenticated <code>true</code>: The current user has authenticated himself.<br> <code>false</code>: The current user
          *                        has not identified himself.
-         * @param hasAccess       <code>true</code>: The current user has access to see the gallery or any of the albums.<br>
-         *                        <code>false</code>: The current user has insufficient access to see the gallery or any of the albums.
          * @param username        The name of the user whose gallery is being viewed.
          *
          * @return A text that explains that none of the user's albums are visible and what might be the cause.
          */
-        IModel<String> noAlbumsHelp(@BooleanKeyAppender(y = "auth", n = "anon") IModel<Boolean> isAuthenticated,
-                                    @BooleanKeyAppender(y = "access", n = "noaccess") IModel<Boolean> hasAccess, IModel<String> username);
+        IModel<String> noAlbumsHelp(@BooleanKeyAppender(y = "auth", n = "anon") IModel<Boolean> isAuthenticated, IModel<String> username);
     }
 
 
@@ -282,6 +276,8 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
      * @author lhunath
      */
     static class GalleryTab implements SnaplogTab<GalleryTabPanel, GalleryTabState> {
+
+        public static final GalleryTab instance = new GalleryTab();
 
         /**
          * {@inheritDoc}
@@ -353,22 +349,27 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         }
 
         @Override
-        public GalleryTabState getFragmentState(final GalleryTabPanel panel) {
+        public GalleryTabState buildFragmentState(final GalleryTabPanel panel) {
 
             return new GalleryTabState( SnaplogSession.get().getFocusedUser() );
         }
 
         @Override
-        public void applyFragmentState(final GalleryTabPanel panel, final GalleryTabState state) {
+        public void applyFragmentState(final GalleryTabPanel panel, final GalleryTabState state)
+                throws IncompatibleStateException {
 
-            SnaplogSession.get().setFocusedUser( state.getUser() );
+            try {
+                SnaplogSession.get().setFocusedUser( state.getUser() );
+            }
+
+            catch (UserNotFoundException e) {
+                throw new IncompatibleStateException( e );
+            }
         }
     }
 
 
-    public static class GalleryTabState extends AbstractFragmentState<GalleryTabPanel, GalleryTabState> {
-
-        private static final GalleryTab TAB = new GalleryTab();
+    public static class GalleryTabState extends AbstractFragmentState {
 
         private final UserService userService = GuiceContext.getInstance( UserService.class );
 
@@ -392,15 +393,16 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
             appendFragment( userName = user.getUserName() );
         }
 
-        public User getUser() {
+        public User getUser()
+                throws UserNotFoundException {
 
-            return userName == null? null: userService.findUserWithUserName( userName );
+            return userService.getUserWithUserName( checkNotNull( userName, "Username must not be null in this state." ) );
         }
 
         @Override
-        public FragmentNavigationTab<GalleryTabPanel, GalleryTabState> getFragmentTab() {
+        protected String getTabFragment() {
 
-            return TAB;
+            return GalleryTab.instance.getTabFragment();
         }
     }
 }

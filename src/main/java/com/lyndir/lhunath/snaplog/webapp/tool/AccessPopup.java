@@ -1,7 +1,5 @@
 package com.lyndir.lhunath.snaplog.webapp.tool;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterators;
 import com.google.inject.Inject;
@@ -69,7 +67,6 @@ public class AccessPopup extends PopupPanel<Album> {
     public AccessPopup(final String id, final IModel<Album> albumModel) {
 
         super( id, albumModel );
-        checkNotNull( albumModel.getObject(), "Model object of AccessPopup must not be null" );
     }
 
     @Override
@@ -259,7 +256,7 @@ public class AccessPopup extends PopupPanel<Album> {
     @Override
     public boolean isVisible() {
 
-        return securityService.hasAccess( Permission.ADMINISTER, SnaplogSession.get().newToken(), getModelObject() );
+        return new Tool( getModel() ).isVisible();
     }
 
     interface Messages {
@@ -310,7 +307,7 @@ public class AccessPopup extends PopupPanel<Album> {
         @Override
         public boolean isVisible() {
 
-            return GuiceContext.getInstance( SecurityService.class )
+            return model.getObject() != null && GuiceContext.getInstance( SecurityService.class )
                     .hasAccess( Permission.ADMINISTER, SnaplogSession.get().newToken(), model.getObject() );
         }
     }

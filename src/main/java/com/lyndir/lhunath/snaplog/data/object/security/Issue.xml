@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+
+    <entry key="type">Issue</entry>
+
+    <entry key="description">A problem caused by: ''{0}''</entry>
+
+</properties>

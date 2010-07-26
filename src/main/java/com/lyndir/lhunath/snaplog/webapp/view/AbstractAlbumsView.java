@@ -1,11 +1,12 @@
 package com.lyndir.lhunath.snaplog.webapp.view;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterators;
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.collection.SizedIterator;
+import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.ObjectUtils;
 import com.lyndir.lhunath.lib.wayward.collection.IPredicate;
-import com.lyndir.lhunath.lib.wayward.provider.AbstractSizedIteratorProvider;
+import com.lyndir.lhunath.lib.wayward.provider.AbstractListProvider;
 import com.lyndir.lhunath.snaplog.data.object.media.Album;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
@@ -13,6 +14,7 @@ import com.lyndir.lhunath.snaplog.model.service.AlbumService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 import java.util.Iterator;
+import java.util.List;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
@@ -27,8 +29,11 @@ import org.apache.wicket.model.LoadableDetachableModel;
  */
 public abstract class AbstractAlbumsView extends DataView<Album> {
 
+    static final Logger logger = Logger.get( AbstractAlbumsView.class );
+
     @Inject
     AlbumService albumService;
+    private IModel<User> ownerUser;
 
     /**
      * Create a new {@link AbstractAlbumsView} instance.
@@ -44,9 +49,10 @@ public abstract class AbstractAlbumsView extends DataView<Album> {
             @Override
             public boolean apply(final Album input) {
 
-                return input != null && ObjectUtils.equal( input.getOwnerProfile().getUser(), ownerUser.getObject() );
+                return ObjectUtils.equal( input.getOwnerProfile().getUser(), ownerUser.getObject() );
             }
         }, albumsPerPage );
+        this.ownerUser = ownerUser;
     }
 
     /**
@@ -58,12 +64,13 @@ public abstract class AbstractAlbumsView extends DataView<Album> {
      */
     protected AbstractAlbumsView(final String id, final IPredicate<Album> predicate, final int albumsPerPage) {
 
-        super( id, new AbstractSizedIteratorProvider<Album>() {
+        super( id, new AbstractListProvider<Album>() {
 
             @Override
-            protected SizedIterator<Album> load() {
+            protected List<Album> load() {
 
-                return GuiceContext.getInstance( AlbumService.class ).iterateAlbums( SnaplogSession.get().newToken(), predicate );
+                return ImmutableList.copyOf(
+                        GuiceContext.getInstance( AlbumService.class ).iterateAlbums( SnaplogSession.get().newToken(), predicate ) );
             }
         }, albumsPerPage );
     }

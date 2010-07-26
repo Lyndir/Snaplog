@@ -18,6 +18,7 @@ package com.lyndir.lhunath.snaplog.webapp.tab;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationTab;
 import com.lyndir.lhunath.lib.wayward.navigation.FragmentState;
+import com.lyndir.lhunath.lib.wayward.navigation.IncompatibleStateException;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 import org.apache.wicket.markup.html.panel.Panel;
 
@@ -34,27 +35,57 @@ public enum Tab {
     /**
      * This is the initial tab that describes Snaplog.
      */
-    ABOUT( new AboutTabPanel.AboutTab() ),
+    ABOUT( AboutTabPanel.AboutTab.instance ),
 
     /**
      * This tab provides an exposition of other people on Snaplog.
      */
-    EXPO( new ExpoTabPanel.ExpoTab() ),
+    EXPO( ExpoTabPanel.ExpoTab.instance ),
 
     /**
      * This tab provides a summary view of a user's account.
      */
-    GALLERY( new GalleryTabPanel.GalleryTab() ),
+    GALLERY( GalleryTabPanel.GalleryTab.instance ),
 
     /**
      * This tab provides a way of browsing a specific album.
      */
-    ALBUM( new AlbumTabPanel.AlbumTab() ),
+    ALBUM( AlbumTabPanel.AlbumTab.instance ),
 
     /**
      * Using this tab, users can configure their profile and account settings.
      */
-    ADMINISTRATION( new AdministrationTabPanel.AdministrationTab() );
+    ADMINISTRATION( AdministrationTabPanel.AdministrationTab.instance ),
+
+    /**
+     * This tab is shown when the user requests an expired page.
+     */
+    EXPIRED( PageExpiredErrorPage.PageExpiredErrorTab.instance ) {
+        @Override
+        public boolean isVisible() {
+
+            return false;
+        }},
+
+    /**
+     * This tab is shown when the user tries to access a page or resource to which he has no access.
+     */
+    DENIED( AccessDeniedErrorPage.AccessDeniedErrorTab.instance ) {
+        @Override
+        public boolean isVisible() {
+
+            return false;
+        }},
+
+    /**
+     * This tab details an error that occurred in the application.
+     */
+    ERROR( InternalErrorPage.InternalErrorTab.instance ) {
+        @Override
+        public boolean isVisible() {
+
+            return false;
+        }};
 
     static final Logger logger = Logger.get( Tab.class );
 
@@ -65,7 +96,7 @@ public enum Tab {
      *
      * @param tab The implementation of this tab.
      */
-    <P extends Panel, S extends FragmentState<P, S>> Tab(final SnaplogTab<P, S> tab) {
+    <P extends Panel, S extends FragmentState> Tab(final SnaplogTab<P, S> tab) {
 
         this.tab = tab;
     }
@@ -74,10 +105,10 @@ public enum Tab {
      * @return The {@link SnaplogTab} that describes the UI elements of this tab.
      */
     @SuppressWarnings({ "unchecked" })
-    public SnaplogTab<Panel, ?> get() {
+    public <P extends Panel, S extends FragmentState> SnaplogTab<P, S> get() {
 
-        // Hack to make tab methods that take P as argument usable.
-        return (SnaplogTab<Panel, ?>) tab;
+        // Since enum instances can't be generified we need to infer the generic type from the return value.
+        return (SnaplogTab<P, S>) tab;
     }
 
     /**
@@ -93,11 +124,23 @@ public enum Tab {
      *
      * @param state The state to apply on the tab's new panel.
      */
-    @SuppressWarnings({ "unchecked" })
-    public <P extends Panel, S extends FragmentState<P, S>> void activateWithState(final S state) {
+    public <P extends Panel, S extends FragmentState> void activateWithState(final S state) {
 
-        // Because the field can't remember the strong type constraint imposed by the constructor.
-        LayoutPage.getController().activateTabWithState( (FragmentNavigationTab<P, S>) get(), state );
+        try {
+            SnaplogTab<P, S> snaplogTab = get();
+            LayoutPage.getController().activateTabWithState( snaplogTab, state );
+        }
+        catch (IncompatibleStateException e) {
+            throw logger.bug( e ).toError();
+        }
+    }
+
+    /**
+     * @return <code>true</code> if the tab should be visible as an option to navigate to in the tab bar.
+     */
+    public boolean isVisible() {
+
+        return get().isVisible();
     }
 
     public static Tab of(final FragmentNavigationTab<?, ?> tab) {

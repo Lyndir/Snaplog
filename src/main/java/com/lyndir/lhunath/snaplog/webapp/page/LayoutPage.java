@@ -4,7 +4,6 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.behavior.CSSClassAttributeAppender;
 import com.lyndir.lhunath.lib.wayward.behavior.JSLink;
@@ -17,11 +16,13 @@ import com.lyndir.lhunath.lib.wayward.js.AjaxHooks;
 import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationListener;
 import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationTab;
 import com.lyndir.lhunath.lib.wayward.navigation.FragmentState;
+import com.lyndir.lhunath.lib.wayward.navigation.IncompatibleStateException;
 import com.lyndir.lhunath.snaplog.data.object.media.Album;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels.TabItem;
+import com.lyndir.lhunath.snaplog.webapp.tab.SnaplogTab;
 import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogLinkTool;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogPanelTool;
@@ -63,7 +64,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
 
     private static final String CONTENT_PANEL = "contentPanel";
 
-    final FragmentNavigationController navigationController = new FragmentNavigationController();
+    final SnaplogNavigationController<Panel, FragmentState> navigationController = new SnaplogNavigationController<Panel, FragmentState>();
 
     final WebMarkupContainer userEntry;
     final WebMarkupContainer userSummary;
@@ -84,7 +85,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
 
         // Ajax Hooks
         AjaxHooks.installAjaxEvents( this );
-        AjaxHooks.installPageEvents( this, new FragmentNavigationListener.PageListener( navigationController ) );
+        AjaxHooks.installPageEvents( this, FragmentNavigationListener.PageListener.of( navigationController ) );
 
         // Page Title.
         Label pageTitle = new Label( "pageTitle", getModelObject().pageTitle() );
@@ -176,7 +177,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
                     }
                 } );
                 item.add( CSSClassAttributeAppender.ofString( item.getModelObject().styleClass() ) );
-                item.setVisible( itemModel.getObject().get().isVisible() );
+                item.setVisible( itemModel.getObject().isVisible() );
             }
         };
 
@@ -188,13 +189,17 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
             protected List<? extends SnaplogTool> load() {
 
                 toolPanels.clear();
-                Tab activeTab = getModelObject().activeTab().getObject();
+
+                // Suppress warning & cast later on because we don't know the correct type of the content panel here.
+
+                @SuppressWarnings({ "unchecked" })
+                SnaplogTab<Panel, ? extends FragmentState> activeTab = (SnaplogTab<Panel, ? extends FragmentState>) getController().getActiveTab();
                 if (activeTab == null)
                     return ImmutableList.of();
 
                 // Load the panels for the tools and assign them a markup ID.
                 Panel tabPanel = (Panel) contentContainer.get( CONTENT_PANEL );
-                List<? extends SnaplogTool> activeTools = activeTab.get().listTools( tabPanel );
+                List<? extends SnaplogTool> activeTools = activeTab.listTools( tabPanel );
                 for (final SnaplogTool tool : activeTools) {
                     if (tool instanceof SnaplogPanelTool) {
                         Panel panel = ((SnaplogPanelTool) tool).getPanel( "panel" );
@@ -287,31 +292,24 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
         add( (contentContainer = new WebMarkupContainer( "contentContainer" ) {
 
             {
-                add( new ListView<SnaplogPanelTool>( "toolPanels", Lists.newLinkedList( toolPanels.keySet() ) ) {
+                add( new ListView<SnaplogPanelTool>( "toolPanels", new LoadableDetachableModel<List<? extends SnaplogPanelTool>>() {
+                    @Override
+                    protected List<? extends SnaplogPanelTool> load() {
+
+                        return ImmutableList.copyOf( toolPanels.keySet() );
+                    }
+                } ) {
                     @Override
                     protected void populateItem(final ListItem<SnaplogPanelTool> item) {
 
                         SnaplogPanelTool tool = item.getModelObject();
-                        logger.dbg( "Adding tool panel for tool: %s (visible? %s)", tool, tool.isVisible() );
                         item.add( toolPanels.get( tool ).setVisible( tool.isVisible() ) );
                     }
                 } );
-                add( getInitialContent( CONTENT_PANEL ) );
+                add( new WebComponent( CONTENT_PANEL ) );
             }}).setMarkupId( "content" /* TODO: Wicket should REALLY dig this out of the markup! */ ).setOutputMarkupId( true ) );
 
         add( pageTitle, userEntry, userSummary, tabsContainer );
-    }
-
-    /**
-     * Override me to define a custom panel to show initially when this page is constructed.
-     *
-     * @param wicketId The wicket ID that the panel should use.
-     *
-     * @return The panel to show when the page first loads.
-     */
-    protected Component getInitialContent(final String wicketId) {
-
-        return new WebComponent( wicketId );
     }
 
     /**
@@ -319,7 +317,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
      *
      * @return The fragment navigation controller that manages this page.
      */
-    public static FragmentNavigationController getController() {
+    public static SnaplogNavigationController<Panel, FragmentState> getController() {
 
         Page responsePage = RequestCycle.get().getResponsePage();
         checkState( LayoutPage.class.isInstance( responsePage ), //
@@ -338,23 +336,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
         checkNotNull( target, "Given target cannot be null." );
 
         target.addComponent( messages );
-        target.addListener( new FragmentNavigationListener.AjaxRequestListener( navigationController ) {
-            @Override
-            protected FragmentNavigationTab<?, ? extends FragmentState<?, ?>> getActiveTab() {
-
-                Tab activeTab = getModelObject().activeTab().getObject();
-                if (activeTab == null)
-                    return null;
-
-                return activeTab.get();
-            }
-
-            @Override
-            protected Component getActiveContent() {
-
-                return contentContainer.get( CONTENT_PANEL );
-            }
-        } );
+        target.addListener( FragmentNavigationListener.AjaxRequestListener.of( navigationController ) );
     }
 
     @Override
@@ -419,12 +401,24 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
     }
 
 
-    public class FragmentNavigationController extends FragmentNavigationListener.Controller {
+    public class SnaplogNavigationController<P extends Panel, S extends FragmentState> extends
+            FragmentNavigationListener.Controller<P, S, SnaplogTab<? extends P, ? extends S>> {
 
         @Override
-        protected void setActiveTab(final FragmentNavigationTab<?, ?> tab, final Panel tabPanel) {
+        protected Class<? extends Page> getTabExclusivePage() {
 
-            getModelObject().activeTab().setObject( Tab.of( tab ) );
+            return LayoutPage.class;
+        }
+
+        @Override
+        protected Component getActiveContent() {
+
+            return contentContainer.get( CONTENT_PANEL );
+        }
+
+        @Override
+        protected <TT extends FragmentNavigationTab<PP, SS>, PP extends P, SS extends S> void setActiveTab(final TT tab,
+                                                                                                           final Panel tabPanel) {
 
             Panel contentPanel = tabPanel;
             if (contentPanel == null)
@@ -445,13 +439,21 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
         }
 
         @Override
-        protected Iterable<FragmentNavigationTab<?, ?>> getTabs() {
+        protected Iterable<SnaplogTab<? extends P, ? extends S>> getTabs() {
 
-            ImmutableList.Builder<FragmentNavigationTab<?, ?>> tabsBuilder = ImmutableList.builder();
-            for (final Tab tab : Tab.values())
-                tabsBuilder.add( tab.get() );
+            ImmutableList.Builder<SnaplogTab<? extends P, ? extends S>> tabsBuilder = ImmutableList.builder();
+            for (final Tab tab : Tab.values()) {
+                SnaplogTab<? extends P, ? extends S> snaplogTab = tab.get();
+                tabsBuilder.add( snaplogTab );
+            }
 
             return tabsBuilder.build();
+        }
+
+        @Override
+        protected void onError(final IncompatibleStateException e) {
+
+            error( e.getLocalizedMessage() );
         }
     }
 }

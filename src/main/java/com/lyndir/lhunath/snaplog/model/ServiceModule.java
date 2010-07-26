@@ -50,5 +50,6 @@ public class ServiceModule extends AbstractModule {
         bind( AWSService.class ).to( AWSServiceImpl.class );
         bind( SecurityService.class ).to( SecurityServiceImpl.class );
         bind( UserService.class ).to( UserServiceImpl.class );
+        bind( IssueService.class ).to( IssueServiceImpl.class );
     }
 }

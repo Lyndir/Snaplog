@@ -17,7 +17,6 @@ package com.lyndir.lhunath.snaplog.data.object.security;
 
 import com.lyndir.lhunath.lib.wayward.i18n.KeyAppender;
 import com.lyndir.lhunath.lib.wayward.i18n.Localized;
-import com.lyndir.lhunath.lib.wayward.i18n.LocalizedType;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.webapp.component.Sprite;
@@ -136,6 +135,6 @@ public enum Permission implements Localized {
          *
          * @return An information text explaining what this permission grants.
          */
-        String info(@KeyAppender Permission permission, @LocalizedType SecureObject<?> current, SecureObject<?> parent);
+        String info(@KeyAppender Permission permission, SecureObject<?> current, SecureObject<?> parent);
     }
 }

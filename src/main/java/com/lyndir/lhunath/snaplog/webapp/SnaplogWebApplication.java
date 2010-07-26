@@ -17,18 +17,23 @@ package com.lyndir.lhunath.snaplog.webapp;
 
 import com.google.inject.Injector;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.system.logging.exception.AlreadyCheckedException;
 import com.lyndir.lhunath.lib.wayward.js.AjaxHooks;
 import com.lyndir.lhunath.lib.wayward.state.ComponentStateListener;
 import com.lyndir.lhunath.snaplog.data.object.Issue;
+import com.lyndir.lhunath.snaplog.data.object.user.User;
+import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
+import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.linkid.SnaplogWebappConfig;
+import com.lyndir.lhunath.snaplog.model.service.IssueService;
+import com.lyndir.lhunath.snaplog.model.service.UserService;
 import com.lyndir.lhunath.snaplog.webapp.filter.OpenCloseTagExpander;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
-import com.lyndir.lhunath.snaplog.webapp.page.NewUserPage;
-import com.lyndir.lhunath.snaplog.webapp.page.NewUserPage.NewUserPageState;
-import com.lyndir.lhunath.snaplog.webapp.page.error.AccessDeniedErrorPage;
-import com.lyndir.lhunath.snaplog.webapp.page.error.InternalErrorPage;
-import com.lyndir.lhunath.snaplog.webapp.page.error.PageExpiredErrorPage;
+import com.lyndir.lhunath.snaplog.webapp.tab.AccessDeniedErrorPage;
+import com.lyndir.lhunath.snaplog.webapp.tab.InternalErrorPage;
+import com.lyndir.lhunath.snaplog.webapp.tab.NewUserTabPanel;
+import com.lyndir.lhunath.snaplog.webapp.tab.PageExpiredErrorPage;
 import net.link.safeonline.sdk.common.configuration.WebappConfig;
 import org.apache.wicket.*;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -63,14 +68,6 @@ public class SnaplogWebApplication extends WebApplication {
     public static final String PATH_LINKID_ERROR = "/linkid-error";
 
     /**
-     * Metadata key for an {@link Issue} describing a {@link RuntimeException} that occurred.
-     *
-     * @see RequestCycle#getMetaData(MetaDataKey)
-     */
-    public static final MetaDataKey<Issue> METADATA_RUNTIME_EXCEPTION_ISSUE = new MetaDataKey<Issue>() {
-    };
-
-    /**
      * {@inheritDoc}
      */
     @Override
@@ -83,7 +80,7 @@ public class SnaplogWebApplication extends WebApplication {
         Injector injector = GuiceContext.get( getServletContext() );
         addComponentInstantiationListener( new InjectionFlagCachingGuiceComponentInjector( this, injector ) );
         addPreComponentOnBeforeRenderListener( injector.getInstance( AuthenticationListener.class ) );
-        addPreComponentOnBeforeRenderListener( new ComponentStateListener( new NewUserPageState() ) );
+        addPreComponentOnBeforeRenderListener( new ComponentStateListener( new NewUserTabPanel.NewUserTabActivator() ) );
 
         // Application setup.
         getApplicationSettings().setPageExpiredErrorPage( PageExpiredErrorPage.class );
@@ -107,8 +104,6 @@ public class SnaplogWebApplication extends WebApplication {
 
         // Page mounting.
         mount( new HybridUrlCodingStrategy( "main", LayoutPage.class ) );
-        mount( new HybridUrlCodingStrategy( "error", InternalErrorPage.class ) );
-        mount( new HybridUrlCodingStrategy( "new", NewUserPage.class ) );
     }
 
     /**
@@ -143,9 +138,44 @@ public class SnaplogWebApplication extends WebApplication {
             @Override
             public Page onRuntimeException(final Page page, final RuntimeException e) {
 
-                setMetaData( METADATA_RUNTIME_EXCEPTION_ISSUE, new Issue( page, e ) );
+                Issue issue = null;
+                try {
+                    try {
+                        try {
+                            UserProfile profile = null;
+                            try {
+                                User user = SnaplogSession.get().getActiveUser();
+                                if (user != null)
+                                    profile = GuiceContext.getInstance( UserService.class )
+                                            .getProfile( SnaplogSession.get().newToken(), user );
+                            }
+                            catch (PermissionDeniedException ee) {
+                                throw new AlreadyCheckedException( ee );
+                            }
 
-                return super.onRuntimeException( page, e );
+                            issue = new Issue( page, e, profile );
+                            GuiceContext.getInstance( IssueService.class ).report( issue );
+                        }
+                        catch (Exception ee) {
+                            // Fallback 1: Don't try to look up subject.
+                            logger.bug( ee );
+
+                            issue = new Issue( page, e, null );
+                        }
+                    }
+                    catch (Exception ee) {
+                        // Fallback 2: Don't try resolve the exception.
+                        logger.bug( ee );
+
+                        issue = new Issue( page, null, null );
+                    }
+                }
+                catch (Exception ee) {
+                    // Fallback 3: Just try to get the user to the error page; don't bother with anything extra.
+                    logger.bug( ee );
+                }
+
+                return new InternalErrorPage( issue );
             }
         };
     }

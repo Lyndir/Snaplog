@@ -21,7 +21,6 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.collection.SizedListIterator;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.DateUtils;
 import com.lyndir.lhunath.lib.system.util.ObjectUtils;
@@ -42,7 +41,7 @@ import com.lyndir.lhunath.snaplog.model.service.AlbumService;
 import com.lyndir.lhunath.snaplog.model.service.SecurityService;
 import java.net.URL;
 import java.util.Iterator;
-import java.util.List;
+import java.util.ListIterator;
 import org.joda.time.DateTimeFieldType;
 import org.joda.time.ReadableInstant;
 import org.joda.time.ReadablePeriod;
@@ -80,10 +79,9 @@ public class AlbumServiceImpl implements AlbumService {
      * {@inheritDoc}
      */
     @Override
-    public SizedListIterator<Album> iterateAlbums(final SecurityToken token, final Predicate<Album> predicate) {
+    public ListIterator<Album> iterateAlbums(final SecurityToken token, final Predicate<Album> predicate) {
 
-        List<Album> results = albumDAO.listAlbums( predicate );
-        return SizedListIterator.of( securityService.filterAccess( Permission.VIEW, token, results.listIterator() ), results.size() );
+        return securityService.filterAccess( Permission.VIEW, token, albumDAO.listAlbums( predicate ).listIterator() );
     }
 
     /**
@@ -168,11 +166,9 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
-    public SizedListIterator<Media> iterateMedia(final SecurityToken token, final Album album) {
+    public ListIterator<Media> iterateMedia(final SecurityToken token, final Album album) {
 
-        List<Media> results = mediaDAO.listMedia( album, true );
-
-        return SizedListIterator.of( securityService.filterAccess( Permission.VIEW, token, results.listIterator() ), results.size() );
+        return securityService.filterAccess( Permission.VIEW, token, mediaDAO.listMedia( album, true ).listIterator() );
     }
 
     @Override

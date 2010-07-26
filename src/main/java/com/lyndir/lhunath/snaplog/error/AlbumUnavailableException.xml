@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+
+<properties>
+
+    <entry key="message">There is no album by "{0}" named "{1}", or you do not yet have permission to see it.</entry>
+
+</properties>

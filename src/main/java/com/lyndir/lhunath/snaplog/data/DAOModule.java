@@ -22,10 +22,7 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.service.*;
 import com.lyndir.lhunath.snaplog.data.service.impl.db4o.Db4oProvider;
 import com.lyndir.lhunath.snaplog.data.service.impl.db4o.InitDAOImpl;
-import com.lyndir.lhunath.snaplog.data.service.impl.db4o.soda.AlbumDAOImpl;
-import com.lyndir.lhunath.snaplog.data.service.impl.db4o.soda.MediaDAOImpl;
-import com.lyndir.lhunath.snaplog.data.service.impl.db4o.soda.SecurityDAOImpl;
-import com.lyndir.lhunath.snaplog.data.service.impl.db4o.soda.UserDAOImpl;
+import com.lyndir.lhunath.snaplog.data.service.impl.db4o.soda.*;
 import com.lyndir.lhunath.snaplog.data.service.impl.neodatis.NeodatisProvider;
 import org.neodatis.odb.ODB;
 
@@ -52,6 +49,7 @@ public class DAOModule extends AbstractModule {
         // Services
         logger.dbg( "Binding data services" );
         bind( InitDAO.class ).to( InitDAOImpl.class );
+        bind( IssueDAO.class ).to( IssueDAOImpl.class );
         bind( MediaDAO.class ).to( MediaDAOImpl.class );
         bind( AlbumDAO.class ).to( AlbumDAOImpl.class );
         bind( UserDAO.class ).to( UserDAOImpl.class );

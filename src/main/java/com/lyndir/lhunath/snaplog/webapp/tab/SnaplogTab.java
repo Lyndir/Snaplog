@@ -29,7 +29,7 @@ import org.apache.wicket.markup.html.panel.Panel;
  *
  * @author lhunath
  */
-public interface SnaplogTab<P extends Panel, S extends FragmentState<P, S>> extends FragmentNavigationTab<P, S> {
+public interface SnaplogTab<P extends Panel, S extends FragmentState> extends FragmentNavigationTab<P, S> {
 
     /**
      * @param panel The panel for which we need tools.  Use this to access the panel's state for the tools.

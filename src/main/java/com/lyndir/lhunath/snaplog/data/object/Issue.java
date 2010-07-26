@@ -15,8 +15,15 @@
  */
 package com.lyndir.lhunath.snaplog.data.object;
 
-import java.io.Serializable;
-import org.apache.wicket.Page;
+import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.system.util.Utils;
+import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
+import com.lyndir.lhunath.lib.wayward.js.JSUtils;
+import com.lyndir.lhunath.snaplog.data.object.security.AbstractSecureObject;
+import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import org.apache.wicket.Component;
 
 
 /**
@@ -26,29 +33,52 @@ import org.apache.wicket.Page;
  *
  * @author lhunath
  */
-public class Issue implements Serializable {
+public class Issue extends AbstractSecureObject<UserProfile> {
 
-    private final Page location;
+    static final Logger logger = Logger.get( Issue.class );
+
+    static final Messages msgs = MessagesFactory.create( Messages.class );
+
+    private final String originPath;
     private final Exception cause;
+    private final String issueCode;
+    private final UserProfile subject;
 
     /**
      * Create a new {@link Issue} instance.
      *
-     * @param location The page that the issue occurred on.
+     * @param origin The page that the issue occurred on.
      * @param cause    The exception that caused the issue.
+     * @param subject  The user that was authenticated when the issue occurred or <code>null</code> if no user was authenticated.
      */
-    public Issue(final Page location, final Exception cause) {
+    public Issue(final Component origin, final Exception cause, final UserProfile subject) {
 
-        this.location = location;
+        // Dump the exception to a string.
+        StringWriter causeStringWriter = new StringWriter();
+        PrintWriter causeStringPrintWriter = new PrintWriter( causeStringWriter );
+        try {
+            if (cause != null) {
+                causeStringPrintWriter.write( cause.toString() );
+                cause.printStackTrace( causeStringPrintWriter );
+            }
+        }
+        finally {
+            causeStringPrintWriter.close();
+        }
+
+        originPath = origin == null? null: origin.getClassRelativePath();
         this.cause = cause;
+        this.subject = subject;
+
+        issueCode = Utils.getMD5( JSUtils.toString( new Object[] { originPath, causeStringWriter.toString() } ) );
     }
 
     /**
-     * @return The location of this {@link Issue}.
+     * @return The path to the component where the {@link Issue} originated.
      */
-    public Page getLocation() {
+    public String getOriginPath() {
 
-        return location;
+        return originPath;
     }
 
     /**
@@ -57,5 +87,46 @@ public class Issue implements Serializable {
     public Exception getCause() {
 
         return cause;
+    }
+
+    /**
+     * @return A unique code that can be used to reference this issue.
+     */
+    public String getIssueCode() {
+
+        return issueCode;
+    }
+
+    @Override
+    public UserProfile getParent() {
+
+        return subject;
+    }
+
+    @Override
+    public String typeDescription() {
+
+        return msgs.type();
+    }
+
+    @Override
+    public String objectDescription() {
+
+        return msgs.description( cause );
+    }
+
+    interface Messages {
+
+        /**
+         * @return The name of this type.
+         */
+        String type();
+
+        /**
+         * @param cause The cause of the issue.
+         *
+         * @return A description of the issue using the given cause.
+         */
+        String description(Exception cause);
     }
 }

@@ -1,7 +1,5 @@
 package com.lyndir.lhunath.snaplog.webapp.tool;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.object.media.Album;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
@@ -33,12 +31,17 @@ public class TagsPopup extends PopupPanel<Album> {
     public TagsPopup(final String id, final IModel<Album> albumModel) {
 
         super( id, albumModel );
-        checkNotNull( albumModel.getObject(), "Model object of TagsPopup must not be null" );
     }
 
     @Override
     protected void initContent(final WebMarkupContainer content) {
 
+    }
+
+    @Override
+    public boolean isVisible() {
+
+        return new Tool( getModel() ).isVisible();
     }
 
     interface Messages {
@@ -89,7 +92,7 @@ public class TagsPopup extends PopupPanel<Album> {
         @Override
         public boolean isVisible() {
 
-            return GuiceContext.getInstance( SecurityService.class )
+            return model.getObject() != null &&GuiceContext.getInstance( SecurityService.class )
                     .hasAccess( Permission.CONTRIBUTE, SnaplogSession.get().newToken(), model.getObject() );
         }
     }

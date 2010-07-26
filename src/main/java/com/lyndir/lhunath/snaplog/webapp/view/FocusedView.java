@@ -3,7 +3,6 @@ package com.lyndir.lhunath.snaplog.webapp.view;
 import com.google.common.collect.Iterators;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.collection.ListIteratorView;
-import com.lyndir.lhunath.lib.system.collection.SizedListIterator;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.ObjectUtils;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
@@ -54,20 +53,14 @@ public class FocusedView extends GenericPanel<Media> {
 
         mediaView = new ListIteratorView<Media>() {
 
-            transient SizedListIterator<Media> iterator;
+            transient ListIterator<Media> iterator;
 
-            private SizedListIterator<Media> getIterator() {
+            private ListIterator<Media> getIterator() {
 
                 if (iterator == null)
                     iterator = albumService.iterateMedia( SnaplogSession.get().newToken(), getModelObject().getAlbum() );
 
                 return iterator;
-            }
-
-            @Override
-            public int size() {
-
-                return getIterator().size();
             }
 
             @Override

@@ -2,6 +2,6 @@
 
 <properties>
 
-    <entry key="userName">User Name:</entry>
+    <entry key="message">There is no issue with issue code: "{0}".</entry>
 
 </properties>

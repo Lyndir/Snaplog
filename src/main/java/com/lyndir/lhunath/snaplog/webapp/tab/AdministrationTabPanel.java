@@ -20,7 +20,7 @@ import com.lyndir.lhunath.lib.system.localization.UseKey;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.lib.wayward.navigation.AbstractFragmentState;
-import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationTab;
+import com.lyndir.lhunath.lib.wayward.navigation.IncompatibleStateException;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import java.util.List;
@@ -67,6 +67,8 @@ public class AdministrationTabPanel extends Panel {
      * @author lhunath
      */
     static class AdministrationTab implements SnaplogTab<AdministrationTabPanel, AdministrationTabState> {
+
+        public static final AdministrationTab instance= new AdministrationTab();
 
         static final Logger logger = Logger.get( AdministrationTab.class );
         static final Messages msgs = MessagesFactory.create( Messages.class );
@@ -123,22 +125,21 @@ public class AdministrationTabPanel extends Panel {
         }
 
         @Override
-        public AdministrationTabState getFragmentState(final AdministrationTabPanel panel) {
+        public AdministrationTabState buildFragmentState(final AdministrationTabPanel panel) {
 
             return new AdministrationTabState();
         }
 
         @Override
-        public void applyFragmentState(final AdministrationTabPanel panel, final AdministrationTabState state) {
+        public void applyFragmentState(final AdministrationTabPanel panel, final AdministrationTabState state)
+                throws IncompatibleStateException {
 
             // No state.
         }
     }
 
 
-    public static class AdministrationTabState extends AbstractFragmentState<AdministrationTabPanel, AdministrationTabState> {
-
-        private static final AdministrationTab TAB = new AdministrationTab();
+    public static class AdministrationTabState extends AbstractFragmentState {
 
         public AdministrationTabState() {
 
@@ -150,9 +151,9 @@ public class AdministrationTabPanel extends Panel {
         }
 
         @Override
-        public FragmentNavigationTab<AdministrationTabPanel, AdministrationTabState> getFragmentTab() {
+        protected String getTabFragment() {
 
-            return TAB;
+            return AdministrationTab.instance.getTabFragment();
         }
     }
 }

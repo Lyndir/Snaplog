@@ -16,7 +16,6 @@
 package com.lyndir.lhunath.snaplog.model.service;
 
 import com.google.common.base.Predicate;
-import com.lyndir.lhunath.lib.system.collection.SizedListIterator;
 import com.lyndir.lhunath.snaplog.data.object.media.Album;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.media.MediaTimeFrame;
@@ -25,6 +24,7 @@ import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import java.util.Iterator;
+import java.util.ListIterator;
 import org.joda.time.DateTimeFieldType;
 
 
@@ -47,7 +47,7 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
      *
      * @return An {@link Iterator} of albums owned by the given owner that are visible to the given observer.
      */
-    SizedListIterator<Album> iterateAlbums(SecurityToken token, Predicate<Album> predicate);
+    ListIterator<Album> iterateAlbums(SecurityToken token, Predicate<Album> predicate);
 
     /**
      * @param token Request authentication token should authorize {@link Permission#VIEW} on the album's media to return.
@@ -55,7 +55,7 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
      *
      * @return An {@link Iterator} of media in the given album that are visible to the given observer.
      */
-    SizedListIterator<Media> iterateMedia(SecurityToken token, Album album);
+    ListIterator<Media> iterateMedia(SecurityToken token, Album album);
 
     /**
      * @param token Request authentication token should authorize {@link Permission#VIEW} on the album's media to return.

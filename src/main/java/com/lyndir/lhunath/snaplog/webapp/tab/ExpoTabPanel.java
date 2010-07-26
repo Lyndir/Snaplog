@@ -23,7 +23,7 @@ import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.lib.wayward.i18n.BooleanKeyAppender;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.lib.wayward.navigation.AbstractFragmentState;
-import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationTab;
+import com.lyndir.lhunath.lib.wayward.navigation.IncompatibleStateException;
 import com.lyndir.lhunath.snaplog.data.object.media.Album;
 import com.lyndir.lhunath.snaplog.data.object.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
@@ -308,6 +308,8 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
      */
     static class ExpoTab implements SnaplogTab<ExpoTabPanel, ExpoTabState> {
 
+        public static final ExpoTab instance = new ExpoTab();
+
         static final Logger logger = Logger.get( ExpoTab.class );
 
         /**
@@ -362,22 +364,21 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
         }
 
         @Override
-        public ExpoTabState getFragmentState(final ExpoTabPanel panel) {
+        public ExpoTabState buildFragmentState(final ExpoTabPanel panel) {
 
             return new ExpoTabState();
         }
 
         @Override
-        public void applyFragmentState(final ExpoTabPanel panel, final ExpoTabState state) {
+        public void applyFragmentState(final ExpoTabPanel panel, final ExpoTabState state)
+                throws IncompatibleStateException {
 
             // No state.
         }
     }
 
 
-    public static class ExpoTabState extends AbstractFragmentState<ExpoTabPanel, ExpoTabState> {
-
-        private static final ExpoTab TAB = new ExpoTab();
+    public static class ExpoTabState extends AbstractFragmentState {
 
         public ExpoTabState() {
 
@@ -389,9 +390,9 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
         }
 
         @Override
-        public FragmentNavigationTab<ExpoTabPanel, ExpoTabState> getFragmentTab() {
+        protected String getTabFragment() {
 
-            return TAB;
+            return ExpoTab.instance.getTabFragment();
         }
     }
 }

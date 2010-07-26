@@ -27,6 +27,7 @@ import com.lyndir.lhunath.snaplog.data.object.media.Album;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.cookie.LastUserCookieManager;
+import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage.Messages;
 import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
 import java.util.List;
@@ -52,7 +53,6 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
     private final IModel<String> userMessages;
     private final IModel<String> userRequests;
     private final IModel<? extends List<TabItem>> tabs;
-    private final IModel<Tab> activeTab;
     private final IModel<String> focusedUser;
     private final IModel<String> focusedContent;
 
@@ -107,15 +107,6 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
             }
         };
 
-        activeTab = new LoadableDetachableModel<Tab>() {
-            @Override
-            protected Tab load() {
-
-                // Always begin empty.
-                return null;
-            }
-        };
-
         focusedUser = msgs.focusedUser( new LoadableDetachableModel<User>() {
             @Override
             protected User load() {
@@ -156,7 +147,7 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
                 @Override
                 protected String load() {
 
-                    if (getModelObject() == activeTab().getObject())
+                    if (getModelObject().get().equals( LayoutPage.getController().getActiveTab() ))
                         return "active";
 
                     return "";
@@ -235,14 +226,6 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
     public IModel<? extends List<TabItem>> tabs() {
 
         return tabs;
-    }
-
-    /**
-     * @return A model that provides and allows modification of the currently active page tab.
-     */
-    public IModel<Tab> activeTab() {
-
-        return activeTab;
     }
 
     /**

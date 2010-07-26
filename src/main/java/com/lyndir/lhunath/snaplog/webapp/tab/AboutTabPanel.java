@@ -20,7 +20,7 @@ import com.lyndir.lhunath.lib.system.localization.UseKey;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.lib.wayward.navigation.AbstractFragmentState;
-import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationTab;
+import com.lyndir.lhunath.lib.wayward.navigation.IncompatibleStateException;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import java.util.List;
@@ -66,7 +66,9 @@ public class AboutTabPanel extends Panel {
      *
      * @author lhunath
      */
-    static class AboutTab implements SnaplogTab<AboutTabPanel, AboutTabState> {
+     static class AboutTab implements SnaplogTab<AboutTabPanel, AboutTabState> {
+
+        public static final AboutTab instance = new AboutTab();
 
         static final Logger logger = Logger.get( AboutTab.class );
         static final Messages msgs = MessagesFactory.create( Messages.class );
@@ -123,21 +125,21 @@ public class AboutTabPanel extends Panel {
         }
 
         @Override
-        public AboutTabState getFragmentState(final AboutTabPanel panel) {
+        public AboutTabState buildFragmentState(final AboutTabPanel panel) {
 
             return new AboutTabState();
         }
 
         @Override
-        public void applyFragmentState(final AboutTabPanel panel, final AboutTabState state) {
+        public void applyFragmentState(final AboutTabPanel panel, final AboutTabState state)
+                throws IncompatibleStateException {
 
+            // No state.
         }
     }
 
 
-    public static class AboutTabState extends AbstractFragmentState<AboutTabPanel, AboutTabState> {
-
-        private static final AboutTab TAB = new AboutTab();
+    public static class AboutTabState extends AbstractFragmentState {
 
         public AboutTabState() {
 
@@ -149,9 +151,9 @@ public class AboutTabPanel extends Panel {
         }
 
         @Override
-        public FragmentNavigationTab<AboutTabPanel, AboutTabState> getFragmentTab() {
+        protected String getTabFragment() {
 
-            return TAB;
+            return AboutTab.instance.getTabFragment();
         }
     }
 }
