@@ -1,250 +1,1001 @@
-.s64.business                      { background: transparent url("64x64/business.png") no-repeat; width: 64px; height: 64px; }
-.s64.business.bag-paper1           { background-position:   -0px   -0px; }
-.s64.business.bag-paper2           { background-position:   -0px  -64px; }
-.s64.business.bag-paper3           { background-position:   -0px -128px; }
-.s64.business.basket               { background-position:   -0px -192px; }
-.s64.business.battery              { background-position:   -0px -256px; }
-.s64.business.battery1             { background-position:   -0px -320px; }
-.s64.business.binocular            { background-position:   -0px -384px; }
-.s64.business.box                  { background-position:   -0px -448px; }
-.s64.business.box1                 { background-position:   -0px -512px; }
-.s64.business.box2                 { background-position:   -0px -576px; }
-.s64.business.brush-paint55        { background-position:   -0px -640px; }
-.s64.business.brush-paint57-sc52   { background-position:   -0px -704px; }
-.s64.business.brush-painting-sc43  { background-position:   -0px -768px; }
-.s64.business.cabinet              { background-position:   -0px -832px; }
-.s64.business.calculator           { background-position:   -0px -896px; }
-.s64.business.calendar             { background-position:   -0px -960px; }
-.s64.business.cart-7dots           { background-position:   -0px -1024px; }
-.s64.business.cart-arrow           { background-position:   -0px -1088px; }
-.s64.business.cart-solid           { background-position:   -0px -1152px; }
-.s64.business.cart2                { background-position:   -0px -1216px; }
-.s64.business.cart3                { background-position:   -0px -1280px; }
-.s64.business.cart4                { background-position:   -0px -1344px; }
-.s64.business.cart5                { background-position:   -0px -1408px; }
-.s64.business.chair5-sc52          { background-position:   -0px -1472px; }
-.s64.business.charcoal-cart        { background-position:   -0px -1536px; }
-.s64.business.charts               { background-position:   -0px -1600px; }
-.s64.business.charts1-sc1          { background-position:   -0px -1664px; }
-.s64.business.clipboard            { background-position:   -0px -1728px; }
-.s64.business.clipboard1           { background-position:   -0px -1792px; }
-.s64.business.clipboard2-sc1       { background-position:   -0px -1856px; }
-.s64.business.clock                { background-position:   -0px -1920px; }
-.s64.business.clock1               { background-position:   -0px -1984px; }
-.s64.business.clock110             { background-position:   -0px -2048px; }
-.s64.business.clock2               { background-position:   -0px -2112px; }
-.s64.business.clock3               { background-position:   -0px -2176px; }
-.s64.business.clock4               { background-position:   -0px -2240px; }
-.s64.business.clock5-sc44          { background-position:   -0px -2304px; }
-.s64.business.clock6-sc43          { background-position:   -0px -2368px; }
-.s64.business.clock7-sc43          { background-position:   -0px -2432px; }
-.s64.business.clock8               { background-position:   -0px -2496px; }
-.s64.business.computer-desktop1    { background-position:   -0px -2560px; }
-.s64.business.computer-keyboard    { background-position:   -0px -2624px; }
-.s64.business.computer-laptop2     { background-position:   -0px -2688px; }
-.s64.business.computer-monitor     { background-position:   -0px -2752px; }
-.s64.business.computer-mouse       { background-position:   -0px -2816px; }
-.s64.business.computer-mouse2      { background-position:   -0px -2880px; }
-.s64.business.computer-mouse3-sc1  { background-position:   -0px -2944px; }
-.s64.business.computer-mouse3      { background-position:   -0px -3008px; }
-.s64.business.computer-server1     { background-position:   -0px -3072px; }
-.s64.business.computer-server2     { background-position:   -0px -3136px; }
-.s64.business.computer-usb-drive-sc7 { background-position:   -0px -3200px; }
-.s64.business.copyright            { background-position:   -0px -3264px; }
-.s64.business.creditcard2          { background-position:   -0px -3328px; }
-.s64.business.currency-british-pound-sc35 { background-position:   -0px -3392px; }
-.s64.business.currency-cent-sc35   { background-position:   -0px -3456px; }
-.s64.business.currency-dollar-sc35 { background-position:   -0px -3520px; }
-.s64.business.currency-euro1-sc35  { background-position:   -0px -3584px; }
-.s64.business.currency-euro1       { background-position:   -0px -3648px; }
-.s64.business.currency-euro3       { background-position:   -0px -3712px; }
-.s64.business.currency-japanese-yen2-sc35 { background-position:   -0px -3776px; }
-.s64.business.cursor               { background-position:   -0px -3840px; }
-.s64.business.disc                 { background-position:   -0px -3904px; }
-.s64.business.disk                 { background-position:   -0px -3968px; }
-.s64.business.diskette-save        { background-position:   -0px -4032px; }
-.s64.business.diskette4            { background-position:   -0px -4096px; }
-.s64.business.document             { background-position:   -0px -4160px; }
-.s64.business.document1            { background-position:   -0px -4224px; }
-.s64.business.document10-sc1       { background-position:   -0px -4288px; }
-.s64.business.document3            { background-position:   -0px -4352px; }
-.s64.business.document4            { background-position:   -0px -4416px; }
-.s64.business.document5            { background-position:   -0px -4480px; }
-.s64.business.document6            { background-position:   -0px -4544px; }
-.s64.business.document7            { background-position:   -0px -4608px; }
-.s64.business.document8            { background-position:   -0px -4672px; }
-.s64.business.document9            { background-position:   -0px -4736px; }
-.s64.business.dollar-solid         { background-position:   -0px -4800px; }
-.s64.business.dollar               { background-position:   -0px -4864px; }
-.s64.business.electrical-plug      { background-position:   -0px -4928px; }
-.s64.business.electrical-plug1     { background-position:   -0px -4992px; }
-.s64.business.electrical-plug2     { background-position:   -0px -5056px; }
-.s64.business.electrical-plug5     { background-position:   -0px -5120px; }
-.s64.business.envelope1            { background-position:   -0px -5184px; }
-.s64.business.envelope3            { background-position:   -0px -5248px; }
-.s64.business.envelope4            { background-position:   -0px -5312px; }
-.s64.business.envelope5            { background-position:   -0px -5376px; }
-.s64.business.envelopes1           { background-position:   -0px -5440px; }
-.s64.business.fax                  { background-position:   -0px -5504px; }
-.s64.business.folder               { background-position:   -0px -5568px; }
-.s64.business.folder1              { background-position:   -0px -5632px; }
-.s64.business.folder2-sc1          { background-position:   -0px -5696px; }
-.s64.business.gas-none-sc49        { background-position:   -0px -5760px; }
-.s64.business.gas-pump             { background-position:   -0px -5824px; }
-.s64.business.gas-station4-sc49    { background-position:   -0px -5888px; }
-.s64.business.gaspump              { background-position:   -0px -5952px; }
-.s64.business.gaspump2             { background-position:   -0px -6016px; }
-.s64.business.gear-c-sc44          { background-position:   -0px -6080px; }
-.s64.business.gear                 { background-position:   -0px -6144px; }
-.s64.business.gear1                { background-position:   -0px -6208px; }
-.s64.business.gear10               { background-position:   -0px -6272px; }
-.s64.business.gear11               { background-position:   -0px -6336px; }
-.s64.business.gear2                { background-position:   -0px -6400px; }
-.s64.business.gear3                { background-position:   -0px -6464px; }
-.s64.business.gear4                { background-position:   -0px -6528px; }
-.s64.business.gear5                { background-position:   -0px -6592px; }
-.s64.business.gear6                { background-position:   -0px -6656px; }
-.s64.business.gear7                { background-position:   -0px -6720px; }
-.s64.business.gear8                { background-position:   -0px -6784px; }
-.s64.business.gear9                { background-position:   -0px -6848px; }
-.s64.business.gears-sc37           { background-position:   -0px -6912px; }
-.s64.business.gears1-sc44          { background-position:   -0px -6976px; }
-.s64.business.globe                { background-position:   -0px -7040px; }
-.s64.business.head-set             { background-position:   -0px -7104px; }
-.s64.business.headgear             { background-position:   -0px -7168px; }
-.s64.business.headset3             { background-position:   -0px -7232px; }
-.s64.business.home1                { background-position:   -0px -7296px; }
-.s64.business.home3                { background-position:   -0px -7360px; }
-.s64.business.home4                { background-position:   -0px -7424px; }
-.s64.business.home5                { background-position:   -0px -7488px; }
-.s64.business.home6                { background-position:   -0px -7552px; }
-.s64.business.home7                { background-position:   -0px -7616px; }
-.s64.business.home8                { background-position:   -0px -7680px; }
-.s64.business.home9-sc52           { background-position:   -0px -7744px; }
-.s64.business.hourglass            { background-position:   -0px -7808px; }
-.s64.business.hourglass2           { background-position:   -0px -7872px; }
-.s64.business.hourglass3-sc44      { background-position:   -0px -7936px; }
-.s64.business.industrial           { background-position:   -0px -8000px; }
-.s64.business.key-hole-sc48        { background-position:   -0px -8064px; }
-.s64.business.key1                 { background-position:   -0px -8128px; }
-.s64.business.key11-sc48           { background-position:   -0px -8192px; }
-.s64.business.key2                 { background-position:   -0px -8256px; }
-.s64.business.key3                 { background-position:   -0px -8320px; }
-.s64.business.key6                 { background-position:   -0px -8384px; }
-.s64.business.key7                 { background-position:   -0px -8448px; }
-.s64.business.key9                 { background-position:   -0px -8512px; }
-.s64.business.keys-sc43            { background-position:   -0px -8576px; }
-.s64.business.ladder               { background-position:   -0px -8640px; }
-.s64.business.ladder1-sc48         { background-position:   -0px -8704px; }
-.s64.business.light-bulb           { background-position:   -0px -8768px; }
-.s64.business.light-bulb2-sc52     { background-position:   -0px -8832px; }
-.s64.business.light-off            { background-position:   -0px -8896px; }
-.s64.business.light-on             { background-position:   -0px -8960px; }
-.s64.business.lock-heart           { background-position:   -0px -9024px; }
-.s64.business.lock1                { background-position:   -0px -9088px; }
-.s64.business.lock2                { background-position:   -0px -9152px; }
-.s64.business.lock3                { background-position:   -0px -9216px; }
-.s64.business.lock4                { background-position:   -0px -9280px; }
-.s64.business.lock5                { background-position:   -0px -9344px; }
-.s64.business.lock6-sc48           { background-position:   -0px -9408px; }
-.s64.business.logo-superman-sc37   { background-position:   -0px -9472px; }
-.s64.business.magic-wand           { background-position:   -0px -9536px; }
-.s64.business.magnify-zoom-out     { background-position:   -0px -9600px; }
-.s64.business.magnify-zoom         { background-position:   -0px -9664px; }
-.s64.business.magnifying-glass-ps  { background-position:   -0px -9728px; }
-.s64.business.magnifying-glass1-sc49 { background-position:   -0px -9792px; }
-.s64.business.mail                 { background-position:   -0px -9856px; }
-.s64.business.mailbox              { background-position:   -0px -9920px; }
-.s64.business.mailbox1             { background-position:   -0px -9984px; }
-.s64.business.microscope           { background-position:   -0px -10048px; }
-.s64.business.notepad              { background-position:   -0px -10112px; }
-.s64.business.oil-well             { background-position:   -0px -10176px; }
-.s64.business.paperclip            { background-position:   -0px -10240px; }
-.s64.business.paperclip2           { background-position:   -0px -10304px; }
-.s64.business.paperclips2-sc43     { background-position:   -0px -10368px; }
-.s64.business.pen-crayon-ps        { background-position:   -0px -10432px; }
-.s64.business.pen-crayon           { background-position:   -0px -10496px; }
-.s64.business.pen1                 { background-position:   -0px -10560px; }
-.s64.business.pen5-ps              { background-position:   -0px -10624px; }
-.s64.business.pen6-ps              { background-position:   -0px -10688px; }
-.s64.business.pencil1              { background-position:   -0px -10752px; }
-.s64.business.pencil2              { background-position:   -0px -10816px; }
-.s64.business.pencil4              { background-position:   -0px -10880px; }
-.s64.business.pencil5-ps           { background-position:   -0px -10944px; }
-.s64.business.pencil6-sc45         { background-position:   -0px -11008px; }
-.s64.business.pencil7-sc49         { background-position:   -0px -11072px; }
-.s64.business.pencil8              { background-position:   -0px -11136px; }
-.s64.business.phone-cell           { background-position:   -0px -11200px; }
-.s64.business.phone-cell2          { background-position:   -0px -11264px; }
-.s64.business.phone-cell3-sc8      { background-position:   -0px -11328px; }
-.s64.business.phone-clear          { background-position:   -0px -11392px; }
-.s64.business.phone-solid          { background-position:   -0px -11456px; }
-.s64.business.phone                { background-position:   -0px -11520px; }
-.s64.business.phone1               { background-position:   -0px -11584px; }
-.s64.business.phone2               { background-position:   -0px -11648px; }
-.s64.business.phone4               { background-position:   -0px -11712px; }
-.s64.business.power-button4        { background-position:   -0px -11776px; }
-.s64.business.printer              { background-position:   -0px -11840px; }
-.s64.business.registered-mark      { background-position:   -0px -11904px; }
-.s64.business.registered-mark1     { background-position:   -0px -11968px; }
-.s64.business.robot                { background-position:   -0px -12032px; }
-.s64.business.robot1               { background-position:   -0px -12096px; }
-.s64.business.satellite-dish-sc43  { background-position:   -0px -12160px; }
-.s64.business.satellite3-sc43      { background-position:   -0px -12224px; }
-.s64.business.satellite4-sc43      { background-position:   -0px -12288px; }
-.s64.business.scissors             { background-position:   -0px -12352px; }
-.s64.business.signature            { background-position:   -0px -12416px; }
-.s64.business.signature1           { background-position:   -0px -12480px; }
-.s64.business.space-satelite-sc43  { background-position:   -0px -12544px; }
-.s64.business.space-satelite       { background-position:   -0px -12608px; }
-.s64.business.space-satellite-dish-sc2 { background-position:   -0px -12672px; }
-.s64.business.spaceship            { background-position:   -0px -12736px; }
-.s64.business.tag                  { background-position:   -0px -12800px; }
-.s64.business.text-size            { background-position:   -0px -12864px; }
-.s64.business.thumb-tack-ps        { background-position:   -0px -12928px; }
-.s64.business.thumbs-down          { background-position:   -0px -12992px; }
-.s64.business.thumbs-down1         { background-position:   -0px -13056px; }
-.s64.business.thumbs-down2         { background-position:   -0px -13120px; }
-.s64.business.thumbs-up            { background-position:   -0px -13184px; }
-.s64.business.thumbs-up1           { background-position:   -0px -13248px; }
-.s64.business.thumbs-up2           { background-position:   -0px -13312px; }
-.s64.business.tool-army-knife-sc44 { background-position:   -0px -13376px; }
-.s64.business.tool-ax              { background-position:   -0px -13440px; }
-.s64.business.tool-axe1-sc48       { background-position:   -0px -13504px; }
-.s64.business.tool-cutter          { background-position:   -0px -13568px; }
-.s64.business.tool-cutter1-sc44    { background-position:   -0px -13632px; }
-.s64.business.tool-hammer          { background-position:   -0px -13696px; }
-.s64.business.tool-hammer2         { background-position:   -0px -13760px; }
-.s64.business.tool-hammer3         { background-position:   -0px -13824px; }
-.s64.business.tool-hammer4-sc44    { background-position:   -0px -13888px; }
-.s64.business.tool-pick-sc44       { background-position:   -0px -13952px; }
-.s64.business.tool-screw-sc44      { background-position:   -0px -14016px; }
-.s64.business.tool-screwdriver     { background-position:   -0px -14080px; }
-.s64.business.tool-shovel2-sc44    { background-position:   -0px -14144px; }
-.s64.business.tool-sprocket1       { background-position:   -0px -14208px; }
-.s64.business.tool-sprocket2       { background-position:   -0px -14272px; }
-.s64.business.tool-sword-sc48      { background-position:   -0px -14336px; }
-.s64.business.tool-wheelbarrow1-sc32 { background-position:   -0px -14400px; }
-.s64.business.tool-wheelbarrowl2-sc44 { background-position:   -0px -14464px; }
-.s64.business.tool-wrench1         { background-position:   -0px -14528px; }
-.s64.business.tool-wrench2         { background-position:   -0px -14592px; }
-.s64.business.tool-wrench3         { background-position:   -0px -14656px; }
-.s64.business.tool-wrench4         { background-position:   -0px -14720px; }
-.s64.business.tool-wrench7         { background-position:   -0px -14784px; }
-.s64.business.tool-wrench8-sc44    { background-position:   -0px -14848px; }
-.s64.business.tool                 { background-position:   -0px -14912px; }
-.s64.business.tool7                { background-position:   -0px -14976px; }
-.s64.business.tools-shovel         { background-position:   -0px -15040px; }
-.s64.business.tools1               { background-position:   -0px -15104px; }
-.s64.business.tools2-digging       { background-position:   -0px -15168px; }
-.s64.business.toolset-sc44         { background-position:   -0px -15232px; }
-.s64.business.toolset3-sc44        { background-position:   -0px -15296px; }
-.s64.business.trademark-ps         { background-position:   -0px -15360px; }
-.s64.business.trashcan             { background-position:   -0px -15424px; }
-.s64.business.trashcan3            { background-position:   -0px -15488px; }
-.s64.business.wall                 { background-position:   -0px -15552px; }
-.s64.business.wand1-sc43           { background-position:   -0px -15616px; }
-.s64.business.webcam               { background-position:   -0px -15680px; }
-.s64.business.wireless             { background-position:   -0px -15744px; }
-.s64.business.www-search-ps        { background-position:   -0px -15808px; }
-.s64.business.yen                  { background-position:   -0px -15872px; }
+.s64.business {
+    background:          transparent url("64x64/business.png") no-repeat;
+    width:               64px;
+    height:              64px;
+}
+
+.s64.business.bag-paper1 {
+    background-position: -0px -0px;
+}
+
+.s64.business.bag-paper2 {
+    background-position: -0px -64px;
+}
+
+.s64.business.bag-paper3 {
+    background-position: -0px -128px;
+}
+
+.s64.business.basket {
+    background-position: -0px -192px;
+}
+
+.s64.business.battery {
+    background-position: -0px -256px;
+}
+
+.s64.business.battery1 {
+    background-position: -0px -320px;
+}
+
+.s64.business.binocular {
+    background-position: -0px -384px;
+}
+
+.s64.business.box {
+    background-position: -0px -448px;
+}
+
+.s64.business.box1 {
+    background-position: -0px -512px;
+}
+
+.s64.business.box2 {
+    background-position: -0px -576px;
+}
+
+.s64.business.brush-paint55 {
+    background-position: -0px -640px;
+}
+
+.s64.business.brush-paint57-sc52 {
+    background-position: -0px -704px;
+}
+
+.s64.business.brush-painting-sc43 {
+    background-position: -0px -768px;
+}
+
+.s64.business.cabinet {
+    background-position: -0px -832px;
+}
+
+.s64.business.calculator {
+    background-position: -0px -896px;
+}
+
+.s64.business.calendar {
+    background-position: -0px -960px;
+}
+
+.s64.business.cart-7dots {
+    background-position: -0px -1024px;
+}
+
+.s64.business.cart-arrow {
+    background-position: -0px -1088px;
+}
+
+.s64.business.cart-solid {
+    background-position: -0px -1152px;
+}
+
+.s64.business.cart2 {
+    background-position: -0px -1216px;
+}
+
+.s64.business.cart3 {
+    background-position: -0px -1280px;
+}
+
+.s64.business.cart4 {
+    background-position: -0px -1344px;
+}
+
+.s64.business.cart5 {
+    background-position: -0px -1408px;
+}
+
+.s64.business.chair5-sc52 {
+    background-position: -0px -1472px;
+}
+
+.s64.business.charcoal-cart {
+    background-position: -0px -1536px;
+}
+
+.s64.business.charts {
+    background-position: -0px -1600px;
+}
+
+.s64.business.charts1-sc1 {
+    background-position: -0px -1664px;
+}
+
+.s64.business.clipboard {
+    background-position: -0px -1728px;
+}
+
+.s64.business.clipboard1 {
+    background-position: -0px -1792px;
+}
+
+.s64.business.clipboard2-sc1 {
+    background-position: -0px -1856px;
+}
+
+.s64.business.clock {
+    background-position: -0px -1920px;
+}
+
+.s64.business.clock1 {
+    background-position: -0px -1984px;
+}
+
+.s64.business.clock110 {
+    background-position: -0px -2048px;
+}
+
+.s64.business.clock2 {
+    background-position: -0px -2112px;
+}
+
+.s64.business.clock3 {
+    background-position: -0px -2176px;
+}
+
+.s64.business.clock4 {
+    background-position: -0px -2240px;
+}
+
+.s64.business.clock5-sc44 {
+    background-position: -0px -2304px;
+}
+
+.s64.business.clock6-sc43 {
+    background-position: -0px -2368px;
+}
+
+.s64.business.clock7-sc43 {
+    background-position: -0px -2432px;
+}
+
+.s64.business.clock8 {
+    background-position: -0px -2496px;
+}
+
+.s64.business.computer-desktop1 {
+    background-position: -0px -2560px;
+}
+
+.s64.business.computer-keyboard {
+    background-position: -0px -2624px;
+}
+
+.s64.business.computer-laptop2 {
+    background-position: -0px -2688px;
+}
+
+.s64.business.computer-monitor {
+    background-position: -0px -2752px;
+}
+
+.s64.business.computer-mouse {
+    background-position: -0px -2816px;
+}
+
+.s64.business.computer-mouse2 {
+    background-position: -0px -2880px;
+}
+
+.s64.business.computer-mouse3-sc1 {
+    background-position: -0px -2944px;
+}
+
+.s64.business.computer-mouse3 {
+    background-position: -0px -3008px;
+}
+
+.s64.business.computer-server1 {
+    background-position: -0px -3072px;
+}
+
+.s64.business.computer-server2 {
+    background-position: -0px -3136px;
+}
+
+.s64.business.computer-usb-drive-sc7 {
+    background-position: -0px -3200px;
+}
+
+.s64.business.copyright {
+    background-position: -0px -3264px;
+}
+
+.s64.business.creditcard2 {
+    background-position: -0px -3328px;
+}
+
+.s64.business.currency-british-pound-sc35 {
+    background-position: -0px -3392px;
+}
+
+.s64.business.currency-cent-sc35 {
+    background-position: -0px -3456px;
+}
+
+.s64.business.currency-dollar-sc35 {
+    background-position: -0px -3520px;
+}
+
+.s64.business.currency-euro1-sc35 {
+    background-position: -0px -3584px;
+}
+
+.s64.business.currency-euro1 {
+    background-position: -0px -3648px;
+}
+
+.s64.business.currency-euro3 {
+    background-position: -0px -3712px;
+}
+
+.s64.business.currency-japanese-yen2-sc35 {
+    background-position: -0px -3776px;
+}
+
+.s64.business.cursor {
+    background-position: -0px -3840px;
+}
+
+.s64.business.disc {
+    background-position: -0px -3904px;
+}
+
+.s64.business.disk {
+    background-position: -0px -3968px;
+}
+
+.s64.business.diskette-save {
+    background-position: -0px -4032px;
+}
+
+.s64.business.diskette4 {
+    background-position: -0px -4096px;
+}
+
+.s64.business.document {
+    background-position: -0px -4160px;
+}
+
+.s64.business.document1 {
+    background-position: -0px -4224px;
+}
+
+.s64.business.document10-sc1 {
+    background-position: -0px -4288px;
+}
+
+.s64.business.document3 {
+    background-position: -0px -4352px;
+}
+
+.s64.business.document4 {
+    background-position: -0px -4416px;
+}
+
+.s64.business.document5 {
+    background-position: -0px -4480px;
+}
+
+.s64.business.document6 {
+    background-position: -0px -4544px;
+}
+
+.s64.business.document7 {
+    background-position: -0px -4608px;
+}
+
+.s64.business.document8 {
+    background-position: -0px -4672px;
+}
+
+.s64.business.document9 {
+    background-position: -0px -4736px;
+}
+
+.s64.business.dollar-solid {
+    background-position: -0px -4800px;
+}
+
+.s64.business.dollar {
+    background-position: -0px -4864px;
+}
+
+.s64.business.electrical-plug {
+    background-position: -0px -4928px;
+}
+
+.s64.business.electrical-plug1 {
+    background-position: -0px -4992px;
+}
+
+.s64.business.electrical-plug2 {
+    background-position: -0px -5056px;
+}
+
+.s64.business.electrical-plug5 {
+    background-position: -0px -5120px;
+}
+
+.s64.business.envelope1 {
+    background-position: -0px -5184px;
+}
+
+.s64.business.envelope3 {
+    background-position: -0px -5248px;
+}
+
+.s64.business.envelope4 {
+    background-position: -0px -5312px;
+}
+
+.s64.business.envelope5 {
+    background-position: -0px -5376px;
+}
+
+.s64.business.envelopes1 {
+    background-position: -0px -5440px;
+}
+
+.s64.business.fax {
+    background-position: -0px -5504px;
+}
+
+.s64.business.folder {
+    background-position: -0px -5568px;
+}
+
+.s64.business.folder1 {
+    background-position: -0px -5632px;
+}
+
+.s64.business.folder2-sc1 {
+    background-position: -0px -5696px;
+}
+
+.s64.business.gas-none-sc49 {
+    background-position: -0px -5760px;
+}
+
+.s64.business.gas-pump {
+    background-position: -0px -5824px;
+}
+
+.s64.business.gas-station4-sc49 {
+    background-position: -0px -5888px;
+}
+
+.s64.business.gaspump {
+    background-position: -0px -5952px;
+}
+
+.s64.business.gaspump2 {
+    background-position: -0px -6016px;
+}
+
+.s64.business.gear-c-sc44 {
+    background-position: -0px -6080px;
+}
+
+.s64.business.gear {
+    background-position: -0px -6144px;
+}
+
+.s64.business.gear1 {
+    background-position: -0px -6208px;
+}
+
+.s64.business.gear10 {
+    background-position: -0px -6272px;
+}
+
+.s64.business.gear11 {
+    background-position: -0px -6336px;
+}
+
+.s64.business.gear2 {
+    background-position: -0px -6400px;
+}
+
+.s64.business.gear3 {
+    background-position: -0px -6464px;
+}
+
+.s64.business.gear4 {
+    background-position: -0px -6528px;
+}
+
+.s64.business.gear5 {
+    background-position: -0px -6592px;
+}
+
+.s64.business.gear6 {
+    background-position: -0px -6656px;
+}
+
+.s64.business.gear7 {
+    background-position: -0px -6720px;
+}
+
+.s64.business.gear8 {
+    background-position: -0px -6784px;
+}
+
+.s64.business.gear9 {
+    background-position: -0px -6848px;
+}
+
+.s64.business.gears-sc37 {
+    background-position: -0px -6912px;
+}
+
+.s64.business.gears1-sc44 {
+    background-position: -0px -6976px;
+}
+
+.s64.business.globe {
+    background-position: -0px -7040px;
+}
+
+.s64.business.head-set {
+    background-position: -0px -7104px;
+}
+
+.s64.business.headgear {
+    background-position: -0px -7168px;
+}
+
+.s64.business.headset3 {
+    background-position: -0px -7232px;
+}
+
+.s64.business.home1 {
+    background-position: -0px -7296px;
+}
+
+.s64.business.home3 {
+    background-position: -0px -7360px;
+}
+
+.s64.business.home4 {
+    background-position: -0px -7424px;
+}
+
+.s64.business.home5 {
+    background-position: -0px -7488px;
+}
+
+.s64.business.home6 {
+    background-position: -0px -7552px;
+}
+
+.s64.business.home7 {
+    background-position: -0px -7616px;
+}
+
+.s64.business.home8 {
+    background-position: -0px -7680px;
+}
+
+.s64.business.home9-sc52 {
+    background-position: -0px -7744px;
+}
+
+.s64.business.hourglass {
+    background-position: -0px -7808px;
+}
+
+.s64.business.hourglass2 {
+    background-position: -0px -7872px;
+}
+
+.s64.business.hourglass3-sc44 {
+    background-position: -0px -7936px;
+}
+
+.s64.business.industrial {
+    background-position: -0px -8000px;
+}
+
+.s64.business.key-hole-sc48 {
+    background-position: -0px -8064px;
+}
+
+.s64.business.key1 {
+    background-position: -0px -8128px;
+}
+
+.s64.business.key11-sc48 {
+    background-position: -0px -8192px;
+}
+
+.s64.business.key2 {
+    background-position: -0px -8256px;
+}
+
+.s64.business.key3 {
+    background-position: -0px -8320px;
+}
+
+.s64.business.key6 {
+    background-position: -0px -8384px;
+}
+
+.s64.business.key7 {
+    background-position: -0px -8448px;
+}
+
+.s64.business.key9 {
+    background-position: -0px -8512px;
+}
+
+.s64.business.keys-sc43 {
+    background-position: -0px -8576px;
+}
+
+.s64.business.ladder {
+    background-position: -0px -8640px;
+}
+
+.s64.business.ladder1-sc48 {
+    background-position: -0px -8704px;
+}
+
+.s64.business.light-bulb {
+    background-position: -0px -8768px;
+}
+
+.s64.business.light-bulb2-sc52 {
+    background-position: -0px -8832px;
+}
+
+.s64.business.light-off {
+    background-position: -0px -8896px;
+}
+
+.s64.business.light-on {
+    background-position: -0px -8960px;
+}
+
+.s64.business.lock-heart {
+    background-position: -0px -9024px;
+}
+
+.s64.business.lock1 {
+    background-position: -0px -9088px;
+}
+
+.s64.business.lock2 {
+    background-position: -0px -9152px;
+}
+
+.s64.business.lock3 {
+    background-position: -0px -9216px;
+}
+
+.s64.business.lock4 {
+    background-position: -0px -9280px;
+}
+
+.s64.business.lock5 {
+    background-position: -0px -9344px;
+}
+
+.s64.business.lock6-sc48 {
+    background-position: -0px -9408px;
+}
+
+.s64.business.logo-superman-sc37 {
+    background-position: -0px -9472px;
+}
+
+.s64.business.magic-wand {
+    background-position: -0px -9536px;
+}
+
+.s64.business.magnify-zoom-out {
+    background-position: -0px -9600px;
+}
+
+.s64.business.magnify-zoom {
+    background-position: -0px -9664px;
+}
+
+.s64.business.magnifying-glass-ps {
+    background-position: -0px -9728px;
+}
+
+.s64.business.magnifying-glass1-sc49 {
+    background-position: -0px -9792px;
+}
+
+.s64.business.mail {
+    background-position: -0px -9856px;
+}
+
+.s64.business.mailbox {
+    background-position: -0px -9920px;
+}
+
+.s64.business.mailbox1 {
+    background-position: -0px -9984px;
+}
+
+.s64.business.microscope {
+    background-position: -0px -10048px;
+}
+
+.s64.business.notepad {
+    background-position: -0px -10112px;
+}
+
+.s64.business.oil-well {
+    background-position: -0px -10176px;
+}
+
+.s64.business.paperclip {
+    background-position: -0px -10240px;
+}
+
+.s64.business.paperclip2 {
+    background-position: -0px -10304px;
+}
+
+.s64.business.paperclips2-sc43 {
+    background-position: -0px -10368px;
+}
+
+.s64.business.pen-crayon-ps {
+    background-position: -0px -10432px;
+}
+
+.s64.business.pen-crayon {
+    background-position: -0px -10496px;
+}
+
+.s64.business.pen1 {
+    background-position: -0px -10560px;
+}
+
+.s64.business.pen5-ps {
+    background-position: -0px -10624px;
+}
+
+.s64.business.pen6-ps {
+    background-position: -0px -10688px;
+}
+
+.s64.business.pencil1 {
+    background-position: -0px -10752px;
+}
+
+.s64.business.pencil2 {
+    background-position: -0px -10816px;
+}
+
+.s64.business.pencil4 {
+    background-position: -0px -10880px;
+}
+
+.s64.business.pencil5-ps {
+    background-position: -0px -10944px;
+}
+
+.s64.business.pencil6-sc45 {
+    background-position: -0px -11008px;
+}
+
+.s64.business.pencil7-sc49 {
+    background-position: -0px -11072px;
+}
+
+.s64.business.pencil8 {
+    background-position: -0px -11136px;
+}
+
+.s64.business.phone-cell {
+    background-position: -0px -11200px;
+}
+
+.s64.business.phone-cell2 {
+    background-position: -0px -11264px;
+}
+
+.s64.business.phone-cell3-sc8 {
+    background-position: -0px -11328px;
+}
+
+.s64.business.phone-clear {
+    background-position: -0px -11392px;
+}
+
+.s64.business.phone-solid {
+    background-position: -0px -11456px;
+}
+
+.s64.business.phone {
+    background-position: -0px -11520px;
+}
+
+.s64.business.phone1 {
+    background-position: -0px -11584px;
+}
+
+.s64.business.phone2 {
+    background-position: -0px -11648px;
+}
+
+.s64.business.phone4 {
+    background-position: -0px -11712px;
+}
+
+.s64.business.power-button4 {
+    background-position: -0px -11776px;
+}
+
+.s64.business.printer {
+    background-position: -0px -11840px;
+}
+
+.s64.business.registered-mark {
+    background-position: -0px -11904px;
+}
+
+.s64.business.registered-mark1 {
+    background-position: -0px -11968px;
+}
+
+.s64.business.robot {
+    background-position: -0px -12032px;
+}
+
+.s64.business.robot1 {
+    background-position: -0px -12096px;
+}
+
+.s64.business.satellite-dish-sc43 {
+    background-position: -0px -12160px;
+}
+
+.s64.business.satellite3-sc43 {
+    background-position: -0px -12224px;
+}
+
+.s64.business.satellite4-sc43 {
+    background-position: -0px -12288px;
+}
+
+.s64.business.scissors {
+    background-position: -0px -12352px;
+}
+
+.s64.business.signature {
+    background-position: -0px -12416px;
+}
+
+.s64.business.signature1 {
+    background-position: -0px -12480px;
+}
+
+.s64.business.space-satelite-sc43 {
+    background-position: -0px -12544px;
+}
+
+.s64.business.space-satelite {
+    background-position: -0px -12608px;
+}
+
+.s64.business.space-satellite-dish-sc2 {
+    background-position: -0px -12672px;
+}
+
+.s64.business.spaceship {
+    background-position: -0px -12736px;
+}
+
+.s64.business.tag {
+    background-position: -0px -12800px;
+}
+
+.s64.business.text-size {
+    background-position: -0px -12864px;
+}
+
+.s64.business.thumb-tack-ps {
+    background-position: -0px -12928px;
+}
+
+.s64.business.thumbs-down {
+    background-position: -0px -12992px;
+}
+
+.s64.business.thumbs-down1 {
+    background-position: -0px -13056px;
+}
+
+.s64.business.thumbs-down2 {
+    background-position: -0px -13120px;
+}
+
+.s64.business.thumbs-up {
+    background-position: -0px -13184px;
+}
+
+.s64.business.thumbs-up1 {
+    background-position: -0px -13248px;
+}
+
+.s64.business.thumbs-up2 {
+    background-position: -0px -13312px;
+}
+
+.s64.business.tool-army-knife-sc44 {
+    background-position: -0px -13376px;
+}
+
+.s64.business.tool-ax {
+    background-position: -0px -13440px;
+}
+
+.s64.business.tool-axe1-sc48 {
+    background-position: -0px -13504px;
+}
+
+.s64.business.tool-cutter {
+    background-position: -0px -13568px;
+}
+
+.s64.business.tool-cutter1-sc44 {
+    background-position: -0px -13632px;
+}
+
+.s64.business.tool-hammer {
+    background-position: -0px -13696px;
+}
+
+.s64.business.tool-hammer2 {
+    background-position: -0px -13760px;
+}
+
+.s64.business.tool-hammer3 {
+    background-position: -0px -13824px;
+}
+
+.s64.business.tool-hammer4-sc44 {
+    background-position: -0px -13888px;
+}
+
+.s64.business.tool-pick-sc44 {
+    background-position: -0px -13952px;
+}
+
+.s64.business.tool-screw-sc44 {
+    background-position: -0px -14016px;
+}
+
+.s64.business.tool-screwdriver {
+    background-position: -0px -14080px;
+}
+
+.s64.business.tool-shovel2-sc44 {
+    background-position: -0px -14144px;
+}
+
+.s64.business.tool-sprocket1 {
+    background-position: -0px -14208px;
+}
+
+.s64.business.tool-sprocket2 {
+    background-position: -0px -14272px;
+}
+
+.s64.business.tool-sword-sc48 {
+    background-position: -0px -14336px;
+}
+
+.s64.business.tool-wheelbarrow1-sc32 {
+    background-position: -0px -14400px;
+}
+
+.s64.business.tool-wheelbarrowl2-sc44 {
+    background-position: -0px -14464px;
+}
+
+.s64.business.tool-wrench1 {
+    background-position: -0px -14528px;
+}
+
+.s64.business.tool-wrench2 {
+    background-position: -0px -14592px;
+}
+
+.s64.business.tool-wrench3 {
+    background-position: -0px -14656px;
+}
+
+.s64.business.tool-wrench4 {
+    background-position: -0px -14720px;
+}
+
+.s64.business.tool-wrench7 {
+    background-position: -0px -14784px;
+}
+
+.s64.business.tool-wrench8-sc44 {
+    background-position: -0px -14848px;
+}
+
+.s64.business.tool {
+    background-position: -0px -14912px;
+}
+
+.s64.business.tool7 {
+    background-position: -0px -14976px;
+}
+
+.s64.business.tools-shovel {
+    background-position: -0px -15040px;
+}
+
+.s64.business.tools1 {
+    background-position: -0px -15104px;
+}
+
+.s64.business.tools2-digging {
+    background-position: -0px -15168px;
+}
+
+.s64.business.toolset-sc44 {
+    background-position: -0px -15232px;
+}
+
+.s64.business.toolset3-sc44 {
+    background-position: -0px -15296px;
+}
+
+.s64.business.trademark-ps {
+    background-position: -0px -15360px;
+}
+
+.s64.business.trashcan {
+    background-position: -0px -15424px;
+}
+
+.s64.business.trashcan3 {
+    background-position: -0px -15488px;
+}
+
+.s64.business.wall {
+    background-position: -0px -15552px;
+}
+
+.s64.business.wand1-sc43 {
+    background-position: -0px -15616px;
+}
+
+.s64.business.webcam {
+    background-position: -0px -15680px;
+}
+
+.s64.business.wireless {
+    background-position: -0px -15744px;
+}
+
+.s64.business.www-search-ps {
+    background-position: -0px -15808px;
+}
+
+.s64.business.yen {
+    background-position: -0px -15872px;
+}

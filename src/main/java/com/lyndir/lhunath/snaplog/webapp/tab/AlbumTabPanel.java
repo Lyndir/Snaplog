@@ -64,6 +64,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         super( id, new AlbumTabModels( model ).getModel() );
 
         add( new BrowserView( "browser", model ) {
+
             @Override
             public boolean isVisible() {
 
@@ -229,6 +230,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         public IModel<String> getTitleClass() {
 
             return new AbstractReadOnlyModel<String>() {
+
                 @Override
                 public String getObject() {
 

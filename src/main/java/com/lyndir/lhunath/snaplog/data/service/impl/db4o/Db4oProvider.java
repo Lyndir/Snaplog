@@ -56,6 +56,7 @@ public class Db4oProvider implements Provider<ObjectContainer> {
 
         ObjectContainer db = Db4oEmbedded.openFile( configuration, "snaplog.db4o" );
         containers.add( new WeakReference<ObjectContainer>( db ) {
+
             @Override
             public void clear() {
 

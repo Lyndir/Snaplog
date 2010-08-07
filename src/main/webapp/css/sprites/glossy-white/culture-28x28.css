@@ -1,275 +1,1101 @@
-.s28.culture                      { background: transparent url("28x28/culture.png") no-repeat; width: 28px; height: 28px; }
-.s28.culture.angel-halo           { background-position:   -0px   -0px; }
-.s28.culture.angel-trumpet        { background-position:   -0px  -28px; }
-.s28.culture.astrology-aquarius   { background-position:   -0px  -56px; }
-.s28.culture.astrology-aries      { background-position:   -0px  -84px; }
-.s28.culture.astrology-cancer     { background-position:   -0px -112px; }
-.s28.culture.astrology-capricorn  { background-position:   -0px -140px; }
-.s28.culture.astrology-gemini     { background-position:   -0px -168px; }
-.s28.culture.astrology-leo        { background-position:   -0px -196px; }
-.s28.culture.astrology-libra      { background-position:   -0px -224px; }
-.s28.culture.astrology-pisces     { background-position:   -0px -252px; }
-.s28.culture.astrology-sagittarius { background-position:   -0px -280px; }
-.s28.culture.astrology-scorpio    { background-position:   -0px -308px; }
-.s28.culture.astrology-taurus     { background-position:   -0px -336px; }
-.s28.culture.astrology-virgo      { background-position:   -0px -364px; }
-.s28.culture.astrology1-aquarius-sc37 { background-position:   -0px -392px; }
-.s28.culture.astrology1-archer-sc37 { background-position:   -0px -420px; }
-.s28.culture.astrology1-aries-sc37 { background-position:   -0px -448px; }
-.s28.culture.astrology1-bull-sc37 { background-position:   -0px -476px; }
-.s28.culture.astrology1-cancer-sc37 { background-position:   -0px -504px; }
-.s28.culture.astrology1-capricorn-sc37 { background-position:   -0px -532px; }
-.s28.culture.astrology1-crab-sc37 { background-position:   -0px -560px; }
-.s28.culture.astrology1-fish-sc37 { background-position:   -0px -588px; }
-.s28.culture.astrology1-gemini-sc37 { background-position:   -0px -616px; }
-.s28.culture.astrology1-leo-sc37  { background-position:   -0px -644px; }
-.s28.culture.astrology1-libra-sc37 { background-position:   -0px -672px; }
-.s28.culture.astrology1-lion-sc37 { background-position:   -0px -700px; }
-.s28.culture.astrology1-pisces-sc37 { background-position:   -0px -728px; }
-.s28.culture.astrology1-ram-sc37  { background-position:   -0px -756px; }
-.s28.culture.astrology1-sagittarius-sc3 { background-position:   -0px -784px; }
-.s28.culture.astrology1-scale-sc37 { background-position:   -0px -812px; }
-.s28.culture.astrology1-scorpio-sc37 { background-position:   -0px -840px; }
-.s28.culture.astrology1-scorpion-sc37 { background-position:   -0px -868px; }
-.s28.culture.astrology1-seagoat-sc37 { background-position:   -0px -896px; }
-.s28.culture.astrology1-taurus-sc37 { background-position:   -0px -924px; }
-.s28.culture.astrology1-twins-sc37 { background-position:   -0px -952px; }
-.s28.culture.astrology1-virgin-sc37 { background-position:   -0px -980px; }
-.s28.culture.astrology1-virgo-sc37 { background-position:   -0px -1008px; }
-.s28.culture.astrology1-water-carrier-s { background-position:   -0px -1036px; }
-.s28.culture.astrology2-archer    { background-position:   -0px -1064px; }
-.s28.culture.astrology2-bull      { background-position:   -0px -1092px; }
-.s28.culture.astrology2-crab      { background-position:   -0px -1120px; }
-.s28.culture.astrology2-fish      { background-position:   -0px -1148px; }
-.s28.culture.astrology2-gemini    { background-position:   -0px -1176px; }
-.s28.culture.astrology2-lion      { background-position:   -0px -1204px; }
-.s28.culture.astrology2-ram       { background-position:   -0px -1232px; }
-.s28.culture.astrology2-scale     { background-position:   -0px -1260px; }
-.s28.culture.astrology2-scorpion  { background-position:   -0px -1288px; }
-.s28.culture.astrology2-seagoat   { background-position:   -0px -1316px; }
-.s28.culture.astrology2-virgin    { background-position:   -0px -1344px; }
-.s28.culture.astrology2-water-carrier { background-position:   -0px -1372px; }
-.s28.culture.balloon              { background-position:   -0px -1400px; }
-.s28.culture.bell-clear-sc30      { background-position:   -0px -1428px; }
-.s28.culture.bell2-solid-sc44     { background-position:   -0px -1456px; }
-.s28.culture.bell3-clear-sc44     { background-position:   -0px -1484px; }
-.s28.culture.bell5-solid-sc48     { background-position:   -0px -1512px; }
-.s28.culture.bell6-clear          { background-position:   -0px -1540px; }
-.s28.culture.book2                { background-position:   -0px -1568px; }
-.s28.culture.book3-open           { background-position:   -0px -1596px; }
-.s28.culture.book5-sc44           { background-position:   -0px -1624px; }
-.s28.culture.books3-stacked       { background-position:   -0px -1652px; }
-.s28.culture.bow-ribbon           { background-position:   -0px -1680px; }
-.s28.culture.castle-church        { background-position:   -0px -1708px; }
-.s28.culture.castle-five-towers   { background-position:   -0px -1736px; }
-.s28.culture.castle-one-tower     { background-position:   -0px -1764px; }
-.s28.culture.castle-two-towers    { background-position:   -0px -1792px; }
-.s28.culture.chinese-beauty-sc17  { background-position:   -0px -1820px; }
-.s28.culture.chinese-friend-sc17  { background-position:   -0px -1848px; }
-.s28.culture.chinese-goodluck-sc17 { background-position:   -0px -1876px; }
-.s28.culture.chinese-happiness-sc17 { background-position:   -0px -1904px; }
-.s28.culture.chinese-joy-sc17     { background-position:   -0px -1932px; }
-.s28.culture.chinese-longlife-sc17 { background-position:   -0px -1960px; }
-.s28.culture.chinese-love-sc17    { background-position:   -0px -1988px; }
-.s28.culture.chinese-number1-sc17 { background-position:   -0px -2016px; }
-.s28.culture.chinese-number10-sc17 { background-position:   -0px -2044px; }
-.s28.culture.chinese-number2-sc17 { background-position:   -0px -2072px; }
-.s28.culture.chinese-number3-sc17 { background-position:   -0px -2100px; }
-.s28.culture.chinese-number4-sc17 { background-position:   -0px -2128px; }
-.s28.culture.chinese-number5-sc17 { background-position:   -0px -2156px; }
-.s28.culture.chinese-number6-sc17 { background-position:   -0px -2184px; }
-.s28.culture.chinese-number7-sc17 { background-position:   -0px -2212px; }
-.s28.culture.chinese-number8-sc17 { background-position:   -0px -2240px; }
-.s28.culture.chinese-number9-sc17 { background-position:   -0px -2268px; }
-.s28.culture.chinese-peace-sc17   { background-position:   -0px -2296px; }
-.s28.culture.chinese-zodiac1-dog  { background-position:   -0px -2324px; }
-.s28.culture.chinese-zodiac1-dragon1 { background-position:   -0px -2352px; }
-.s28.culture.chinese-zodiac1-horse { background-position:   -0px -2380px; }
-.s28.culture.chinese-zodiac1-monkey { background-position:   -0px -2408px; }
-.s28.culture.chinese-zodiac1-ox   { background-position:   -0px -2436px; }
-.s28.culture.chinese-zodiac1-pig  { background-position:   -0px -2464px; }
-.s28.culture.chinese-zodiac1-rabbit { background-position:   -0px -2492px; }
-.s28.culture.chinese-zodiac1-rat  { background-position:   -0px -2520px; }
-.s28.culture.chinese-zodiac1-rooster { background-position:   -0px -2548px; }
-.s28.culture.chinese-zodiac1-sheep { background-position:   -0px -2576px; }
-.s28.culture.chinese-zodiac1-snake { background-position:   -0px -2604px; }
-.s28.culture.chinese-zodiac1-tiger { background-position:   -0px -2632px; }
-.s28.culture.chinese-zodiac2-dog  { background-position:   -0px -2660px; }
-.s28.culture.chinese-zodiac2-dragon { background-position:   -0px -2688px; }
-.s28.culture.chinese-zodiac2-horse { background-position:   -0px -2716px; }
-.s28.culture.chinese-zodiac2-monkey { background-position:   -0px -2744px; }
-.s28.culture.chinese-zodiac2-ox   { background-position:   -0px -2772px; }
-.s28.culture.chinese-zodiac2-pig  { background-position:   -0px -2800px; }
-.s28.culture.chinese-zodiac2-rabbit { background-position:   -0px -2828px; }
-.s28.culture.chinese-zodiac2-rat  { background-position:   -0px -2856px; }
-.s28.culture.chinese-zodiac2-rooster { background-position:   -0px -2884px; }
-.s28.culture.chinese-zodiac2-sheep { background-position:   -0px -2912px; }
-.s28.culture.chinese-zodiac2-snake { background-position:   -0px -2940px; }
-.s28.culture.chinese-zodiac2-tiger { background-position:   -0px -2968px; }
-.s28.culture.church               { background-position:   -0px -2996px; }
-.s28.culture.crown-clear          { background-position:   -0px -3024px; }
-.s28.culture.crown-five-points2   { background-position:   -0px -3052px; }
-.s28.culture.crown                { background-position:   -0px -3080px; }
-.s28.culture.crown3-clear         { background-position:   -0px -3108px; }
-.s28.culture.crown4-black         { background-position:   -0px -3136px; }
-.s28.culture.crown5-king          { background-position:   -0px -3164px; }
-.s28.culture.crown6-sc44          { background-position:   -0px -3192px; }
-.s28.culture.egyptian-eye-sc56    { background-position:   -0px -3220px; }
-.s28.culture.egyptian-mummy-sc56  { background-position:   -0px -3248px; }
-.s28.culture.egyptian-warrior-sc56 { background-position:   -0px -3276px; }
-.s28.culture.gift-box-fluffy-bow  { background-position:   -0px -3304px; }
-.s28.culture.gift-box-simple-ribbon { background-position:   -0px -3332px; }
-.s28.culture.gift-box-small       { background-position:   -0px -3360px; }
-.s28.culture.gift-box-square      { background-position:   -0px -3388px; }
-.s28.culture.gift-box5-sc1        { background-position:   -0px -3416px; }
-.s28.culture.globe-black-sc48     { background-position:   -0px -3444px; }
-.s28.culture.globe-checkered2     { background-position:   -0px -3472px; }
-.s28.culture.globe-clear-sc44     { background-position:   -0px -3500px; }
-.s28.culture.globe-rotate         { background-position:   -0px -3528px; }
-.s28.culture.globe-with-grid      { background-position:   -0px -3556px; }
-.s28.culture.golden-gate-bridge-sc44 { background-position:   -0px -3584px; }
-.s28.culture.halloween-bat        { background-position:   -0px -3612px; }
-.s28.culture.halloween-pumpkin-solid-sc { background-position:   -0px -3640px; }
-.s28.culture.heart-3d-sc44        { background-position:   -0px -3668px; }
-.s28.culture.heart-attached       { background-position:   -0px -3696px; }
-.s28.culture.heart-baby-sc44      { background-position:   -0px -3724px; }
-.s28.culture.heart-broken1-sc44   { background-position:   -0px -3752px; }
-.s28.culture.heart-bubbly-sc44    { background-position:   -0px -3780px; }
-.s28.culture.heart-dotted         { background-position:   -0px -3808px; }
-.s28.culture.heart-double         { background-position:   -0px -3836px; }
-.s28.culture.heart-exclamation-point-sc { background-position:   -0px -3864px; }
-.s28.culture.heart-key-sc44       { background-position:   -0px -3892px; }
-.s28.culture.heart-leaves-sc44    { background-position:   -0px -3920px; }
-.s28.culture.heart-mini-hearts    { background-position:   -0px -3948px; }
-.s28.culture.heart-scalloped-sc44 { background-position:   -0px -3976px; }
-.s28.culture.heart-shadowed       { background-position:   -0px -4004px; }
-.s28.culture.heart-side-by-side   { background-position:   -0px -4032px; }
-.s28.culture.heart-simple         { background-position:   -0px -4060px; }
-.s28.culture.heart-solid-sc44     { background-position:   -0px -4088px; }
-.s28.culture.heart-target         { background-position:   -0px -4116px; }
-.s28.culture.heart-transparent    { background-position:   -0px -4144px; }
-.s28.culture.heart-triple         { background-position:   -0px -4172px; }
-.s28.culture.hearts-three         { background-position:   -0px -4200px; }
-.s28.culture.holiday-bat          { background-position:   -0px -4228px; }
-.s28.culture.holiday-bells        { background-position:   -0px -4256px; }
-.s28.culture.holiday-bells2-sc30  { background-position:   -0px -4284px; }
-.s28.culture.holiday-candle       { background-position:   -0px -4312px; }
-.s28.culture.holiday-candy-cane1-sc11 { background-position:   -0px -4340px; }
-.s28.culture.holiday-christmas-tree { background-position:   -0px -4368px; }
-.s28.culture.holiday-cupid        { background-position:   -0px -4396px; }
-.s28.culture.holiday-easter-bunny-sc44 { background-position:   -0px -4424px; }
-.s28.culture.holiday-easter-egg-sc44 { background-position:   -0px -4452px; }
-.s28.culture.holiday-ghost1       { background-position:   -0px -4480px; }
-.s28.culture.holiday-ghost2       { background-position:   -0px -4508px; }
-.s28.culture.holiday-gingerman-sc44 { background-position:   -0px -4536px; }
-.s28.culture.holiday-holly        { background-position:   -0px -4564px; }
-.s28.culture.holiday-holly1-sc12  { background-position:   -0px -4592px; }
-.s28.culture.holiday-holly2-sc30  { background-position:   -0px -4620px; }
-.s28.culture.holiday-jack-o-lantern1 { background-position:   -0px -4648px; }
-.s28.culture.holiday-ornament1    { background-position:   -0px -4676px; }
-.s28.culture.holiday-ornament13-sc30 { background-position:   -0px -4704px; }
-.s28.culture.holiday-ornament14-sc30 { background-position:   -0px -4732px; }
-.s28.culture.holiday-ornament15-sc30 { background-position:   -0px -4760px; }
-.s28.culture.holiday-ornament17-sc30 { background-position:   -0px -4788px; }
-.s28.culture.holiday-ornament2    { background-position:   -0px -4816px; }
-.s28.culture.holiday-ornament3-sc12 { background-position:   -0px -4844px; }
-.s28.culture.holiday-santa-clause-sc30 { background-position:   -0px -4872px; }
-.s28.culture.holiday-snowman      { background-position:   -0px -4900px; }
-.s28.culture.holiday-snowman3-sc30 { background-position:   -0px -4928px; }
-.s28.culture.holiday-stocking-sc44 { background-position:   -0px -4956px; }
-.s28.culture.holiday-tree-decorated-sc4 { background-position:   -0px -4984px; }
-.s28.culture.holiday-tree11-sc44  { background-position:   -0px -5012px; }
-.s28.culture.holiday-tree33-sc30  { background-position:   -0px -5040px; }
-.s28.culture.holiday-trees1-sc44  { background-position:   -0px -5068px; }
-.s28.culture.holiday-turkey-sc9   { background-position:   -0px -5096px; }
-.s28.culture.holiday-valentine9-sc44 { background-position:   -0px -5124px; }
-.s28.culture.holiday-valentines   { background-position:   -0px -5152px; }
-.s28.culture.holiday-valentines1-sc33 { background-position:   -0px -5180px; }
-.s28.culture.holiday-valentines2-sc33 { background-position:   -0px -5208px; }
-.s28.culture.holiday-valentines3-sc33 { background-position:   -0px -5236px; }
-.s28.culture.holiday-valentines4-sc33 { background-position:   -0px -5264px; }
-.s28.culture.holiday-valentines5-sc33 { background-position:   -0px -5292px; }
-.s28.culture.holiday-valentines6-sc33 { background-position:   -0px -5320px; }
-.s28.culture.holiday-valentines8-sc44 { background-position:   -0px -5348px; }
-.s28.culture.holiday-witch-hat    { background-position:   -0px -5376px; }
-.s28.culture.holiday-wreath       { background-position:   -0px -5404px; }
-.s28.culture.holiday-wreath1-sc12 { background-position:   -0px -5432px; }
-.s28.culture.holiday-wreath2-sc30 { background-position:   -0px -5460px; }
-.s28.culture.knight               { background-position:   -0px -5488px; }
-.s28.culture.lighthouse           { background-position:   -0px -5516px; }
-.s28.culture.maltese-cross        { background-position:   -0px -5544px; }
-.s28.culture.map-europe-africa-asia-sc5 { background-position:   -0px -5572px; }
-.s28.culture.map-north-america-sc53 { background-position:   -0px -5600px; }
-.s28.culture.map-north-south-americ-sc5 { background-position:   -0px -5628px; }
-.s28.culture.map-usa              { background-position:   -0px -5656px; }
-.s28.culture.map-world            { background-position:   -0px -5684px; }
-.s28.culture.menorah              { background-position:   -0px -5712px; }
-.s28.culture.pyramid2             { background-position:   -0px -5740px; }
-.s28.culture.pyramid3             { background-position:   -0px -5768px; }
-.s28.culture.religion-church1-sc31 { background-position:   -0px -5796px; }
-.s28.culture.religion-crescent-star { background-position:   -0px -5824px; }
-.s28.culture.religion-cross-shadow { background-position:   -0px -5852px; }
-.s28.culture.religion-cross-simple { background-position:   -0px -5880px; }
-.s28.culture.religion-cross5-sc31 { background-position:   -0px -5908px; }
-.s28.culture.religion-star1-sc31  { background-position:   -0px -5936px; }
-.s28.culture.religion-star2-sc31  { background-position:   -0px -5964px; }
-.s28.culture.scroll-sc2           { background-position:   -0px -5992px; }
-.s28.culture.skull-clear          { background-position:   -0px -6020px; }
-.s28.culture.skull-solid          { background-position:   -0px -6048px; }
-.s28.culture.skull                { background-position:   -0px -6076px; }
-.s28.culture.space-alien1-sc37    { background-position:   -0px -6104px; }
-.s28.culture.space-monster        { background-position:   -0px -6132px; }
-.s28.culture.space-ufo            { background-position:   -0px -6160px; }
-.s28.culture.state-alabama        { background-position:   -0px -6188px; }
-.s28.culture.state-arizona        { background-position:   -0px -6216px; }
-.s28.culture.state-arkansas       { background-position:   -0px -6244px; }
-.s28.culture.state-california     { background-position:   -0px -6272px; }
-.s28.culture.state-colorado       { background-position:   -0px -6300px; }
-.s28.culture.state-connecticut    { background-position:   -0px -6328px; }
-.s28.culture.state-delaware       { background-position:   -0px -6356px; }
-.s28.culture.state-florida        { background-position:   -0px -6384px; }
-.s28.culture.state-georgia        { background-position:   -0px -6412px; }
-.s28.culture.state-hawaii         { background-position:   -0px -6440px; }
-.s28.culture.state-idaho          { background-position:   -0px -6468px; }
-.s28.culture.state-illinois       { background-position:   -0px -6496px; }
-.s28.culture.state-indiana        { background-position:   -0px -6524px; }
-.s28.culture.state-iowa           { background-position:   -0px -6552px; }
-.s28.culture.state-kansas         { background-position:   -0px -6580px; }
-.s28.culture.state-kentucky       { background-position:   -0px -6608px; }
-.s28.culture.state-louisiana      { background-position:   -0px -6636px; }
-.s28.culture.state-maine          { background-position:   -0px -6664px; }
-.s28.culture.state-maryland       { background-position:   -0px -6692px; }
-.s28.culture.state-massachusetts  { background-position:   -0px -6720px; }
-.s28.culture.state-michigan       { background-position:   -0px -6748px; }
-.s28.culture.state-minnesota      { background-position:   -0px -6776px; }
-.s28.culture.state-mississippi    { background-position:   -0px -6804px; }
-.s28.culture.state-missouri       { background-position:   -0px -6832px; }
-.s28.culture.state-montana        { background-position:   -0px -6860px; }
-.s28.culture.state-nevada         { background-position:   -0px -6888px; }
-.s28.culture.state-new-hampshire  { background-position:   -0px -6916px; }
-.s28.culture.state-new-jersey     { background-position:   -0px -6944px; }
-.s28.culture.state-new-mexico     { background-position:   -0px -6972px; }
-.s28.culture.state-new-york       { background-position:   -0px -7000px; }
-.s28.culture.state-north-carolina { background-position:   -0px -7028px; }
-.s28.culture.state-north-dakota   { background-position:   -0px -7056px; }
-.s28.culture.state-ohio           { background-position:   -0px -7084px; }
-.s28.culture.state-oklahoma       { background-position:   -0px -7112px; }
-.s28.culture.state-oregon         { background-position:   -0px -7140px; }
-.s28.culture.state-pennsylvania   { background-position:   -0px -7168px; }
-.s28.culture.state-rhode-island   { background-position:   -0px -7196px; }
-.s28.culture.state-south-carolina { background-position:   -0px -7224px; }
-.s28.culture.state-south-dakota   { background-position:   -0px -7252px; }
-.s28.culture.state-tennessee      { background-position:   -0px -7280px; }
-.s28.culture.state-texas          { background-position:   -0px -7308px; }
-.s28.culture.state-utah           { background-position:   -0px -7336px; }
-.s28.culture.state-vermont        { background-position:   -0px -7364px; }
-.s28.culture.state-virginia       { background-position:   -0px -7392px; }
-.s28.culture.state-washington     { background-position:   -0px -7420px; }
-.s28.culture.state-west-virginia  { background-position:   -0px -7448px; }
-.s28.culture.state-wisconsin      { background-position:   -0px -7476px; }
-.s28.culture.state-wyoming        { background-position:   -0px -7504px; }
-.s28.culture.state1-alaska        { background-position:   -0px -7532px; }
-.s28.culture.state1-nebraska      { background-position:   -0px -7560px; }
-.s28.culture.windmill             { background-position:   -0px -7588px; }
-.s28.culture.world1               { background-position:   -0px -7616px; }
-.s28.culture.yin-yang1            { background-position:   -0px -7644px; }
+.s28.culture {
+    background:          transparent url("28x28/culture.png") no-repeat;
+    width:               28px;
+    height:              28px;
+}
+
+.s28.culture.angel-halo {
+    background-position: -0px -0px;
+}
+
+.s28.culture.angel-trumpet {
+    background-position: -0px -28px;
+}
+
+.s28.culture.astrology-aquarius {
+    background-position: -0px -56px;
+}
+
+.s28.culture.astrology-aries {
+    background-position: -0px -84px;
+}
+
+.s28.culture.astrology-cancer {
+    background-position: -0px -112px;
+}
+
+.s28.culture.astrology-capricorn {
+    background-position: -0px -140px;
+}
+
+.s28.culture.astrology-gemini {
+    background-position: -0px -168px;
+}
+
+.s28.culture.astrology-leo {
+    background-position: -0px -196px;
+}
+
+.s28.culture.astrology-libra {
+    background-position: -0px -224px;
+}
+
+.s28.culture.astrology-pisces {
+    background-position: -0px -252px;
+}
+
+.s28.culture.astrology-sagittarius {
+    background-position: -0px -280px;
+}
+
+.s28.culture.astrology-scorpio {
+    background-position: -0px -308px;
+}
+
+.s28.culture.astrology-taurus {
+    background-position: -0px -336px;
+}
+
+.s28.culture.astrology-virgo {
+    background-position: -0px -364px;
+}
+
+.s28.culture.astrology1-aquarius-sc37 {
+    background-position: -0px -392px;
+}
+
+.s28.culture.astrology1-archer-sc37 {
+    background-position: -0px -420px;
+}
+
+.s28.culture.astrology1-aries-sc37 {
+    background-position: -0px -448px;
+}
+
+.s28.culture.astrology1-bull-sc37 {
+    background-position: -0px -476px;
+}
+
+.s28.culture.astrology1-cancer-sc37 {
+    background-position: -0px -504px;
+}
+
+.s28.culture.astrology1-capricorn-sc37 {
+    background-position: -0px -532px;
+}
+
+.s28.culture.astrology1-crab-sc37 {
+    background-position: -0px -560px;
+}
+
+.s28.culture.astrology1-fish-sc37 {
+    background-position: -0px -588px;
+}
+
+.s28.culture.astrology1-gemini-sc37 {
+    background-position: -0px -616px;
+}
+
+.s28.culture.astrology1-leo-sc37 {
+    background-position: -0px -644px;
+}
+
+.s28.culture.astrology1-libra-sc37 {
+    background-position: -0px -672px;
+}
+
+.s28.culture.astrology1-lion-sc37 {
+    background-position: -0px -700px;
+}
+
+.s28.culture.astrology1-pisces-sc37 {
+    background-position: -0px -728px;
+}
+
+.s28.culture.astrology1-ram-sc37 {
+    background-position: -0px -756px;
+}
+
+.s28.culture.astrology1-sagittarius-sc3 {
+    background-position: -0px -784px;
+}
+
+.s28.culture.astrology1-scale-sc37 {
+    background-position: -0px -812px;
+}
+
+.s28.culture.astrology1-scorpio-sc37 {
+    background-position: -0px -840px;
+}
+
+.s28.culture.astrology1-scorpion-sc37 {
+    background-position: -0px -868px;
+}
+
+.s28.culture.astrology1-seagoat-sc37 {
+    background-position: -0px -896px;
+}
+
+.s28.culture.astrology1-taurus-sc37 {
+    background-position: -0px -924px;
+}
+
+.s28.culture.astrology1-twins-sc37 {
+    background-position: -0px -952px;
+}
+
+.s28.culture.astrology1-virgin-sc37 {
+    background-position: -0px -980px;
+}
+
+.s28.culture.astrology1-virgo-sc37 {
+    background-position: -0px -1008px;
+}
+
+.s28.culture.astrology1-water-carrier-s {
+    background-position: -0px -1036px;
+}
+
+.s28.culture.astrology2-archer {
+    background-position: -0px -1064px;
+}
+
+.s28.culture.astrology2-bull {
+    background-position: -0px -1092px;
+}
+
+.s28.culture.astrology2-crab {
+    background-position: -0px -1120px;
+}
+
+.s28.culture.astrology2-fish {
+    background-position: -0px -1148px;
+}
+
+.s28.culture.astrology2-gemini {
+    background-position: -0px -1176px;
+}
+
+.s28.culture.astrology2-lion {
+    background-position: -0px -1204px;
+}
+
+.s28.culture.astrology2-ram {
+    background-position: -0px -1232px;
+}
+
+.s28.culture.astrology2-scale {
+    background-position: -0px -1260px;
+}
+
+.s28.culture.astrology2-scorpion {
+    background-position: -0px -1288px;
+}
+
+.s28.culture.astrology2-seagoat {
+    background-position: -0px -1316px;
+}
+
+.s28.culture.astrology2-virgin {
+    background-position: -0px -1344px;
+}
+
+.s28.culture.astrology2-water-carrier {
+    background-position: -0px -1372px;
+}
+
+.s28.culture.balloon {
+    background-position: -0px -1400px;
+}
+
+.s28.culture.bell-clear-sc30 {
+    background-position: -0px -1428px;
+}
+
+.s28.culture.bell2-solid-sc44 {
+    background-position: -0px -1456px;
+}
+
+.s28.culture.bell3-clear-sc44 {
+    background-position: -0px -1484px;
+}
+
+.s28.culture.bell5-solid-sc48 {
+    background-position: -0px -1512px;
+}
+
+.s28.culture.bell6-clear {
+    background-position: -0px -1540px;
+}
+
+.s28.culture.book2 {
+    background-position: -0px -1568px;
+}
+
+.s28.culture.book3-open {
+    background-position: -0px -1596px;
+}
+
+.s28.culture.book5-sc44 {
+    background-position: -0px -1624px;
+}
+
+.s28.culture.books3-stacked {
+    background-position: -0px -1652px;
+}
+
+.s28.culture.bow-ribbon {
+    background-position: -0px -1680px;
+}
+
+.s28.culture.castle-church {
+    background-position: -0px -1708px;
+}
+
+.s28.culture.castle-five-towers {
+    background-position: -0px -1736px;
+}
+
+.s28.culture.castle-one-tower {
+    background-position: -0px -1764px;
+}
+
+.s28.culture.castle-two-towers {
+    background-position: -0px -1792px;
+}
+
+.s28.culture.chinese-beauty-sc17 {
+    background-position: -0px -1820px;
+}
+
+.s28.culture.chinese-friend-sc17 {
+    background-position: -0px -1848px;
+}
+
+.s28.culture.chinese-goodluck-sc17 {
+    background-position: -0px -1876px;
+}
+
+.s28.culture.chinese-happiness-sc17 {
+    background-position: -0px -1904px;
+}
+
+.s28.culture.chinese-joy-sc17 {
+    background-position: -0px -1932px;
+}
+
+.s28.culture.chinese-longlife-sc17 {
+    background-position: -0px -1960px;
+}
+
+.s28.culture.chinese-love-sc17 {
+    background-position: -0px -1988px;
+}
+
+.s28.culture.chinese-number1-sc17 {
+    background-position: -0px -2016px;
+}
+
+.s28.culture.chinese-number10-sc17 {
+    background-position: -0px -2044px;
+}
+
+.s28.culture.chinese-number2-sc17 {
+    background-position: -0px -2072px;
+}
+
+.s28.culture.chinese-number3-sc17 {
+    background-position: -0px -2100px;
+}
+
+.s28.culture.chinese-number4-sc17 {
+    background-position: -0px -2128px;
+}
+
+.s28.culture.chinese-number5-sc17 {
+    background-position: -0px -2156px;
+}
+
+.s28.culture.chinese-number6-sc17 {
+    background-position: -0px -2184px;
+}
+
+.s28.culture.chinese-number7-sc17 {
+    background-position: -0px -2212px;
+}
+
+.s28.culture.chinese-number8-sc17 {
+    background-position: -0px -2240px;
+}
+
+.s28.culture.chinese-number9-sc17 {
+    background-position: -0px -2268px;
+}
+
+.s28.culture.chinese-peace-sc17 {
+    background-position: -0px -2296px;
+}
+
+.s28.culture.chinese-zodiac1-dog {
+    background-position: -0px -2324px;
+}
+
+.s28.culture.chinese-zodiac1-dragon1 {
+    background-position: -0px -2352px;
+}
+
+.s28.culture.chinese-zodiac1-horse {
+    background-position: -0px -2380px;
+}
+
+.s28.culture.chinese-zodiac1-monkey {
+    background-position: -0px -2408px;
+}
+
+.s28.culture.chinese-zodiac1-ox {
+    background-position: -0px -2436px;
+}
+
+.s28.culture.chinese-zodiac1-pig {
+    background-position: -0px -2464px;
+}
+
+.s28.culture.chinese-zodiac1-rabbit {
+    background-position: -0px -2492px;
+}
+
+.s28.culture.chinese-zodiac1-rat {
+    background-position: -0px -2520px;
+}
+
+.s28.culture.chinese-zodiac1-rooster {
+    background-position: -0px -2548px;
+}
+
+.s28.culture.chinese-zodiac1-sheep {
+    background-position: -0px -2576px;
+}
+
+.s28.culture.chinese-zodiac1-snake {
+    background-position: -0px -2604px;
+}
+
+.s28.culture.chinese-zodiac1-tiger {
+    background-position: -0px -2632px;
+}
+
+.s28.culture.chinese-zodiac2-dog {
+    background-position: -0px -2660px;
+}
+
+.s28.culture.chinese-zodiac2-dragon {
+    background-position: -0px -2688px;
+}
+
+.s28.culture.chinese-zodiac2-horse {
+    background-position: -0px -2716px;
+}
+
+.s28.culture.chinese-zodiac2-monkey {
+    background-position: -0px -2744px;
+}
+
+.s28.culture.chinese-zodiac2-ox {
+    background-position: -0px -2772px;
+}
+
+.s28.culture.chinese-zodiac2-pig {
+    background-position: -0px -2800px;
+}
+
+.s28.culture.chinese-zodiac2-rabbit {
+    background-position: -0px -2828px;
+}
+
+.s28.culture.chinese-zodiac2-rat {
+    background-position: -0px -2856px;
+}
+
+.s28.culture.chinese-zodiac2-rooster {
+    background-position: -0px -2884px;
+}
+
+.s28.culture.chinese-zodiac2-sheep {
+    background-position: -0px -2912px;
+}
+
+.s28.culture.chinese-zodiac2-snake {
+    background-position: -0px -2940px;
+}
+
+.s28.culture.chinese-zodiac2-tiger {
+    background-position: -0px -2968px;
+}
+
+.s28.culture.church {
+    background-position: -0px -2996px;
+}
+
+.s28.culture.crown-clear {
+    background-position: -0px -3024px;
+}
+
+.s28.culture.crown-five-points2 {
+    background-position: -0px -3052px;
+}
+
+.s28.culture.crown {
+    background-position: -0px -3080px;
+}
+
+.s28.culture.crown3-clear {
+    background-position: -0px -3108px;
+}
+
+.s28.culture.crown4-black {
+    background-position: -0px -3136px;
+}
+
+.s28.culture.crown5-king {
+    background-position: -0px -3164px;
+}
+
+.s28.culture.crown6-sc44 {
+    background-position: -0px -3192px;
+}
+
+.s28.culture.egyptian-eye-sc56 {
+    background-position: -0px -3220px;
+}
+
+.s28.culture.egyptian-mummy-sc56 {
+    background-position: -0px -3248px;
+}
+
+.s28.culture.egyptian-warrior-sc56 {
+    background-position: -0px -3276px;
+}
+
+.s28.culture.gift-box-fluffy-bow {
+    background-position: -0px -3304px;
+}
+
+.s28.culture.gift-box-simple-ribbon {
+    background-position: -0px -3332px;
+}
+
+.s28.culture.gift-box-small {
+    background-position: -0px -3360px;
+}
+
+.s28.culture.gift-box-square {
+    background-position: -0px -3388px;
+}
+
+.s28.culture.gift-box5-sc1 {
+    background-position: -0px -3416px;
+}
+
+.s28.culture.globe-black-sc48 {
+    background-position: -0px -3444px;
+}
+
+.s28.culture.globe-checkered2 {
+    background-position: -0px -3472px;
+}
+
+.s28.culture.globe-clear-sc44 {
+    background-position: -0px -3500px;
+}
+
+.s28.culture.globe-rotate {
+    background-position: -0px -3528px;
+}
+
+.s28.culture.globe-with-grid {
+    background-position: -0px -3556px;
+}
+
+.s28.culture.golden-gate-bridge-sc44 {
+    background-position: -0px -3584px;
+}
+
+.s28.culture.halloween-bat {
+    background-position: -0px -3612px;
+}
+
+.s28.culture.halloween-pumpkin-solid-sc {
+    background-position: -0px -3640px;
+}
+
+.s28.culture.heart-3d-sc44 {
+    background-position: -0px -3668px;
+}
+
+.s28.culture.heart-attached {
+    background-position: -0px -3696px;
+}
+
+.s28.culture.heart-baby-sc44 {
+    background-position: -0px -3724px;
+}
+
+.s28.culture.heart-broken1-sc44 {
+    background-position: -0px -3752px;
+}
+
+.s28.culture.heart-bubbly-sc44 {
+    background-position: -0px -3780px;
+}
+
+.s28.culture.heart-dotted {
+    background-position: -0px -3808px;
+}
+
+.s28.culture.heart-double {
+    background-position: -0px -3836px;
+}
+
+.s28.culture.heart-exclamation-point-sc {
+    background-position: -0px -3864px;
+}
+
+.s28.culture.heart-key-sc44 {
+    background-position: -0px -3892px;
+}
+
+.s28.culture.heart-leaves-sc44 {
+    background-position: -0px -3920px;
+}
+
+.s28.culture.heart-mini-hearts {
+    background-position: -0px -3948px;
+}
+
+.s28.culture.heart-scalloped-sc44 {
+    background-position: -0px -3976px;
+}
+
+.s28.culture.heart-shadowed {
+    background-position: -0px -4004px;
+}
+
+.s28.culture.heart-side-by-side {
+    background-position: -0px -4032px;
+}
+
+.s28.culture.heart-simple {
+    background-position: -0px -4060px;
+}
+
+.s28.culture.heart-solid-sc44 {
+    background-position: -0px -4088px;
+}
+
+.s28.culture.heart-target {
+    background-position: -0px -4116px;
+}
+
+.s28.culture.heart-transparent {
+    background-position: -0px -4144px;
+}
+
+.s28.culture.heart-triple {
+    background-position: -0px -4172px;
+}
+
+.s28.culture.hearts-three {
+    background-position: -0px -4200px;
+}
+
+.s28.culture.holiday-bat {
+    background-position: -0px -4228px;
+}
+
+.s28.culture.holiday-bells {
+    background-position: -0px -4256px;
+}
+
+.s28.culture.holiday-bells2-sc30 {
+    background-position: -0px -4284px;
+}
+
+.s28.culture.holiday-candle {
+    background-position: -0px -4312px;
+}
+
+.s28.culture.holiday-candy-cane1-sc11 {
+    background-position: -0px -4340px;
+}
+
+.s28.culture.holiday-christmas-tree {
+    background-position: -0px -4368px;
+}
+
+.s28.culture.holiday-cupid {
+    background-position: -0px -4396px;
+}
+
+.s28.culture.holiday-easter-bunny-sc44 {
+    background-position: -0px -4424px;
+}
+
+.s28.culture.holiday-easter-egg-sc44 {
+    background-position: -0px -4452px;
+}
+
+.s28.culture.holiday-ghost1 {
+    background-position: -0px -4480px;
+}
+
+.s28.culture.holiday-ghost2 {
+    background-position: -0px -4508px;
+}
+
+.s28.culture.holiday-gingerman-sc44 {
+    background-position: -0px -4536px;
+}
+
+.s28.culture.holiday-holly {
+    background-position: -0px -4564px;
+}
+
+.s28.culture.holiday-holly1-sc12 {
+    background-position: -0px -4592px;
+}
+
+.s28.culture.holiday-holly2-sc30 {
+    background-position: -0px -4620px;
+}
+
+.s28.culture.holiday-jack-o-lantern1 {
+    background-position: -0px -4648px;
+}
+
+.s28.culture.holiday-ornament1 {
+    background-position: -0px -4676px;
+}
+
+.s28.culture.holiday-ornament13-sc30 {
+    background-position: -0px -4704px;
+}
+
+.s28.culture.holiday-ornament14-sc30 {
+    background-position: -0px -4732px;
+}
+
+.s28.culture.holiday-ornament15-sc30 {
+    background-position: -0px -4760px;
+}
+
+.s28.culture.holiday-ornament17-sc30 {
+    background-position: -0px -4788px;
+}
+
+.s28.culture.holiday-ornament2 {
+    background-position: -0px -4816px;
+}
+
+.s28.culture.holiday-ornament3-sc12 {
+    background-position: -0px -4844px;
+}
+
+.s28.culture.holiday-santa-clause-sc30 {
+    background-position: -0px -4872px;
+}
+
+.s28.culture.holiday-snowman {
+    background-position: -0px -4900px;
+}
+
+.s28.culture.holiday-snowman3-sc30 {
+    background-position: -0px -4928px;
+}
+
+.s28.culture.holiday-stocking-sc44 {
+    background-position: -0px -4956px;
+}
+
+.s28.culture.holiday-tree-decorated-sc4 {
+    background-position: -0px -4984px;
+}
+
+.s28.culture.holiday-tree11-sc44 {
+    background-position: -0px -5012px;
+}
+
+.s28.culture.holiday-tree33-sc30 {
+    background-position: -0px -5040px;
+}
+
+.s28.culture.holiday-trees1-sc44 {
+    background-position: -0px -5068px;
+}
+
+.s28.culture.holiday-turkey-sc9 {
+    background-position: -0px -5096px;
+}
+
+.s28.culture.holiday-valentine9-sc44 {
+    background-position: -0px -5124px;
+}
+
+.s28.culture.holiday-valentines {
+    background-position: -0px -5152px;
+}
+
+.s28.culture.holiday-valentines1-sc33 {
+    background-position: -0px -5180px;
+}
+
+.s28.culture.holiday-valentines2-sc33 {
+    background-position: -0px -5208px;
+}
+
+.s28.culture.holiday-valentines3-sc33 {
+    background-position: -0px -5236px;
+}
+
+.s28.culture.holiday-valentines4-sc33 {
+    background-position: -0px -5264px;
+}
+
+.s28.culture.holiday-valentines5-sc33 {
+    background-position: -0px -5292px;
+}
+
+.s28.culture.holiday-valentines6-sc33 {
+    background-position: -0px -5320px;
+}
+
+.s28.culture.holiday-valentines8-sc44 {
+    background-position: -0px -5348px;
+}
+
+.s28.culture.holiday-witch-hat {
+    background-position: -0px -5376px;
+}
+
+.s28.culture.holiday-wreath {
+    background-position: -0px -5404px;
+}
+
+.s28.culture.holiday-wreath1-sc12 {
+    background-position: -0px -5432px;
+}
+
+.s28.culture.holiday-wreath2-sc30 {
+    background-position: -0px -5460px;
+}
+
+.s28.culture.knight {
+    background-position: -0px -5488px;
+}
+
+.s28.culture.lighthouse {
+    background-position: -0px -5516px;
+}
+
+.s28.culture.maltese-cross {
+    background-position: -0px -5544px;
+}
+
+.s28.culture.map-europe-africa-asia-sc5 {
+    background-position: -0px -5572px;
+}
+
+.s28.culture.map-north-america-sc53 {
+    background-position: -0px -5600px;
+}
+
+.s28.culture.map-north-south-americ-sc5 {
+    background-position: -0px -5628px;
+}
+
+.s28.culture.map-usa {
+    background-position: -0px -5656px;
+}
+
+.s28.culture.map-world {
+    background-position: -0px -5684px;
+}
+
+.s28.culture.menorah {
+    background-position: -0px -5712px;
+}
+
+.s28.culture.pyramid2 {
+    background-position: -0px -5740px;
+}
+
+.s28.culture.pyramid3 {
+    background-position: -0px -5768px;
+}
+
+.s28.culture.religion-church1-sc31 {
+    background-position: -0px -5796px;
+}
+
+.s28.culture.religion-crescent-star {
+    background-position: -0px -5824px;
+}
+
+.s28.culture.religion-cross-shadow {
+    background-position: -0px -5852px;
+}
+
+.s28.culture.religion-cross-simple {
+    background-position: -0px -5880px;
+}
+
+.s28.culture.religion-cross5-sc31 {
+    background-position: -0px -5908px;
+}
+
+.s28.culture.religion-star1-sc31 {
+    background-position: -0px -5936px;
+}
+
+.s28.culture.religion-star2-sc31 {
+    background-position: -0px -5964px;
+}
+
+.s28.culture.scroll-sc2 {
+    background-position: -0px -5992px;
+}
+
+.s28.culture.skull-clear {
+    background-position: -0px -6020px;
+}
+
+.s28.culture.skull-solid {
+    background-position: -0px -6048px;
+}
+
+.s28.culture.skull {
+    background-position: -0px -6076px;
+}
+
+.s28.culture.space-alien1-sc37 {
+    background-position: -0px -6104px;
+}
+
+.s28.culture.space-monster {
+    background-position: -0px -6132px;
+}
+
+.s28.culture.space-ufo {
+    background-position: -0px -6160px;
+}
+
+.s28.culture.state-alabama {
+    background-position: -0px -6188px;
+}
+
+.s28.culture.state-arizona {
+    background-position: -0px -6216px;
+}
+
+.s28.culture.state-arkansas {
+    background-position: -0px -6244px;
+}
+
+.s28.culture.state-california {
+    background-position: -0px -6272px;
+}
+
+.s28.culture.state-colorado {
+    background-position: -0px -6300px;
+}
+
+.s28.culture.state-connecticut {
+    background-position: -0px -6328px;
+}
+
+.s28.culture.state-delaware {
+    background-position: -0px -6356px;
+}
+
+.s28.culture.state-florida {
+    background-position: -0px -6384px;
+}
+
+.s28.culture.state-georgia {
+    background-position: -0px -6412px;
+}
+
+.s28.culture.state-hawaii {
+    background-position: -0px -6440px;
+}
+
+.s28.culture.state-idaho {
+    background-position: -0px -6468px;
+}
+
+.s28.culture.state-illinois {
+    background-position: -0px -6496px;
+}
+
+.s28.culture.state-indiana {
+    background-position: -0px -6524px;
+}
+
+.s28.culture.state-iowa {
+    background-position: -0px -6552px;
+}
+
+.s28.culture.state-kansas {
+    background-position: -0px -6580px;
+}
+
+.s28.culture.state-kentucky {
+    background-position: -0px -6608px;
+}
+
+.s28.culture.state-louisiana {
+    background-position: -0px -6636px;
+}
+
+.s28.culture.state-maine {
+    background-position: -0px -6664px;
+}
+
+.s28.culture.state-maryland {
+    background-position: -0px -6692px;
+}
+
+.s28.culture.state-massachusetts {
+    background-position: -0px -6720px;
+}
+
+.s28.culture.state-michigan {
+    background-position: -0px -6748px;
+}
+
+.s28.culture.state-minnesota {
+    background-position: -0px -6776px;
+}
+
+.s28.culture.state-mississippi {
+    background-position: -0px -6804px;
+}
+
+.s28.culture.state-missouri {
+    background-position: -0px -6832px;
+}
+
+.s28.culture.state-montana {
+    background-position: -0px -6860px;
+}
+
+.s28.culture.state-nevada {
+    background-position: -0px -6888px;
+}
+
+.s28.culture.state-new-hampshire {
+    background-position: -0px -6916px;
+}
+
+.s28.culture.state-new-jersey {
+    background-position: -0px -6944px;
+}
+
+.s28.culture.state-new-mexico {
+    background-position: -0px -6972px;
+}
+
+.s28.culture.state-new-york {
+    background-position: -0px -7000px;
+}
+
+.s28.culture.state-north-carolina {
+    background-position: -0px -7028px;
+}
+
+.s28.culture.state-north-dakota {
+    background-position: -0px -7056px;
+}
+
+.s28.culture.state-ohio {
+    background-position: -0px -7084px;
+}
+
+.s28.culture.state-oklahoma {
+    background-position: -0px -7112px;
+}
+
+.s28.culture.state-oregon {
+    background-position: -0px -7140px;
+}
+
+.s28.culture.state-pennsylvania {
+    background-position: -0px -7168px;
+}
+
+.s28.culture.state-rhode-island {
+    background-position: -0px -7196px;
+}
+
+.s28.culture.state-south-carolina {
+    background-position: -0px -7224px;
+}
+
+.s28.culture.state-south-dakota {
+    background-position: -0px -7252px;
+}
+
+.s28.culture.state-tennessee {
+    background-position: -0px -7280px;
+}
+
+.s28.culture.state-texas {
+    background-position: -0px -7308px;
+}
+
+.s28.culture.state-utah {
+    background-position: -0px -7336px;
+}
+
+.s28.culture.state-vermont {
+    background-position: -0px -7364px;
+}
+
+.s28.culture.state-virginia {
+    background-position: -0px -7392px;
+}
+
+.s28.culture.state-washington {
+    background-position: -0px -7420px;
+}
+
+.s28.culture.state-west-virginia {
+    background-position: -0px -7448px;
+}
+
+.s28.culture.state-wisconsin {
+    background-position: -0px -7476px;
+}
+
+.s28.culture.state-wyoming {
+    background-position: -0px -7504px;
+}
+
+.s28.culture.state1-alaska {
+    background-position: -0px -7532px;
+}
+
+.s28.culture.state1-nebraska {
+    background-position: -0px -7560px;
+}
+
+.s28.culture.windmill {
+    background-position: -0px -7588px;
+}
+
+.s28.culture.world1 {
+    background-position: -0px -7616px;
+}
+
+.s28.culture.yin-yang1 {
+    background-position: -0px -7644px;
+}

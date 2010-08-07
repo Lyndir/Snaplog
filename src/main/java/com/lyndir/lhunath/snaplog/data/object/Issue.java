@@ -47,9 +47,9 @@ public class Issue extends AbstractSecureObject<UserProfile> {
     /**
      * Create a new {@link Issue} instance.
      *
-     * @param origin The page that the issue occurred on.
-     * @param cause    The exception that caused the issue.
-     * @param subject  The user that was authenticated when the issue occurred or <code>null</code> if no user was authenticated.
+     * @param origin  The page that the issue occurred on.
+     * @param cause   The exception that caused the issue.
+     * @param subject The user that was authenticated when the issue occurred or <code>null</code> if no user was authenticated.
      */
     public Issue(final Component origin, final Exception cause, final UserProfile subject) {
 
@@ -70,7 +70,7 @@ public class Issue extends AbstractSecureObject<UserProfile> {
         this.cause = cause;
         this.subject = subject;
 
-        issueCode = Utils.getMD5( JSUtils.toString( new Object[] { originPath, causeStringWriter.toString() } ) );
+        issueCode = Utils.getMD5( JSUtils.toString( new Object[]{ originPath, causeStringWriter.toString() } ) );
     }
 
     /**

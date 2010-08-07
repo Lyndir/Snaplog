@@ -147,7 +147,7 @@ public class SnaplogWebApplication extends WebApplication {
                                 User user = SnaplogSession.get().getActiveUser();
                                 if (user != null)
                                     profile = GuiceContext.getInstance( UserService.class )
-                                            .getProfile( SnaplogSession.get().newToken(), user );
+                                                          .getProfile( SnaplogSession.get().newToken(), user );
                             }
                             catch (PermissionDeniedException ee) {
                                 throw new AlreadyCheckedException( ee );

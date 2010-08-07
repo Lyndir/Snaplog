@@ -1,148 +1,593 @@
-.s64.alnum                      { background: transparent url("64x64/alnum.png") no-repeat; width: 64px; height: 64px; }
-.s64.alnum.ampersand3           { background-position:   -0px   -0px; }
-.s64.alnum.asterisk             { background-position:   -0px  -64px; }
-.s64.alnum.at-sign              { background-position:   -0px -128px; }
-.s64.alnum.back-slash           { background-position:   -0px -192px; }
-.s64.alnum.boxed-x2             { background-position:   -0px -256px; }
-.s64.alnum.boxed-x4             { background-position:   -0px -320px; }
-.s64.alnum.bracket-curley       { background-position:   -0px -384px; }
-.s64.alnum.bracket-curley1      { background-position:   -0px -448px; }
-.s64.alnum.bracket-curley2      { background-position:   -0px -512px; }
-.s64.alnum.bracket-staight1     { background-position:   -0px -576px; }
-.s64.alnum.bracket-staight2     { background-position:   -0px -640px; }
-.s64.alnum.bracket-straight     { background-position:   -0px -704px; }
-.s64.alnum.caret                { background-position:   -0px -768px; }
-.s64.alnum.caret1               { background-position:   -0px -832px; }
-.s64.alnum.circled-x            { background-position:   -0px -896px; }
-.s64.alnum.circled-x2           { background-position:   -0px -960px; }
-.s64.alnum.circled-x3           { background-position:   -0px -1024px; }
-.s64.alnum.circled-x4           { background-position:   -0px -1088px; }
-.s64.alnum.colon                { background-position:   -0px -1152px; }
-.s64.alnum.comma                { background-position:   -0px -1216px; }
-.s64.alnum.crossing             { background-position:   -0px -1280px; }
-.s64.alnum.dollar-sign          { background-position:   -0px -1344px; }
-.s64.alnum.equal-sign           { background-position:   -0px -1408px; }
-.s64.alnum.exclamation-point-ps { background-position:   -0px -1472px; }
-.s64.alnum.exclamation-point1   { background-position:   -0px -1536px; }
-.s64.alnum.font-size            { background-position:   -0px -1600px; }
-.s64.alnum.http1                { background-position:   -0px -1664px; }
-.s64.alnum.icon_002             { background-position:   -0px -1728px; }
-.s64.alnum.icon_091             { background-position:   -0px -1792px; }
-.s64.alnum.icon_103             { background-position:   -0px -1856px; }
-.s64.alnum.information          { background-position:   -0px -1920px; }
-.s64.alnum.information1         { background-position:   -0px -1984px; }
-.s64.alnum.information2-ps      { background-position:   -0px -2048px; }
-.s64.alnum.information3-sc49    { background-position:   -0px -2112px; }
-.s64.alnum.information4-sc49    { background-position:   -0px -2176px; }
-.s64.alnum.less-than            { background-position:   -0px -2240px; }
-.s64.alnum.letter-a             { background-position:   -0px -2304px; }
-.s64.alnum.letter-aa            { background-position:   -0px -2368px; }
-.s64.alnum.letter-b             { background-position:   -0px -2432px; }
-.s64.alnum.letter-bb            { background-position:   -0px -2496px; }
-.s64.alnum.letter-c             { background-position:   -0px -2560px; }
-.s64.alnum.letter-cc            { background-position:   -0px -2624px; }
-.s64.alnum.letter-d             { background-position:   -0px -2688px; }
-.s64.alnum.letter-dd            { background-position:   -0px -2752px; }
-.s64.alnum.letter-e             { background-position:   -0px -2816px; }
-.s64.alnum.letter-ee            { background-position:   -0px -2880px; }
-.s64.alnum.letter-f             { background-position:   -0px -2944px; }
-.s64.alnum.letter-ff            { background-position:   -0px -3008px; }
-.s64.alnum.letter-g             { background-position:   -0px -3072px; }
-.s64.alnum.letter-gg            { background-position:   -0px -3136px; }
-.s64.alnum.letter-h             { background-position:   -0px -3200px; }
-.s64.alnum.letter-hh            { background-position:   -0px -3264px; }
-.s64.alnum.letter-i             { background-position:   -0px -3328px; }
-.s64.alnum.letter-ii            { background-position:   -0px -3392px; }
-.s64.alnum.letter-j             { background-position:   -0px -3456px; }
-.s64.alnum.letter-jj            { background-position:   -0px -3520px; }
-.s64.alnum.letter-k             { background-position:   -0px -3584px; }
-.s64.alnum.letter-kk            { background-position:   -0px -3648px; }
-.s64.alnum.letter-l             { background-position:   -0px -3712px; }
-.s64.alnum.letter-ll            { background-position:   -0px -3776px; }
-.s64.alnum.letter-m             { background-position:   -0px -3840px; }
-.s64.alnum.letter-mm            { background-position:   -0px -3904px; }
-.s64.alnum.letter-n             { background-position:   -0px -3968px; }
-.s64.alnum.letter-nn            { background-position:   -0px -4032px; }
-.s64.alnum.letter-o             { background-position:   -0px -4096px; }
-.s64.alnum.letter-oo            { background-position:   -0px -4160px; }
-.s64.alnum.letter-p             { background-position:   -0px -4224px; }
-.s64.alnum.letter-pp            { background-position:   -0px -4288px; }
-.s64.alnum.letter-q             { background-position:   -0px -4352px; }
-.s64.alnum.letter-qq            { background-position:   -0px -4416px; }
-.s64.alnum.letter-r             { background-position:   -0px -4480px; }
-.s64.alnum.letter-rr            { background-position:   -0px -4544px; }
-.s64.alnum.letter-s             { background-position:   -0px -4608px; }
-.s64.alnum.letter-ss            { background-position:   -0px -4672px; }
-.s64.alnum.letter-t             { background-position:   -0px -4736px; }
-.s64.alnum.letter-tt            { background-position:   -0px -4800px; }
-.s64.alnum.letter-u             { background-position:   -0px -4864px; }
-.s64.alnum.letter-uu            { background-position:   -0px -4928px; }
-.s64.alnum.letter-v             { background-position:   -0px -4992px; }
-.s64.alnum.letter-vv            { background-position:   -0px -5056px; }
-.s64.alnum.letter-w             { background-position:   -0px -5120px; }
-.s64.alnum.letter-ww            { background-position:   -0px -5184px; }
-.s64.alnum.letter-x             { background-position:   -0px -5248px; }
-.s64.alnum.letter-xx            { background-position:   -0px -5312px; }
-.s64.alnum.letter-y             { background-position:   -0px -5376px; }
-.s64.alnum.letter-yy            { background-position:   -0px -5440px; }
-.s64.alnum.letter-z             { background-position:   -0px -5504px; }
-.s64.alnum.letter-zz            { background-position:   -0px -5568px; }
-.s64.alnum.m00-clear            { background-position:   -0px -5632px; }
-.s64.alnum.m01-clear            { background-position:   -0px -5696px; }
-.s64.alnum.m02-clear            { background-position:   -0px -5760px; }
-.s64.alnum.m03-clear            { background-position:   -0px -5824px; }
-.s64.alnum.m04-clear            { background-position:   -0px -5888px; }
-.s64.alnum.m05-clear            { background-position:   -0px -5952px; }
-.s64.alnum.m06-clear            { background-position:   -0px -6016px; }
-.s64.alnum.m07-clear            { background-position:   -0px -6080px; }
-.s64.alnum.m08-clear            { background-position:   -0px -6144px; }
-.s64.alnum.m09-clear            { background-position:   -0px -6208px; }
-.s64.alnum.m10-clear            { background-position:   -0px -6272px; }
-.s64.alnum.minus-sign-simple    { background-position:   -0px -6336px; }
-.s64.alnum.minus-sign5          { background-position:   -0px -6400px; }
-.s64.alnum.more-than            { background-position:   -0px -6464px; }
-.s64.alnum.n0-solid             { background-position:   -0px -6528px; }
-.s64.alnum.n1-solid             { background-position:   -0px -6592px; }
-.s64.alnum.n10-solid            { background-position:   -0px -6656px; }
-.s64.alnum.n2-solid             { background-position:   -0px -6720px; }
-.s64.alnum.n3-solid             { background-position:   -0px -6784px; }
-.s64.alnum.n4-solid             { background-position:   -0px -6848px; }
-.s64.alnum.n5-solid             { background-position:   -0px -6912px; }
-.s64.alnum.n6-solid             { background-position:   -0px -6976px; }
-.s64.alnum.n7-solid             { background-position:   -0px -7040px; }
-.s64.alnum.n8-solid             { background-position:   -0px -7104px; }
-.s64.alnum.n9-solid             { background-position:   -0px -7168px; }
-.s64.alnum.number-1             { background-position:   -0px -7232px; }
-.s64.alnum.number-2             { background-position:   -0px -7296px; }
-.s64.alnum.number-3             { background-position:   -0px -7360px; }
-.s64.alnum.number-4             { background-position:   -0px -7424px; }
-.s64.alnum.number-5             { background-position:   -0px -7488px; }
-.s64.alnum.number-6             { background-position:   -0px -7552px; }
-.s64.alnum.number-7             { background-position:   -0px -7616px; }
-.s64.alnum.number-8             { background-position:   -0px -7680px; }
-.s64.alnum.number-9             { background-position:   -0px -7744px; }
-.s64.alnum.number-sign          { background-position:   -0px -7808px; }
-.s64.alnum.parenthesis1         { background-position:   -0px -7872px; }
-.s64.alnum.parenthesis2         { background-position:   -0px -7936px; }
-.s64.alnum.percent-sign         { background-position:   -0px -8000px; }
-.s64.alnum.plus-sign-clear      { background-position:   -0px -8064px; }
-.s64.alnum.plus-sign-simple     { background-position:   -0px -8128px; }
-.s64.alnum.plus-sign-solid      { background-position:   -0px -8192px; }
-.s64.alnum.plus-sign            { background-position:   -0px -8256px; }
-.s64.alnum.plus-sign3-sc48      { background-position:   -0px -8320px; }
-.s64.alnum.plussign1            { background-position:   -0px -8384px; }
-.s64.alnum.question-mark        { background-position:   -0px -8448px; }
-.s64.alnum.question-mark1-ps    { background-position:   -0px -8512px; }
-.s64.alnum.question-mark3       { background-position:   -0px -8576px; }
-.s64.alnum.quote-close1         { background-position:   -0px -8640px; }
-.s64.alnum.quote-close2         { background-position:   -0px -8704px; }
-.s64.alnum.quote-open1          { background-position:   -0px -8768px; }
-.s64.alnum.quote-open2          { background-position:   -0px -8832px; }
-.s64.alnum.vertical-line        { background-position:   -0px -8896px; }
-.s64.alnum.word-ok1-sc49        { background-position:   -0px -8960px; }
-.s64.alnum.word-sos1-sc49       { background-position:   -0px -9024px; }
-.s64.alnum.www1                 { background-position:   -0px -9088px; }
-.s64.alnum.x-big-ps             { background-position:   -0px -9152px; }
-.s64.alnum.x-mark               { background-position:   -0px -9216px; }
-.s64.alnum.x-solid              { background-position:   -0px -9280px; }
-.s64.alnum.x-styled             { background-position:   -0px -9344px; }
+.s64.alnum {
+    background:          transparent url("64x64/alnum.png") no-repeat;
+    width:               64px;
+    height:              64px;
+}
+
+.s64.alnum.ampersand3 {
+    background-position: -0px -0px;
+}
+
+.s64.alnum.asterisk {
+    background-position: -0px -64px;
+}
+
+.s64.alnum.at-sign {
+    background-position: -0px -128px;
+}
+
+.s64.alnum.back-slash {
+    background-position: -0px -192px;
+}
+
+.s64.alnum.boxed-x2 {
+    background-position: -0px -256px;
+}
+
+.s64.alnum.boxed-x4 {
+    background-position: -0px -320px;
+}
+
+.s64.alnum.bracket-curley {
+    background-position: -0px -384px;
+}
+
+.s64.alnum.bracket-curley1 {
+    background-position: -0px -448px;
+}
+
+.s64.alnum.bracket-curley2 {
+    background-position: -0px -512px;
+}
+
+.s64.alnum.bracket-staight1 {
+    background-position: -0px -576px;
+}
+
+.s64.alnum.bracket-staight2 {
+    background-position: -0px -640px;
+}
+
+.s64.alnum.bracket-straight {
+    background-position: -0px -704px;
+}
+
+.s64.alnum.caret {
+    background-position: -0px -768px;
+}
+
+.s64.alnum.caret1 {
+    background-position: -0px -832px;
+}
+
+.s64.alnum.circled-x {
+    background-position: -0px -896px;
+}
+
+.s64.alnum.circled-x2 {
+    background-position: -0px -960px;
+}
+
+.s64.alnum.circled-x3 {
+    background-position: -0px -1024px;
+}
+
+.s64.alnum.circled-x4 {
+    background-position: -0px -1088px;
+}
+
+.s64.alnum.colon {
+    background-position: -0px -1152px;
+}
+
+.s64.alnum.comma {
+    background-position: -0px -1216px;
+}
+
+.s64.alnum.crossing {
+    background-position: -0px -1280px;
+}
+
+.s64.alnum.dollar-sign {
+    background-position: -0px -1344px;
+}
+
+.s64.alnum.equal-sign {
+    background-position: -0px -1408px;
+}
+
+.s64.alnum.exclamation-point-ps {
+    background-position: -0px -1472px;
+}
+
+.s64.alnum.exclamation-point1 {
+    background-position: -0px -1536px;
+}
+
+.s64.alnum.font-size {
+    background-position: -0px -1600px;
+}
+
+.s64.alnum.http1 {
+    background-position: -0px -1664px;
+}
+
+.s64.alnum.icon_002 {
+    background-position: -0px -1728px;
+}
+
+.s64.alnum.icon_091 {
+    background-position: -0px -1792px;
+}
+
+.s64.alnum.icon_103 {
+    background-position: -0px -1856px;
+}
+
+.s64.alnum.information {
+    background-position: -0px -1920px;
+}
+
+.s64.alnum.information1 {
+    background-position: -0px -1984px;
+}
+
+.s64.alnum.information2-ps {
+    background-position: -0px -2048px;
+}
+
+.s64.alnum.information3-sc49 {
+    background-position: -0px -2112px;
+}
+
+.s64.alnum.information4-sc49 {
+    background-position: -0px -2176px;
+}
+
+.s64.alnum.less-than {
+    background-position: -0px -2240px;
+}
+
+.s64.alnum.letter-a {
+    background-position: -0px -2304px;
+}
+
+.s64.alnum.letter-aa {
+    background-position: -0px -2368px;
+}
+
+.s64.alnum.letter-b {
+    background-position: -0px -2432px;
+}
+
+.s64.alnum.letter-bb {
+    background-position: -0px -2496px;
+}
+
+.s64.alnum.letter-c {
+    background-position: -0px -2560px;
+}
+
+.s64.alnum.letter-cc {
+    background-position: -0px -2624px;
+}
+
+.s64.alnum.letter-d {
+    background-position: -0px -2688px;
+}
+
+.s64.alnum.letter-dd {
+    background-position: -0px -2752px;
+}
+
+.s64.alnum.letter-e {
+    background-position: -0px -2816px;
+}
+
+.s64.alnum.letter-ee {
+    background-position: -0px -2880px;
+}
+
+.s64.alnum.letter-f {
+    background-position: -0px -2944px;
+}
+
+.s64.alnum.letter-ff {
+    background-position: -0px -3008px;
+}
+
+.s64.alnum.letter-g {
+    background-position: -0px -3072px;
+}
+
+.s64.alnum.letter-gg {
+    background-position: -0px -3136px;
+}
+
+.s64.alnum.letter-h {
+    background-position: -0px -3200px;
+}
+
+.s64.alnum.letter-hh {
+    background-position: -0px -3264px;
+}
+
+.s64.alnum.letter-i {
+    background-position: -0px -3328px;
+}
+
+.s64.alnum.letter-ii {
+    background-position: -0px -3392px;
+}
+
+.s64.alnum.letter-j {
+    background-position: -0px -3456px;
+}
+
+.s64.alnum.letter-jj {
+    background-position: -0px -3520px;
+}
+
+.s64.alnum.letter-k {
+    background-position: -0px -3584px;
+}
+
+.s64.alnum.letter-kk {
+    background-position: -0px -3648px;
+}
+
+.s64.alnum.letter-l {
+    background-position: -0px -3712px;
+}
+
+.s64.alnum.letter-ll {
+    background-position: -0px -3776px;
+}
+
+.s64.alnum.letter-m {
+    background-position: -0px -3840px;
+}
+
+.s64.alnum.letter-mm {
+    background-position: -0px -3904px;
+}
+
+.s64.alnum.letter-n {
+    background-position: -0px -3968px;
+}
+
+.s64.alnum.letter-nn {
+    background-position: -0px -4032px;
+}
+
+.s64.alnum.letter-o {
+    background-position: -0px -4096px;
+}
+
+.s64.alnum.letter-oo {
+    background-position: -0px -4160px;
+}
+
+.s64.alnum.letter-p {
+    background-position: -0px -4224px;
+}
+
+.s64.alnum.letter-pp {
+    background-position: -0px -4288px;
+}
+
+.s64.alnum.letter-q {
+    background-position: -0px -4352px;
+}
+
+.s64.alnum.letter-qq {
+    background-position: -0px -4416px;
+}
+
+.s64.alnum.letter-r {
+    background-position: -0px -4480px;
+}
+
+.s64.alnum.letter-rr {
+    background-position: -0px -4544px;
+}
+
+.s64.alnum.letter-s {
+    background-position: -0px -4608px;
+}
+
+.s64.alnum.letter-ss {
+    background-position: -0px -4672px;
+}
+
+.s64.alnum.letter-t {
+    background-position: -0px -4736px;
+}
+
+.s64.alnum.letter-tt {
+    background-position: -0px -4800px;
+}
+
+.s64.alnum.letter-u {
+    background-position: -0px -4864px;
+}
+
+.s64.alnum.letter-uu {
+    background-position: -0px -4928px;
+}
+
+.s64.alnum.letter-v {
+    background-position: -0px -4992px;
+}
+
+.s64.alnum.letter-vv {
+    background-position: -0px -5056px;
+}
+
+.s64.alnum.letter-w {
+    background-position: -0px -5120px;
+}
+
+.s64.alnum.letter-ww {
+    background-position: -0px -5184px;
+}
+
+.s64.alnum.letter-x {
+    background-position: -0px -5248px;
+}
+
+.s64.alnum.letter-xx {
+    background-position: -0px -5312px;
+}
+
+.s64.alnum.letter-y {
+    background-position: -0px -5376px;
+}
+
+.s64.alnum.letter-yy {
+    background-position: -0px -5440px;
+}
+
+.s64.alnum.letter-z {
+    background-position: -0px -5504px;
+}
+
+.s64.alnum.letter-zz {
+    background-position: -0px -5568px;
+}
+
+.s64.alnum.m00-clear {
+    background-position: -0px -5632px;
+}
+
+.s64.alnum.m01-clear {
+    background-position: -0px -5696px;
+}
+
+.s64.alnum.m02-clear {
+    background-position: -0px -5760px;
+}
+
+.s64.alnum.m03-clear {
+    background-position: -0px -5824px;
+}
+
+.s64.alnum.m04-clear {
+    background-position: -0px -5888px;
+}
+
+.s64.alnum.m05-clear {
+    background-position: -0px -5952px;
+}
+
+.s64.alnum.m06-clear {
+    background-position: -0px -6016px;
+}
+
+.s64.alnum.m07-clear {
+    background-position: -0px -6080px;
+}
+
+.s64.alnum.m08-clear {
+    background-position: -0px -6144px;
+}
+
+.s64.alnum.m09-clear {
+    background-position: -0px -6208px;
+}
+
+.s64.alnum.m10-clear {
+    background-position: -0px -6272px;
+}
+
+.s64.alnum.minus-sign-simple {
+    background-position: -0px -6336px;
+}
+
+.s64.alnum.minus-sign5 {
+    background-position: -0px -6400px;
+}
+
+.s64.alnum.more-than {
+    background-position: -0px -6464px;
+}
+
+.s64.alnum.n0-solid {
+    background-position: -0px -6528px;
+}
+
+.s64.alnum.n1-solid {
+    background-position: -0px -6592px;
+}
+
+.s64.alnum.n10-solid {
+    background-position: -0px -6656px;
+}
+
+.s64.alnum.n2-solid {
+    background-position: -0px -6720px;
+}
+
+.s64.alnum.n3-solid {
+    background-position: -0px -6784px;
+}
+
+.s64.alnum.n4-solid {
+    background-position: -0px -6848px;
+}
+
+.s64.alnum.n5-solid {
+    background-position: -0px -6912px;
+}
+
+.s64.alnum.n6-solid {
+    background-position: -0px -6976px;
+}
+
+.s64.alnum.n7-solid {
+    background-position: -0px -7040px;
+}
+
+.s64.alnum.n8-solid {
+    background-position: -0px -7104px;
+}
+
+.s64.alnum.n9-solid {
+    background-position: -0px -7168px;
+}
+
+.s64.alnum.number-1 {
+    background-position: -0px -7232px;
+}
+
+.s64.alnum.number-2 {
+    background-position: -0px -7296px;
+}
+
+.s64.alnum.number-3 {
+    background-position: -0px -7360px;
+}
+
+.s64.alnum.number-4 {
+    background-position: -0px -7424px;
+}
+
+.s64.alnum.number-5 {
+    background-position: -0px -7488px;
+}
+
+.s64.alnum.number-6 {
+    background-position: -0px -7552px;
+}
+
+.s64.alnum.number-7 {
+    background-position: -0px -7616px;
+}
+
+.s64.alnum.number-8 {
+    background-position: -0px -7680px;
+}
+
+.s64.alnum.number-9 {
+    background-position: -0px -7744px;
+}
+
+.s64.alnum.number-sign {
+    background-position: -0px -7808px;
+}
+
+.s64.alnum.parenthesis1 {
+    background-position: -0px -7872px;
+}
+
+.s64.alnum.parenthesis2 {
+    background-position: -0px -7936px;
+}
+
+.s64.alnum.percent-sign {
+    background-position: -0px -8000px;
+}
+
+.s64.alnum.plus-sign-clear {
+    background-position: -0px -8064px;
+}
+
+.s64.alnum.plus-sign-simple {
+    background-position: -0px -8128px;
+}
+
+.s64.alnum.plus-sign-solid {
+    background-position: -0px -8192px;
+}
+
+.s64.alnum.plus-sign {
+    background-position: -0px -8256px;
+}
+
+.s64.alnum.plus-sign3-sc48 {
+    background-position: -0px -8320px;
+}
+
+.s64.alnum.plussign1 {
+    background-position: -0px -8384px;
+}
+
+.s64.alnum.question-mark {
+    background-position: -0px -8448px;
+}
+
+.s64.alnum.question-mark1-ps {
+    background-position: -0px -8512px;
+}
+
+.s64.alnum.question-mark3 {
+    background-position: -0px -8576px;
+}
+
+.s64.alnum.quote-close1 {
+    background-position: -0px -8640px;
+}
+
+.s64.alnum.quote-close2 {
+    background-position: -0px -8704px;
+}
+
+.s64.alnum.quote-open1 {
+    background-position: -0px -8768px;
+}
+
+.s64.alnum.quote-open2 {
+    background-position: -0px -8832px;
+}
+
+.s64.alnum.vertical-line {
+    background-position: -0px -8896px;
+}
+
+.s64.alnum.word-ok1-sc49 {
+    background-position: -0px -8960px;
+}
+
+.s64.alnum.word-sos1-sc49 {
+    background-position: -0px -9024px;
+}
+
+.s64.alnum.www1 {
+    background-position: -0px -9088px;
+}
+
+.s64.alnum.x-big-ps {
+    background-position: -0px -9152px;
+}
+
+.s64.alnum.x-mark {
+    background-position: -0px -9216px;
+}
+
+.s64.alnum.x-solid {
+    background-position: -0px -9280px;
+}
+
+.s64.alnum.x-styled {
+    background-position: -0px -9344px;
+}

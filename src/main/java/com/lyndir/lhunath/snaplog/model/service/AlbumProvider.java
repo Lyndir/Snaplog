@@ -17,9 +17,10 @@ import java.net.URL;
  *
  * <p> <i>Jul 25, 2009</i> </p>
  *
- * @author lhunath
  * @param <A> The type of {@link Album} we provide services for.
  * @param <M> The type of {@link Media} that is available from A.
+ *
+ * @author lhunath
  */
 public class AlbumProvider<A extends Album, M extends Media> implements MediaProviderService<A, M> {
 

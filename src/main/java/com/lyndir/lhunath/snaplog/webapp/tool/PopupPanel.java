@@ -25,9 +25,11 @@ public abstract class PopupPanel<M> extends GenericPanel<M> {
         super( id, model );
 
         add( content = new WebMarkupContainer( "content" ) {
+
             {
                 setOutputMarkupId( true );
-            }} );
+            }
+        } );
         initContent( content );
     }
 

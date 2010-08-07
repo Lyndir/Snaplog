@@ -45,6 +45,7 @@ public class BrowserView extends GenericPanel<Album> {
         setOutputMarkupId( true );
 
         add( new DataView<MediaTimeFrame>( "months", new AbstractIteratorProvider<MediaTimeFrame>() {
+
             @Override
             protected Iterator<MediaTimeFrame> load() {
 
@@ -58,24 +59,29 @@ public class BrowserView extends GenericPanel<Album> {
                 return Integer.MAX_VALUE;
             }
         } ) {
+
             @Override
             protected void populateItem(final Item<MediaTimeFrame> mediaTimeFrameItem) {
 
                 mediaTimeFrameItem.setOutputMarkupId( true );
                 final MediaTimeFrame frame = mediaTimeFrameItem.getModelObject();
                 final Component mediaList = new WebMarkupContainer( "mediaList" ) {
+
                     {
                         add( new DataView<Media>( "media", new AbstractCollectionProvider<Media>() {
+
                             @Override
                             protected Collection<Media> loadSource() {
 
                                 return frame.getMedia();
                             }
                         } ) {
+
                             @Override
                             protected void populateItem(final Item<Media> mediaItem) {
 
                                 mediaItem.add( new MediaView( "media", mediaItem.getModel(), Media.Quality.THUMBNAIL, true ) {
+
                                     @Override
                                     protected void onClick(@SuppressWarnings("unused") final AjaxRequestTarget target) {
 
@@ -84,14 +90,17 @@ public class BrowserView extends GenericPanel<Album> {
                                 } );
                             }
                         } );
-                    }}.setVisible( false );
+                    }
+                }.setVisible( false );
                 mediaTimeFrameItem.add( mediaList, new AjaxLabelLink( "name", new LoadableDetachableModel<String>() {
+
                     @Override
                     protected String load() {
 
                         return frame.objectDescription();
                     }
                 } ) {
+
                     @Override
                     public void onClick(final AjaxRequestTarget target) {
 

@@ -156,6 +156,7 @@ public class TimelinePopup extends PopupPanel<Album> {
         public IModel<String> getTitleClass() {
 
             return new AbstractReadOnlyModel<String>() {
+
                 @Override
                 public String getObject() {
 
@@ -174,7 +175,8 @@ public class TimelinePopup extends PopupPanel<Album> {
         public boolean isVisible() {
 
             return model.getObject() != null && GuiceContext.getInstance( SecurityService.class )
-                    .hasAccess( Permission.VIEW, SnaplogSession.get().newToken(), model.getObject() );
+                                                            .hasAccess( Permission.VIEW, SnaplogSession.get().newToken(),
+                                                                        model.getObject() );
         }
     }
 }

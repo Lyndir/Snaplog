@@ -66,7 +66,7 @@ public class AboutTabPanel extends Panel {
      *
      * @author lhunath
      */
-     static class AboutTab implements SnaplogTab<AboutTabPanel, AboutTabState> {
+    static class AboutTab implements SnaplogTab<AboutTabPanel, AboutTabState> {
 
         public static final AboutTab instance = new AboutTab();
 

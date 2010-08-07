@@ -68,7 +68,7 @@ public class AdministrationTabPanel extends Panel {
      */
     static class AdministrationTab implements SnaplogTab<AdministrationTabPanel, AdministrationTabState> {
 
-        public static final AdministrationTab instance= new AdministrationTab();
+        public static final AdministrationTab instance = new AdministrationTab();
 
         static final Logger logger = Logger.get( AdministrationTab.class );
         static final Messages msgs = MessagesFactory.create( Messages.class );

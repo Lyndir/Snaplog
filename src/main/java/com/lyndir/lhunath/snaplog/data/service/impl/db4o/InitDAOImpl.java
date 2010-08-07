@@ -69,6 +69,7 @@ public class InitDAOImpl implements InitDAO {
         // Find default user's profile.
         UserProfile defaultUserProfile;
         ObjectSet<UserProfile> defaultUserProfileQuery = db.query( new Predicate<UserProfile>() {
+
             @Override
             public boolean match(final UserProfile candidate) {
 
@@ -87,6 +88,7 @@ public class InitDAOImpl implements InitDAO {
 
         // Find default user's album.
         ObjectSet<Album> defaultAlbumQuery = db.query( new Predicate<Album>() {
+
             @Override
             public boolean match(final Album candidate) {
 

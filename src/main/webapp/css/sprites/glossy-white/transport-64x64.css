@@ -1,103 +1,413 @@
-.s64.transport                      { background: transparent url("64x64/transport.png") no-repeat; width: 64px; height: 64px; }
-.s64.transport.anchor2              { background-position:   -0px   -0px; }
-.s64.transport.anchor5-sc44         { background-position:   -0px  -64px; }
-.s64.transport.anchor6-sc48         { background-position:   -0px -128px; }
-.s64.transport.car-gauge2           { background-position:   -0px -192px; }
-.s64.transport.car-gauge3           { background-position:   -0px -256px; }
-.s64.transport.car-gears            { background-position:   -0px -320px; }
-.s64.transport.car-speed-dial       { background-position:   -0px -384px; }
-.s64.transport.compass2             { background-position:   -0px -448px; }
-.s64.transport.compass4             { background-position:   -0px -512px; }
-.s64.transport.ship- wheel          { background-position:   -0px -576px; }
-.s64.transport.ship-wheel1          { background-position:   -0px -640px; }
-.s64.transport.space-shuttle        { background-position:   -0px -704px; }
-.s64.transport.spaceship1-sc44      { background-position:   -0px -768px; }
-.s64.transport.spaceship2-sc43      { background-position:   -0px -832px; }
-.s64.transport.star-trek-sc43       { background-position:   -0px -896px; }
-.s64.transport.star-trek1-sc43      { background-position:   -0px -960px; }
-.s64.transport.steering wheel1      { background-position:   -0px -1024px; }
-.s64.transport.tire1-sc49           { background-position:   -0px -1088px; }
-.s64.transport.tractor1             { background-position:   -0px -1152px; }
-.s64.transport.tractor2             { background-position:   -0px -1216px; }
-.s64.transport.tractor3             { background-position:   -0px -1280px; }
-.s64.transport.transportation-airplane1 { background-position:   -0px -1344px; }
-.s64.transport.transportation-airplane10- { background-position:   -0px -1408px; }
-.s64.transport.transportation-airplane2 { background-position:   -0px -1472px; }
-.s64.transport.transportation-airplane22 { background-position:   -0px -1536px; }
-.s64.transport.transportation-airplane3 { background-position:   -0px -1600px; }
-.s64.transport.transportation-airplane4 { background-position:   -0px -1664px; }
-.s64.transport.transportation-airplane6-s { background-position:   -0px -1728px; }
-.s64.transport.transportation-airplane7-s { background-position:   -0px -1792px; }
-.s64.transport.transportation-airplane8-s { background-position:   -0px -1856px; }
-.s64.transport.transportation-airplane9-s { background-position:   -0px -1920px; }
-.s64.transport.transportation-ambulance { background-position:   -0px -1984px; }
-.s64.transport.transportation-ambulance2 { background-position:   -0px -2048px; }
-.s64.transport.transportation-bicycle-mot { background-position:   -0px -2112px; }
-.s64.transport.transportation-bicycle { background-position:   -0px -2176px; }
-.s64.transport.transportation-bicycle1 { background-position:   -0px -2240px; }
-.s64.transport.transportation-bicycle2 { background-position:   -0px -2304px; }
-.s64.transport.transportation-bicycle25 { background-position:   -0px -2368px; }
-.s64.transport.transportation-bicycle9-sc { background-position:   -0px -2432px; }
-.s64.transport.transportation-boat  { background-position:   -0px -2496px; }
-.s64.transport.transportation-boat2 { background-position:   -0px -2560px; }
-.s64.transport.transportation-bus1  { background-position:   -0px -2624px; }
-.s64.transport.transportation-bus2  { background-position:   -0px -2688px; }
-.s64.transport.transportation-bus3-sc44 { background-position:   -0px -2752px; }
-.s64.transport.transportation-car   { background-position:   -0px -2816px; }
-.s64.transport.transportation-car1  { background-position:   -0px -2880px; }
-.s64.transport.transportation-car10-sc44 { background-position:   -0px -2944px; }
-.s64.transport.transportation-car12 { background-position:   -0px -3008px; }
-.s64.transport.transportation-car2  { background-position:   -0px -3072px; }
-.s64.transport.transportation-car3  { background-position:   -0px -3136px; }
-.s64.transport.transportation-car4  { background-position:   -0px -3200px; }
-.s64.transport.transportation-car5  { background-position:   -0px -3264px; }
-.s64.transport.transportation-car6  { background-position:   -0px -3328px; }
-.s64.transport.transportation-car8  { background-position:   -0px -3392px; }
-.s64.transport.transportation-car9-sc44 { background-position:   -0px -3456px; }
-.s64.transport.transportation-cruise-sc45 { background-position:   -0px -3520px; }
-.s64.transport.transportation-cruise-ship { background-position:   -0px -3584px; }
-.s64.transport.transportation-helicopter { background-position:   -0px -3648px; }
-.s64.transport.transportation-helicopter1 { background-position:   -0px -3712px; }
-.s64.transport.transportation-helicopter2 { background-position:   -0px -3776px; }
-.s64.transport.transportation-helicopter4 { background-position:   -0px -3840px; }
-.s64.transport.transportation-helicopter5 { background-position:   -0px -3904px; }
-.s64.transport.transportation-helicopter7 { background-position:   -0px -3968px; }
-.s64.transport.transportation-jet   { background-position:   -0px -4032px; }
-.s64.transport.transportation-police-car { background-position:   -0px -4096px; }
-.s64.transport.transportation-police1-sc3 { background-position:   -0px -4160px; }
-.s64.transport.transportation-race-car { background-position:   -0px -4224px; }
-.s64.transport.transportation-rescue { background-position:   -0px -4288px; }
-.s64.transport.transportation-rescue1-sc4 { background-position:   -0px -4352px; }
-.s64.transport.transportation-rescue2-sc4 { background-position:   -0px -4416px; }
-.s64.transport.transportation-rescue3-sc4 { background-position:   -0px -4480px; }
-.s64.transport.transportation-rescue4-sc4 { background-position:   -0px -4544px; }
-.s64.transport.transportation-sailboat { background-position:   -0px -4608px; }
-.s64.transport.transportation-school-bus { background-position:   -0px -4672px; }
-.s64.transport.transportation-school-bus2 { background-position:   -0px -4736px; }
-.s64.transport.transportation-school-bus3 { background-position:   -0px -4800px; }
-.s64.transport.transportation-ship-sc36 { background-position:   -0px -4864px; }
-.s64.transport.transportation-ship-sc57 { background-position:   -0px -4928px; }
-.s64.transport.transportation-ship  { background-position:   -0px -4992px; }
-.s64.transport.transportation-ship2 { background-position:   -0px -5056px; }
-.s64.transport.transportation-train { background-position:   -0px -5120px; }
-.s64.transport.transportation-train1 { background-position:   -0px -5184px; }
-.s64.transport.transportation-train2 { background-position:   -0px -5248px; }
-.s64.transport.transportation-train3-sc44 { background-position:   -0px -5312px; }
-.s64.transport.transportation-train3 { background-position:   -0px -5376px; }
-.s64.transport.transportation-train4 { background-position:   -0px -5440px; }
-.s64.transport.transportation-train5-sc36 { background-position:   -0px -5504px; }
-.s64.transport.transportation-train6-sc36 { background-position:   -0px -5568px; }
-.s64.transport.transportation-train7-sc36 { background-position:   -0px -5632px; }
-.s64.transport.transportation-train8-sc43 { background-position:   -0px -5696px; }
-.s64.transport.transportation-train9-sc43 { background-position:   -0px -5760px; }
-.s64.transport.transportation-truck1 { background-position:   -0px -5824px; }
-.s64.transport.transportation-truck10-sc4 { background-position:   -0px -5888px; }
-.s64.transport.transportation-truck11-sc4 { background-position:   -0px -5952px; }
-.s64.transport.transportation-truck2 { background-position:   -0px -6016px; }
-.s64.transport.transportation-truck3 { background-position:   -0px -6080px; }
-.s64.transport.transportation-truck7 { background-position:   -0px -6144px; }
-.s64.transport.transportation-van1  { background-position:   -0px -6208px; }
-.s64.transport.transportation-wagon { background-position:   -0px -6272px; }
-.s64.transport.wheel                { background-position:   -0px -6336px; }
-.s64.transport.wheel1-sc48          { background-position:   -0px -6400px; }
-.s64.transport.z-truck25            { background-position:   -0px -6464px; }
+.s64.transport {
+    background:          transparent url("64x64/transport.png") no-repeat;
+    width:               64px;
+    height:              64px;
+}
+
+.s64.transport.anchor2 {
+    background-position: -0px -0px;
+}
+
+.s64.transport.anchor5-sc44 {
+    background-position: -0px -64px;
+}
+
+.s64.transport.anchor6-sc48 {
+    background-position: -0px -128px;
+}
+
+.s64.transport.car-gauge2 {
+    background-position: -0px -192px;
+}
+
+.s64.transport.car-gauge3 {
+    background-position: -0px -256px;
+}
+
+.s64.transport.car-gears {
+    background-position: -0px -320px;
+}
+
+.s64.transport.car-speed-dial {
+    background-position: -0px -384px;
+}
+
+.s64.transport.compass2 {
+    background-position: -0px -448px;
+}
+
+.s64.transport.compass4 {
+    background-position: -0px -512px;
+}
+
+.s64.transport.ship- wheel {
+    background-position: -0px -576px;
+}
+
+.s64.transport.ship-wheel1 {
+    background-position: -0px -640px;
+}
+
+.s64.transport.space-shuttle {
+    background-position: -0px -704px;
+}
+
+.s64.transport.spaceship1-sc44 {
+    background-position: -0px -768px;
+}
+
+.s64.transport.spaceship2-sc43 {
+    background-position: -0px -832px;
+}
+
+.s64.transport.star-trek-sc43 {
+    background-position: -0px -896px;
+}
+
+.s64.transport.star-trek1-sc43 {
+    background-position: -0px -960px;
+}
+
+.s64.transport.steering wheel1 {
+    background-position: -0px -1024px;
+}
+
+.s64.transport.tire1-sc49 {
+    background-position: -0px -1088px;
+}
+
+.s64.transport.tractor1 {
+    background-position: -0px -1152px;
+}
+
+.s64.transport.tractor2 {
+    background-position: -0px -1216px;
+}
+
+.s64.transport.tractor3 {
+    background-position: -0px -1280px;
+}
+
+.s64.transport.transportation-airplane1 {
+    background-position: -0px -1344px;
+}
+
+.s64.transport.transportation-airplane10- {
+    background-position: -0px -1408px;
+}
+
+.s64.transport.transportation-airplane2 {
+    background-position: -0px -1472px;
+}
+
+.s64.transport.transportation-airplane22 {
+    background-position: -0px -1536px;
+}
+
+.s64.transport.transportation-airplane3 {
+    background-position: -0px -1600px;
+}
+
+.s64.transport.transportation-airplane4 {
+    background-position: -0px -1664px;
+}
+
+.s64.transport.transportation-airplane6-s {
+    background-position: -0px -1728px;
+}
+
+.s64.transport.transportation-airplane7-s {
+    background-position: -0px -1792px;
+}
+
+.s64.transport.transportation-airplane8-s {
+    background-position: -0px -1856px;
+}
+
+.s64.transport.transportation-airplane9-s {
+    background-position: -0px -1920px;
+}
+
+.s64.transport.transportation-ambulance {
+    background-position: -0px -1984px;
+}
+
+.s64.transport.transportation-ambulance2 {
+    background-position: -0px -2048px;
+}
+
+.s64.transport.transportation-bicycle-mot {
+    background-position: -0px -2112px;
+}
+
+.s64.transport.transportation-bicycle {
+    background-position: -0px -2176px;
+}
+
+.s64.transport.transportation-bicycle1 {
+    background-position: -0px -2240px;
+}
+
+.s64.transport.transportation-bicycle2 {
+    background-position: -0px -2304px;
+}
+
+.s64.transport.transportation-bicycle25 {
+    background-position: -0px -2368px;
+}
+
+.s64.transport.transportation-bicycle9-sc {
+    background-position: -0px -2432px;
+}
+
+.s64.transport.transportation-boat {
+    background-position: -0px -2496px;
+}
+
+.s64.transport.transportation-boat2 {
+    background-position: -0px -2560px;
+}
+
+.s64.transport.transportation-bus1 {
+    background-position: -0px -2624px;
+}
+
+.s64.transport.transportation-bus2 {
+    background-position: -0px -2688px;
+}
+
+.s64.transport.transportation-bus3-sc44 {
+    background-position: -0px -2752px;
+}
+
+.s64.transport.transportation-car {
+    background-position: -0px -2816px;
+}
+
+.s64.transport.transportation-car1 {
+    background-position: -0px -2880px;
+}
+
+.s64.transport.transportation-car10-sc44 {
+    background-position: -0px -2944px;
+}
+
+.s64.transport.transportation-car12 {
+    background-position: -0px -3008px;
+}
+
+.s64.transport.transportation-car2 {
+    background-position: -0px -3072px;
+}
+
+.s64.transport.transportation-car3 {
+    background-position: -0px -3136px;
+}
+
+.s64.transport.transportation-car4 {
+    background-position: -0px -3200px;
+}
+
+.s64.transport.transportation-car5 {
+    background-position: -0px -3264px;
+}
+
+.s64.transport.transportation-car6 {
+    background-position: -0px -3328px;
+}
+
+.s64.transport.transportation-car8 {
+    background-position: -0px -3392px;
+}
+
+.s64.transport.transportation-car9-sc44 {
+    background-position: -0px -3456px;
+}
+
+.s64.transport.transportation-cruise-sc45 {
+    background-position: -0px -3520px;
+}
+
+.s64.transport.transportation-cruise-ship {
+    background-position: -0px -3584px;
+}
+
+.s64.transport.transportation-helicopter {
+    background-position: -0px -3648px;
+}
+
+.s64.transport.transportation-helicopter1 {
+    background-position: -0px -3712px;
+}
+
+.s64.transport.transportation-helicopter2 {
+    background-position: -0px -3776px;
+}
+
+.s64.transport.transportation-helicopter4 {
+    background-position: -0px -3840px;
+}
+
+.s64.transport.transportation-helicopter5 {
+    background-position: -0px -3904px;
+}
+
+.s64.transport.transportation-helicopter7 {
+    background-position: -0px -3968px;
+}
+
+.s64.transport.transportation-jet {
+    background-position: -0px -4032px;
+}
+
+.s64.transport.transportation-police-car {
+    background-position: -0px -4096px;
+}
+
+.s64.transport.transportation-police1-sc3 {
+    background-position: -0px -4160px;
+}
+
+.s64.transport.transportation-race-car {
+    background-position: -0px -4224px;
+}
+
+.s64.transport.transportation-rescue {
+    background-position: -0px -4288px;
+}
+
+.s64.transport.transportation-rescue1-sc4 {
+    background-position: -0px -4352px;
+}
+
+.s64.transport.transportation-rescue2-sc4 {
+    background-position: -0px -4416px;
+}
+
+.s64.transport.transportation-rescue3-sc4 {
+    background-position: -0px -4480px;
+}
+
+.s64.transport.transportation-rescue4-sc4 {
+    background-position: -0px -4544px;
+}
+
+.s64.transport.transportation-sailboat {
+    background-position: -0px -4608px;
+}
+
+.s64.transport.transportation-school-bus {
+    background-position: -0px -4672px;
+}
+
+.s64.transport.transportation-school-bus2 {
+    background-position: -0px -4736px;
+}
+
+.s64.transport.transportation-school-bus3 {
+    background-position: -0px -4800px;
+}
+
+.s64.transport.transportation-ship-sc36 {
+    background-position: -0px -4864px;
+}
+
+.s64.transport.transportation-ship-sc57 {
+    background-position: -0px -4928px;
+}
+
+.s64.transport.transportation-ship {
+    background-position: -0px -4992px;
+}
+
+.s64.transport.transportation-ship2 {
+    background-position: -0px -5056px;
+}
+
+.s64.transport.transportation-train {
+    background-position: -0px -5120px;
+}
+
+.s64.transport.transportation-train1 {
+    background-position: -0px -5184px;
+}
+
+.s64.transport.transportation-train2 {
+    background-position: -0px -5248px;
+}
+
+.s64.transport.transportation-train3-sc44 {
+    background-position: -0px -5312px;
+}
+
+.s64.transport.transportation-train3 {
+    background-position: -0px -5376px;
+}
+
+.s64.transport.transportation-train4 {
+    background-position: -0px -5440px;
+}
+
+.s64.transport.transportation-train5-sc36 {
+    background-position: -0px -5504px;
+}
+
+.s64.transport.transportation-train6-sc36 {
+    background-position: -0px -5568px;
+}
+
+.s64.transport.transportation-train7-sc36 {
+    background-position: -0px -5632px;
+}
+
+.s64.transport.transportation-train8-sc43 {
+    background-position: -0px -5696px;
+}
+
+.s64.transport.transportation-train9-sc43 {
+    background-position: -0px -5760px;
+}
+
+.s64.transport.transportation-truck1 {
+    background-position: -0px -5824px;
+}
+
+.s64.transport.transportation-truck10-sc4 {
+    background-position: -0px -5888px;
+}
+
+.s64.transport.transportation-truck11-sc4 {
+    background-position: -0px -5952px;
+}
+
+.s64.transport.transportation-truck2 {
+    background-position: -0px -6016px;
+}
+
+.s64.transport.transportation-truck3 {
+    background-position: -0px -6080px;
+}
+
+.s64.transport.transportation-truck7 {
+    background-position: -0px -6144px;
+}
+
+.s64.transport.transportation-van1 {
+    background-position: -0px -6208px;
+}
+
+.s64.transport.transportation-wagon {
+    background-position: -0px -6272px;
+}
+
+.s64.transport.wheel {
+    background-position: -0px -6336px;
+}
+
+.s64.transport.wheel1-sc48 {
+    background-position: -0px -6400px;
+}
+
+.s64.transport.z-truck25 {
+    background-position: -0px -6464px;
+}

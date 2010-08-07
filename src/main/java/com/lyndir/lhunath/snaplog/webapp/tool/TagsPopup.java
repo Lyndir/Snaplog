@@ -75,6 +75,7 @@ public class TagsPopup extends PopupPanel<Album> {
         public IModel<String> getTitleClass() {
 
             return new AbstractReadOnlyModel<String>() {
+
                 @Override
                 public String getObject() {
 
@@ -92,8 +93,9 @@ public class TagsPopup extends PopupPanel<Album> {
         @Override
         public boolean isVisible() {
 
-            return model.getObject() != null &&GuiceContext.getInstance( SecurityService.class )
-                    .hasAccess( Permission.CONTRIBUTE, SnaplogSession.get().newToken(), model.getObject() );
+            return model.getObject() != null && GuiceContext.getInstance( SecurityService.class )
+                                                            .hasAccess( Permission.CONTRIBUTE, SnaplogSession.get().newToken(),
+                                                                        model.getObject() );
         }
     }
 }

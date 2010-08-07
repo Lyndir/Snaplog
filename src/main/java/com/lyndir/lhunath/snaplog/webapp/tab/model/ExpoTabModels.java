@@ -45,6 +45,7 @@ public class ExpoTabModels extends EmptyModelProvider<ExpoTabModels> {
     public ExpoTabModels() {
 
         usersHelp = msgs.usersHelp( new LoadableDetachableModel<Boolean>() {
+
             @Override
             protected Boolean load() {
 

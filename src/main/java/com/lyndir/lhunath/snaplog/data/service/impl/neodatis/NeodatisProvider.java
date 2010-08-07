@@ -89,6 +89,7 @@ public class NeodatisProvider implements Provider<ODB> {
 
         ODB db = ODBFactory.open( "snaplog.odb" );
         containers.add( new WeakReference<ODB>( db ) {
+
             @Override
             public void clear() {
 

@@ -1,72 +1,289 @@
-.s28.food                      { background: transparent url("28x28/food.png") no-repeat; width: 28px; height: 28px; }
-.s28.food.coffee-maker         { background-position:   -0px   -0px; }
-.s28.food.coffee-tea           { background-position:   -0px  -28px; }
-.s28.food.corkscrew-sc43       { background-position:   -0px  -56px; }
-.s28.food.drink-bottle-champagne { background-position:   -0px  -84px; }
-.s28.food.drink-bottle1        { background-position:   -0px -112px; }
-.s28.food.drink-bottle2        { background-position:   -0px -140px; }
-.s28.food.drink-coffee-tea-sc44 { background-position:   -0px -168px; }
-.s28.food.drink-coffee-tea1    { background-position:   -0px -196px; }
-.s28.food.drink-coffee-tea2    { background-position:   -0px -224px; }
-.s28.food.drink-glass-champagne { background-position:   -0px -252px; }
-.s28.food.drink-glass-wine3-sc44 { background-position:   -0px -280px; }
-.s28.food.drink-glass-wine3    { background-position:   -0px -308px; }
-.s28.food.drink-glass1         { background-position:   -0px -336px; }
-.s28.food.drink-glass2         { background-position:   -0px -364px; }
-.s28.food.drink-glass3-sc44    { background-position:   -0px -392px; }
-.s28.food.drink-glass4-sc44    { background-position:   -0px -420px; }
-.s28.food.drink-glass5-sc48    { background-position:   -0px -448px; }
-.s28.food.egg-sc48             { background-position:   -0px -476px; }
-.s28.food.food-apple1-sc44     { background-position:   -0px -504px; }
-.s28.food.food-apple2-sc44     { background-position:   -0px -532px; }
-.s28.food.food-banana          { background-position:   -0px -560px; }
-.s28.food.food-banana1-sc44    { background-position:   -0px -588px; }
-.s28.food.food-bell-peppers-sc44 { background-position:   -0px -616px; }
-.s28.food.food-blueberries-sc44 { background-position:   -0px -644px; }
-.s28.food.food-bread-sc44      { background-position:   -0px -672px; }
-.s28.food.food-carrot          { background-position:   -0px -700px; }
-.s28.food.food-cheese-sc44     { background-position:   -0px -728px; }
-.s28.food.food-cheese          { background-position:   -0px -756px; }
-.s28.food.food-cherries1-sc44  { background-position:   -0px -784px; }
-.s28.food.food-cherries2-sc48  { background-position:   -0px -812px; }
-.s28.food.food-corn-sc44       { background-position:   -0px -840px; }
-.s28.food.food-drink-sandwich1 { background-position:   -0px -868px; }
-.s28.food.food-grapefruit-sc44 { background-position:   -0px -896px; }
-.s28.food.food-grapes          { background-position:   -0px -924px; }
-.s28.food.food-grapes1         { background-position:   -0px -952px; }
-.s28.food.food-grapes3-sc44    { background-position:   -0px -980px; }
-.s28.food.food-grapes4-sc44    { background-position:   -0px -1008px; }
-.s28.food.food-hamburger       { background-position:   -0px -1036px; }
-.s28.food.food-hot-pepper      { background-position:   -0px -1064px; }
-.s28.food.food-jalapenos-sc43  { background-position:   -0px -1092px; }
-.s28.food.food-lemon1-sc44     { background-position:   -0px -1120px; }
-.s28.food.food-lemon2-sc44     { background-position:   -0px -1148px; }
-.s28.food.food-mushroom        { background-position:   -0px -1176px; }
-.s28.food.food-orange-sc44     { background-position:   -0px -1204px; }
-.s28.food.food-peach-sc44      { background-position:   -0px -1232px; }
-.s28.food.food-pear1-sc44      { background-position:   -0px -1260px; }
-.s28.food.food-pear3-sc48      { background-position:   -0px -1288px; }
-.s28.food.food-pepper          { background-position:   -0px -1316px; }
-.s28.food.food-pie-sc44        { background-position:   -0px -1344px; }
-.s28.food.food-pineapple-sc44  { background-position:   -0px -1372px; }
-.s28.food.food-pizza           { background-position:   -0px -1400px; }
-.s28.food.food-strawberry      { background-position:   -0px -1428px; }
-.s28.food.food-strawberry5-sc44 { background-position:   -0px -1456px; }
-.s28.food.food-tomatoe-sc44    { background-position:   -0px -1484px; }
-.s28.food.food-tomatoe1-sc44   { background-position:   -0px -1512px; }
-.s28.food.fragile              { background-position:   -0px -1540px; }
-.s28.food.kitchen-cup-sc44     { background-position:   -0px -1568px; }
-.s28.food.kitchen-cup1-sc44    { background-position:   -0px -1596px; }
-.s28.food.kitchen-pot-sc52     { background-position:   -0px -1624px; }
-.s28.food.kitchen-stove-sc52   { background-position:   -0px -1652px; }
-.s28.food.knife-fork-sc44      { background-position:   -0px -1680px; }
-.s28.food.knife-fork           { background-position:   -0px -1708px; }
-.s28.food.knife-fork2          { background-position:   -0px -1736px; }
-.s28.food.knife-fork3          { background-position:   -0px -1764px; }
-.s28.food.knife-fork4          { background-position:   -0px -1792px; }
-.s28.food.microwave            { background-position:   -0px -1820px; }
-.s28.food.no-food-allowed      { background-position:   -0px -1848px; }
-.s28.food.pitcher              { background-position:   -0px -1876px; }
-.s28.food.pot                  { background-position:   -0px -1904px; }
-.s28.food.rolling-pin-sc43     { background-position:   -0px -1932px; }
-.s28.food.toaster              { background-position:   -0px -1960px; }
+.s28.food {
+    background:          transparent url("28x28/food.png") no-repeat;
+    width:               28px;
+    height:              28px;
+}
+
+.s28.food.coffee-maker {
+    background-position: -0px -0px;
+}
+
+.s28.food.coffee-tea {
+    background-position: -0px -28px;
+}
+
+.s28.food.corkscrew-sc43 {
+    background-position: -0px -56px;
+}
+
+.s28.food.drink-bottle-champagne {
+    background-position: -0px -84px;
+}
+
+.s28.food.drink-bottle1 {
+    background-position: -0px -112px;
+}
+
+.s28.food.drink-bottle2 {
+    background-position: -0px -140px;
+}
+
+.s28.food.drink-coffee-tea-sc44 {
+    background-position: -0px -168px;
+}
+
+.s28.food.drink-coffee-tea1 {
+    background-position: -0px -196px;
+}
+
+.s28.food.drink-coffee-tea2 {
+    background-position: -0px -224px;
+}
+
+.s28.food.drink-glass-champagne {
+    background-position: -0px -252px;
+}
+
+.s28.food.drink-glass-wine3-sc44 {
+    background-position: -0px -280px;
+}
+
+.s28.food.drink-glass-wine3 {
+    background-position: -0px -308px;
+}
+
+.s28.food.drink-glass1 {
+    background-position: -0px -336px;
+}
+
+.s28.food.drink-glass2 {
+    background-position: -0px -364px;
+}
+
+.s28.food.drink-glass3-sc44 {
+    background-position: -0px -392px;
+}
+
+.s28.food.drink-glass4-sc44 {
+    background-position: -0px -420px;
+}
+
+.s28.food.drink-glass5-sc48 {
+    background-position: -0px -448px;
+}
+
+.s28.food.egg-sc48 {
+    background-position: -0px -476px;
+}
+
+.s28.food.food-apple1-sc44 {
+    background-position: -0px -504px;
+}
+
+.s28.food.food-apple2-sc44 {
+    background-position: -0px -532px;
+}
+
+.s28.food.food-banana {
+    background-position: -0px -560px;
+}
+
+.s28.food.food-banana1-sc44 {
+    background-position: -0px -588px;
+}
+
+.s28.food.food-bell-peppers-sc44 {
+    background-position: -0px -616px;
+}
+
+.s28.food.food-blueberries-sc44 {
+    background-position: -0px -644px;
+}
+
+.s28.food.food-bread-sc44 {
+    background-position: -0px -672px;
+}
+
+.s28.food.food-carrot {
+    background-position: -0px -700px;
+}
+
+.s28.food.food-cheese-sc44 {
+    background-position: -0px -728px;
+}
+
+.s28.food.food-cheese {
+    background-position: -0px -756px;
+}
+
+.s28.food.food-cherries1-sc44 {
+    background-position: -0px -784px;
+}
+
+.s28.food.food-cherries2-sc48 {
+    background-position: -0px -812px;
+}
+
+.s28.food.food-corn-sc44 {
+    background-position: -0px -840px;
+}
+
+.s28.food.food-drink-sandwich1 {
+    background-position: -0px -868px;
+}
+
+.s28.food.food-grapefruit-sc44 {
+    background-position: -0px -896px;
+}
+
+.s28.food.food-grapes {
+    background-position: -0px -924px;
+}
+
+.s28.food.food-grapes1 {
+    background-position: -0px -952px;
+}
+
+.s28.food.food-grapes3-sc44 {
+    background-position: -0px -980px;
+}
+
+.s28.food.food-grapes4-sc44 {
+    background-position: -0px -1008px;
+}
+
+.s28.food.food-hamburger {
+    background-position: -0px -1036px;
+}
+
+.s28.food.food-hot-pepper {
+    background-position: -0px -1064px;
+}
+
+.s28.food.food-jalapenos-sc43 {
+    background-position: -0px -1092px;
+}
+
+.s28.food.food-lemon1-sc44 {
+    background-position: -0px -1120px;
+}
+
+.s28.food.food-lemon2-sc44 {
+    background-position: -0px -1148px;
+}
+
+.s28.food.food-mushroom {
+    background-position: -0px -1176px;
+}
+
+.s28.food.food-orange-sc44 {
+    background-position: -0px -1204px;
+}
+
+.s28.food.food-peach-sc44 {
+    background-position: -0px -1232px;
+}
+
+.s28.food.food-pear1-sc44 {
+    background-position: -0px -1260px;
+}
+
+.s28.food.food-pear3-sc48 {
+    background-position: -0px -1288px;
+}
+
+.s28.food.food-pepper {
+    background-position: -0px -1316px;
+}
+
+.s28.food.food-pie-sc44 {
+    background-position: -0px -1344px;
+}
+
+.s28.food.food-pineapple-sc44 {
+    background-position: -0px -1372px;
+}
+
+.s28.food.food-pizza {
+    background-position: -0px -1400px;
+}
+
+.s28.food.food-strawberry {
+    background-position: -0px -1428px;
+}
+
+.s28.food.food-strawberry5-sc44 {
+    background-position: -0px -1456px;
+}
+
+.s28.food.food-tomatoe-sc44 {
+    background-position: -0px -1484px;
+}
+
+.s28.food.food-tomatoe1-sc44 {
+    background-position: -0px -1512px;
+}
+
+.s28.food.fragile {
+    background-position: -0px -1540px;
+}
+
+.s28.food.kitchen-cup-sc44 {
+    background-position: -0px -1568px;
+}
+
+.s28.food.kitchen-cup1-sc44 {
+    background-position: -0px -1596px;
+}
+
+.s28.food.kitchen-pot-sc52 {
+    background-position: -0px -1624px;
+}
+
+.s28.food.kitchen-stove-sc52 {
+    background-position: -0px -1652px;
+}
+
+.s28.food.knife-fork-sc44 {
+    background-position: -0px -1680px;
+}
+
+.s28.food.knife-fork {
+    background-position: -0px -1708px;
+}
+
+.s28.food.knife-fork2 {
+    background-position: -0px -1736px;
+}
+
+.s28.food.knife-fork3 {
+    background-position: -0px -1764px;
+}
+
+.s28.food.knife-fork4 {
+    background-position: -0px -1792px;
+}
+
+.s28.food.microwave {
+    background-position: -0px -1820px;
+}
+
+.s28.food.no-food-allowed {
+    background-position: -0px -1848px;
+}
+
+.s28.food.pitcher {
+    background-position: -0px -1876px;
+}
+
+.s28.food.pot {
+    background-position: -0px -1904px;
+}
+
+.s28.food.rolling-pin-sc43 {
+    background-position: -0px -1932px;
+}
+
+.s28.food.toaster {
+    background-position: -0px -1960px;
+}

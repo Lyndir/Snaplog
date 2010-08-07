@@ -1,124 +1,497 @@
-.s64.arrows                      { background: transparent url("64x64/arrows.png") no-repeat; width: 64px; height: 64px; }
-.s64.arrows.arrow-1turn2-down    { background-position:   -0px   -0px; }
-.s64.arrows.arrow-check          { background-position:   -0px  -64px; }
-.s64.arrows.arrow-circle-refresh { background-position:   -0px -128px; }
-.s64.arrows.arrow-curvy-down     { background-position:   -0px -192px; }
-.s64.arrows.arrow-dotted-down    { background-position:   -0px -256px; }
-.s64.arrows.arrow-dotted-left    { background-position:   -0px -320px; }
-.s64.arrows.arrow-dotted-ne      { background-position:   -0px -384px; }
-.s64.arrows.arrow-dotted-nw      { background-position:   -0px -448px; }
-.s64.arrows.arrow-dotted-right   { background-position:   -0px -512px; }
-.s64.arrows.arrow-dotted-se      { background-position:   -0px -576px; }
-.s64.arrows.arrow-dotted-sw      { background-position:   -0px -640px; }
-.s64.arrows.arrow-dotted-up      { background-position:   -0px -704px; }
-.s64.arrows.arrow-keyboard       { background-position:   -0px -768px; }
-.s64.arrows.arrow-more           { background-position:   -0px -832px; }
-.s64.arrows.arrow-move           { background-position:   -0px -896px; }
-.s64.arrows.arrow-northeast      { background-position:   -0px -960px; }
-.s64.arrows.arrow-northwest      { background-position:   -0px -1024px; }
-.s64.arrows.arrow-redirect-down  { background-position:   -0px -1088px; }
-.s64.arrows.arrow-redirect-left  { background-position:   -0px -1152px; }
-.s64.arrows.arrow-redirect-left1-ps { background-position:   -0px -1216px; }
-.s64.arrows.arrow-redirect-right { background-position:   -0px -1280px; }
-.s64.arrows.arrow-redirect-right1-ps { background-position:   -0px -1344px; }
-.s64.arrows.arrow-redirect-up    { background-position:   -0px -1408px; }
-.s64.arrows.arrow-redo           { background-position:   -0px -1472px; }
-.s64.arrows.arrow-ring1          { background-position:   -0px -1536px; }
-.s64.arrows.arrow-solid-down     { background-position:   -0px -1600px; }
-.s64.arrows.arrow-solid-left     { background-position:   -0px -1664px; }
-.s64.arrows.arrow-solid-right    { background-position:   -0px -1728px; }
-.s64.arrows.arrow-solid-up       { background-position:   -0px -1792px; }
-.s64.arrows.arrow-sparkle        { background-position:   -0px -1856px; }
-.s64.arrows.arrow-styled-left    { background-position:   -0px -1920px; }
-.s64.arrows.arrow-styled-right   { background-position:   -0px -1984px; }
-.s64.arrows.arrow-thick-down     { background-position:   -0px -2048px; }
-.s64.arrows.arrow-thick-left     { background-position:   -0px -2112px; }
-.s64.arrows.arrow-thick-right    { background-position:   -0px -2176px; }
-.s64.arrows.arrow-thick-up       { background-position:   -0px -2240px; }
-.s64.arrows.arrow-undo           { background-position:   -0px -2304px; }
-.s64.arrows.arrow-up             { background-position:   -0px -2368px; }
-.s64.arrows.arrow1-left-right1   { background-position:   -0px -2432px; }
-.s64.arrows.arrow1-solid-down    { background-position:   -0px -2496px; }
-.s64.arrows.arrow1-solid-left    { background-position:   -0px -2560px; }
-.s64.arrows.arrow1-solid-right   { background-position:   -0px -2624px; }
-.s64.arrows.arrow1-solid-up      { background-position:   -0px -2688px; }
-.s64.arrows.arrow11-left-ps      { background-position:   -0px -2752px; }
-.s64.arrows.arrow11-right        { background-position:   -0px -2816px; }
-.s64.arrows.arrow2-download      { background-position:   -0px -2880px; }
-.s64.arrows.arrow2-left-load     { background-position:   -0px -2944px; }
-.s64.arrows.arrow2-right-load    { background-position:   -0px -3008px; }
-.s64.arrows.arrow2-upload        { background-position:   -0px -3072px; }
-.s64.arrows.arrow3-down-solid-circle { background-position:   -0px -3136px; }
-.s64.arrows.arrow3-left-solid-circle { background-position:   -0px -3200px; }
-.s64.arrows.arrow3-right-solid-circle { background-position:   -0px -3264px; }
-.s64.arrows.arrow3-up-solid-circle { background-position:   -0px -3328px; }
-.s64.arrows.arrow4-down          { background-position:   -0px -3392px; }
-.s64.arrows.arrow4-left          { background-position:   -0px -3456px; }
-.s64.arrows.arrow4-right         { background-position:   -0px -3520px; }
-.s64.arrows.arrow4-southeast     { background-position:   -0px -3584px; }
-.s64.arrows.arrow4-southwest     { background-position:   -0px -3648px; }
-.s64.arrows.arrowhead-solid-left { background-position:   -0px -3712px; }
-.s64.arrows.arrowhead-solid-right { background-position:   -0px -3776px; }
-.s64.arrows.arrowhead2-left      { background-position:   -0px -3840px; }
-.s64.arrows.arrowhead2-right     { background-position:   -0px -3904px; }
-.s64.arrows.arrows-rotated       { background-position:   -0px -3968px; }
-.s64.arrows.arrows-up-down1      { background-position:   -0px -4032px; }
-.s64.arrows.arrows1-shuffle      { background-position:   -0px -4096px; }
-.s64.arrows.arrows1-track-back   { background-position:   -0px -4160px; }
-.s64.arrows.circled-arrow-down-sc44 { background-position:   -0px -4224px; }
-.s64.arrows.circled-arrow-left-sc44 { background-position:   -0px -4288px; }
-.s64.arrows.circled-arrow-right-sc44 { background-position:   -0px -4352px; }
-.s64.arrows.circled-arrow-up-sc44 { background-position:   -0px -4416px; }
-.s64.arrows.cut-arrow-down       { background-position:   -0px -4480px; }
-.s64.arrows.cut-arrow-left       { background-position:   -0px -4544px; }
-.s64.arrows.cut-arrow-right      { background-position:   -0px -4608px; }
-.s64.arrows.cut-arrow-up         { background-position:   -0px -4672px; }
-.s64.arrows.dotted-arrow-down    { background-position:   -0px -4736px; }
-.s64.arrows.dotted-arrow-left    { background-position:   -0px -4800px; }
-.s64.arrows.dotted-arrow-right   { background-position:   -0px -4864px; }
-.s64.arrows.dotted-arrow-up      { background-position:   -0px -4928px; }
-.s64.arrows.double-arrowhead-left { background-position:   -0px -4992px; }
-.s64.arrows.double-arrowhead-right { background-position:   -0px -5056px; }
-.s64.arrows.hand-clear-pointer-down { background-position:   -0px -5120px; }
-.s64.arrows.hand-clear-pointer-left { background-position:   -0px -5184px; }
-.s64.arrows.hand-clear-pointer-right { background-position:   -0px -5248px; }
-.s64.arrows.hand-clear-pointer-up { background-position:   -0px -5312px; }
-.s64.arrows.hand-pointer-up      { background-position:   -0px -5376px; }
-.s64.arrows.hand-pointer1-down   { background-position:   -0px -5440px; }
-.s64.arrows.hand-pointer1-left   { background-position:   -0px -5504px; }
-.s64.arrows.hand-pointer1-right  { background-position:   -0px -5568px; }
-.s64.arrows.hand-pointer1-up     { background-position:   -0px -5632px; }
-.s64.arrows.hand-pointer1        { background-position:   -0px -5696px; }
-.s64.arrows.last-arrow-down      { background-position:   -0px -5760px; }
-.s64.arrows.last-arrow-left      { background-position:   -0px -5824px; }
-.s64.arrows.last-arrow-right     { background-position:   -0px -5888px; }
-.s64.arrows.last-arrow-up        { background-position:   -0px -5952px; }
-.s64.arrows.pointer-solid        { background-position:   -0px -6016px; }
-.s64.arrows.solid-hand-points-down { background-position:   -0px -6080px; }
-.s64.arrows.solid-hand-points-left { background-position:   -0px -6144px; }
-.s64.arrows.solid-hand-points-right { background-position:   -0px -6208px; }
-.s64.arrows.solid-hand-points-up { background-position:   -0px -6272px; }
-.s64.arrows.triangle-circle-down { background-position:   -0px -6336px; }
-.s64.arrows.triangle-circle-left { background-position:   -0px -6400px; }
-.s64.arrows.triangle-circle-right { background-position:   -0px -6464px; }
-.s64.arrows.triangle-circle-up   { background-position:   -0px -6528px; }
-.s64.arrows.triangle-clear-circle-down { background-position:   -0px -6592px; }
-.s64.arrows.triangle-clear-circle-left { background-position:   -0px -6656px; }
-.s64.arrows.triangle-clear-circle-righ { background-position:   -0px -6720px; }
-.s64.arrows.triangle-clear-circle-up { background-position:   -0px -6784px; }
-.s64.arrows.triangle-clear-down  { background-position:   -0px -6848px; }
-.s64.arrows.triangle-clear-left  { background-position:   -0px -6912px; }
-.s64.arrows.triangle-clear-right { background-position:   -0px -6976px; }
-.s64.arrows.triangle-clear-up    { background-position:   -0px -7040px; }
-.s64.arrows.triangle-solid-down  { background-position:   -0px -7104px; }
-.s64.arrows.triangle-solid-left  { background-position:   -0px -7168px; }
-.s64.arrows.triangle-solid-right { background-position:   -0px -7232px; }
-.s64.arrows.triangle-solid-up    { background-position:   -0px -7296px; }
-.s64.arrows.two-directions-left-right { background-position:   -0px -7360px; }
-.s64.arrows.two-directions-left-right1 { background-position:   -0px -7424px; }
-.s64.arrows.two-directions-up-down { background-position:   -0px -7488px; }
-.s64.arrows.two-directions-up-down1 { background-position:   -0px -7552px; }
-.s64.arrows.two-directions-up-down2 { background-position:   -0px -7616px; }
-.s64.arrows.two-directions       { background-position:   -0px -7680px; }
-.s64.arrows.two-ways-left-right  { background-position:   -0px -7744px; }
-.s64.arrows.two-ways-up-down     { background-position:   -0px -7808px; }
+.s64.arrows {
+    background:          transparent url("64x64/arrows.png") no-repeat;
+    width:               64px;
+    height:              64px;
+}
+
+.s64.arrows.arrow-1turn2-down {
+    background-position: -0px -0px;
+}
+
+.s64.arrows.arrow-check {
+    background-position: -0px -64px;
+}
+
+.s64.arrows.arrow-circle-refresh {
+    background-position: -0px -128px;
+}
+
+.s64.arrows.arrow-curvy-down {
+    background-position: -0px -192px;
+}
+
+.s64.arrows.arrow-dotted-down {
+    background-position: -0px -256px;
+}
+
+.s64.arrows.arrow-dotted-left {
+    background-position: -0px -320px;
+}
+
+.s64.arrows.arrow-dotted-ne {
+    background-position: -0px -384px;
+}
+
+.s64.arrows.arrow-dotted-nw {
+    background-position: -0px -448px;
+}
+
+.s64.arrows.arrow-dotted-right {
+    background-position: -0px -512px;
+}
+
+.s64.arrows.arrow-dotted-se {
+    background-position: -0px -576px;
+}
+
+.s64.arrows.arrow-dotted-sw {
+    background-position: -0px -640px;
+}
+
+.s64.arrows.arrow-dotted-up {
+    background-position: -0px -704px;
+}
+
+.s64.arrows.arrow-keyboard {
+    background-position: -0px -768px;
+}
+
+.s64.arrows.arrow-more {
+    background-position: -0px -832px;
+}
+
+.s64.arrows.arrow-move {
+    background-position: -0px -896px;
+}
+
+.s64.arrows.arrow-northeast {
+    background-position: -0px -960px;
+}
+
+.s64.arrows.arrow-northwest {
+    background-position: -0px -1024px;
+}
+
+.s64.arrows.arrow-redirect-down {
+    background-position: -0px -1088px;
+}
+
+.s64.arrows.arrow-redirect-left {
+    background-position: -0px -1152px;
+}
+
+.s64.arrows.arrow-redirect-left1-ps {
+    background-position: -0px -1216px;
+}
+
+.s64.arrows.arrow-redirect-right {
+    background-position: -0px -1280px;
+}
+
+.s64.arrows.arrow-redirect-right1-ps {
+    background-position: -0px -1344px;
+}
+
+.s64.arrows.arrow-redirect-up {
+    background-position: -0px -1408px;
+}
+
+.s64.arrows.arrow-redo {
+    background-position: -0px -1472px;
+}
+
+.s64.arrows.arrow-ring1 {
+    background-position: -0px -1536px;
+}
+
+.s64.arrows.arrow-solid-down {
+    background-position: -0px -1600px;
+}
+
+.s64.arrows.arrow-solid-left {
+    background-position: -0px -1664px;
+}
+
+.s64.arrows.arrow-solid-right {
+    background-position: -0px -1728px;
+}
+
+.s64.arrows.arrow-solid-up {
+    background-position: -0px -1792px;
+}
+
+.s64.arrows.arrow-sparkle {
+    background-position: -0px -1856px;
+}
+
+.s64.arrows.arrow-styled-left {
+    background-position: -0px -1920px;
+}
+
+.s64.arrows.arrow-styled-right {
+    background-position: -0px -1984px;
+}
+
+.s64.arrows.arrow-thick-down {
+    background-position: -0px -2048px;
+}
+
+.s64.arrows.arrow-thick-left {
+    background-position: -0px -2112px;
+}
+
+.s64.arrows.arrow-thick-right {
+    background-position: -0px -2176px;
+}
+
+.s64.arrows.arrow-thick-up {
+    background-position: -0px -2240px;
+}
+
+.s64.arrows.arrow-undo {
+    background-position: -0px -2304px;
+}
+
+.s64.arrows.arrow-up {
+    background-position: -0px -2368px;
+}
+
+.s64.arrows.arrow1-left-right1 {
+    background-position: -0px -2432px;
+}
+
+.s64.arrows.arrow1-solid-down {
+    background-position: -0px -2496px;
+}
+
+.s64.arrows.arrow1-solid-left {
+    background-position: -0px -2560px;
+}
+
+.s64.arrows.arrow1-solid-right {
+    background-position: -0px -2624px;
+}
+
+.s64.arrows.arrow1-solid-up {
+    background-position: -0px -2688px;
+}
+
+.s64.arrows.arrow11-left-ps {
+    background-position: -0px -2752px;
+}
+
+.s64.arrows.arrow11-right {
+    background-position: -0px -2816px;
+}
+
+.s64.arrows.arrow2-download {
+    background-position: -0px -2880px;
+}
+
+.s64.arrows.arrow2-left-load {
+    background-position: -0px -2944px;
+}
+
+.s64.arrows.arrow2-right-load {
+    background-position: -0px -3008px;
+}
+
+.s64.arrows.arrow2-upload {
+    background-position: -0px -3072px;
+}
+
+.s64.arrows.arrow3-down-solid-circle {
+    background-position: -0px -3136px;
+}
+
+.s64.arrows.arrow3-left-solid-circle {
+    background-position: -0px -3200px;
+}
+
+.s64.arrows.arrow3-right-solid-circle {
+    background-position: -0px -3264px;
+}
+
+.s64.arrows.arrow3-up-solid-circle {
+    background-position: -0px -3328px;
+}
+
+.s64.arrows.arrow4-down {
+    background-position: -0px -3392px;
+}
+
+.s64.arrows.arrow4-left {
+    background-position: -0px -3456px;
+}
+
+.s64.arrows.arrow4-right {
+    background-position: -0px -3520px;
+}
+
+.s64.arrows.arrow4-southeast {
+    background-position: -0px -3584px;
+}
+
+.s64.arrows.arrow4-southwest {
+    background-position: -0px -3648px;
+}
+
+.s64.arrows.arrowhead-solid-left {
+    background-position: -0px -3712px;
+}
+
+.s64.arrows.arrowhead-solid-right {
+    background-position: -0px -3776px;
+}
+
+.s64.arrows.arrowhead2-left {
+    background-position: -0px -3840px;
+}
+
+.s64.arrows.arrowhead2-right {
+    background-position: -0px -3904px;
+}
+
+.s64.arrows.arrows-rotated {
+    background-position: -0px -3968px;
+}
+
+.s64.arrows.arrows-up-down1 {
+    background-position: -0px -4032px;
+}
+
+.s64.arrows.arrows1-shuffle {
+    background-position: -0px -4096px;
+}
+
+.s64.arrows.arrows1-track-back {
+    background-position: -0px -4160px;
+}
+
+.s64.arrows.circled-arrow-down-sc44 {
+    background-position: -0px -4224px;
+}
+
+.s64.arrows.circled-arrow-left-sc44 {
+    background-position: -0px -4288px;
+}
+
+.s64.arrows.circled-arrow-right-sc44 {
+    background-position: -0px -4352px;
+}
+
+.s64.arrows.circled-arrow-up-sc44 {
+    background-position: -0px -4416px;
+}
+
+.s64.arrows.cut-arrow-down {
+    background-position: -0px -4480px;
+}
+
+.s64.arrows.cut-arrow-left {
+    background-position: -0px -4544px;
+}
+
+.s64.arrows.cut-arrow-right {
+    background-position: -0px -4608px;
+}
+
+.s64.arrows.cut-arrow-up {
+    background-position: -0px -4672px;
+}
+
+.s64.arrows.dotted-arrow-down {
+    background-position: -0px -4736px;
+}
+
+.s64.arrows.dotted-arrow-left {
+    background-position: -0px -4800px;
+}
+
+.s64.arrows.dotted-arrow-right {
+    background-position: -0px -4864px;
+}
+
+.s64.arrows.dotted-arrow-up {
+    background-position: -0px -4928px;
+}
+
+.s64.arrows.double-arrowhead-left {
+    background-position: -0px -4992px;
+}
+
+.s64.arrows.double-arrowhead-right {
+    background-position: -0px -5056px;
+}
+
+.s64.arrows.hand-clear-pointer-down {
+    background-position: -0px -5120px;
+}
+
+.s64.arrows.hand-clear-pointer-left {
+    background-position: -0px -5184px;
+}
+
+.s64.arrows.hand-clear-pointer-right {
+    background-position: -0px -5248px;
+}
+
+.s64.arrows.hand-clear-pointer-up {
+    background-position: -0px -5312px;
+}
+
+.s64.arrows.hand-pointer-up {
+    background-position: -0px -5376px;
+}
+
+.s64.arrows.hand-pointer1-down {
+    background-position: -0px -5440px;
+}
+
+.s64.arrows.hand-pointer1-left {
+    background-position: -0px -5504px;
+}
+
+.s64.arrows.hand-pointer1-right {
+    background-position: -0px -5568px;
+}
+
+.s64.arrows.hand-pointer1-up {
+    background-position: -0px -5632px;
+}
+
+.s64.arrows.hand-pointer1 {
+    background-position: -0px -5696px;
+}
+
+.s64.arrows.last-arrow-down {
+    background-position: -0px -5760px;
+}
+
+.s64.arrows.last-arrow-left {
+    background-position: -0px -5824px;
+}
+
+.s64.arrows.last-arrow-right {
+    background-position: -0px -5888px;
+}
+
+.s64.arrows.last-arrow-up {
+    background-position: -0px -5952px;
+}
+
+.s64.arrows.pointer-solid {
+    background-position: -0px -6016px;
+}
+
+.s64.arrows.solid-hand-points-down {
+    background-position: -0px -6080px;
+}
+
+.s64.arrows.solid-hand-points-left {
+    background-position: -0px -6144px;
+}
+
+.s64.arrows.solid-hand-points-right {
+    background-position: -0px -6208px;
+}
+
+.s64.arrows.solid-hand-points-up {
+    background-position: -0px -6272px;
+}
+
+.s64.arrows.triangle-circle-down {
+    background-position: -0px -6336px;
+}
+
+.s64.arrows.triangle-circle-left {
+    background-position: -0px -6400px;
+}
+
+.s64.arrows.triangle-circle-right {
+    background-position: -0px -6464px;
+}
+
+.s64.arrows.triangle-circle-up {
+    background-position: -0px -6528px;
+}
+
+.s64.arrows.triangle-clear-circle-down {
+    background-position: -0px -6592px;
+}
+
+.s64.arrows.triangle-clear-circle-left {
+    background-position: -0px -6656px;
+}
+
+.s64.arrows.triangle-clear-circle-righ {
+    background-position: -0px -6720px;
+}
+
+.s64.arrows.triangle-clear-circle-up {
+    background-position: -0px -6784px;
+}
+
+.s64.arrows.triangle-clear-down {
+    background-position: -0px -6848px;
+}
+
+.s64.arrows.triangle-clear-left {
+    background-position: -0px -6912px;
+}
+
+.s64.arrows.triangle-clear-right {
+    background-position: -0px -6976px;
+}
+
+.s64.arrows.triangle-clear-up {
+    background-position: -0px -7040px;
+}
+
+.s64.arrows.triangle-solid-down {
+    background-position: -0px -7104px;
+}
+
+.s64.arrows.triangle-solid-left {
+    background-position: -0px -7168px;
+}
+
+.s64.arrows.triangle-solid-right {
+    background-position: -0px -7232px;
+}
+
+.s64.arrows.triangle-solid-up {
+    background-position: -0px -7296px;
+}
+
+.s64.arrows.two-directions-left-right {
+    background-position: -0px -7360px;
+}
+
+.s64.arrows.two-directions-left-right1 {
+    background-position: -0px -7424px;
+}
+
+.s64.arrows.two-directions-up-down {
+    background-position: -0px -7488px;
+}
+
+.s64.arrows.two-directions-up-down1 {
+    background-position: -0px -7552px;
+}
+
+.s64.arrows.two-directions-up-down2 {
+    background-position: -0px -7616px;
+}
+
+.s64.arrows.two-directions {
+    background-position: -0px -7680px;
+}
+
+.s64.arrows.two-ways-left-right {
+    background-position: -0px -7744px;
+}
+
+.s64.arrows.two-ways-up-down {
+    background-position: -0px -7808px;
+}

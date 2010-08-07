@@ -78,9 +78,9 @@ public class MediaDAOImpl implements MediaDAO {
             Query query = db.query();
             query.constrain( Media.class ) //
                     .and( query.descend( "name" ) //
-                            .constrain( mediaName ) ) //
+                                  .constrain( mediaName ) ) //
                     .and( query.descend( "album" ) //
-                            .constrain( album ) );
+                                  .constrain( album ) );
 
             ObjectSet<M> results = query.execute();
             if (results.hasNext()) {
@@ -105,7 +105,7 @@ public class MediaDAOImpl implements MediaDAO {
             Query query = db.query();
             query.constrain( MediaData.class ) //
                     .and( query.descend( "media" ) //
-                            .constrain( media ) );
+                                  .constrain( media ) );
 
             ObjectSet<D> results = query.execute();
             if (results.hasNext()) {
@@ -128,7 +128,7 @@ public class MediaDAOImpl implements MediaDAO {
         Query query = db.query();
         query.constrain( Media.class ) //
                 .and( query.descend( "album" ) //
-                        .constrain( album ).identity() );
+                              .constrain( album ).identity() );
 
         // TODO: Set the sort order in nq. package too.
         if (ascending)
@@ -145,7 +145,7 @@ public class MediaDAOImpl implements MediaDAO {
         Query query = db.query();
         query.constrain( MediaData.class ) //
                 .and( query.descend( "media" ).descend( "album" )//
-                        .constrain( album ).identity() );
+                              .constrain( album ).identity() );
 
         // TODO: Set the sort order in nq. package too.
         if (ascending)

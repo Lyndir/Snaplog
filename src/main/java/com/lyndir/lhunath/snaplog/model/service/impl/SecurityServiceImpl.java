@@ -81,6 +81,7 @@ public class SecurityServiceImpl implements SecurityService {
                                                                 final Iterator<T> source) {
 
         return Iterators.filter( source, new Predicate<T>() {
+
             @Override
             public boolean apply(final T input) {
 
@@ -94,6 +95,7 @@ public class SecurityServiceImpl implements SecurityService {
                                                                     final ListIterator<T> source) {
 
         return Iterators2.filter( source, new Predicate<T>() {
+
             @Override
             public boolean apply(final T input) {
 
@@ -205,6 +207,7 @@ public class SecurityServiceImpl implements SecurityService {
         assertAccess( Permission.ADMINISTER, token, o );
 
         return Iterators.unmodifiableIterator( new AbstractIterator<Pair<User, Permission>>() {
+
             public final Iterator<User> permittedUsers;
 
             {

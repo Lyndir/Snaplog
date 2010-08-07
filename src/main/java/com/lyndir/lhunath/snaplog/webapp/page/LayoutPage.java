@@ -230,6 +230,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
                 } else if (tool instanceof SnaplogLinkTool) {
                     final SnaplogLinkTool linkTool = (SnaplogLinkTool) tool;
                     link.add( new AjaxEventBehavior( "onClick" ) {
+
                         @Override
                         protected void onEvent(final AjaxRequestTarget target) {
 
@@ -254,6 +255,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
 
         // Global Messages.
         add( messages = new WebMarkupContainer( "messages" ) {
+
             {
                 setOutputMarkupId( true );
 
@@ -280,25 +282,29 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
                         return message.getLevel() <= FeedbackMessage.INFO;
                     }
                 } ) {
+
                     @Override
                     public boolean isVisible() {
 
                         return anyMessage();
                     }
                 } );
-            }} );
+            }
+        } );
 
         // Page Content.
         add( (contentContainer = new WebMarkupContainer( "contentContainer" ) {
 
             {
                 add( new ListView<SnaplogPanelTool>( "toolPanels", new LoadableDetachableModel<List<? extends SnaplogPanelTool>>() {
+
                     @Override
                     protected List<? extends SnaplogPanelTool> load() {
 
                         return ImmutableList.copyOf( toolPanels.keySet() );
                     }
                 } ) {
+
                     @Override
                     protected void populateItem(final ListItem<SnaplogPanelTool> item) {
 
@@ -307,7 +313,8 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
                     }
                 } );
                 add( new WebComponent( CONTENT_PANEL ) );
-            }}).setMarkupId( "content" /* TODO: Wicket should REALLY dig this out of the markup! */ ).setOutputMarkupId( true ) );
+            }
+        }).setMarkupId( "content" /* TODO: Wicket should REALLY dig this out of the markup! */ ).setOutputMarkupId( true ) );
 
         add( pageTitle, userEntry, userSummary, tabsContainer );
     }
@@ -373,7 +380,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
          * @return Text indicating the user has messages.
          */
         IModel<String> userMessages(@KeyAppender(value = @KeyMatch(ifNum = 1, key = "singular", elseKey = "plural"), useValue = true)//
-                int messageCount);
+                                            int messageCount);
 
         /**
          * @param requestCount The amount of pending requests.
@@ -381,7 +388,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
          * @return Text indicating there are pending requests for the active user.
          */
         IModel<String> userRequests(@KeyAppender(value = @KeyMatch(ifNum = 1, key = "singular", elseKey = "plural"), useValue = true)//
-                int requestCount);
+                                            int requestCount);
 
         /**
          * @param user The focused user.
@@ -397,12 +404,12 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
          */
         // TODO: If we want to allow focusing other content; this may need improvement. If not, this may be simplified?
         IModel<String> focusedContent(@KeyAppender(nullKey = "none", notNullKey = "album", useValue = true) //
-                IModel<Album> album);
+                                              IModel<Album> album);
     }
 
 
-    public class SnaplogNavigationController<P extends Panel, S extends FragmentState> extends
-            FragmentNavigationListener.Controller<P, S, SnaplogTab<? extends P, ? extends S>> {
+    public class SnaplogNavigationController<P extends Panel, S extends FragmentState>
+            extends FragmentNavigationListener.Controller<P, S, SnaplogTab<? extends P, ? extends S>> {
 
         @Override
         protected Class<? extends Page> getTabExclusivePage() {

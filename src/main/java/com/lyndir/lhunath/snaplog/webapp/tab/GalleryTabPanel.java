@@ -146,8 +146,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 
             {
                 final WebMarkupContainer container = this;
-                final Component newAlbumForm = new Form<NewAlbumFormModels>( "newAlbumForm",
-                                                                                            getModelObject().newAlbumForm().getModel() ) {
+                final Component newAlbumForm = new Form<NewAlbumFormModels>( "newAlbumForm", getModelObject().newAlbumForm().getModel() ) {
 
                     {
                         add( new DropDownChoice<AlbumProviderType>( "type", getModelObject().type(), getModelObject().types(),

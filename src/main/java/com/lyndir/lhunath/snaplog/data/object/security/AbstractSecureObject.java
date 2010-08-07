@@ -24,8 +24,9 @@ import com.lyndir.lhunath.snaplog.data.object.user.User;
  *
  * <p> <i>Mar 14, 2010</i> </p>
  *
- * @author lhunath
  * @param <P> The type of the parent object.
+ *
+ * @author lhunath
  */
 public abstract class AbstractSecureObject<P extends SecureObject<?>> implements SecureObject<P> {
 

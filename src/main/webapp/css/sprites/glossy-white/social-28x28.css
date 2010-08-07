@@ -1,109 +1,437 @@
-.s28.social                      { background: transparent url("28x28/social.png") no-repeat; width: 28px; height: 28px; }
-.s28.social.aim-logo-square      { background-position:   -0px   -0px; }
-.s28.social.aim                  { background-position:   -0px  -28px; }
-.s28.social.blinklist-logo-square { background-position:   -0px  -56px; }
-.s28.social.blinklist-logo       { background-position:   -0px  -84px; }
-.s28.social.blogger-logo-square  { background-position:   -0px -112px; }
-.s28.social.blogger              { background-position:   -0px -140px; }
-.s28.social.blogmarks-logo-square { background-position:   -0px -168px; }
-.s28.social.blogmarks-logo       { background-position:   -0px -196px; }
-.s28.social.delicious-logo-square { background-position:   -0px -224px; }
-.s28.social.delicious            { background-position:   -0px -252px; }
-.s28.social.designbump-logo-square { background-position:   -0px -280px; }
-.s28.social.designbump-logo      { background-position:   -0px -308px; }
-.s28.social.designfloat-square   { background-position:   -0px -336px; }
-.s28.social.designfloat          { background-position:   -0px -364px; }
-.s28.social.digg-logo            { background-position:   -0px -392px; }
-.s28.social.digg-square          { background-position:   -0px -420px; }
-.s28.social.digg                 { background-position:   -0px -448px; }
-.s28.social.digg2-logo-square    { background-position:   -0px -476px; }
-.s28.social.diglog-square        { background-position:   -0px -504px; }
-.s28.social.diglog               { background-position:   -0px -532px; }
-.s28.social.diigo-logo-square    { background-position:   -0px -560px; }
-.s28.social.diigo-logo           { background-position:   -0px -588px; }
-.s28.social.diigo-logo2-square   { background-position:   -0px -616px; }
-.s28.social.diigo-logo2          { background-position:   -0px -644px; }
-.s28.social.dzone-logo-square    { background-position:   -0px -672px; }
-.s28.social.dzone-logo1          { background-position:   -0px -700px; }
-.s28.social.facebook-logo-square { background-position:   -0px -728px; }
-.s28.social.facebook-logo        { background-position:   -0px -756px; }
-.s28.social.fark-logo            { background-position:   -0px -784px; }
-.s28.social.fark-square          { background-position:   -0px -812px; }
-.s28.social.favorites-square     { background-position:   -0px -840px; }
-.s28.social.favorites            { background-position:   -0px -868px; }
-.s28.social.feedburner-logo-square { background-position:   -0px -896px; }
-.s28.social.feedburner-logo      { background-position:   -0px -924px; }
-.s28.social.flickr-square        { background-position:   -0px -952px; }
-.s28.social.flickr               { background-position:   -0px -980px; }
-.s28.social.friendfeed-logo-square2 { background-position:   -0px -1008px; }
-.s28.social.friendfeed           { background-position:   -0px -1036px; }
-.s28.social.gmail-logo-square2   { background-position:   -0px -1064px; }
-.s28.social.gmail                { background-position:   -0px -1092px; }
-.s28.social.google-g-logo        { background-position:   -0px -1120px; }
-.s28.social.google-logo-square   { background-position:   -0px -1148px; }
-.s28.social.hi5-logo-square2     { background-position:   -0px -1176px; }
-.s28.social.hi5                  { background-position:   -0px -1204px; }
-.s28.social.igoogle              { background-position:   -0px -1232px; }
-.s28.social.igooglr-logo-square  { background-position:   -0px -1260px; }
-.s28.social.lastfm-logo-square   { background-position:   -0px -1288px; }
-.s28.social.lastfm               { background-position:   -0px -1316px; }
-.s28.social.linkedin-logo-square2 { background-position:   -0px -1344px; }
-.s28.social.linkedin-logo        { background-position:   -0px -1372px; }
-.s28.social.mail-square          { background-position:   -0px -1400px; }
-.s28.social.mail                 { background-position:   -0px -1428px; }
-.s28.social.mister-wong-logo-square { background-position:   -0px -1456px; }
-.s28.social.mister-wong-logo     { background-position:   -0px -1484px; }
-.s28.social.mixx-logo-square     { background-position:   -0px -1512px; }
-.s28.social.mixx-logo1           { background-position:   -0px -1540px; }
-.s28.social.msn-logo-square      { background-position:   -0px -1568px; }
-.s28.social.msn-logo             { background-position:   -0px -1596px; }
-.s28.social.myspace-logo-square2 { background-position:   -0px -1624px; }
-.s28.social.myspace-logo         { background-position:   -0px -1652px; }
-.s28.social.netvibes-logo        { background-position:   -0px -1680px; }
-.s28.social.netvibes2-logo-square { background-position:   -0px -1708px; }
-.s28.social.netvous-logo-square  { background-position:   -0px -1736px; }
-.s28.social.netvous-logo         { background-position:   -0px -1764px; }
-.s28.social.newsvine-logo        { background-position:   -0px -1792px; }
-.s28.social.newswire-logo-square { background-position:   -0px -1820px; }
-.s28.social.orkut-logo-square    { background-position:   -0px -1848px; }
-.s28.social.orkut                { background-position:   -0px -1876px; }
-.s28.social.picasa-logo-square2  { background-position:   -0px -1904px; }
-.s28.social.picasa               { background-position:   -0px -1932px; }
-.s28.social.propeller-logo-square2 { background-position:   -0px -1960px; }
-.s28.social.propeller-logo       { background-position:   -0px -1988px; }
-.s28.social.reddit-logo-square   { background-position:   -0px -2016px; }
-.s28.social.reddit-logo          { background-position:   -0px -2044px; }
-.s28.social.rss-badge            { background-position:   -0px -2072px; }
-.s28.social.rss-basic            { background-position:   -0px -2100px; }
-.s28.social.rss-circle           { background-position:   -0px -2128px; }
-.s28.social.rss-cube             { background-position:   -0px -2156px; }
-.s28.social.shout-wire-logo2     { background-position:   -0px -2184px; }
-.s28.social.shoutwire-logo-square { background-position:   -0px -2212px; }
-.s28.social.simpy-logo-square    { background-position:   -0px -2240px; }
-.s28.social.simpy-logo           { background-position:   -0px -2268px; }
-.s28.social.slash-dot-logo-square { background-position:   -0px -2296px; }
-.s28.social.slashdot-logo        { background-position:   -0px -2324px; }
-.s28.social.spurl-logo-square    { background-position:   -0px -2352px; }
-.s28.social.spurl-logo           { background-position:   -0px -2380px; }
-.s28.social.stumbleupon-logo-square { background-position:   -0px -2408px; }
-.s28.social.stumbleupon          { background-position:   -0px -2436px; }
-.s28.social.swik-logo-square     { background-position:   -0px -2464px; }
-.s28.social.swik-logo            { background-position:   -0px -2492px; }
-.s28.social.technorati-logo-square { background-position:   -0px -2520px; }
-.s28.social.technorati-logo      { background-position:   -0px -2548px; }
-.s28.social.technorati-logo2-square { background-position:   -0px -2576px; }
-.s28.social.technorati-logo2     { background-position:   -0px -2604px; }
-.s28.social.twitter-bird2-square { background-position:   -0px -2632px; }
-.s28.social.twitter-bird2        { background-position:   -0px -2660px; }
-.s28.social.twitter-bird3-square { background-position:   -0px -2688px; }
-.s28.social.twitter-bird3        { background-position:   -0px -2716px; }
-.s28.social.twitter-logo-square  { background-position:   -0px -2744px; }
-.s28.social.twitter              { background-position:   -0px -2772px; }
-.s28.social.wordpress-logo-square { background-position:   -0px -2800px; }
-.s28.social.wordpress            { background-position:   -0px -2828px; }
-.s28.social.yahoo-buzz-logo-square2 { background-position:   -0px -2856px; }
-.s28.social.yahoo-buzz           { background-position:   -0px -2884px; }
-.s28.social.yahoo-logo-square    { background-position:   -0px -2912px; }
-.s28.social.yahoo                { background-position:   -0px -2940px; }
-.s28.social.ziki-logo-square2    { background-position:   -0px -2968px; }
-.s28.social.ziki                 { background-position:   -0px -2996px; }
+.s28.social {
+    background:          transparent url("28x28/social.png") no-repeat;
+    width:               28px;
+    height:              28px;
+}
+
+.s28.social.aim-logo-square {
+    background-position: -0px -0px;
+}
+
+.s28.social.aim {
+    background-position: -0px -28px;
+}
+
+.s28.social.blinklist-logo-square {
+    background-position: -0px -56px;
+}
+
+.s28.social.blinklist-logo {
+    background-position: -0px -84px;
+}
+
+.s28.social.blogger-logo-square {
+    background-position: -0px -112px;
+}
+
+.s28.social.blogger {
+    background-position: -0px -140px;
+}
+
+.s28.social.blogmarks-logo-square {
+    background-position: -0px -168px;
+}
+
+.s28.social.blogmarks-logo {
+    background-position: -0px -196px;
+}
+
+.s28.social.delicious-logo-square {
+    background-position: -0px -224px;
+}
+
+.s28.social.delicious {
+    background-position: -0px -252px;
+}
+
+.s28.social.designbump-logo-square {
+    background-position: -0px -280px;
+}
+
+.s28.social.designbump-logo {
+    background-position: -0px -308px;
+}
+
+.s28.social.designfloat-square {
+    background-position: -0px -336px;
+}
+
+.s28.social.designfloat {
+    background-position: -0px -364px;
+}
+
+.s28.social.digg-logo {
+    background-position: -0px -392px;
+}
+
+.s28.social.digg-square {
+    background-position: -0px -420px;
+}
+
+.s28.social.digg {
+    background-position: -0px -448px;
+}
+
+.s28.social.digg2-logo-square {
+    background-position: -0px -476px;
+}
+
+.s28.social.diglog-square {
+    background-position: -0px -504px;
+}
+
+.s28.social.diglog {
+    background-position: -0px -532px;
+}
+
+.s28.social.diigo-logo-square {
+    background-position: -0px -560px;
+}
+
+.s28.social.diigo-logo {
+    background-position: -0px -588px;
+}
+
+.s28.social.diigo-logo2-square {
+    background-position: -0px -616px;
+}
+
+.s28.social.diigo-logo2 {
+    background-position: -0px -644px;
+}
+
+.s28.social.dzone-logo-square {
+    background-position: -0px -672px;
+}
+
+.s28.social.dzone-logo1 {
+    background-position: -0px -700px;
+}
+
+.s28.social.facebook-logo-square {
+    background-position: -0px -728px;
+}
+
+.s28.social.facebook-logo {
+    background-position: -0px -756px;
+}
+
+.s28.social.fark-logo {
+    background-position: -0px -784px;
+}
+
+.s28.social.fark-square {
+    background-position: -0px -812px;
+}
+
+.s28.social.favorites-square {
+    background-position: -0px -840px;
+}
+
+.s28.social.favorites {
+    background-position: -0px -868px;
+}
+
+.s28.social.feedburner-logo-square {
+    background-position: -0px -896px;
+}
+
+.s28.social.feedburner-logo {
+    background-position: -0px -924px;
+}
+
+.s28.social.flickr-square {
+    background-position: -0px -952px;
+}
+
+.s28.social.flickr {
+    background-position: -0px -980px;
+}
+
+.s28.social.friendfeed-logo-square2 {
+    background-position: -0px -1008px;
+}
+
+.s28.social.friendfeed {
+    background-position: -0px -1036px;
+}
+
+.s28.social.gmail-logo-square2 {
+    background-position: -0px -1064px;
+}
+
+.s28.social.gmail {
+    background-position: -0px -1092px;
+}
+
+.s28.social.google-g-logo {
+    background-position: -0px -1120px;
+}
+
+.s28.social.google-logo-square {
+    background-position: -0px -1148px;
+}
+
+.s28.social.hi5-logo-square2 {
+    background-position: -0px -1176px;
+}
+
+.s28.social.hi5 {
+    background-position: -0px -1204px;
+}
+
+.s28.social.igoogle {
+    background-position: -0px -1232px;
+}
+
+.s28.social.igooglr-logo-square {
+    background-position: -0px -1260px;
+}
+
+.s28.social.lastfm-logo-square {
+    background-position: -0px -1288px;
+}
+
+.s28.social.lastfm {
+    background-position: -0px -1316px;
+}
+
+.s28.social.linkedin-logo-square2 {
+    background-position: -0px -1344px;
+}
+
+.s28.social.linkedin-logo {
+    background-position: -0px -1372px;
+}
+
+.s28.social.mail-square {
+    background-position: -0px -1400px;
+}
+
+.s28.social.mail {
+    background-position: -0px -1428px;
+}
+
+.s28.social.mister-wong-logo-square {
+    background-position: -0px -1456px;
+}
+
+.s28.social.mister-wong-logo {
+    background-position: -0px -1484px;
+}
+
+.s28.social.mixx-logo-square {
+    background-position: -0px -1512px;
+}
+
+.s28.social.mixx-logo1 {
+    background-position: -0px -1540px;
+}
+
+.s28.social.msn-logo-square {
+    background-position: -0px -1568px;
+}
+
+.s28.social.msn-logo {
+    background-position: -0px -1596px;
+}
+
+.s28.social.myspace-logo-square2 {
+    background-position: -0px -1624px;
+}
+
+.s28.social.myspace-logo {
+    background-position: -0px -1652px;
+}
+
+.s28.social.netvibes-logo {
+    background-position: -0px -1680px;
+}
+
+.s28.social.netvibes2-logo-square {
+    background-position: -0px -1708px;
+}
+
+.s28.social.netvous-logo-square {
+    background-position: -0px -1736px;
+}
+
+.s28.social.netvous-logo {
+    background-position: -0px -1764px;
+}
+
+.s28.social.newsvine-logo {
+    background-position: -0px -1792px;
+}
+
+.s28.social.newswire-logo-square {
+    background-position: -0px -1820px;
+}
+
+.s28.social.orkut-logo-square {
+    background-position: -0px -1848px;
+}
+
+.s28.social.orkut {
+    background-position: -0px -1876px;
+}
+
+.s28.social.picasa-logo-square2 {
+    background-position: -0px -1904px;
+}
+
+.s28.social.picasa {
+    background-position: -0px -1932px;
+}
+
+.s28.social.propeller-logo-square2 {
+    background-position: -0px -1960px;
+}
+
+.s28.social.propeller-logo {
+    background-position: -0px -1988px;
+}
+
+.s28.social.reddit-logo-square {
+    background-position: -0px -2016px;
+}
+
+.s28.social.reddit-logo {
+    background-position: -0px -2044px;
+}
+
+.s28.social.rss-badge {
+    background-position: -0px -2072px;
+}
+
+.s28.social.rss-basic {
+    background-position: -0px -2100px;
+}
+
+.s28.social.rss-circle {
+    background-position: -0px -2128px;
+}
+
+.s28.social.rss-cube {
+    background-position: -0px -2156px;
+}
+
+.s28.social.shout-wire-logo2 {
+    background-position: -0px -2184px;
+}
+
+.s28.social.shoutwire-logo-square {
+    background-position: -0px -2212px;
+}
+
+.s28.social.simpy-logo-square {
+    background-position: -0px -2240px;
+}
+
+.s28.social.simpy-logo {
+    background-position: -0px -2268px;
+}
+
+.s28.social.slash-dot-logo-square {
+    background-position: -0px -2296px;
+}
+
+.s28.social.slashdot-logo {
+    background-position: -0px -2324px;
+}
+
+.s28.social.spurl-logo-square {
+    background-position: -0px -2352px;
+}
+
+.s28.social.spurl-logo {
+    background-position: -0px -2380px;
+}
+
+.s28.social.stumbleupon-logo-square {
+    background-position: -0px -2408px;
+}
+
+.s28.social.stumbleupon {
+    background-position: -0px -2436px;
+}
+
+.s28.social.swik-logo-square {
+    background-position: -0px -2464px;
+}
+
+.s28.social.swik-logo {
+    background-position: -0px -2492px;
+}
+
+.s28.social.technorati-logo-square {
+    background-position: -0px -2520px;
+}
+
+.s28.social.technorati-logo {
+    background-position: -0px -2548px;
+}
+
+.s28.social.technorati-logo2-square {
+    background-position: -0px -2576px;
+}
+
+.s28.social.technorati-logo2 {
+    background-position: -0px -2604px;
+}
+
+.s28.social.twitter-bird2-square {
+    background-position: -0px -2632px;
+}
+
+.s28.social.twitter-bird2 {
+    background-position: -0px -2660px;
+}
+
+.s28.social.twitter-bird3-square {
+    background-position: -0px -2688px;
+}
+
+.s28.social.twitter-bird3 {
+    background-position: -0px -2716px;
+}
+
+.s28.social.twitter-logo-square {
+    background-position: -0px -2744px;
+}
+
+.s28.social.twitter {
+    background-position: -0px -2772px;
+}
+
+.s28.social.wordpress-logo-square {
+    background-position: -0px -2800px;
+}
+
+.s28.social.wordpress {
+    background-position: -0px -2828px;
+}
+
+.s28.social.yahoo-buzz-logo-square2 {
+    background-position: -0px -2856px;
+}
+
+.s28.social.yahoo-buzz {
+    background-position: -0px -2884px;
+}
+
+.s28.social.yahoo-logo-square {
+    background-position: -0px -2912px;
+}
+
+.s28.social.yahoo {
+    background-position: -0px -2940px;
+}
+
+.s28.social.ziki-logo-square2 {
+    background-position: -0px -2968px;
+}
+
+.s28.social.ziki {
+    background-position: -0px -2996px;
+}

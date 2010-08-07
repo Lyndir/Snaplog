@@ -30,9 +30,10 @@ import java.net.URL;
  *
  * <p> <i>Jan 10, 2010</i> </p>
  *
- * @author lhunath
  * @param <A> The type of {@link Album} this {@link MediaProviderService} provides.
  * @param <M> The type of {@link Media} this {@link MediaProviderService} provides.
+ *
+ * @author lhunath
  */
 public interface MediaProviderService<A extends Album, M extends Media> {
 

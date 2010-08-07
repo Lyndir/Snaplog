@@ -65,7 +65,8 @@ public enum Tab {
         public boolean isVisible() {
 
             return false;
-        }},
+        }
+    },
 
     /**
      * This tab is shown when the user tries to access a page or resource to which he has no access.
@@ -75,7 +76,8 @@ public enum Tab {
         public boolean isVisible() {
 
             return false;
-        }},
+        }
+    },
 
     /**
      * This tab details an error that occurred in the application.
@@ -85,7 +87,8 @@ public enum Tab {
         public boolean isVisible() {
 
             return false;
-        }};
+        }
+    };
 
     static final Logger logger = Logger.get( Tab.class );
 

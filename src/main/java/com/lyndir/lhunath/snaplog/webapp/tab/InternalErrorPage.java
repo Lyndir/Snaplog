@@ -83,12 +83,14 @@ public class InternalErrorPage extends LayoutPage {
             super( id );
 
             add( new TextField<String>( "issueCode", new LoadableDetachableModel<String>() {
+
                 @Override
                 protected String load() {
 
                     return issue.getIssueCode();
                 }
             } ) {
+
                 @Override
                 public boolean isVisible() {
 
@@ -204,7 +206,7 @@ public class InternalErrorPage extends LayoutPage {
 
             checkNotNull( issue, "Issue can't be null when creating state based on it." );
 
-            appendFragment(issueCode = issue.getIssueCode());
+            appendFragment( issueCode = issue.getIssueCode() );
         }
 
         public Issue findIssue()

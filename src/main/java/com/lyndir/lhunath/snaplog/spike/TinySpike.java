@@ -18,12 +18,12 @@ public class TinySpike {
             throws Exception {
 
         Object[] arr = { "a", "b" };
-        foo((Object)arr);
+        foo( (Object) arr );
     }
 
     public static void foo(final Object... args) {
 
         logger.dbg( "%d", args.length );
-        logger.dbg( "%s",args[0] );
+        logger.dbg( "%s", args[0] );
     }
 }

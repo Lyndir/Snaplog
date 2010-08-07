@@ -164,8 +164,11 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
 
                         // Applies for a user whose userName contains the search string (case insensitively).
                         return input != null && queryModel.getObject() != null && queryModel.getObject().length() > 0 && input.getUserName()
-                                .toUpperCase()
-                                .contains( queryModel.getObject().toUpperCase() );
+                                                                                                                              .toUpperCase()
+                                                                                                                              .contains(
+                                                                                                                                      queryModel
+                                                                                                                                              .getObject()
+                                                                                                                                              .toUpperCase() );
                     }
                 }, USERS_PER_PAGE ) {
 
@@ -205,8 +208,11 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
 
                         // Applies for an album whose name contains the search string (case insensitively).
                         return input != null && queryModel.getObject() != null && queryModel.getObject().length() > 0 && input.getName()
-                                .toUpperCase()
-                                .contains( queryModel.getObject().toUpperCase() );
+                                                                                                                              .toUpperCase()
+                                                                                                                              .contains(
+                                                                                                                                      queryModel
+                                                                                                                                              .getObject()
+                                                                                                                                              .toUpperCase() );
                     }
                 }, ALBUMS_PER_PAGE ) {
 
@@ -229,7 +235,8 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
                         } );
                     }
                 } );
-            }}).add( new AjaxFormSubmitBehavior( searchForm, "onsubmit" ) {
+            }
+        }).add( new AjaxFormSubmitBehavior( searchForm, "onsubmit" ) {
 
             @Override
             protected void onSubmit(final AjaxRequestTarget target) {

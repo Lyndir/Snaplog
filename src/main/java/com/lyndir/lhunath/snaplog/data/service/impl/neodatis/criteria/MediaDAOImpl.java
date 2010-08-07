@@ -114,6 +114,7 @@ public class MediaDAOImpl implements MediaDAO {
                                                                      new EqualCriterion( "album", album ) ) );
         List<M> resultsList = Lists.newLinkedList( results );
         Collections.sort( resultsList, new Comparator<M>() {
+
             @Override
             public int compare(final M o1, final M o2) {
 
@@ -131,6 +132,7 @@ public class MediaDAOImpl implements MediaDAO {
                                                                      new EqualCriterion( "media.album", album ) ) );
         List<D> resultsList = Lists.newLinkedList( results );
         Collections.sort( resultsList, new Comparator<D>() {
+
             @Override
             public int compare(final D o1, final D o2) {
 

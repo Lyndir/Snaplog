@@ -128,4 +128,5 @@ public class AccessDeniedErrorPage extends LayoutPage {
 
             return AccessDeniedErrorTab.instance.getTabFragment();
         }
-    }}
+    }
+}

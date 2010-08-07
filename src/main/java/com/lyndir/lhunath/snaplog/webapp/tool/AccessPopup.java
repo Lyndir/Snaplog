@@ -121,6 +121,7 @@ public class AccessPopup extends PopupPanel<Album> {
                         final Permission permission = permissionItem.getModelObject();
 
                         permissionItem.add( new AjaxLink<Object>( "toggle" ) {
+
                             {
                                 add( permission.newSprite( "icon", 64 ) );
                                 add( new Label( "label", permission.objectDescription() ) );
@@ -143,7 +144,7 @@ public class AccessPopup extends PopupPanel<Album> {
                                 }
                             }
                         }.add( new SimpleAttributeModifier( "title", permission.info( AccessPopup.this.getModelObject() ) ) ) //
-                                .add( new CSSClassAttributeAppender( permission == userPermission? "on": null ) ) );
+                                                    .add( new CSSClassAttributeAppender( permission == userPermission? "on": null ) ) );
                     }
                 } );
             }
@@ -179,26 +180,28 @@ public class AccessPopup extends PopupPanel<Album> {
                                     error( e.getLocalizedMessage() );
                                 }
                             }
-                        }.add( new SimpleAttributeModifier( "title", permission.info( AccessPopup.this.getModelObject() ) ) ) //
-                                .add( CSSClassAttributeAppender.of( new LoadableDetachableModel<String>() {
-                            @Override
-                            protected String load() {
+                        }.add( new SimpleAttributeModifier( "title", permission.info( AccessPopup.this.getModelObject() ) ) )
+                         .add( CSSClassAttributeAppender.of( new LoadableDetachableModel<String>() {
 
-                                try {
-                                    if (permission == securityService.getDefaultPermission( SnaplogSession.get().newToken(),
-                                                                                            AccessPopup.this.getModelObject() ))
-                                        return "on";
-                                }
-                                catch (PermissionDeniedException e) {
-                                    error( e.getLocalizedMessage() );
-                                }
+                             @Override
+                             protected String load() {
 
-                                return null;
-                            }
-                        } ) ) );
+                                 try {
+                                     if (permission == securityService.getDefaultPermission( SnaplogSession.get().newToken(),
+                                                                                             AccessPopup.this.getModelObject() ))
+                                         return "on";
+                                 }
+                                 catch (PermissionDeniedException e) {
+                                     error( e.getLocalizedMessage() );
+                                 }
+
+                                 return null;
+                             }
+                         } ) ) );
                     }
                 } );
-            }} );
+            }
+        } );
 
         content.add( new Form<Object>( "otherUser" ) {
 
@@ -219,38 +222,40 @@ public class AccessPopup extends PopupPanel<Album> {
                             {
                                 add( permission.newSprite( "icon", 64 ) );
                                 add( new Label( "label", permission.objectDescription() ) );
-                            }}.add( new SimpleAttributeModifier( "title", permission.info( AccessPopup.this.getModelObject() ) ) ) //
-                                .add( new AjaxFormSubmitBehavior( "onclick" ) {
-
-                            @Override
-                            protected void onSubmit(final AjaxRequestTarget target) {
-
-                                try {
-                                    User user = userService.getUserWithUserName( name.getObject() );
-                                    securityService.setUserPermission( SnaplogSession.get().newToken(), AccessPopup.this.getModelObject(),
-                                                                       user, permission );
-
-                                    target.addComponent( content );
-                                }
-                                catch (PermissionDeniedException e) {
-                                    error( e.getLocalizedMessage() );
-                                }
-                                catch (UserNotFoundException e) {
-                                    error( e.getLocalizedMessage() );
-                                }
-                                catch (IllegalOperationException e) {
-                                    error( e.getLocalizedMessage() );
-                                }
                             }
+                        }.add( new SimpleAttributeModifier( "title", permission.info( AccessPopup.this.getModelObject() ) ) )
+                         .add( new AjaxFormSubmitBehavior( "onClick" ) {
 
-                            @Override
-                            protected void onError(final AjaxRequestTarget target) {
+                             @Override
+                             protected void onSubmit(final AjaxRequestTarget target) {
 
-                            }
-                        } ) );
+                                 try {
+                                     User user = userService.getUserWithUserName( name.getObject() );
+                                     securityService.setUserPermission( SnaplogSession.get().newToken(), AccessPopup.this.getModelObject(),
+                                                                        user, permission );
+
+                                     target.addComponent( content );
+                                 }
+                                 catch (PermissionDeniedException e) {
+                                     error( e.getLocalizedMessage() );
+                                 }
+                                 catch (UserNotFoundException e) {
+                                     error( e.getLocalizedMessage() );
+                                 }
+                                 catch (IllegalOperationException e) {
+                                     error( e.getLocalizedMessage() );
+                                 }
+                             }
+
+                             @Override
+                             protected void onError(final AjaxRequestTarget target) {
+
+                             }
+                         } ) );
                     }
                 } );
-            }} );
+            }
+        } );
     }
 
     @Override
@@ -290,6 +295,7 @@ public class AccessPopup extends PopupPanel<Album> {
         public IModel<String> getTitleClass() {
 
             return new AbstractReadOnlyModel<String>() {
+
                 @Override
                 public String getObject() {
 
@@ -308,7 +314,8 @@ public class AccessPopup extends PopupPanel<Album> {
         public boolean isVisible() {
 
             return model.getObject() != null && GuiceContext.getInstance( SecurityService.class )
-                    .hasAccess( Permission.ADMINISTER, SnaplogSession.get().newToken(), model.getObject() );
+                                                            .hasAccess( Permission.ADMINISTER, SnaplogSession.get().newToken(),
+                                                                        model.getObject() );
         }
     }
 }

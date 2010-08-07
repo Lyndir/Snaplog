@@ -125,6 +125,7 @@ public class MediaDAOImpl implements MediaDAO {
                 return ObjectUtils.equal( candidate.getAlbum(), album );
             }
         }, new QueryComparator<M>() {
+
             @Override
             public int compare(final M first, final M second) {
 
@@ -137,12 +138,14 @@ public class MediaDAOImpl implements MediaDAO {
     public <D extends MediaData<?>> List<D> listMediaData(final Album album, final boolean ascending) {
 
         return db.query( new Predicate<D>() {
+
             @Override
             public boolean match(final D candidate) {
 
                 return ObjectUtils.equal( candidate.getMedia().getAlbum(), album );
             }
         }, new QueryComparator<D>() {
+
             @Override
             public int compare(final D first, final D second) {
 

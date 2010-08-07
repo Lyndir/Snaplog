@@ -108,6 +108,7 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
         };
 
         focusedUser = msgs.focusedUser( new LoadableDetachableModel<User>() {
+
             @Override
             protected User load() {
 
@@ -116,6 +117,7 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
         } );
 
         focusedContent = msgs.focusedContent( new LoadableDetachableModel<Album>() {
+
             @Override
             protected Album load() {
 

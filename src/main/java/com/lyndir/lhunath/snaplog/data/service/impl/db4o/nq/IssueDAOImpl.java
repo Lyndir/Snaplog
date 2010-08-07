@@ -42,6 +42,7 @@ public class IssueDAOImpl implements IssueDAO {
         checkNotNull( issueCode, "Given issueCode must not be null." );
 
         ObjectSet<Issue> results = db.query( new Predicate<Issue>() {
+
             @Override
             public boolean match(final Issue candidate) {
 

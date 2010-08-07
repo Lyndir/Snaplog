@@ -1,162 +1,649 @@
-.s28.people                      { background: transparent url("28x28/people.png") no-repeat; width: 28px; height: 28px; }
-.s28.people.baby-stoller2        { background-position:   -0px   -0px; }
-.s28.people.baby-stroller        { background-position:   -0px  -28px; }
-.s28.people.baby-stroller1       { background-position:   -0px  -56px; }
-.s28.people.baby-toys            { background-position:   -0px  -84px; }
-.s28.people.baby                 { background-position:   -0px -112px; }
-.s28.people.bathtub-sc52         { background-position:   -0px -140px; }
-.s28.people.bed                  { background-position:   -0px -168px; }
-.s28.people.bed1-sc43            { background-position:   -0px -196px; }
-.s28.people.brain                { background-position:   -0px -224px; }
-.s28.people.briefcase            { background-position:   -0px -252px; }
-.s28.people.button               { background-position:   -0px -280px; }
-.s28.people.button1              { background-position:   -0px -308px; }
-.s28.people.button3              { background-position:   -0px -336px; }
-.s28.people.cabinet1-sc52        { background-position:   -0px -364px; }
-.s28.people.cabinet3-sc52        { background-position:   -0px -392px; }
-.s28.people.camera               { background-position:   -0px -420px; }
-.s28.people.camera1-sc49         { background-position:   -0px -448px; }
-.s28.people.candle2-sc43         { background-position:   -0px -476px; }
-.s28.people.chair2               { background-position:   -0px -504px; }
-.s28.people.chair3               { background-position:   -0px -532px; }
-.s28.people.chalkboard           { background-position:   -0px -560px; }
-.s28.people.chest-treasure       { background-position:   -0px -588px; }
-.s28.people.chest                { background-position:   -0px -616px; }
-.s28.people.cowboy-sc44          { background-position:   -0px -644px; }
-.s28.people.diamond              { background-position:   -0px -672px; }
-.s28.people.diamond5-sc27        { background-position:   -0px -700px; }
-.s28.people.diploma-sc2          { background-position:   -0px -728px; }
-.s28.people.dress                { background-position:   -0px -756px; }
-.s28.people.eye                  { background-position:   -0px -784px; }
-.s28.people.eye3-sc44            { background-position:   -0px -812px; }
-.s28.people.eye4-sc48            { background-position:   -0px -840px; }
-.s28.people.eye5-sc54            { background-position:   -0px -868px; }
-.s28.people.eye6                 { background-position:   -0px -896px; }
-.s28.people.fan5-sc48            { background-position:   -0px -924px; }
-.s28.people.faucet1-sc1          { background-position:   -0px -952px; }
-.s28.people.faucet2-sc52         { background-position:   -0px -980px; }
-.s28.people.foot-left-ps         { background-position:   -0px -1008px; }
-.s28.people.foot-right-ps        { background-position:   -0px -1036px; }
-.s28.people.foot-steps           { background-position:   -0px -1064px; }
-.s28.people.glasses-sun          { background-position:   -0px -1092px; }
-.s28.people.glasses              { background-position:   -0px -1120px; }
-.s28.people.hair-comb            { background-position:   -0px -1148px; }
-.s28.people.hair-comb1-sc44      { background-position:   -0px -1176px; }
-.s28.people.hairbrush2-sc44      { background-position:   -0px -1204px; }
-.s28.people.hand-gloves          { background-position:   -0px -1232px; }
-.s28.people.hand-left1-ps        { background-position:   -0px -1260px; }
-.s28.people.hand-left11          { background-position:   -0px -1288px; }
-.s28.people.hand-peace           { background-position:   -0px -1316px; }
-.s28.people.hand-peace2-sc37     { background-position:   -0px -1344px; }
-.s28.people.hand-right1-ps       { background-position:   -0px -1372px; }
-.s28.people.hand-shuffle         { background-position:   -0px -1400px; }
-.s28.people.hand22-sc48          { background-position:   -0px -1428px; }
-.s28.people.hand55               { background-position:   -0px -1456px; }
-.s28.people.handbag-sc43         { background-position:   -0px -1484px; }
-.s28.people.handicapped25        { background-position:   -0px -1512px; }
-.s28.people.handshake            { background-position:   -0px -1540px; }
-.s28.people.hat-cap3-sc44        { background-position:   -0px -1568px; }
-.s28.people.hat-cap4-sc43        { background-position:   -0px -1596px; }
-.s28.people.hat-graduation       { background-position:   -0px -1624px; }
-.s28.people.hat-hard             { background-position:   -0px -1652px; }
-.s28.people.hat1-graduation      { background-position:   -0px -1680px; }
-.s28.people.hat2-sc44            { background-position:   -0px -1708px; }
-.s28.people.hat4-sc44            { background-position:   -0px -1736px; }
-.s28.people.hat6-sc44            { background-position:   -0px -1764px; }
-.s28.people.head                 { background-position:   -0px -1792px; }
-.s28.people.icon_003             { background-position:   -0px -1820px; }
-.s28.people.knife-set-sc43       { background-position:   -0px -1848px; }
-.s28.people.lamp-aladin          { background-position:   -0px -1876px; }
-.s28.people.lamp1                { background-position:   -0px -1904px; }
-.s28.people.lamp2-sc31           { background-position:   -0px -1932px; }
-.s28.people.lamp3-sc43           { background-position:   -0px -1960px; }
-.s28.people.lamp4-sc43           { background-position:   -0px -1988px; }
-.s28.people.lamp5-sc52           { background-position:   -0px -2016px; }
-.s28.people.lamp6-sc52           { background-position:   -0px -2044px; }
-.s28.people.lamp7-sc52           { background-position:   -0px -2072px; }
-.s28.people.lips-sc33            { background-position:   -0px -2100px; }
-.s28.people.lips1-sc33           { background-position:   -0px -2128px; }
-.s28.people.lips99               { background-position:   -0px -2156px; }
-.s28.people.lipstick             { background-position:   -0px -2184px; }
-.s28.people.lipstick1-sc44       { background-position:   -0px -2212px; }
-.s28.people.magnet               { background-position:   -0px -2240px; }
-.s28.people.mirror               { background-position:   -0px -2268px; }
-.s28.people.mirror1              { background-position:   -0px -2296px; }
-.s28.people.pants                { background-position:   -0px -2324px; }
-.s28.people.pencil-eye-sc44      { background-position:   -0px -2352px; }
-.s28.people.people-audience      { background-position:   -0px -2380px; }
-.s28.people.people-audience1-sc44 { background-position:   -0px -2408px; }
-.s28.people.people-baby          { background-position:   -0px -2436px; }
-.s28.people.people-carry-suitcase-sc44 { background-position:   -0px -2464px; }
-.s28.people.people-child         { background-position:   -0px -2492px; }
-.s28.people.people-child2        { background-position:   -0px -2520px; }
-.s28.people.people-child3        { background-position:   -0px -2548px; }
-.s28.people.people-couple-sc44   { background-position:   -0px -2576px; }
-.s28.people.people-family3       { background-position:   -0px -2604px; }
-.s28.people.people-family4-sc44  { background-position:   -0px -2632px; }
-.s28.people.people-family4       { background-position:   -0px -2660px; }
-.s28.people.people-feet          { background-position:   -0px -2688px; }
-.s28.people.people-girl88-sc54   { background-position:   -0px -2716px; }
-.s28.people.people-head          { background-position:   -0px -2744px; }
-.s28.people.people-inspector-sc44 { background-position:   -0px -2772px; }
-.s28.people.people-man-circle-sc44 { background-position:   -0px -2800px; }
-.s28.people.people-man1          { background-position:   -0px -2828px; }
-.s28.people.people-man11         { background-position:   -0px -2856px; }
-.s28.people.people-man4          { background-position:   -0px -2884px; }
-.s28.people.people-mother-child-sc44 { background-position:   -0px -2912px; }
-.s28.people.people-mother-child1-sc43 { background-position:   -0px -2940px; }
-.s28.people.people-pedestrian-sc43 { background-position:   -0px -2968px; }
-.s28.people.people-security-guard-49 { background-position:   -0px -2996px; }
-.s28.people.people-security      { background-position:   -0px -3024px; }
-.s28.people.people-showering     { background-position:   -0px -3052px; }
-.s28.people.people-singing       { background-position:   -0px -3080px; }
-.s28.people.people-sitting1-sc52 { background-position:   -0px -3108px; }
-.s28.people.people-speaker-sc44  { background-position:   -0px -3136px; }
-.s28.people.people-student-study { background-position:   -0px -3164px; }
-.s28.people.people-students      { background-position:   -0px -3192px; }
-.s28.people.people-walker-man4-ps { background-position:   -0px -3220px; }
-.s28.people.people-woman1        { background-position:   -0px -3248px; }
-.s28.people.people-woman2        { background-position:   -0px -3276px; }
-.s28.people.people-woman6        { background-position:   -0px -3304px; }
-.s28.people.people-worker        { background-position:   -0px -3332px; }
-.s28.people.people25             { background-position:   -0px -3360px; }
-.s28.people.perfume-sc44         { background-position:   -0px -3388px; }
-.s28.people.picture-frame-sc52   { background-position:   -0px -3416px; }
-.s28.people.picture-frame1-sc52  { background-position:   -0px -3444px; }
-.s28.people.pill                 { background-position:   -0px -3472px; }
-.s28.people.ring                 { background-position:   -0px -3500px; }
-.s28.people.ring1-sc44           { background-position:   -0px -3528px; }
-.s28.people.rocking-horse-sc44   { background-position:   -0px -3556px; }
-.s28.people.scissors-comb1-sc44  { background-position:   -0px -3584px; }
-.s28.people.scissors2            { background-position:   -0px -3612px; }
-.s28.people.scissors3            { background-position:   -0px -3640px; }
-.s28.people.sewing-machine       { background-position:   -0px -3668px; }
-.s28.people.shirt                { background-position:   -0px -3696px; }
-.s28.people.shirt1               { background-position:   -0px -3724px; }
-.s28.people.shirt2-sc44          { background-position:   -0px -3752px; }
-.s28.people.shirt3-sc43          { background-position:   -0px -3780px; }
-.s28.people.shoe                 { background-position:   -0px -3808px; }
-.s28.people.shoes2               { background-position:   -0px -3836px; }
-.s28.people.shorts-sc43          { background-position:   -0px -3864px; }
-.s28.people.sink-pedestal-sc52   { background-position:   -0px -3892px; }
-.s28.people.sink-pedestal        { background-position:   -0px -3920px; }
-.s28.people.slipper-sc43         { background-position:   -0px -3948px; }
-.s28.people.sofa                 { background-position:   -0px -3976px; }
-.s28.people.sofa1-sc52           { background-position:   -0px -4004px; }
-.s28.people.speech               { background-position:   -0px -4032px; }
-.s28.people.stairs               { background-position:   -0px -4060px; }
-.s28.people.stairs1-sc52         { background-position:   -0px -4088px; }
-.s28.people.swap-clothes         { background-position:   -0px -4116px; }
-.s28.people.table-sc52           { background-position:   -0px -4144px; }
-.s28.people.table2-sc52          { background-position:   -0px -4172px; }
-.s28.people.table3-sc52          { background-position:   -0px -4200px; }
-.s28.people.telescope            { background-position:   -0px -4228px; }
-.s28.people.tv-sc52              { background-position:   -0px -4256px; }
-.s28.people.umbrella1            { background-position:   -0px -4284px; }
-.s28.people.umbrella2            { background-position:   -0px -4312px; }
-.s28.people.wagon                { background-position:   -0px -4340px; }
-.s28.people.water-well           { background-position:   -0px -4368px; }
-.s28.people.watering-can         { background-position:   -0px -4396px; }
-.s28.people.watering-can1        { background-position:   -0px -4424px; }
-.s28.people.wheelchair1-sc45     { background-position:   -0px -4452px; }
-.s28.people.window1-sc52         { background-position:   -0px -4480px; }
+.s28.people {
+    background:          transparent url("28x28/people.png") no-repeat;
+    width:               28px;
+    height:              28px;
+}
+
+.s28.people.baby-stoller2 {
+    background-position: -0px -0px;
+}
+
+.s28.people.baby-stroller {
+    background-position: -0px -28px;
+}
+
+.s28.people.baby-stroller1 {
+    background-position: -0px -56px;
+}
+
+.s28.people.baby-toys {
+    background-position: -0px -84px;
+}
+
+.s28.people.baby {
+    background-position: -0px -112px;
+}
+
+.s28.people.bathtub-sc52 {
+    background-position: -0px -140px;
+}
+
+.s28.people.bed {
+    background-position: -0px -168px;
+}
+
+.s28.people.bed1-sc43 {
+    background-position: -0px -196px;
+}
+
+.s28.people.brain {
+    background-position: -0px -224px;
+}
+
+.s28.people.briefcase {
+    background-position: -0px -252px;
+}
+
+.s28.people.button {
+    background-position: -0px -280px;
+}
+
+.s28.people.button1 {
+    background-position: -0px -308px;
+}
+
+.s28.people.button3 {
+    background-position: -0px -336px;
+}
+
+.s28.people.cabinet1-sc52 {
+    background-position: -0px -364px;
+}
+
+.s28.people.cabinet3-sc52 {
+    background-position: -0px -392px;
+}
+
+.s28.people.camera {
+    background-position: -0px -420px;
+}
+
+.s28.people.camera1-sc49 {
+    background-position: -0px -448px;
+}
+
+.s28.people.candle2-sc43 {
+    background-position: -0px -476px;
+}
+
+.s28.people.chair2 {
+    background-position: -0px -504px;
+}
+
+.s28.people.chair3 {
+    background-position: -0px -532px;
+}
+
+.s28.people.chalkboard {
+    background-position: -0px -560px;
+}
+
+.s28.people.chest-treasure {
+    background-position: -0px -588px;
+}
+
+.s28.people.chest {
+    background-position: -0px -616px;
+}
+
+.s28.people.cowboy-sc44 {
+    background-position: -0px -644px;
+}
+
+.s28.people.diamond {
+    background-position: -0px -672px;
+}
+
+.s28.people.diamond5-sc27 {
+    background-position: -0px -700px;
+}
+
+.s28.people.diploma-sc2 {
+    background-position: -0px -728px;
+}
+
+.s28.people.dress {
+    background-position: -0px -756px;
+}
+
+.s28.people.eye {
+    background-position: -0px -784px;
+}
+
+.s28.people.eye3-sc44 {
+    background-position: -0px -812px;
+}
+
+.s28.people.eye4-sc48 {
+    background-position: -0px -840px;
+}
+
+.s28.people.eye5-sc54 {
+    background-position: -0px -868px;
+}
+
+.s28.people.eye6 {
+    background-position: -0px -896px;
+}
+
+.s28.people.fan5-sc48 {
+    background-position: -0px -924px;
+}
+
+.s28.people.faucet1-sc1 {
+    background-position: -0px -952px;
+}
+
+.s28.people.faucet2-sc52 {
+    background-position: -0px -980px;
+}
+
+.s28.people.foot-left-ps {
+    background-position: -0px -1008px;
+}
+
+.s28.people.foot-right-ps {
+    background-position: -0px -1036px;
+}
+
+.s28.people.foot-steps {
+    background-position: -0px -1064px;
+}
+
+.s28.people.glasses-sun {
+    background-position: -0px -1092px;
+}
+
+.s28.people.glasses {
+    background-position: -0px -1120px;
+}
+
+.s28.people.hair-comb {
+    background-position: -0px -1148px;
+}
+
+.s28.people.hair-comb1-sc44 {
+    background-position: -0px -1176px;
+}
+
+.s28.people.hairbrush2-sc44 {
+    background-position: -0px -1204px;
+}
+
+.s28.people.hand-gloves {
+    background-position: -0px -1232px;
+}
+
+.s28.people.hand-left1-ps {
+    background-position: -0px -1260px;
+}
+
+.s28.people.hand-left11 {
+    background-position: -0px -1288px;
+}
+
+.s28.people.hand-peace {
+    background-position: -0px -1316px;
+}
+
+.s28.people.hand-peace2-sc37 {
+    background-position: -0px -1344px;
+}
+
+.s28.people.hand-right1-ps {
+    background-position: -0px -1372px;
+}
+
+.s28.people.hand-shuffle {
+    background-position: -0px -1400px;
+}
+
+.s28.people.hand22-sc48 {
+    background-position: -0px -1428px;
+}
+
+.s28.people.hand55 {
+    background-position: -0px -1456px;
+}
+
+.s28.people.handbag-sc43 {
+    background-position: -0px -1484px;
+}
+
+.s28.people.handicapped25 {
+    background-position: -0px -1512px;
+}
+
+.s28.people.handshake {
+    background-position: -0px -1540px;
+}
+
+.s28.people.hat-cap3-sc44 {
+    background-position: -0px -1568px;
+}
+
+.s28.people.hat-cap4-sc43 {
+    background-position: -0px -1596px;
+}
+
+.s28.people.hat-graduation {
+    background-position: -0px -1624px;
+}
+
+.s28.people.hat-hard {
+    background-position: -0px -1652px;
+}
+
+.s28.people.hat1-graduation {
+    background-position: -0px -1680px;
+}
+
+.s28.people.hat2-sc44 {
+    background-position: -0px -1708px;
+}
+
+.s28.people.hat4-sc44 {
+    background-position: -0px -1736px;
+}
+
+.s28.people.hat6-sc44 {
+    background-position: -0px -1764px;
+}
+
+.s28.people.head {
+    background-position: -0px -1792px;
+}
+
+.s28.people.icon_003 {
+    background-position: -0px -1820px;
+}
+
+.s28.people.knife-set-sc43 {
+    background-position: -0px -1848px;
+}
+
+.s28.people.lamp-aladin {
+    background-position: -0px -1876px;
+}
+
+.s28.people.lamp1 {
+    background-position: -0px -1904px;
+}
+
+.s28.people.lamp2-sc31 {
+    background-position: -0px -1932px;
+}
+
+.s28.people.lamp3-sc43 {
+    background-position: -0px -1960px;
+}
+
+.s28.people.lamp4-sc43 {
+    background-position: -0px -1988px;
+}
+
+.s28.people.lamp5-sc52 {
+    background-position: -0px -2016px;
+}
+
+.s28.people.lamp6-sc52 {
+    background-position: -0px -2044px;
+}
+
+.s28.people.lamp7-sc52 {
+    background-position: -0px -2072px;
+}
+
+.s28.people.lips-sc33 {
+    background-position: -0px -2100px;
+}
+
+.s28.people.lips1-sc33 {
+    background-position: -0px -2128px;
+}
+
+.s28.people.lips99 {
+    background-position: -0px -2156px;
+}
+
+.s28.people.lipstick {
+    background-position: -0px -2184px;
+}
+
+.s28.people.lipstick1-sc44 {
+    background-position: -0px -2212px;
+}
+
+.s28.people.magnet {
+    background-position: -0px -2240px;
+}
+
+.s28.people.mirror {
+    background-position: -0px -2268px;
+}
+
+.s28.people.mirror1 {
+    background-position: -0px -2296px;
+}
+
+.s28.people.pants {
+    background-position: -0px -2324px;
+}
+
+.s28.people.pencil-eye-sc44 {
+    background-position: -0px -2352px;
+}
+
+.s28.people.people-audience {
+    background-position: -0px -2380px;
+}
+
+.s28.people.people-audience1-sc44 {
+    background-position: -0px -2408px;
+}
+
+.s28.people.people-baby {
+    background-position: -0px -2436px;
+}
+
+.s28.people.people-carry-suitcase-sc44 {
+    background-position: -0px -2464px;
+}
+
+.s28.people.people-child {
+    background-position: -0px -2492px;
+}
+
+.s28.people.people-child2 {
+    background-position: -0px -2520px;
+}
+
+.s28.people.people-child3 {
+    background-position: -0px -2548px;
+}
+
+.s28.people.people-couple-sc44 {
+    background-position: -0px -2576px;
+}
+
+.s28.people.people-family3 {
+    background-position: -0px -2604px;
+}
+
+.s28.people.people-family4-sc44 {
+    background-position: -0px -2632px;
+}
+
+.s28.people.people-family4 {
+    background-position: -0px -2660px;
+}
+
+.s28.people.people-feet {
+    background-position: -0px -2688px;
+}
+
+.s28.people.people-girl88-sc54 {
+    background-position: -0px -2716px;
+}
+
+.s28.people.people-head {
+    background-position: -0px -2744px;
+}
+
+.s28.people.people-inspector-sc44 {
+    background-position: -0px -2772px;
+}
+
+.s28.people.people-man-circle-sc44 {
+    background-position: -0px -2800px;
+}
+
+.s28.people.people-man1 {
+    background-position: -0px -2828px;
+}
+
+.s28.people.people-man11 {
+    background-position: -0px -2856px;
+}
+
+.s28.people.people-man4 {
+    background-position: -0px -2884px;
+}
+
+.s28.people.people-mother-child-sc44 {
+    background-position: -0px -2912px;
+}
+
+.s28.people.people-mother-child1-sc43 {
+    background-position: -0px -2940px;
+}
+
+.s28.people.people-pedestrian-sc43 {
+    background-position: -0px -2968px;
+}
+
+.s28.people.people-security-guard-49 {
+    background-position: -0px -2996px;
+}
+
+.s28.people.people-security {
+    background-position: -0px -3024px;
+}
+
+.s28.people.people-showering {
+    background-position: -0px -3052px;
+}
+
+.s28.people.people-singing {
+    background-position: -0px -3080px;
+}
+
+.s28.people.people-sitting1-sc52 {
+    background-position: -0px -3108px;
+}
+
+.s28.people.people-speaker-sc44 {
+    background-position: -0px -3136px;
+}
+
+.s28.people.people-student-study {
+    background-position: -0px -3164px;
+}
+
+.s28.people.people-students {
+    background-position: -0px -3192px;
+}
+
+.s28.people.people-walker-man4-ps {
+    background-position: -0px -3220px;
+}
+
+.s28.people.people-woman1 {
+    background-position: -0px -3248px;
+}
+
+.s28.people.people-woman2 {
+    background-position: -0px -3276px;
+}
+
+.s28.people.people-woman6 {
+    background-position: -0px -3304px;
+}
+
+.s28.people.people-worker {
+    background-position: -0px -3332px;
+}
+
+.s28.people.people25 {
+    background-position: -0px -3360px;
+}
+
+.s28.people.perfume-sc44 {
+    background-position: -0px -3388px;
+}
+
+.s28.people.picture-frame-sc52 {
+    background-position: -0px -3416px;
+}
+
+.s28.people.picture-frame1-sc52 {
+    background-position: -0px -3444px;
+}
+
+.s28.people.pill {
+    background-position: -0px -3472px;
+}
+
+.s28.people.ring {
+    background-position: -0px -3500px;
+}
+
+.s28.people.ring1-sc44 {
+    background-position: -0px -3528px;
+}
+
+.s28.people.rocking-horse-sc44 {
+    background-position: -0px -3556px;
+}
+
+.s28.people.scissors-comb1-sc44 {
+    background-position: -0px -3584px;
+}
+
+.s28.people.scissors2 {
+    background-position: -0px -3612px;
+}
+
+.s28.people.scissors3 {
+    background-position: -0px -3640px;
+}
+
+.s28.people.sewing-machine {
+    background-position: -0px -3668px;
+}
+
+.s28.people.shirt {
+    background-position: -0px -3696px;
+}
+
+.s28.people.shirt1 {
+    background-position: -0px -3724px;
+}
+
+.s28.people.shirt2-sc44 {
+    background-position: -0px -3752px;
+}
+
+.s28.people.shirt3-sc43 {
+    background-position: -0px -3780px;
+}
+
+.s28.people.shoe {
+    background-position: -0px -3808px;
+}
+
+.s28.people.shoes2 {
+    background-position: -0px -3836px;
+}
+
+.s28.people.shorts-sc43 {
+    background-position: -0px -3864px;
+}
+
+.s28.people.sink-pedestal-sc52 {
+    background-position: -0px -3892px;
+}
+
+.s28.people.sink-pedestal {
+    background-position: -0px -3920px;
+}
+
+.s28.people.slipper-sc43 {
+    background-position: -0px -3948px;
+}
+
+.s28.people.sofa {
+    background-position: -0px -3976px;
+}
+
+.s28.people.sofa1-sc52 {
+    background-position: -0px -4004px;
+}
+
+.s28.people.speech {
+    background-position: -0px -4032px;
+}
+
+.s28.people.stairs {
+    background-position: -0px -4060px;
+}
+
+.s28.people.stairs1-sc52 {
+    background-position: -0px -4088px;
+}
+
+.s28.people.swap-clothes {
+    background-position: -0px -4116px;
+}
+
+.s28.people.table-sc52 {
+    background-position: -0px -4144px;
+}
+
+.s28.people.table2-sc52 {
+    background-position: -0px -4172px;
+}
+
+.s28.people.table3-sc52 {
+    background-position: -0px -4200px;
+}
+
+.s28.people.telescope {
+    background-position: -0px -4228px;
+}
+
+.s28.people.tv-sc52 {
+    background-position: -0px -4256px;
+}
+
+.s28.people.umbrella1 {
+    background-position: -0px -4284px;
+}
+
+.s28.people.umbrella2 {
+    background-position: -0px -4312px;
+}
+
+.s28.people.wagon {
+    background-position: -0px -4340px;
+}
+
+.s28.people.water-well {
+    background-position: -0px -4368px;
+}
+
+.s28.people.watering-can {
+    background-position: -0px -4396px;
+}
+
+.s28.people.watering-can1 {
+    background-position: -0px -4424px;
+}
+
+.s28.people.wheelchair1-sc45 {
+    background-position: -0px -4452px;
+}
+
+.s28.people.window1-sc52 {
+    background-position: -0px -4480px;
+}

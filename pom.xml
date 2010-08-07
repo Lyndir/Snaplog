@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
     <!-- PROJECT METADATA -->
@@ -104,7 +105,8 @@
                                     <path refid="maven.plugin.classpath" />
                                     <path refid="maven.runtime.classpath" />
                                 </path>
-                                <taskdef name="db4o-enhance" classname="com.db4o.enhance.Db4oEnhancerAntTask" classpathref="project.classpath" />
+                                <taskdef name="db4o-enhance" classname="com.db4o.enhance.Db4oEnhancerAntTask"
+                                         classpathref="project.classpath" />
                                 <db4o-enhance classtargetdir="${project.build.outputDirectory}" nq="true" ta="true" collections="true">
                                     <classpath refid="project.classpath" />
                                     <sources dir="${project.build.outputDirectory}">

@@ -1,154 +1,617 @@
-.s32.signs                      { background: transparent url("32x32/signs.png") no-repeat; width: 32px; height: 32px; }
-.s32.signs.bomb                 { background-position:   -0px   -0px; }
-.s32.signs.bomb1                { background-position:   -0px  -32px; }
-.s32.signs.bubbling-potion      { background-position:   -0px  -64px; }
-.s32.signs.electrical-shock3    { background-position:   -0px  -96px; }
-.s32.signs.fan                  { background-position:   -0px -128px; }
-.s32.signs.fan2                 { background-position:   -0px -160px; }
-.s32.signs.fan3                 { background-position:   -0px -192px; }
-.s32.signs.fan4                 { background-position:   -0px -224px; }
-.s32.signs.fire-extinguisher    { background-position:   -0px -256px; }
-.s32.signs.first-aid            { background-position:   -0px -288px; }
-.s32.signs.first-aid1           { background-position:   -0px -320px; }
-.s32.signs.first-aid2           { background-position:   -0px -352px; }
-.s32.signs.gas-mask             { background-position:   -0px -384px; }
-.s32.signs.h-hospital           { background-position:   -0px -416px; }
-.s32.signs.hand-medical-aid     { background-position:   -0px -448px; }
-.s32.signs.hand-no2             { background-position:   -0px -480px; }
-.s32.signs.headset2             { background-position:   -0px -512px; }
-.s32.signs.life-preserver       { background-position:   -0px -544px; }
-.s32.signs.love-potion          { background-position:   -0px -576px; }
-.s32.signs.medical-alert        { background-position:   -0px -608px; }
-.s32.signs.medical-alert1       { background-position:   -0px -640px; }
-.s32.signs.medical-pharmacy-cup { background-position:   -0px -672px; }
-.s32.signs.no-smoking           { background-position:   -0px -704px; }
-.s32.signs.no-smoking1          { background-position:   -0px -736px; }
-.s32.signs.no-smoking2          { background-position:   -0px -768px; }
-.s32.signs.no-walking           { background-position:   -0px -800px; }
-.s32.signs.no-walking1          { background-position:   -0px -832px; }
-.s32.signs.nosign               { background-position:   -0px -864px; }
-.s32.signs.nosign1              { background-position:   -0px -896px; }
-.s32.signs.nuclear              { background-position:   -0px -928px; }
-.s32.signs.nuclear1             { background-position:   -0px -960px; }
-.s32.signs.place-of-interest    { background-position:   -0px -992px; }
-.s32.signs.prescription         { background-position:   -0px -1024px; }
-.s32.signs.prescription1        { background-position:   -0px -1056px; }
-.s32.signs.railroad-tracks      { background-position:   -0px -1088px; }
-.s32.signs.recycle-sc45         { background-position:   -0px -1120px; }
-.s32.signs.recycle              { background-position:   -0px -1152px; }
-.s32.signs.road-dont-walk-hand  { background-position:   -0px -1184px; }
-.s32.signs.road-dont-walk-word  { background-position:   -0px -1216px; }
-.s32.signs.road-food-sc50       { background-position:   -0px -1248px; }
-.s32.signs.road-stop-sign-sc44  { background-position:   -0px -1280px; }
-.s32.signs.road-walk-person     { background-position:   -0px -1312px; }
-.s32.signs.road-walk-word       { background-position:   -0px -1344px; }
-.s32.signs.scale-sc2            { background-position:   -0px -1376px; }
-.s32.signs.scale1               { background-position:   -0px -1408px; }
-.s32.signs.sos-circled1-sc49    { background-position:   -0px -1440px; }
-.s32.signs.stetoscope-sc43      { background-position:   -0px -1472px; }
-.s32.signs.stop-lights2-sc46    { background-position:   -0px -1504px; }
-.s32.signs.stop-lights2         { background-position:   -0px -1536px; }
-.s32.signs.stop-sign-sc49       { background-position:   -0px -1568px; }
-.s32.signs.stop-sign3           { background-position:   -0px -1600px; }
-.s32.signs.test-tube            { background-position:   -0px -1632px; }
-.s32.signs.thermometer          { background-position:   -0px -1664px; }
-.s32.signs.vest                 { background-position:   -0px -1696px; }
-.s32.signs.warning-biohazard    { background-position:   -0px -1728px; }
-.s32.signs.warning-biohazard1   { background-position:   -0px -1760px; }
-.s32.signs.warning-corossive    { background-position:   -0px -1792px; }
-.s32.signs.warning-man-working-sc44 { background-position:   -0px -1824px; }
-.s32.signs.warning-poison       { background-position:   -0px -1856px; }
-.s32.signs.warning-poison1      { background-position:   -0px -1888px; }
-.s32.signs.warning-radiation    { background-position:   -0px -1920px; }
-.s32.signs.warning-radiation1   { background-position:   -0px -1952px; }
-.s32.signs.warning-sign         { background-position:   -0px -1984px; }
-.s32.signs.wheelchair           { background-position:   -0px -2016px; }
-.s32.signs.z-parking-no-sc49    { background-position:   -0px -2048px; }
-.s32.signs.z-parking-sc49       { background-position:   -0px -2080px; }
-.s32.signs.z-roadsign10         { background-position:   -0px -2112px; }
-.s32.signs.z-roadsign100        { background-position:   -0px -2144px; }
-.s32.signs.z-roadsign101        { background-position:   -0px -2176px; }
-.s32.signs.z-roadsign102        { background-position:   -0px -2208px; }
-.s32.signs.z-roadsign103        { background-position:   -0px -2240px; }
-.s32.signs.z-roadsign104        { background-position:   -0px -2272px; }
-.s32.signs.z-roadsign105        { background-position:   -0px -2304px; }
-.s32.signs.z-roadsign11         { background-position:   -0px -2336px; }
-.s32.signs.z-roadsign12         { background-position:   -0px -2368px; }
-.s32.signs.z-roadsign13         { background-position:   -0px -2400px; }
-.s32.signs.z-roadsign14         { background-position:   -0px -2432px; }
-.s32.signs.z-roadsign15         { background-position:   -0px -2464px; }
-.s32.signs.z-roadsign16         { background-position:   -0px -2496px; }
-.s32.signs.z-roadsign17         { background-position:   -0px -2528px; }
-.s32.signs.z-roadsign18         { background-position:   -0px -2560px; }
-.s32.signs.z-roadsign19         { background-position:   -0px -2592px; }
-.s32.signs.z-roadsign2          { background-position:   -0px -2624px; }
-.s32.signs.z-roadsign20         { background-position:   -0px -2656px; }
-.s32.signs.z-roadsign21         { background-position:   -0px -2688px; }
-.s32.signs.z-roadsign22         { background-position:   -0px -2720px; }
-.s32.signs.z-roadsign23         { background-position:   -0px -2752px; }
-.s32.signs.z-roadsign24         { background-position:   -0px -2784px; }
-.s32.signs.z-roadsign25         { background-position:   -0px -2816px; }
-.s32.signs.z-roadsign26         { background-position:   -0px -2848px; }
-.s32.signs.z-roadsign27         { background-position:   -0px -2880px; }
-.s32.signs.z-roadsign28         { background-position:   -0px -2912px; }
-.s32.signs.z-roadsign29         { background-position:   -0px -2944px; }
-.s32.signs.z-roadsign30         { background-position:   -0px -2976px; }
-.s32.signs.z-roadsign33         { background-position:   -0px -3008px; }
-.s32.signs.z-roadsign34         { background-position:   -0px -3040px; }
-.s32.signs.z-roadsign36         { background-position:   -0px -3072px; }
-.s32.signs.z-roadsign37         { background-position:   -0px -3104px; }
-.s32.signs.z-roadsign38         { background-position:   -0px -3136px; }
-.s32.signs.z-roadsign39         { background-position:   -0px -3168px; }
-.s32.signs.z-roadsign40         { background-position:   -0px -3200px; }
-.s32.signs.z-roadsign42         { background-position:   -0px -3232px; }
-.s32.signs.z-roadsign43         { background-position:   -0px -3264px; }
-.s32.signs.z-roadsign44         { background-position:   -0px -3296px; }
-.s32.signs.z-roadsign45         { background-position:   -0px -3328px; }
-.s32.signs.z-roadsign46         { background-position:   -0px -3360px; }
-.s32.signs.z-roadsign47         { background-position:   -0px -3392px; }
-.s32.signs.z-roadsign51         { background-position:   -0px -3424px; }
-.s32.signs.z-roadsign52         { background-position:   -0px -3456px; }
-.s32.signs.z-roadsign53         { background-position:   -0px -3488px; }
-.s32.signs.z-roadsign54         { background-position:   -0px -3520px; }
-.s32.signs.z-roadsign56         { background-position:   -0px -3552px; }
-.s32.signs.z-roadsign57         { background-position:   -0px -3584px; }
-.s32.signs.z-roadsign58         { background-position:   -0px -3616px; }
-.s32.signs.z-roadsign59         { background-position:   -0px -3648px; }
-.s32.signs.z-roadsign60         { background-position:   -0px -3680px; }
-.s32.signs.z-roadsign61         { background-position:   -0px -3712px; }
-.s32.signs.z-roadsign63         { background-position:   -0px -3744px; }
-.s32.signs.z-roadsign64         { background-position:   -0px -3776px; }
-.s32.signs.z-roadsign65         { background-position:   -0px -3808px; }
-.s32.signs.z-roadsign66         { background-position:   -0px -3840px; }
-.s32.signs.z-roadsign67         { background-position:   -0px -3872px; }
-.s32.signs.z-roadsign68         { background-position:   -0px -3904px; }
-.s32.signs.z-roadsign69         { background-position:   -0px -3936px; }
-.s32.signs.z-roadsign70         { background-position:   -0px -3968px; }
-.s32.signs.z-roadsign71         { background-position:   -0px -4000px; }
-.s32.signs.z-roadsign72         { background-position:   -0px -4032px; }
-.s32.signs.z-roadsign73         { background-position:   -0px -4064px; }
-.s32.signs.z-roadsign74         { background-position:   -0px -4096px; }
-.s32.signs.z-roadsign75         { background-position:   -0px -4128px; }
-.s32.signs.z-roadsign76         { background-position:   -0px -4160px; }
-.s32.signs.z-roadsign77         { background-position:   -0px -4192px; }
-.s32.signs.z-roadsign78         { background-position:   -0px -4224px; }
-.s32.signs.z-roadsign79         { background-position:   -0px -4256px; }
-.s32.signs.z-roadsign8          { background-position:   -0px -4288px; }
-.s32.signs.z-roadsign81         { background-position:   -0px -4320px; }
-.s32.signs.z-roadsign82         { background-position:   -0px -4352px; }
-.s32.signs.z-roadsign83         { background-position:   -0px -4384px; }
-.s32.signs.z-roadsign84         { background-position:   -0px -4416px; }
-.s32.signs.z-roadsign85         { background-position:   -0px -4448px; }
-.s32.signs.z-roadsign86         { background-position:   -0px -4480px; }
-.s32.signs.z-roadsign88         { background-position:   -0px -4512px; }
-.s32.signs.z-roadsign9          { background-position:   -0px -4544px; }
-.s32.signs.z-roadsign90         { background-position:   -0px -4576px; }
-.s32.signs.z-roadsign91         { background-position:   -0px -4608px; }
-.s32.signs.z-roadsign92         { background-position:   -0px -4640px; }
-.s32.signs.z-roadsign93         { background-position:   -0px -4672px; }
-.s32.signs.z-roadsign94         { background-position:   -0px -4704px; }
-.s32.signs.z-roadsign95         { background-position:   -0px -4736px; }
-.s32.signs.z-roadsign96         { background-position:   -0px -4768px; }
-.s32.signs.z-roadsign97         { background-position:   -0px -4800px; }
-.s32.signs.z-roadsign98         { background-position:   -0px -4832px; }
-.s32.signs.z-roadsign99         { background-position:   -0px -4864px; }
+.s32.signs {
+    background:          transparent url("32x32/signs.png") no-repeat;
+    width:               32px;
+    height:              32px;
+}
+
+.s32.signs.bomb {
+    background-position: -0px -0px;
+}
+
+.s32.signs.bomb1 {
+    background-position: -0px -32px;
+}
+
+.s32.signs.bubbling-potion {
+    background-position: -0px -64px;
+}
+
+.s32.signs.electrical-shock3 {
+    background-position: -0px -96px;
+}
+
+.s32.signs.fan {
+    background-position: -0px -128px;
+}
+
+.s32.signs.fan2 {
+    background-position: -0px -160px;
+}
+
+.s32.signs.fan3 {
+    background-position: -0px -192px;
+}
+
+.s32.signs.fan4 {
+    background-position: -0px -224px;
+}
+
+.s32.signs.fire-extinguisher {
+    background-position: -0px -256px;
+}
+
+.s32.signs.first-aid {
+    background-position: -0px -288px;
+}
+
+.s32.signs.first-aid1 {
+    background-position: -0px -320px;
+}
+
+.s32.signs.first-aid2 {
+    background-position: -0px -352px;
+}
+
+.s32.signs.gas-mask {
+    background-position: -0px -384px;
+}
+
+.s32.signs.h-hospital {
+    background-position: -0px -416px;
+}
+
+.s32.signs.hand-medical-aid {
+    background-position: -0px -448px;
+}
+
+.s32.signs.hand-no2 {
+    background-position: -0px -480px;
+}
+
+.s32.signs.headset2 {
+    background-position: -0px -512px;
+}
+
+.s32.signs.life-preserver {
+    background-position: -0px -544px;
+}
+
+.s32.signs.love-potion {
+    background-position: -0px -576px;
+}
+
+.s32.signs.medical-alert {
+    background-position: -0px -608px;
+}
+
+.s32.signs.medical-alert1 {
+    background-position: -0px -640px;
+}
+
+.s32.signs.medical-pharmacy-cup {
+    background-position: -0px -672px;
+}
+
+.s32.signs.no-smoking {
+    background-position: -0px -704px;
+}
+
+.s32.signs.no-smoking1 {
+    background-position: -0px -736px;
+}
+
+.s32.signs.no-smoking2 {
+    background-position: -0px -768px;
+}
+
+.s32.signs.no-walking {
+    background-position: -0px -800px;
+}
+
+.s32.signs.no-walking1 {
+    background-position: -0px -832px;
+}
+
+.s32.signs.nosign {
+    background-position: -0px -864px;
+}
+
+.s32.signs.nosign1 {
+    background-position: -0px -896px;
+}
+
+.s32.signs.nuclear {
+    background-position: -0px -928px;
+}
+
+.s32.signs.nuclear1 {
+    background-position: -0px -960px;
+}
+
+.s32.signs.place-of-interest {
+    background-position: -0px -992px;
+}
+
+.s32.signs.prescription {
+    background-position: -0px -1024px;
+}
+
+.s32.signs.prescription1 {
+    background-position: -0px -1056px;
+}
+
+.s32.signs.railroad-tracks {
+    background-position: -0px -1088px;
+}
+
+.s32.signs.recycle-sc45 {
+    background-position: -0px -1120px;
+}
+
+.s32.signs.recycle {
+    background-position: -0px -1152px;
+}
+
+.s32.signs.road-dont-walk-hand {
+    background-position: -0px -1184px;
+}
+
+.s32.signs.road-dont-walk-word {
+    background-position: -0px -1216px;
+}
+
+.s32.signs.road-food-sc50 {
+    background-position: -0px -1248px;
+}
+
+.s32.signs.road-stop-sign-sc44 {
+    background-position: -0px -1280px;
+}
+
+.s32.signs.road-walk-person {
+    background-position: -0px -1312px;
+}
+
+.s32.signs.road-walk-word {
+    background-position: -0px -1344px;
+}
+
+.s32.signs.scale-sc2 {
+    background-position: -0px -1376px;
+}
+
+.s32.signs.scale1 {
+    background-position: -0px -1408px;
+}
+
+.s32.signs.sos-circled1-sc49 {
+    background-position: -0px -1440px;
+}
+
+.s32.signs.stetoscope-sc43 {
+    background-position: -0px -1472px;
+}
+
+.s32.signs.stop-lights2-sc46 {
+    background-position: -0px -1504px;
+}
+
+.s32.signs.stop-lights2 {
+    background-position: -0px -1536px;
+}
+
+.s32.signs.stop-sign-sc49 {
+    background-position: -0px -1568px;
+}
+
+.s32.signs.stop-sign3 {
+    background-position: -0px -1600px;
+}
+
+.s32.signs.test-tube {
+    background-position: -0px -1632px;
+}
+
+.s32.signs.thermometer {
+    background-position: -0px -1664px;
+}
+
+.s32.signs.vest {
+    background-position: -0px -1696px;
+}
+
+.s32.signs.warning-biohazard {
+    background-position: -0px -1728px;
+}
+
+.s32.signs.warning-biohazard1 {
+    background-position: -0px -1760px;
+}
+
+.s32.signs.warning-corossive {
+    background-position: -0px -1792px;
+}
+
+.s32.signs.warning-man-working-sc44 {
+    background-position: -0px -1824px;
+}
+
+.s32.signs.warning-poison {
+    background-position: -0px -1856px;
+}
+
+.s32.signs.warning-poison1 {
+    background-position: -0px -1888px;
+}
+
+.s32.signs.warning-radiation {
+    background-position: -0px -1920px;
+}
+
+.s32.signs.warning-radiation1 {
+    background-position: -0px -1952px;
+}
+
+.s32.signs.warning-sign {
+    background-position: -0px -1984px;
+}
+
+.s32.signs.wheelchair {
+    background-position: -0px -2016px;
+}
+
+.s32.signs.z-parking-no-sc49 {
+    background-position: -0px -2048px;
+}
+
+.s32.signs.z-parking-sc49 {
+    background-position: -0px -2080px;
+}
+
+.s32.signs.z-roadsign10 {
+    background-position: -0px -2112px;
+}
+
+.s32.signs.z-roadsign100 {
+    background-position: -0px -2144px;
+}
+
+.s32.signs.z-roadsign101 {
+    background-position: -0px -2176px;
+}
+
+.s32.signs.z-roadsign102 {
+    background-position: -0px -2208px;
+}
+
+.s32.signs.z-roadsign103 {
+    background-position: -0px -2240px;
+}
+
+.s32.signs.z-roadsign104 {
+    background-position: -0px -2272px;
+}
+
+.s32.signs.z-roadsign105 {
+    background-position: -0px -2304px;
+}
+
+.s32.signs.z-roadsign11 {
+    background-position: -0px -2336px;
+}
+
+.s32.signs.z-roadsign12 {
+    background-position: -0px -2368px;
+}
+
+.s32.signs.z-roadsign13 {
+    background-position: -0px -2400px;
+}
+
+.s32.signs.z-roadsign14 {
+    background-position: -0px -2432px;
+}
+
+.s32.signs.z-roadsign15 {
+    background-position: -0px -2464px;
+}
+
+.s32.signs.z-roadsign16 {
+    background-position: -0px -2496px;
+}
+
+.s32.signs.z-roadsign17 {
+    background-position: -0px -2528px;
+}
+
+.s32.signs.z-roadsign18 {
+    background-position: -0px -2560px;
+}
+
+.s32.signs.z-roadsign19 {
+    background-position: -0px -2592px;
+}
+
+.s32.signs.z-roadsign2 {
+    background-position: -0px -2624px;
+}
+
+.s32.signs.z-roadsign20 {
+    background-position: -0px -2656px;
+}
+
+.s32.signs.z-roadsign21 {
+    background-position: -0px -2688px;
+}
+
+.s32.signs.z-roadsign22 {
+    background-position: -0px -2720px;
+}
+
+.s32.signs.z-roadsign23 {
+    background-position: -0px -2752px;
+}
+
+.s32.signs.z-roadsign24 {
+    background-position: -0px -2784px;
+}
+
+.s32.signs.z-roadsign25 {
+    background-position: -0px -2816px;
+}
+
+.s32.signs.z-roadsign26 {
+    background-position: -0px -2848px;
+}
+
+.s32.signs.z-roadsign27 {
+    background-position: -0px -2880px;
+}
+
+.s32.signs.z-roadsign28 {
+    background-position: -0px -2912px;
+}
+
+.s32.signs.z-roadsign29 {
+    background-position: -0px -2944px;
+}
+
+.s32.signs.z-roadsign30 {
+    background-position: -0px -2976px;
+}
+
+.s32.signs.z-roadsign33 {
+    background-position: -0px -3008px;
+}
+
+.s32.signs.z-roadsign34 {
+    background-position: -0px -3040px;
+}
+
+.s32.signs.z-roadsign36 {
+    background-position: -0px -3072px;
+}
+
+.s32.signs.z-roadsign37 {
+    background-position: -0px -3104px;
+}
+
+.s32.signs.z-roadsign38 {
+    background-position: -0px -3136px;
+}
+
+.s32.signs.z-roadsign39 {
+    background-position: -0px -3168px;
+}
+
+.s32.signs.z-roadsign40 {
+    background-position: -0px -3200px;
+}
+
+.s32.signs.z-roadsign42 {
+    background-position: -0px -3232px;
+}
+
+.s32.signs.z-roadsign43 {
+    background-position: -0px -3264px;
+}
+
+.s32.signs.z-roadsign44 {
+    background-position: -0px -3296px;
+}
+
+.s32.signs.z-roadsign45 {
+    background-position: -0px -3328px;
+}
+
+.s32.signs.z-roadsign46 {
+    background-position: -0px -3360px;
+}
+
+.s32.signs.z-roadsign47 {
+    background-position: -0px -3392px;
+}
+
+.s32.signs.z-roadsign51 {
+    background-position: -0px -3424px;
+}
+
+.s32.signs.z-roadsign52 {
+    background-position: -0px -3456px;
+}
+
+.s32.signs.z-roadsign53 {
+    background-position: -0px -3488px;
+}
+
+.s32.signs.z-roadsign54 {
+    background-position: -0px -3520px;
+}
+
+.s32.signs.z-roadsign56 {
+    background-position: -0px -3552px;
+}
+
+.s32.signs.z-roadsign57 {
+    background-position: -0px -3584px;
+}
+
+.s32.signs.z-roadsign58 {
+    background-position: -0px -3616px;
+}
+
+.s32.signs.z-roadsign59 {
+    background-position: -0px -3648px;
+}
+
+.s32.signs.z-roadsign60 {
+    background-position: -0px -3680px;
+}
+
+.s32.signs.z-roadsign61 {
+    background-position: -0px -3712px;
+}
+
+.s32.signs.z-roadsign63 {
+    background-position: -0px -3744px;
+}
+
+.s32.signs.z-roadsign64 {
+    background-position: -0px -3776px;
+}
+
+.s32.signs.z-roadsign65 {
+    background-position: -0px -3808px;
+}
+
+.s32.signs.z-roadsign66 {
+    background-position: -0px -3840px;
+}
+
+.s32.signs.z-roadsign67 {
+    background-position: -0px -3872px;
+}
+
+.s32.signs.z-roadsign68 {
+    background-position: -0px -3904px;
+}
+
+.s32.signs.z-roadsign69 {
+    background-position: -0px -3936px;
+}
+
+.s32.signs.z-roadsign70 {
+    background-position: -0px -3968px;
+}
+
+.s32.signs.z-roadsign71 {
+    background-position: -0px -4000px;
+}
+
+.s32.signs.z-roadsign72 {
+    background-position: -0px -4032px;
+}
+
+.s32.signs.z-roadsign73 {
+    background-position: -0px -4064px;
+}
+
+.s32.signs.z-roadsign74 {
+    background-position: -0px -4096px;
+}
+
+.s32.signs.z-roadsign75 {
+    background-position: -0px -4128px;
+}
+
+.s32.signs.z-roadsign76 {
+    background-position: -0px -4160px;
+}
+
+.s32.signs.z-roadsign77 {
+    background-position: -0px -4192px;
+}
+
+.s32.signs.z-roadsign78 {
+    background-position: -0px -4224px;
+}
+
+.s32.signs.z-roadsign79 {
+    background-position: -0px -4256px;
+}
+
+.s32.signs.z-roadsign8 {
+    background-position: -0px -4288px;
+}
+
+.s32.signs.z-roadsign81 {
+    background-position: -0px -4320px;
+}
+
+.s32.signs.z-roadsign82 {
+    background-position: -0px -4352px;
+}
+
+.s32.signs.z-roadsign83 {
+    background-position: -0px -4384px;
+}
+
+.s32.signs.z-roadsign84 {
+    background-position: -0px -4416px;
+}
+
+.s32.signs.z-roadsign85 {
+    background-position: -0px -4448px;
+}
+
+.s32.signs.z-roadsign86 {
+    background-position: -0px -4480px;
+}
+
+.s32.signs.z-roadsign88 {
+    background-position: -0px -4512px;
+}
+
+.s32.signs.z-roadsign9 {
+    background-position: -0px -4544px;
+}
+
+.s32.signs.z-roadsign90 {
+    background-position: -0px -4576px;
+}
+
+.s32.signs.z-roadsign91 {
+    background-position: -0px -4608px;
+}
+
+.s32.signs.z-roadsign92 {
+    background-position: -0px -4640px;
+}
+
+.s32.signs.z-roadsign93 {
+    background-position: -0px -4672px;
+}
+
+.s32.signs.z-roadsign94 {
+    background-position: -0px -4704px;
+}
+
+.s32.signs.z-roadsign95 {
+    background-position: -0px -4736px;
+}
+
+.s32.signs.z-roadsign96 {
+    background-position: -0px -4768px;
+}
+
+.s32.signs.z-roadsign97 {
+    background-position: -0px -4800px;
+}
+
+.s32.signs.z-roadsign98 {
+    background-position: -0px -4832px;
+}
+
+.s32.signs.z-roadsign99 {
+    background-position: -0px -4864px;
+}

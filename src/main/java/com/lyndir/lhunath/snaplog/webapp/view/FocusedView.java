@@ -71,6 +71,7 @@ public class FocusedView extends GenericPanel<Media> {
         };
 
         add( new MediaView( "media", new LoadableDetachableModel<Media>() {
+
             @Override
             protected Media load() {
 
@@ -114,6 +115,7 @@ public class FocusedView extends GenericPanel<Media> {
             protected void populateItem(final Item<Media> item) {
 
                 item.add( new MediaView( "media", item.getModel(), Media.Quality.THUMBNAIL, true ) {
+
                     @Override
                     protected void onClick(final AjaxRequestTarget target) {
 
@@ -146,6 +148,7 @@ public class FocusedView extends GenericPanel<Media> {
             protected void populateItem(final Item<Media> item) {
 
                 item.add( new MediaView( "media", item.getModel(), Media.Quality.THUMBNAIL, true ) {
+
                     @Override
                     protected void onClick(final AjaxRequestTarget target) {
 

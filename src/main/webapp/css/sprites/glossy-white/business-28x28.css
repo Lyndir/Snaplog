@@ -1,249 +1,997 @@
-.s28.business                      { background: transparent url("28x28/business.png") no-repeat; width: 28px; height: 28px; }
-.s28.business.bag-paper1           { background-position:   -0px   -0px; }
-.s28.business.bag-paper2           { background-position:   -0px  -28px; }
-.s28.business.bag-paper3           { background-position:   -0px  -56px; }
-.s28.business.basket               { background-position:   -0px  -84px; }
-.s28.business.battery              { background-position:   -0px -112px; }
-.s28.business.battery1             { background-position:   -0px -140px; }
-.s28.business.binocular            { background-position:   -0px -168px; }
-.s28.business.box                  { background-position:   -0px -196px; }
-.s28.business.box1                 { background-position:   -0px -224px; }
-.s28.business.box2                 { background-position:   -0px -252px; }
-.s28.business.brush-paint55        { background-position:   -0px -280px; }
-.s28.business.brush-paint57-sc52   { background-position:   -0px -308px; }
-.s28.business.brush-painting-sc43  { background-position:   -0px -336px; }
-.s28.business.cabinet              { background-position:   -0px -364px; }
-.s28.business.calculator           { background-position:   -0px -392px; }
-.s28.business.calendar             { background-position:   -0px -420px; }
-.s28.business.cart-7dots           { background-position:   -0px -448px; }
-.s28.business.cart-arrow           { background-position:   -0px -476px; }
-.s28.business.cart-solid           { background-position:   -0px -504px; }
-.s28.business.cart2                { background-position:   -0px -532px; }
-.s28.business.cart3                { background-position:   -0px -560px; }
-.s28.business.cart4                { background-position:   -0px -588px; }
-.s28.business.cart5                { background-position:   -0px -616px; }
-.s28.business.chair5-sc52          { background-position:   -0px -644px; }
-.s28.business.charcoal-cart        { background-position:   -0px -672px; }
-.s28.business.charts               { background-position:   -0px -700px; }
-.s28.business.charts1-sc1          { background-position:   -0px -728px; }
-.s28.business.clipboard            { background-position:   -0px -756px; }
-.s28.business.clipboard1           { background-position:   -0px -784px; }
-.s28.business.clipboard2-sc1       { background-position:   -0px -812px; }
-.s28.business.clock                { background-position:   -0px -840px; }
-.s28.business.clock1               { background-position:   -0px -868px; }
-.s28.business.clock110             { background-position:   -0px -896px; }
-.s28.business.clock2               { background-position:   -0px -924px; }
-.s28.business.clock3               { background-position:   -0px -952px; }
-.s28.business.clock4               { background-position:   -0px -980px; }
-.s28.business.clock5-sc44          { background-position:   -0px -1008px; }
-.s28.business.clock6-sc43          { background-position:   -0px -1036px; }
-.s28.business.clock7-sc43          { background-position:   -0px -1064px; }
-.s28.business.clock8               { background-position:   -0px -1092px; }
-.s28.business.computer-desktop1    { background-position:   -0px -1120px; }
-.s28.business.computer-keyboard    { background-position:   -0px -1148px; }
-.s28.business.computer-laptop2     { background-position:   -0px -1176px; }
-.s28.business.computer-monitor     { background-position:   -0px -1204px; }
-.s28.business.computer-mouse       { background-position:   -0px -1232px; }
-.s28.business.computer-mouse2      { background-position:   -0px -1260px; }
-.s28.business.computer-mouse3-sc1  { background-position:   -0px -1288px; }
-.s28.business.computer-mouse3      { background-position:   -0px -1316px; }
-.s28.business.computer-server1     { background-position:   -0px -1344px; }
-.s28.business.computer-server2     { background-position:   -0px -1372px; }
-.s28.business.computer-usb-drive-sc7 { background-position:   -0px -1400px; }
-.s28.business.copyright            { background-position:   -0px -1428px; }
-.s28.business.creditcard2          { background-position:   -0px -1456px; }
-.s28.business.currency-british-pound-sc35 { background-position:   -0px -1484px; }
-.s28.business.currency-cent-sc35   { background-position:   -0px -1512px; }
-.s28.business.currency-dollar-sc35 { background-position:   -0px -1540px; }
-.s28.business.currency-euro1-sc35  { background-position:   -0px -1568px; }
-.s28.business.currency-euro1       { background-position:   -0px -1596px; }
-.s28.business.currency-euro3       { background-position:   -0px -1624px; }
-.s28.business.currency-japanese-yen2-sc35 { background-position:   -0px -1652px; }
-.s28.business.cursor               { background-position:   -0px -1680px; }
-.s28.business.disc                 { background-position:   -0px -1708px; }
-.s28.business.disk                 { background-position:   -0px -1736px; }
-.s28.business.diskette-save        { background-position:   -0px -1764px; }
-.s28.business.diskette4            { background-position:   -0px -1792px; }
-.s28.business.document             { background-position:   -0px -1820px; }
-.s28.business.document1            { background-position:   -0px -1848px; }
-.s28.business.document10-sc1       { background-position:   -0px -1876px; }
-.s28.business.document3            { background-position:   -0px -1904px; }
-.s28.business.document4            { background-position:   -0px -1932px; }
-.s28.business.document5            { background-position:   -0px -1960px; }
-.s28.business.document6            { background-position:   -0px -1988px; }
-.s28.business.document7            { background-position:   -0px -2016px; }
-.s28.business.document8            { background-position:   -0px -2044px; }
-.s28.business.document9            { background-position:   -0px -2072px; }
-.s28.business.dollar-solid         { background-position:   -0px -2100px; }
-.s28.business.dollar               { background-position:   -0px -2128px; }
-.s28.business.electrical-plug      { background-position:   -0px -2156px; }
-.s28.business.electrical-plug1     { background-position:   -0px -2184px; }
-.s28.business.electrical-plug2     { background-position:   -0px -2212px; }
-.s28.business.electrical-plug5     { background-position:   -0px -2240px; }
-.s28.business.envelope1            { background-position:   -0px -2268px; }
-.s28.business.envelope3            { background-position:   -0px -2296px; }
-.s28.business.envelope4            { background-position:   -0px -2324px; }
-.s28.business.envelope5            { background-position:   -0px -2352px; }
-.s28.business.envelopes1           { background-position:   -0px -2380px; }
-.s28.business.fax                  { background-position:   -0px -2408px; }
-.s28.business.folder               { background-position:   -0px -2436px; }
-.s28.business.folder1              { background-position:   -0px -2464px; }
-.s28.business.folder2-sc1          { background-position:   -0px -2492px; }
-.s28.business.gas-none-sc49        { background-position:   -0px -2520px; }
-.s28.business.gas-pump             { background-position:   -0px -2548px; }
-.s28.business.gas-station4-sc49    { background-position:   -0px -2576px; }
-.s28.business.gaspump              { background-position:   -0px -2604px; }
-.s28.business.gaspump2             { background-position:   -0px -2632px; }
-.s28.business.gear-c-sc44          { background-position:   -0px -2660px; }
-.s28.business.gear                 { background-position:   -0px -2688px; }
-.s28.business.gear1                { background-position:   -0px -2716px; }
-.s28.business.gear10               { background-position:   -0px -2744px; }
-.s28.business.gear11               { background-position:   -0px -2772px; }
-.s28.business.gear2                { background-position:   -0px -2800px; }
-.s28.business.gear3                { background-position:   -0px -2828px; }
-.s28.business.gear4                { background-position:   -0px -2856px; }
-.s28.business.gear5                { background-position:   -0px -2884px; }
-.s28.business.gear6                { background-position:   -0px -2912px; }
-.s28.business.gear7                { background-position:   -0px -2940px; }
-.s28.business.gear8                { background-position:   -0px -2968px; }
-.s28.business.gear9                { background-position:   -0px -2996px; }
-.s28.business.gears-sc37           { background-position:   -0px -3024px; }
-.s28.business.gears1-sc44          { background-position:   -0px -3052px; }
-.s28.business.globe                { background-position:   -0px -3080px; }
-.s28.business.head-set             { background-position:   -0px -3108px; }
-.s28.business.headgear             { background-position:   -0px -3136px; }
-.s28.business.headset3             { background-position:   -0px -3164px; }
-.s28.business.home1                { background-position:   -0px -3192px; }
-.s28.business.home3                { background-position:   -0px -3220px; }
-.s28.business.home4                { background-position:   -0px -3248px; }
-.s28.business.home5                { background-position:   -0px -3276px; }
-.s28.business.home6                { background-position:   -0px -3304px; }
-.s28.business.home7                { background-position:   -0px -3332px; }
-.s28.business.home8                { background-position:   -0px -3360px; }
-.s28.business.home9-sc52           { background-position:   -0px -3388px; }
-.s28.business.hourglass            { background-position:   -0px -3416px; }
-.s28.business.hourglass2           { background-position:   -0px -3444px; }
-.s28.business.hourglass3-sc44      { background-position:   -0px -3472px; }
-.s28.business.industrial           { background-position:   -0px -3500px; }
-.s28.business.key-hole-sc48        { background-position:   -0px -3528px; }
-.s28.business.key1                 { background-position:   -0px -3556px; }
-.s28.business.key11-sc48           { background-position:   -0px -3584px; }
-.s28.business.key2                 { background-position:   -0px -3612px; }
-.s28.business.key3                 { background-position:   -0px -3640px; }
-.s28.business.key6                 { background-position:   -0px -3668px; }
-.s28.business.key7                 { background-position:   -0px -3696px; }
-.s28.business.key9                 { background-position:   -0px -3724px; }
-.s28.business.keys-sc43            { background-position:   -0px -3752px; }
-.s28.business.ladder               { background-position:   -0px -3780px; }
-.s28.business.ladder1-sc48         { background-position:   -0px -3808px; }
-.s28.business.light-bulb           { background-position:   -0px -3836px; }
-.s28.business.light-bulb2-sc52     { background-position:   -0px -3864px; }
-.s28.business.light-off            { background-position:   -0px -3892px; }
-.s28.business.light-on             { background-position:   -0px -3920px; }
-.s28.business.lock-heart           { background-position:   -0px -3948px; }
-.s28.business.lock1                { background-position:   -0px -3976px; }
-.s28.business.lock2                { background-position:   -0px -4004px; }
-.s28.business.lock3                { background-position:   -0px -4032px; }
-.s28.business.lock4                { background-position:   -0px -4060px; }
-.s28.business.lock5                { background-position:   -0px -4088px; }
-.s28.business.lock6-sc48           { background-position:   -0px -4116px; }
-.s28.business.logo-superman-sc37   { background-position:   -0px -4144px; }
-.s28.business.magic-wand           { background-position:   -0px -4172px; }
-.s28.business.magnify-zoom-out     { background-position:   -0px -4200px; }
-.s28.business.magnify-zoom         { background-position:   -0px -4228px; }
-.s28.business.magnifying-glass-ps  { background-position:   -0px -4256px; }
-.s28.business.magnifying-glass1-sc49 { background-position:   -0px -4284px; }
-.s28.business.mail                 { background-position:   -0px -4312px; }
-.s28.business.mailbox              { background-position:   -0px -4340px; }
-.s28.business.mailbox1             { background-position:   -0px -4368px; }
-.s28.business.microscope           { background-position:   -0px -4396px; }
-.s28.business.notepad              { background-position:   -0px -4424px; }
-.s28.business.oil-well             { background-position:   -0px -4452px; }
-.s28.business.paperclip            { background-position:   -0px -4480px; }
-.s28.business.paperclip2           { background-position:   -0px -4508px; }
-.s28.business.paperclips2-sc43     { background-position:   -0px -4536px; }
-.s28.business.pen-crayon-ps        { background-position:   -0px -4564px; }
-.s28.business.pen-crayon           { background-position:   -0px -4592px; }
-.s28.business.pen1                 { background-position:   -0px -4620px; }
-.s28.business.pen5-ps              { background-position:   -0px -4648px; }
-.s28.business.pen6-ps              { background-position:   -0px -4676px; }
-.s28.business.pencil1              { background-position:   -0px -4704px; }
-.s28.business.pencil2              { background-position:   -0px -4732px; }
-.s28.business.pencil4              { background-position:   -0px -4760px; }
-.s28.business.pencil5-ps           { background-position:   -0px -4788px; }
-.s28.business.pencil6-sc45         { background-position:   -0px -4816px; }
-.s28.business.pencil7-sc49         { background-position:   -0px -4844px; }
-.s28.business.pencil8              { background-position:   -0px -4872px; }
-.s28.business.phone-cell           { background-position:   -0px -4900px; }
-.s28.business.phone-cell2          { background-position:   -0px -4928px; }
-.s28.business.phone-cell3-sc8      { background-position:   -0px -4956px; }
-.s28.business.phone-clear          { background-position:   -0px -4984px; }
-.s28.business.phone-solid          { background-position:   -0px -5012px; }
-.s28.business.phone                { background-position:   -0px -5040px; }
-.s28.business.phone1               { background-position:   -0px -5068px; }
-.s28.business.phone2               { background-position:   -0px -5096px; }
-.s28.business.phone4               { background-position:   -0px -5124px; }
-.s28.business.power-button4        { background-position:   -0px -5152px; }
-.s28.business.printer              { background-position:   -0px -5180px; }
-.s28.business.registered-mark      { background-position:   -0px -5208px; }
-.s28.business.registered-mark1     { background-position:   -0px -5236px; }
-.s28.business.robot                { background-position:   -0px -5264px; }
-.s28.business.robot1               { background-position:   -0px -5292px; }
-.s28.business.satellite-dish-sc43  { background-position:   -0px -5320px; }
-.s28.business.satellite3-sc43      { background-position:   -0px -5348px; }
-.s28.business.satellite4-sc43      { background-position:   -0px -5376px; }
-.s28.business.scissors             { background-position:   -0px -5404px; }
-.s28.business.signature            { background-position:   -0px -5432px; }
-.s28.business.signature1           { background-position:   -0px -5460px; }
-.s28.business.space-satelite-sc43  { background-position:   -0px -5488px; }
-.s28.business.space-satelite       { background-position:   -0px -5516px; }
-.s28.business.space-satellite-dish-sc2 { background-position:   -0px -5544px; }
-.s28.business.spaceship            { background-position:   -0px -5572px; }
-.s28.business.tag                  { background-position:   -0px -5600px; }
-.s28.business.text-size            { background-position:   -0px -5628px; }
-.s28.business.thumb-tack-ps        { background-position:   -0px -5656px; }
-.s28.business.thumbs-down          { background-position:   -0px -5684px; }
-.s28.business.thumbs-down1         { background-position:   -0px -5712px; }
-.s28.business.thumbs-down2         { background-position:   -0px -5740px; }
-.s28.business.thumbs-up            { background-position:   -0px -5768px; }
-.s28.business.thumbs-up1           { background-position:   -0px -5796px; }
-.s28.business.thumbs-up2           { background-position:   -0px -5824px; }
-.s28.business.tool-army-knife-sc44 { background-position:   -0px -5852px; }
-.s28.business.tool-ax              { background-position:   -0px -5880px; }
-.s28.business.tool-axe1-sc48       { background-position:   -0px -5908px; }
-.s28.business.tool-cutter          { background-position:   -0px -5936px; }
-.s28.business.tool-cutter1-sc44    { background-position:   -0px -5964px; }
-.s28.business.tool-hammer          { background-position:   -0px -5992px; }
-.s28.business.tool-hammer2         { background-position:   -0px -6020px; }
-.s28.business.tool-hammer3         { background-position:   -0px -6048px; }
-.s28.business.tool-hammer4-sc44    { background-position:   -0px -6076px; }
-.s28.business.tool-pick-sc44       { background-position:   -0px -6104px; }
-.s28.business.tool-screw-sc44      { background-position:   -0px -6132px; }
-.s28.business.tool-screwdriver     { background-position:   -0px -6160px; }
-.s28.business.tool-shovel2-sc44    { background-position:   -0px -6188px; }
-.s28.business.tool-sprocket1       { background-position:   -0px -6216px; }
-.s28.business.tool-sprocket2       { background-position:   -0px -6244px; }
-.s28.business.tool-sword-sc48      { background-position:   -0px -6272px; }
-.s28.business.tool-wheelbarrowl2-sc44 { background-position:   -0px -6300px; }
-.s28.business.tool-wrench1         { background-position:   -0px -6328px; }
-.s28.business.tool-wrench2         { background-position:   -0px -6356px; }
-.s28.business.tool-wrench3         { background-position:   -0px -6384px; }
-.s28.business.tool-wrench4         { background-position:   -0px -6412px; }
-.s28.business.tool-wrench7         { background-position:   -0px -6440px; }
-.s28.business.tool-wrench8-sc44    { background-position:   -0px -6468px; }
-.s28.business.tool                 { background-position:   -0px -6496px; }
-.s28.business.tool7                { background-position:   -0px -6524px; }
-.s28.business.tools-shovel         { background-position:   -0px -6552px; }
-.s28.business.tools1               { background-position:   -0px -6580px; }
-.s28.business.tools2-digging       { background-position:   -0px -6608px; }
-.s28.business.toolset-sc44         { background-position:   -0px -6636px; }
-.s28.business.toolset3-sc44        { background-position:   -0px -6664px; }
-.s28.business.trademark-ps         { background-position:   -0px -6692px; }
-.s28.business.trashcan             { background-position:   -0px -6720px; }
-.s28.business.trashcan3            { background-position:   -0px -6748px; }
-.s28.business.wall                 { background-position:   -0px -6776px; }
-.s28.business.wand1-sc43           { background-position:   -0px -6804px; }
-.s28.business.webcam               { background-position:   -0px -6832px; }
-.s28.business.wireless             { background-position:   -0px -6860px; }
-.s28.business.www-search-ps        { background-position:   -0px -6888px; }
-.s28.business.yen                  { background-position:   -0px -6916px; }
+.s28.business {
+    background:          transparent url("28x28/business.png") no-repeat;
+    width:               28px;
+    height:              28px;
+}
+
+.s28.business.bag-paper1 {
+    background-position: -0px -0px;
+}
+
+.s28.business.bag-paper2 {
+    background-position: -0px -28px;
+}
+
+.s28.business.bag-paper3 {
+    background-position: -0px -56px;
+}
+
+.s28.business.basket {
+    background-position: -0px -84px;
+}
+
+.s28.business.battery {
+    background-position: -0px -112px;
+}
+
+.s28.business.battery1 {
+    background-position: -0px -140px;
+}
+
+.s28.business.binocular {
+    background-position: -0px -168px;
+}
+
+.s28.business.box {
+    background-position: -0px -196px;
+}
+
+.s28.business.box1 {
+    background-position: -0px -224px;
+}
+
+.s28.business.box2 {
+    background-position: -0px -252px;
+}
+
+.s28.business.brush-paint55 {
+    background-position: -0px -280px;
+}
+
+.s28.business.brush-paint57-sc52 {
+    background-position: -0px -308px;
+}
+
+.s28.business.brush-painting-sc43 {
+    background-position: -0px -336px;
+}
+
+.s28.business.cabinet {
+    background-position: -0px -364px;
+}
+
+.s28.business.calculator {
+    background-position: -0px -392px;
+}
+
+.s28.business.calendar {
+    background-position: -0px -420px;
+}
+
+.s28.business.cart-7dots {
+    background-position: -0px -448px;
+}
+
+.s28.business.cart-arrow {
+    background-position: -0px -476px;
+}
+
+.s28.business.cart-solid {
+    background-position: -0px -504px;
+}
+
+.s28.business.cart2 {
+    background-position: -0px -532px;
+}
+
+.s28.business.cart3 {
+    background-position: -0px -560px;
+}
+
+.s28.business.cart4 {
+    background-position: -0px -588px;
+}
+
+.s28.business.cart5 {
+    background-position: -0px -616px;
+}
+
+.s28.business.chair5-sc52 {
+    background-position: -0px -644px;
+}
+
+.s28.business.charcoal-cart {
+    background-position: -0px -672px;
+}
+
+.s28.business.charts {
+    background-position: -0px -700px;
+}
+
+.s28.business.charts1-sc1 {
+    background-position: -0px -728px;
+}
+
+.s28.business.clipboard {
+    background-position: -0px -756px;
+}
+
+.s28.business.clipboard1 {
+    background-position: -0px -784px;
+}
+
+.s28.business.clipboard2-sc1 {
+    background-position: -0px -812px;
+}
+
+.s28.business.clock {
+    background-position: -0px -840px;
+}
+
+.s28.business.clock1 {
+    background-position: -0px -868px;
+}
+
+.s28.business.clock110 {
+    background-position: -0px -896px;
+}
+
+.s28.business.clock2 {
+    background-position: -0px -924px;
+}
+
+.s28.business.clock3 {
+    background-position: -0px -952px;
+}
+
+.s28.business.clock4 {
+    background-position: -0px -980px;
+}
+
+.s28.business.clock5-sc44 {
+    background-position: -0px -1008px;
+}
+
+.s28.business.clock6-sc43 {
+    background-position: -0px -1036px;
+}
+
+.s28.business.clock7-sc43 {
+    background-position: -0px -1064px;
+}
+
+.s28.business.clock8 {
+    background-position: -0px -1092px;
+}
+
+.s28.business.computer-desktop1 {
+    background-position: -0px -1120px;
+}
+
+.s28.business.computer-keyboard {
+    background-position: -0px -1148px;
+}
+
+.s28.business.computer-laptop2 {
+    background-position: -0px -1176px;
+}
+
+.s28.business.computer-monitor {
+    background-position: -0px -1204px;
+}
+
+.s28.business.computer-mouse {
+    background-position: -0px -1232px;
+}
+
+.s28.business.computer-mouse2 {
+    background-position: -0px -1260px;
+}
+
+.s28.business.computer-mouse3-sc1 {
+    background-position: -0px -1288px;
+}
+
+.s28.business.computer-mouse3 {
+    background-position: -0px -1316px;
+}
+
+.s28.business.computer-server1 {
+    background-position: -0px -1344px;
+}
+
+.s28.business.computer-server2 {
+    background-position: -0px -1372px;
+}
+
+.s28.business.computer-usb-drive-sc7 {
+    background-position: -0px -1400px;
+}
+
+.s28.business.copyright {
+    background-position: -0px -1428px;
+}
+
+.s28.business.creditcard2 {
+    background-position: -0px -1456px;
+}
+
+.s28.business.currency-british-pound-sc35 {
+    background-position: -0px -1484px;
+}
+
+.s28.business.currency-cent-sc35 {
+    background-position: -0px -1512px;
+}
+
+.s28.business.currency-dollar-sc35 {
+    background-position: -0px -1540px;
+}
+
+.s28.business.currency-euro1-sc35 {
+    background-position: -0px -1568px;
+}
+
+.s28.business.currency-euro1 {
+    background-position: -0px -1596px;
+}
+
+.s28.business.currency-euro3 {
+    background-position: -0px -1624px;
+}
+
+.s28.business.currency-japanese-yen2-sc35 {
+    background-position: -0px -1652px;
+}
+
+.s28.business.cursor {
+    background-position: -0px -1680px;
+}
+
+.s28.business.disc {
+    background-position: -0px -1708px;
+}
+
+.s28.business.disk {
+    background-position: -0px -1736px;
+}
+
+.s28.business.diskette-save {
+    background-position: -0px -1764px;
+}
+
+.s28.business.diskette4 {
+    background-position: -0px -1792px;
+}
+
+.s28.business.document {
+    background-position: -0px -1820px;
+}
+
+.s28.business.document1 {
+    background-position: -0px -1848px;
+}
+
+.s28.business.document10-sc1 {
+    background-position: -0px -1876px;
+}
+
+.s28.business.document3 {
+    background-position: -0px -1904px;
+}
+
+.s28.business.document4 {
+    background-position: -0px -1932px;
+}
+
+.s28.business.document5 {
+    background-position: -0px -1960px;
+}
+
+.s28.business.document6 {
+    background-position: -0px -1988px;
+}
+
+.s28.business.document7 {
+    background-position: -0px -2016px;
+}
+
+.s28.business.document8 {
+    background-position: -0px -2044px;
+}
+
+.s28.business.document9 {
+    background-position: -0px -2072px;
+}
+
+.s28.business.dollar-solid {
+    background-position: -0px -2100px;
+}
+
+.s28.business.dollar {
+    background-position: -0px -2128px;
+}
+
+.s28.business.electrical-plug {
+    background-position: -0px -2156px;
+}
+
+.s28.business.electrical-plug1 {
+    background-position: -0px -2184px;
+}
+
+.s28.business.electrical-plug2 {
+    background-position: -0px -2212px;
+}
+
+.s28.business.electrical-plug5 {
+    background-position: -0px -2240px;
+}
+
+.s28.business.envelope1 {
+    background-position: -0px -2268px;
+}
+
+.s28.business.envelope3 {
+    background-position: -0px -2296px;
+}
+
+.s28.business.envelope4 {
+    background-position: -0px -2324px;
+}
+
+.s28.business.envelope5 {
+    background-position: -0px -2352px;
+}
+
+.s28.business.envelopes1 {
+    background-position: -0px -2380px;
+}
+
+.s28.business.fax {
+    background-position: -0px -2408px;
+}
+
+.s28.business.folder {
+    background-position: -0px -2436px;
+}
+
+.s28.business.folder1 {
+    background-position: -0px -2464px;
+}
+
+.s28.business.folder2-sc1 {
+    background-position: -0px -2492px;
+}
+
+.s28.business.gas-none-sc49 {
+    background-position: -0px -2520px;
+}
+
+.s28.business.gas-pump {
+    background-position: -0px -2548px;
+}
+
+.s28.business.gas-station4-sc49 {
+    background-position: -0px -2576px;
+}
+
+.s28.business.gaspump {
+    background-position: -0px -2604px;
+}
+
+.s28.business.gaspump2 {
+    background-position: -0px -2632px;
+}
+
+.s28.business.gear-c-sc44 {
+    background-position: -0px -2660px;
+}
+
+.s28.business.gear {
+    background-position: -0px -2688px;
+}
+
+.s28.business.gear1 {
+    background-position: -0px -2716px;
+}
+
+.s28.business.gear10 {
+    background-position: -0px -2744px;
+}
+
+.s28.business.gear11 {
+    background-position: -0px -2772px;
+}
+
+.s28.business.gear2 {
+    background-position: -0px -2800px;
+}
+
+.s28.business.gear3 {
+    background-position: -0px -2828px;
+}
+
+.s28.business.gear4 {
+    background-position: -0px -2856px;
+}
+
+.s28.business.gear5 {
+    background-position: -0px -2884px;
+}
+
+.s28.business.gear6 {
+    background-position: -0px -2912px;
+}
+
+.s28.business.gear7 {
+    background-position: -0px -2940px;
+}
+
+.s28.business.gear8 {
+    background-position: -0px -2968px;
+}
+
+.s28.business.gear9 {
+    background-position: -0px -2996px;
+}
+
+.s28.business.gears-sc37 {
+    background-position: -0px -3024px;
+}
+
+.s28.business.gears1-sc44 {
+    background-position: -0px -3052px;
+}
+
+.s28.business.globe {
+    background-position: -0px -3080px;
+}
+
+.s28.business.head-set {
+    background-position: -0px -3108px;
+}
+
+.s28.business.headgear {
+    background-position: -0px -3136px;
+}
+
+.s28.business.headset3 {
+    background-position: -0px -3164px;
+}
+
+.s28.business.home1 {
+    background-position: -0px -3192px;
+}
+
+.s28.business.home3 {
+    background-position: -0px -3220px;
+}
+
+.s28.business.home4 {
+    background-position: -0px -3248px;
+}
+
+.s28.business.home5 {
+    background-position: -0px -3276px;
+}
+
+.s28.business.home6 {
+    background-position: -0px -3304px;
+}
+
+.s28.business.home7 {
+    background-position: -0px -3332px;
+}
+
+.s28.business.home8 {
+    background-position: -0px -3360px;
+}
+
+.s28.business.home9-sc52 {
+    background-position: -0px -3388px;
+}
+
+.s28.business.hourglass {
+    background-position: -0px -3416px;
+}
+
+.s28.business.hourglass2 {
+    background-position: -0px -3444px;
+}
+
+.s28.business.hourglass3-sc44 {
+    background-position: -0px -3472px;
+}
+
+.s28.business.industrial {
+    background-position: -0px -3500px;
+}
+
+.s28.business.key-hole-sc48 {
+    background-position: -0px -3528px;
+}
+
+.s28.business.key1 {
+    background-position: -0px -3556px;
+}
+
+.s28.business.key11-sc48 {
+    background-position: -0px -3584px;
+}
+
+.s28.business.key2 {
+    background-position: -0px -3612px;
+}
+
+.s28.business.key3 {
+    background-position: -0px -3640px;
+}
+
+.s28.business.key6 {
+    background-position: -0px -3668px;
+}
+
+.s28.business.key7 {
+    background-position: -0px -3696px;
+}
+
+.s28.business.key9 {
+    background-position: -0px -3724px;
+}
+
+.s28.business.keys-sc43 {
+    background-position: -0px -3752px;
+}
+
+.s28.business.ladder {
+    background-position: -0px -3780px;
+}
+
+.s28.business.ladder1-sc48 {
+    background-position: -0px -3808px;
+}
+
+.s28.business.light-bulb {
+    background-position: -0px -3836px;
+}
+
+.s28.business.light-bulb2-sc52 {
+    background-position: -0px -3864px;
+}
+
+.s28.business.light-off {
+    background-position: -0px -3892px;
+}
+
+.s28.business.light-on {
+    background-position: -0px -3920px;
+}
+
+.s28.business.lock-heart {
+    background-position: -0px -3948px;
+}
+
+.s28.business.lock1 {
+    background-position: -0px -3976px;
+}
+
+.s28.business.lock2 {
+    background-position: -0px -4004px;
+}
+
+.s28.business.lock3 {
+    background-position: -0px -4032px;
+}
+
+.s28.business.lock4 {
+    background-position: -0px -4060px;
+}
+
+.s28.business.lock5 {
+    background-position: -0px -4088px;
+}
+
+.s28.business.lock6-sc48 {
+    background-position: -0px -4116px;
+}
+
+.s28.business.logo-superman-sc37 {
+    background-position: -0px -4144px;
+}
+
+.s28.business.magic-wand {
+    background-position: -0px -4172px;
+}
+
+.s28.business.magnify-zoom-out {
+    background-position: -0px -4200px;
+}
+
+.s28.business.magnify-zoom {
+    background-position: -0px -4228px;
+}
+
+.s28.business.magnifying-glass-ps {
+    background-position: -0px -4256px;
+}
+
+.s28.business.magnifying-glass1-sc49 {
+    background-position: -0px -4284px;
+}
+
+.s28.business.mail {
+    background-position: -0px -4312px;
+}
+
+.s28.business.mailbox {
+    background-position: -0px -4340px;
+}
+
+.s28.business.mailbox1 {
+    background-position: -0px -4368px;
+}
+
+.s28.business.microscope {
+    background-position: -0px -4396px;
+}
+
+.s28.business.notepad {
+    background-position: -0px -4424px;
+}
+
+.s28.business.oil-well {
+    background-position: -0px -4452px;
+}
+
+.s28.business.paperclip {
+    background-position: -0px -4480px;
+}
+
+.s28.business.paperclip2 {
+    background-position: -0px -4508px;
+}
+
+.s28.business.paperclips2-sc43 {
+    background-position: -0px -4536px;
+}
+
+.s28.business.pen-crayon-ps {
+    background-position: -0px -4564px;
+}
+
+.s28.business.pen-crayon {
+    background-position: -0px -4592px;
+}
+
+.s28.business.pen1 {
+    background-position: -0px -4620px;
+}
+
+.s28.business.pen5-ps {
+    background-position: -0px -4648px;
+}
+
+.s28.business.pen6-ps {
+    background-position: -0px -4676px;
+}
+
+.s28.business.pencil1 {
+    background-position: -0px -4704px;
+}
+
+.s28.business.pencil2 {
+    background-position: -0px -4732px;
+}
+
+.s28.business.pencil4 {
+    background-position: -0px -4760px;
+}
+
+.s28.business.pencil5-ps {
+    background-position: -0px -4788px;
+}
+
+.s28.business.pencil6-sc45 {
+    background-position: -0px -4816px;
+}
+
+.s28.business.pencil7-sc49 {
+    background-position: -0px -4844px;
+}
+
+.s28.business.pencil8 {
+    background-position: -0px -4872px;
+}
+
+.s28.business.phone-cell {
+    background-position: -0px -4900px;
+}
+
+.s28.business.phone-cell2 {
+    background-position: -0px -4928px;
+}
+
+.s28.business.phone-cell3-sc8 {
+    background-position: -0px -4956px;
+}
+
+.s28.business.phone-clear {
+    background-position: -0px -4984px;
+}
+
+.s28.business.phone-solid {
+    background-position: -0px -5012px;
+}
+
+.s28.business.phone {
+    background-position: -0px -5040px;
+}
+
+.s28.business.phone1 {
+    background-position: -0px -5068px;
+}
+
+.s28.business.phone2 {
+    background-position: -0px -5096px;
+}
+
+.s28.business.phone4 {
+    background-position: -0px -5124px;
+}
+
+.s28.business.power-button4 {
+    background-position: -0px -5152px;
+}
+
+.s28.business.printer {
+    background-position: -0px -5180px;
+}
+
+.s28.business.registered-mark {
+    background-position: -0px -5208px;
+}
+
+.s28.business.registered-mark1 {
+    background-position: -0px -5236px;
+}
+
+.s28.business.robot {
+    background-position: -0px -5264px;
+}
+
+.s28.business.robot1 {
+    background-position: -0px -5292px;
+}
+
+.s28.business.satellite-dish-sc43 {
+    background-position: -0px -5320px;
+}
+
+.s28.business.satellite3-sc43 {
+    background-position: -0px -5348px;
+}
+
+.s28.business.satellite4-sc43 {
+    background-position: -0px -5376px;
+}
+
+.s28.business.scissors {
+    background-position: -0px -5404px;
+}
+
+.s28.business.signature {
+    background-position: -0px -5432px;
+}
+
+.s28.business.signature1 {
+    background-position: -0px -5460px;
+}
+
+.s28.business.space-satelite-sc43 {
+    background-position: -0px -5488px;
+}
+
+.s28.business.space-satelite {
+    background-position: -0px -5516px;
+}
+
+.s28.business.space-satellite-dish-sc2 {
+    background-position: -0px -5544px;
+}
+
+.s28.business.spaceship {
+    background-position: -0px -5572px;
+}
+
+.s28.business.tag {
+    background-position: -0px -5600px;
+}
+
+.s28.business.text-size {
+    background-position: -0px -5628px;
+}
+
+.s28.business.thumb-tack-ps {
+    background-position: -0px -5656px;
+}
+
+.s28.business.thumbs-down {
+    background-position: -0px -5684px;
+}
+
+.s28.business.thumbs-down1 {
+    background-position: -0px -5712px;
+}
+
+.s28.business.thumbs-down2 {
+    background-position: -0px -5740px;
+}
+
+.s28.business.thumbs-up {
+    background-position: -0px -5768px;
+}
+
+.s28.business.thumbs-up1 {
+    background-position: -0px -5796px;
+}
+
+.s28.business.thumbs-up2 {
+    background-position: -0px -5824px;
+}
+
+.s28.business.tool-army-knife-sc44 {
+    background-position: -0px -5852px;
+}
+
+.s28.business.tool-ax {
+    background-position: -0px -5880px;
+}
+
+.s28.business.tool-axe1-sc48 {
+    background-position: -0px -5908px;
+}
+
+.s28.business.tool-cutter {
+    background-position: -0px -5936px;
+}
+
+.s28.business.tool-cutter1-sc44 {
+    background-position: -0px -5964px;
+}
+
+.s28.business.tool-hammer {
+    background-position: -0px -5992px;
+}
+
+.s28.business.tool-hammer2 {
+    background-position: -0px -6020px;
+}
+
+.s28.business.tool-hammer3 {
+    background-position: -0px -6048px;
+}
+
+.s28.business.tool-hammer4-sc44 {
+    background-position: -0px -6076px;
+}
+
+.s28.business.tool-pick-sc44 {
+    background-position: -0px -6104px;
+}
+
+.s28.business.tool-screw-sc44 {
+    background-position: -0px -6132px;
+}
+
+.s28.business.tool-screwdriver {
+    background-position: -0px -6160px;
+}
+
+.s28.business.tool-shovel2-sc44 {
+    background-position: -0px -6188px;
+}
+
+.s28.business.tool-sprocket1 {
+    background-position: -0px -6216px;
+}
+
+.s28.business.tool-sprocket2 {
+    background-position: -0px -6244px;
+}
+
+.s28.business.tool-sword-sc48 {
+    background-position: -0px -6272px;
+}
+
+.s28.business.tool-wheelbarrowl2-sc44 {
+    background-position: -0px -6300px;
+}
+
+.s28.business.tool-wrench1 {
+    background-position: -0px -6328px;
+}
+
+.s28.business.tool-wrench2 {
+    background-position: -0px -6356px;
+}
+
+.s28.business.tool-wrench3 {
+    background-position: -0px -6384px;
+}
+
+.s28.business.tool-wrench4 {
+    background-position: -0px -6412px;
+}
+
+.s28.business.tool-wrench7 {
+    background-position: -0px -6440px;
+}
+
+.s28.business.tool-wrench8-sc44 {
+    background-position: -0px -6468px;
+}
+
+.s28.business.tool {
+    background-position: -0px -6496px;
+}
+
+.s28.business.tool7 {
+    background-position: -0px -6524px;
+}
+
+.s28.business.tools-shovel {
+    background-position: -0px -6552px;
+}
+
+.s28.business.tools1 {
+    background-position: -0px -6580px;
+}
+
+.s28.business.tools2-digging {
+    background-position: -0px -6608px;
+}
+
+.s28.business.toolset-sc44 {
+    background-position: -0px -6636px;
+}
+
+.s28.business.toolset3-sc44 {
+    background-position: -0px -6664px;
+}
+
+.s28.business.trademark-ps {
+    background-position: -0px -6692px;
+}
+
+.s28.business.trashcan {
+    background-position: -0px -6720px;
+}
+
+.s28.business.trashcan3 {
+    background-position: -0px -6748px;
+}
+
+.s28.business.wall {
+    background-position: -0px -6776px;
+}
+
+.s28.business.wand1-sc43 {
+    background-position: -0px -6804px;
+}
+
+.s28.business.webcam {
+    background-position: -0px -6832px;
+}
+
+.s28.business.wireless {
+    background-position: -0px -6860px;
+}
+
+.s28.business.www-search-ps {
+    background-position: -0px -6888px;
+}
+
+.s28.business.yen {
+    background-position: -0px -6916px;
+}

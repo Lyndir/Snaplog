@@ -1,134 +1,537 @@
-.s28.sports                      { background: transparent url("28x28/sports.png") no-repeat; width: 28px; height: 28px; }
-.s28.sports.art-palette-sc44     { background-position:   -0px   -0px; }
-.s28.sports.art-palette1-sc44    { background-position:   -0px  -28px; }
-.s28.sports.backpack             { background-position:   -0px  -56px; }
-.s28.sports.backpack1-sc43       { background-position:   -0px  -84px; }
-.s28.sports.ball-basketball      { background-position:   -0px -112px; }
-.s28.sports.ball-beach           { background-position:   -0px -140px; }
-.s28.sports.ball-football        { background-position:   -0px -168px; }
-.s28.sports.ball-golf            { background-position:   -0px -196px; }
-.s28.sports.ball-soccer          { background-position:   -0px -224px; }
-.s28.sports.ball-soccer1         { background-position:   -0px -252px; }
-.s28.sports.ball-tennis          { background-position:   -0px -280px; }
-.s28.sports.ball                 { background-position:   -0px -308px; }
-.s28.sports.basketball-net       { background-position:   -0px -336px; }
-.s28.sports.basketball           { background-position:   -0px -364px; }
-.s28.sports.billiards            { background-position:   -0px -392px; }
-.s28.sports.bowling              { background-position:   -0px -420px; }
-.s28.sports.boxing-glove         { background-position:   -0px -448px; }
-.s28.sports.boxing-glove1        { background-position:   -0px -476px; }
-.s28.sports.brush2               { background-position:   -0px -504px; }
-.s28.sports.brush57              { background-position:   -0px -532px; }
-.s28.sports.brush58-ps           { background-position:   -0px -560px; }
-.s28.sports.campground           { background-position:   -0px -588px; }
-.s28.sports.camping-tent43-sc43  { background-position:   -0px -616px; }
-.s28.sports.camping              { background-position:   -0px -644px; }
-.s28.sports.card-club1-sc48      { background-position:   -0px -672px; }
-.s28.sports.card-diamond1-sc48   { background-position:   -0px -700px; }
-.s28.sports.card-heart1-sc48     { background-position:   -0px -728px; }
-.s28.sports.card-spade1-sc48     { background-position:   -0px -756px; }
-.s28.sports.chess-bishop2-sc51   { background-position:   -0px -784px; }
-.s28.sports.chess-castle2-sc51   { background-position:   -0px -812px; }
-.s28.sports.chess-horse2-sc51    { background-position:   -0px -840px; }
-.s28.sports.chess-king2-sc51     { background-position:   -0px -868px; }
-.s28.sports.chess-pawn2-sc51     { background-position:   -0px -896px; }
-.s28.sports.chess-queen1-sc51    { background-position:   -0px -924px; }
-.s28.sports.cup-trophy           { background-position:   -0px -952px; }
-.s28.sports.cup-trophy1          { background-position:   -0px -980px; }
-.s28.sports.cup-trophy2-sc43     { background-position:   -0px -1008px; }
-.s28.sports.film-clapper         { background-position:   -0px -1036px; }
-.s28.sports.film-clapper1-sc44   { background-position:   -0px -1064px; }
-.s28.sports.film-projector       { background-position:   -0px -1092px; }
-.s28.sports.film-reel            { background-position:   -0px -1120px; }
-.s28.sports.film-reel1-ps        { background-position:   -0px -1148px; }
-.s28.sports.film-roll            { background-position:   -0px -1176px; }
-.s28.sports.film-strip2          { background-position:   -0px -1204px; }
-.s28.sports.filmmaker1-sc44      { background-position:   -0px -1232px; }
-.s28.sports.filmmaker2-sc49      { background-position:   -0px -1260px; }
-.s28.sports.filmstrip            { background-position:   -0px -1288px; }
-.s28.sports.fishing-hook-sc48    { background-position:   -0px -1316px; }
-.s28.sports.fishing-sc46         { background-position:   -0px -1344px; }
-.s28.sports.flag-2               { background-position:   -0px -1372px; }
-.s28.sports.flag-race1           { background-position:   -0px -1400px; }
-.s28.sports.flag-race2-sc49      { background-position:   -0px -1428px; }
-.s28.sports.flag                 { background-position:   -0px -1456px; }
-.s28.sports.flag4-sc49           { background-position:   -0px -1484px; }
-.s28.sports.flag5-sc49           { background-position:   -0px -1512px; }
-.s28.sports.flag6-sc49           { background-position:   -0px -1540px; }
-.s28.sports.gameboy              { background-position:   -0px -1568px; }
-.s28.sports.golf-course          { background-position:   -0px -1596px; }
-.s28.sports.helmet               { background-position:   -0px -1624px; }
-.s28.sports.helmet1-sc43         { background-position:   -0px -1652px; }
-.s28.sports.horseback-riding     { background-position:   -0px -1680px; }
-.s28.sports.horseback-riding222  { background-position:   -0px -1708px; }
-.s28.sports.horseshoe            { background-position:   -0px -1736px; }
-.s28.sports.horseshoe1           { background-position:   -0px -1764px; }
-.s28.sports.hot-air-balloon      { background-position:   -0px -1792px; }
-.s28.sports.hot-air-balloon1-sc44 { background-position:   -0px -1820px; }
-.s28.sports.marker               { background-position:   -0px -1848px; }
-.s28.sports.mask-sc44            { background-position:   -0px -1876px; }
-.s28.sports.mask2-sc44           { background-position:   -0px -1904px; }
-.s28.sports.masks-sc37           { background-position:   -0px -1932px; }
-.s28.sports.medal                { background-position:   -0px -1960px; }
-.s28.sports.medal3               { background-position:   -0px -1988px; }
-.s28.sports.medal4               { background-position:   -0px -2016px; }
-.s28.sports.paddle1-sc43         { background-position:   -0px -2044px; }
-.s28.sports.parachute            { background-position:   -0px -2072px; }
-.s28.sports.parachute1           { background-position:   -0px -2100px; }
-.s28.sports.party                { background-position:   -0px -2128px; }
-.s28.sports.people-ballet-dancer { background-position:   -0px -2156px; }
-.s28.sports.people-baseball      { background-position:   -0px -2184px; }
-.s28.sports.people-baseball2-sc37 { background-position:   -0px -2212px; }
-.s28.sports.people-basketball23-sc29 { background-position:   -0px -2240px; }
-.s28.sports.people-bicycle2-sc37 { background-position:   -0px -2268px; }
-.s28.sports.people-bicycling     { background-position:   -0px -2296px; }
-.s28.sports.people-break-dancing { background-position:   -0px -2324px; }
-.s28.sports.people-guitar-man    { background-position:   -0px -2352px; }
-.s28.sports.people-guitar-man2   { background-position:   -0px -2380px; }
-.s28.sports.people-guitar-woman2 { background-position:   -0px -2408px; }
-.s28.sports.people-hikers1       { background-position:   -0px -2436px; }
-.s28.sports.people-hiking        { background-position:   -0px -2464px; }
-.s28.sports.people-hockey        { background-position:   -0px -2492px; }
-.s28.sports.people-hockey1-sc37  { background-position:   -0px -2520px; }
-.s28.sports.people-karate        { background-position:   -0px -2548px; }
-.s28.sports.people-man-runner    { background-position:   -0px -2576px; }
-.s28.sports.people-martial-arts  { background-position:   -0px -2604px; }
-.s28.sports.people-runner        { background-position:   -0px -2632px; }
-.s28.sports.people-running       { background-position:   -0px -2660px; }
-.s28.sports.people-skateboarder  { background-position:   -0px -2688px; }
-.s28.sports.people-skier         { background-position:   -0px -2716px; }
-.s28.sports.people-skier1        { background-position:   -0px -2744px; }
-.s28.sports.people-skier11-sc37  { background-position:   -0px -2772px; }
-.s28.sports.people-skier2        { background-position:   -0px -2800px; }
-.s28.sports.people-skiing1       { background-position:   -0px -2828px; }
-.s28.sports.people-snowboard1    { background-position:   -0px -2856px; }
-.s28.sports.people-snowboarder   { background-position:   -0px -2884px; }
-.s28.sports.people-soccer2-sc37  { background-position:   -0px -2912px; }
-.s28.sports.people-tennis        { background-position:   -0px -2940px; }
-.s28.sports.people-volleyball    { background-position:   -0px -2968px; }
-.s28.sports.people-woman-runner  { background-position:   -0px -2996px; }
-.s28.sports.people-yoga          { background-position:   -0px -3024px; }
-.s28.sports.pingpong             { background-position:   -0px -3052px; }
-.s28.sports.racket-tennis        { background-position:   -0px -3080px; }
-.s28.sports.racket               { background-position:   -0px -3108px; }
-.s28.sports.remote-control-sc52  { background-position:   -0px -3136px; }
-.s28.sports.ribbon1              { background-position:   -0px -3164px; }
-.s28.sports.ribbon2              { background-position:   -0px -3192px; }
-.s28.sports.sailboat3-sc5        { background-position:   -0px -3220px; }
-.s28.sports.sailboat5-sc44       { background-position:   -0px -3248px; }
-.s28.sports.sailboat6-sc44       { background-position:   -0px -3276px; }
-.s28.sports.sailboat7-sc44       { background-position:   -0px -3304px; }
-.s28.sports.sailboat9-sc57       { background-position:   -0px -3332px; }
-.s28.sports.shoe-iceskate1-sc43  { background-position:   -0px -3360px; }
-.s28.sports.shoe-roller-blade1-sc43 { background-position:   -0px -3388px; }
-.s28.sports.skateboard           { background-position:   -0px -3416px; }
-.s28.sports.skis                 { background-position:   -0px -3444px; }
-.s28.sports.sport-baseball-bat-sc43 { background-position:   -0px -3472px; }
-.s28.sports.sport-billiard-sc52  { background-position:   -0px -3500px; }
-.s28.sports.sport-unknown-sc43   { background-position:   -0px -3528px; }
-.s28.sports.target1-sc44         { background-position:   -0px -3556px; }
-.s28.sports.target2-sc43         { background-position:   -0px -3584px; }
-.s28.sports.target3-sc43         { background-position:   -0px -3612px; }
-.s28.sports.weaving-sc44         { background-position:   -0px -3640px; }
-.s28.sports.weight-lifting1-sc43 { background-position:   -0px -3668px; }
-.s28.sports.weight-lifting2-sc43 { background-position:   -0px -3696px; }
+.s28.sports {
+    background:          transparent url("28x28/sports.png") no-repeat;
+    width:               28px;
+    height:              28px;
+}
+
+.s28.sports.art-palette-sc44 {
+    background-position: -0px -0px;
+}
+
+.s28.sports.art-palette1-sc44 {
+    background-position: -0px -28px;
+}
+
+.s28.sports.backpack {
+    background-position: -0px -56px;
+}
+
+.s28.sports.backpack1-sc43 {
+    background-position: -0px -84px;
+}
+
+.s28.sports.ball-basketball {
+    background-position: -0px -112px;
+}
+
+.s28.sports.ball-beach {
+    background-position: -0px -140px;
+}
+
+.s28.sports.ball-football {
+    background-position: -0px -168px;
+}
+
+.s28.sports.ball-golf {
+    background-position: -0px -196px;
+}
+
+.s28.sports.ball-soccer {
+    background-position: -0px -224px;
+}
+
+.s28.sports.ball-soccer1 {
+    background-position: -0px -252px;
+}
+
+.s28.sports.ball-tennis {
+    background-position: -0px -280px;
+}
+
+.s28.sports.ball {
+    background-position: -0px -308px;
+}
+
+.s28.sports.basketball-net {
+    background-position: -0px -336px;
+}
+
+.s28.sports.basketball {
+    background-position: -0px -364px;
+}
+
+.s28.sports.billiards {
+    background-position: -0px -392px;
+}
+
+.s28.sports.bowling {
+    background-position: -0px -420px;
+}
+
+.s28.sports.boxing-glove {
+    background-position: -0px -448px;
+}
+
+.s28.sports.boxing-glove1 {
+    background-position: -0px -476px;
+}
+
+.s28.sports.brush2 {
+    background-position: -0px -504px;
+}
+
+.s28.sports.brush57 {
+    background-position: -0px -532px;
+}
+
+.s28.sports.brush58-ps {
+    background-position: -0px -560px;
+}
+
+.s28.sports.campground {
+    background-position: -0px -588px;
+}
+
+.s28.sports.camping-tent43-sc43 {
+    background-position: -0px -616px;
+}
+
+.s28.sports.camping {
+    background-position: -0px -644px;
+}
+
+.s28.sports.card-club1-sc48 {
+    background-position: -0px -672px;
+}
+
+.s28.sports.card-diamond1-sc48 {
+    background-position: -0px -700px;
+}
+
+.s28.sports.card-heart1-sc48 {
+    background-position: -0px -728px;
+}
+
+.s28.sports.card-spade1-sc48 {
+    background-position: -0px -756px;
+}
+
+.s28.sports.chess-bishop2-sc51 {
+    background-position: -0px -784px;
+}
+
+.s28.sports.chess-castle2-sc51 {
+    background-position: -0px -812px;
+}
+
+.s28.sports.chess-horse2-sc51 {
+    background-position: -0px -840px;
+}
+
+.s28.sports.chess-king2-sc51 {
+    background-position: -0px -868px;
+}
+
+.s28.sports.chess-pawn2-sc51 {
+    background-position: -0px -896px;
+}
+
+.s28.sports.chess-queen1-sc51 {
+    background-position: -0px -924px;
+}
+
+.s28.sports.cup-trophy {
+    background-position: -0px -952px;
+}
+
+.s28.sports.cup-trophy1 {
+    background-position: -0px -980px;
+}
+
+.s28.sports.cup-trophy2-sc43 {
+    background-position: -0px -1008px;
+}
+
+.s28.sports.film-clapper {
+    background-position: -0px -1036px;
+}
+
+.s28.sports.film-clapper1-sc44 {
+    background-position: -0px -1064px;
+}
+
+.s28.sports.film-projector {
+    background-position: -0px -1092px;
+}
+
+.s28.sports.film-reel {
+    background-position: -0px -1120px;
+}
+
+.s28.sports.film-reel1-ps {
+    background-position: -0px -1148px;
+}
+
+.s28.sports.film-roll {
+    background-position: -0px -1176px;
+}
+
+.s28.sports.film-strip2 {
+    background-position: -0px -1204px;
+}
+
+.s28.sports.filmmaker1-sc44 {
+    background-position: -0px -1232px;
+}
+
+.s28.sports.filmmaker2-sc49 {
+    background-position: -0px -1260px;
+}
+
+.s28.sports.filmstrip {
+    background-position: -0px -1288px;
+}
+
+.s28.sports.fishing-hook-sc48 {
+    background-position: -0px -1316px;
+}
+
+.s28.sports.fishing-sc46 {
+    background-position: -0px -1344px;
+}
+
+.s28.sports.flag-2 {
+    background-position: -0px -1372px;
+}
+
+.s28.sports.flag-race1 {
+    background-position: -0px -1400px;
+}
+
+.s28.sports.flag-race2-sc49 {
+    background-position: -0px -1428px;
+}
+
+.s28.sports.flag {
+    background-position: -0px -1456px;
+}
+
+.s28.sports.flag4-sc49 {
+    background-position: -0px -1484px;
+}
+
+.s28.sports.flag5-sc49 {
+    background-position: -0px -1512px;
+}
+
+.s28.sports.flag6-sc49 {
+    background-position: -0px -1540px;
+}
+
+.s28.sports.gameboy {
+    background-position: -0px -1568px;
+}
+
+.s28.sports.golf-course {
+    background-position: -0px -1596px;
+}
+
+.s28.sports.helmet {
+    background-position: -0px -1624px;
+}
+
+.s28.sports.helmet1-sc43 {
+    background-position: -0px -1652px;
+}
+
+.s28.sports.horseback-riding {
+    background-position: -0px -1680px;
+}
+
+.s28.sports.horseback-riding222 {
+    background-position: -0px -1708px;
+}
+
+.s28.sports.horseshoe {
+    background-position: -0px -1736px;
+}
+
+.s28.sports.horseshoe1 {
+    background-position: -0px -1764px;
+}
+
+.s28.sports.hot-air-balloon {
+    background-position: -0px -1792px;
+}
+
+.s28.sports.hot-air-balloon1-sc44 {
+    background-position: -0px -1820px;
+}
+
+.s28.sports.marker {
+    background-position: -0px -1848px;
+}
+
+.s28.sports.mask-sc44 {
+    background-position: -0px -1876px;
+}
+
+.s28.sports.mask2-sc44 {
+    background-position: -0px -1904px;
+}
+
+.s28.sports.masks-sc37 {
+    background-position: -0px -1932px;
+}
+
+.s28.sports.medal {
+    background-position: -0px -1960px;
+}
+
+.s28.sports.medal3 {
+    background-position: -0px -1988px;
+}
+
+.s28.sports.medal4 {
+    background-position: -0px -2016px;
+}
+
+.s28.sports.paddle1-sc43 {
+    background-position: -0px -2044px;
+}
+
+.s28.sports.parachute {
+    background-position: -0px -2072px;
+}
+
+.s28.sports.parachute1 {
+    background-position: -0px -2100px;
+}
+
+.s28.sports.party {
+    background-position: -0px -2128px;
+}
+
+.s28.sports.people-ballet-dancer {
+    background-position: -0px -2156px;
+}
+
+.s28.sports.people-baseball {
+    background-position: -0px -2184px;
+}
+
+.s28.sports.people-baseball2-sc37 {
+    background-position: -0px -2212px;
+}
+
+.s28.sports.people-basketball23-sc29 {
+    background-position: -0px -2240px;
+}
+
+.s28.sports.people-bicycle2-sc37 {
+    background-position: -0px -2268px;
+}
+
+.s28.sports.people-bicycling {
+    background-position: -0px -2296px;
+}
+
+.s28.sports.people-break-dancing {
+    background-position: -0px -2324px;
+}
+
+.s28.sports.people-guitar-man {
+    background-position: -0px -2352px;
+}
+
+.s28.sports.people-guitar-man2 {
+    background-position: -0px -2380px;
+}
+
+.s28.sports.people-guitar-woman2 {
+    background-position: -0px -2408px;
+}
+
+.s28.sports.people-hikers1 {
+    background-position: -0px -2436px;
+}
+
+.s28.sports.people-hiking {
+    background-position: -0px -2464px;
+}
+
+.s28.sports.people-hockey {
+    background-position: -0px -2492px;
+}
+
+.s28.sports.people-hockey1-sc37 {
+    background-position: -0px -2520px;
+}
+
+.s28.sports.people-karate {
+    background-position: -0px -2548px;
+}
+
+.s28.sports.people-man-runner {
+    background-position: -0px -2576px;
+}
+
+.s28.sports.people-martial-arts {
+    background-position: -0px -2604px;
+}
+
+.s28.sports.people-runner {
+    background-position: -0px -2632px;
+}
+
+.s28.sports.people-running {
+    background-position: -0px -2660px;
+}
+
+.s28.sports.people-skateboarder {
+    background-position: -0px -2688px;
+}
+
+.s28.sports.people-skier {
+    background-position: -0px -2716px;
+}
+
+.s28.sports.people-skier1 {
+    background-position: -0px -2744px;
+}
+
+.s28.sports.people-skier11-sc37 {
+    background-position: -0px -2772px;
+}
+
+.s28.sports.people-skier2 {
+    background-position: -0px -2800px;
+}
+
+.s28.sports.people-skiing1 {
+    background-position: -0px -2828px;
+}
+
+.s28.sports.people-snowboard1 {
+    background-position: -0px -2856px;
+}
+
+.s28.sports.people-snowboarder {
+    background-position: -0px -2884px;
+}
+
+.s28.sports.people-soccer2-sc37 {
+    background-position: -0px -2912px;
+}
+
+.s28.sports.people-tennis {
+    background-position: -0px -2940px;
+}
+
+.s28.sports.people-volleyball {
+    background-position: -0px -2968px;
+}
+
+.s28.sports.people-woman-runner {
+    background-position: -0px -2996px;
+}
+
+.s28.sports.people-yoga {
+    background-position: -0px -3024px;
+}
+
+.s28.sports.pingpong {
+    background-position: -0px -3052px;
+}
+
+.s28.sports.racket-tennis {
+    background-position: -0px -3080px;
+}
+
+.s28.sports.racket {
+    background-position: -0px -3108px;
+}
+
+.s28.sports.remote-control-sc52 {
+    background-position: -0px -3136px;
+}
+
+.s28.sports.ribbon1 {
+    background-position: -0px -3164px;
+}
+
+.s28.sports.ribbon2 {
+    background-position: -0px -3192px;
+}
+
+.s28.sports.sailboat3-sc5 {
+    background-position: -0px -3220px;
+}
+
+.s28.sports.sailboat5-sc44 {
+    background-position: -0px -3248px;
+}
+
+.s28.sports.sailboat6-sc44 {
+    background-position: -0px -3276px;
+}
+
+.s28.sports.sailboat7-sc44 {
+    background-position: -0px -3304px;
+}
+
+.s28.sports.sailboat9-sc57 {
+    background-position: -0px -3332px;
+}
+
+.s28.sports.shoe-iceskate1-sc43 {
+    background-position: -0px -3360px;
+}
+
+.s28.sports.shoe-roller-blade1-sc43 {
+    background-position: -0px -3388px;
+}
+
+.s28.sports.skateboard {
+    background-position: -0px -3416px;
+}
+
+.s28.sports.skis {
+    background-position: -0px -3444px;
+}
+
+.s28.sports.sport-baseball-bat-sc43 {
+    background-position: -0px -3472px;
+}
+
+.s28.sports.sport-billiard-sc52 {
+    background-position: -0px -3500px;
+}
+
+.s28.sports.sport-unknown-sc43 {
+    background-position: -0px -3528px;
+}
+
+.s28.sports.target1-sc44 {
+    background-position: -0px -3556px;
+}
+
+.s28.sports.target2-sc43 {
+    background-position: -0px -3584px;
+}
+
+.s28.sports.target3-sc43 {
+    background-position: -0px -3612px;
+}
+
+.s28.sports.weaving-sc44 {
+    background-position: -0px -3640px;
+}
+
+.s28.sports.weight-lifting1-sc43 {
+    background-position: -0px -3668px;
+}
+
+.s28.sports.weight-lifting2-sc43 {
+    background-position: -0px -3696px;
+}

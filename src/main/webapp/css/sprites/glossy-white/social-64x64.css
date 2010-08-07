@@ -1,109 +1,437 @@
-.s64.social                      { background: transparent url("64x64/social.png") no-repeat; width: 64px; height: 64px; }
-.s64.social.aim-logo-square      { background-position:   -0px   -0px; }
-.s64.social.aim                  { background-position:   -0px  -64px; }
-.s64.social.blinklist-logo-square { background-position:   -0px -128px; }
-.s64.social.blinklist-logo       { background-position:   -0px -192px; }
-.s64.social.blogger-logo-square  { background-position:   -0px -256px; }
-.s64.social.blogger              { background-position:   -0px -320px; }
-.s64.social.blogmarks-logo-square { background-position:   -0px -384px; }
-.s64.social.blogmarks-logo       { background-position:   -0px -448px; }
-.s64.social.delicious-logo-square { background-position:   -0px -512px; }
-.s64.social.delicious            { background-position:   -0px -576px; }
-.s64.social.designbump-logo-square { background-position:   -0px -640px; }
-.s64.social.designbump-logo      { background-position:   -0px -704px; }
-.s64.social.designfloat-square   { background-position:   -0px -768px; }
-.s64.social.designfloat          { background-position:   -0px -832px; }
-.s64.social.digg-logo            { background-position:   -0px -896px; }
-.s64.social.digg-square          { background-position:   -0px -960px; }
-.s64.social.digg                 { background-position:   -0px -1024px; }
-.s64.social.digg2-logo-square    { background-position:   -0px -1088px; }
-.s64.social.diglog-square        { background-position:   -0px -1152px; }
-.s64.social.diglog               { background-position:   -0px -1216px; }
-.s64.social.diigo-logo-square    { background-position:   -0px -1280px; }
-.s64.social.diigo-logo           { background-position:   -0px -1344px; }
-.s64.social.diigo-logo2-square   { background-position:   -0px -1408px; }
-.s64.social.diigo-logo2          { background-position:   -0px -1472px; }
-.s64.social.dzone-logo-square    { background-position:   -0px -1536px; }
-.s64.social.dzone-logo1          { background-position:   -0px -1600px; }
-.s64.social.facebook-logo-square { background-position:   -0px -1664px; }
-.s64.social.facebook-logo        { background-position:   -0px -1728px; }
-.s64.social.fark-logo            { background-position:   -0px -1792px; }
-.s64.social.fark-square          { background-position:   -0px -1856px; }
-.s64.social.favorites-square     { background-position:   -0px -1920px; }
-.s64.social.favorites            { background-position:   -0px -1984px; }
-.s64.social.feedburner-logo-square { background-position:   -0px -2048px; }
-.s64.social.feedburner-logo      { background-position:   -0px -2112px; }
-.s64.social.flickr-square        { background-position:   -0px -2176px; }
-.s64.social.flickr               { background-position:   -0px -2240px; }
-.s64.social.friendfeed-logo-square2 { background-position:   -0px -2304px; }
-.s64.social.friendfeed           { background-position:   -0px -2368px; }
-.s64.social.gmail-logo-square2   { background-position:   -0px -2432px; }
-.s64.social.gmail                { background-position:   -0px -2496px; }
-.s64.social.google-g-logo        { background-position:   -0px -2560px; }
-.s64.social.google-logo-square   { background-position:   -0px -2624px; }
-.s64.social.hi5-logo-square2     { background-position:   -0px -2688px; }
-.s64.social.hi5                  { background-position:   -0px -2752px; }
-.s64.social.igoogle              { background-position:   -0px -2816px; }
-.s64.social.igooglr-logo-square  { background-position:   -0px -2880px; }
-.s64.social.lastfm-logo-square   { background-position:   -0px -2944px; }
-.s64.social.lastfm               { background-position:   -0px -3008px; }
-.s64.social.linkedin-logo-square2 { background-position:   -0px -3072px; }
-.s64.social.linkedin-logo        { background-position:   -0px -3136px; }
-.s64.social.mail-square          { background-position:   -0px -3200px; }
-.s64.social.mail                 { background-position:   -0px -3264px; }
-.s64.social.mister-wong-logo-square { background-position:   -0px -3328px; }
-.s64.social.mister-wong-logo     { background-position:   -0px -3392px; }
-.s64.social.mixx-logo-square     { background-position:   -0px -3456px; }
-.s64.social.mixx-logo1           { background-position:   -0px -3520px; }
-.s64.social.msn-logo-square      { background-position:   -0px -3584px; }
-.s64.social.msn-logo             { background-position:   -0px -3648px; }
-.s64.social.myspace-logo-square2 { background-position:   -0px -3712px; }
-.s64.social.myspace-logo         { background-position:   -0px -3776px; }
-.s64.social.netvibes-logo        { background-position:   -0px -3840px; }
-.s64.social.netvibes2-logo-square { background-position:   -0px -3904px; }
-.s64.social.netvous-logo-square  { background-position:   -0px -3968px; }
-.s64.social.netvous-logo         { background-position:   -0px -4032px; }
-.s64.social.newsvine-logo        { background-position:   -0px -4096px; }
-.s64.social.newswire-logo-square { background-position:   -0px -4160px; }
-.s64.social.orkut-logo-square    { background-position:   -0px -4224px; }
-.s64.social.orkut                { background-position:   -0px -4288px; }
-.s64.social.picasa-logo-square2  { background-position:   -0px -4352px; }
-.s64.social.picasa               { background-position:   -0px -4416px; }
-.s64.social.propeller-logo-square2 { background-position:   -0px -4480px; }
-.s64.social.propeller-logo       { background-position:   -0px -4544px; }
-.s64.social.reddit-logo-square   { background-position:   -0px -4608px; }
-.s64.social.reddit-logo          { background-position:   -0px -4672px; }
-.s64.social.rss-badge            { background-position:   -0px -4736px; }
-.s64.social.rss-basic            { background-position:   -0px -4800px; }
-.s64.social.rss-circle           { background-position:   -0px -4864px; }
-.s64.social.rss-cube             { background-position:   -0px -4928px; }
-.s64.social.shout-wire-logo2     { background-position:   -0px -4992px; }
-.s64.social.shoutwire-logo-square { background-position:   -0px -5056px; }
-.s64.social.simpy-logo-square    { background-position:   -0px -5120px; }
-.s64.social.simpy-logo           { background-position:   -0px -5184px; }
-.s64.social.slash-dot-logo-square { background-position:   -0px -5248px; }
-.s64.social.slashdot-logo        { background-position:   -0px -5312px; }
-.s64.social.spurl-logo-square    { background-position:   -0px -5376px; }
-.s64.social.spurl-logo           { background-position:   -0px -5440px; }
-.s64.social.stumbleupon-logo-square { background-position:   -0px -5504px; }
-.s64.social.stumbleupon          { background-position:   -0px -5568px; }
-.s64.social.swik-logo-square     { background-position:   -0px -5632px; }
-.s64.social.swik-logo            { background-position:   -0px -5696px; }
-.s64.social.technorati-logo-square { background-position:   -0px -5760px; }
-.s64.social.technorati-logo      { background-position:   -0px -5824px; }
-.s64.social.technorati-logo2-square { background-position:   -0px -5888px; }
-.s64.social.technorati-logo2     { background-position:   -0px -5952px; }
-.s64.social.twitter-bird2-square { background-position:   -0px -6016px; }
-.s64.social.twitter-bird2        { background-position:   -0px -6080px; }
-.s64.social.twitter-bird3-square { background-position:   -0px -6144px; }
-.s64.social.twitter-bird3        { background-position:   -0px -6208px; }
-.s64.social.twitter-logo-square  { background-position:   -0px -6272px; }
-.s64.social.twitter              { background-position:   -0px -6336px; }
-.s64.social.wordpress-logo-square { background-position:   -0px -6400px; }
-.s64.social.wordpress            { background-position:   -0px -6464px; }
-.s64.social.yahoo-buzz-logo-square2 { background-position:   -0px -6528px; }
-.s64.social.yahoo-buzz           { background-position:   -0px -6592px; }
-.s64.social.yahoo-logo-square    { background-position:   -0px -6656px; }
-.s64.social.yahoo                { background-position:   -0px -6720px; }
-.s64.social.ziki-logo-square2    { background-position:   -0px -6784px; }
-.s64.social.ziki                 { background-position:   -0px -6848px; }
+.s64.social {
+    background:          transparent url("64x64/social.png") no-repeat;
+    width:               64px;
+    height:              64px;
+}
+
+.s64.social.aim-logo-square {
+    background-position: -0px -0px;
+}
+
+.s64.social.aim {
+    background-position: -0px -64px;
+}
+
+.s64.social.blinklist-logo-square {
+    background-position: -0px -128px;
+}
+
+.s64.social.blinklist-logo {
+    background-position: -0px -192px;
+}
+
+.s64.social.blogger-logo-square {
+    background-position: -0px -256px;
+}
+
+.s64.social.blogger {
+    background-position: -0px -320px;
+}
+
+.s64.social.blogmarks-logo-square {
+    background-position: -0px -384px;
+}
+
+.s64.social.blogmarks-logo {
+    background-position: -0px -448px;
+}
+
+.s64.social.delicious-logo-square {
+    background-position: -0px -512px;
+}
+
+.s64.social.delicious {
+    background-position: -0px -576px;
+}
+
+.s64.social.designbump-logo-square {
+    background-position: -0px -640px;
+}
+
+.s64.social.designbump-logo {
+    background-position: -0px -704px;
+}
+
+.s64.social.designfloat-square {
+    background-position: -0px -768px;
+}
+
+.s64.social.designfloat {
+    background-position: -0px -832px;
+}
+
+.s64.social.digg-logo {
+    background-position: -0px -896px;
+}
+
+.s64.social.digg-square {
+    background-position: -0px -960px;
+}
+
+.s64.social.digg {
+    background-position: -0px -1024px;
+}
+
+.s64.social.digg2-logo-square {
+    background-position: -0px -1088px;
+}
+
+.s64.social.diglog-square {
+    background-position: -0px -1152px;
+}
+
+.s64.social.diglog {
+    background-position: -0px -1216px;
+}
+
+.s64.social.diigo-logo-square {
+    background-position: -0px -1280px;
+}
+
+.s64.social.diigo-logo {
+    background-position: -0px -1344px;
+}
+
+.s64.social.diigo-logo2-square {
+    background-position: -0px -1408px;
+}
+
+.s64.social.diigo-logo2 {
+    background-position: -0px -1472px;
+}
+
+.s64.social.dzone-logo-square {
+    background-position: -0px -1536px;
+}
+
+.s64.social.dzone-logo1 {
+    background-position: -0px -1600px;
+}
+
+.s64.social.facebook-logo-square {
+    background-position: -0px -1664px;
+}
+
+.s64.social.facebook-logo {
+    background-position: -0px -1728px;
+}
+
+.s64.social.fark-logo {
+    background-position: -0px -1792px;
+}
+
+.s64.social.fark-square {
+    background-position: -0px -1856px;
+}
+
+.s64.social.favorites-square {
+    background-position: -0px -1920px;
+}
+
+.s64.social.favorites {
+    background-position: -0px -1984px;
+}
+
+.s64.social.feedburner-logo-square {
+    background-position: -0px -2048px;
+}
+
+.s64.social.feedburner-logo {
+    background-position: -0px -2112px;
+}
+
+.s64.social.flickr-square {
+    background-position: -0px -2176px;
+}
+
+.s64.social.flickr {
+    background-position: -0px -2240px;
+}
+
+.s64.social.friendfeed-logo-square2 {
+    background-position: -0px -2304px;
+}
+
+.s64.social.friendfeed {
+    background-position: -0px -2368px;
+}
+
+.s64.social.gmail-logo-square2 {
+    background-position: -0px -2432px;
+}
+
+.s64.social.gmail {
+    background-position: -0px -2496px;
+}
+
+.s64.social.google-g-logo {
+    background-position: -0px -2560px;
+}
+
+.s64.social.google-logo-square {
+    background-position: -0px -2624px;
+}
+
+.s64.social.hi5-logo-square2 {
+    background-position: -0px -2688px;
+}
+
+.s64.social.hi5 {
+    background-position: -0px -2752px;
+}
+
+.s64.social.igoogle {
+    background-position: -0px -2816px;
+}
+
+.s64.social.igooglr-logo-square {
+    background-position: -0px -2880px;
+}
+
+.s64.social.lastfm-logo-square {
+    background-position: -0px -2944px;
+}
+
+.s64.social.lastfm {
+    background-position: -0px -3008px;
+}
+
+.s64.social.linkedin-logo-square2 {
+    background-position: -0px -3072px;
+}
+
+.s64.social.linkedin-logo {
+    background-position: -0px -3136px;
+}
+
+.s64.social.mail-square {
+    background-position: -0px -3200px;
+}
+
+.s64.social.mail {
+    background-position: -0px -3264px;
+}
+
+.s64.social.mister-wong-logo-square {
+    background-position: -0px -3328px;
+}
+
+.s64.social.mister-wong-logo {
+    background-position: -0px -3392px;
+}
+
+.s64.social.mixx-logo-square {
+    background-position: -0px -3456px;
+}
+
+.s64.social.mixx-logo1 {
+    background-position: -0px -3520px;
+}
+
+.s64.social.msn-logo-square {
+    background-position: -0px -3584px;
+}
+
+.s64.social.msn-logo {
+    background-position: -0px -3648px;
+}
+
+.s64.social.myspace-logo-square2 {
+    background-position: -0px -3712px;
+}
+
+.s64.social.myspace-logo {
+    background-position: -0px -3776px;
+}
+
+.s64.social.netvibes-logo {
+    background-position: -0px -3840px;
+}
+
+.s64.social.netvibes2-logo-square {
+    background-position: -0px -3904px;
+}
+
+.s64.social.netvous-logo-square {
+    background-position: -0px -3968px;
+}
+
+.s64.social.netvous-logo {
+    background-position: -0px -4032px;
+}
+
+.s64.social.newsvine-logo {
+    background-position: -0px -4096px;
+}
+
+.s64.social.newswire-logo-square {
+    background-position: -0px -4160px;
+}
+
+.s64.social.orkut-logo-square {
+    background-position: -0px -4224px;
+}
+
+.s64.social.orkut {
+    background-position: -0px -4288px;
+}
+
+.s64.social.picasa-logo-square2 {
+    background-position: -0px -4352px;
+}
+
+.s64.social.picasa {
+    background-position: -0px -4416px;
+}
+
+.s64.social.propeller-logo-square2 {
+    background-position: -0px -4480px;
+}
+
+.s64.social.propeller-logo {
+    background-position: -0px -4544px;
+}
+
+.s64.social.reddit-logo-square {
+    background-position: -0px -4608px;
+}
+
+.s64.social.reddit-logo {
+    background-position: -0px -4672px;
+}
+
+.s64.social.rss-badge {
+    background-position: -0px -4736px;
+}
+
+.s64.social.rss-basic {
+    background-position: -0px -4800px;
+}
+
+.s64.social.rss-circle {
+    background-position: -0px -4864px;
+}
+
+.s64.social.rss-cube {
+    background-position: -0px -4928px;
+}
+
+.s64.social.shout-wire-logo2 {
+    background-position: -0px -4992px;
+}
+
+.s64.social.shoutwire-logo-square {
+    background-position: -0px -5056px;
+}
+
+.s64.social.simpy-logo-square {
+    background-position: -0px -5120px;
+}
+
+.s64.social.simpy-logo {
+    background-position: -0px -5184px;
+}
+
+.s64.social.slash-dot-logo-square {
+    background-position: -0px -5248px;
+}
+
+.s64.social.slashdot-logo {
+    background-position: -0px -5312px;
+}
+
+.s64.social.spurl-logo-square {
+    background-position: -0px -5376px;
+}
+
+.s64.social.spurl-logo {
+    background-position: -0px -5440px;
+}
+
+.s64.social.stumbleupon-logo-square {
+    background-position: -0px -5504px;
+}
+
+.s64.social.stumbleupon {
+    background-position: -0px -5568px;
+}
+
+.s64.social.swik-logo-square {
+    background-position: -0px -5632px;
+}
+
+.s64.social.swik-logo {
+    background-position: -0px -5696px;
+}
+
+.s64.social.technorati-logo-square {
+    background-position: -0px -5760px;
+}
+
+.s64.social.technorati-logo {
+    background-position: -0px -5824px;
+}
+
+.s64.social.technorati-logo2-square {
+    background-position: -0px -5888px;
+}
+
+.s64.social.technorati-logo2 {
+    background-position: -0px -5952px;
+}
+
+.s64.social.twitter-bird2-square {
+    background-position: -0px -6016px;
+}
+
+.s64.social.twitter-bird2 {
+    background-position: -0px -6080px;
+}
+
+.s64.social.twitter-bird3-square {
+    background-position: -0px -6144px;
+}
+
+.s64.social.twitter-bird3 {
+    background-position: -0px -6208px;
+}
+
+.s64.social.twitter-logo-square {
+    background-position: -0px -6272px;
+}
+
+.s64.social.twitter {
+    background-position: -0px -6336px;
+}
+
+.s64.social.wordpress-logo-square {
+    background-position: -0px -6400px;
+}
+
+.s64.social.wordpress {
+    background-position: -0px -6464px;
+}
+
+.s64.social.yahoo-buzz-logo-square2 {
+    background-position: -0px -6528px;
+}
+
+.s64.social.yahoo-buzz {
+    background-position: -0px -6592px;
+}
+
+.s64.social.yahoo-logo-square {
+    background-position: -0px -6656px;
+}
+
+.s64.social.yahoo {
+    background-position: -0px -6720px;
+}
+
+.s64.social.ziki-logo-square2 {
+    background-position: -0px -6784px;
+}
+
+.s64.social.ziki {
+    background-position: -0px -6848px;
+}
