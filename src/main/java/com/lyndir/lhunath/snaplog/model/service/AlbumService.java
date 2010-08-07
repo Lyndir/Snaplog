@@ -97,7 +97,7 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
      *
      * @throws PermissionDeniedException The token does not authorize {@link Permission#CONTRIBUTE} on the album owner's profile.
      */
-    void registerAlbum(final SecurityToken token, Album album)
+    void registerAlbum(SecurityToken token, Album album)
             throws PermissionDeniedException;
 
     /**

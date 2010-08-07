@@ -34,8 +34,6 @@ public class UserProfile extends AbstractSecureObject<GlobalSecureObject> {
 
     static final Messages msgs = MessagesFactory.create( Messages.class );
 
-    private User user;
-
     /**
      * Create a new {@link UserProfile} instance.
      *
@@ -43,7 +41,7 @@ public class UserProfile extends AbstractSecureObject<GlobalSecureObject> {
      */
     public UserProfile(final User user) {
 
-        setUser( user );
+        setOwner( user );
     }
 
     /**
@@ -60,15 +58,7 @@ public class UserProfile extends AbstractSecureObject<GlobalSecureObject> {
      */
     public User getUser() {
 
-        return user;
-    }
-
-    /**
-     * @param user The user of this {@link UserProfile}.
-     */
-    public void setUser(final User user) {
-
-        setOwner( this.user = user );
+        return getOwner();
     }
 
     @Override
@@ -79,19 +69,19 @@ public class UserProfile extends AbstractSecureObject<GlobalSecureObject> {
         if (!(o instanceof UserProfile))
             return false;
 
-        return Objects.equal( user, ((UserProfile) o).user );
+        return Objects.equal( getUser(), ((UserProfile) o).getUser() );
     }
 
     @Override
     public int hashCode() {
 
-        return Objects.hashCode( user );
+        return Objects.hashCode( getUser() );
     }
 
     @Override
     public String toString() {
 
-        return String.format( "{profile: user=%s}", user );
+        return String.format( "{profile: user=%s}", getUser() );
     }
 
     @Override
@@ -103,7 +93,7 @@ public class UserProfile extends AbstractSecureObject<GlobalSecureObject> {
     @Override
     public String objectDescription() {
 
-        return msgs.description( user.getUserName() );
+        return msgs.description( getUser().getUserName() );
     }
 
     private void readObject(final ObjectInputStream stream)

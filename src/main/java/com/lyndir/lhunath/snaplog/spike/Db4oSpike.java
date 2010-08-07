@@ -11,6 +11,7 @@ import com.db4o.ta.TransparentPersistenceSupport;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import java.io.File;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 
 /**
@@ -72,7 +73,7 @@ public class Db4oSpike {
         configuration.common().diagnostic().addListener( new DiagnosticListener() {
 
             @Override
-            public void onDiagnostic(Diagnostic diagnostic) {
+            public void onDiagnostic(final Diagnostic diagnostic) {
                 System.out.println( diagnostic.toString() );
             }
         } );
@@ -82,7 +83,7 @@ public class Db4oSpike {
 
     static class A {
 
-        LinkedHashMap<B, B> b;
+        final Map<B, B> b;
 
         A(final B b) {
             this.b = new LinkedHashMap<B, B>();

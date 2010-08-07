@@ -18,7 +18,6 @@ package com.lyndir.lhunath.snaplog.webapp.tab;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.ImmutableList;
-import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.model.ModelTemplates;
 import com.lyndir.lhunath.lib.wayward.navigation.AbstractFragmentState;
 import com.lyndir.lhunath.lib.wayward.navigation.IncompatibleStateException;
@@ -46,8 +45,6 @@ import org.apache.wicket.model.LoadableDetachableModel;
  * @author lhunath
  */
 public class InternalErrorPage extends LayoutPage {
-
-    static final Logger logger = Logger.get( InternalErrorPage.class );
 
     final Issue issue;
 
@@ -215,7 +212,7 @@ public class InternalErrorPage extends LayoutPage {
 
             if (issueCode == null)
                 return null;
-            
+
             return issueService.getIssue( SnaplogSession.get().newToken(), issueCode );
         }
 

@@ -202,7 +202,7 @@ public class AccessPopup extends PopupPanel<Album> {
 
         content.add( new Form<Object>( "otherUser" ) {
 
-            IModel<String> name = new Model<String>();
+            final IModel<String> name = new Model<String>();
 
             {
                 // Add the new user permission UI.

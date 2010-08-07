@@ -13,8 +13,8 @@ import com.lyndir.lhunath.snaplog.data.object.media.aws.S3MediaData;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.LinkedList;
 
 
 /**
@@ -26,7 +26,7 @@ import java.util.List;
  */
 public class Db4oProvider implements Provider<ObjectContainer> {
 
-    List<WeakReference<ObjectContainer>> containers = new ArrayList<WeakReference<ObjectContainer>>();
+    final Collection<WeakReference<ObjectContainer>> containers = new LinkedList<WeakReference<ObjectContainer>>();
 
     @Override
     public ObjectContainer get() {

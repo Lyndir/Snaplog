@@ -24,6 +24,7 @@ import java.util.Map;
 import org.apache.wicket.Component;
 import org.apache.wicket.util.template.JavaScriptTemplate;
 import org.apache.wicket.util.template.PackagedTextTemplate;
+import org.apache.wicket.util.template.TextTemplate;
 
 
 /**
@@ -52,8 +53,7 @@ public abstract class LayoutPageUtils {
         trackVariables.put( "googleAnalyticsID", "UA-90535-10" ); // TODO: Unhardcode.
         trackVariables.put( "pageView", trackComponent.getClass().getSimpleName() );
 
-        JavaScriptTemplate trackJS = new JavaScriptTemplate( new PackagedTextTemplate( LayoutPage.class, "trackPage.js" ) );
-
+        TextTemplate trackJS = new JavaScriptTemplate( new PackagedTextTemplate( LayoutPage.class, "trackPage.js" ) );
         return trackJS.asString( trackVariables );
     }
 }

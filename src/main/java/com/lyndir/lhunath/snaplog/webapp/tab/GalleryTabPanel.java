@@ -45,6 +45,7 @@ import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import com.lyndir.lhunath.snaplog.webapp.view.AbstractAlbumsView;
 import com.lyndir.lhunath.snaplog.webapp.view.MediaView;
 import java.util.List;
+import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -92,44 +93,28 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 
         // Page info
         add( new Label( "albumsTitleUsername", getModelObject().decoratedUsername() ) );
-        add( new Label( "anothersAlbumsHelp", msgs.anothersAlbumsHelp( new LoadableDetachableModel<Boolean>() {
+        add( new Label( "albumsHelp", msgs.albumsHelp( new LoadableDetachableModel<Boolean>() {
+
             @Override
             protected Boolean load() {
 
                 return SnaplogSession.get().isAuthenticated();
             }
-        }, getModelObject().username() ) ) {
+        }, new LoadableDetachableModel<Boolean>() {
 
-            @Override
-            public boolean isVisible() {
-
-                return albums.isVisible() && //
-                       !ObjectUtils.equal( getModelObject().getObject(), SnaplogSession.get().getActiveUser() );
-            }
-        } );
-        add( new Label( "ownAlbumsHelp", msgs.ownAlbumsHelp() ) {
-
-            @Override
-            public boolean isVisible() {
-
-                return albums.isVisible() && //
-                       ObjectUtils.equal( getModelObject().getObject(), SnaplogSession.get().getActiveUser() );
-            }
-        } );
-        add( new Label( "noAlbumsHelp", msgs.noAlbumsHelp( new LoadableDetachableModel<Boolean>() {
             @Override
             protected Boolean load() {
 
-                return SnaplogSession.get().isAuthenticated();
+                return ObjectUtils.equal( getModelObject().getObject(), SnaplogSession.get().getActiveUser() );
             }
-        }, getModelObject().username() ) ) {
+        }, new LoadableDetachableModel<Boolean>() {
 
             @Override
-            public boolean isVisible() {
+            protected Boolean load() {
 
-                return !albums.isVisible();
+                return albums.getItemCount() == 0;
             }
-        }.setEscapeModelStrings( false ) );
+        }, getModelObject().username() ) ).setEscapeModelStrings( false ) );
 
         // List of albums
         // TODO: Make this data view top-level to provide Album enumeration elsewhere.
@@ -161,13 +146,13 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 
             {
                 final WebMarkupContainer container = this;
-                final Form<NewAlbumFormModels> newAlbumForm = new Form<NewAlbumFormModels>( "newAlbumForm",
+                final Component newAlbumForm = new Form<NewAlbumFormModels>( "newAlbumForm",
                                                                                             getModelObject().newAlbumForm().getModel() ) {
 
                     {
                         add( new DropDownChoice<AlbumProviderType>( "type", getModelObject().type(), getModelObject().types(),
                                                                     new EnumChoiceRenderer<AlbumProviderType>() ) //
-                                .setRequired( true ) );
+                                     .setRequired( true ) );
 
                         add( new RequiredTextField<String>( "name", getModelObject().name() ) );
                         add( new TextArea<String>( "description", getModelObject().description() ) );
@@ -243,26 +228,16 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         /**
          * @param authenticated <code>true</code>: The current user has authenticated himself.<br> <code>false</code>: The current user has
          *                      not identified himself.
+         * @param owned         <code>true</code>: The current user is the owner of the albums in the gallery.
+         * @param empty         <code>true</code>: There are no albums to show.  Either the focused user has no albums or the active user
+         *                      (or the public) has no sufficient permission to see any of them.
          * @param username      The name of the user whose gallery is being viewed.
          *
-         * @return A text that explains to whom the albums in the gallery belong.
-         */
-        IModel<String> anothersAlbumsHelp(@BooleanKeyAppender(y = "auth", n = "anon") IModel<Boolean> authenticated,
-                                          IModel<String> username);
-
-        /**
          * @return A text that explains that the visible gallery belongs to the current user.
          */
-        IModel<String> ownAlbumsHelp();
-
-        /**
-         * @param isAuthenticated <code>true</code>: The current user has authenticated himself.<br> <code>false</code>: The current user
-         *                        has not identified himself.
-         * @param username        The name of the user whose gallery is being viewed.
-         *
-         * @return A text that explains that none of the user's albums are visible and what might be the cause.
-         */
-        IModel<String> noAlbumsHelp(@BooleanKeyAppender(y = "auth", n = "anon") IModel<Boolean> isAuthenticated, IModel<String> username);
+        IModel<String> albumsHelp(@BooleanKeyAppender(y = "auth", n = "anon") IModel<Boolean> authenticated,
+                                  @BooleanKeyAppender(y = "own", n = "another") IModel<Boolean> owned,
+                                  @BooleanKeyAppender(y = "empty") IModel<Boolean> empty, IModel<String> username);
     }
 
 

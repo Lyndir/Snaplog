@@ -13,8 +13,8 @@ import com.lyndir.lhunath.snaplog.data.object.media.aws.S3MediaData;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
+import java.util.LinkedList;
 import org.neodatis.odb.ODB;
 import org.neodatis.odb.ODBFactory;
 import org.neodatis.tool.DLogger;
@@ -32,7 +32,7 @@ public class NeodatisProvider implements Provider<ODB> {
 
     static final Logger logger = Logger.get( NeodatisProvider.class );
 
-    List<WeakReference<ODB>> containers = new ArrayList<WeakReference<ODB>>();
+    final Collection<WeakReference<ODB>> containers = new LinkedList<WeakReference<ODB>>();
 
     @Override
     public ODB get() {

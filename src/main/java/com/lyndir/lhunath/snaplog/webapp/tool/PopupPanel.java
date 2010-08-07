@@ -14,7 +14,7 @@ import org.apache.wicket.model.IModel;
  */
 public abstract class PopupPanel<M> extends GenericPanel<M> {
 
-    private WebMarkupContainer content;
+    private final WebMarkupContainer content;
 
     /**
      * @param id    Wicket component ID.
@@ -46,5 +46,5 @@ public abstract class PopupPanel<M> extends GenericPanel<M> {
      *
      * @param content The component where popup content should be added to.
      */
-    protected abstract void initContent(final WebMarkupContainer content);
+    protected abstract void initContent(WebMarkupContainer content);
 }

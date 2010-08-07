@@ -6,17 +6,18 @@
     <entry key="galleryTab">Gallery</entry>
 
     <entry key="albumsTitle">Albums of ${albumsTitleUsername}</entry>
-    <entry key="anothersAlbumsHelp.auth">Here''s an overview of all {0}''s albums that are open to you.</entry>
-    <entry key="anothersAlbumsHelp.anon">Here''s an overview of all {0}''s albums that are open to the public.</entry>
-    <entry key="ownAlbumsHelp">Here's an overview of all your albums.</entry>
-    <entry key="noAlbumsHelp.auth">
-        Either {0} hasn''t created any albums or hasn''t granted you access to them yet.
+    <entry key="albumsHelp.auth.another">Here''s an overview of all {0}''s albums that are open to you.</entry>
+    <entry key="albumsHelp.auth.another.empty">
+        Either {0} hasn''t created any albums or hasn''t granted you any access yet.
         <![CDATA[<span class="tip">Use the <span class="ss_sprite ss_key">Access</span> tool to request access.</span>]]>
     </entry>
-    <entry key="noAlbumsHelp.anon">
+    <entry key="albumsHelp.anon.another">Here''s an overview of all {0}''s albums that are open to the public.</entry>
+    <entry key="albumsHelp.anon.another.empty">
         Either {0} hasn''t created any albums or hasn''t granted public access to any of them.
         <![CDATA[<span class="tip"><span class="ss_sprite ss_status_offline">Sign in</span> to view or request access to {0}''s albums.</span>]]>
     </entry>
+    <entry key="albumsHelp.auth.own">Here's an overview of all your albums.</entry>
+    <entry key="albumsHelp.auth.own.empty">Here's an overview of all your albums.</entry>
 
     <entry key="newAlbum">Create a new album</entry>
     <entry key="newAlbumType">Album Type:</entry>

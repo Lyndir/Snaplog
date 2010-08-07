@@ -33,7 +33,6 @@ public abstract class AbstractAlbumsView extends DataView<Album> {
 
     @Inject
     AlbumService albumService;
-    private IModel<User> ownerUser;
 
     /**
      * Create a new {@link AbstractAlbumsView} instance.
@@ -52,7 +51,6 @@ public abstract class AbstractAlbumsView extends DataView<Album> {
                 return ObjectUtils.equal( input.getOwnerProfile().getUser(), ownerUser.getObject() );
             }
         }, albumsPerPage );
-        this.ownerUser = ownerUser;
     }
 
     /**

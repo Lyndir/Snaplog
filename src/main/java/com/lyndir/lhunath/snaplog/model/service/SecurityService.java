@@ -90,7 +90,7 @@ public interface SecurityService {
      *
      * @throws PermissionDeniedException When the security token doesn't grant {@link Permission#ADMINISTER} on the object.
      */
-    Permission getDefaultPermission(final SecurityToken token, final SecureObject<?> o)
+    Permission getDefaultPermission(SecurityToken token, SecureObject<?> o)
             throws PermissionDeniedException;
 
     /**

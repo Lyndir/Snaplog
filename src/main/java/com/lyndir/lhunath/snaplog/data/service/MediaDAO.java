@@ -21,13 +21,13 @@ public interface MediaDAO {
 
     void update(Iterable<MediaData<?>> mediaDatas);
 
-    <M extends Media> M findMedia(final Album album, final String mediaName);
+    <M extends Media> M findMedia(Album album, String mediaName);
 
-    <D extends MediaData<M>, M extends Media> D findMediaData(final M media);
+    <D extends MediaData<M>, M extends Media> D findMediaData(M media);
 
-    <M extends Media> List<M> listMedia(Album album, final boolean ascending);
+    <M extends Media> List<M> listMedia(Album album, boolean ascending);
 
-    <D extends MediaData<?>> List<D> listMediaData(Album album, final boolean ascending);
+    <D extends MediaData<?>> List<D> listMediaData(Album album, boolean ascending);
 
     void delete(Iterable<Media> medias);
 }

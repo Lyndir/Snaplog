@@ -78,7 +78,7 @@ public interface UserService {
      *
      * @throws UserNotFoundException No user exists with the given userName.
      */
-    User getUserWithUserName(final String userName)
+    User getUserWithUserName(String userName)
             throws UserNotFoundException;
 
     /**

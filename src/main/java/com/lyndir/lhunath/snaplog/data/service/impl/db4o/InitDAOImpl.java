@@ -2,7 +2,7 @@ package com.lyndir.lhunath.snaplog.data.service.impl.db4o;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
-import com.db4o.internal.ObjectContainerBase;
+import com.db4o.ext.ExtObjectContainer;
 import com.db4o.query.Predicate;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
@@ -62,7 +62,7 @@ public class InitDAOImpl implements InitDAO {
         if (defaultUserQuery.hasNext())
             SnaplogConstants.DEFAULT_USER = defaultUserQuery.next();
         // Configure default user.
-        if (!((ObjectContainerBase) db).isActive( SnaplogConstants.DEFAULT_USER ))
+        if (!((ExtObjectContainer) db).isActive( SnaplogConstants.DEFAULT_USER ))
             logger.dbg( "Was not active: %s", SnaplogConstants.DEFAULT_USER );
         db.store( SnaplogConstants.DEFAULT_USER );
 
@@ -81,7 +81,7 @@ public class InitDAOImpl implements InitDAO {
             defaultUserProfile = new UserProfile( SnaplogConstants.DEFAULT_USER );
         // Configure default user's profile.
         defaultUserProfile.getACL().setDefaultPermission( Permission.VIEW );
-        if (!((ObjectContainerBase) db).isActive( defaultUserProfile ))
+        if (!((ExtObjectContainer) db).isActive( defaultUserProfile ))
             logger.dbg( "Was not active: %s", defaultUserProfile );
         db.store( defaultUserProfile );
 
@@ -104,7 +104,7 @@ public class InitDAOImpl implements InitDAO {
         SnaplogConstants.DEFAULT_ALBUM
                 .setDescription(
                         "<p>Arbitrary snapshots from Maarten's life.</p><p><label>Camera:</label><input value='Canon Powershot Pro1' /></p>" );
-        if (!((ObjectContainerBase) db).isActive( SnaplogConstants.DEFAULT_ALBUM ))
+        if (!((ExtObjectContainer) db).isActive( SnaplogConstants.DEFAULT_ALBUM ))
             logger.dbg( "Was not active: %s", SnaplogConstants.DEFAULT_ALBUM );
         db.store( SnaplogConstants.DEFAULT_ALBUM );
 

@@ -205,7 +205,7 @@ public class SecurityServiceImpl implements SecurityService {
         assertAccess( Permission.ADMINISTER, token, o );
 
         return Iterators.unmodifiableIterator( new AbstractIterator<Pair<User, Permission>>() {
-            public Iterator<User> permittedUsers;
+            public final Iterator<User> permittedUsers;
 
             {
                 permittedUsers = o.getACL().getPermittedUsers().iterator();

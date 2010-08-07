@@ -94,7 +94,7 @@ public class AlbumServiceImpl implements AlbumService {
             return securityService.assertAccess( Permission.VIEW, token, albumDAO.findAlbum( ownerUser, albumName ) );
         }
 
-        catch (PermissionDeniedException e) {
+        catch (PermissionDeniedException ignored) {
             // Don't provide information to the outside world that this album exists.
             return null;
         }

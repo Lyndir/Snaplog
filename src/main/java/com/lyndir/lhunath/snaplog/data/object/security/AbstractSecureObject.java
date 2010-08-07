@@ -17,7 +17,6 @@ package com.lyndir.lhunath.snaplog.data.object.security;
 
 import com.lyndir.lhunath.lib.system.logging.exception.InternalInconsistencyException;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
-import java.io.Serializable;
 
 
 /**
@@ -28,7 +27,7 @@ import java.io.Serializable;
  * @author lhunath
  * @param <P> The type of the parent object.
  */
-public abstract class AbstractSecureObject<P extends SecureObject<?>> implements SecureObject<P>, Serializable {
+public abstract class AbstractSecureObject<P extends SecureObject<?>> implements SecureObject<P> {
 
     private User owner;
     private final ACL acl = new ACL();

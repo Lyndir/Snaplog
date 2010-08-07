@@ -305,7 +305,7 @@ div.popup {
 }
 .backdrop .t {
     background:         url("../images/layout/photo.c.t.png") repeat-x center top;
-    clip:               rect(0 99999px 5px 20px);
+    clip:               rect(0, 99999px, 5px, 20px);
 
     position:           absolute;
     top:                -5px;
@@ -332,7 +332,7 @@ div.popup {
 }
 .backdrop .r {
     background:         url("../images/layout/photo.r.c.png") repeat-y right center;
-    clip:               rect(20px 15px 99999px 0);
+    clip:               rect(20px, 15px, 99999px, 0);
 
     position:           absolute;
     top:                -5px;
@@ -359,7 +359,7 @@ div.popup {
 }
 .backdrop .b {
     background:         url("../images/layout/photo.c.b.png") repeat-x center bottom;
-    clip:               rect(0 99999px 15px 20px);
+    clip:               rect(0, 99999px, 15px, 20px);
 
     position:           absolute;
     bottom:             -15px;
@@ -386,7 +386,7 @@ div.popup {
 }
 .backdrop .l {
     background:         url("../images/layout/photo.l.c.png") repeat-y left center;
-    clip:               rect(20px 15px 99999px 0);
+    clip:               rect(20px, 15px, 99999px, 0);
 
     position:           absolute;
     top:                -5px;
@@ -579,7 +579,7 @@ a.block:hover, .block.link:hover {
 }
 .media.thumbnail .caption {
     visibility:         hidden;
-    left:               0%;
+    left:               0;
     width:              100%;
     bottom:             0;
 }
