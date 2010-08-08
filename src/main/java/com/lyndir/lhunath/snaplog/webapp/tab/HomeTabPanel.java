@@ -29,7 +29,7 @@ import com.lyndir.lhunath.snaplog.data.object.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.model.service.AlbumService;
 import com.lyndir.lhunath.snaplog.model.service.UserService;
-import com.lyndir.lhunath.snaplog.webapp.tab.model.ExpoTabModels;
+import com.lyndir.lhunath.snaplog.webapp.tab.model.HomeTabModels;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import com.lyndir.lhunath.snaplog.webapp.view.AbstractAlbumsView;
 import com.lyndir.lhunath.snaplog.webapp.view.AbstractUsersView;
@@ -49,13 +49,13 @@ import org.apache.wicket.util.string.AppendingStringBuffer;
 
 
 /**
- * <h2>{@link ExpoTabPanel}<br> <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link HomeTabPanel}<br> <sub>[in short] (TODO).</sub></h2>
  *
  * <p> <i>Mar 1, 2010</i> </p>
  *
  * @author lhunath
  */
-public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
+public class HomeTabPanel extends GenericPanel<HomeTabModels> {
 
     static final Messages msgs = MessagesFactory.create( Messages.class );
 
@@ -72,13 +72,13 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
     final Form<?> searchForm;
 
     /**
-     * Create a new {@link ExpoTabPanel} instance.
+     * Create a new {@link HomeTabPanel} instance.
      *
-     * @param id The wicket ID that will hold the {@link ExpoTabPanel}.
+     * @param id The wicket ID that will hold the {@link HomeTabPanel}.
      */
-    public ExpoTabPanel(final String id) {
+    public HomeTabPanel(final String id) {
 
-        super( id, new ExpoTabModels().getModel() );
+        super( id, new HomeTabModels().getModel() );
         getModelObject().attach( this );
 
         add( new Label( "usersHelp", getModelObject().usersHelp() ) );
@@ -112,6 +112,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
                     @Override
                     public boolean isVisible() {
 
+                        // TODO: Does this work?
                         // userItem's visibility == the visibility of the albums view in it.
                         boolean visible = super.isVisible();
                         userItem.setVisible( visible );
@@ -271,9 +272,9 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
     public interface Messages {
 
         /**
-         * @return Text on the interface tab to activate the {@link ExpoTabPanel}.
+         * @return Text on the interface tab to activate the {@link HomeTabPanel}.
          */
-        IModel<String> expoTab();
+        IModel<String> homeTab();
 
         /**
          * @return The text to show when a search yields no results.
@@ -305,7 +306,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
 
 
     /**
-     * <h2>{@link ExpoTab}<br> <sub>[in short] (TODO).</sub></h2>
+     * <h2>{@link HomeTab}<br> <sub>[in short] (TODO).</sub></h2>
      *
      * <p> [description / usage]. </p>
      *
@@ -313,11 +314,11 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
      *
      * @author lhunath
      */
-    static class ExpoTab implements SnaplogTab<ExpoTabPanel, ExpoTabState> {
+    static class HomeTab implements SnaplogTab<HomeTabPanel, HomeTabState> {
 
-        public static final ExpoTab instance = new ExpoTab();
+        public static final HomeTab instance = new HomeTab();
 
-        static final Logger logger = Logger.get( ExpoTab.class );
+        static final Logger logger = Logger.get( HomeTab.class );
 
         /**
          * {@inheritDoc}
@@ -325,28 +326,28 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
         @Override
         public IModel<String> getTitle() {
 
-            return msgs.expoTab();
+            return msgs.homeTab();
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public ExpoTabPanel getPanel(final String panelId) {
+        public HomeTabPanel getPanel(final String panelId) {
 
-            return new ExpoTabPanel( panelId );
+            return new HomeTabPanel( panelId );
         }
 
         @Override
-        public Class<ExpoTabPanel> getPanelClass() {
+        public Class<HomeTabPanel> getPanelClass() {
 
-            return ExpoTabPanel.class;
+            return HomeTabPanel.class;
         }
 
         @Override
-        public ExpoTabState getState(final String fragment) {
+        public HomeTabState getState(final String fragment) {
 
-            return new ExpoTabState( fragment );
+            return new HomeTabState( fragment );
         }
 
         /**
@@ -359,7 +360,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
         }
 
         @Override
-        public List<? extends SnaplogTool> listTools(final ExpoTabPanel panel) {
+        public List<? extends SnaplogTool> listTools(final HomeTabPanel panel) {
 
             return ImmutableList.of();
         }
@@ -367,17 +368,17 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
         @Override
         public String getTabFragment() {
 
-            return "expo";
+            return "home";
         }
 
         @Override
-        public ExpoTabState buildFragmentState(final ExpoTabPanel panel) {
+        public HomeTabState buildFragmentState(final HomeTabPanel panel) {
 
-            return new ExpoTabState();
+            return new HomeTabState();
         }
 
         @Override
-        public void applyFragmentState(final ExpoTabPanel panel, final ExpoTabState state)
+        public void applyFragmentState(final HomeTabPanel panel, final HomeTabState state)
                 throws IncompatibleStateException {
 
             // No state.
@@ -385,13 +386,13 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
     }
 
 
-    public static class ExpoTabState extends AbstractFragmentState {
+    public static class HomeTabState extends AbstractFragmentState {
 
-        public ExpoTabState() {
+        public HomeTabState() {
 
         }
 
-        public ExpoTabState(final String fragment) {
+        public HomeTabState(final String fragment) {
 
             super( fragment );
         }
@@ -399,7 +400,7 @@ public class ExpoTabPanel extends GenericPanel<ExpoTabModels> {
         @Override
         protected String getTabFragment() {
 
-            return ExpoTab.instance.getTabFragment();
+            return HomeTab.instance.getTabFragment();
         }
     }
 }

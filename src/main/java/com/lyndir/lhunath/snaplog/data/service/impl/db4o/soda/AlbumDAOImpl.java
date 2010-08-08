@@ -46,7 +46,7 @@ public class AlbumDAOImpl implements AlbumDAO {
         Query query = db.query();
         query.constrain( Album.class ) //
                 .and( query.descend( "name" ).constrain( albumName ) ) //
-                .and( query.descend( "ownerProfile" ).descend( "user" ).constrain( ownerUser ) );
+                .and( query.descend( "ownerProfile" ).descend( "owner" ).constrain( ownerUser ) );
 
         ObjectSet<Album> results = query.execute();
         if (results.hasNext()) {

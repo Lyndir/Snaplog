@@ -71,7 +71,7 @@ public class UserDAOImpl implements UserDAO {
 
         Query query = db.query();
         query.constrain( UserProfile.class ) //
-                .and( query.descend( "user" ).constrain( user ) );
+                .and( query.descend( "owner" ).constrain( user ) );
 
         ObjectSet<UserProfile> results = query.execute();
         if (results.hasNext()) {

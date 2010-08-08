@@ -33,14 +33,14 @@ import org.apache.wicket.markup.html.panel.Panel;
 public enum Tab {
 
     /**
-     * This is the initial tab that describes Snaplog.
+     * This tab provides a gateway to Snaplog's most needed functions and information.
      */
-    ABOUT( AboutTabPanel.AboutTab.instance ),
+    HOME( HomeTabPanel.HomeTab.instance ),
 
     /**
-     * This tab provides an exposition of other people on Snaplog.
-     */
-    EXPO( ExpoTabPanel.ExpoTab.instance ),
+    * This tab describes what Snaplog is.
+    */
+    ABOUT( AboutTabPanel.AboutTab.instance ),
 
     /**
      * This tab provides a summary view of a user's account.

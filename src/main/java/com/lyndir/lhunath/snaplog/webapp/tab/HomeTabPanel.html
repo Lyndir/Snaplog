@@ -1,0 +1,85 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
+      xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
+
+    <body>
+        <wicket:panel>
+
+            <div class="gradient">
+                <p>Welcome to <b>snaplog</b>.net; the visual diary of your life and that of those around you.</p>
+
+                <p>Check out the galleries of your friends to see what's new, go in search of a particular event or just browse some public
+                    albums and enjoy the marvels of photography.</p>
+            </div>
+
+            <h3>Stage: Alpha</h3>
+
+            <p><b>Snaplog</b>.net is currently being actively developed. Its present feature-set is limited and not yet reliable. Currently,
+                the development of Snaplog receives limited resources. Anyone interested in joining the project either as a developer or as
+                a user for the purpose of testing and evaluating the system is welcome to do so <a href="mailto:lhunath, gmail">upon
+                    request</a>.</p>
+
+            <p>To learn more about what <b>snaplog</b>.net is and strives to become, take a look at <a href="#about">the about page</a>.</p>
+
+            <h3>Quick Search</h3>
+
+            <p>Looking for a certain event, photo or somebody's gallery? Enter a relevant keyword on what you're looking for, and we'll look
+                through our database for the best way to take you where you need to be.</p>
+
+            <form wicket:id="searchForm">
+                <label for="query">
+                    <wicket:message key="query">[Find:]</wicket:message>
+                </label>
+                <input type="text" wicket:id="query" id="query" />
+                <span wicket:id="results" class="results">[42 results:]</span>
+
+                <wicket:enclosure child="users">
+                    <h4>People:</h4>
+
+                    <ul class="plain block">
+                        <li wicket:id="users">
+                            <h4 class="link" wicket:id="userName">[lhunath]</h4>
+                            <ul class="plain">
+                                <li class="inline" wicket:id="albums">
+                                    <wicket:container wicket:id="albumCover" />
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </wicket:enclosure>
+
+                <wicket:enclosure child="albums">
+                    <h4>Albums:</h4>
+
+                    <ul class="plain block">
+                        <li wicket:id="albums">
+                            <wicket:container wicket:id="cover" />
+                        </li>
+                    </ul>
+                </wicket:enclosure>
+            </form>
+
+            <wicket:enclosure child="users">
+                <h3>Galleries</h3>
+
+                <p wicket:id="usersHelp">[These people are showcasing some of their albums either publicly or to you specifically.]</p>
+
+                <ul class="plain">
+                    <li class="block" wicket:id="users">
+                        <wicket:enclosure child="albums">
+                            <h4 class="link" wicket:id="userName">[lhunath]</h4>
+                            <ul class="plain">
+                                <li class="inline" wicket:id="albums">
+                                    <wicket:container wicket:id="albumCover" />
+                                </li>
+                            </ul>
+                        </wicket:enclosure>
+                    </li>
+                </ul>
+            </wicket:enclosure>
+
+        </wicket:panel>
+    </body>
+
+</html>

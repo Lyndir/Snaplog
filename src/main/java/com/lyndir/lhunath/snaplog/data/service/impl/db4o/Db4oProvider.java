@@ -39,7 +39,7 @@ public class Db4oProvider implements Provider<ObjectContainer> {
         // TODO: Do this smarter; annotations or such.
         configuration.common().objectClass( User.class ).objectField( "userName" ).indexed( true );
         configuration.common().objectClass( User.class ).objectField( "linkID" ).indexed( true );
-        configuration.common().objectClass( UserProfile.class ).objectField( "user" ).indexed( true );
+        configuration.common().objectClass( UserProfile.class ).objectField( "owner" ).indexed( true );
         configuration.common().objectClass( Album.class ).objectField( "name" ).indexed( true );
         configuration.common().objectClass( Album.class ).objectField( "ownerProfile" ).indexed( true );
         configuration.common().objectClass( Media.class ).objectField( "name" ).indexed( true );

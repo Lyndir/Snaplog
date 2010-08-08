@@ -71,7 +71,7 @@ public class UserDAOImpl implements UserDAO {
         checkNotNull( user, "Given user must not be null." );
 
         Objects<UserProfile> results = db.getObjects( new CriteriaQuery( UserProfile.class, //
-                                                                         new EqualCriterion( "user", user ) ) );
+                                                                         new EqualCriterion( "owner", user ) ) );
 
         if (results.hasNext()) {
             UserProfile result = results.next();
