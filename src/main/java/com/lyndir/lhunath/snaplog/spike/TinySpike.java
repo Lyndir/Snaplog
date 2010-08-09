@@ -1,6 +1,7 @@
 package com.lyndir.lhunath.snaplog.spike;
 
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import java.util.GregorianCalendar;
 
 
 /**
@@ -17,13 +18,9 @@ public class TinySpike {
     public static void main(final String... args)
             throws Exception {
 
-        Object[] arr = { "a", "b" };
-        foo( (Object) arr );
-    }
-
-    public static void foo(final Object... args) {
-
-        logger.dbg( "%d", args.length );
-        logger.dbg( "%s", args[0] );
+        GregorianCalendar calendar = new GregorianCalendar();
+        calendar.setLenient( false );
+        calendar.set( 2000, 1, 31 );
+        logger.inf( "%s", calendar.getTime() );
     }
 }

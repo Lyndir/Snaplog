@@ -19,8 +19,8 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.lib.wayward.model.EmptyModelProvider;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
-import com.lyndir.lhunath.snaplog.webapp.tab.HomeTabPanel.Messages;
 import com.lyndir.lhunath.snaplog.webapp.tab.GalleryTabPanel;
+import com.lyndir.lhunath.snaplog.webapp.tab.HomeTabPanel.Messages;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 

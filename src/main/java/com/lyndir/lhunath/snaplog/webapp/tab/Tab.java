@@ -38,8 +38,8 @@ public enum Tab {
     HOME( HomeTabPanel.HomeTab.instance ),
 
     /**
-    * This tab describes what Snaplog is.
-    */
+     * This tab describes what Snaplog is.
+     */
     ABOUT( AboutTabPanel.AboutTab.instance ),
 
     /**
