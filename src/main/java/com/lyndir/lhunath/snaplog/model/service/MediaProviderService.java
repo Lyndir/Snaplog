@@ -15,6 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.model.service;
 
+import com.lyndir.lhunath.lib.wayward.model.WicketInjected;
 import com.lyndir.lhunath.snaplog.data.object.media.Album;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.media.Media.Quality;
@@ -35,7 +36,7 @@ import java.net.URL;
  *
  * @author lhunath
  */
-public interface MediaProviderService<A extends Album, M extends Media> {
+public interface MediaProviderService<A extends Album, M extends Media> extends WicketInjected {
 
     /**
      * Update all media in the given album with what the album's backend provides.

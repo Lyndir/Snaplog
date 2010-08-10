@@ -1,6 +1,5 @@
 package com.lyndir.lhunath.snaplog.webapp.page;
 
-import static com.google.common.base.Preconditions.checkNotNull;
 import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.ImmutableList;
@@ -339,8 +338,6 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
      * @param target The AJAX request target to add page components to.
      */
     public void addComponents(final AjaxRequestTarget target) {
-
-        checkNotNull( target, "Given target cannot be null." );
 
         target.addComponent( messages );
         target.addListener( FragmentNavigationListener.AjaxRequestListener.of( navigationController ) );

@@ -16,6 +16,7 @@
 package com.lyndir.lhunath.snaplog.model.service;
 
 import com.google.common.base.Predicate;
+import com.lyndir.lhunath.lib.wayward.model.WicketInjected;
 import com.lyndir.lhunath.snaplog.data.object.Issue;
 import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.error.IssueNotFoundException;
@@ -30,7 +31,7 @@ import java.util.ListIterator;
  *
  * @author lhunath
  */
-public interface IssueService {
+public interface IssueService extends WicketInjected {
 
     /**
      * Report a new issue that has just occurred.

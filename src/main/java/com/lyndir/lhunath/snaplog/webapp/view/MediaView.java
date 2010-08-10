@@ -63,6 +63,7 @@ public class MediaView extends GenericPanel<Media> {
     public MediaView(final String id, final IModel<Media> model, final Quality quality, final boolean clickable) {
 
         super( id, model );
+        logger.dbg( "Media: %s - Quality: %s", model.getObject(), quality );
 
         // The media container.
         WebMarkupContainer media = new WebMarkupContainer( "media" );

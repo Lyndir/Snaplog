@@ -105,6 +105,7 @@ public class BrowserView extends GenericPanel<Album> {
                     public void onClick(final AjaxRequestTarget target) {
 
                         mediaList.setVisible( !mediaList.isVisible() );
+                        logger.dbg( "month clicked; list now visible? %s", mediaList.isVisible() );
                         target.addComponent( mediaTimeFrameItem );
                     }
                 } );

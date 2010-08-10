@@ -24,7 +24,7 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.servlet.DisableURLSessionFilter;
 import com.lyndir.lhunath.snaplog.data.DAOModule;
 import com.lyndir.lhunath.snaplog.model.ServiceModule;
-import com.lyndir.lhunath.snaplog.webapp.SnaplogWebApplication;
+import com.lyndir.lhunath.snaplog.webapp.SnaplogApplication;
 import com.lyndir.lhunath.snaplog.webapp.servlet.AppLogoutServlet;
 import com.lyndir.lhunath.snaplog.webapp.servlet.InitServlet;
 import javax.servlet.ServletContext;
@@ -76,7 +76,7 @@ public class GuiceContext extends GuiceServletContextListener {
 
                 // Wicket
                 paramBuilder = new ImmutableMap.Builder<String, String>();
-                paramBuilder.put( ContextParamWebApplicationFactory.APP_CLASS_PARAM, SnaplogWebApplication.class.getCanonicalName() );
+                paramBuilder.put( ContextParamWebApplicationFactory.APP_CLASS_PARAM, SnaplogApplication.class.getCanonicalName() );
                 paramBuilder.put( WicketFilter.FILTER_MAPPING_PARAM, PATH_WICKET );
                 filter( PATH_WICKET ).through( wicketFilter, paramBuilder.build() );
                 bind( WicketFilter.class ).in( Scopes.SINGLETON );
@@ -102,14 +102,14 @@ public class GuiceContext extends GuiceServletContextListener {
 
                 // LinkID Login Landing Servlet
                 paramBuilder = new ImmutableMap.Builder<String, String>();
-                paramBuilder.put( "ErrorPage", SnaplogWebApplication.PATH_LINKID_ERROR );
+                paramBuilder.put( "ErrorPage", SnaplogApplication.PATH_LINKID_ERROR );
                 serve( PATH_LINKID_LOGIN ).with( LoginServlet.class, paramBuilder.build() );
                 bind( LoginServlet.class ).in( Scopes.SINGLETON );
 
                 // LinkID Logout Landing Servlet
                 paramBuilder = new ImmutableMap.Builder<String, String>();
                 paramBuilder.put( "LogoutPath", AppLogoutServlet.PATH );
-                paramBuilder.put( "ErrorPage", SnaplogWebApplication.PATH_LINKID_ERROR );
+                paramBuilder.put( "ErrorPage", SnaplogApplication.PATH_LINKID_ERROR );
                 serve( PATH_LINKID_LOGOUT ).with( LogoutServlet.class, paramBuilder.build() );
                 bind( LogoutServlet.class ).in( Scopes.SINGLETON );
             }

@@ -16,6 +16,7 @@
 package com.lyndir.lhunath.snaplog.model.service;
 
 import com.lyndir.lhunath.lib.system.collection.Pair;
+import com.lyndir.lhunath.lib.wayward.model.WicketInjected;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.data.object.security.SecureObject;
 import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
@@ -33,7 +34,7 @@ import java.util.ListIterator;
  *
  * @author lhunath
  */
-public interface SecurityService {
+public interface SecurityService extends WicketInjected {
 
     /**
      * @param permission The permission required on the given object to proceed with the request.

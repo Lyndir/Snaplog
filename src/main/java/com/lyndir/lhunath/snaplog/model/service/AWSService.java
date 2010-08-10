@@ -16,6 +16,7 @@
 package com.lyndir.lhunath.snaplog.model.service;
 
 import com.google.common.collect.ImmutableList;
+import com.lyndir.lhunath.lib.wayward.model.WicketInjected;
 import java.io.File;
 import java.io.InputStream;
 import org.jets3t.service.S3Service;
@@ -30,7 +31,7 @@ import org.jets3t.service.model.S3Object;
  *
  * @author lhunath
  */
-public interface AWSService {
+public interface AWSService extends WicketInjected {
 
     /**
      * Retrieve an object on S3 with a data stream available.

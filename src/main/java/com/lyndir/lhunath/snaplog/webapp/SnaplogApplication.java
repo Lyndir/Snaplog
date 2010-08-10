@@ -50,15 +50,15 @@ import org.apache.wicket.settings.IExceptionSettings;
 
 
 /**
- * <h2>{@link SnaplogWebApplication}<br> <sub>Wicket {@link WebApplication} for the media album application.</sub></h2>
+ * <h2>{@link SnaplogApplication}<br> <sub>Wicket {@link WebApplication} for the media album application.</sub></h2>
  *
  * <p> <i>May 31, 2009</i> </p>
  *
  * @author lhunath
  */
-public class SnaplogWebApplication extends WebApplication {
+public class SnaplogApplication extends WebApplication {
 
-    static final Logger logger = Logger.get( SnaplogWebApplication.class );
+    static final Logger logger = Logger.get( SnaplogApplication.class );
 
     /**
      * Context-relative path to the page that indicates an error occurred during the linkID authentication protocol.
