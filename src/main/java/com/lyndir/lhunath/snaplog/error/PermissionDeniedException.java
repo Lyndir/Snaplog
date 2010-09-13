@@ -15,7 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.error;
 
-import com.lyndir.lhunath.lib.system.util.ObjectUtils;
+import com.lyndir.lhunath.lib.system.util.ArrayUtils;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.data.object.security.SecureObject;
@@ -44,7 +44,7 @@ public class PermissionDeniedException extends Exception {
     public PermissionDeniedException(final Permission permission, final SecureObject<?> secureObject, final String messageFormat,
                                      final Object... messageArgs) {
 
-        super( String.format( messageFormat + " in request for: %s@%s.", ObjectUtils.concat( messageArgs, permission, secureObject ) ) );
+        super( String.format( messageFormat + " in request for: %s@%s.", ArrayUtils.concat( messageArgs, permission, secureObject ) ) );
 
         this.permission = permission;
         this.secureObject = secureObject;

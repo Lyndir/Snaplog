@@ -58,7 +58,7 @@ public class FocusedView extends GenericPanel<Media> {
             private ListIterator<Media> getIterator() {
 
                 if (iterator == null)
-                    iterator = albumService.iterateMedia( SnaplogSession.get().newToken(), getModelObject().getAlbum() );
+                    iterator = albumService.iterateMedia( SnaplogSession.get().newToken(), getModelObject().getAlbum(), true );
 
                 return iterator;
             }

@@ -155,9 +155,9 @@ public class MediaDAOImpl implements MediaDAO {
     }
 
     @Override
-    public void delete(final Iterable<Media> medias) {
+    public <M extends Media> void delete(final Iterable<M> medias) {
 
-        for (final Media media : medias)
+        for (final M media : medias)
             db.delete( media );
     }
 }

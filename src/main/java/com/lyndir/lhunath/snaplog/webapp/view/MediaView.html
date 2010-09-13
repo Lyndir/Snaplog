@@ -31,12 +31,14 @@
                     <img alt="" wicket:id="thumb" class="thumb" />
                     <span class="caption" wicket:id="caption">[Caption]</span>
 
-                    <wicket:container wicket:id="tools">
-                        <div class="tools">
-                            <a class="ss_sprite ss_picture_save" wicket:id="originalTool" target="_blank">
-                                <wicket:message key="tools.original">Download</wicket:message></a>
-                        </div>
-                    </wicket:container>
+                    <div wicket:id="tools" class="tools">
+                        <a class="ss_sprite ss_disk" wicket:id="original" target="_blank">
+                            <wicket:message key="tools.original">Download High-Quality</wicket:message></a>
+                        <a class="ss_sprite ss_eye" wicket:id="permissions" target="_blank">
+                            <wicket:message key="tools.permissions">Change Permissions</wicket:message></a>
+                        <a class="ss_sprite ss_delete" wicket:id="delete" target="_blank">
+                            <wicket:message key="tools.delete">Delete Permanently</wicket:message></a>
+                    </div>
                 </span>
             </span>
 

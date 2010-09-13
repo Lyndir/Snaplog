@@ -8,7 +8,7 @@
     <parent>
         <groupId>com.lyndir.lhunath</groupId>
         <artifactId>lyndir</artifactId>
-        <version>1.4</version>
+        <version>SNAPSHOT</version>
     </parent>
 
     <groupId>com.lyndir.lhunath.snaplog</groupId>
@@ -66,6 +66,7 @@
         <release.version>0.1</release.version>
         <!--version.db4o>7.12-SNAPSHOT</version.db4o-->
     </properties>
+
 
     <!-- BUILD CONFIGURATION -->
     <build>

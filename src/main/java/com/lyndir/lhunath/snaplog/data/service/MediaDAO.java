@@ -29,5 +29,5 @@ public interface MediaDAO {
 
     <D extends MediaData<?>> List<D> listMediaData(Album album, boolean ascending);
 
-    void delete(Iterable<Media> medias);
+    <M extends Media> void delete(Iterable<M> medias);
 }

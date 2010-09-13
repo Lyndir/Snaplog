@@ -61,7 +61,7 @@ public class AWSServiceImpl implements AWSService {
     @Override
     public S3Object readObject(final String objectKey) {
 
-        DateUtils.startTiming( "readObject" );
+        DateUtils.startTiming( "readObject(%s)", objectKey );
         try {
             logger.dbg( "Fetching S3 object data from bucket: %s, with key: %s", BUCKET, objectKey );
             return newService().getObject( BUCKET, objectKey );
@@ -83,7 +83,7 @@ public class AWSServiceImpl implements AWSService {
     @Override
     public S3Object fetchObjectDetails(final String objectKey) {
 
-        DateUtils.startTiming( "fetchObjectDetails" );
+        DateUtils.startTiming( "fetchObjectDetails(%s)", objectKey );
         try {
             logger.dbg( "Fetching S3 object metadata from bucket: %s, with key: %s", BUCKET, objectKey );
             return newService().getObjectDetails( BUCKET, objectKey );
@@ -102,13 +102,32 @@ public class AWSServiceImpl implements AWSService {
         }
     }
 
+    @Override
+    public void deleteObject(final String objectKey) {
+
+        DateUtils.startTiming( "deleteObject(%s)", objectKey );
+        try {
+            logger.dbg( "Deleting S3 object from bucket: %s, with key: %s", BUCKET, objectKey );
+            newService().deleteObject( BUCKET, objectKey );
+        }
+
+        catch (S3ServiceException e) {
+            throw logger.err( e, ERR_AWS_SERVICE ) //
+                    .toError();
+        }
+
+        finally {
+            DateUtils.popTimer().logFinish( logger );
+        }
+    }
+
     /**
      * {@inheritDoc}
      */
     @Override
     public ImmutableList<S3Object> listObjects(final String objectKey) {
 
-        DateUtils.startTiming( "listObjects" );
+        DateUtils.startTiming( "listObjects(%s)", objectKey );
         try {
             logger.dbg( "Listing S3 objects from bucket: %s, with prefix: %s", BUCKET, objectKey );
             return ImmutableList.copyOf( newService().listObjects( BUCKET, objectKey, null ) );
@@ -130,7 +149,7 @@ public class AWSServiceImpl implements AWSService {
     @Override
     public S3Object upload(final S3Object source) {
 
-        DateUtils.startTiming( "upload" );
+        DateUtils.startTiming( "upload(%s)", source );
         try {
             logger.dbg( "Uploading: %d bytes, to S3 objects in bucket: %s, with prefix: %s", //
                         source.getContentLength(), BUCKET, source.getKey() );

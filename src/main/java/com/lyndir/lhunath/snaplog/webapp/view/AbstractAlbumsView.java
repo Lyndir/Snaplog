@@ -1,7 +1,6 @@
 package com.lyndir.lhunath.snaplog.webapp.view;
 
 import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Iterators;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.ObjectUtils;
@@ -85,9 +84,9 @@ public abstract class AbstractAlbumsView extends DataView<Album> {
             @Override
             protected Media load() {
 
-                Iterator<Media> it = albumService.iterateMedia( SnaplogSession.get().newToken(), albumModel.getObject() );
+                Iterator<Media> it = albumService.iterateMedia( SnaplogSession.get().newToken(), albumModel.getObject(), false );
                 if (it.hasNext())
-                    return Iterators.getLast( it );
+                    return it.next();
 
                 return null;
             }

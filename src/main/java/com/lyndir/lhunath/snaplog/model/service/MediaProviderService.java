@@ -67,6 +67,17 @@ public interface MediaProviderService<A extends Album, M extends Media> extends 
             throws PermissionDeniedException;
 
     /**
+     * Permanently delete the given media from its storage.
+     *
+     * @param token Request authentication token should authorize {@link Permission#ADMINISTER} on the media whose URL to return.
+     * @param media The media that needs to be deleted.
+     *
+     * @throws PermissionDeniedException When the token does not grant {@link Permission#ADMINISTER} to the media.
+     */
+    void delete(final SecurityToken token, M media)
+            throws PermissionDeniedException;
+
+    /**
      * Obtain the timestamp at which the given media was created.
      *
      * @param token Request authentication token should authorize {@link Permission#VIEW} on the media whose modification time to return.

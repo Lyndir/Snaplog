@@ -24,11 +24,8 @@ import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.DateUtils;
 import com.lyndir.lhunath.lib.system.util.ObjectUtils;
-import com.lyndir.lhunath.snaplog.data.object.media.Album;
-import com.lyndir.lhunath.snaplog.data.object.media.AlbumProviderType;
-import com.lyndir.lhunath.snaplog.data.object.media.Media;
+import com.lyndir.lhunath.snaplog.data.object.media.*;
 import com.lyndir.lhunath.snaplog.data.object.media.Media.Quality;
-import com.lyndir.lhunath.snaplog.data.object.media.MediaTimeFrame;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
@@ -36,15 +33,11 @@ import com.lyndir.lhunath.snaplog.data.service.AlbumDAO;
 import com.lyndir.lhunath.snaplog.data.service.MediaDAO;
 import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.model.ServiceModule;
-import com.lyndir.lhunath.snaplog.model.service.AlbumProvider;
-import com.lyndir.lhunath.snaplog.model.service.AlbumService;
-import com.lyndir.lhunath.snaplog.model.service.SecurityService;
+import com.lyndir.lhunath.snaplog.model.service.*;
 import java.net.URL;
 import java.util.Iterator;
 import java.util.ListIterator;
-import org.joda.time.DateTimeFieldType;
-import org.joda.time.ReadableInstant;
-import org.joda.time.ReadablePeriod;
+import org.joda.time.*;
 
 
 /**
@@ -58,8 +51,8 @@ public class AlbumServiceImpl implements AlbumService {
 
     static final Logger logger = Logger.get( AlbumServiceImpl.class );
 
+    private final SecurityService securityService;
     private final MediaDAO mediaDAO;
-    final SecurityService securityService;
     private final AlbumDAO albumDAO;
 
     /**
@@ -91,6 +84,7 @@ public class AlbumServiceImpl implements AlbumService {
     public Album findAlbumWithName(final SecurityToken token, final User ownerUser, final String albumName) {
 
         try {
+
             return securityService.assertAccess( Permission.VIEW, token, albumDAO.findAlbum( ownerUser, albumName ) );
         }
 
@@ -107,6 +101,7 @@ public class AlbumServiceImpl implements AlbumService {
     public Media findMediaWithName(final SecurityToken token, final Album album, final String mediaName) {
 
         try {
+
             return securityService.assertAccess( Permission.VIEW, token, mediaDAO.findMedia( album, mediaName ) );
         }
 
@@ -166,28 +161,42 @@ public class AlbumServiceImpl implements AlbumService {
     }
 
     @Override
-    public ListIterator<Media> iterateMedia(final SecurityToken token, final Album album) {
+    public void delete(final SecurityToken token, final Media media)
+            throws PermissionDeniedException {
 
-        return securityService.filterAccess( Permission.VIEW, token, mediaDAO.listMedia( album, true ).listIterator() );
+        getAlbumProvider( media.getAlbum() ).delete( token, media );
     }
 
     @Override
-    public Iterator<MediaTimeFrame> iterateMediaTimeFrames(final SecurityToken token, final Album album, final DateTimeFieldType frame) {
+    public ListIterator<Media> iterateMedia(final SecurityToken token, final Album album, final boolean ascending) {
+
+        return securityService.filterAccess( Permission.VIEW, token, mediaDAO.listMedia( album, ascending ).listIterator() );
+    }
+
+    @Override
+    public Iterator<MediaTimeFrame> iterateMediaTimeFrames(final SecurityToken token, final Album album, final DateTimeFieldType frame,
+                                                           final boolean ascending) {
+
+        return iterateMediaTimeFrames( token, iterateMedia( token, album, ascending ), frame );
+    }
+
+    @Override
+    public Iterator<MediaTimeFrame> iterateMediaTimeFrames(final SecurityToken token, final Iterator<Media> source,
+                                                           final DateTimeFieldType frame) {
 
         return new AbstractIterator<MediaTimeFrame>() {
 
-            private final Iterator<Media> media = iterateMedia( token, album );
             public Media lastMedia;
 
             @Override
             protected MediaTimeFrame computeNext() {
 
-                if (!media.hasNext())
+                if (!source.hasNext())
                     return endOfData();
 
                 ImmutableList.Builder<Media> frameMedia = ImmutableList.builder();
                 if (lastMedia == null)
-                    lastMedia = media.next();
+                    lastMedia = source.next();
 
                 // The offset and range of the frame.
                 ReadableInstant offset = DateUtils.truncate( lastMedia.shotTime(), frame );
@@ -195,10 +204,11 @@ public class AlbumServiceImpl implements AlbumService {
                 logger.dbg( "Frame starting at %s, range %s, starting with: %s", offset, range, lastMedia );
 
                 do {
+
                     frameMedia.add( lastMedia );
-                    if (!media.hasNext())
+                    if (!source.hasNext())
                         break;
-                    lastMedia = media.next();
+                    lastMedia = source.next();
                 } // Continue to add this lastMedia to the current list of media while its shotTime truncates to the offset.
                 while (ObjectUtils.equal( DateUtils.truncate( lastMedia.shotTime(), frame ), offset ));
 

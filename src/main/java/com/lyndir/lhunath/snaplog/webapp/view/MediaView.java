@@ -21,21 +21,24 @@ import com.lyndir.lhunath.lib.wayward.behavior.CSSClassAttributeAppender;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.media.Media.Quality;
+import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.model.service.AlbumService;
+import com.lyndir.lhunath.snaplog.model.service.SecurityService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import java.net.URL;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
 import org.apache.wicket.behavior.AttributeAppender;
+import org.apache.wicket.markup.ComponentTag;
+import org.apache.wicket.markup.MarkupStream;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.image.ContextImage;
 import org.apache.wicket.markup.html.link.ExternalLink;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.model.*;
 
 
 /**
@@ -51,6 +54,9 @@ public class MediaView extends GenericPanel<Media> {
 
     @Inject
     AlbumService albumService;
+
+    @Inject
+    SecurityService securityService;
 
     /**
      * @param id        The wicket ID of this component.
@@ -154,7 +160,7 @@ public class MediaView extends GenericPanel<Media> {
         image.add( new WebMarkupContainer( "tools" ) {
 
             {
-                add( new ExternalLink( "originalTool", new LoadableDetachableModel<String>() {
+                add( new ExternalLink( "original", new LoadableDetachableModel<String>() {
 
                     @Override
                     protected String load() {
@@ -173,13 +179,74 @@ public class MediaView extends GenericPanel<Media> {
                             return null;
                         }
                     }
-                } ) );
+                } ) {
+                    @Override
+                    protected void onComponentTagBody(final MarkupStream markupStream, final ComponentTag openTag) {
+
+                        if (!renderAsMini( markupStream, openTag ))
+                            super.onComponentTagBody( markupStream, openTag );
+                    }
+                } );
+                add( new WebMarkupContainer( "permissions" ) {
+                    @Override
+                    protected void onComponentTagBody(final MarkupStream markupStream, final ComponentTag openTag) {
+
+                        if (!renderAsMini( markupStream, openTag ))
+                            super.onComponentTagBody( markupStream, openTag );
+                    }
+
+                    @Override
+                    public boolean isVisible() {
+
+                        return securityService.hasAccess( Permission.ADMINISTER, SnaplogSession.get().newToken(), getModelObject() );
+                    }
+                } );
+                add( new Link<Media>( "delete", getModel() ) {
+                    @Override
+                    public void onClick() {
+
+                        try {
+                            albumService.delete( SnaplogSession.get().newToken(), getModelObject() );
+                        }
+                        catch (PermissionDeniedException e) {
+                            error( e.getLocalizedMessage() );
+                        }
+                    }
+
+                    @Override
+                    protected void onComponentTagBody(final MarkupStream markupStream, final ComponentTag openTag) {
+
+                        if (!renderAsMini( markupStream, openTag ))
+                            super.onComponentTagBody( markupStream, openTag );
+                    }
+
+                    @Override
+                    public boolean isVisible() {
+
+                        return securityService.hasAccess( Permission.ADMINISTER, SnaplogSession.get().newToken(), getModelObject() );
+                    }
+                } );
             }
 
             @Override
             public boolean isVisible() {
 
-                return getModelObject() != null && quality == Quality.PREVIEW || quality == Quality.FULLSCREEN;
+                return getModelObject() != null;
+            }
+
+            private boolean renderAsMini(final MarkupStream markupStream, final ComponentTag openTag) {
+
+                if (quality == Quality.THUMBNAIL) {
+                    // Discard all elements from the markup stream until our close tag.
+                    while (markupStream.hasMore())
+                        if (markupStream.next().closes( openTag ))
+                            break;
+
+                    replaceComponentTagBody( markupStream, openTag, "" );
+                    return true;
+                }
+
+                return false;
             }
         } );
     }

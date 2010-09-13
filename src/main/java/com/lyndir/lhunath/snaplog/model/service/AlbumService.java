@@ -53,9 +53,10 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
      * @param token Request authentication token should authorize {@link Permission#VIEW} on the album's media to return.
      * @param album The album to retrieve media from.
      *
+     * @param ascending
      * @return An {@link Iterator} of media in the given album that are visible to the given observer.
      */
-    ListIterator<Media> iterateMedia(SecurityToken token, Album album);
+    ListIterator<Media> iterateMedia(SecurityToken token, Album album, final boolean ascending);
 
     /**
      * @param token Request authentication token should authorize {@link Permission#VIEW} on the album's media to return.
@@ -63,9 +64,20 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
      * @param frame The width of each frame to generate.  The returned time frames will divide the album's media into MediaTimeFrames of one
      *              frame using the media's shot time as the media's reference time.
      *
+     * @param ascending
      * @return An {@link Iterator} of time frames that hold the album's media in a chronological ordering.
      */
-    Iterator<MediaTimeFrame> iterateMediaTimeFrames(SecurityToken token, Album album, DateTimeFieldType frame);
+    Iterator<MediaTimeFrame> iterateMediaTimeFrames(SecurityToken token, Album album, DateTimeFieldType frame, final boolean ascending);
+
+    /**
+     * @param token Request authentication token should authorize {@link Permission#VIEW} on the album's media to return.
+     * @param source The media to create time frames for.
+     * @param frame The width of each frame to generate.  The returned time frames will divide the album's media into MediaTimeFrames of one
+     *              frame using the media's shot time as the media's reference time.
+     *
+     * @return An {@link Iterator} of time frames that hold the given media in a chronological ordering.
+     */
+    Iterator<MediaTimeFrame> iterateMediaTimeFrames(SecurityToken token, Iterator<Media> source, DateTimeFieldType frame);
 
     /**
      * Look for an album owned by a user.

@@ -18,6 +18,7 @@ import java.util.Iterator;
 import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.IModel;
@@ -44,13 +45,13 @@ public class BrowserView extends GenericPanel<Album> {
         super( id, albumModel );
         setOutputMarkupId( true );
 
-        add( new DataView<MediaTimeFrame>( "months", new AbstractIteratorProvider<MediaTimeFrame>() {
+        add( new DataView<MediaTimeFrame>( "years", new AbstractIteratorProvider<MediaTimeFrame>() {
 
             @Override
             protected Iterator<MediaTimeFrame> load() {
 
-                return albumService.iterateMediaTimeFrames( SnaplogSession.get().newToken(), getModelObject(),
-                                                            DateTimeFieldType.monthOfYear() );
+                return albumService.iterateMediaTimeFrames( SnaplogSession.get().newToken(), getModelObject(), DateTimeFieldType.year(),
+                                                            false );
             }
 
             @Override
@@ -61,52 +62,82 @@ public class BrowserView extends GenericPanel<Album> {
         } ) {
 
             @Override
-            protected void populateItem(final Item<MediaTimeFrame> mediaTimeFrameItem) {
+            protected void populateItem(final Item<MediaTimeFrame> yearItem) {
 
-                mediaTimeFrameItem.setOutputMarkupId( true );
-                final MediaTimeFrame frame = mediaTimeFrameItem.getModelObject();
-                final Component mediaList = new WebMarkupContainer( "mediaList" ) {
-
-                    {
-                        add( new DataView<Media>( "media", new AbstractCollectionProvider<Media>() {
-
-                            @Override
-                            protected Collection<Media> loadSource() {
-
-                                return frame.getMedia();
-                            }
-                        } ) {
-
-                            @Override
-                            protected void populateItem(final Item<Media> mediaItem) {
-
-                                mediaItem.add( new MediaView( "media", mediaItem.getModel(), Media.Quality.THUMBNAIL, true ) {
-
-                                    @Override
-                                    protected void onClick(@SuppressWarnings("unused") final AjaxRequestTarget target) {
-
-                                        Tab.ALBUM.activateWithState( new AlbumTabPanel.AlbumTabState( getModelObject() ) );
-                                    }
-                                } );
-                            }
-                        } );
-                    }
-                }.setVisible( false );
-                mediaTimeFrameItem.add( mediaList, new AjaxLabelLink( "name", new LoadableDetachableModel<String>() {
+                yearItem.add( new Label( "name", new LoadableDetachableModel<String>() {
 
                     @Override
                     protected String load() {
 
-                        return frame.objectDescription();
+                        return yearItem.getModelObject().objectDescription();
+                    }
+                } ) );
+                yearItem.add( new DataView<MediaTimeFrame>( "months", new AbstractIteratorProvider<MediaTimeFrame>() {
+
+                    @Override
+                    protected Iterator<MediaTimeFrame> load() {
+
+                        return albumService.iterateMediaTimeFrames( SnaplogSession.get().newToken(),
+                                                                    yearItem.getModelObject().getMedia().iterator(),
+                                                                    DateTimeFieldType.monthOfYear() );
+                    }
+
+                    @Override
+                    public int size() {
+
+                        return yearItem.getModelObject().getMedia().size();
                     }
                 } ) {
 
                     @Override
-                    public void onClick(final AjaxRequestTarget target) {
+                    protected void populateItem(final Item<MediaTimeFrame> mediaTimeFrameItem) {
 
-                        mediaList.setVisible( !mediaList.isVisible() );
-                        logger.dbg( "month clicked; list now visible? %s", mediaList.isVisible() );
-                        target.addComponent( mediaTimeFrameItem );
+                        mediaTimeFrameItem.setOutputMarkupId( true );
+                        final MediaTimeFrame frame = mediaTimeFrameItem.getModelObject();
+                        final Component mediaList = new WebMarkupContainer( "mediaList" ) {
+
+                            {
+                                add( new DataView<Media>( "media", new AbstractCollectionProvider<Media>() {
+
+                                    @Override
+                                    protected Collection<Media> loadSource() {
+
+                                        return frame.getMedia();
+                                    }
+                                } ) {
+
+                                    @Override
+                                    protected void populateItem(final Item<Media> mediaItem) {
+
+                                        mediaItem.add( new MediaView( "media", mediaItem.getModel(), Media.Quality.THUMBNAIL, true ) {
+
+                                            @Override
+                                            protected void onClick(@SuppressWarnings("unused") final AjaxRequestTarget target) {
+
+                                                Tab.ALBUM.activateWithState( new AlbumTabPanel.AlbumTabState( getModelObject() ) );
+                                            }
+                                        } );
+                                    }
+                                } );
+                            }
+                        }.setVisible( false );
+                        mediaTimeFrameItem.add( mediaList, new AjaxLabelLink( "name", new LoadableDetachableModel<String>() {
+
+                            @Override
+                            protected String load() {
+
+                                return frame.objectDescription();
+                            }
+                        } ) {
+
+                            @Override
+                            public void onClick(final AjaxRequestTarget target) {
+
+                                mediaList.setVisible( !mediaList.isVisible() );
+                                logger.dbg( "month clicked; list now visible? %s", mediaList.isVisible() );
+                                target.addComponent( mediaTimeFrameItem );
+                            }
+                        } );
                     }
                 } );
             }

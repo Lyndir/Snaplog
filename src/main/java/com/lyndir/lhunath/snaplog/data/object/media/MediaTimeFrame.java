@@ -18,6 +18,8 @@ package com.lyndir.lhunath.snaplog.data.object.media;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Objects;
+import com.google.common.collect.Iterators;
+import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.DateUtils;
 import com.lyndir.lhunath.lib.system.util.ObjectUtils;
 import com.lyndir.lhunath.lib.wayward.i18n.Localized;
@@ -43,19 +45,21 @@ import org.joda.time.format.DateTimeFormatterBuilder;
  */
 public class MediaTimeFrame implements Localized, Comparable<MediaTimeFrame> {
 
+    static final Logger logger = Logger.get( MediaTimeFrame.class );
+
     static final DateTimeFormatterBuilder formatterBuilder = new DateTimeFormatterBuilder();
     static final Messages msgs = MessagesFactory.create( Messages.class );
 
-    private final Instant offset;
-    private final Period range;
+    private final ReadableInstant offset;
+    private final ReadablePeriod range;
     private final Collection<Media> media;
 
     private transient DateTimeFormatter formatter;
 
     public MediaTimeFrame(final ReadableInstant offset, final ReadablePeriod range, final Collection<Media> media) {
 
-        this.offset = checkNotNull( offset, "A MediaTimeFrame must have an offset." ).toInstant();
-        this.range = checkNotNull( range, "A MediaTimeFrame must have a range." ).toPeriod();
+        this.offset = checkNotNull( offset, "A MediaTimeFrame must have an offset." );
+        this.range = checkNotNull( range, "A MediaTimeFrame must have a range." );
         this.media = checkNotNull( media, "A MediaTimeFrame must have a collection of media." );
     }
 
@@ -136,7 +140,16 @@ public class MediaTimeFrame implements Localized, Comparable<MediaTimeFrame> {
     @Override
     public String objectDescription() {
 
-        return getFormatter().print( offset );
+        String s = getFormatter().print( offset );
+        logger.dbg( "frame: %s, starts with: %s, ends with: %s - desc: %s", this, media.iterator().next(),
+                    Iterators.getLast( media.iterator() ), s );
+        return s;
+    }
+
+    @Override
+    public String toString() {
+
+        return String.format( "{frame: offset=%s, range=%s, media:%d}", offset, range, media.size() );
     }
 
     private void readObject(final ObjectInputStream stream)

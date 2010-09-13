@@ -81,6 +81,13 @@ public class AlbumProvider<A extends Album, M extends Media> implements MediaPro
         return getMediaProviderService().findResourceURL( token, media, quality );
     }
 
+    @Override
+    public void delete(final SecurityToken token, final M media)
+            throws PermissionDeniedException {
+
+        getMediaProviderService().delete( token, media );
+    }
+
     /**
      * {@inheritDoc}
      */

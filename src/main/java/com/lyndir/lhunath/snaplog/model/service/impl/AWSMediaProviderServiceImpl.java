@@ -18,10 +18,7 @@ package com.lyndir.lhunath.snaplog.model.service.impl;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Splitter;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Iterables;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import com.google.common.collect.*;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.logging.exception.InternalInconsistencyException;
@@ -51,6 +48,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -281,6 +279,19 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         catch (MalformedURLException e) {
             throw new InternalInconsistencyException( "Couldn't construct a valid URL for S3 resource.", e );
         }
+    }
+
+    @Override
+    public void delete(final SecurityToken token, final S3Media media)
+            throws PermissionDeniedException {
+
+        securityService.assertAccess( Permission.ADMINISTER, token, media );
+
+        mediaDAO.delete( Collections.singleton( media ) );
+
+        // TODO: Push this on a job queue and perform asynchronous from the request.
+        for (final Quality quality : Quality.values())
+            awsService.deleteObject( getObjectKey( media, quality ) );
     }
 
     /**

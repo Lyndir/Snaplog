@@ -72,4 +72,11 @@ public interface AWSService extends WicketInjected {
      * @return The resulting object with metadata present.
      */
     S3Object upload(S3Object source);
+
+    /**
+     * Delete the S3 object at the given key from storage.
+     *
+     * @param objectKey The key that identifies the object.
+     */
+    void deleteObject(String objectKey);
 }
