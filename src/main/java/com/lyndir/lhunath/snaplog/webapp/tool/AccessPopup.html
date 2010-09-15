@@ -4,6 +4,12 @@
       lang="en">
 
     <head>
+        <base href="../../../../../../../webapp/">
+        <link rel="stylesheet" type="text/css" href="css/sprites/glossy-white/sprites.css" />
+        <link rel="stylesheet" type="text/css" href="css/sprites/silk/sprites.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+        <script type="text/javascript" src="js/jquery-1.4.2.js"></script>
+
         <wicket:head>
             <script type="text/javascript">
             </script>
@@ -14,11 +20,15 @@
         <wicket:extend>
 
             <h1>
-                <wicket:message key="title" />
+                <wicket:message key="title">[Access Controls]</wicket:message>
             </h1>
 
             <p>
-                <wicket:message key="info" />
+                <wicket:message key="info">
+                    These controls are used to grant others the rights to view or manage your albums.&lt;br /&gt;&lt;br /&gt; It is
+                    important to assume the principle of "&lt;dfn&gt;Secure By Default&lt;/dfn&gt;". Only grant others the permissions
+                    they need when you can trust these won't be abused.
+                </wicket:message>
             </p>
 
             <ul class="users">
