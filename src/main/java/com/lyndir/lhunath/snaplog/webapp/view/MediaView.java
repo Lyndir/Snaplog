@@ -69,7 +69,6 @@ public class MediaView extends GenericPanel<Media> {
     public MediaView(final String id, final IModel<Media> model, final Quality quality, final boolean clickable) {
 
         super( id, model );
-        logger.dbg( "Media: %s - Quality: %s", model.getObject(), quality );
 
         // The media container.
         WebMarkupContainer media = new WebMarkupContainer( "media" );
@@ -103,8 +102,7 @@ public class MediaView extends GenericPanel<Media> {
                 }
             };
         media.add( image );
-
-        image.add( new Label( "caption", new LoadableDetachableModel<String>() {
+        media.add( new Label( "caption", new LoadableDetachableModel<String>() {
 
             @Override
             protected String load() {
@@ -119,45 +117,7 @@ public class MediaView extends GenericPanel<Media> {
                 return getModelObject() != null;
             }
         } );
-        image.add( new ContextImage( "thumb", new LoadableDetachableModel<String>() {
-
-            @Override
-            protected String load() {
-
-                try {
-                    URL resourceURL = albumService.findResourceURL( SnaplogSession.get().newToken(), getModelObject(), Quality.THUMBNAIL );
-                    if (resourceURL == null)
-                        // TODO: May want to display something useful to the user like a specific "not-found" thumbnail.
-                        return null;
-
-                    return resourceURL.toExternalForm();
-                }
-                catch (PermissionDeniedException ignored) {
-                    // TODO: May want to display something useful to the user like a specific "denied" thumbnail.
-                    return null;
-                }
-            }
-        } ) );
-        image.add( new AttributeModifier( "style", true, new LoadableDetachableModel<String>() {
-
-            @Override
-            protected String load() {
-
-                try {
-                    URL resourceURL = albumService.findResourceURL( SnaplogSession.get().newToken(), getModelObject(), quality );
-                    if (resourceURL == null)
-                        // TODO: May want to display something useful to the user like a specific "not-found" thumbnail.
-                        return null;
-
-                    return String.format( "background-image: url('%s')", resourceURL.toExternalForm() );
-                }
-                catch (PermissionDeniedException ignored) {
-                    // TODO: May want to display something useful to the user like a specific "denied" thumbnail.
-                    return null;
-                }
-            }
-        } ) );
-        image.add( new WebMarkupContainer( "tools" ) {
+        media.add( new WebMarkupContainer( "tools" ) {
 
             {
                 add( new ExternalLink( "original", new LoadableDetachableModel<String>() {
@@ -226,6 +186,14 @@ public class MediaView extends GenericPanel<Media> {
                         return securityService.hasAccess( Permission.ADMINISTER, SnaplogSession.get().newToken(), getModelObject() );
                     }
                 } );
+
+                add( CSSClassAttributeAppender.of( new LoadableDetachableModel<String>() {
+                    @Override
+                    protected String load() {
+
+                        return isMini( quality )? "mini": null;
+                    }
+                } ) );
             }
 
             @Override
@@ -236,7 +204,7 @@ public class MediaView extends GenericPanel<Media> {
 
             private boolean renderAsMini(final MarkupStream markupStream, final ComponentTag openTag) {
 
-                if (quality == Quality.THUMBNAIL) {
+                if (isMini( quality )) {
                     // Discard all elements from the markup stream until our close tag.
                     while (markupStream.hasMore())
                         if (markupStream.next().closes( openTag ))
@@ -249,6 +217,76 @@ public class MediaView extends GenericPanel<Media> {
                 return false;
             }
         } );
+
+        image.add( new ContextImage( "thumb", new LoadableDetachableModel<String>() {
+
+            @Override
+            protected String load() {
+
+                logger.dbg( "Loading Media: %s, Quality: %s", getModelObject(), quality );
+
+                try {
+                    URL resourceURL = albumService.findResourceURL( SnaplogSession.get().newToken(), getModelObject(), Quality.THUMBNAIL );
+                    if (resourceURL == null)
+                        // TODO: May want to display something useful to the user like a specific "not-found" thumbnail.
+                        return null;
+
+                    return resourceURL.toExternalForm();
+                }
+                catch (PermissionDeniedException ignored) {
+                    // TODO: May want to display something useful to the user like a specific "denied" thumbnail.
+                    return null;
+                }
+            }
+        } ) );
+        image.add( new AttributeModifier( "style", true, new LoadableDetachableModel<String>() {
+
+            @Override
+            protected String load() {
+
+                try {
+                    URL resourceURL = albumService.findResourceURL( SnaplogSession.get().newToken(), getModelObject(), quality );
+                    if (resourceURL == null)
+                        // TODO: May want to display something useful to the user like a specific "not-found" thumbnail.
+                        return null;
+
+                    return String.format( "background-image: url('%s')", resourceURL.toExternalForm() );
+                }
+                catch (PermissionDeniedException ignored) {
+                    // TODO: May want to display something useful to the user like a specific "denied" thumbnail.
+                    return null;
+                }
+            }
+        } ) );
+        image.add( new ContextImage( "full", new LoadableDetachableModel<String>() {
+
+            @Override
+            protected String load() {
+
+                try {
+                    URL resourceURL = albumService.findResourceURL( SnaplogSession.get().newToken(), getModelObject(), quality );
+                    if (resourceURL == null)
+                        // TODO: May want to display something useful to the user like a specific "not-found" thumbnail.
+                        return null;
+
+                    return resourceURL.toExternalForm();
+                }
+                catch (PermissionDeniedException ignored) {
+                    // TODO: May want to display something useful to the user like a specific "denied" thumbnail.
+                    return null;
+                }
+            }
+        } ) {
+            @Override
+            public boolean isVisible() {
+
+                return quality == Quality.FULLSCREEN;
+            }
+        } );
+    }
+
+    private boolean isMini(final Quality quality) {
+        return quality == Quality.THUMBNAIL;
     }
 
     /**

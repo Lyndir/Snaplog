@@ -112,11 +112,9 @@ ul.plain li {
     position:              relative;
     z-index:               9;
     height:                56px;
-    padding:               0;
 
     color:                 #edd;
     text-shadow:           black 0 1px 0;
-    font-size:             90%;
 }
 
 #headerIndicator {
@@ -525,11 +523,10 @@ a.block:hover, .block.link:hover {
 */
 .viewer {
     position:              absolute;
-    top:                   50%;
+    top:                   0;
     left:                  0;
-    margin-top:            -385px; /* 770 / 2 */
     width:                 100%;
-    height:                770px; /* 768 (fullscreen media height) + 2 (.image border) */
+    height:                100%;
     padding:               0;
     overflow:              hidden;
 
@@ -546,7 +543,7 @@ a.block:hover, .block.link:hover {
     background:            rgba(0, 0, 0, 0.7);
 
     position:              absolute;
-    z-index:               1;
+    z-index:               4;
     top:                   0;
     left:                  0;
     width:                 170px;
@@ -582,6 +579,9 @@ a.block:hover, .block.link:hover {
 /*******************************************************************************
 * MEDIA *
 */
+.media {
+    position:              relative;
+}
 .media.link {
     display:               inline-block;
 
@@ -589,29 +589,47 @@ a.block:hover, .block.link:hover {
 }
 
 .media .image {
-    background:            black no-repeat center center;
+    background:            rgba(0, 0, 0, 0.9) no-repeat center center;
     border:                1px solid black;
     -webkit-border-radius: 7px;
     -moz-border-radius:    7px;
     border-radius:         7px;
 
-    position:              relative;
-    z-index:               1;
     display:               inline-block;
+    position:              relative;
 
     font-size:             14px;
 }
 
 .media .image .thumb {
-    height:                100%;
     visibility:            hidden;
+    height:                100%;
+}
+.media .image:after {
+    background:            rgba(0, 0, 0, 0.7) url("../images/resources/loader.3dr.black.gif") no-repeat center center !important;
+
+    content:               " ";
+    display:               none;
+    position:              absolute;
+    z-index:               1;
+    top:                   0;
+    left:                  0;
+    width:                 100%;
+    height:                100%;
+}
+.media .image .full {
+    position:              absolute;
+    z-index:               2;
+    top:                   0;
+    left:                  0;
+    height:                100%;
 }
 
-.media .image:hover {
+.media:hover .image {
     border-color:          #EEE;
 }
 
-.media .image .caption {
+.media .caption {
     background:            rgba(0, 0, 0, 0.7);
     text-shadow:           black 0 1px 1px;
 
@@ -634,7 +652,7 @@ a.block:hover, .block.link:hover {
     bottom:                0;
 }
 
-.media.thumbnail .image:hover .caption {
+.media.thumbnail:hover .caption {
     visibility:            visible;
 
     font-size:             0.7em;
@@ -656,17 +674,23 @@ a.block:hover, .block.link:hover {
 .media.fullscreen .image {
     min-width:             576px;
     max-width:             10000px;
-    height:                768px;
+    height:                100%;
+}
+.media.fullscreen .image:after {
+    display:               block;
+}
+.media.fullscreen .image .thumb {
+    visibility:            visible;
 }
 
-.media .image .tools {
+.media .tools {
     background:            rgba(0, 0, 0, 0.7);
     text-shadow:           black 0 1px 1px;
 
     display:               none;
     position:              absolute;
     z-index:               3;
-    top:                   50px;
+    top:                   4em;
     left:                  0;
     width:                 100%;
     padding:               0.5em 0;
@@ -674,8 +698,24 @@ a.block:hover, .block.link:hover {
 
     text-align:            center;
 }
+.media .tools.mini {
+    top: 0;
+    left:auto;
+    right:0;
+    width:auto;
+    padding:0.3em 0.5em;
+    padding-right:0;
+    margin:0;
+    border: 1px solid black;
+}
+.media .tools .ss_sprite {
+    padding-right:0.5em;
+}
+.media .tools.mini .ss_sprite {
+    padding-left:18px;
+}
 
-.media .image:hover .tools {
+.media:hover .tools {
     display:               block;
 }
 

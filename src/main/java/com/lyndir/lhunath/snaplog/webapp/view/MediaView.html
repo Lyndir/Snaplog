@@ -4,7 +4,7 @@
       xmlns:wicket="http://wicket.apache.org/dtds.data/wicket-xhtml1.4-strict.dtd">
 
     <head>
-        <base href="../../../../../../../webapp/">
+        <base href="../../../../../../../webapp/" />
         <link rel="stylesheet" type="text/css" href="css/sprites/glossy-white/sprites.css" />
         <link rel="stylesheet" type="text/css" href="css/sprites/silk/sprites.css" />
         <link rel="stylesheet" type="text/css" href="css/style.css" />
@@ -34,18 +34,19 @@
 
             <span class="media" wicket:id="media">
                 <span class="image" wicket:id="image">
-                    <img alt="" wicket:id="thumb" class="thumb" />
-                    <span class="caption" wicket:id="caption">[Caption]</span>
-
-                    <div wicket:id="tools" class="tools">
-                        <a class="ss_sprite ss_disk" wicket:id="original" target="_blank">
-                            <wicket:message key="tools.original">Download High-Quality</wicket:message></a>
-                        <a class="ss_sprite ss_eye" wicket:id="permissions" target="_blank">
-                            <wicket:message key="tools.permissions">Change Permissions</wicket:message></a>
-                        <a class="ss_sprite ss_delete" wicket:id="delete" target="_blank">
-                            <wicket:message key="tools.delete">Delete Permanently</wicket:message></a>
-                    </div>
+                    <img wicket:id="full" class="full" />
+                    <img wicket:id="thumb" class="thumb" />
                 </span>
+
+                <span class="caption" wicket:id="caption">[Caption]</span>
+                <div wicket:id="tools" class="tools">
+                    <a class="ss_sprite ss_disk" wicket:id="original" target="_blank">
+                        <wicket:message key="tools.original">Download High-Quality</wicket:message></a>
+                    <a class="ss_sprite ss_eye" wicket:id="permissions" target="_blank">
+                        <wicket:message key="tools.permissions">Change Permissions</wicket:message></a>
+                    <a class="ss_sprite ss_delete" wicket:id="delete" target="_blank">
+                        <wicket:message key="tools.delete">Delete Permanently</wicket:message></a>
+                </div>
             </span>
 
         </wicket:panel>
