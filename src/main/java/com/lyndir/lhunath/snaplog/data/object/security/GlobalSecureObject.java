@@ -48,6 +48,11 @@ public class GlobalSecureObject extends AbstractSecureObject<SecureObject<?>> {
         db.store( DEFAULT );
     }
 
+    protected GlobalSecureObject() {
+
+        super( null );
+    }
+
     /**
      * {@inheritDoc}
      */

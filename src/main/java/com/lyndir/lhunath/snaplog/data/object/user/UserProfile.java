@@ -41,7 +41,7 @@ public class UserProfile extends AbstractSecureObject<GlobalSecureObject> {
      */
     public UserProfile(final User user) {
 
-        setOwner( user );
+        super( user );
     }
 
     /**

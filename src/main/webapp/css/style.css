@@ -581,6 +581,7 @@ a.block:hover, .block.link:hover {
 */
 .media {
     position:              relative;
+    display:               block;
 }
 .media.link {
     display:               inline-block;
@@ -605,6 +606,7 @@ a.block:hover, .block.link:hover {
     visibility:            hidden;
     height:                100%;
 }
+
 .media .image:after {
     background:            rgba(0, 0, 0, 0.7) url("../images/resources/loader.3dr.black.gif") no-repeat center center !important;
 
@@ -625,7 +627,7 @@ a.block:hover, .block.link:hover {
     height:                100%;
 }
 
-.media:hover .image {
+.media.link:hover .image {
     border-color:          #EEE;
 }
 
@@ -699,20 +701,20 @@ a.block:hover, .block.link:hover {
     text-align:            center;
 }
 .media .tools.mini {
-    top: 0;
-    left:auto;
-    right:0;
-    width:auto;
-    padding:0.3em 0.5em;
-    padding-right:0;
-    margin:0;
-    border: 1px solid black;
+    top:                   0;
+    left:                  auto;
+    right:                 0;
+    width:                 auto;
+    padding:               0.3em 0.5em;
+    padding-right:         0;
+    margin:                0;
+    border:                1px solid black;
 }
 .media .tools .ss_sprite {
-    padding-right:0.5em;
+    padding-right:         0.5em;
 }
 .media .tools.mini .ss_sprite {
-    padding-left:18px;
+    padding-left:          18px;
 }
 
 .media:hover .tools {

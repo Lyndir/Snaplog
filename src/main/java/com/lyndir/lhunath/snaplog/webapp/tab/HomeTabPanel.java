@@ -274,7 +274,7 @@ public class HomeTabPanel extends GenericPanel<HomeTabModels> {
         /**
          * @return Text on the interface tab to activate the {@link HomeTabPanel}.
          */
-        IModel<String> homeTab();
+        IModel<String> tabTitle();
 
         /**
          * @return The text to show when a search yields no results.
@@ -326,7 +326,7 @@ public class HomeTabPanel extends GenericPanel<HomeTabModels> {
         @Override
         public IModel<String> getTitle() {
 
-            return msgs.homeTab();
+            return msgs.tabTitle();
         }
 
         /**

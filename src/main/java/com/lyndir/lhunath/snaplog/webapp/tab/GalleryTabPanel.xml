@@ -3,7 +3,7 @@
 
 <properties>
 
-    <entry key="galleryTab">Gallery</entry>
+    <entry key="tabTitle">Gallery</entry>
 
     <entry key="albumsTitle">Albums of ${albumsTitleUsername}</entry>
     <entry key="albumsHelp.auth.another">Here''s an overview of all {0}''s albums that are open to you.</entry>

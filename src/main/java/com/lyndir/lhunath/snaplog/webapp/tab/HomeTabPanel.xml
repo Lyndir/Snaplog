@@ -2,7 +2,7 @@
 
 <properties>
 
-    <entry key="homeTab">Home</entry>
+    <entry key="tabTitle">Home</entry>
 
     <entry key="usersHelp.anon">These people are showcasing some of their albums publicly.</entry>
     <entry key="usersHelp.auth">These people are showcasing some of their albums either publicly or to you specifically.

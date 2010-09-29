@@ -13,7 +13,7 @@ import java.net.URL;
 
 
 /**
- * <h2>{@link AlbumProvider}<br> <sub>Enumeration of all supported Album providers.</sub></h2>
+ * <h2>{@link MediaProvider}<br> <sub>Enumeration of all supported Media providers.</sub></h2>
  *
  * <p> <i>Jul 25, 2009</i> </p>
  *
@@ -22,7 +22,7 @@ import java.net.URL;
  *
  * @author lhunath
  */
-public class AlbumProvider<A extends Album, M extends Media> implements MediaProviderService<A, M> {
+public class MediaProvider<A extends Album, M extends Media> implements MediaProviderService<A, M> {
 
     private final Class<A> albumType;
     private final Class<? extends MediaProviderService<A, M>> mediaProviderServiceType;
@@ -31,14 +31,14 @@ public class AlbumProvider<A extends Album, M extends Media> implements MediaPro
      * @param albumType                The type of albums that this provider can provide.
      * @param mediaProviderServiceType The type of the {@link MediaProviderService} that services these types of albums.
      */
-    public AlbumProvider(final Class<A> albumType, final Class<? extends MediaProviderService<A, M>> mediaProviderServiceType) {
+    public MediaProvider(final Class<A> albumType, final Class<? extends MediaProviderService<A, M>> mediaProviderServiceType) {
 
         this.albumType = checkNotNull( albumType, "Given album class must not be null." );
         this.mediaProviderServiceType = checkNotNull( mediaProviderServiceType, "Given media provider class must not be null." );
     }
 
     /**
-     * @return The albumType of this {@link AlbumProvider}.
+     * @return The albumType of this {@link MediaProvider}.
      */
     public Class<? extends Album> getAlbumType() {
 
@@ -46,7 +46,7 @@ public class AlbumProvider<A extends Album, M extends Media> implements MediaPro
     }
 
     /**
-     * @return The albumProviderService of this {@link AlbumProvider}.
+     * @return The albumProviderService of this {@link MediaProvider}.
      */
     public MediaProviderService<A, M> getMediaProviderService() {
 

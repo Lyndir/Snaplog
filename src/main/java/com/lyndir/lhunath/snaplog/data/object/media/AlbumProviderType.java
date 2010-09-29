@@ -18,7 +18,7 @@ package com.lyndir.lhunath.snaplog.data.object.media;
 import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Album;
 import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Media;
 import com.lyndir.lhunath.snaplog.model.service.AWSMediaProviderService;
-import com.lyndir.lhunath.snaplog.model.service.AlbumProvider;
+import com.lyndir.lhunath.snaplog.model.service.MediaProvider;
 
 
 /**
@@ -35,25 +35,25 @@ public enum AlbumProviderType {
      *
      * <p> Provides storage hosted at the Amazon cloud. </p>
      */
-    AMAZON_S3( new AlbumProvider<S3Album, S3Media>( S3Album.class, AWSMediaProviderService.class ) );
+    AMAZON_S3( new MediaProvider<S3Album, S3Media>( S3Album.class, AWSMediaProviderService.class ) );
 
-    private final AlbumProvider<?, ?> albumProvider;
+    private final MediaProvider<?, ?> mediaProvider;
 
     /**
      * Create a new {@link AlbumProviderType} instance.
      *
-     * @param albumProvider The implementation of this AlbumProviderType.
+     * @param mediaProvider The implementation of this AlbumProviderType.
      */
-    AlbumProviderType(final AlbumProvider<?, ?> albumProvider) {
+    AlbumProviderType(final MediaProvider<?, ?> mediaProvider) {
 
-        this.albumProvider = albumProvider;
+        this.mediaProvider = mediaProvider;
     }
 
     /**
-     * @return The albumProvider of this {@link AlbumProviderType}.
+     * @return The mediaProvider of this {@link AlbumProviderType}.
      */
-    public AlbumProvider<?, ?> getAlbumProvider() {
+    public MediaProvider<?, ?> getMediaProvider() {
 
-        return albumProvider;
+        return mediaProvider;
     }
 }

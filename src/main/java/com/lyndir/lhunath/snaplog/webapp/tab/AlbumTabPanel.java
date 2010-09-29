@@ -79,7 +79,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         /**
          * @return Text on the interface tab to activate the {@link AlbumTabPanel}.
          */
-        IModel<String> albumTab();
+        IModel<String> tabTitle();
 
         /**
          * @return Text on the "Back to Album" tool.
@@ -116,7 +116,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         @Override
         public IModel<String> getTitle() {
 
-            return msgs.albumTab();
+            return msgs.tabTitle();
         }
 
         /**

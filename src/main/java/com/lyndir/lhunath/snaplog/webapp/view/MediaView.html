@@ -36,12 +36,15 @@
                 <span class="image" wicket:id="image">
                     <img wicket:id="full" class="full" />
                     <img wicket:id="thumb" class="thumb" />
+
+                    <span class="caption" wicket:id="caption">[Caption]</span>
                 </span>
 
-                <span class="caption" wicket:id="caption">[Caption]</span>
                 <div wicket:id="tools" class="tools">
                     <a class="ss_sprite ss_disk" wicket:id="original" target="_blank">
                         <wicket:message key="tools.original">Download High-Quality</wicket:message></a>
+                    <a class="ss_sprite ss_link" wicket:id="share">
+                        <wicket:message key="tools.share">Share This</wicket:message></a>
                     <a class="ss_sprite ss_eye" wicket:id="permissions" target="_blank">
                         <wicket:message key="tools.permissions">Change Permissions</wicket:message></a>
                     <a class="ss_sprite ss_delete" wicket:id="delete" target="_blank">

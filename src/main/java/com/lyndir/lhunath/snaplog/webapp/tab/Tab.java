@@ -53,6 +53,11 @@ public enum Tab {
     ALBUM( AlbumTabPanel.AlbumTab.instance ),
 
     /**
+     * This tab provides a way of viewing media mappings.
+     */
+    SHARED( SharedTabPanel.SharedTab.instance ),
+
+    /**
      * Using this tab, users can configure their profile and account settings.
      */
     ADMINISTRATION( AdministrationTabPanel.AdministrationTab.instance ),
@@ -93,6 +98,7 @@ public enum Tab {
     static final Logger logger = Logger.get( Tab.class );
 
     private final SnaplogTab<?, ?> tab;
+
 
     /**
      * Create a new {@link Tab} instance.

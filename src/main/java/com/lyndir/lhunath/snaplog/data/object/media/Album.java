@@ -46,6 +46,8 @@ public abstract class Album extends AbstractSecureObject<UserProfile> {
      */
     protected Album(final UserProfile ownerProfile, final String name) {
 
+        super( null );
+
         setOwnerProfile( ownerProfile );
         setName( name );
     }

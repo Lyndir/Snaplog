@@ -1,8 +1,6 @@
 package com.lyndir.lhunath.snaplog.data.service;
 
-import com.lyndir.lhunath.snaplog.data.object.media.Album;
-import com.lyndir.lhunath.snaplog.data.object.media.Media;
-import com.lyndir.lhunath.snaplog.data.object.media.MediaData;
+import com.lyndir.lhunath.snaplog.data.object.media.*;
 import java.util.List;
 
 
@@ -30,4 +28,8 @@ public interface MediaDAO {
     <D extends MediaData<?>> List<D> listMediaData(Album album, boolean ascending);
 
     <M extends Media> void delete(Iterable<M> medias);
+
+    MediaMapping newMapping(MediaMapping mapping);
+
+    MediaMapping findMediaMapping(String mapping);
 }

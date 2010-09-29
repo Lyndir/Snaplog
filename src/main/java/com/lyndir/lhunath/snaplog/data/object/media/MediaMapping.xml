@@ -2,8 +2,8 @@
 
 <properties>
 
-    <entry key="tabTitle">New User</entry>
+    <entry key="type">Media Mapping</entry>
 
-    <entry key="userName">User Name:</entry>
+    <entry key="description">link to {0}</entry>
 
 </properties>

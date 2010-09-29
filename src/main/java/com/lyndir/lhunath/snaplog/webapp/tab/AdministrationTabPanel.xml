@@ -2,6 +2,6 @@
 
 <properties>
 
-    <entry key="administrationTab">Administration</entry>
+    <entry key="tabTitle">Administration</entry>
 
 </properties>

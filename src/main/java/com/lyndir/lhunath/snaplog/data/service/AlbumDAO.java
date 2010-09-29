@@ -2,8 +2,10 @@ package com.lyndir.lhunath.snaplog.data.service;
 
 import com.google.common.base.Predicate;
 import com.lyndir.lhunath.snaplog.data.object.media.Album;
+import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import java.util.List;
+import org.joda.time.Duration;
 
 
 /**

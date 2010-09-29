@@ -26,9 +26,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import org.joda.time.Instant;
 import org.joda.time.ReadableInstant;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.joda.time.format.ISODateTimeFormat;
+import org.joda.time.format.*;
 
 
 /**
@@ -51,6 +49,9 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
      * @param name The unique name of this media in the album.
      */
     protected Media(final String name) {
+
+        // TODO: Media should be decoupled from albums and get its own owner.
+        super( null );
 
         this.name = checkNotNull( name, "Given media name must not be null." );
     }

@@ -2,8 +2,6 @@
 
 <properties>
 
-    <entry key="tabTitle">New User</entry>
-
-    <entry key="userName">User Name:</entry>
+    <entry key="tabTitle">Shared</entry>
 
 </properties>

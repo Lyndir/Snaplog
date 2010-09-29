@@ -139,7 +139,7 @@ public class NewUserTabPanel extends GenericPanel<NewUserPanelModels> {
         @Override
         public IModel<String> getTitle() {
 
-            return msgs.newUserTab();
+            return msgs.tabTitle();
         }
 
         @Override
@@ -155,7 +155,7 @@ public class NewUserTabPanel extends GenericPanel<NewUserPanelModels> {
         /**
          * @return Text on the interface tab to activate the {@link NewUserTabPanel}.
          */
-        IModel<String> newUserTab();
+        IModel<String> tabTitle();
     }
 
 

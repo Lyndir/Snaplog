@@ -2,8 +2,6 @@
 
 <properties>
 
-    <entry key="tabTitle">New User</entry>
-
-    <entry key="userName">User Name:</entry>
+    <entry key="message">The media could not be found.  It may have expired or you may not have permission to view it.</entry>
 
 </properties>

@@ -2,7 +2,7 @@
 
 <properties>
 
-    <entry key="albumTab">Album</entry>
+    <entry key="tabTitle">Album</entry>
 
     <entry key="back">Back to album</entry>
 

@@ -111,17 +111,17 @@ public class AlbumServiceImpl implements AlbumService {
         }
     }
 
-    private static <A extends Album> AlbumProvider<A, Media> getAlbumProvider(final A album) {
+    private static <A extends Album> MediaProvider<A, Media> getAlbumProvider(final A album) {
 
         checkNotNull( album, "Given album must not be null." );
 
         for (final AlbumProviderType albumProviderType : AlbumProviderType.values())
-            if (albumProviderType.getAlbumProvider().getAlbumType().isInstance( album )) {
+            if (albumProviderType.getMediaProvider().getAlbumType().isInstance( album )) {
 
                 @SuppressWarnings("unchecked")
-                AlbumProvider<A, Media> checkedAlbumProvider = (AlbumProvider<A, Media>) albumProviderType.getAlbumProvider();
+                MediaProvider<A, Media> checkedMediaProvider = (MediaProvider<A, Media>) albumProviderType.getMediaProvider();
 
-                return checkedAlbumProvider;
+                return checkedMediaProvider;
             }
 
         throw logger.err( "Could not find a provider for the album type: %s", album.getClass() ) //
@@ -158,6 +158,27 @@ public class AlbumServiceImpl implements AlbumService {
 
         for (final Album album : albumDAO.listAlbums())
             loadMediaData( album );
+    }
+
+    @Override
+    public MediaMapping newMapping(final SecurityToken token, final Media media)
+            throws PermissionDeniedException {
+
+        securityService.assertAccess( Permission.ADMINISTER, token, media );
+        // TODO: Avoid hash collisions by checking whether a mapping already exists for this new mapping and creating a new one.
+        MediaMapping mapping = mediaDAO.newMapping( new MediaMapping( token.getActor(), media, new Duration( 10 * 60 * 1000L /*ms*/ ) ) );
+
+        return securityService.assertAccess( Permission.VIEW, token, mapping );
+    }
+
+    @Override
+    public MediaMapping findMediaMapping(final SecurityToken token, final String mapping) {
+
+        MediaMapping mediaMapping = mediaDAO.findMediaMapping( mapping );
+        if (!securityService.hasAccess( Permission.VIEW, token, mediaMapping ))
+            return null;
+
+        return mediaMapping;
     }
 
     @Override

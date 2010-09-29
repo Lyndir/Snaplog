@@ -3,6 +3,7 @@
 <properties>
 
     <entry key="tools.original">Download High-Quality</entry>
+    <entry key="tools.share">Share This</entry>
     <entry key="tools.permissions">Change Permissions</entry>
     <entry key="tools.delete">Delete Permanently</entry>
 

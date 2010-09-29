@@ -15,17 +15,21 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.servlet;
 
+import com.google.common.base.Predicates;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.system.util.DateUtils;
+import com.lyndir.lhunath.lib.system.util.ObjectUtils;
+import com.lyndir.lhunath.snaplog.data.object.media.Album;
+import com.lyndir.lhunath.snaplog.data.object.media.Media;
+import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
+import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.model.service.AlbumService;
 import java.io.IOException;
+import java.util.ListIterator;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.joda.time.Duration;
-import org.joda.time.Instant;
+import javax.servlet.http.*;
 
 
 /**
@@ -62,31 +66,72 @@ public class InitServlet extends HttpServlet {
     protected void doGet(final HttpServletRequest req, final HttpServletResponse resp)
             throws ServletException, IOException {
 
-        if (req.getParameter( "media" ) != null) {
-            Instant start = new Instant();
-            logger.inf( "Loading all album media..." );
-            resp.getWriter().format( "Loading all album media...\n" );
-            resp.flushBuffer();
+        if (req.getParameter( "fix" ) != null)
+            doTask( resp, "Fixing state", new Runnable() {
+                @Override
+                public void run() {
 
-            albumServiceProvider.get().loadAllAlbumMedia();
+                    ListIterator<Album> albumIt = albumServiceProvider.get()
+                            .iterateAlbums( SecurityToken.INTERNAL_USE_ONLY, Predicates.<Album>alwaysTrue() );
+                    while (albumIt.hasNext()) {
 
-            Duration duration = new Duration( start, new Instant() );
-            logger.inf( "Done loading all album media (%s).", duration );
-            resp.getWriter().format( "Done loading all album media (%s).\n", duration );
+                        Media lastMedia = null;
+                        ListIterator<Media> mediaIt = albumServiceProvider.get()
+                                .iterateMedia( SecurityToken.INTERNAL_USE_ONLY, albumIt.next(), true );
+                        while (mediaIt.hasNext()) {
+
+                            Media media = mediaIt.next();
+                            if (lastMedia != null && ObjectUtils.equal( media.getName(), lastMedia.getName() ))
+                                try {
+                                    logger.inf( "Found duplicate: last=%s, current=%s.  Deleting current.", lastMedia, media );
+                                    albumServiceProvider.get().delete( SecurityToken.INTERNAL_USE_ONLY, media );
+                                }
+                                catch (PermissionDeniedException e) {
+                                    logger.bug( e );
+                                }
+
+                            else
+                                lastMedia = media;
+                        }
+                    }
+                }
+            } );
+
+        if (req.getParameter( "media" ) != null)
+            doTask( resp, "Loading all album media", new Runnable() {
+                @Override
+                public void run() {
+
+                    albumServiceProvider.get().loadAllAlbumMedia();
+                }
+            } );
+
+        if (req.getParameter( "mediaData" ) != null)
+            doTask( resp, "Loading all album media data", new Runnable() {
+                @Override
+                public void run() {
+
+                    albumServiceProvider.get().loadAllAlbumMediaData();
+                }
+            } );
+    }
+
+    private void doTask(final HttpServletResponse resp, final String name, final Runnable task)
+            throws IOException {
+
+        DateUtils.Timer timer = DateUtils.startTiming( name );
+        resp.getWriter().format( name + "..." );
+        resp.flushBuffer();
+
+        try {
+            task.run();
+
+            resp.getWriter().format( " done (%s).\n", timer.logFinish( logger ) );
             resp.flushBuffer();
         }
 
-        if (req.getParameter( "mediaData" ) != null) {
-            Instant start = new Instant();
-            logger.inf( "Loading all album media data..." );
-            resp.getWriter().format( "Loading all album media data...\n" );
-            resp.flushBuffer();
-
-            albumServiceProvider.get().loadAllAlbumMediaData();
-
-            Duration duration = new Duration( start, new Instant() );
-            logger.inf( "Done loading all album media data (%s).", duration );
-            resp.getWriter().format( "Done loading all album media data (%s).\n", duration );
+        catch (Throwable t) {
+            resp.getWriter().format( " error (%s - %s).\n", t.toString(), timer.logFinish( logger ) );
             resp.flushBuffer();
         }
     }

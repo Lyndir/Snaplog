@@ -51,7 +51,7 @@ public class AWSServiceImpl implements AWSService {
 
         AWSCredentials awsCredentials = new AWSCredentials( ACCESS_KEY, SECRET_KEY );
         Jets3tProperties properties = Jets3tProperties.getInstance( Constants.JETS3T_PROPERTIES_FILENAME );
-        properties.setProperty( "s3service.https-only", String.valueOf( Boolean.FALSE ) );
+//        properties.setProperty( "s3service.https-only", String.valueOf( Boolean.FALSE ) );
         return new RestS3Service( awsCredentials, "Snaplog.net", null, properties );
     }
 

@@ -26,10 +26,13 @@ import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.model.service.AlbumService;
 import com.lyndir.lhunath.snaplog.model.service.SecurityService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
+import com.lyndir.lhunath.snaplog.webapp.tab.SharedTabPanel;
+import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
 import java.net.URL;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxFallbackLink;
+import org.apache.wicket.ajax.markup.html.AjaxLink;
 import org.apache.wicket.behavior.AttributeAppender;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.MarkupStream;
@@ -102,21 +105,6 @@ public class MediaView extends GenericPanel<Media> {
                 }
             };
         media.add( image );
-        media.add( new Label( "caption", new LoadableDetachableModel<String>() {
-
-            @Override
-            protected String load() {
-
-                return getCaptionString();
-            }
-        } ) {
-
-            @Override
-            public boolean isVisible() {
-
-                return getModelObject() != null;
-            }
-        } );
         media.add( new WebMarkupContainer( "tools" ) {
 
             {
@@ -145,6 +133,31 @@ public class MediaView extends GenericPanel<Media> {
 
                         if (!renderAsMini( markupStream, openTag ))
                             super.onComponentTagBody( markupStream, openTag );
+                    }
+                } );
+                add( new AjaxLink<Media>( "share", getModel() ) {
+                    @Override
+                    public void onClick(final AjaxRequestTarget target) {
+
+                        try {
+                            Tab.SHARED.activateWithState( new SharedTabPanel.SharedTabState( getModelObject() ) );
+                        }
+                        catch (PermissionDeniedException e) {
+                            error( e.getLocalizedMessage() );
+                        }
+                    }
+
+                    @Override
+                    protected void onComponentTagBody(final MarkupStream markupStream, final ComponentTag openTag) {
+
+                        if (!renderAsMini( markupStream, openTag ))
+                            super.onComponentTagBody( markupStream, openTag );
+                    }
+
+                    @Override
+                    public boolean isVisible() {
+
+                        return securityService.hasAccess( Permission.ADMINISTER, SnaplogSession.get().newToken(), getModelObject() );
                     }
                 } );
                 add( new WebMarkupContainer( "permissions" ) {
@@ -218,6 +231,25 @@ public class MediaView extends GenericPanel<Media> {
             }
         } );
 
+        image.add( new AttributeModifier( "style", true, new LoadableDetachableModel<String>() {
+
+            @Override
+            protected String load() {
+
+                try {
+                    URL resourceURL = albumService.findResourceURL( SnaplogSession.get().newToken(), getModelObject(), quality );
+                    if (resourceURL == null)
+                        // TODO: May want to display something useful to the user like a specific "not-found" thumbnail.
+                        return null;
+
+                    return String.format( "background-image: url('%s')", resourceURL.toExternalForm() );
+                }
+                catch (PermissionDeniedException ignored) {
+                    // TODO: May want to display something useful to the user like a specific "denied" thumbnail.
+                    return null;
+                }
+            }
+        } ) );
         image.add( new ContextImage( "thumb", new LoadableDetachableModel<String>() {
 
             @Override
@@ -232,25 +264,6 @@ public class MediaView extends GenericPanel<Media> {
                         return null;
 
                     return resourceURL.toExternalForm();
-                }
-                catch (PermissionDeniedException ignored) {
-                    // TODO: May want to display something useful to the user like a specific "denied" thumbnail.
-                    return null;
-                }
-            }
-        } ) );
-        image.add( new AttributeModifier( "style", true, new LoadableDetachableModel<String>() {
-
-            @Override
-            protected String load() {
-
-                try {
-                    URL resourceURL = albumService.findResourceURL( SnaplogSession.get().newToken(), getModelObject(), quality );
-                    if (resourceURL == null)
-                        // TODO: May want to display something useful to the user like a specific "not-found" thumbnail.
-                        return null;
-
-                    return String.format( "background-image: url('%s')", resourceURL.toExternalForm() );
                 }
                 catch (PermissionDeniedException ignored) {
                     // TODO: May want to display something useful to the user like a specific "denied" thumbnail.
@@ -283,9 +296,25 @@ public class MediaView extends GenericPanel<Media> {
                 return quality == Quality.FULLSCREEN;
             }
         } );
+        image.add( new Label( "caption", new LoadableDetachableModel<String>() {
+
+            @Override
+            protected String load() {
+
+                return getCaptionString();
+            }
+        } ) {
+
+            @Override
+            public boolean isVisible() {
+
+                return getModelObject() != null;
+            }
+        } );
     }
 
     private boolean isMini(final Quality quality) {
+
         return quality == Quality.THUMBNAIL;
     }
 

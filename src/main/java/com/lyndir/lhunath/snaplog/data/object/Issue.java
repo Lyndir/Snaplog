@@ -53,6 +53,8 @@ public class Issue extends AbstractSecureObject<UserProfile> {
      */
     public Issue(final Component origin, final Exception cause, final UserProfile subject) {
 
+        super( null );
+
         // Dump the exception to a string.
         StringWriter causeStringWriter = new StringWriter();
         PrintWriter causeStringPrintWriter = new PrintWriter( causeStringWriter );

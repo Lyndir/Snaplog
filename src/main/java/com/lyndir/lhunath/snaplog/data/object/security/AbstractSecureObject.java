@@ -33,6 +33,11 @@ public abstract class AbstractSecureObject<P extends SecureObject<?>> implements
     private User owner;
     private final ACL acl = new ACL();
 
+    protected AbstractSecureObject(final User owner) {
+
+        this.owner = owner;
+    }
+
     @Override
     public User getOwner() {
 

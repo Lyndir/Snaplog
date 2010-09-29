@@ -8,9 +8,7 @@ import com.db4o.query.Query;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.DateUtils;
-import com.lyndir.lhunath.snaplog.data.object.media.Album;
-import com.lyndir.lhunath.snaplog.data.object.media.Media;
-import com.lyndir.lhunath.snaplog.data.object.media.MediaData;
+import com.lyndir.lhunath.snaplog.data.object.media.*;
 import com.lyndir.lhunath.snaplog.data.service.MediaDAO;
 import java.util.List;
 
@@ -144,7 +142,7 @@ public class MediaDAOImpl implements MediaDAO {
 
         Query query = db.query();
         query.constrain( MediaData.class ) //
-                .and( query.descend( "media" ).descend( "album" )//
+                .and( query.descend( "media" ).descend( "album" ) //
                               .constrain( album ).identity() );
 
         // TODO: Set the sort order in nq. package too.
@@ -161,5 +159,32 @@ public class MediaDAOImpl implements MediaDAO {
 
         for (final M media : medias)
             db.delete( media );
+    }
+
+    @Override
+    public MediaMapping newMapping(final MediaMapping mapping) {
+
+        db.store( mapping );
+
+        return mapping;
+    }
+
+    @Override
+    public MediaMapping findMediaMapping(final String mapping) {
+
+        Query query = db.query();
+        query.constrain( MediaMapping.class ) //
+                .and( query.descend( "mapping" ) //
+                              .constrain( mapping ) );
+
+        ObjectSet<MediaMapping> results = query.execute();
+        if (results.hasNext()) {
+            MediaMapping result = results.next();
+            checkState( !results.hasNext(), "Multiple media mappings found for %s", mapping );
+
+            return result;
+        }
+
+        return null;
     }
 }

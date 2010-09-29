@@ -33,10 +33,8 @@ import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.error.UserNotFoundException;
-import com.lyndir.lhunath.snaplog.model.service.AlbumProvider;
-import com.lyndir.lhunath.snaplog.model.service.AlbumService;
-import com.lyndir.lhunath.snaplog.model.service.SecurityService;
-import com.lyndir.lhunath.snaplog.model.service.UserService;
+import com.lyndir.lhunath.snaplog.model.service.*;
+import com.lyndir.lhunath.snaplog.model.service.MediaProvider;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels;
@@ -160,8 +158,8 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                     @Override
                     protected void onSubmit() {
 
-                        AlbumProvider<?, ?> albumProvider = getModelObject().type().getObject().getAlbumProvider();
-                        Album album = albumProvider.newAlbum( GalleryTabPanel.this.getModelObject().getObject(), //
+                        MediaProvider<?, ?> mediaProvider = getModelObject().type().getObject().getMediaProvider();
+                        Album album = mediaProvider.newAlbum( GalleryTabPanel.this.getModelObject().getObject(), //
                                                               getModelObject().name().getObject(), //
                                                               getModelObject().description().getObject() );
 
@@ -222,7 +220,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         /**
          * @return Text on the interface tab to activate the {@link GalleryTabPanel}.
          */
-        IModel<String> galleryTab();
+        IModel<String> tabTitle();
 
         /**
          * @param authenticated <code>true</code>: The current user has authenticated himself.<br> <code>false</code>: The current user has
@@ -259,7 +257,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         @Override
         public IModel<String> getTitle() {
 
-            return msgs.galleryTab();
+            return msgs.tabTitle();
         }
 
         /**

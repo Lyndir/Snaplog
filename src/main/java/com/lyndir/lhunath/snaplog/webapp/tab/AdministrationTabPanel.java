@@ -53,7 +53,7 @@ public class AdministrationTabPanel extends Panel {
          * @return Text on the interface tab to activate the {@link AdministrationTabPanel}
          */
         @UseKey
-        IModel<String> administrationTab();
+        IModel<String> tabTitle();
     }
 
 
@@ -79,7 +79,7 @@ public class AdministrationTabPanel extends Panel {
         @Override
         public IModel<String> getTitle() {
 
-            return msgs.administrationTab();
+            return msgs.tabTitle();
         }
 
         /**

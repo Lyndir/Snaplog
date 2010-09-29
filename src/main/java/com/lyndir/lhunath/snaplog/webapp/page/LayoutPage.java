@@ -318,6 +318,15 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
         add( pageTitle, userEntry, userSummary, tabsContainer );
     }
 
+    @Override
+    protected void onBeforeRender() {
+
+        // FIXME: Ugly hack
+        contentContainer.get( CONTENT_PANEL ).setVisibilityAllowed( false );
+
+        super.onBeforeRender();
+    }
+
     /**
      * <b>Note:</b> This method may only be invoked when this page is currently active.
      *
@@ -338,6 +347,9 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
      * @param target The AJAX request target to add page components to.
      */
     public void addComponents(final AjaxRequestTarget target) {
+
+        // FIXME: Ugly hack
+        contentContainer.get( CONTENT_PANEL ).setVisibilityAllowed( true );
 
         target.addComponent( messages );
         target.addListener( FragmentNavigationListener.AjaxRequestListener.of( navigationController ) );

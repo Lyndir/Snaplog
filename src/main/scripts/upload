@@ -5,10 +5,10 @@ basedir=${0%/*}/../../../
 [[ $basedir = /* ]] || basedir=$PWD/$basedir
 
 host=snaplog.net
-jetty_path=/usr/local/jetty
+jettyPath=/usr/local/jetty
 
 emit "Deploying web application" #--
     war=("$basedir/target/"*.war)
-    rsync -vP --chmod=ugo=rX "$war" "$host:$jetty_path/webapps/" && \
-    ssh "$host" "$(printf 'touch "$(grep -lF %q %q/contexts/*.xml 2>/dev/null)"' "${war##*/}" "$jetty_path")"
+    rsync -vP --chmod=ugo=rX "$war" "$host:$jettyPath/webapps/" && \
+    ssh "$host" "$(printf 'touch "$(grep -lF %q %q/contexts/*.xml 2>/dev/null)"' "${war##*/}" "$jettyPath")"
 #emit -$?

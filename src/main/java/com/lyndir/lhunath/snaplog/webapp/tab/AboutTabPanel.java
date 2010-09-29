@@ -53,7 +53,7 @@ public class AboutTabPanel extends Panel {
          * @return Text on the interface tab to activate the {@link AboutTabPanel}.
          */
         @UseKey
-        IModel<String> aboutTab();
+        IModel<String> tabTitle();
     }
 
 
@@ -79,7 +79,7 @@ public class AboutTabPanel extends Panel {
         @Override
         public IModel<String> getTitle() {
 
-            return msgs.aboutTab();
+            return msgs.tabTitle();
         }
 
         /**

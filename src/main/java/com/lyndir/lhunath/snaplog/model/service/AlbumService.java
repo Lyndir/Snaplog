@@ -16,9 +16,7 @@
 package com.lyndir.lhunath.snaplog.model.service;
 
 import com.google.common.base.Predicate;
-import com.lyndir.lhunath.snaplog.data.object.media.Album;
-import com.lyndir.lhunath.snaplog.data.object.media.Media;
-import com.lyndir.lhunath.snaplog.data.object.media.MediaTimeFrame;
+import com.lyndir.lhunath.snaplog.data.object.media.*;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
@@ -53,7 +51,6 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
      * @param token Request authentication token should authorize {@link Permission#VIEW} on the album's media to return.
      * @param album The album to retrieve media from.
      *
-     * @param ascending
      * @return An {@link Iterator} of media in the given album that are visible to the given observer.
      */
     ListIterator<Media> iterateMedia(SecurityToken token, Album album, final boolean ascending);
@@ -64,16 +61,15 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
      * @param frame The width of each frame to generate.  The returned time frames will divide the album's media into MediaTimeFrames of one
      *              frame using the media's shot time as the media's reference time.
      *
-     * @param ascending
      * @return An {@link Iterator} of time frames that hold the album's media in a chronological ordering.
      */
     Iterator<MediaTimeFrame> iterateMediaTimeFrames(SecurityToken token, Album album, DateTimeFieldType frame, final boolean ascending);
 
     /**
-     * @param token Request authentication token should authorize {@link Permission#VIEW} on the album's media to return.
+     * @param token  Request authentication token should authorize {@link Permission#VIEW} on the album's media to return.
      * @param source The media to create time frames for.
-     * @param frame The width of each frame to generate.  The returned time frames will divide the album's media into MediaTimeFrames of one
-     *              frame using the media's shot time as the media's reference time.
+     * @param frame  The width of each frame to generate.  The returned time frames will divide the album's media into MediaTimeFrames of
+     *               one frame using the media's shot time as the media's reference time.
      *
      * @return An {@link Iterator} of time frames that hold the given media in a chronological ordering.
      */
@@ -122,4 +118,26 @@ public interface AlbumService extends MediaProviderService<Album, Media> {
      * the original quality as necessary; updating the metadata in the local database.
      */
     void loadAllAlbumMediaData();
+
+    /**
+     * Create a new public mapping for the given media.
+     *
+     * @param token Request authentication token should authorize {@link Permission#ADMINISTER} on the given media.
+     * @param media The media that should be made publicly available through a new mapping.
+     *
+     * @return The URL that provides public access to the given media using the mapping's access control.
+     */
+    MediaMapping newMapping(SecurityToken token, Media media)
+            throws PermissionDeniedException;
+
+    /**
+     * Find the media mapping that maps the given mapping string.
+     *
+     * @param token   Request authentication token should authorize {@link Permission#VIEW} on the given media mapping.
+     * @param mapping The mapping string that identifies the mapping to return.
+     *
+     * @return The media mapping for the given mapping string or <code>null</code> if no such mapping could be found or the token does not
+     *         authorize permission to view it.
+     */
+    MediaMapping findMediaMapping(SecurityToken token, String mapping);
 }
