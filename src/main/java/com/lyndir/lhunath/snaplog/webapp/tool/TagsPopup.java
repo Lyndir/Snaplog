@@ -1,7 +1,7 @@
 package com.lyndir.lhunath.snaplog.webapp.tool;
 
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
-import com.lyndir.lhunath.snaplog.data.object.media.Album;
+import com.lyndir.lhunath.snaplog.data.object.media.Source;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.model.service.SecurityService;
@@ -20,17 +20,17 @@ import org.apache.wicket.model.IModel;
  *
  * @author lhunath
  */
-public class TagsPopup extends PopupPanel<Album> {
+public class TagsPopup extends PopupPanel<Media> {
 
     static final Messages msgs = MessagesFactory.create( Messages.class );
 
     /**
      * @param id         The wicket ID of the tab.
-     * @param albumModel The {@link Album} whose {@link Media} to scan for tags.
+     * @param mediaModel The {@link Source} whose {@link Media} to scan for tags.
      */
-    public TagsPopup(final String id, final IModel<Album> albumModel) {
+    public TagsPopup(final String id, final IModel<Media> mediaModel) {
 
-        super( id, albumModel );
+        super( id, mediaModel );
     }
 
     @Override
@@ -55,12 +55,12 @@ public class TagsPopup extends PopupPanel<Album> {
 
     public static class Tool implements SnaplogPanelTool {
 
-        private final IModel<Album> model;
+        private final IModel<Media> model;
 
         /**
          * @param model The model that provides the album whose access should be managed through this tool.
          */
-        public Tool(final IModel<Album> model) {
+        public Tool(final IModel<Media> model) {
 
             this.model = model;
         }

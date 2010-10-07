@@ -48,9 +48,9 @@ public enum Tab {
     GALLERY( GalleryTabPanel.GalleryTab.instance ),
 
     /**
-     * This tab provides a way of browsing a specific album.
+     * This tab provides a way of browsing a specific tag.
      */
-    ALBUM( AlbumTabPanel.AlbumTab.instance ),
+    TAG( TagTabPanel.TagTab.instance ),
 
     /**
      * This tab provides a way of viewing media mappings.

@@ -36,10 +36,10 @@ import org.joda.time.format.*;
  *
  * @author lhunath
  */
-public abstract class Media extends AbstractSecureObject<Album> implements Comparable<Media> {
+public abstract class Media extends AbstractSecureObject<Source> implements Comparable<Media> {
 
-    static final Logger logger = Logger.get( Media.class );
-    static final Messages msgs = MessagesFactory.create( Messages.class );
+    private static final Logger logger = Logger.get( Media.class );
+    private static final Messages msgs = MessagesFactory.create( Messages.class );
 
     private static final transient DateTimeFormatter filenameFormat = ISODateTimeFormat.basicDateTimeNoMillis();
 
@@ -50,9 +50,7 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
      */
     protected Media(final String name) {
 
-        // TODO: Media should be decoupled from albums and get its own owner.
-        super( null );
-
+        // TODO: Should media be decoupled from source and get its own owner?
         this.name = checkNotNull( name, "Given media name must not be null." );
     }
 
@@ -60,9 +58,9 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
      * {@inheritDoc}
      */
     @Override
-    public Album getParent() {
+    public Source getParent() {
 
-        return getAlbum();
+        return getSource();
     }
 
     /**
@@ -76,7 +74,7 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
     /**
      * @return The album of this {@link Media}.
      */
-    public abstract Album getAlbum();
+    public abstract Source getSource();
 
     /**
      * Obtain the time since the UNIX Epoch in milliseconds since the picture was taken.
@@ -146,7 +144,7 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
         if (!getClass().isInstance( o ))
             return false;
 
-        return Objects.equal( ((Media) o).getName(), getName() ) && Objects.equal( ((Media) o).getAlbum(), getAlbum() );
+        return Objects.equal( ((Media) o).getName(), getName() ) && Objects.equal( ((Media) o).getSource(), getSource() );
     }
 
     /**
@@ -155,7 +153,7 @@ public abstract class Media extends AbstractSecureObject<Album> implements Compa
     @Override
     public int hashCode() {
 
-        return Objects.hashCode( getName(), getAlbum() );
+        return Objects.hashCode( getName(), getSource() );
     }
 
     /**

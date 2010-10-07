@@ -2,6 +2,6 @@
 
 <properties>
 
-    <entry key="message">There is no source by "{0}" named "{1}", or you do not yet have permission to see it.</entry>
+    <entry key="description">Amazon S3 bucket "{0}" at "{1}"</entry>
 
 </properties>

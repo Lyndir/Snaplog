@@ -24,17 +24,13 @@ import com.lyndir.lhunath.lib.wayward.i18n.BooleanKeyAppender;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.lib.wayward.navigation.AbstractFragmentState;
 import com.lyndir.lhunath.lib.wayward.navigation.IncompatibleStateException;
-import com.lyndir.lhunath.snaplog.data.object.media.Album;
 import com.lyndir.lhunath.snaplog.data.object.media.Media.Quality;
+import com.lyndir.lhunath.snaplog.data.object.media.Tag;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
-import com.lyndir.lhunath.snaplog.model.service.AlbumService;
 import com.lyndir.lhunath.snaplog.model.service.UserService;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.HomeTabModels;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
-import com.lyndir.lhunath.snaplog.webapp.view.AbstractAlbumsView;
-import com.lyndir.lhunath.snaplog.webapp.view.AbstractUsersView;
-import com.lyndir.lhunath.snaplog.webapp.view.MediaView;
-import com.lyndir.lhunath.snaplog.webapp.view.UserLink;
+import com.lyndir.lhunath.snaplog.webapp.view.*;
 import java.util.List;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormSubmitBehavior;
@@ -42,9 +38,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
+import org.apache.wicket.model.*;
 import org.apache.wicket.util.string.AppendingStringBuffer;
 
 
@@ -60,13 +54,10 @@ public class HomeTabPanel extends GenericPanel<HomeTabModels> {
     static final Messages msgs = MessagesFactory.create( Messages.class );
 
     static final int USERS_PER_PAGE = 3;
-    static final int ALBUMS_PER_PAGE = 5;
+    static final int TAGS_PER_PAGE = 5;
 
     @Inject
     UserService userService;
-
-    @Inject
-    AlbumService albumService;
 
     // TODO: Remove when <https://issues.apache.org/jira/browse/WICKET-2797> is fixed.
     final Form<?> searchForm;
@@ -88,23 +79,24 @@ public class HomeTabPanel extends GenericPanel<HomeTabModels> {
             protected void populateItem(final Item<User> userItem) {
 
                 userItem.add( new UserLink( "userName", userItem.getModel() ) );
-                userItem.add( new AbstractAlbumsView( "albums", userItem.getModel(), ALBUMS_PER_PAGE ) {
+                userItem.add( new AbstractTagsView( "tags", userItem.getModel(), TAGS_PER_PAGE ) {
 
                     @Override
-                    protected void populateItem(final Item<Album> albumItem) {
+                    protected void populateItem(final Item<Tag> tagItem) {
 
-                        albumItem.add( new MediaView( "albumCover", cover( albumItem.getModel() ), Quality.THUMBNAIL, true ) {
+                        tagItem.add( new MediaView( "tagCover", cover( tagItem.getModel() ), Quality.THUMBNAIL, true ) {
 
                             @Override
                             protected void onClick(final AjaxRequestTarget target) {
 
-                                Tab.ALBUM.activateWithState( new AlbumTabPanel.AlbumTabState( getModelObject().getAlbum() ) );
+                                Tab.TAG.activateWithState( new TagTabPanel.TagTabState( tagItem.getModelObject() ) );
                             }
 
                             @Override
                             protected String getCaptionString() {
 
-                                return getModelObject().getAlbum().getName();
+                                // TODO: Tags?
+                                return null;
                             }
                         } );
                     }
@@ -113,7 +105,7 @@ public class HomeTabPanel extends GenericPanel<HomeTabModels> {
                     public boolean isVisible() {
 
                         // TODO: Does this work?
-                        // userItem's visibility == the visibility of the albums view in it.
+                        // userItem's visibility == the visibility of the tags view in it.
                         boolean visible = super.isVisible();
                         userItem.setVisible( visible );
 
@@ -126,7 +118,7 @@ public class HomeTabPanel extends GenericPanel<HomeTabModels> {
         add( (searchForm = new Form<String>( "searchForm", new Model<String>() ) {
 
             final AbstractUsersView usersView;
-            final AbstractAlbumsView albumsView;
+            final AbstractTagsView tagsView;
 
             {
                 // Search Query
@@ -139,7 +131,7 @@ public class HomeTabPanel extends GenericPanel<HomeTabModels> {
                     @Override
                     protected String load() {
 
-                        int resultCount = usersView.getItemCount() + albumsView.getItemCount();
+                        int resultCount = usersView.getItemCount() + tagsView.getItemCount();
 
                         if (resultCount == 0)
                             return msgs.noResults();
@@ -164,12 +156,8 @@ public class HomeTabPanel extends GenericPanel<HomeTabModels> {
                     public boolean apply(final User input) {
 
                         // Applies for a user whose userName contains the search string (case insensitively).
-                        return input != null && queryModel.getObject() != null && queryModel.getObject().length() > 0 && input.getUserName()
-                                                                                                                              .toUpperCase()
-                                                                                                                              .contains(
-                                                                                                                                      queryModel
-                                                                                                                                              .getObject()
-                                                                                                                                              .toUpperCase() );
+                        return input != null && queryModel.getObject() != null && queryModel.getObject().length() > 0 //
+                               && input.getUserName().toUpperCase().contains( queryModel.getObject().toUpperCase() );
                     }
                 }, USERS_PER_PAGE ) {
 
@@ -177,23 +165,23 @@ public class HomeTabPanel extends GenericPanel<HomeTabModels> {
                     protected void populateItem(final Item<User> userItem) {
 
                         userItem.add( new UserLink( "userName", userItem.getModel() ) );
-                        userItem.add( new AbstractAlbumsView( "albums", userItem.getModel(), ALBUMS_PER_PAGE ) {
+                        userItem.add( new AbstractTagsView( "tags", userItem.getModel(), TAGS_PER_PAGE ) {
 
                             @Override
-                            protected void populateItem(final Item<Album> albumItem) {
+                            protected void populateItem(final Item<Tag> tagItem) {
 
-                                albumItem.add( new MediaView( "albumCover", cover( albumItem.getModel() ), Quality.THUMBNAIL, true ) {
+                                tagItem.add( new MediaView( "tagCover", cover( tagItem.getModel() ), Quality.THUMBNAIL, true ) {
 
                                     @Override
                                     protected void onClick(final AjaxRequestTarget target) {
 
-                                        Tab.ALBUM.activateWithState( new AlbumTabPanel.AlbumTabState( getModelObject().getAlbum() ) );
+                                        Tab.TAG.activateWithState( new TagTabPanel.TagTabState( tagItem.getModelObject() ) );
                                     }
 
                                     @Override
                                     protected String getCaptionString() {
 
-                                        return getModelObject().getAlbum().getName();
+                                        return tagItem.getModelObject().getName();
                                     }
                                 } );
                             }
@@ -202,36 +190,32 @@ public class HomeTabPanel extends GenericPanel<HomeTabModels> {
                 } );
 
                 // Found Albums
-                add( albumsView = new AbstractAlbumsView( "albums", new IPredicate<Album>() {
+                add( tagsView = new AbstractTagsView( "tags", new IPredicate<Tag>() {
 
                     @Override
-                    public boolean apply(final Album input) {
+                    public boolean apply(final Tag input) {
 
                         // Applies for an album whose name contains the search string (case insensitively).
-                        return input != null && queryModel.getObject() != null && queryModel.getObject().length() > 0 && input.getName()
-                                                                                                                              .toUpperCase()
-                                                                                                                              .contains(
-                                                                                                                                      queryModel
-                                                                                                                                              .getObject()
-                                                                                                                                              .toUpperCase() );
+                        return input != null && queryModel.getObject() != null && queryModel.getObject().length() > 0 //
+                               && input.getName().toUpperCase().contains( queryModel.getObject().toUpperCase() );
                     }
-                }, ALBUMS_PER_PAGE ) {
+                }, TAGS_PER_PAGE ) {
 
                     @Override
-                    protected void populateItem(final Item<Album> albumItem) {
+                    protected void populateItem(final Item<Tag> tagItem) {
 
-                        albumItem.add( new MediaView( "cover", cover( albumItem.getModel() ), Quality.THUMBNAIL, true ) {
+                        tagItem.add( new MediaView( "cover", cover( tagItem.getModel() ), Quality.THUMBNAIL, true ) {
 
                             @Override
                             public void onClick(final AjaxRequestTarget target) {
 
-                                Tab.ALBUM.activateWithState( new AlbumTabPanel.AlbumTabState( getModelObject().getAlbum() ) );
+                                Tab.TAG.activateWithState( new TagTabPanel.TagTabState( tagItem.getModelObject() ) );
                             }
 
                             @Override
                             protected String getCaptionString() {
 
-                                return getModelObject().getAlbum().getName();
+                                return tagItem.getModelObject().getName();
                             }
                         } );
                     }
@@ -299,7 +283,7 @@ public class HomeTabPanel extends GenericPanel<HomeTabModels> {
          * @param authenticated <code>true</code>: The current user has authenticated himself.<br> <code>false</code>: The current user has
          *                      not identified himself.
          *
-         * @return The text that explains which albums are being shown.
+         * @return The text that explains which tags are being shown.
          */
         IModel<String> usersHelp(@BooleanKeyAppender(y = "auth", n = "anon") IModel<Boolean> authenticated);
     }
@@ -333,7 +317,7 @@ public class HomeTabPanel extends GenericPanel<HomeTabModels> {
          * {@inheritDoc}
          */
         @Override
-        public HomeTabPanel getPanel(final String panelId) {
+        public HomeTabPanel newPanel(final String panelId) {
 
             return new HomeTabPanel( panelId );
         }

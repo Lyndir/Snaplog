@@ -8,13 +8,11 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.behavior.CSSClassAttributeAppender;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.lib.wayward.provider.AbstractIteratorProvider;
-import com.lyndir.lhunath.snaplog.data.object.media.Album;
+import com.lyndir.lhunath.snaplog.data.object.media.Source;
+import com.lyndir.lhunath.snaplog.data.object.media.Tag;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
-import com.lyndir.lhunath.snaplog.error.IllegalOperationException;
-import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
-import com.lyndir.lhunath.snaplog.error.UserNotFoundException;
-import com.lyndir.lhunath.snaplog.model.service.AlbumService;
+import com.lyndir.lhunath.snaplog.error.*;
 import com.lyndir.lhunath.snaplog.model.service.SecurityService;
 import com.lyndir.lhunath.snaplog.model.service.UserService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
@@ -33,10 +31,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
-import org.apache.wicket.model.AbstractReadOnlyModel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
+import org.apache.wicket.model.*;
 
 
 /**
@@ -46,13 +41,10 @@ import org.apache.wicket.model.Model;
  *
  * @author lhunath
  */
-public class AccessPopup extends PopupPanel<Album> {
+public class AccessPopup extends PopupPanel<Tag> {
 
     static final Logger logger = Logger.get( AccessPopup.class );
     static final Messages msgs = MessagesFactory.create( Messages.class );
-
-    @Inject
-    AlbumService albumService;
 
     @Inject
     UserService userService;
@@ -62,9 +54,9 @@ public class AccessPopup extends PopupPanel<Album> {
 
     /**
      * @param id         Wicket component ID.
-     * @param albumModel The {@link Album} to configure access controls for.
+     * @param albumModel The {@link Source} to configure access controls for.
      */
-    public AccessPopup(final String id, final IModel<Album> albumModel) {
+    public AccessPopup(final String id, final IModel<Tag> albumModel) {
 
         super( id, albumModel );
     }
@@ -275,12 +267,12 @@ public class AccessPopup extends PopupPanel<Album> {
 
     public static class Tool implements SnaplogPanelTool {
 
-        private final IModel<Album> model;
+        private final IModel<Tag> model;
 
         /**
          * @param model The model that provides the album whose access should be managed through this tool.
          */
-        public Tool(final IModel<Album> model) {
+        public Tool(final IModel<Tag> model) {
 
             this.model = model;
         }

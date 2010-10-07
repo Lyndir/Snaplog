@@ -6,13 +6,11 @@ import com.lyndir.lhunath.lib.wayward.component.AjaxLabelLink;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.lib.wayward.provider.AbstractCollectionProvider;
 import com.lyndir.lhunath.lib.wayward.provider.AbstractIteratorProvider;
-import com.lyndir.lhunath.snaplog.data.object.media.Album;
-import com.lyndir.lhunath.snaplog.data.object.media.Media;
-import com.lyndir.lhunath.snaplog.data.object.media.MediaTimeFrame;
-import com.lyndir.lhunath.snaplog.model.service.AlbumService;
+import com.lyndir.lhunath.snaplog.data.object.media.*;
+import com.lyndir.lhunath.snaplog.model.service.TagService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
-import com.lyndir.lhunath.snaplog.webapp.tab.AlbumTabPanel;
 import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
+import com.lyndir.lhunath.snaplog.webapp.tab.TagTabPanel;
 import java.util.Collection;
 import java.util.Iterator;
 import org.apache.wicket.Component;
@@ -33,25 +31,24 @@ import org.joda.time.DateTimeFieldType;
  *
  * @author lhunath
  */
-public class BrowserView extends GenericPanel<Album> {
+public class BrowserView extends GenericPanel<Tag> {
 
     static final Logger logger = Logger.get( BrowserView.class );
 
     @Inject
-    AlbumService albumService;
+    TagService tagService;
 
-    public BrowserView(final String id, final IModel<Album> albumModel) {
+    public BrowserView(final String id, final IModel<Tag> tagModel) {
 
-        super( id, albumModel );
+        super( id, tagModel );
         setOutputMarkupId( true );
 
-        add( new DataView<MediaTimeFrame>( "years", new AbstractIteratorProvider<MediaTimeFrame>() {
+        add( new DataView<TimeFrame>( "years", new AbstractIteratorProvider<TimeFrame>() {
 
             @Override
-            protected Iterator<MediaTimeFrame> load() {
+            protected Iterator<TimeFrame> load() {
 
-                return albumService.iterateMediaTimeFrames( SnaplogSession.get().newToken(), getModelObject(), DateTimeFieldType.year(),
-                                                            false );
+                return tagService.iterateTimeFrames( SnaplogSession.get().newToken(), getModelObject(), DateTimeFieldType.year(), false );
             }
 
             @Override
@@ -62,7 +59,7 @@ public class BrowserView extends GenericPanel<Album> {
         } ) {
 
             @Override
-            protected void populateItem(final Item<MediaTimeFrame> yearItem) {
+            protected void populateItem(final Item<TimeFrame> yearItem) {
 
                 yearItem.add( new Label( "name", new LoadableDetachableModel<String>() {
 
@@ -72,14 +69,14 @@ public class BrowserView extends GenericPanel<Album> {
                         return yearItem.getModelObject().objectDescription();
                     }
                 } ) );
-                yearItem.add( new DataView<MediaTimeFrame>( "months", new AbstractIteratorProvider<MediaTimeFrame>() {
+                yearItem.add( new DataView<TimeFrame>( "months", new AbstractIteratorProvider<TimeFrame>() {
 
                     @Override
-                    protected Iterator<MediaTimeFrame> load() {
+                    protected Iterator<TimeFrame> load() {
 
-                        return albumService.iterateMediaTimeFrames( SnaplogSession.get().newToken(),
-                                                                    yearItem.getModelObject().getMedia().iterator(),
-                                                                    DateTimeFieldType.monthOfYear() );
+                        return tagService.iterateTimeFrames( SnaplogSession.get().newToken(),
+                                                             yearItem.getModelObject().getMedia().iterator(),
+                                                             DateTimeFieldType.monthOfYear() );
                     }
 
                     @Override
@@ -90,10 +87,10 @@ public class BrowserView extends GenericPanel<Album> {
                 } ) {
 
                     @Override
-                    protected void populateItem(final Item<MediaTimeFrame> mediaTimeFrameItem) {
+                    protected void populateItem(final Item<TimeFrame> mediaTimeFrameItem) {
 
                         mediaTimeFrameItem.setOutputMarkupId( true );
-                        final MediaTimeFrame frame = mediaTimeFrameItem.getModelObject();
+                        final TimeFrame frame = mediaTimeFrameItem.getModelObject();
                         final Component mediaList = new WebMarkupContainer( "mediaList" ) {
 
                             {
@@ -114,7 +111,9 @@ public class BrowserView extends GenericPanel<Album> {
                                             @Override
                                             protected void onClick(@SuppressWarnings("unused") final AjaxRequestTarget target) {
 
-                                                Tab.ALBUM.activateWithState( new AlbumTabPanel.AlbumTabState( getModelObject() ) );
+                                                TagTabPanel.TagTabState state = new TagTabPanel.TagTabState(
+                                                        BrowserView.this.getModelObject(), getModelObject() );
+                                                Tab.TAG.activateWithState( state );
                                             }
                                         } );
                                     }

@@ -61,16 +61,16 @@ public class MediaDAOImpl implements MediaDAO {
     }
 
     @Override
-    public <M extends Media> M findMedia(final Album album, final String mediaName) {
+    public <M extends Media> M findMedia(final Source source, final String mediaName) {
 
         DateUtils.startTiming( "findMedia" );
         try {
             Objects<M> results = db.getObjects( new ValuesCriteriaQuery( S3Media.class, //
-                                                                         new EqualCriterion( "album", album ) //
+                                                                         new EqualCriterion( "source", source ) //
                                                                                  .and( new EqualCriterion( "name", mediaName ) ) ) );
             if (results.hasNext()) {
                 M result = results.next();
-                checkState( !results.hasNext(), "Multiple media data found for %s named %s", album, mediaName );
+                checkState( !results.hasNext(), "Multiple media data found for %s named %s", source, mediaName );
 
                 return result;
             }
@@ -104,10 +104,10 @@ public class MediaDAOImpl implements MediaDAO {
     }
 
     @Override
-    public <M extends Media> List<M> listMedia(final Album album, final boolean ascending) {
+    public <M extends Media> List<M> listMedia(final Source source, final boolean ascending) {
 
         Objects<M> results = db.getObjects( new ValuesCriteriaQuery( S3Media.class, //
-                                                                     new EqualCriterion( "album", album ) ) );
+                                                                     new EqualCriterion( "source", source ) ) );
         List<M> resultsList = Lists.newLinkedList( results );
         Collections.sort( resultsList, new Comparator<M>() {
 
@@ -122,10 +122,10 @@ public class MediaDAOImpl implements MediaDAO {
     }
 
     @Override
-    public <D extends MediaData<?>> List<D> listMediaData(final Album album, final boolean ascending) {
+    public <D extends MediaData<?>> List<D> listMediaData(final Source source, final boolean ascending) {
 
         Objects<D> results = db.getObjects( new ValuesCriteriaQuery( S3MediaData.class, //
-                                                                     new EqualCriterion( "media.album", album ) ) );
+                                                                     new EqualCriterion( "media.source", source ) ) );
         List<D> resultsList = Lists.newLinkedList( results );
         Collections.sort( resultsList, new Comparator<D>() {
 

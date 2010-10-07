@@ -19,7 +19,7 @@
     <entry key="albumsHelp.auth.own">Here's an overview of all your albums.</entry>
     <entry key="albumsHelp.auth.own.empty">Here's an overview of all your albums.</entry>
 
-    <entry key="newAlbum">Create a new album</entry>
+    <entry key="newAlbum">Create a new source</entry>
     <entry key="newAlbumType">Album Type:</entry>
     <entry key="newAlbumName">Album Name:</entry>
     <entry key="newAlbumDescription">Album Description:</entry>

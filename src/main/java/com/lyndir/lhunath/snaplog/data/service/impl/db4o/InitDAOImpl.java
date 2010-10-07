@@ -4,16 +4,15 @@ import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.ext.ExtObjectContainer;
 import com.db4o.query.Predicate;
+import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.ObjectUtils;
-import com.lyndir.lhunath.snaplog.data.object.media.Album;
-import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Album;
+import com.lyndir.lhunath.snaplog.data.object.media.Source;
+import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Source;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;
-import com.lyndir.lhunath.snaplog.data.object.user.LinkID;
-import com.lyndir.lhunath.snaplog.data.object.user.User;
-import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
-import com.lyndir.lhunath.snaplog.data.service.InitDAO;
+import com.lyndir.lhunath.snaplog.data.object.user.*;
+import com.lyndir.lhunath.snaplog.data.service.*;
 import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
 
 
@@ -29,11 +28,15 @@ public class InitDAOImpl implements InitDAO {
     static final Logger logger = Logger.get( InitDAOImpl.class );
 
     private final ObjectContainer db;
+    private final UserDAO userDAO;
+    private final SourceDAO sourceDAO;
 
     @Inject
-    public InitDAOImpl(final ObjectContainer db) {
+    public InitDAOImpl(final ObjectContainer db, final UserDAO userDAO, final SourceDAO sourceDAO) {
 
         this.db = db;
+        this.userDAO = userDAO;
+        this.sourceDAO = sourceDAO;
     }
 
     @Override
@@ -87,31 +90,22 @@ public class InitDAOImpl implements InitDAO {
         db.store( defaultUserProfile );
 
         // Find default user's album.
-        ObjectSet<Album> defaultAlbumQuery = db.query( new Predicate<Album>() {
+        SnaplogConstants.DEFAULT_SOURCE = Iterables.get( sourceDAO.listSources( new com.google.common.base.Predicate<Source>() {
 
             @Override
-            public boolean match(final Album candidate) {
+            public boolean apply(final Source input) {
 
-                return ObjectUtils.equal( candidate.getOwner(), SnaplogConstants.DEFAULT_USER ) && ObjectUtils.equal( "Life",
-                                                                                                                      candidate.getName() );
+                return ObjectUtils.equal( input.getOwner(), SnaplogConstants.DEFAULT_USER );
             }
-        } );
-        if (defaultAlbumQuery.hasNext())
-            SnaplogConstants.DEFAULT_ALBUM = defaultAlbumQuery.next();
-        else
-            SnaplogConstants.DEFAULT_ALBUM = new S3Album( defaultUserProfile, "Life" );
+        } ), 0, new S3Source( defaultUserProfile, "snaplog.net", "users/lhunath/Life" ) );
         // Configure default user's album.
-        SnaplogConstants.DEFAULT_ALBUM.setOwnerProfile( defaultUserProfile );
-        SnaplogConstants.DEFAULT_ALBUM.getACL().setDefaultPermission( Permission.INHERIT );
-        SnaplogConstants.DEFAULT_ALBUM
-                .setDescription(
-                        "<p>Arbitrary snapshots from Maarten's life.</p><p><label>Camera:</label><input value='Canon Powershot Pro1' /></p>" );
-        if (!((ExtObjectContainer) db).isActive( SnaplogConstants.DEFAULT_ALBUM ))
-            logger.dbg( "Was not active: %s", SnaplogConstants.DEFAULT_ALBUM );
-        db.store( SnaplogConstants.DEFAULT_ALBUM );
+        SnaplogConstants.DEFAULT_SOURCE.getACL().setDefaultPermission( Permission.INHERIT );
+        if (!((ExtObjectContainer) db).isActive( SnaplogConstants.DEFAULT_SOURCE ))
+            logger.dbg( "Was not active: %s", SnaplogConstants.DEFAULT_SOURCE );
+        db.store( SnaplogConstants.DEFAULT_SOURCE );
 
         logger.dbg( "Default user: %s, profile: %s (ACL: %s), album: %s (ACL: %s)", SnaplogConstants.DEFAULT_USER, defaultUserProfile,
-                    defaultUserProfile.getACL(), SnaplogConstants.DEFAULT_ALBUM, SnaplogConstants.DEFAULT_ALBUM.getACL() );
+                    defaultUserProfile.getACL(), SnaplogConstants.DEFAULT_SOURCE, SnaplogConstants.DEFAULT_SOURCE.getACL() );
         logger.dbg( "Known users:" );
         for (final User user : db.query( User.class ))
             logger.dbg( "    - %s", user );
@@ -119,8 +113,8 @@ public class InitDAOImpl implements InitDAO {
         for (final UserProfile userProfile : db.query( UserProfile.class ))
             logger.dbg( "    - %s", userProfile );
         logger.dbg( "Known albums:" );
-        for (final Album album : db.query( Album.class ))
-            logger.dbg( "    - %s", album );
+        for (final Source source : db.query( Source.class ))
+            logger.dbg( "    - %s", source );
     }
 
     @Override

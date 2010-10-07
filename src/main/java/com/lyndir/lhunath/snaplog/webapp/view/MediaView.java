@@ -23,8 +23,8 @@ import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
-import com.lyndir.lhunath.snaplog.model.service.AlbumService;
 import com.lyndir.lhunath.snaplog.model.service.SecurityService;
+import com.lyndir.lhunath.snaplog.model.service.SourceService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.tab.SharedTabPanel;
 import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
@@ -56,7 +56,7 @@ public class MediaView extends GenericPanel<Media> {
     static final Logger logger = Logger.get( MediaView.class );
 
     @Inject
-    AlbumService albumService;
+    SourceService sourceService;
 
     @Inject
     SecurityService securityService;
@@ -114,7 +114,7 @@ public class MediaView extends GenericPanel<Media> {
                     protected String load() {
 
                         try {
-                            URL resourceURL = albumService.findResourceURL( SnaplogSession.get().newToken(), getModelObject(),
+                            URL resourceURL = sourceService.findResourceURL( SnaplogSession.get().newToken(), getModelObject(),
                                                                             Quality.ORIGINAL );
                             if (resourceURL == null)
                                 // TODO: May want to display something useful to the user like a specific "not-found" thumbnail.
@@ -179,7 +179,7 @@ public class MediaView extends GenericPanel<Media> {
                     public void onClick() {
 
                         try {
-                            albumService.delete( SnaplogSession.get().newToken(), getModelObject() );
+                            sourceService.delete( SnaplogSession.get().newToken(), getModelObject() );
                         }
                         catch (PermissionDeniedException e) {
                             error( e.getLocalizedMessage() );
@@ -237,7 +237,7 @@ public class MediaView extends GenericPanel<Media> {
             protected String load() {
 
                 try {
-                    URL resourceURL = albumService.findResourceURL( SnaplogSession.get().newToken(), getModelObject(), quality );
+                    URL resourceURL = sourceService.findResourceURL( SnaplogSession.get().newToken(), getModelObject(), quality );
                     if (resourceURL == null)
                         // TODO: May want to display something useful to the user like a specific "not-found" thumbnail.
                         return null;
@@ -258,7 +258,7 @@ public class MediaView extends GenericPanel<Media> {
                 logger.dbg( "Loading Media: %s, Quality: %s", getModelObject(), quality );
 
                 try {
-                    URL resourceURL = albumService.findResourceURL( SnaplogSession.get().newToken(), getModelObject(), Quality.THUMBNAIL );
+                    URL resourceURL = sourceService.findResourceURL( SnaplogSession.get().newToken(), getModelObject(), Quality.THUMBNAIL );
                     if (resourceURL == null)
                         // TODO: May want to display something useful to the user like a specific "not-found" thumbnail.
                         return null;
@@ -277,7 +277,7 @@ public class MediaView extends GenericPanel<Media> {
             protected String load() {
 
                 try {
-                    URL resourceURL = albumService.findResourceURL( SnaplogSession.get().newToken(), getModelObject(), quality );
+                    URL resourceURL = sourceService.findResourceURL( SnaplogSession.get().newToken(), getModelObject(), quality );
                     if (resourceURL == null)
                         // TODO: May want to display something useful to the user like a specific "not-found" thumbnail.
                         return null;
@@ -313,7 +313,7 @@ public class MediaView extends GenericPanel<Media> {
         } );
     }
 
-    private boolean isMini(final Quality quality) {
+    private static boolean isMini(final Quality quality) {
 
         return quality == Quality.THUMBNAIL;
     }

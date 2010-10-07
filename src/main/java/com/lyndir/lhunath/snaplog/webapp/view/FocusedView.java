@@ -7,7 +7,7 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.ObjectUtils;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
-import com.lyndir.lhunath.snaplog.model.service.AlbumService;
+import com.lyndir.lhunath.snaplog.model.service.SourceService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import java.util.*;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -30,7 +30,7 @@ public class FocusedView extends GenericPanel<Media> {
     static final int SIDE_IMAGES = 7;
 
     @Inject
-    AlbumService albumService;
+    SourceService sourceService;
 
     Media currentFile;
     final ListIteratorView<Media> mediaView;
@@ -53,7 +53,7 @@ public class FocusedView extends GenericPanel<Media> {
             private ListIterator<Media> getIterator() {
 
                 if (iterator == null)
-                    iterator = albumService.iterateMedia( SnaplogSession.get().newToken(), getModelObject().getAlbum(), true );
+                    iterator = sourceService.iterateMedia( SnaplogSession.get().newToken(), getModelObject().getSource(), true );
 
                 return iterator;
             }

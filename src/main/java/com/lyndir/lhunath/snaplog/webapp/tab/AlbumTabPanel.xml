@@ -4,7 +4,7 @@
 
     <entry key="tabTitle">Album</entry>
 
-    <entry key="back">Back to album</entry>
+    <entry key="back">Back to source</entry>
 
     <entry key="errorMediaNotFound">Could not find media named '{0}' in {1}.</entry>
 

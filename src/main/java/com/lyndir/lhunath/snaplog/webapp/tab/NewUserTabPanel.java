@@ -119,7 +119,7 @@ public class NewUserTabPanel extends GenericPanel<NewUserPanelModels> {
         }
 
         @Override
-        public NewUserTabPanel getPanel(final String panelId) {
+        public NewUserTabPanel newPanel(final String panelId) {
 
             return new NewUserTabPanel( panelId );
         }

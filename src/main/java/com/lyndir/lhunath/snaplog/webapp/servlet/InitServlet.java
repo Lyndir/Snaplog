@@ -21,12 +21,13 @@ import com.google.inject.Provider;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.DateUtils;
 import com.lyndir.lhunath.lib.system.util.ObjectUtils;
-import com.lyndir.lhunath.snaplog.data.object.media.Album;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
+import com.lyndir.lhunath.snaplog.data.object.media.Source;
 import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
-import com.lyndir.lhunath.snaplog.model.service.AlbumService;
+import com.lyndir.lhunath.snaplog.model.service.SourceService;
 import java.io.IOException;
+import java.util.Iterator;
 import java.util.ListIterator;
 import javax.servlet.ServletException;
 import javax.servlet.http.*;
@@ -48,15 +49,15 @@ public class InitServlet extends HttpServlet {
      */
     public static final String PATH = "/init";
 
-    private final Provider<AlbumService> albumServiceProvider;
+    private final Provider<SourceService<Source, Media>> sourceServiceProvider;
 
     /**
-     * @param albumServiceProvider See {@link AlbumService}
+     * @param sourceServiceProvider See {@link SourceService}
      */
     @Inject
-    public InitServlet(final Provider<AlbumService> albumServiceProvider) {
+    public InitServlet(final Provider<SourceService<Source, Media>> sourceServiceProvider) {
 
-        this.albumServiceProvider = albumServiceProvider;
+        this.sourceServiceProvider = sourceServiceProvider;
     }
 
     /**
@@ -71,20 +72,20 @@ public class InitServlet extends HttpServlet {
                 @Override
                 public void run() {
 
-                    ListIterator<Album> albumIt = albumServiceProvider.get()
-                            .iterateAlbums( SecurityToken.INTERNAL_USE_ONLY, Predicates.<Album>alwaysTrue() );
-                    while (albumIt.hasNext()) {
+                    SourceService<Source, Media> sourceService = sourceServiceProvider.get();
+                    Iterator<Source> sourceIt = sourceService.iterateSources( SecurityToken.INTERNAL_USE_ONLY,
+                                                                              Predicates.<Source>alwaysTrue() );
+                    while (sourceIt.hasNext()) {
 
                         Media lastMedia = null;
-                        ListIterator<Media> mediaIt = albumServiceProvider.get()
-                                .iterateMedia( SecurityToken.INTERNAL_USE_ONLY, albumIt.next(), true );
+                        ListIterator<Media> mediaIt = sourceService.iterateMedia( SecurityToken.INTERNAL_USE_ONLY, sourceIt.next(), true );
                         while (mediaIt.hasNext()) {
 
                             Media media = mediaIt.next();
                             if (lastMedia != null && ObjectUtils.equal( media.getName(), lastMedia.getName() ))
                                 try {
                                     logger.inf( "Found duplicate: last=%s, current=%s.  Deleting current.", lastMedia, media );
-                                    albumServiceProvider.get().delete( SecurityToken.INTERNAL_USE_ONLY, media );
+                                    sourceService.delete( SecurityToken.INTERNAL_USE_ONLY, media );
                                 }
                                 catch (PermissionDeniedException e) {
                                     logger.bug( e );
@@ -98,20 +99,42 @@ public class InitServlet extends HttpServlet {
             } );
 
         if (req.getParameter( "media" ) != null)
-            doTask( resp, "Loading all album media", new Runnable() {
+            doTask( resp, "Loading all source media", new Runnable() {
                 @Override
                 public void run() {
 
-                    albumServiceProvider.get().loadAllAlbumMedia();
+                    SourceService<Source, Media> sourceService = sourceServiceProvider.get();
+                    Iterator<Source> sourceIt = sourceService.iterateSources( SecurityToken.INTERNAL_USE_ONLY,
+                                                                              Predicates.<Source>alwaysTrue() );
+                    while (sourceIt.hasNext()) {
+                        Source source = sourceIt.next();
+                        try {
+                            sourceServiceProvider.get().loadMedia( SecurityToken.INTERNAL_USE_ONLY, source );
+                        }
+                        catch (PermissionDeniedException e) {
+                            logger.err( e, "While loading media for source %s", source );
+                        }
+                    }
                 }
             } );
 
         if (req.getParameter( "mediaData" ) != null)
-            doTask( resp, "Loading all album media data", new Runnable() {
+            doTask( resp, "Loading all source media data", new Runnable() {
                 @Override
                 public void run() {
 
-                    albumServiceProvider.get().loadAllAlbumMediaData();
+                    SourceService<Source, Media> sourceService = sourceServiceProvider.get();
+                    Iterator<Source> sourceIt = sourceService.iterateSources( SecurityToken.INTERNAL_USE_ONLY,
+                                                                              Predicates.<Source>alwaysTrue() );
+                    while (sourceIt.hasNext()) {
+                        Source source = sourceIt.next();
+                        try {
+                            sourceServiceProvider.get().loadMediaData( SecurityToken.INTERNAL_USE_ONLY, sourceIt.next() );
+                        }
+                        catch (PermissionDeniedException e) {
+                            logger.err( e, "While loading media data for source %s", source );
+                        }
+                    }
                 }
             } );
     }

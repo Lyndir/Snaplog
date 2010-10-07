@@ -86,7 +86,7 @@ public class AboutTabPanel extends Panel {
          * {@inheritDoc}
          */
         @Override
-        public AboutTabPanel getPanel(final String panelId) {
+        public AboutTabPanel newPanel(final String panelId) {
 
             return new AboutTabPanel( panelId );
         }

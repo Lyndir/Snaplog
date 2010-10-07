@@ -20,13 +20,13 @@ import com.lyndir.lhunath.snaplog.data.object.user.User;
 
 
 /**
- * <h2>{@link AlbumUnavailableException}<br> <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link TagUnavailableException}<br> <sub>[in short] (TODO).</sub></h2>
  *
  * <p> <i>Mar 17, 2010</i> </p>
  *
  * @author lhunath
  */
-public class AlbumUnavailableException extends Exception {
+public class TagUnavailableException extends Exception {
 
     static final Messages msgs = MessagesFactory.create( Messages.class );
 
@@ -37,7 +37,7 @@ public class AlbumUnavailableException extends Exception {
      * @param owner     The owner of the album.
      * @param albumName The name of the album.
      */
-    public AlbumUnavailableException(final User owner, final String albumName) {
+    public TagUnavailableException(final User owner, final String albumName) {
 
         this.owner = owner;
         this.albumName = albumName;

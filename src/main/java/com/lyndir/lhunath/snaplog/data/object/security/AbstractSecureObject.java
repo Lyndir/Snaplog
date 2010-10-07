@@ -17,6 +17,7 @@ package com.lyndir.lhunath.snaplog.data.object.security;
 
 import com.lyndir.lhunath.lib.system.logging.exception.InternalInconsistencyException;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
+import net.link.safeonline.util.validation.annotation.NotNull;
 
 
 /**
@@ -30,10 +31,15 @@ import com.lyndir.lhunath.snaplog.data.object.user.User;
  */
 public abstract class AbstractSecureObject<P extends SecureObject<?>> implements SecureObject<P> {
 
-    private User owner;
+    private final User owner;
     private final ACL acl = new ACL();
 
-    protected AbstractSecureObject(final User owner) {
+    protected AbstractSecureObject() {
+
+        owner = null;
+    }
+
+    protected AbstractSecureObject(@NotNull final User owner) {
 
         this.owner = owner;
     }
@@ -49,14 +55,6 @@ public abstract class AbstractSecureObject<P extends SecureObject<?>> implements
         }
 
         return owner;
-    }
-
-    /**
-     * @param owner The new owner of this object.
-     */
-    public void setOwner(final User owner) {
-
-        this.owner = owner;
     }
 
     /**

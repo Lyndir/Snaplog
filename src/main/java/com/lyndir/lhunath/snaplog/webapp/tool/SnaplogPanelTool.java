@@ -32,5 +32,5 @@ public interface SnaplogPanelTool extends SnaplogTool {
      *
      * @return The panel that provides the tool's features.
      */
-    Panel getPanel(final String id);
+    Panel getPanel(String id);
 }

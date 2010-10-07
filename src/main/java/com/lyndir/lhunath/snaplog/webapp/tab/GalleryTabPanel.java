@@ -26,29 +26,21 @@ import com.lyndir.lhunath.lib.wayward.i18n.BooleanKeyAppender;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.lib.wayward.navigation.AbstractFragmentState;
 import com.lyndir.lhunath.lib.wayward.navigation.IncompatibleStateException;
-import com.lyndir.lhunath.snaplog.data.object.media.Album;
-import com.lyndir.lhunath.snaplog.data.object.media.AlbumProviderType;
 import com.lyndir.lhunath.snaplog.data.object.media.Media.Quality;
-import com.lyndir.lhunath.snaplog.data.object.security.Permission;
+import com.lyndir.lhunath.snaplog.data.object.media.Tag;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
-import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.error.UserNotFoundException;
 import com.lyndir.lhunath.snaplog.model.service.*;
-import com.lyndir.lhunath.snaplog.model.service.MediaProvider;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels;
-import com.lyndir.lhunath.snaplog.webapp.tab.model.GalleryTabModels.NewAlbumFormModels;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
-import com.lyndir.lhunath.snaplog.webapp.view.AbstractAlbumsView;
+import com.lyndir.lhunath.snaplog.webapp.view.AbstractTagsView;
 import com.lyndir.lhunath.snaplog.webapp.view.MediaView;
 import java.util.List;
-import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.markup.html.AjaxLink;
-import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.*;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
@@ -66,18 +58,18 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
     static final Logger logger = Logger.get( GalleryTabPanel.class );
     static final Messages msgs = MessagesFactory.create( Messages.class );
 
-    static final int ALBUMS_PER_PAGE = 5;
+    static final int TAGS_PER_PAGE = 5;
 
     @Inject
     UserService userService;
 
     @Inject
-    AlbumService albumService;
+    TagService tagService;
 
     @Inject
     SecurityService securityService;
 
-    AbstractAlbumsView albums;
+    AbstractTagsView tags;
 
     /**
      * Create a new {@link GalleryTabPanel} instance.
@@ -110,18 +102,18 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
             @Override
             protected Boolean load() {
 
-                return albums.getItemCount() == 0;
+                return tags.getItemCount() == 0;
             }
         }, getModelObject().username() ) ).setEscapeModelStrings( false ) );
 
-        // List of albums
-        // TODO: Make this data view top-level to provide Album enumeration elsewhere.
-        add( albums = new AbstractAlbumsView( "albums", getModelObject(), ALBUMS_PER_PAGE ) {
+        // List of tags
+        // TODO: Make this data view top-level to provide Source enumeration elsewhere.
+        add( tags = new AbstractTagsView( "tags", getModelObject(), TAGS_PER_PAGE ) {
 
             @Override
-            protected void populateItem(final Item<Album> item) {
+            protected void populateItem(final Item<Tag> tagItem) {
 
-                item.add( new AjaxLink<Album>( "link", item.getModel() ) {
+                tagItem.add( new AjaxLink<Tag>( "link", tagItem.getModel() ) {
 
                     {
                         add( new MediaView( "cover", cover( getModel() ), Quality.THUMBNAIL, false ) );
@@ -133,86 +125,11 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                     @Override
                     public void onClick(final AjaxRequestTarget target) {
 
-                        Tab.ALBUM.activateWithState( new AlbumTabPanel.AlbumTabState( getModelObject() ) );
+                        Tab.TAG.activateWithState( new TagTabPanel.TagTabState( getModelObject() ) );
                     }
                 } );
             }
         } );
-
-        // New album
-        add( new WebMarkupContainer( "newAlbumContainer" ) {
-
-            {
-                final WebMarkupContainer container = this;
-                final Component newAlbumForm = new Form<NewAlbumFormModels>( "newAlbumForm", getModelObject().newAlbumForm().getModel() ) {
-
-                    {
-                        add( new DropDownChoice<AlbumProviderType>( "type", getModelObject().type(), getModelObject().types(),
-                                                                    new EnumChoiceRenderer<AlbumProviderType>() ) //
-                                     .setRequired( true ) );
-
-                        add( new RequiredTextField<String>( "name", getModelObject().name() ) );
-                        add( new TextArea<String>( "description", getModelObject().description() ) );
-                    }
-
-                    @Override
-                    protected void onSubmit() {
-
-                        MediaProvider<?, ?> mediaProvider = getModelObject().type().getObject().getMediaProvider();
-                        Album album = mediaProvider.newAlbum( GalleryTabPanel.this.getModelObject().getObject(), //
-                                                              getModelObject().name().getObject(), //
-                                                              getModelObject().description().getObject() );
-
-                        try {
-                            albumService.registerAlbum( SnaplogSession.get().newToken(), album );
-
-                            // New album was created; reset and hide ourselves again.
-                            getModelObject().name().setObject( null );
-                            getModelObject().description().setObject( null );
-                            setVisible( false );
-                        }
-
-                        catch (PermissionDeniedException e) {
-                            error( e.getLocalizedMessage() );
-                        }
-                    }
-                };
-
-                add( new AjaxLink<Object>( "newAlbum" ) {
-
-                    @Override
-                    public void onClick(final AjaxRequestTarget target) {
-
-                        newAlbumForm.setVisible( !newAlbumForm.isVisible() );
-
-                        target.addComponent( container );
-                    }
-
-                    @Override
-                    public boolean isVisible() {
-
-                        return !newAlbumForm.isVisible();
-                    }
-                } );
-                add( newAlbumForm.setVisible( false ) );
-            }
-
-            @Override
-            public boolean isVisible() {
-
-                try {
-                    // Only show when session has CONTRIBUTE permission to the user's profile.
-                    // (otherwise he won't be able to create a new album anyway)
-                    return securityService.hasAccess( Permission.CONTRIBUTE, SnaplogSession.get().newToken(),
-                                                      userService.getProfile( SnaplogSession.get().newToken(),
-                                                                              getModelObject().getObject() ) );
-                }
-
-                catch (PermissionDeniedException ignored) {
-                    return false;
-                }
-            }
-        }.setOutputMarkupPlaceholderTag( true ) );
     }
 
     interface Messages {
@@ -225,8 +142,8 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         /**
          * @param authenticated <code>true</code>: The current user has authenticated himself.<br> <code>false</code>: The current user has
          *                      not identified himself.
-         * @param owned         <code>true</code>: The current user is the owner of the albums in the gallery.
-         * @param empty         <code>true</code>: There are no albums to show.  Either the focused user has no albums or the active user
+         * @param owned         <code>true</code>: The current user is the owner of the tags in the gallery.
+         * @param empty         <code>true</code>: There are no tags to show.  Either the focused user has no tags or the active user
          *                      (or the public) has no sufficient permission to see any of them.
          * @param username      The name of the user whose gallery is being viewed.
          *
@@ -264,7 +181,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
          * {@inheritDoc}
          */
         @Override
-        public GalleryTabPanel getPanel(final String panelId) {
+        public GalleryTabPanel newPanel(final String panelId) {
 
             return new GalleryTabPanel( panelId, new IModel<User>() {
 

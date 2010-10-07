@@ -86,7 +86,7 @@ public class AdministrationTabPanel extends Panel {
          * {@inheritDoc}
          */
         @Override
-        public AdministrationTabPanel getPanel(final String panelId) {
+        public AdministrationTabPanel newPanel(final String panelId) {
 
             return new AdministrationTabPanel( panelId );
         }

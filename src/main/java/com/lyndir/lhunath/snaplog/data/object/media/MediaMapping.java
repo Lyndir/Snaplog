@@ -19,17 +19,19 @@ public class MediaMapping extends Media {
 
     static final Messages msgs = MessagesFactory.create( Messages.class );
 
-    private final Instant created = new Instant();
-    private final Media realMedia;
+    private final User owner;
+    private final Media original;
     private final String mapping;
+    private final Instant created = new Instant();
 
     private Duration validity;
 
-    public MediaMapping(final User owner, final Media realMedia, final Duration validity) {
+    public MediaMapping(final User owner, final Media original, final Duration validity) {
 
-        super( realMedia.getName() );
+        super( original.getName() );
+        this.owner = owner;
 
-        this.realMedia = realMedia;
+        this.original = original;
         this.validity = validity;
 
         mapping = Integer.toHexString( hashCode() );
@@ -37,9 +39,9 @@ public class MediaMapping extends Media {
         getACL().setDefaultPermission( Permission.VIEW );
     }
 
-    public Media getRealMedia() {
+    public Media getOriginal() {
 
-        return realMedia;
+        return original;
     }
 
     public Instant getCreated() {
@@ -63,29 +65,35 @@ public class MediaMapping extends Media {
     }
 
     @Override
+    public User getOwner() {
+
+        return owner;
+    }
+
+    @Override
     public ACL getACL() {
 
         if (isExpired())
             // If this mapping expires, its ACL does not apply anymore.  Use the real media's ACL instead.
-            return getRealMedia().getACL();
+            return getOriginal().getACL();
 
         return super.getACL();
     }
 
     @Override
-    public Album getParent() {
+    public Source getParent() {
 
-        return getRealMedia().getParent();
+        return getOriginal().getSource();
     }
 
     @Override
     public String getName() {
 
-        return getRealMedia().getName();
+        return getOriginal().getName();
     }
 
     @Override
-    public Album getAlbum() {
+    public Source getSource() {
 
         return null;
     }
@@ -93,19 +101,19 @@ public class MediaMapping extends Media {
     @Override
     public ReadableInstant shotTime() {
 
-        return getRealMedia().shotTime();
+        return getOriginal().shotTime();
     }
 
     @Override
     public String getDateString() {
 
-        return getRealMedia().getDateString();
+        return getOriginal().getDateString();
     }
 
     @Override
     public int compareTo(final Media o) {
 
-        return getRealMedia().compareTo( o );
+        return getOriginal().compareTo( o );
     }
 
     @Override
@@ -122,7 +130,7 @@ public class MediaMapping extends Media {
     @Override
     public int hashCode() {
 
-        return Objects.hashCode( created, realMedia );
+        return Objects.hashCode( created, original );
     }
 
     @Override
@@ -134,13 +142,13 @@ public class MediaMapping extends Media {
     @Override
     public String objectDescription() {
 
-        return msgs.description( getRealMedia() );
+        return msgs.description( getOriginal() );
     }
 
     @Override
     public String toString() {
 
-        return String.format( "{mapping: %s, media=%s}", getMapping(), getRealMedia() );
+        return String.format( "{mapping: %s, media=%s}", getMapping(), getOriginal() );
     }
 
     public String getMapping() {

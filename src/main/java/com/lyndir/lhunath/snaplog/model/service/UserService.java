@@ -46,7 +46,7 @@ public interface UserService extends WicketInjected {
      *
      * @return A newly registered user.
      *
-     * @throws com.lyndir.lhunath.snaplog.error.UsernameTakenException
+     * @throws UsernameTakenException
      *          When the given userName is already taken.
      */
     User registerUser(LinkID linkID, String userName)

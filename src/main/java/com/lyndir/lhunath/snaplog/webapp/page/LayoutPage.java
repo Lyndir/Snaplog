@@ -16,7 +16,7 @@ import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationListener;
 import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationTab;
 import com.lyndir.lhunath.lib.wayward.navigation.FragmentState;
 import com.lyndir.lhunath.lib.wayward.navigation.IncompatibleStateException;
-import com.lyndir.lhunath.snaplog.data.object.media.Album;
+import com.lyndir.lhunath.snaplog.data.object.media.Source;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels;
@@ -413,7 +413,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
          */
         // TODO: If we want to allow focusing other content; this may need improvement. If not, this may be simplified?
         IModel<String> focusedContent(@KeyAppender(nullKey = "none", notNullKey = "album", useValue = true) //
-                                              IModel<Album> album);
+                                              IModel<Source> album);
     }
 
 
@@ -438,7 +438,8 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
 
             Panel contentPanel = tabPanel;
             if (contentPanel == null)
-                contentPanel = tab.getPanel( CONTENT_PANEL );
+                contentPanel = tab.newPanel( CONTENT_PANEL );
+
             contentContainer.addOrReplace( contentPanel );
         }
 

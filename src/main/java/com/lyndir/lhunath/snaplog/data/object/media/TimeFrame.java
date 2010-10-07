@@ -37,15 +37,15 @@ import org.joda.time.format.DateTimeFormatterBuilder;
 
 
 /**
- * <h2>{@link MediaTimeFrame}<br> <sub>A time span with an offset that groups a chronological range of media.</sub></h2>
+ * <h2>{@link TimeFrame}<br> <sub>A time span with an offset that groups a chronological range of media.</sub></h2>
  *
  * <p> <i>Jul 25, 2009</i> </p>
  *
  * @author lhunath
  */
-public class MediaTimeFrame implements Localized, Comparable<MediaTimeFrame> {
+public class TimeFrame implements Localized, Comparable<TimeFrame> {
 
-    static final Logger logger = Logger.get( MediaTimeFrame.class );
+    static final Logger logger = Logger.get( TimeFrame.class );
 
     static final DateTimeFormatterBuilder formatterBuilder = new DateTimeFormatterBuilder();
     static final Messages msgs = MessagesFactory.create( Messages.class );
@@ -56,11 +56,11 @@ public class MediaTimeFrame implements Localized, Comparable<MediaTimeFrame> {
 
     private transient DateTimeFormatter formatter;
 
-    public MediaTimeFrame(final ReadableInstant offset, final ReadablePeriod range, final Collection<Media> media) {
+    public TimeFrame(final ReadableInstant offset, final ReadablePeriod range, final Collection<Media> media) {
 
-        this.offset = checkNotNull( offset, "A MediaTimeFrame must have an offset." );
-        this.range = checkNotNull( range, "A MediaTimeFrame must have a range." );
-        this.media = checkNotNull( media, "A MediaTimeFrame must have a collection of media." );
+        this.offset = checkNotNull( offset, "A TimeFrame must have an offset." );
+        this.range = checkNotNull( range, "A TimeFrame must have a range." );
+        this.media = checkNotNull( media, "A TimeFrame must have a collection of media." );
     }
 
     public ReadableInstant getOffset() {
@@ -107,7 +107,7 @@ public class MediaTimeFrame implements Localized, Comparable<MediaTimeFrame> {
     }
 
     @Override
-    public int compareTo(final MediaTimeFrame o) {
+    public int compareTo(final TimeFrame o) {
 
         return offset.compareTo( o.offset );
     }
@@ -126,7 +126,7 @@ public class MediaTimeFrame implements Localized, Comparable<MediaTimeFrame> {
         if (!getClass().isInstance( obj ))
             return false;
 
-        MediaTimeFrame mtfObj = (MediaTimeFrame) obj;
+        TimeFrame mtfObj = (TimeFrame) obj;
 
         return Objects.equal( getOffset(), mtfObj.getOffset() ) && Objects.equal( getRange(), mtfObj.getRange() );
     }

@@ -19,7 +19,7 @@ import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.model.EmptyModelProvider;
 import com.lyndir.lhunath.lib.wayward.model.ModelProvider;
-import com.lyndir.lhunath.snaplog.data.object.media.AlbumProviderType;
+import com.lyndir.lhunath.snaplog.data.object.media.SourceType;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.webapp.tab.GalleryTabPanel;
 import java.util.Arrays;
@@ -73,7 +73,7 @@ public class GalleryTabModels extends ModelProvider<GalleryTabModels, User> {
     }
 
     /**
-     * <h2>{@link NewAlbumFormModels}<br> <sub>Model provider for the New Album form.</sub></h2>
+     * <h2>{@link NewAlbumFormModels}<br> <sub>Model provider for the New Source form.</sub></h2>
      *
      * <p> <i>Mar 12, 2010</i> </p>
      *
@@ -81,24 +81,24 @@ public class GalleryTabModels extends ModelProvider<GalleryTabModels, User> {
      */
     public class NewAlbumFormModels extends EmptyModelProvider<NewAlbumFormModels> {
 
-        private final IModel<List<AlbumProviderType>> types;
+        private final IModel<List<SourceType>> types;
 
-        private final IModel<AlbumProviderType> type;
+        private final IModel<SourceType> type;
         private final IModel<String> name;
         private final IModel<String> description;
 
         NewAlbumFormModels() {
 
-            types = new LoadableDetachableModel<List<AlbumProviderType>>() {
+            types = new LoadableDetachableModel<List<SourceType>>() {
 
                 @Override
-                protected List<AlbumProviderType> load() {
+                protected List<SourceType> load() {
 
-                    return Arrays.asList( AlbumProviderType.values() );
+                    return Arrays.asList( SourceType.values() );
                 }
             };
 
-            type = new Model<AlbumProviderType>();
+            type = new Model<SourceType>();
             name = new Model<String>();
             description = new Model<String>();
         }
@@ -106,17 +106,17 @@ public class GalleryTabModels extends ModelProvider<GalleryTabModels, User> {
         // Accessors.
 
         /**
-         * @return A model that holds the user-selected {@link AlbumProviderType} which will provide media for the new album.
+         * @return A model that holds the user-selected {@link SourceType} which will provide media for the new album.
          */
-        public IModel<AlbumProviderType> type() {
+        public IModel<SourceType> type() {
 
             return type;
         }
 
         /**
-         * @return A model that provides a list of available {@link AlbumProviderType}s.
+         * @return A model that provides a list of available {@link SourceType}s.
          */
-        public IModel<List<AlbumProviderType>> types() {
+        public IModel<List<SourceType>> types() {
 
             return types;
         }

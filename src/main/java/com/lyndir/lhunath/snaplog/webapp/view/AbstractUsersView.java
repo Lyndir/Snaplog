@@ -6,7 +6,7 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.collection.IPredicate;
 import com.lyndir.lhunath.lib.wayward.provider.AbstractSizedIteratorProvider;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
-import com.lyndir.lhunath.snaplog.model.service.AlbumService;
+import com.lyndir.lhunath.snaplog.model.service.SourceService;
 import com.lyndir.lhunath.snaplog.model.service.UserService;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 import org.apache.wicket.markup.repeater.data.DataView;
@@ -24,7 +24,7 @@ public abstract class AbstractUsersView extends DataView<User> {
     static final Logger logger = Logger.get( AbstractUsersView.class );
 
     @Inject
-    AlbumService albumService;
+    SourceService sourceService;
 
     /**
      * Create a new {@link AbstractUsersView} instance.

@@ -45,8 +45,7 @@ public class ServiceModule extends AbstractModule {
 
         // Services
         logger.dbg( "Binding services" );
-        bind( AlbumService.class ).to( AlbumServiceImpl.class );
-        bind( AWSMediaProviderService.class ).to( AWSMediaProviderServiceImpl.class );
+        bind( AWSSourceService.class ).to( AWSSourceServiceImpl.class );
         bind( AWSService.class ).to( AWSServiceImpl.class );
         bind( SecurityService.class ).to( SecurityServiceImpl.class );
         bind( UserService.class ).to( UserServiceImpl.class );

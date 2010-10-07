@@ -89,7 +89,7 @@ public class AccessDeniedErrorPage extends LayoutPage {
         }
 
         @Override
-        public AccessDeniedErrorTabPanel getPanel(final String panelId) {
+        public AccessDeniedErrorTabPanel newPanel(final String panelId) {
 
             return new AccessDeniedErrorTabPanel( panelId );
         }

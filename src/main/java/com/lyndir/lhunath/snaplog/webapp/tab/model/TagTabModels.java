@@ -16,27 +16,26 @@
 package com.lyndir.lhunath.snaplog.webapp.tab.model;
 
 import com.lyndir.lhunath.lib.wayward.model.ModelProvider;
-import com.lyndir.lhunath.snaplog.data.object.media.Album;
-import com.lyndir.lhunath.snaplog.data.object.media.Media;
+import com.lyndir.lhunath.snaplog.data.object.media.*;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 
 
 /**
- * <h2>{@link AlbumTabModels}<br> <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link TagTabModels}<br> <sub>[in short] (TODO).</sub></h2>
  *
  * <p> <i>Mar 12, 2010</i> </p>
  *
  * @author lhunath
  */
-public class AlbumTabModels extends ModelProvider<AlbumTabModels, Album> {
+public class TagTabModels extends ModelProvider<TagTabModels, Tag> {
 
     private final IModel<Media> focusedMedia;
 
     /**
      * @param model The model providing the album to show.
      */
-    public AlbumTabModels(final IModel<Album> model) {
+    public TagTabModels(final IModel<Tag> model) {
 
         super( model );
 

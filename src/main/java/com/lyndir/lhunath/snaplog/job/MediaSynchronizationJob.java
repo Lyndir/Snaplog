@@ -1,11 +1,14 @@
 package com.lyndir.lhunath.snaplog.job;
 
+import com.google.common.base.Predicates;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.lyndir.lhunath.snaplog.model.service.AlbumService;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
+import com.lyndir.lhunath.snaplog.data.object.media.Media;
+import com.lyndir.lhunath.snaplog.data.object.media.Source;
+import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
+import com.lyndir.lhunath.snaplog.model.service.SourceService;
+import java.util.Iterator;
+import org.quartz.*;
 
 
 /**
@@ -17,18 +20,22 @@ import org.quartz.JobExecutionException;
  */
 public class MediaSynchronizationJob implements Job {
 
-    private final Provider<AlbumService> albumServiceProvider;
+    private final Provider<SourceService<Source, Media>> sourceServiceProvider;
 
     @Inject
-    MediaSynchronizationJob(final Provider<AlbumService> albumServiceProvider) {
+    MediaSynchronizationJob(final Provider<SourceService<Source, Media>> sourceServiceProvider) {
 
-        this.albumServiceProvider = albumServiceProvider;
+        this.sourceServiceProvider = sourceServiceProvider;
     }
 
     @Override
     public void execute(final JobExecutionContext context)
             throws JobExecutionException {
 
-        albumServiceProvider.get().loadAllAlbumMedia();
+        SourceService<Source, Media> sourceService = sourceServiceProvider.get();
+
+        Iterator<Source> sourcesIt = sourceService.iterateSources( SecurityToken.INTERNAL_USE_ONLY, Predicates.<Source>alwaysTrue() );
+        while (sourcesIt.hasNext())
+            sourceService.loadMedia( SecurityToken.INTERNAL_USE_ONLY, sourcesIt.next() );
     }
 }

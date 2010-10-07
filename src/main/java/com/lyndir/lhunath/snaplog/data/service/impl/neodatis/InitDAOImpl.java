@@ -1,16 +1,15 @@
 package com.lyndir.lhunath.snaplog.data.service.impl.neodatis;
 
+import com.google.common.base.Predicate;
+import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.snaplog.data.object.media.Album;
-import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Album;
+import com.lyndir.lhunath.lib.system.util.ObjectUtils;
+import com.lyndir.lhunath.snaplog.data.object.media.Source;
+import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Source;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;
-import com.lyndir.lhunath.snaplog.data.object.user.LinkID;
-import com.lyndir.lhunath.snaplog.data.object.user.User;
-import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
-import com.lyndir.lhunath.snaplog.data.service.AlbumDAO;
-import com.lyndir.lhunath.snaplog.data.service.InitDAO;
-import com.lyndir.lhunath.snaplog.data.service.UserDAO;
+import com.lyndir.lhunath.snaplog.data.object.user.*;
+import com.lyndir.lhunath.snaplog.data.service.*;
 import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
 import org.neodatis.odb.ODB;
 import org.neodatis.odb.Objects;
@@ -29,14 +28,14 @@ public class InitDAOImpl implements InitDAO {
 
     private final ODB db;
     private final UserDAO userDAO;
-    private final AlbumDAO albumDAO;
+    private final SourceDAO sourceDAO;
 
     @Inject
-    public InitDAOImpl(final ODB db, final UserDAO userDAO, final AlbumDAO albumDAO) {
+    public InitDAOImpl(final ODB db, final UserDAO userDAO, final SourceDAO sourceDAO) {
 
         this.db = db;
         this.userDAO = userDAO;
-        this.albumDAO = albumDAO;
+        this.sourceDAO = sourceDAO;
     }
 
     @Override
@@ -63,21 +62,21 @@ public class InitDAOImpl implements InitDAO {
         db.store( defaultUserProfile );
 
         // Find default user's album.
-        SnaplogConstants.DEFAULT_ALBUM = albumDAO.findAlbum( SnaplogConstants.DEFAULT_USER, "Life" );
-        if (SnaplogConstants.DEFAULT_ALBUM == null)
-            SnaplogConstants.DEFAULT_ALBUM = new S3Album( defaultUserProfile, "Life" );
+        SnaplogConstants.DEFAULT_SOURCE = Iterables.get( sourceDAO.listSources( new Predicate<Source>() {
+            @Override
+            public boolean apply(final Source input) {
+
+                return ObjectUtils.equal(input.getOwner(), SnaplogConstants.DEFAULT_USER);
+            }
+        } ), 0, new S3Source( defaultUserProfile, "snaplog.net", "users/lhunath/Life" ));
         // Configure default user's album.
-        SnaplogConstants.DEFAULT_ALBUM.setOwnerProfile( defaultUserProfile );
-        SnaplogConstants.DEFAULT_ALBUM.getACL().setDefaultPermission( Permission.NONE );
-        SnaplogConstants.DEFAULT_ALBUM
-                .setDescription(
-                        "<p>Arbitrary snapshots from Maarten's life.</p><p><label>Camera:</label><input value='Canon Powershot Pro1' /></p>" );
+        SnaplogConstants.DEFAULT_SOURCE.getACL().setDefaultPermission( Permission.NONE );
         //        if (db.getObjectId( SnaplogConstants.DEFAULT_ALBUM ) == null)
         //            logger.dbg( "Was not active: %s", SnaplogConstants.DEFAULT_ALBUM );
-        db.store( SnaplogConstants.DEFAULT_ALBUM );
+        db.store( SnaplogConstants.DEFAULT_SOURCE );
 
         logger.dbg( "Default user: %s, profile: %s (ACL: %s), album: %s (ACL: %s)", SnaplogConstants.DEFAULT_USER, defaultUserProfile,
-                    defaultUserProfile.getACL(), SnaplogConstants.DEFAULT_ALBUM, SnaplogConstants.DEFAULT_ALBUM.getACL() );
+                    defaultUserProfile.getACL(), SnaplogConstants.DEFAULT_SOURCE, SnaplogConstants.DEFAULT_SOURCE.getACL() );
         logger.dbg( "Known users:" );
         Objects<User> users = db.getObjects( User.class );
         for (final User user : users)
@@ -87,9 +86,9 @@ public class InitDAOImpl implements InitDAO {
         for (final UserProfile userProfile : userProfiles)
             logger.dbg( "    - %s", userProfile );
         logger.dbg( "Known albums:" );
-        Objects<Album> albums = db.getObjects( S3Album.class );
-        for (final Album album : albums)
-            logger.dbg( "    - %s", album );
+        Objects<Source> albums = db.getObjects( S3Source.class );
+        for (final Source source : albums)
+            logger.dbg( "    - %s", source );
     }
 
     @Override

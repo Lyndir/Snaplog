@@ -23,7 +23,6 @@ import com.google.common.collect.Lists;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.lib.wayward.model.EmptyModelProvider;
 import com.lyndir.lhunath.lib.wayward.model.ModelProvider;
-import com.lyndir.lhunath.snaplog.data.object.media.Album;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.cookie.LastUserCookieManager;
@@ -31,9 +30,7 @@ import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage.Messages;
 import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
 import java.util.List;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
+import org.apache.wicket.model.*;
 
 
 /**
@@ -54,7 +51,6 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
     private final IModel<String> userRequests;
     private final IModel<? extends List<TabItem>> tabs;
     private final IModel<String> focusedUser;
-    private final IModel<String> focusedContent;
 
     /**
      * Create a new {@link LayoutPageModels} instance.
@@ -113,15 +109,6 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
             protected User load() {
 
                 return SnaplogSession.get().getFocusedUser();
-            }
-        } );
-
-        focusedContent = msgs.focusedContent( new LoadableDetachableModel<Album>() {
-
-            @Override
-            protected Album load() {
-
-                return SnaplogSession.get().getFocusedAlbum();
             }
         } );
     }
@@ -238,15 +225,5 @@ public class LayoutPageModels extends EmptyModelProvider<LayoutPageModels> {
     public IModel<String> focusedUser() {
 
         return focusedUser;
-    }
-
-    /**
-     * @return A model that provides a description of the focused content.
-     *
-     * @see SnaplogSession#getFocusedAlbum()
-     */
-    public IModel<String> focusedContent() {
-
-        return focusedContent;
     }
 }

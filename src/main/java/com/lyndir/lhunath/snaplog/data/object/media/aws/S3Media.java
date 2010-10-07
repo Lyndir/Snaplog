@@ -30,25 +30,25 @@ import com.lyndir.lhunath.snaplog.data.object.media.Media;
  */
 public class S3Media extends Media {
 
-    private final S3Album album;
+    private final S3Source source;
 
     /**
-     * @param album The album to which this media belongs.
+     * @param source The source that provides this media.
      * @param name  The unique name of this media in the album.
      */
-    public S3Media(final S3Album album, final String name) {
+    public S3Media(final S3Source source, final String name) {
 
         super( name );
 
-        this.album = checkNotNull( album, "Given album must not be null." );
+        this.source = checkNotNull( source, "Given source must not be null." );
     }
 
     /**
      * {@inheritDoc}
      */
     @Override
-    public S3Album getAlbum() {
+    public S3Source getSource() {
 
-        return album;
+        return source;
     }
 }

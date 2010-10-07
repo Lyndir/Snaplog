@@ -23,35 +23,23 @@ import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.logging.exception.InternalInconsistencyException;
 import com.lyndir.lhunath.lib.system.util.ObjectUtils;
-import com.lyndir.lhunath.lib.system.util.StringUtils;
-import com.lyndir.lhunath.snaplog.data.object.media.Album;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.media.Media.Quality;
-import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Album;
-import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Media;
-import com.lyndir.lhunath.snaplog.data.object.media.aws.S3MediaData;
+import com.lyndir.lhunath.snaplog.data.object.media.Source;
+import com.lyndir.lhunath.snaplog.data.object.media.aws.*;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
-import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.data.service.MediaDAO;
+import com.lyndir.lhunath.snaplog.data.service.SourceDAO;
 import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.model.ServiceModule;
-import com.lyndir.lhunath.snaplog.model.service.AWSMediaProviderService;
-import com.lyndir.lhunath.snaplog.model.service.AWSService;
-import com.lyndir.lhunath.snaplog.model.service.SecurityService;
-import com.lyndir.lhunath.snaplog.model.service.UserService;
+import com.lyndir.lhunath.snaplog.model.service.*;
 import com.lyndir.lhunath.snaplog.util.ImageUtils;
 import java.awt.image.BufferedImage;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Collections;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import javax.imageio.ImageIO;
 import org.jets3t.service.S3Service;
 import org.jets3t.service.S3ServiceException;
@@ -61,50 +49,45 @@ import org.jets3t.service.model.S3Object;
 
 
 /**
- * <h2>{@link AWSMediaProviderServiceImpl}<br>
+ * <h2>{@link AWSSourceServiceImpl}<br>
  *
  * <p> <i>Jan 10, 2010</i> </p>
  *
  * @author lhunath
  */
-public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
+public class AWSSourceServiceImpl extends AbstractSourceService<S3Source, S3Media> implements AWSSourceService {
 
-    private static final Logger logger = Logger.get( AWSMediaProviderServiceImpl.class );
+    private static final Logger logger = Logger.get( AWSSourceServiceImpl.class );
 
-    private final MediaDAO mediaDAO;
     private final AWSService awsService;
-    private final UserService userService;
-    private final SecurityService securityService;
 
     /**
      * @param mediaDAO        See {@link ServiceModule}.
+     * @param sourceDAO       See {@link ServiceModule}.
      * @param awsService      See {@link ServiceModule}.
-     * @param userService     See {@link ServiceModule}.
      * @param securityService See {@link ServiceModule}.
      */
     @Inject
-    public AWSMediaProviderServiceImpl(final MediaDAO mediaDAO, final AWSService awsService, final UserService userService,
-                                       final SecurityService securityService) {
+    public AWSSourceServiceImpl(final MediaDAO mediaDAO, final SourceDAO sourceDAO, final AWSService awsService,
+                                final SecurityService securityService) {
 
-        this.mediaDAO = mediaDAO;
+        super( securityService, sourceDAO, mediaDAO );
+
         this.awsService = awsService;
-        this.userService = userService;
-        this.securityService = securityService;
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public void loadMedia(final S3Album album) {
+    public void loadMedia(final SecurityToken token, final S3Source source)
+            throws PermissionDeniedException {
 
-        checkNotNull( album, "Given album must not be null." );
+        checkNotNull( source, "Given source must not be null." );
+        securityService.assertAccess( Permission.ADMINISTER, token, source );
 
         // Fetch objects at all qualities from S3
         Map<String, Map<Quality, S3Object>> mediaObjects = Maps.newHashMap();
         for (final Quality quality : Quality.values()) {
 
-            for (final S3Object s3Object : awsService.listObjects( getObjectKey( album, quality ) )) {
+            for (final S3Object s3Object : awsService.listObjects( getObjectKey( source, quality ) )) {
 
                 if (!s3Object.getKey().endsWith( ".jpg" ))
                     // Ignore files that don't have a valid media name.
@@ -126,7 +109,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         // These are media that have been removed from S3 since the last sync; purge them.
         logger.dbg( "Looking for media to purge..." );
         ImmutableMap.Builder<String, Media> existingMediaBuilder = ImmutableMap.builder();
-        for (final Media media : mediaDAO.listMedia( album, true ))
+        for (final Media media : mediaDAO.listMedia( source, true ))
             existingMediaBuilder.put( media.getName(), media );
         ImmutableMap<String, Media> existingMedia = existingMediaBuilder.build();
         Set<Media> purgeMedia = Sets.newHashSet( existingMedia.values() );
@@ -147,9 +130,9 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
             String mediaName = mediaObjectsEntry.getKey();
             Map<Quality, S3Object> qualityObjects = mediaObjectsEntry.getValue();
 
-            S3Media media = mediaDAO.findMedia( album, mediaName );
+            S3Media media = mediaDAO.findMedia( source, mediaName );
             if (media == null)
-                media = new S3Media( album, mediaName );
+                media = new S3Media( source, mediaName );
 
             // Create/update mediaData for the object.
             for (final Map.Entry<Quality, S3Object> qualityObjectsEntry : qualityObjects.entrySet()) {
@@ -161,15 +144,14 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public void loadMediaData(final S3Album album) {
+    public void loadMediaData(final SecurityToken token, final S3Source source)
+            throws PermissionDeniedException {
 
-        checkNotNull( album, "Given album must not be null." );
+        checkNotNull( source, "Given source must not be null." );
+        securityService.assertAccess( Permission.ADMINISTER, token, source );
 
-        List<S3MediaData> mediaDatas = mediaDAO.listMediaData( album, false );
+        List<S3MediaData> mediaDatas = mediaDAO.listMediaData( source, false );
 
         int o = 0;
         for (final S3MediaData mediaData : mediaDatas) {
@@ -281,43 +263,17 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         }
     }
 
-    @Override
-    public void delete(final SecurityToken token, final S3Media media)
-            throws PermissionDeniedException {
-
-        securityService.assertAccess( Permission.ADMINISTER, token, media );
-
-        mediaDAO.delete( Collections.singleton( media ) );
-
-        // TODO: Push this on a job queue and perform asynchronous from the request.
-        for (final Quality quality : Quality.values())
-            awsService.deleteObject( getObjectKey( media, quality ) );
-    }
-
     /**
-     * {@inheritDoc}
-     */
-    @Override
-    public long modifiedTime(final SecurityToken token, final S3Media media)
-            throws PermissionDeniedException {
-
-        checkNotNull( media, "Given media must not be null." );
-        securityService.assertAccess( Permission.VIEW, token, media );
-
-        return getObject( media ).getLastModifiedDate().getTime();
-    }
-
-    /**
-     * Retrieve the object key for all resources of the given {@link Album} at the given quality.
+     * Retrieve the object key for all resources of the given {@link Source} at the given quality.
      *
-     * @param album   The album whose resources are contained under the key.
+     * @param source   The album whose resources are contained under the key.
      * @param quality The quality of the resources that are contained under the key.
      *
      * @return An S3 object key within the bucket.
      */
-    protected static String getObjectKey(final S3Album album, final Quality quality) {
+    protected static String getObjectKey(final S3Source source, final Quality quality) {
 
-        return StringUtils.concat( "/", "users", album.getOwnerProfile().getUser().getUserName(), album.getName(), quality.getName() );
+        return String.format( "%s/%s", source.getPrefix(), quality.getName() );
     }
 
     /**
@@ -330,7 +286,7 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
      */
     protected static String getObjectKey(final S3Media media, final Quality quality) {
 
-        return StringUtils.concat( "/", getObjectKey( media.getAlbum(), quality ), media.getName() );
+        return String.format( "%s/%s", getObjectKey( media.getSource(), quality ), media.getName() );
     }
 
     /**
@@ -455,23 +411,5 @@ public class AWSMediaProviderServiceImpl implements AWSMediaProviderService {
         checkNotNull( media, "Given media must not be null." );
 
         return getMediaData( media, Quality.ORIGINAL, true ).get( Quality.ORIGINAL );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public S3Album newAlbum(final User ownerUser, final String albumName, final String albumDescription) {
-
-        try {
-            S3Album album = new S3Album( userService.getProfile( SecurityToken.INTERNAL_USE_ONLY, ownerUser ), albumName );
-            album.setDescription( albumDescription );
-
-            return album;
-        }
-
-        catch (PermissionDeniedException e) {
-            throw new InternalInconsistencyException( "Permission denied for INTERNAL_USE_ONLY?", e );
-        }
     }
 }

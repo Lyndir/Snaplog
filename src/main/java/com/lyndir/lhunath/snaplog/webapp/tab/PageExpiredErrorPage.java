@@ -90,7 +90,7 @@ public class PageExpiredErrorPage extends LayoutPage {
         }
 
         @Override
-        public PageExpiredErrorTabPanel getPanel(final String panelId) {
+        public PageExpiredErrorTabPanel newPanel(final String panelId) {
 
             return new PageExpiredErrorTabPanel( panelId );
         }

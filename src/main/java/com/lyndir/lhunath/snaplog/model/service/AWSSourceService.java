@@ -16,17 +16,17 @@
 package com.lyndir.lhunath.snaplog.model.service;
 
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
-import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Album;
+import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Source;
 import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Media;
 
 
 /**
- * <h2>{@link AWSMediaProviderService}<br> <sub>Service {@link Media} hosted at Amazon's S3.</sub></h2>
+ * <h2>{@link AWSSourceService}<br> <sub>Service {@link Media} hosted at Amazon's S3.</sub></h2>
  *
  * <p> <i>Jan 10, 2010</i> </p>
  *
  * @author lhunath
  */
-public interface AWSMediaProviderService extends MediaProviderService<S3Album, S3Media> {
+public interface AWSSourceService extends SourceService<S3Source, S3Media> {
 
 }

@@ -1,12 +1,9 @@
 package com.lyndir.lhunath.snaplog.webapp.tool;
 
 import com.google.common.collect.ImmutableList;
-import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
-import com.lyndir.lhunath.snaplog.data.object.media.Album;
-import com.lyndir.lhunath.snaplog.data.object.media.MediaTimeFrame;
+import com.lyndir.lhunath.snaplog.data.object.media.*;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;
-import com.lyndir.lhunath.snaplog.model.service.AlbumService;
 import com.lyndir.lhunath.snaplog.model.service.SecurityService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
@@ -15,9 +12,7 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.AbstractReadOnlyModel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.*;
 
 
 /**
@@ -27,18 +22,15 @@ import org.apache.wicket.model.LoadableDetachableModel;
  *
  * @author lhunath
  */
-public class TimelinePopup extends PopupPanel<Album> {
+public class TimelinePopup extends PopupPanel<Tag> {
 
     static final Messages msgs = MessagesFactory.create( Messages.class );
-
-    @Inject
-    AlbumService albumService;
 
     /**
      * @param id         The wicket ID of the tab.
      * @param albumModel A model providing the album that the timeline should display media for.
      */
-    public TimelinePopup(final String id, final IModel<Album> albumModel) {
+    public TimelinePopup(final String id, final IModel<Tag> albumModel) {
 
         super( id, albumModel );
     }
@@ -47,10 +39,10 @@ public class TimelinePopup extends PopupPanel<Album> {
     protected void initContent(final WebMarkupContainer content) {
 
         // TODO: Should be smarter about iterating the timeFrames?
-        content.add( new ListView<MediaTimeFrame>( "years", new LoadableDetachableModel<List<MediaTimeFrame>>() {
+        content.add( new ListView<TimeFrame>( "years", new LoadableDetachableModel<List<TimeFrame>>() {
 
             @Override
-            protected List<MediaTimeFrame> load() {
+            protected List<TimeFrame> load() {
 
                 if (getModelObject() == null)
                     return ImmutableList.of();
@@ -66,33 +58,33 @@ public class TimelinePopup extends PopupPanel<Album> {
             }
 
             @Override
-            protected void populateItem(final ListItem<MediaTimeFrame> yearItem) {
+            protected void populateItem(final ListItem<TimeFrame> yearItem) {
 
-                MediaTimeFrame mediaYear = yearItem.getModelObject();
+                TimeFrame year = yearItem.getModelObject();
 
-                //                yearItem.add( new Label( "name", Integer.toString( mediaYear.getTime().getYear() ) ) );
-                //                yearItem.add( new Label( "photos", msgs.yearPhotos( mediaYear.getFiles( true ).size() ) ) );
+                //                yearItem.add( new Label( "name", Integer.toString( year.getTime().getYear() ) ) );
+                //                yearItem.add( new Label( "photos", msgs.yearPhotos( year.getFiles( true ).size() ) ) );
 
                 // Hide the months in the year initially.
-                //                yearItem.add( new ListView<MediaTimeFrame>( "months", ImmutableList.copyOf( mediaYear ) ) {
+                //                yearItem.add( new ListView<TimeFrame>( "months", ImmutableList.copyOf( year ) ) {
                 //
                 //                    @Override
-                //                    protected void populateItem(final ListItem<MediaTimeFrame> monthItem) {
+                //                    protected void populateItem(final ListItem<TimeFrame> monthItem) {
                 //
-                //                        MediaTimeFrame mediaMonth = monthItem.getModelObject();
+                //                        TimeFrame mediaMonth = monthItem.getModelObject();
                 //
                 //                        monthItem.add( new Label( "name", mediaMonth.getShortName() ) );
-                //                        monthItem.add( new ListView<MediaTimeFrame>( "days", ImmutableList.copyOf( mediaMonth ) ) {
+                //                        monthItem.add( new ListView<TimeFrame>( "days", ImmutableList.copyOf( mediaMonth ) ) {
                 //
                 //                            @Override
-                //                            protected void populateItem(final ListItem<MediaTimeFrame> dayItem) {
+                //                            protected void populateItem(final ListItem<TimeFrame> dayItem) {
                 //
-                //                                MediaTimeFrame mediaDay = dayItem.getModelObject();
+                //                                TimeFrame mediaDay = dayItem.getModelObject();
                 //                                dayItem.add( new AttributeAppender( "style", daysStyle( dayItem ), ";" ) );
                 //                                dayItem.add( new Label( "name", mediaDay.getShortName() ) );
                 //                            }
                 //
-                //                            private IModel<String> daysStyle(final ListItem<MediaTimeFrame> dayItem) {
+                //                            private IModel<String> daysStyle(final ListItem<TimeFrame> dayItem) {
                 //
                 //                                return new AbstractReadOnlyModel<String>() {
                 //
@@ -136,14 +128,14 @@ public class TimelinePopup extends PopupPanel<Album> {
 
     public static class Tool implements SnaplogPanelTool {
 
-        private final IModel<Album> model;
+        private final IModel<Tag> tagModel;
 
         /**
-         * @param model The model that provides the album whose access should be managed through this tool.
+         * @param tagModel The model that provides the album whose access should be managed through this tool.
          */
-        public Tool(final IModel<Album> model) {
+        public Tool(final IModel<Tag> tagModel) {
 
-            this.model = model;
+            this.tagModel = tagModel;
         }
 
         @Override
@@ -168,15 +160,14 @@ public class TimelinePopup extends PopupPanel<Album> {
         @Override
         public Panel getPanel(final String id) {
 
-            return new TimelinePopup( id, model );
+            return new TimelinePopup( id, tagModel );
         }
 
         @Override
         public boolean isVisible() {
 
-            return model.getObject() != null && GuiceContext.getInstance( SecurityService.class )
-                                                            .hasAccess( Permission.VIEW, SnaplogSession.get().newToken(),
-                                                                        model.getObject() );
+            return tagModel.getObject() != null && GuiceContext.getInstance( SecurityService.class )
+                    .hasAccess( Permission.VIEW, SnaplogSession.get().newToken(), tagModel.getObject() );
         }
     }
 }

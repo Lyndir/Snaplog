@@ -15,60 +15,57 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.*;
 
 import com.google.common.collect.ImmutableList;
 import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.lib.system.util.ObjectUtils;
 import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
 import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.lib.wayward.navigation.AbstractFragmentState;
 import com.lyndir.lhunath.lib.wayward.navigation.IncompatibleStateException;
-import com.lyndir.lhunath.snaplog.data.object.media.Album;
-import com.lyndir.lhunath.snaplog.data.object.media.Media;
+import com.lyndir.lhunath.snaplog.data.object.media.*;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
-import com.lyndir.lhunath.snaplog.error.AlbumUnavailableException;
+import com.lyndir.lhunath.snaplog.error.TagUnavailableException;
 import com.lyndir.lhunath.snaplog.error.UserNotFoundException;
-import com.lyndir.lhunath.snaplog.model.service.AlbumService;
-import com.lyndir.lhunath.snaplog.model.service.SecurityService;
-import com.lyndir.lhunath.snaplog.model.service.UserService;
+import com.lyndir.lhunath.snaplog.model.service.*;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
-import com.lyndir.lhunath.snaplog.webapp.tab.model.AlbumTabModels;
+import com.lyndir.lhunath.snaplog.webapp.tab.model.TagTabModels;
 import com.lyndir.lhunath.snaplog.webapp.tool.*;
 import com.lyndir.lhunath.snaplog.webapp.view.BrowserView;
 import com.lyndir.lhunath.snaplog.webapp.view.FocusedView;
 import java.util.List;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.model.AbstractReadOnlyModel;
-import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.*;
 
 
 /**
- * <h2>{@link AlbumTabPanel}<br> <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link TagTabPanel}<br> <sub>[in short] (TODO).</sub></h2>
  *
  * <p> <i>Mar 1, 2010</i> </p>
  *
  * @author lhunath
  */
-public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
+public class TagTabPanel extends GenericPanel<TagTabModels> {
 
     /**
-     * Create a new {@link AlbumTabPanel} instance.
+     * Create a new {@link TagTabPanel} instance.
      *
-     * @param id    The wicket ID that will hold the {@link AlbumTabPanel}.
+     * @param id    The wicket ID that will hold the {@link TagTabPanel}.
      * @param model Provides the album to show.
      */
-    AlbumTabPanel(final String id, final IModel<Album> model) {
+    TagTabPanel(final String id, final IModel<Tag> model) {
 
-        super( id, new AlbumTabModels( model ).getModel() );
+        super( id, new TagTabModels( model ).getModel() );
 
         add( new BrowserView( "browser", model ) {
 
             @Override
             public boolean isVisible() {
 
-                return super.isVisible() && AlbumTabPanel.this.getModelObject().focusedMedia().getObject() == null;
+                return super.isVisible() && TagTabPanel.this.getModelObject().focusedMedia().getObject() == null;
             }
         } );
         add( new FocusedView( "focused", getModelObject().focusedMedia() ) );
@@ -77,37 +74,37 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
     interface Messages {
 
         /**
-         * @return Text on the interface tab to activate the {@link AlbumTabPanel}.
+         * @return Text on the interface tab to activate the {@link TagTabPanel}.
          */
         IModel<String> tabTitle();
 
         /**
-         * @return Text on the "Back to Album" tool.
+         * @return Text on the "Back to Source" tool.
          */
         IModel<String> back();
 
         /**
          * @param mediaName The name of the media that couldn't be found.
-         * @param album     The album in which we attempted to find the media.
+         * @param source    The source in which we attempted to find the media.
          *
-         * @return An error message explaining that a certain media was requested but couldn't be found in a certain album.
+         * @return An error message explaining that a certain media was requested but couldn't be found in a certain source.
          */
-        IModel<String> errorMediaNotFound(String mediaName, Album album);
+        IModel<String> errorMediaNotFound(String mediaName, Source source);
     }
 
 
     /**
-     * <h2>{@link AlbumTab}<br> <sub>The interface panel for browsing through the album content.</sub></h2>
+     * <h2>{@link TagTab}<br> <sub>The interface panel for browsing through the album content.</sub></h2>
      *
      * <p> <i>May 31, 2009</i> </p>
      *
      * @author lhunath
      */
-    static class AlbumTab implements SnaplogTab<AlbumTabPanel, AlbumTabState> {
+    static class TagTab implements SnaplogTab<TagTabPanel, TagTabState> {
 
-        public static final AlbumTab instance = new AlbumTab();
+        public static final TagTab instance = new TagTab();
 
-        static final Logger logger = Logger.get( AlbumTab.class );
+        static final Logger logger = Logger.get( TagTab.class );
         static final Messages msgs = MessagesFactory.create( Messages.class );
 
         /**
@@ -123,32 +120,31 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
          * {@inheritDoc}
          */
         @Override
-        public AlbumTabPanel getPanel(final String panelId) {
+        public TagTabPanel newPanel(final String panelId) {
 
-            return new AlbumTabPanel( panelId, SnaplogSession.getFocusedAlbumProxyModel() );
+            return new TagTabPanel( panelId, Model.<Tag>of() );
         }
 
         @Override
-        public Class<AlbumTabPanel> getPanelClass() {
+        public Class<TagTabPanel> getPanelClass() {
 
-            return AlbumTabPanel.class;
+            return TagTabPanel.class;
         }
 
         @Override
-        public AlbumTabState getState(final String fragment) {
+        public TagTabState getState(final String fragment) {
 
-            return new AlbumTabState( fragment );
+            return new TagTabState( fragment );
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public List<? extends SnaplogTool> listTools(final AlbumTabPanel panel) {
+        public List<? extends SnaplogTool> listTools(final TagTabPanel panel) {
 
             return ImmutableList.of( new BackTool( panel.getModelObject() ), //
                                      new TimelinePopup.Tool( panel.getModelObject() ), //
-                                     new TagsPopup.Tool( panel.getModelObject() ), //
                                      new AccessPopup.Tool( panel.getModelObject() ) //
             );
         }
@@ -160,32 +156,32 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         }
 
         @Override
-        public AlbumTabState buildFragmentState(final AlbumTabPanel panel) {
+        public TagTabState buildFragmentState(final TagTabPanel panel) {
 
             Media focusedMedia = panel.getModelObject().focusedMedia().getObject();
-            if (focusedMedia != null)
-                return new AlbumTabState( focusedMedia );
+            if (focusedMedia == null)
+                return new TagTabState( panel.getModelObject().getModelObject() );
 
-            return new AlbumTabState( SnaplogSession.get().getFocusedAlbum() );
+            return new TagTabState( panel.getModelObject().getModelObject(), focusedMedia );
         }
 
         @Override
-        public void applyFragmentState(final AlbumTabPanel panel, final AlbumTabState state)
+        public void applyFragmentState(final TagTabPanel panel, final TagTabState state)
                 throws IncompatibleStateException {
 
             try {
                 logger.dbg( "Activating state: %s, on album tab.", state );
                 SnaplogSession.get().setFocusedUser( state.getUser() );
-                SnaplogSession.get().setFocusedAlbum( state.getAlbum() );
+                panel.getModelObject().setModelObject( state.getTag() );
                 panel.getModelObject().focusedMedia().setObject( state.findMedia() );
-                logger.dbg( "State is now: focused album=%s, focused media=%s", SnaplogSession.get().getFocusedAlbum(),
+                logger.dbg( "State is now: focused tag=%s, focused media=%s", panel.getModelObject().getModelObject(),
                             panel.getModelObject().focusedMedia().getObject() );
             }
 
             catch (UserNotFoundException e) {
                 throw new IncompatibleStateException( e );
             }
-            catch (AlbumUnavailableException e) {
+            catch (TagUnavailableException e) {
                 throw new IncompatibleStateException( e );
             }
         }
@@ -196,7 +192,7 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         @Override
         public boolean isVisible() {
 
-            return SnaplogSession.get().getFocusedAlbum() != null;
+            return false;
         }
     }
 
@@ -206,9 +202,9 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
         static final Messages msgs = MessagesFactory.create( Messages.class );
         static final Logger logger = Logger.get( BackTool.class );
 
-        private final AlbumTabModels model;
+        private final TagTabModels model;
 
-        BackTool(final AlbumTabModels model) {
+        BackTool(final TagTabModels model) {
 
             this.model = model;
         }
@@ -248,51 +244,54 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
     }
 
 
-    public static class AlbumTabState extends AbstractFragmentState {
+    public static class TagTabState extends AbstractFragmentState {
 
-        static final Logger logger = Logger.get( AlbumTabState.class );
+        static final Logger logger = Logger.get( TagTabState.class );
 
         private final UserService userService = GuiceContext.getInstance( UserService.class );
-        private final AlbumService albumService = GuiceContext.getInstance( AlbumService.class );
+        private final SourceService<?, ?> sourceService = GuiceContext.getInstance( SourceService.class );
+        private final TagService tagService = GuiceContext.getInstance( TagService.class );
 
         final String userName;
-        final String albumName;
+        final String tagName;
         final String mediaName;
 
-        public AlbumTabState() {
+        public TagTabState() {
 
             userName = null;
-            albumName = null;
+            tagName = null;
             mediaName = null;
         }
 
-        public AlbumTabState(final String fragment) {
+        public TagTabState(final String fragment) {
 
             super( fragment );
 
             // Load fields from fragments.
             userName = findFragment( 1 );
-            albumName = findFragment( 2 );
+            tagName = findFragment( 2 );
             mediaName = findFragment( 3 );
         }
 
-        public AlbumTabState(final Album album) {
+        public TagTabState(final Tag tag) {
 
-            checkNotNull( album, "Album can't be null when creating state based on it." );
+            checkNotNull( tag, "Tag can't be null when creating state based on it." );
 
             // Load fields and fragments from parameter.
-            appendFragment( userName = album.getOwner().getUserName() );
-            appendFragment( albumName = album.getName() );
+            appendFragment( userName = tag.getOwner().getUserName() );
+            appendFragment( tagName = tag.getName() );
             appendFragment( mediaName = null );
         }
 
-        public AlbumTabState(final Media media) {
+        public TagTabState(final Tag tag, final Media media) {
 
+            checkNotNull( tag, "Tag can't be null when creating state based on it." );
             checkNotNull( media, "Media can't be null when creating state based on it." );
+            checkArgument( ObjectUtils.equal( tag.getOwner(), media.getOwner() ), "Tag is not owned by media owner." );
 
             // Load fields and fragments from parameter.
-            appendFragment( userName = media.getAlbum().getOwner().getUserName() );
-            appendFragment( albumName = media.getAlbum().getName() );
+            appendFragment( userName = tag.getOwner().getUserName() );
+            appendFragment( tagName = tag.getName() );
             appendFragment( mediaName = media.getName() );
         }
 
@@ -302,27 +301,27 @@ public class AlbumTabPanel extends GenericPanel<AlbumTabModels> {
             return userService.getUserWithUserName( checkNotNull( userName, "Username must not be null in this state." ) );
         }
 
-        public Album getAlbum()
-                throws AlbumUnavailableException, UserNotFoundException {
+        public Tag getTag()
+                throws TagUnavailableException, UserNotFoundException {
 
             User user = getUser();
-            Album album = albumService.findAlbumWithName( SnaplogSession.get().newToken(), user, albumName );
-            if (album == null)
-                throw new AlbumUnavailableException( user, albumName );
+            Tag tag = tagService.findTagWithName( SnaplogSession.get().newToken(), user, tagName );
+            if (tag == null)
+                throw new TagUnavailableException( user, tagName );
 
-            return album;
+            return tag;
         }
 
         public Media findMedia()
-                throws AlbumUnavailableException, UserNotFoundException {
+                throws UserNotFoundException {
 
-            return mediaName == null? null: albumService.findMediaWithName( SnaplogSession.get().newToken(), getAlbum(), mediaName );
+            return mediaName == null? null: sourceService.findMediaWithName( SnaplogSession.get().newToken(), getUser(), mediaName );
         }
 
         @Override
         protected String getTabFragment() {
 
-            return AlbumTab.instance.getTabFragment();
+            return TagTab.instance.getTabFragment();
         }
     }
 }

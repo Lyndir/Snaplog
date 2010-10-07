@@ -159,7 +159,7 @@ public class InternalErrorPage extends LayoutPage {
         }
 
         @Override
-        public InternalErrorTabPanel getPanel(final String panelId) {
+        public InternalErrorTabPanel newPanel(final String panelId) {
 
             return new InternalErrorTabPanel( panelId );
         }

@@ -69,7 +69,7 @@ public class MediaDAOImpl implements MediaDAO {
     }
 
     @Override
-    public <M extends Media> M findMedia(final Album album, final String mediaName) {
+    public <M extends Media> M findMedia(final Source source, final String mediaName) {
 
         DateUtils.startTiming( "findMedia" );
         try {
@@ -77,13 +77,13 @@ public class MediaDAOImpl implements MediaDAO {
             query.constrain( Media.class ) //
                     .and( query.descend( "name" ) //
                                   .constrain( mediaName ) ) //
-                    .and( query.descend( "album" ) //
-                                  .constrain( album ) );
+                    .and( query.descend( "source" ) //
+                                  .constrain( source ) );
 
             ObjectSet<M> results = query.execute();
             if (results.hasNext()) {
                 M result = results.next();
-                checkState( !results.hasNext(), "Multiple media data found for %s named %s", album, mediaName );
+                checkState( !results.hasNext(), "Multiple media data found for %s named %s", source, mediaName );
 
                 return result;
             }
@@ -121,12 +121,12 @@ public class MediaDAOImpl implements MediaDAO {
     }
 
     @Override
-    public <M extends Media> List<M> listMedia(final Album album, final boolean ascending) {
+    public <M extends Media> List<M> listMedia(final Source source, final boolean ascending) {
 
         Query query = db.query();
         query.constrain( Media.class ) //
-                .and( query.descend( "album" ) //
-                              .constrain( album ).identity() );
+                .and( query.descend( "source" ) //
+                              .constrain( source ).identity() );
 
         // TODO: Set the sort order in nq. package too.
         if (ascending)
@@ -138,12 +138,12 @@ public class MediaDAOImpl implements MediaDAO {
     }
 
     @Override
-    public <D extends MediaData<?>> List<D> listMediaData(final Album album, final boolean ascending) {
+    public <D extends MediaData<?>> List<D> listMediaData(final Source source, final boolean ascending) {
 
         Query query = db.query();
         query.constrain( MediaData.class ) //
-                .and( query.descend( "media" ).descend( "album" ) //
-                              .constrain( album ).identity() );
+                .and( query.descend( "media" ).descend( "source" ) //
+                              .constrain( source ).identity() );
 
         // TODO: Set the sort order in nq. package too.
         if (ascending)

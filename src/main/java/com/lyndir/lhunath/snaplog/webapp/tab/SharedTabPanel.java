@@ -27,7 +27,7 @@ import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.media.MediaMapping;
 import com.lyndir.lhunath.snaplog.error.MediaMappingNotFoundException;
 import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
-import com.lyndir.lhunath.snaplog.model.service.AlbumService;
+import com.lyndir.lhunath.snaplog.model.service.SourceService;
 import com.lyndir.lhunath.snaplog.model.service.UserService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
@@ -102,7 +102,7 @@ public class SharedTabPanel extends GenericPanel<SharedTabModels> {
          * {@inheritDoc}
          */
         @Override
-        public SharedTabPanel getPanel(final String panelId) {
+        public SharedTabPanel newPanel(final String panelId) {
 
             return new SharedTabPanel( panelId, Model.<MediaMapping>of() );
         }
@@ -171,7 +171,7 @@ public class SharedTabPanel extends GenericPanel<SharedTabModels> {
         static final Logger logger = Logger.get( SharedTabState.class );
 
         private final UserService userService = GuiceContext.getInstance( UserService.class );
-        private final AlbumService albumService = GuiceContext.getInstance( AlbumService.class );
+        private final SourceService sourceService = GuiceContext.getInstance( SourceService.class );
 
         final String mapping;
 
@@ -202,13 +202,13 @@ public class SharedTabPanel extends GenericPanel<SharedTabModels> {
             checkNotNull( media, "Media can't be null when creating state based on it." );
 
             // Load fields and fragments from parameter.
-            appendFragment( mapping = albumService.newMapping( SnaplogSession.get().newToken(), media ).getMapping() );
+            appendFragment( mapping = sourceService.newMapping( SnaplogSession.get().newToken(), media ).getMapping() );
         }
 
         public MediaMapping getMapping()
                 throws MediaMappingNotFoundException {
 
-            MediaMapping mediaMapping = albumService.findMediaMapping( SnaplogSession.get().newToken(),
+            MediaMapping mediaMapping = sourceService.findMediaMapping( SnaplogSession.get().newToken(),
                                                                        checkNotNull( mapping, "Mapping must not be null in this state." ) );
             if (mediaMapping == null)
                 throw new MediaMappingNotFoundException( mapping );

@@ -7,13 +7,12 @@ import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.DateUtils;
 import com.lyndir.lhunath.snaplog.data.DAOModule;
 import com.lyndir.lhunath.snaplog.data.object.media.MediaData;
-import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Album;
-import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Media;
-import com.lyndir.lhunath.snaplog.data.object.media.aws.S3MediaData;
+import com.lyndir.lhunath.snaplog.data.object.media.aws.*;
+import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Source;
 import com.lyndir.lhunath.snaplog.data.object.user.LinkID;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
-import com.lyndir.lhunath.snaplog.data.service.AlbumDAO;
+import com.lyndir.lhunath.snaplog.data.service.SourceDAO;
 import com.lyndir.lhunath.snaplog.data.service.MediaDAO;
 import com.lyndir.lhunath.snaplog.model.ServiceModule;
 import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
@@ -45,9 +44,10 @@ public class SnaplogSpike {
 
     private static void foo() {
 
-        SnaplogConstants.DEFAULT_ALBUM = new S3Album( new UserProfile( new User( new LinkID( "linkid" ), "lhunath" ) ), "Life" );
-        injector.getInstance( AlbumDAO.class ).update( SnaplogConstants.DEFAULT_ALBUM );
-        logger.inf( "Albums in db: %s", injector.getInstance( AlbumDAO.class ).listAlbums() );
+        SnaplogConstants.DEFAULT_SOURCE = new S3Source( new UserProfile( new User( new LinkID( "linkid" ), "lhunath" ) ), "snaplog.net",
+                                                       "users/lhunath/Life" );
+        injector.getInstance( SourceDAO.class ).update( SnaplogConstants.DEFAULT_SOURCE );
+        logger.inf( "Albums in db: %s", injector.getInstance( SourceDAO.class ).listSources() );
     }
 
     private static void test() {
@@ -56,10 +56,10 @@ public class SnaplogSpike {
 
         DateUtils.startTiming( "test" );
         try {
-            mediaDAO.findMediaData( mediaDAO.findMedia( SnaplogConstants.DEFAULT_ALBUM, "1" ) );
-            mediaDAO.findMediaData( mediaDAO.findMedia( SnaplogConstants.DEFAULT_ALBUM, "199998" ) );
-            mediaDAO.findMediaData( mediaDAO.findMedia( SnaplogConstants.DEFAULT_ALBUM, "1" ) );
-            mediaDAO.findMediaData( mediaDAO.findMedia( SnaplogConstants.DEFAULT_ALBUM, "199998" ) );
+            mediaDAO.findMediaData( mediaDAO.findMedia( SnaplogConstants.DEFAULT_SOURCE, "1" ) );
+            mediaDAO.findMediaData( mediaDAO.findMedia( SnaplogConstants.DEFAULT_SOURCE, "199998" ) );
+            mediaDAO.findMediaData( mediaDAO.findMedia( SnaplogConstants.DEFAULT_SOURCE, "1" ) );
+            mediaDAO.findMediaData( mediaDAO.findMedia( SnaplogConstants.DEFAULT_SOURCE, "199998" ) );
         }
         finally {
             DateUtils.popTimer().logFinish( logger );
@@ -68,12 +68,13 @@ public class SnaplogSpike {
 
     private static void prepare() {
 
-        SnaplogConstants.DEFAULT_ALBUM = new S3Album( new UserProfile( new User( new LinkID( "linkid" ), "lhunath" ) ), "Life" );
+        SnaplogConstants.DEFAULT_SOURCE = new S3Source( new UserProfile( new User( new LinkID( "linkid" ), "lhunath" ) ), "snaplog.net",
+                                                       "users/lhunath/Life" );
 
         ImmutableList.Builder<MediaData<?>> mediaDatas = ImmutableList.builder();
         for (int i = 0; i < 20000; ++i) {
             logger.inf( "Creating media data #%d", i );
-            mediaDatas.add( new S3MediaData( new S3Media( (S3Album) SnaplogConstants.DEFAULT_ALBUM, Integer.toString( i ) ) ) );
+            mediaDatas.add( new S3MediaData( new S3Media( (S3Source) SnaplogConstants.DEFAULT_SOURCE, Integer.toString( i ) ) ) );
         }
 
         new File( "snaplog.odb" ).delete();

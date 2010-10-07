@@ -15,7 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.util;
 
-import com.lyndir.lhunath.snaplog.data.object.media.Album;
+import com.lyndir.lhunath.snaplog.data.object.media.Source;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 
 
@@ -31,7 +31,7 @@ public abstract class SnaplogConstants {
     /**
      * TODO: Unhardcode
      */
-    public static Album DEFAULT_ALBUM;
+    public static Source DEFAULT_SOURCE;
     /**
      * TODO: Unhardcode
      */
