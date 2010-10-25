@@ -19,7 +19,6 @@ import com.google.inject.AbstractModule;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.model.service.*;
 import com.lyndir.lhunath.snaplog.model.service.impl.*;
-import com.lyndir.lhunath.snaplog.webapp.AuthenticationListener;
 
 
 /**
@@ -41,14 +40,14 @@ public class ServiceModule extends AbstractModule {
     @Override
     protected void configure() {
 
-        bind( AuthenticationListener.class );
-
         // Services
         logger.dbg( "Binding services" );
+        bind( SourceDelegate.class );
         bind( AWSSourceService.class ).to( AWSSourceServiceImpl.class );
         bind( AWSService.class ).to( AWSServiceImpl.class );
         bind( SecurityService.class ).to( SecurityServiceImpl.class );
         bind( UserService.class ).to( UserServiceImpl.class );
         bind( IssueService.class ).to( IssueServiceImpl.class );
+        bind( TagService.class ).to( TagServiceImpl.class );
     }
 }

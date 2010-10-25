@@ -1,7 +1,6 @@
 package com.lyndir.lhunath.snaplog.data.service.impl.db4o.soda;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Preconditions.*;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
@@ -9,7 +8,6 @@ import com.db4o.query.Predicate;
 import com.db4o.query.Query;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.snaplog.data.object.Issue;
-import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.data.service.IssueDAO;
 import java.util.List;
 
@@ -43,7 +41,7 @@ public class IssueDAOImpl implements IssueDAO {
         checkNotNull( issueCode, "Given issueCode must not be null." );
 
         Query query = db.query();
-        query.constrain( User.class ) //
+        query.constrain( Issue.class ) //
                 .and( query.descend( "issueCode" ).constrain( issueCode ) );
 
         ObjectSet<Issue> results = query.execute();

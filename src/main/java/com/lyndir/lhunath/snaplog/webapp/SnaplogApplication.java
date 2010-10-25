@@ -132,6 +132,13 @@ public class SnaplogApplication extends WebApplication {
 
         return new WebRequestCycle( this, (WebRequest) request, (WebResponse) response ) {
 
+            @Override
+            protected void logRuntimeException(final RuntimeException e) {
+
+                // Don't log runtime exceptions.  They get recorded as issues on #onRuntimeException.
+                super.logRuntimeException( e );
+            }
+
             /**
              * {@inheritDoc}
              */

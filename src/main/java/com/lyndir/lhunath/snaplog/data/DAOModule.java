@@ -52,6 +52,7 @@ public class DAOModule extends AbstractModule {
         bind( IssueDAO.class ).to( IssueDAOImpl.class );
         bind( MediaDAO.class ).to( MediaDAOImpl.class );
         bind( SourceDAO.class ).to( SourceDAOImpl.class );
+        bind( TagDAO.class ).to( TagDAOImpl.class );
         bind( UserDAO.class ).to( UserDAOImpl.class );
         bind( SecurityDAO.class ).to( SecurityDAOImpl.class );
 

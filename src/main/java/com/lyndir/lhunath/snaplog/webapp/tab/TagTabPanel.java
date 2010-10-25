@@ -30,6 +30,7 @@ import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.error.TagUnavailableException;
 import com.lyndir.lhunath.snaplog.error.UserNotFoundException;
 import com.lyndir.lhunath.snaplog.model.service.*;
+import com.lyndir.lhunath.snaplog.model.service.impl.SourceDelegate;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.TagTabModels;
@@ -249,7 +250,7 @@ public class TagTabPanel extends GenericPanel<TagTabModels> {
         static final Logger logger = Logger.get( TagTabState.class );
 
         private final UserService userService = GuiceContext.getInstance( UserService.class );
-        private final SourceService<?, ?> sourceService = GuiceContext.getInstance( SourceService.class );
+        private final SourceDelegate sourceDelegate = GuiceContext.getInstance( SourceDelegate.class );
         private final TagService tagService = GuiceContext.getInstance( TagService.class );
 
         final String userName;
@@ -315,7 +316,7 @@ public class TagTabPanel extends GenericPanel<TagTabModels> {
         public Media findMedia()
                 throws UserNotFoundException {
 
-            return mediaName == null? null: sourceService.findMediaWithName( SnaplogSession.get().newToken(), getUser(), mediaName );
+            return mediaName == null? null: sourceDelegate.findMediaWithName( SnaplogSession.get().newToken(), getUser(), mediaName );
         }
 
         @Override

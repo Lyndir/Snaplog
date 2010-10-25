@@ -26,6 +26,7 @@ import com.lyndir.lhunath.snaplog.data.object.media.Source;
 import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.model.service.SourceService;
+import com.lyndir.lhunath.snaplog.model.service.impl.SourceDelegate;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.ListIterator;
@@ -49,15 +50,15 @@ public class InitServlet extends HttpServlet {
      */
     public static final String PATH = "/init";
 
-    private final Provider<SourceService<Source, Media>> sourceServiceProvider;
+    private final Provider<SourceDelegate> sourceDelegateProvider;
 
     /**
-     * @param sourceServiceProvider See {@link SourceService}
+     * @param sourceDelegateProvider See {@link SourceService}
      */
     @Inject
-    public InitServlet(final Provider<SourceService<Source, Media>> sourceServiceProvider) {
+    public InitServlet(final Provider<SourceDelegate> sourceDelegateProvider) {
 
-        this.sourceServiceProvider = sourceServiceProvider;
+        this.sourceDelegateProvider = sourceDelegateProvider;
     }
 
     /**
@@ -72,20 +73,20 @@ public class InitServlet extends HttpServlet {
                 @Override
                 public void run() {
 
-                    SourceService<Source, Media> sourceService = sourceServiceProvider.get();
-                    Iterator<Source> sourceIt = sourceService.iterateSources( SecurityToken.INTERNAL_USE_ONLY,
+                    SourceDelegate sourceDelegate = sourceDelegateProvider.get();
+                    Iterator<Source> sourceIt = sourceDelegate.iterateSources( SecurityToken.INTERNAL_USE_ONLY,
                                                                               Predicates.<Source>alwaysTrue() );
                     while (sourceIt.hasNext()) {
 
                         Media lastMedia = null;
-                        ListIterator<Media> mediaIt = sourceService.iterateMedia( SecurityToken.INTERNAL_USE_ONLY, sourceIt.next(), true );
+                        ListIterator<Media> mediaIt = sourceDelegate.iterateMedia( SecurityToken.INTERNAL_USE_ONLY, sourceIt.next(), true );
                         while (mediaIt.hasNext()) {
 
                             Media media = mediaIt.next();
                             if (lastMedia != null && ObjectUtils.equal( media.getName(), lastMedia.getName() ))
                                 try {
                                     logger.inf( "Found duplicate: last=%s, current=%s.  Deleting current.", lastMedia, media );
-                                    sourceService.delete( SecurityToken.INTERNAL_USE_ONLY, media );
+                                    sourceDelegate.delete( SecurityToken.INTERNAL_USE_ONLY, media );
                                 }
                                 catch (PermissionDeniedException e) {
                                     logger.bug( e );
@@ -103,13 +104,13 @@ public class InitServlet extends HttpServlet {
                 @Override
                 public void run() {
 
-                    SourceService<Source, Media> sourceService = sourceServiceProvider.get();
-                    Iterator<Source> sourceIt = sourceService.iterateSources( SecurityToken.INTERNAL_USE_ONLY,
+                    SourceDelegate sourceDelegate = sourceDelegateProvider.get();
+                    Iterator<Source> sourceIt = sourceDelegate.iterateSources( SecurityToken.INTERNAL_USE_ONLY,
                                                                               Predicates.<Source>alwaysTrue() );
                     while (sourceIt.hasNext()) {
                         Source source = sourceIt.next();
                         try {
-                            sourceServiceProvider.get().loadMedia( SecurityToken.INTERNAL_USE_ONLY, source );
+                            sourceDelegate.loadMedia( SecurityToken.INTERNAL_USE_ONLY, source );
                         }
                         catch (PermissionDeniedException e) {
                             logger.err( e, "While loading media for source %s", source );
@@ -123,13 +124,13 @@ public class InitServlet extends HttpServlet {
                 @Override
                 public void run() {
 
-                    SourceService<Source, Media> sourceService = sourceServiceProvider.get();
-                    Iterator<Source> sourceIt = sourceService.iterateSources( SecurityToken.INTERNAL_USE_ONLY,
+                    SourceDelegate sourceDelegate = sourceDelegateProvider.get();
+                    Iterator<Source> sourceIt = sourceDelegate.iterateSources( SecurityToken.INTERNAL_USE_ONLY,
                                                                               Predicates.<Source>alwaysTrue() );
                     while (sourceIt.hasNext()) {
                         Source source = sourceIt.next();
                         try {
-                            sourceServiceProvider.get().loadMediaData( SecurityToken.INTERNAL_USE_ONLY, sourceIt.next() );
+                            sourceDelegate.loadMediaData( SecurityToken.INTERNAL_USE_ONLY, sourceIt.next() );
                         }
                         catch (PermissionDeniedException e) {
                             logger.err( e, "While loading media data for source %s", source );

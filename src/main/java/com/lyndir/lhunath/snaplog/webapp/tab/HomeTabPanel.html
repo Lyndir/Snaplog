@@ -49,19 +49,19 @@
                         <li wicket:id="users">
                             <h4 class="link" wicket:id="userName">[lhunath]</h4>
                             <ul class="plain">
-                                <li class="inline" wicket:id="albums">
-                                    <wicket:container wicket:id="albumCover" />
+                                <li class="inline" wicket:id="tags">
+                                    <wicket:container wicket:id="tagCover" />
                                 </li>
                             </ul>
                         </li>
                     </ul>
                 </wicket:enclosure>
 
-                <wicket:enclosure child="albums">
+                <wicket:enclosure child="tags">
                     <h4>Albums:</h4>
 
                     <ul class="plain block">
-                        <li wicket:id="albums">
+                        <li wicket:id="tags">
                             <wicket:container wicket:id="cover" />
                         </li>
                     </ul>
@@ -75,11 +75,11 @@
 
                 <ul class="plain">
                     <li class="block" wicket:id="users">
-                        <wicket:enclosure child="albums">
+                        <wicket:enclosure child="tags">
                             <h4 class="link" wicket:id="userName">[lhunath]</h4>
                             <ul class="plain">
-                                <li class="inline" wicket:id="albums">
-                                    <wicket:container wicket:id="albumCover" />
+                                <li class="inline" wicket:id="tags">
+                                    <wicket:container wicket:id="tagCover" />
                                 </li>
                             </ul>
                         </wicket:enclosure>

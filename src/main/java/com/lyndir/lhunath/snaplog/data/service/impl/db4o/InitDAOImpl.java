@@ -4,7 +4,6 @@ import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.ext.ExtObjectContainer;
 import com.db4o.query.Predicate;
-import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.ObjectUtils;
@@ -14,6 +13,7 @@ import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.data.object.user.*;
 import com.lyndir.lhunath.snaplog.data.service.*;
 import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
+import java.util.List;
 
 
 /**
@@ -90,14 +90,16 @@ public class InitDAOImpl implements InitDAO {
         db.store( defaultUserProfile );
 
         // Find default user's album.
-        SnaplogConstants.DEFAULT_SOURCE = Iterables.get( sourceDAO.listSources( new com.google.common.base.Predicate<Source>() {
+        List<Source> sources = sourceDAO.listSources( new com.google.common.base.Predicate<Source>() {
 
             @Override
             public boolean apply(final Source input) {
 
                 return ObjectUtils.equal( input.getOwner(), SnaplogConstants.DEFAULT_USER );
             }
-        } ), 0, new S3Source( defaultUserProfile, "snaplog.net", "users/lhunath/Life" ) );
+        } );
+        SnaplogConstants.DEFAULT_SOURCE =
+                sources.isEmpty()? new S3Source( defaultUserProfile, "snaplog.net", "users/lhunath/Life" ): sources.get( 0 );
         // Configure default user's album.
         SnaplogConstants.DEFAULT_SOURCE.getACL().setDefaultPermission( Permission.INHERIT );
         if (!((ExtObjectContainer) db).isActive( SnaplogConstants.DEFAULT_SOURCE ))

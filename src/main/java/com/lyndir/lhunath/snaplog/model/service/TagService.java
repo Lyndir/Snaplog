@@ -19,7 +19,7 @@ import org.joda.time.DateTimeFieldType;
  */
 public interface TagService extends WicketInjected {
 
-    Iterable<? extends Tag> iterateTags(SecurityToken token, IPredicate<Tag> predicate);
+    Iterator<Tag> iterateTags(SecurityToken token, IPredicate<Tag> predicate);
 
     Iterator<Media> iterateMedia(SecurityToken token, Tag tag, boolean ascending);
 

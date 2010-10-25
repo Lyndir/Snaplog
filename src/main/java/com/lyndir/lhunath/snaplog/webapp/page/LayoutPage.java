@@ -470,6 +470,8 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
         @Override
         protected void onError(final IncompatibleStateException e) {
 
+            logger.err( e, "While navigating" );
+
             error( e.getLocalizedMessage() );
         }
     }

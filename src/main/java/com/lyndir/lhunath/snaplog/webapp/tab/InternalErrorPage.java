@@ -18,6 +18,7 @@ package com.lyndir.lhunath.snaplog.webapp.tab;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.ImmutableList;
+import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.wayward.model.ModelTemplates;
 import com.lyndir.lhunath.lib.wayward.navigation.AbstractFragmentState;
 import com.lyndir.lhunath.lib.wayward.navigation.IncompatibleStateException;
@@ -45,6 +46,8 @@ import org.apache.wicket.model.LoadableDetachableModel;
  * @author lhunath
  */
 public class InternalErrorPage extends LayoutPage {
+
+    static final Logger logger = Logger.get( InternalErrorPage.class );
 
     final Issue issue;
 
@@ -193,6 +196,7 @@ public class InternalErrorPage extends LayoutPage {
         InternalErrorState() {
 
             issueCode = null;
+            logger.dbg( "Created error state without fragments: %s", getStateFragments() );
         }
 
         InternalErrorState(final String fragment) {
@@ -207,6 +211,7 @@ public class InternalErrorPage extends LayoutPage {
             checkNotNull( issue, "Issue can't be null when creating state based on it." );
 
             appendFragment( issueCode = issue.getIssueCode() );
+            logger.dbg( "Created error state with fragments: %s", getStateFragments() );
         }
 
         public Issue findIssue()

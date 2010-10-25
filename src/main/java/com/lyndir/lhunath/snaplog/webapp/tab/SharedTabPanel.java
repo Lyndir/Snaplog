@@ -27,8 +27,7 @@ import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.media.MediaMapping;
 import com.lyndir.lhunath.snaplog.error.MediaMappingNotFoundException;
 import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
-import com.lyndir.lhunath.snaplog.model.service.SourceService;
-import com.lyndir.lhunath.snaplog.model.service.UserService;
+import com.lyndir.lhunath.snaplog.model.service.impl.SourceDelegate;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 import com.lyndir.lhunath.snaplog.webapp.tab.model.SharedTabModels;
@@ -170,8 +169,7 @@ public class SharedTabPanel extends GenericPanel<SharedTabModels> {
 
         static final Logger logger = Logger.get( SharedTabState.class );
 
-        private final UserService userService = GuiceContext.getInstance( UserService.class );
-        private final SourceService sourceService = GuiceContext.getInstance( SourceService.class );
+        private final SourceDelegate sourceDelegate = GuiceContext.getInstance( SourceDelegate.class );
 
         final String mapping;
 
@@ -202,13 +200,13 @@ public class SharedTabPanel extends GenericPanel<SharedTabModels> {
             checkNotNull( media, "Media can't be null when creating state based on it." );
 
             // Load fields and fragments from parameter.
-            appendFragment( mapping = sourceService.newMapping( SnaplogSession.get().newToken(), media ).getMapping() );
+            appendFragment( mapping = sourceDelegate.newMapping( SnaplogSession.get().newToken(), media ).getMapping() );
         }
 
         public MediaMapping getMapping()
                 throws MediaMappingNotFoundException {
 
-            MediaMapping mediaMapping = sourceService.findMediaMapping( SnaplogSession.get().newToken(),
+            MediaMapping mediaMapping = sourceDelegate.findMediaMapping( SnaplogSession.get().newToken(),
                                                                        checkNotNull( mapping, "Mapping must not be null in this state." ) );
             if (mediaMapping == null)
                 throw new MediaMappingNotFoundException( mapping );

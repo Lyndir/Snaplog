@@ -53,22 +53,29 @@ public enum SourceType implements SourceService<Source, Media> {
      */
     @SuppressWarnings({ "unchecked" })
     <S extends Source, M extends Media> SourceType(final Class<S> sourceType,
-                                         final Class<? extends SourceService<S, M>> mediaProviderService) {
+                                                   final Class<? extends SourceService<S, M>> mediaProviderService) {
 
         this.sourceType = (Class<Source>) sourceType;
         this.mediaProviderService = (Class<? extends SourceService<Source, Media>>) mediaProviderService;
     }
 
-    @Override
-    public void loadMedia(final SecurityToken token, final Source source) {
+    private Class<Source> getSourceType() {
 
-        GuiceContext.getInstance( mediaProviderService ).loadMediaData( token,source );
+        return sourceType;
     }
 
     @Override
-    public void loadMediaData(final SecurityToken token, final Source source) {
+    public void loadMedia(final SecurityToken token, final Source source)
+            throws PermissionDeniedException {
 
-        GuiceContext.getInstance( mediaProviderService ).loadMediaData(token, source );
+        GuiceContext.getInstance( mediaProviderService ).loadMediaData( token, source );
+    }
+
+    @Override
+    public void loadMediaData(final SecurityToken token, final Source source)
+            throws PermissionDeniedException {
+
+        GuiceContext.getInstance( mediaProviderService ).loadMediaData( token, source );
     }
 
     @Override
@@ -122,5 +129,21 @@ public enum SourceType implements SourceService<Source, Media> {
         return GuiceContext.getInstance( mediaProviderService ).newSource( token, source );
     }
 
+    public static SourceType of(final Source source) {
 
+        for (final SourceType sourceType : values())
+            if (sourceType.getSourceType().isInstance( source ))
+                return sourceType;
+
+        throw new IllegalArgumentException( "No supported source type for: " + source );
+    }
+
+    public static SourceType of(final Class<Source> source) {
+
+        for (final SourceType sourceType : values())
+            if (sourceType.getSourceType().isAssignableFrom( source ))
+                return sourceType;
+
+        throw new IllegalArgumentException( "No supported source type for: " + source );
+    }
 }

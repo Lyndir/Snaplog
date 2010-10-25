@@ -82,8 +82,8 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         super( id, new GalleryTabModels( userModel ).getModel() );
 
         // Page info
-        add( new Label( "albumsTitleUsername", getModelObject().decoratedUsername() ) );
-        add( new Label( "albumsHelp", msgs.albumsHelp( new LoadableDetachableModel<Boolean>() {
+        add( new Label( "tagsTitleUsername", getModelObject().decoratedUsername() ) );
+        add( new Label( "tagsHelp", msgs.albumsHelp( new LoadableDetachableModel<Boolean>() {
 
             @Override
             protected Boolean load() {

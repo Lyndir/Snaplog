@@ -23,6 +23,7 @@ import com.lyndir.lhunath.snaplog.data.object.security.AbstractSecureObject;
 import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.util.UUID;
 import org.apache.wicket.Component;
 
 
@@ -41,6 +42,7 @@ public class Issue extends AbstractSecureObject<UserProfile> {
 
     private final String originPath;
     private final Exception cause;
+    private final String issueHash;
     private final String issueCode;
     private final UserProfile subject;
 
@@ -54,6 +56,8 @@ public class Issue extends AbstractSecureObject<UserProfile> {
     public Issue(final Component origin, final Exception cause, final UserProfile subject) {
 
         super( null );
+
+        logger.dbg( "New issue caused by: %s", cause );
 
         // Dump the exception to a string.
         StringWriter causeStringWriter = new StringWriter();
@@ -72,7 +76,8 @@ public class Issue extends AbstractSecureObject<UserProfile> {
         this.cause = cause;
         this.subject = subject;
 
-        issueCode = Utils.getMD5( JSUtils.toString( new Object[]{ originPath, causeStringWriter.toString() } ) );
+        issueHash = Utils.getMD5( JSUtils.toString( new Object[]{ originPath, causeStringWriter.toString() } ) );
+        issueCode = UUID.randomUUID().toString();
     }
 
     /**
@@ -97,6 +102,14 @@ public class Issue extends AbstractSecureObject<UserProfile> {
     public String getIssueCode() {
 
         return issueCode;
+    }
+
+    /**
+     * @return A code that identifies all issues with the same cause.
+     */
+    public String getIssueHash() {
+
+        return issueHash;
     }
 
     @Override

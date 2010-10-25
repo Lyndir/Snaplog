@@ -24,6 +24,8 @@ import com.lyndir.lhunath.snaplog.data.object.security.AbstractSecureObject;
 import com.lyndir.lhunath.snaplog.model.service.WebUtil;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.HashSet;
+import java.util.Set;
 import org.joda.time.Instant;
 import org.joda.time.ReadableInstant;
 import org.joda.time.format.*;
@@ -44,6 +46,7 @@ public abstract class Media extends AbstractSecureObject<Source> implements Comp
     private static final transient DateTimeFormatter filenameFormat = ISODateTimeFormat.basicDateTimeNoMillis();
 
     private final String name;
+    private final Set<Tag> tags = new HashSet<Tag>();
 
     /**
      * @param name The unique name of this media in the album.
@@ -69,6 +72,14 @@ public abstract class Media extends AbstractSecureObject<Source> implements Comp
     public String getName() {
 
         return name;
+    }
+
+    /**
+     * @return The tags that this media is tagged with.
+     */
+    public Set<Tag> getTags() {
+
+        return tags;
     }
 
     /**

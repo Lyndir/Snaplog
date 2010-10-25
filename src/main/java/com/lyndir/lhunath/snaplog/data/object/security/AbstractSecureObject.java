@@ -15,7 +15,6 @@
  */
 package com.lyndir.lhunath.snaplog.data.object.security;
 
-import com.lyndir.lhunath.lib.system.logging.exception.InternalInconsistencyException;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import net.link.safeonline.util.validation.annotation.NotNull;
 
@@ -47,12 +46,9 @@ public abstract class AbstractSecureObject<P extends SecureObject<?>> implements
     @Override
     public User getOwner() {
 
-        if (owner == null) {
+        if (owner == null)
             if (getParent() != null)
                 return getParent().getOwner();
-
-            throw new InternalInconsistencyException( "Cannot determine the owner since it is not set and the object has no parent." );
-        }
 
         return owner;
     }

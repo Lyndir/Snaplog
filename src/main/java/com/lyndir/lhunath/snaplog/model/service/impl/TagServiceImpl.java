@@ -2,13 +2,18 @@ package com.lyndir.lhunath.snaplog.model.service.impl;
 
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableList;
+import com.google.inject.Inject;
 import com.lyndir.lhunath.lib.system.logging.Logger;
 import com.lyndir.lhunath.lib.system.util.DateUtils;
 import com.lyndir.lhunath.lib.system.util.ObjectUtils;
 import com.lyndir.lhunath.lib.wayward.collection.IPredicate;
 import com.lyndir.lhunath.snaplog.data.object.media.*;
+import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
+import com.lyndir.lhunath.snaplog.data.service.TagDAO;
+import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
+import com.lyndir.lhunath.snaplog.model.service.SecurityService;
 import com.lyndir.lhunath.snaplog.model.service.TagService;
 import java.util.Iterator;
 import org.joda.time.*;
@@ -25,22 +30,37 @@ public class TagServiceImpl implements TagService {
 
     static final Logger logger = Logger.get( TagServiceImpl.class );
 
-    @Override
-    public Iterable<? extends Tag> iterateTags(final SecurityToken token, final IPredicate<Tag> predicate) {
+    private final TagDAO tagDAO;
+    private final SecurityService securityService;
 
-        throw new UnsupportedOperationException();
+    @Inject
+    public TagServiceImpl(final TagDAO tagDAO, final SecurityService securityService) {
+
+        this.tagDAO = tagDAO;
+        this.securityService = securityService;
+    }
+
+    @Override
+    public Iterator<Tag> iterateTags(final SecurityToken token, final IPredicate<Tag> predicate) {
+
+        return securityService.filterAccess( Permission.VIEW, token, tagDAO.listTags( predicate ).iterator() );
     }
 
     @Override
     public Iterator<Media> iterateMedia(final SecurityToken token, final Tag tag, final boolean ascending) {
 
-        throw new UnsupportedOperationException();
+        return securityService.filterAccess( Permission.VIEW, token, tagDAO.listMedia( tag, ascending ).iterator() );
     }
 
     @Override
     public Tag findTagWithName(final SecurityToken token, final User tagOwner, final String tagName) {
 
-        throw new UnsupportedOperationException();
+        try {
+            return securityService.assertAccess( Permission.VIEW, token, tagDAO.findTag( tagOwner, tagName ) );
+        }
+        catch (PermissionDeniedException ignored) {
+            return null;
+        }
     }
 
     @Override
