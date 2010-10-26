@@ -30,7 +30,7 @@ import org.apache.wicket.model.IModel;
 public class SharedTabModels extends ModelProvider<SharedTabModels, MediaMapping> {
 
     /**
-     * @param model The model providing the album to show.
+     * @param model The model providing the media to show.
      */
     public SharedTabModels(final IModel<MediaMapping> model) {
 

@@ -2,6 +2,6 @@
 
 <properties>
 
-    <entry key="AlbumProviderType.AMAZON_S3">Storage Cloud (Amazon S3)</entry>
+    <entry key="SourceType.AMAZON_S3">Storage Cloud (Amazon S3)</entry>
 
 </properties>

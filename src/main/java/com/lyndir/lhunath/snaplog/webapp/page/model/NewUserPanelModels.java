@@ -70,7 +70,7 @@ public class NewUserPanelModels extends EmptyModelProvider<NewUserPanelModels> {
         // Accessors.
 
         /**
-         * @return A model that holds the user-specified name for the new album.
+         * @return A model that holds the user-specified name for the new user.
          */
         public IModel<String> userName() {
 

@@ -28,11 +28,11 @@ public class TimelinePopup extends PopupPanel<Tag> {
 
     /**
      * @param id         The wicket ID of the tab.
-     * @param albumModel A model providing the album that the timeline should display media for.
+     * @param tagModel A model providing the tag that the timeline should display media for.
      */
-    public TimelinePopup(final String id, final IModel<Tag> albumModel) {
+    public TimelinePopup(final String id, final IModel<Tag> tagModel) {
 
-        super( id, albumModel );
+        super( id, tagModel );
     }
 
     @Override
@@ -47,7 +47,7 @@ public class TimelinePopup extends PopupPanel<Tag> {
                 if (getModelObject() == null)
                     return ImmutableList.of();
 
-                return null;// FIXME: Lists.newArrayList( albumService.iterateYears( SnaplogSession.get().newToken(), getModelObject() ) );
+                return null;// FIXME: Lists.newArrayList( tagService.iterateYears( SnaplogSession.get().newToken(), getModelObject() ) );
             }
         } ) {
 
@@ -131,7 +131,7 @@ public class TimelinePopup extends PopupPanel<Tag> {
         private final IModel<Tag> tagModel;
 
         /**
-         * @param tagModel The model that provides the album whose access should be managed through this tool.
+         * @param tagModel The model that provides the tag whose access should be managed through this tool.
          */
         public Tool(final IModel<Tag> tagModel) {
 

@@ -5,23 +5,23 @@
 
     <entry key="tabTitle">Gallery</entry>
 
-    <entry key="albumsTitle">Albums of ${albumsTitleUsername}</entry>
-    <entry key="albumsHelp.auth.another">Here''s an overview of all {0}''s albums that are open to you.</entry>
-    <entry key="albumsHelp.auth.another.empty">
-        Either {0} hasn''t created any albums or hasn''t granted you any access yet.
+    <entry key="tagsTitle">Tags of ${tagsTitleUsername}</entry>
+    <entry key="tagsHelp.auth.another">Here''s an overview of all {0}''s tags that are open to you.</entry>
+    <entry key="tagsHelp.auth.another.empty">
+        Either {0} hasn''t created any tags or hasn''t granted you any access yet.
         <![CDATA[<span class="tip">Use the <span class="ss_sprite ss_key">Access</span> tool to request access.</span>]]>
     </entry>
-    <entry key="albumsHelp.anon.another">Here''s an overview of all {0}''s albums that are open to the public.</entry>
-    <entry key="albumsHelp.anon.another.empty">
-        Either {0} hasn''t created any albums or hasn''t granted public access to any of them.
-        <![CDATA[<span class="tip"><span class="ss_sprite ss_status_offline">Sign in</span> to view or request access to {0}''s albums.</span>]]>
+    <entry key="tagsHelp.anon.another">Here''s an overview of all {0}''s tags that are open to the public.</entry>
+    <entry key="tagsHelp.anon.another.empty">
+        Either {0} hasn''t created any tags or hasn''t granted public access to any of them.
+        <![CDATA[<span class="tip"><span class="ss_sprite ss_status_offline">Sign in</span> to view or request access to {0}''s tags.</span>]]>
     </entry>
-    <entry key="albumsHelp.auth.own">Here's an overview of all your albums.</entry>
-    <entry key="albumsHelp.auth.own.empty">Here's an overview of all your albums.</entry>
+    <entry key="tagsHelp.auth.own">Here's an overview of all your tags.</entry>
+    <entry key="tagsHelp.auth.own.empty">Here's an overview of all your tags.</entry>
 
-    <entry key="newAlbum">Create a new source</entry>
-    <entry key="newAlbumType">Album Type:</entry>
-    <entry key="newAlbumName">Album Name:</entry>
-    <entry key="newAlbumDescription">Album Description:</entry>
+    <entry key="newTag">Create a new source</entry>
+    <entry key="newTagType">Tag Type:</entry>
+    <entry key="newTagName">Tag Name:</entry>
+    <entry key="newTagDescription">Tag Description:</entry>
 
 </properties>

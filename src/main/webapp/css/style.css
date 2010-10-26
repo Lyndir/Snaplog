@@ -472,11 +472,11 @@ a.block:hover, .block.link:hover {
     -webkit-box-shadow:    0 0 5px #333;
 }
 
-.block.album {
+.block.tag {
     min-height:            100px;
 }
 
-.block.album .media {
+.block.tag .media {
     float:                 left;
 
     margin:                0 1em 1ex 0;

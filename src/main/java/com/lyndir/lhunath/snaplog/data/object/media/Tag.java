@@ -17,6 +17,7 @@ public class Tag extends AbstractSecureObject<UserProfile> {
     private final UserProfile ownerProfile;
     private final String name;
     private final String description;
+    private boolean advertise;
 
     public Tag(@NotNull final UserProfile ownerProfile, final String name, final String description) {
 
@@ -55,5 +56,15 @@ public class Tag extends AbstractSecureObject<UserProfile> {
     public String getDescription() {
 
         return description;
+    }
+
+    public boolean isAdvertise() {
+
+        return advertise;
+    }
+
+    public void setAdvertise(final boolean advertise) {
+
+        this.advertise = advertise;
     }
 }

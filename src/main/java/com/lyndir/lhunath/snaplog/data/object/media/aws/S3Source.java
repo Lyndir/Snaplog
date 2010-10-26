@@ -37,7 +37,7 @@ public class S3Source extends Source {
     private final String prefix;
 
     /**
-     * @param ownerProfile The profile of the user that owns this album.
+     * @param ownerProfile The profile of the user that owns this source.
      * @param bucket       The S3 bucket that holds the data for objects provided by this source.
      * @param prefix       The prefix determines the "location" within the S3 bucket where this source's objects reside.  It should
      *                     <b>NOT</b> be terminated by a delimitor.

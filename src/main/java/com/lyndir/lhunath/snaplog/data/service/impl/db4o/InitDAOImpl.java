@@ -89,7 +89,7 @@ public class InitDAOImpl implements InitDAO {
             logger.dbg( "Was not active: %s", defaultUserProfile );
         db.store( defaultUserProfile );
 
-        // Find default user's album.
+        // Find default user's source.
         List<Source> sources = sourceDAO.listSources( new com.google.common.base.Predicate<Source>() {
 
             @Override
@@ -100,13 +100,13 @@ public class InitDAOImpl implements InitDAO {
         } );
         SnaplogConstants.DEFAULT_SOURCE =
                 sources.isEmpty()? new S3Source( defaultUserProfile, "snaplog.net", "users/lhunath/Life" ): sources.get( 0 );
-        // Configure default user's album.
+        // Configure default user's source.
         SnaplogConstants.DEFAULT_SOURCE.getACL().setDefaultPermission( Permission.INHERIT );
         if (!((ExtObjectContainer) db).isActive( SnaplogConstants.DEFAULT_SOURCE ))
             logger.dbg( "Was not active: %s", SnaplogConstants.DEFAULT_SOURCE );
         db.store( SnaplogConstants.DEFAULT_SOURCE );
 
-        logger.dbg( "Default user: %s, profile: %s (ACL: %s), album: %s (ACL: %s)", SnaplogConstants.DEFAULT_USER, defaultUserProfile,
+        logger.dbg( "Default user: %s, profile: %s (ACL: %s), source: %s (ACL: %s)", SnaplogConstants.DEFAULT_USER, defaultUserProfile,
                     defaultUserProfile.getACL(), SnaplogConstants.DEFAULT_SOURCE, SnaplogConstants.DEFAULT_SOURCE.getACL() );
         logger.dbg( "Known users:" );
         for (final User user : db.query( User.class ))
@@ -114,7 +114,7 @@ public class InitDAOImpl implements InitDAO {
         logger.dbg( "Known profiles:" );
         for (final UserProfile userProfile : db.query( UserProfile.class ))
             logger.dbg( "    - %s", userProfile );
-        logger.dbg( "Known albums:" );
+        logger.dbg( "Known sources:" );
         for (final Source source : db.query( Source.class ))
             logger.dbg( "    - %s", source );
     }

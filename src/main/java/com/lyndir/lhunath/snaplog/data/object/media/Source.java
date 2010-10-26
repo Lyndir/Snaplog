@@ -38,7 +38,7 @@ public abstract class Source extends AbstractSecureObject<UserProfile> {
     private final UserProfile ownerProfile;
 
     /**
-     * @param ownerProfile The profile of the user that owns this album.
+     * @param ownerProfile The profile of the user that owns this source.
      */
     protected Source(final UserProfile ownerProfile) {
 
@@ -57,7 +57,7 @@ public abstract class Source extends AbstractSecureObject<UserProfile> {
     }
 
     /**
-     * @return The profile of the user that owns this album.
+     * @return The profile of the user that owns this source.
      */
     public UserProfile getOwnerProfile() {
 

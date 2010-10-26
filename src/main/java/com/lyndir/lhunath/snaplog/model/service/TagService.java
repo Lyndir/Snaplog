@@ -37,9 +37,9 @@ public interface TagService extends WicketInjected {
     Iterator<TimeFrame> iterateTimeFrames(SecurityToken token, Tag tag, DateTimeFieldType frame, boolean ascending);
 
     /**
-     * @param token  Request authentication token should authorize {@link Permission#VIEW} on the album's media to return.
+     * @param token  Request authentication token should authorize {@link Permission#VIEW} on the media to return.
      * @param source The media to create time frames for.
-     * @param frame  The width of each frame to generate.  The returned time frames will divide the album's media into MediaTimeFrames of
+     * @param frame  The width of each frame to generate.  The returned time frames will divide the media into time frames of
      *               one frame using the media's shot time as the media's reference time.
      *
      * @return An {@link Iterator} of time frames that hold the given media in a chronological ordering.

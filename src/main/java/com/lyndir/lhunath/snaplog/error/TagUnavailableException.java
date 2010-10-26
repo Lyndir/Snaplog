@@ -31,16 +31,16 @@ public class TagUnavailableException extends Exception {
     static final Messages msgs = MessagesFactory.create( Messages.class );
 
     private final User owner;
-    private final String albumName;
+    private final String tagName;
 
     /**
-     * @param owner     The owner of the album.
-     * @param albumName The name of the album.
+     * @param owner     The owner of the tag.
+     * @param tagName The name of the tag.
      */
-    public TagUnavailableException(final User owner, final String albumName) {
+    public TagUnavailableException(final User owner, final String tagName) {
 
         this.owner = owner;
-        this.albumName = albumName;
+        this.tagName = tagName;
     }
 
     public User getOwner() {
@@ -48,9 +48,9 @@ public class TagUnavailableException extends Exception {
         return owner;
     }
 
-    public String getAlbumName() {
+    public String getTagName() {
 
-        return albumName;
+        return tagName;
     }
 
     /**
@@ -59,7 +59,7 @@ public class TagUnavailableException extends Exception {
     @Override
     public String getMessage() {
 
-        return String.format( "No permission or album not found: %s's %s.", getOwner(), getAlbumName() );
+        return String.format( "No permission or tag not found: %s's %s.", getOwner(), getTagName() );
     }
 
     /**
@@ -68,11 +68,11 @@ public class TagUnavailableException extends Exception {
     @Override
     public String getLocalizedMessage() {
 
-        return msgs.message( getOwner(), getAlbumName() );
+        return msgs.message( getOwner(), getTagName() );
     }
 
     interface Messages {
 
-        String message(User owner, String albumName);
+        String message(User owner, String tagName);
     }
 }

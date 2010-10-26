@@ -36,10 +36,10 @@ public abstract class AbstractTagsView extends DataView<Tag> {
      * Create a new {@link AbstractTagsView} instance.
      *
      * @param id            The wicket ID to bind this component on.
-     * @param ownerUser     The model that provides the owner whose albums to enumerate.
-     * @param albumsPerPage The maximum amount of albums to show at once before hiding the rest behind a pager.
+     * @param ownerUser     The model that provides the owner whose tags to enumerate.
+     * @param tagsPerPage The maximum amount of tags to show at once before hiding the rest behind a pager.
      */
-    protected AbstractTagsView(final String id, final IModel<User> ownerUser, final int albumsPerPage) {
+    protected AbstractTagsView(final String id, final IModel<User> ownerUser, final int tagsPerPage) {
 
         this( id, new IPredicate<Tag>() {
 
@@ -48,17 +48,17 @@ public abstract class AbstractTagsView extends DataView<Tag> {
 
                 return ObjectUtils.equal( input.getOwner(), ownerUser.getObject() );
             }
-        }, albumsPerPage );
+        }, tagsPerPage );
     }
 
     /**
      * Create a new {@link AbstractTagsView} instance.
      *
      * @param id            The wicket ID to bind this component on.
-     * @param predicate     The predicate that should evaluate to <code>true</code> for each album to return.
-     * @param albumsPerPage The maximum amount of albums to show at once before hiding the rest behind a pager.
+     * @param predicate     The predicate that should evaluate to <code>true</code> for each tag to return.
+     * @param tagsPerPage The maximum amount of tags to show at once before hiding the rest behind a pager.
      */
-    protected AbstractTagsView(final String id, final IPredicate<Tag> predicate, final int albumsPerPage) {
+    protected AbstractTagsView(final String id, final IPredicate<Tag> predicate, final int tagsPerPage) {
 
         super( id, new AbstractListProvider<Tag>() {
 
@@ -68,13 +68,13 @@ public abstract class AbstractTagsView extends DataView<Tag> {
                 return ImmutableList.copyOf( GuiceContext.getInstance( TagService.class ) //
                                                      .iterateTags( SnaplogSession.get().newToken(), predicate ) );
             }
-        }, albumsPerPage );
+        }, tagsPerPage );
     }
 
     /**
-     * @param tagModel The model that provides the album whose cover to return.
+     * @param tagModel The model that provides the tag whose cover to return.
      *
-     * @return A new model that will provide the cover {@link Media} for the album provided by the given model.
+     * @return A new model that will provide the cover {@link Media} for the tag provided by the given model.
      */
     public IModel<Media> cover(final IModel<Tag> tagModel) {
 

@@ -42,7 +42,7 @@ public class GalleryTabModels extends ModelProvider<GalleryTabModels, User> {
 
     private final IModel<String> decoratedUsername;
     private final IModel<String> username;
-    private final NewAlbumFormModels newAlbumForm;
+    private final NewTagFormModels newTagForm;
 
     /**
      * @param model A model providing the user whose gallery to show.
@@ -69,17 +69,17 @@ public class GalleryTabModels extends ModelProvider<GalleryTabModels, User> {
             }
         };
 
-        newAlbumForm = new NewAlbumFormModels();
+        newTagForm = new NewTagFormModels();
     }
 
     /**
-     * <h2>{@link NewAlbumFormModels}<br> <sub>Model provider for the New Source form.</sub></h2>
+     * <h2>{@link NewTagFormModels}<br> <sub>Model provider for the New Source form.</sub></h2>
      *
      * <p> <i>Mar 12, 2010</i> </p>
      *
      * @author lhunath
      */
-    public class NewAlbumFormModels extends EmptyModelProvider<NewAlbumFormModels> {
+    public class NewTagFormModels extends EmptyModelProvider<NewTagFormModels> {
 
         private final IModel<List<SourceType>> types;
 
@@ -87,7 +87,7 @@ public class GalleryTabModels extends ModelProvider<GalleryTabModels, User> {
         private final IModel<String> name;
         private final IModel<String> description;
 
-        NewAlbumFormModels() {
+        NewTagFormModels() {
 
             types = new LoadableDetachableModel<List<SourceType>>() {
 
@@ -106,7 +106,7 @@ public class GalleryTabModels extends ModelProvider<GalleryTabModels, User> {
         // Accessors.
 
         /**
-         * @return A model that holds the user-selected {@link SourceType} which will provide media for the new album.
+         * @return A model that holds the user-selected {@link SourceType} which will provide media.
          */
         public IModel<SourceType> type() {
 
@@ -122,7 +122,7 @@ public class GalleryTabModels extends ModelProvider<GalleryTabModels, User> {
         }
 
         /**
-         * @return A model that holds the user-specified name for the new album.
+         * @return A model that holds the user-specified name for the new tag.
          */
         public IModel<String> name() {
 
@@ -130,7 +130,7 @@ public class GalleryTabModels extends ModelProvider<GalleryTabModels, User> {
         }
 
         /**
-         * @return A model that holds the user-specified description for the new album.
+         * @return A model that holds the user-specified description for the new tag.
          */
         public IModel<String> description() {
 
@@ -157,10 +157,10 @@ public class GalleryTabModels extends ModelProvider<GalleryTabModels, User> {
     }
 
     /**
-     * @return An object that provides models for the newAlbum form.
+     * @return An object that provides models for the newTag form.
      */
-    public NewAlbumFormModels newAlbumForm() {
+    public NewTagFormModels newTagForm() {
 
-        return newAlbumForm;
+        return newTagForm;
     }
 }

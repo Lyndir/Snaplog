@@ -49,7 +49,7 @@ public abstract class Media extends AbstractSecureObject<Source> implements Comp
     private final Set<Tag> tags = new HashSet<Tag>();
 
     /**
-     * @param name The unique name of this media in the album.
+     * @param name The unique name of this media in the source.
      */
     protected Media(final String name) {
 
@@ -83,7 +83,7 @@ public abstract class Media extends AbstractSecureObject<Source> implements Comp
     }
 
     /**
-     * @return The album of this {@link Media}.
+     * @return The source of this {@link Media}.
      */
     public abstract Source getSource();
 

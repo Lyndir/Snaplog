@@ -34,7 +34,7 @@ public class S3Media extends Media {
 
     /**
      * @param source The source that provides this media.
-     * @param name  The unique name of this media in the album.
+     * @param name  The unique name of this media in the source.
      */
     public S3Media(final S3Source source, final String name) {
 

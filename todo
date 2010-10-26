@@ -1,1 +1,1 @@
-grep -ri album src/
+- an "Untagged" tag that always appears when there's media without tags.

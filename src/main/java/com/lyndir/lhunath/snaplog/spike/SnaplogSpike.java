@@ -47,7 +47,7 @@ public class SnaplogSpike {
         SnaplogConstants.DEFAULT_SOURCE = new S3Source( new UserProfile( new User( new LinkID( "linkid" ), "lhunath" ) ), "snaplog.net",
                                                        "users/lhunath/Life" );
         injector.getInstance( SourceDAO.class ).update( SnaplogConstants.DEFAULT_SOURCE );
-        logger.inf( "Albums in db: %s", injector.getInstance( SourceDAO.class ).listSources() );
+        logger.inf( "Sources in db: %s", injector.getInstance( SourceDAO.class ).listSources() );
     }
 
     private static void test() {

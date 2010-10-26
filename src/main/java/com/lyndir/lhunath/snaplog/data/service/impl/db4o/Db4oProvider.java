@@ -43,7 +43,7 @@ public class Db4oProvider implements Provider<ObjectContainer> {
         configuration.common().objectClass( Source.class ).objectField( "name" ).indexed( true );
         configuration.common().objectClass( Source.class ).objectField( "ownerProfile" ).indexed( true );
         configuration.common().objectClass( Media.class ).objectField( "name" ).indexed( true );
-        configuration.common().objectClass( S3Media.class ).objectField( "album" ).indexed( true );
+        configuration.common().objectClass( S3Media.class ).objectField( "source" ).indexed( true );
         configuration.common().objectClass( S3MediaData.class ).objectField( "media" ).indexed( true );
         // TODO: NQ optimization isn't working.  Fix it or convert to SODA style or find a way to do better SODA through annotations.
         //        configuration.common().diagnostic().addListener( new DiagnosticListener() {

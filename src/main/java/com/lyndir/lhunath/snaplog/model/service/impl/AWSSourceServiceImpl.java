@@ -266,8 +266,8 @@ public class AWSSourceServiceImpl extends AbstractSourceService<S3Source, S3Medi
     /**
      * Retrieve the object key for all resources of the given {@link Source} at the given quality.
      *
-     * @param source   The album whose resources are contained under the key.
-     * @param quality The quality of the resources that are contained under the key.
+     * @param source   The source that provides the resources.
+     * @param quality The quality of the resources.
      *
      * @return An S3 object key within the bucket.
      */

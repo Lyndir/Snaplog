@@ -83,7 +83,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 
         // Page info
         add( new Label( "tagsTitleUsername", getModelObject().decoratedUsername() ) );
-        add( new Label( "tagsHelp", msgs.albumsHelp( new LoadableDetachableModel<Boolean>() {
+        add( new Label( "tagsHelp", msgs.tagsHelp( new LoadableDetachableModel<Boolean>() {
 
             @Override
             protected Boolean load() {
@@ -149,7 +149,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
          *
          * @return A text that explains that the visible gallery belongs to the current user.
          */
-        IModel<String> albumsHelp(@BooleanKeyAppender(y = "auth", n = "anon") IModel<Boolean> authenticated,
+        IModel<String> tagsHelp(@BooleanKeyAppender(y = "auth", n = "anon") IModel<Boolean> authenticated,
                                   @BooleanKeyAppender(y = "own", n = "another") IModel<Boolean> owned,
                                   @BooleanKeyAppender(y = "empty") IModel<Boolean> empty, IModel<String> username);
     }

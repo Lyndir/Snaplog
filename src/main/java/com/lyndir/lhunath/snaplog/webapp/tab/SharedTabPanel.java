@@ -75,7 +75,7 @@ public class SharedTabPanel extends GenericPanel<SharedTabModels> {
 
 
     /**
-     * <h2>{@link SharedTab}<br> <sub>The interface panel for browsing through the album content.</sub></h2>
+     * <h2>{@link SharedTab}<br> <sub>The interface panel for viewing a shared media.</sub></h2>
      *
      * <p> <i>May 31, 2009</i> </p>
      *

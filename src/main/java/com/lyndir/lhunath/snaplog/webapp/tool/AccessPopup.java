@@ -54,11 +54,11 @@ public class AccessPopup extends PopupPanel<Tag> {
 
     /**
      * @param id         Wicket component ID.
-     * @param albumModel The {@link Source} to configure access controls for.
+     * @param tagModel The {@link Source} to configure access controls for.
      */
-    public AccessPopup(final String id, final IModel<Tag> albumModel) {
+    public AccessPopup(final String id, final IModel<Tag> tagModel) {
 
-        super( id, albumModel );
+        super( id, tagModel );
     }
 
     @Override
@@ -270,7 +270,7 @@ public class AccessPopup extends PopupPanel<Tag> {
         private final IModel<Tag> model;
 
         /**
-         * @param model The model that provides the album whose access should be managed through this tool.
+         * @param model The model that provides the tag whose access should be managed through this tool.
          */
         public Tool(final IModel<Tag> model) {
 

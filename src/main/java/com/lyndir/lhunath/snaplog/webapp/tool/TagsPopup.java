@@ -58,7 +58,7 @@ public class TagsPopup extends PopupPanel<Media> {
         private final IModel<Media> model;
 
         /**
-         * @param model The model that provides the album whose access should be managed through this tool.
+         * @param model The model that provides the media whose access should be managed through this tool.
          */
         public Tool(final IModel<Media> model) {
 

@@ -33,7 +33,7 @@ public class TagTabModels extends ModelProvider<TagTabModels, Tag> {
     private final IModel<Media> focusedMedia;
 
     /**
-     * @param model The model providing the album to show.
+     * @param model The model providing the tag to show.
      */
     public TagTabModels(final IModel<Tag> model) {
 

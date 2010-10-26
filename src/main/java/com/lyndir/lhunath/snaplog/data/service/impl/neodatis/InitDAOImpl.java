@@ -61,7 +61,7 @@ public class InitDAOImpl implements InitDAO {
         //            logger.dbg( "Was not active: %s", defaultUserProfile );
         db.store( defaultUserProfile );
 
-        // Find default user's album.
+        // Find default user's source.
         SnaplogConstants.DEFAULT_SOURCE = Iterables.get( sourceDAO.listSources( new Predicate<Source>() {
             @Override
             public boolean apply(final Source input) {
@@ -69,13 +69,13 @@ public class InitDAOImpl implements InitDAO {
                 return ObjectUtils.equal(input.getOwner(), SnaplogConstants.DEFAULT_USER);
             }
         } ), 0, new S3Source( defaultUserProfile, "snaplog.net", "users/lhunath/Life" ));
-        // Configure default user's album.
+        // Configure default user's source.
         SnaplogConstants.DEFAULT_SOURCE.getACL().setDefaultPermission( Permission.NONE );
-        //        if (db.getObjectId( SnaplogConstants.DEFAULT_ALBUM ) == null)
-        //            logger.dbg( "Was not active: %s", SnaplogConstants.DEFAULT_ALBUM );
+        //        if (db.getObjectId( SnaplogConstants.DEFAULT_SOURCE ) == null)
+        //            logger.dbg( "Was not active: %s", SnaplogConstants.DEFAULT_SOURCE );
         db.store( SnaplogConstants.DEFAULT_SOURCE );
 
-        logger.dbg( "Default user: %s, profile: %s (ACL: %s), album: %s (ACL: %s)", SnaplogConstants.DEFAULT_USER, defaultUserProfile,
+        logger.dbg( "Default user: %s, profile: %s (ACL: %s), source: %s (ACL: %s)", SnaplogConstants.DEFAULT_USER, defaultUserProfile,
                     defaultUserProfile.getACL(), SnaplogConstants.DEFAULT_SOURCE, SnaplogConstants.DEFAULT_SOURCE.getACL() );
         logger.dbg( "Known users:" );
         Objects<User> users = db.getObjects( User.class );
@@ -85,9 +85,9 @@ public class InitDAOImpl implements InitDAO {
         Objects<UserProfile> userProfiles = db.getObjects( UserProfile.class );
         for (final UserProfile userProfile : userProfiles)
             logger.dbg( "    - %s", userProfile );
-        logger.dbg( "Known albums:" );
-        Objects<Source> albums = db.getObjects( S3Source.class );
-        for (final Source source : albums)
+        logger.dbg( "Known sources:" );
+        Objects<Source> sources = db.getObjects( S3Source.class );
+        for (final Source source : sources)
             logger.dbg( "    - %s", source );
     }
 

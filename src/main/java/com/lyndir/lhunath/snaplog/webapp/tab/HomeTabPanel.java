@@ -73,43 +73,30 @@ public class HomeTabPanel extends GenericPanel<HomeTabModels> {
         getModelObject().attach( this );
 
         add( new Label( "usersHelp", getModelObject().usersHelp() ) );
-        add( new AbstractUsersView( "users", USERS_PER_PAGE ) {
+        add( new AbstractTagsView( "tags", new IPredicate<Tag>() {
+            @Override
+            public boolean apply(final Tag input) {
+
+                return input.isAdvertise();
+            }
+        }, TAGS_PER_PAGE ) {
 
             @Override
-            protected void populateItem(final Item<User> userItem) {
+            protected void populateItem(final Item<Tag> tagItem) {
 
-                userItem.add( new UserLink( "userName", userItem.getModel() ) );
-                userItem.add( new AbstractTagsView( "tags", userItem.getModel(), TAGS_PER_PAGE ) {
+                tagItem.add( new MediaView( "tagCover", cover( tagItem.getModel() ), Quality.THUMBNAIL, true ) {
 
                     @Override
-                    protected void populateItem(final Item<Tag> tagItem) {
+                    protected void onClick(final AjaxRequestTarget target) {
 
-                        tagItem.add( new MediaView( "tagCover", cover( tagItem.getModel() ), Quality.THUMBNAIL, true ) {
-
-                            @Override
-                            protected void onClick(final AjaxRequestTarget target) {
-
-                                Tab.TAG.activateWithState( new TagTabPanel.TagTabState( tagItem.getModelObject() ) );
-                            }
-
-                            @Override
-                            protected String getCaptionString() {
-
-                                // TODO: Tags?
-                                return null;
-                            }
-                        } );
+                        Tab.TAG.activateWithState( new TagTabPanel.TagTabState( tagItem.getModelObject() ) );
                     }
 
                     @Override
-                    public boolean isVisible() {
+                    protected String getCaptionString() {
 
-                        // TODO: Does this work?
-                        // userItem's visibility == the visibility of the tags view in it.
-                        boolean visible = super.isVisible();
-                        userItem.setVisible( visible );
-
-                        return visible;
+                        // TODO: Tags?
+                        return null;
                     }
                 } );
             }

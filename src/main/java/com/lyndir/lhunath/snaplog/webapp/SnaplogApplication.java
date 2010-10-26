@@ -50,7 +50,7 @@ import org.apache.wicket.settings.IExceptionSettings;
 
 
 /**
- * <h2>{@link SnaplogApplication}<br> <sub>Wicket {@link WebApplication} for the media album application.</sub></h2>
+ * <h2>{@link SnaplogApplication}<br> <sub>Wicket {@link WebApplication} for the media application.</sub></h2>
  *
  * <p> <i>May 31, 2009</i> </p>
  *

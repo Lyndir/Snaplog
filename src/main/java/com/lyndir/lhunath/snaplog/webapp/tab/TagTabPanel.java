@@ -55,7 +55,7 @@ public class TagTabPanel extends GenericPanel<TagTabModels> {
      * Create a new {@link TagTabPanel} instance.
      *
      * @param id    The wicket ID that will hold the {@link TagTabPanel}.
-     * @param model Provides the album to show.
+     * @param model Provides the tag to show.
      */
     TagTabPanel(final String id, final IModel<Tag> model) {
 
@@ -95,7 +95,7 @@ public class TagTabPanel extends GenericPanel<TagTabModels> {
 
 
     /**
-     * <h2>{@link TagTab}<br> <sub>The interface panel for browsing through the album content.</sub></h2>
+     * <h2>{@link TagTab}<br> <sub>The interface panel for browsing through the tag content.</sub></h2>
      *
      * <p> <i>May 31, 2009</i> </p>
      *
@@ -153,7 +153,7 @@ public class TagTabPanel extends GenericPanel<TagTabModels> {
         @Override
         public String getTabFragment() {
 
-            return "album";
+            return "tag";
         }
 
         @Override
@@ -171,7 +171,7 @@ public class TagTabPanel extends GenericPanel<TagTabModels> {
                 throws IncompatibleStateException {
 
             try {
-                logger.dbg( "Activating state: %s, on album tab.", state );
+                logger.dbg( "Activating state: %s, on tag tab.", state );
                 SnaplogSession.get().setFocusedUser( state.getUser() );
                 panel.getModelObject().setModelObject( state.getTag() );
                 panel.getModelObject().focusedMedia().setObject( state.findMedia() );

@@ -407,13 +407,13 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
         IModel<String> focusedUser(IModel<User> user);
 
         /**
-         * @param album The album that's being focused on.
+         * @param tag The tag that's being focused on.
          *
          * @return A text indicating what the user's currently focusing on.
          */
         // TODO: If we want to allow focusing other content; this may need improvement. If not, this may be simplified?
-        IModel<String> focusedContent(@KeyAppender(nullKey = "none", notNullKey = "album", useValue = true) //
-                                              IModel<Source> album);
+        IModel<String> focusedContent(@KeyAppender(nullKey = "none", notNullKey = "tag", useValue = true) //
+                                              IModel<Source> tag);
     }
 
 
