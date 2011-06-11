@@ -16,7 +16,7 @@
 package com.lyndir.lhunath.snaplog.model.service;
 
 import com.google.common.collect.ImmutableList;
-import com.lyndir.lhunath.lib.wayward.model.WicketInjected;
+import com.lyndir.lhunath.opal.wayward.model.WicketInjected;
 import java.io.File;
 import java.io.InputStream;
 import org.jets3t.service.S3Service;

@@ -4,8 +4,8 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.system.util.DateUtils;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.util.DateUtils;
 import com.lyndir.lhunath.snaplog.data.object.media.*;
 import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Media;
 import com.lyndir.lhunath.snaplog.data.object.media.aws.S3MediaData;

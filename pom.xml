@@ -8,12 +8,12 @@
     <parent>
         <groupId>com.lyndir.lhunath</groupId>
         <artifactId>lyndir</artifactId>
-        <version>SNAPSHOT</version>
+        <version>GIT-SNAPSHOT</version>
     </parent>
 
     <groupId>com.lyndir.lhunath.snaplog</groupId>
     <artifactId>snaplog</artifactId>
-    <version>SNAPSHOT</version>
+    <version>GIT-SNAPSHOT</version>
     <packaging>war</packaging>
 
     <name>Snaplog</name>
@@ -228,16 +228,16 @@
     <!-- DEPENDENCY MANAGEMENT -->
     <dependencies>
 
-        <!-- JLibs -->
+        <!-- Opal -->
         <dependency>
-            <groupId>com.lyndir.lhunath.jlibs</groupId>
-            <artifactId>system</artifactId>
-            <version>SNAPSHOT</version>
+            <groupId>com.lyndir.lhunath.opal</groupId>
+            <artifactId>opal-wicket</artifactId>
+            <version>GIT-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>com.lyndir.lhunath.jlibs</groupId>
-            <artifactId>wayward</artifactId>
-            <version>SNAPSHOT</version>
+            <groupId>com.lyndir.lhunath.opal</groupId>
+            <artifactId>opal-crypto</artifactId>
+            <version>GIT-SNAPSHOT</version>
         </dependency>
 
         <!-- LinkID -->
@@ -338,6 +338,11 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.8.1</version>
         </dependency>
 
     </dependencies>

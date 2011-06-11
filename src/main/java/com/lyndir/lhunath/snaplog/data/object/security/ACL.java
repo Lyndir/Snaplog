@@ -18,7 +18,7 @@ package com.lyndir.lhunath.snaplog.data.object.security;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.ImmutableSet;
-import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import java.io.Serializable;
 import java.util.HashMap;

@@ -15,10 +15,12 @@
  */
 package com.lyndir.lhunath.snaplog.data.object;
 
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.system.util.Utils;
-import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
-import com.lyndir.lhunath.lib.wayward.js.JSUtils;
+import com.google.common.base.Charsets;
+import com.lyndir.lhunath.opal.crypto.MessageDigests;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.util.StringUtils;
+import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
+import com.lyndir.lhunath.opal.wayward.js.JSUtils;
 import com.lyndir.lhunath.snaplog.data.object.security.AbstractSecureObject;
 import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
 import java.io.PrintWriter;
@@ -40,10 +42,10 @@ public class Issue extends AbstractSecureObject<UserProfile> {
 
     static final Messages msgs = MessagesFactory.create( Messages.class );
 
-    private final String originPath;
-    private final Exception cause;
-    private final String issueHash;
-    private final String issueCode;
+    private final String      originPath;
+    private final Exception   cause;
+    private final String      issueHash;
+    private final String      issueCode;
     private final UserProfile subject;
 
     /**
@@ -76,7 +78,10 @@ public class Issue extends AbstractSecureObject<UserProfile> {
         this.cause = cause;
         this.subject = subject;
 
-        issueHash = Utils.getMD5( JSUtils.toString( new Object[]{ originPath, causeStringWriter.toString() } ) );
+        issueHash = StringUtils.encodeHex(
+                MessageDigests.MD5.of(
+                        JSUtils.toString( new Object[]{ originPath, causeStringWriter.toString() } ).getBytes(
+                                Charsets.UTF_8 ) ) );
         issueCode = UUID.randomUUID().toString();
     }
 

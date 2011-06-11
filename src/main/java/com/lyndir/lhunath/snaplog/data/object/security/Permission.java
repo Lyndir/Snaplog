@@ -15,9 +15,9 @@
  */
 package com.lyndir.lhunath.snaplog.data.object.security;
 
-import com.lyndir.lhunath.lib.wayward.i18n.KeyAppender;
-import com.lyndir.lhunath.lib.wayward.i18n.Localized;
-import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
+import com.lyndir.lhunath.opal.wayward.i18n.KeyAppender;
+import com.lyndir.lhunath.opal.wayward.i18n.Localized;
+import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.webapp.component.Sprite;
 

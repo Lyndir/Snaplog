@@ -16,10 +16,10 @@
 package com.lyndir.lhunath.snaplog.webapp;
 
 import com.google.inject.Injector;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.system.logging.exception.AlreadyCheckedException;
-import com.lyndir.lhunath.lib.wayward.js.AjaxHooks;
-import com.lyndir.lhunath.lib.wayward.state.ComponentStateListener;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.logging.exception.AlreadyCheckedException;
+import com.lyndir.lhunath.opal.wayward.js.AjaxHooks;
+import com.lyndir.lhunath.opal.wayward.state.ComponentStateListener;
 import com.lyndir.lhunath.snaplog.data.object.Issue;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;

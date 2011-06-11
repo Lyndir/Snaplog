@@ -3,10 +3,10 @@ package com.lyndir.lhunath.snaplog.model.service.impl;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.system.util.DateUtils;
-import com.lyndir.lhunath.lib.system.util.ObjectUtils;
-import com.lyndir.lhunath.lib.wayward.collection.IPredicate;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.util.DateUtils;
+import com.lyndir.lhunath.opal.system.util.ObjectUtils;
+import com.lyndir.lhunath.opal.wayward.collection.IPredicate;
 import com.lyndir.lhunath.snaplog.data.object.media.*;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
@@ -99,7 +99,7 @@ public class TagServiceImpl implements TagService {
                         break;
                     lastMedia = source.next();
                 } // Continue to add this lastMedia to the current list of media while its shotTime truncates to the offset.
-                while (ObjectUtils.equal( DateUtils.truncate( lastMedia.shotTime(), frame ), offset ));
+                while (ObjectUtils.isEqual( DateUtils.truncate( lastMedia.shotTime(), frame ), offset ));
 
                 return new TimeFrame( offset, range, frameMedia.build() );
             }

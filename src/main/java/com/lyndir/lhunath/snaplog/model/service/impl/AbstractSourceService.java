@@ -1,8 +1,8 @@
 package com.lyndir.lhunath.snaplog.model.service.impl;
 
 import com.google.common.base.Predicate;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.system.util.ObjectUtils;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.util.ObjectUtils;
 import com.lyndir.lhunath.snaplog.data.object.media.*;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
@@ -53,7 +53,7 @@ public abstract class AbstractSourceService<S extends Source, M extends Media> i
             @Override
             public boolean apply(final Source input) {
 
-                return ObjectUtils.equal( input.getOwner(), owner );
+                return ObjectUtils.isEqual( input.getOwner(), owner );
             }
         } )) {
             Media media = mediaDAO.findMedia( source, mediaName );

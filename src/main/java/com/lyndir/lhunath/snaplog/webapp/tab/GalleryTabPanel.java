@@ -19,13 +19,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.system.util.ObjectUtils;
-import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
-import com.lyndir.lhunath.lib.wayward.i18n.BooleanKeyAppender;
-import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
-import com.lyndir.lhunath.lib.wayward.navigation.AbstractFragmentState;
-import com.lyndir.lhunath.lib.wayward.navigation.IncompatibleStateException;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.util.ObjectUtils;
+import com.lyndir.lhunath.opal.wayward.component.GenericPanel;
+import com.lyndir.lhunath.opal.wayward.i18n.BooleanKeyAppender;
+import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
+import com.lyndir.lhunath.opal.wayward.navigation.AbstractFragmentState;
+import com.lyndir.lhunath.opal.wayward.navigation.IncompatibleStateException;
 import com.lyndir.lhunath.snaplog.data.object.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.object.media.Tag;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
@@ -95,7 +95,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
             @Override
             protected Boolean load() {
 
-                return ObjectUtils.equal( getModelObject().getObject(), SnaplogSession.get().getActiveUser() );
+                return ObjectUtils.isEqual( getModelObject().getObject(), SnaplogSession.get().getActiveUser() );
             }
         }, new LoadableDetachableModel<Boolean>() {
 

@@ -1,11 +1,11 @@
 package com.lyndir.lhunath.snaplog.webapp.view;
 
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.wayward.component.AjaxLabelLink;
-import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
-import com.lyndir.lhunath.lib.wayward.provider.AbstractCollectionProvider;
-import com.lyndir.lhunath.lib.wayward.provider.AbstractIteratorProvider;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.wayward.component.AjaxLabelLink;
+import com.lyndir.lhunath.opal.wayward.component.GenericPanel;
+import com.lyndir.lhunath.opal.wayward.provider.AbstractCollectionProvider;
+import com.lyndir.lhunath.opal.wayward.provider.AbstractIteratorProvider;
 import com.lyndir.lhunath.snaplog.data.object.media.*;
 import com.lyndir.lhunath.snaplog.model.service.TagService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;

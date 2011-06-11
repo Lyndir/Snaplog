@@ -5,9 +5,10 @@ import com.db4o.ObjectSet;
 import com.db4o.ext.ExtObjectContainer;
 import com.db4o.query.Predicate;
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.system.util.ObjectUtils;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.util.ObjectUtils;
 import com.lyndir.lhunath.snaplog.data.object.media.Source;
+import com.lyndir.lhunath.snaplog.data.object.media.Tag;
 import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Source;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.data.object.user.*;
@@ -76,13 +77,15 @@ public class InitDAOImpl implements InitDAO {
             @Override
             public boolean match(final UserProfile candidate) {
 
-                return ObjectUtils.equal( candidate.getUser(), SnaplogConstants.DEFAULT_USER );
+                return ObjectUtils.isEqual( candidate.getUser(), SnaplogConstants.DEFAULT_USER );
             }
         } );
         if (defaultUserProfileQuery.hasNext())
             defaultUserProfile = defaultUserProfileQuery.next();
-        else
+        else {
             defaultUserProfile = new UserProfile( SnaplogConstants.DEFAULT_USER );
+            db.store( new Tag( defaultUserProfile, "Untagged", null ) );
+        }
         // Configure default user's profile.
         defaultUserProfile.getACL().setDefaultPermission( Permission.VIEW );
         if (!((ExtObjectContainer) db).isActive( defaultUserProfile ))
@@ -95,7 +98,7 @@ public class InitDAOImpl implements InitDAO {
             @Override
             public boolean apply(final Source input) {
 
-                return ObjectUtils.equal( input.getOwner(), SnaplogConstants.DEFAULT_USER );
+                return ObjectUtils.isEqual( input.getOwner(), SnaplogConstants.DEFAULT_USER );
             }
         } );
         SnaplogConstants.DEFAULT_SOURCE =

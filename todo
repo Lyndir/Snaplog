@@ -1,1 +1,2 @@
-- an "Untagged" tag that always appears when there's media without tags.
+- Media/Tags is a mess.  Maybe completely rework it.
+- Maybe move away from db4o to graph db

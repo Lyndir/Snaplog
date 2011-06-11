@@ -16,9 +16,9 @@
 package com.lyndir.lhunath.snaplog.webapp.view;
 
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.wayward.behavior.CSSClassAttributeAppender;
-import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.wayward.behavior.CSSClassAttributeAppender;
+import com.lyndir.lhunath.opal.wayward.component.GenericPanel;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;

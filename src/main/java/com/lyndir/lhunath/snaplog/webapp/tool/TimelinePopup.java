@@ -1,7 +1,7 @@
 package com.lyndir.lhunath.snaplog.webapp.tool;
 
 import com.google.common.collect.ImmutableList;
-import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
+import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.object.media.*;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.model.service.SecurityService;

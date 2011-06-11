@@ -1,6 +1,6 @@
 package com.lyndir.lhunath.snaplog.webapp.component;
 
-import com.lyndir.lhunath.lib.wayward.behavior.CSSClassAttributeAppender;
+import com.lyndir.lhunath.opal.wayward.behavior.CSSClassAttributeAppender;
 import org.apache.wicket.markup.ComponentTag;
 import org.apache.wicket.markup.html.WebComponent;
 

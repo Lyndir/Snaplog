@@ -1,7 +1,7 @@
 package com.lyndir.lhunath.snaplog.data.service.impl.neodatis;
 
 import com.google.inject.Provider;
-import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.logging.Logger;
 import java.lang.ref.WeakReference;
 import java.util.Collection;
 import java.util.LinkedList;

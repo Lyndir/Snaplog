@@ -7,9 +7,9 @@ import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import com.db4o.query.QueryComparator;
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.system.util.DateUtils;
-import com.lyndir.lhunath.lib.system.util.ObjectUtils;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.util.DateUtils;
+import com.lyndir.lhunath.opal.system.util.ObjectUtils;
 import com.lyndir.lhunath.snaplog.data.object.media.*;
 import com.lyndir.lhunath.snaplog.data.service.MediaDAO;
 import java.util.List;
@@ -68,7 +68,7 @@ public class MediaDAOImpl implements MediaDAO {
                 @Override
                 public boolean match(final M candidate) {
 
-                    return ObjectUtils.equal( candidate.getSource(), source ) && ObjectUtils.equal( candidate.getName(), mediaName );
+                    return ObjectUtils.isEqual( candidate.getSource(), source ) && ObjectUtils.isEqual( candidate.getName(), mediaName );
                 }
             } );
             if (results.hasNext()) {
@@ -95,7 +95,7 @@ public class MediaDAOImpl implements MediaDAO {
                 @Override
                 public boolean match(final D candidate) {
 
-                    return ObjectUtils.equal( candidate.getMedia(), media );
+                    return ObjectUtils.isEqual( candidate.getMedia(), media );
                 }
             } );
             if (results.hasNext()) {
@@ -120,7 +120,7 @@ public class MediaDAOImpl implements MediaDAO {
             @Override
             public boolean match(final M candidate) {
 
-                return ObjectUtils.equal( candidate.getSource(), source );
+                return ObjectUtils.isEqual( candidate.getSource(), source );
             }
         }, new QueryComparator<M>() {
 
@@ -140,7 +140,7 @@ public class MediaDAOImpl implements MediaDAO {
             @Override
             public boolean match(final D candidate) {
 
-                return ObjectUtils.equal( candidate.getMedia().getSource(), source );
+                return ObjectUtils.isEqual( candidate.getMedia().getSource(), source );
             }
         }, new QueryComparator<D>() {
 
@@ -175,7 +175,7 @@ public class MediaDAOImpl implements MediaDAO {
             @Override
             public boolean match(final MediaMapping candidate) {
 
-                return ObjectUtils.equal( candidate.getMapping(), mapping );
+                return ObjectUtils.isEqual( candidate.getMapping(), mapping );
             }
         } );
         if (results.hasNext()) {

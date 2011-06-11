@@ -4,9 +4,9 @@ import static com.google.common.base.Preconditions.checkState;
 
 import com.google.common.collect.Lists;
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.system.util.DateUtils;
-import com.lyndir.lhunath.lib.system.util.ObjectUtils;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.util.DateUtils;
+import com.lyndir.lhunath.opal.system.util.ObjectUtils;
 import com.lyndir.lhunath.snaplog.data.object.media.*;
 import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Media;
 import com.lyndir.lhunath.snaplog.data.object.media.aws.S3MediaData;
@@ -69,7 +69,7 @@ public class MediaDAOImpl implements MediaDAO {
 
                 public boolean match(final S3Media candidate) {
 
-                    return ObjectUtils.equal( candidate.getSource(), source ) && ObjectUtils.equal( candidate.getName(), mediaName );
+                    return ObjectUtils.isEqual( candidate.getSource(), source ) && ObjectUtils.isEqual( candidate.getName(), mediaName );
                 }
             } );
             if (results.hasNext()) {
@@ -95,7 +95,7 @@ public class MediaDAOImpl implements MediaDAO {
 
                 public boolean match(final S3MediaData candidate) {
 
-                    return ObjectUtils.equal( candidate.getMedia(), (Media) media );
+                    return ObjectUtils.isEqual( candidate.getMedia(), (Media) media );
                 }
             } );
             if (results.hasNext()) {
@@ -119,7 +119,7 @@ public class MediaDAOImpl implements MediaDAO {
 
             public boolean match(final S3Media candidate) {
 
-                return ObjectUtils.equal( candidate.getSource(), source );
+                return ObjectUtils.isEqual( candidate.getSource(), source );
             }
         } );
 
@@ -143,7 +143,7 @@ public class MediaDAOImpl implements MediaDAO {
 
             public boolean match(final S3MediaData candidate) {
 
-                return ObjectUtils.equal( candidate.getMedia().getSource(), source );
+                return ObjectUtils.isEqual( candidate.getMedia().getSource(), source );
             }
         } );
         List<D> resultsList = Lists.newLinkedList( results );
@@ -181,7 +181,7 @@ public class MediaDAOImpl implements MediaDAO {
 
             public boolean match(final MediaMapping candidate) {
 
-                return ObjectUtils.equal( candidate.getMapping(), mapping);
+                return ObjectUtils.isEqual( candidate.getMapping(), mapping );
             }
         } );
         if (results.hasNext()) {

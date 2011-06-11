@@ -21,11 +21,11 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.Iterators;
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.collection.Iterators2;
-import com.lyndir.lhunath.lib.system.collection.Pair;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.system.logging.exception.InternalInconsistencyException;
-import com.lyndir.lhunath.lib.system.util.ObjectUtils;
+import com.lyndir.lhunath.opal.system.collection.Iterators2;
+import com.lyndir.lhunath.opal.system.collection.Pair;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.logging.exception.InternalInconsistencyException;
+import com.lyndir.lhunath.opal.system.util.ObjectUtils;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.data.object.security.SecureObject;
 import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
@@ -126,7 +126,7 @@ public class SecurityServiceImpl implements SecurityService {
 
         // Determine what permission level to grant on the object for the token.
         Permission tokenPermission;
-        if (ObjectUtils.equal( o.getOwner(), token.getActor() ))
+        if (ObjectUtils.isEqual( o.getOwner(), token.getActor() ))
             tokenPermission = Permission.ADMINISTER;
         else
             tokenPermission = o.getACL().getUserPermission( token.getActor() );
@@ -260,7 +260,7 @@ public class SecurityServiceImpl implements SecurityService {
         checkNotNull( o, "Given secure object must not be null." );
         checkNotNull( user, "Given user must not be null." );
 
-        if (ObjectUtils.equal( o.getOwner(), user ))
+        if (ObjectUtils.isEqual( o.getOwner(), user ))
             throw new IllegalOperationException( "Given user must not be the object's owner." );
 
         assertAccess( Permission.ADMINISTER, token, o );

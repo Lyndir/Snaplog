@@ -3,8 +3,8 @@ package com.lyndir.lhunath.snaplog.data.service.impl.neodatis;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.system.util.ObjectUtils;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.util.ObjectUtils;
 import com.lyndir.lhunath.snaplog.data.object.media.Source;
 import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Source;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;
@@ -66,7 +66,7 @@ public class InitDAOImpl implements InitDAO {
             @Override
             public boolean apply(final Source input) {
 
-                return ObjectUtils.equal(input.getOwner(), SnaplogConstants.DEFAULT_USER);
+                return ObjectUtils.isEqual( input.getOwner(), SnaplogConstants.DEFAULT_USER );
             }
         } ), 0, new S3Source( defaultUserProfile, "snaplog.net", "users/lhunath/Life" ));
         // Configure default user's source.

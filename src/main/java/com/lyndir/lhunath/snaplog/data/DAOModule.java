@@ -18,7 +18,7 @@ package com.lyndir.lhunath.snaplog.data;
 import com.db4o.ObjectContainer;
 import com.google.inject.AbstractModule;
 import com.google.inject.Scopes;
-import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.service.*;
 import com.lyndir.lhunath.snaplog.data.service.impl.db4o.Db4oProvider;
 import com.lyndir.lhunath.snaplog.data.service.impl.db4o.InitDAOImpl;

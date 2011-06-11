@@ -15,14 +15,15 @@
  */
 package com.lyndir.lhunath.snaplog.model.service.impl;
 
-import static com.google.common.base.Preconditions.checkNotNull;
+import static com.google.common.base.Preconditions.*;
 
 import com.google.common.base.Splitter;
 import com.google.common.collect.*;
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.system.logging.exception.InternalInconsistencyException;
-import com.lyndir.lhunath.lib.system.util.ObjectUtils;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.logging.exception.InternalInconsistencyException;
+import com.lyndir.lhunath.opal.system.util.ObjectUtils;
+import com.lyndir.lhunath.opal.system.util.Throw;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.object.media.Source;
@@ -185,7 +186,7 @@ public class AWSSourceServiceImpl extends AbstractSourceService<S3Source, S3Medi
             needsUpdate = true;
         }
 
-        if (quality != null && !ObjectUtils.equal( mediaData.get( quality ), mediaObject )) {
+        if (quality != null && !ObjectUtils.isEqual( mediaData.get( quality ), mediaObject )) {
             mediaData.put( quality, mediaObject );
             needsUpdate = true;
         }
@@ -349,8 +350,7 @@ public class AWSSourceServiceImpl extends AbstractSourceService<S3Source, S3Medi
             return s3ResourceObject;
 
         // Read the original.
-        if (quality == Quality.ORIGINAL)
-            throw logger.err( "Media's original resource does not exist." ).toError();
+        checkArgument( quality != Quality.ORIGINAL, "Can't generate original media resource");
 
         logger.inf( "S3 does not yet have an object for: %s, at quality: %s", media, quality );
         S3Object s3OriginalObject = awsService.readObject( getObjectKey( media, Quality.ORIGINAL ) );
@@ -366,8 +366,7 @@ public class AWSSourceServiceImpl extends AbstractSourceService<S3Source, S3Medi
                                   imageDataStream, "image/jpeg", quality.getCompression(), true );
             }
             catch (IOException e) {
-                throw logger.err( e, "Image data could not be read: %s", s3OriginalObject ) //
-                        .toError();
+                throw Throw.propagate( e, "Image data could not be read: %s", s3OriginalObject );
             }
             finally {
                 try {
@@ -379,8 +378,7 @@ public class AWSSourceServiceImpl extends AbstractSourceService<S3Source, S3Medi
             }
         }
         catch (S3ServiceException e) {
-            throw logger.err( e, "Image data could not be read: %s", s3OriginalObject ) //
-                    .toError();
+            throw Throw.propagate( e, "Image data could not be read: %s", s3OriginalObject );
         }
         logger.dbg( "Wrote rescaled image of quality: %s, size: %d", quality, imageDataStream.size() );
 

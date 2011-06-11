@@ -16,8 +16,9 @@
 package com.lyndir.lhunath.snaplog.model.service.impl;
 
 import com.google.common.collect.ImmutableList;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.system.util.DateUtils;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.util.DateUtils;
+import com.lyndir.lhunath.opal.system.util.Throw;
 import com.lyndir.lhunath.snaplog.model.service.AWSService;
 import org.jets3t.service.Constants;
 import org.jets3t.service.Jets3tProperties;
@@ -68,8 +69,7 @@ public class AWSServiceImpl implements AWSService {
         }
 
         catch (S3ServiceException e) {
-            throw logger.err( e, ERR_AWS_SERVICE ) //
-                    .toError();
+            throw Throw.propagate( e, ERR_AWS_SERVICE );
         }
 
         finally {
@@ -93,8 +93,7 @@ public class AWSServiceImpl implements AWSService {
             if (e.getResponseCode() == 404)
                 return null;
 
-            throw logger.err( e, ERR_AWS_SERVICE ) //
-                    .toError();
+            throw Throw.propagate( e, ERR_AWS_SERVICE );
         }
 
         finally {
@@ -112,8 +111,7 @@ public class AWSServiceImpl implements AWSService {
         }
 
         catch (S3ServiceException e) {
-            throw logger.err( e, ERR_AWS_SERVICE ) //
-                    .toError();
+            throw Throw.propagate( e, ERR_AWS_SERVICE );
         }
 
         finally {
@@ -134,8 +132,7 @@ public class AWSServiceImpl implements AWSService {
         }
 
         catch (S3ServiceException e) {
-            throw logger.err( e, ERR_AWS_SERVICE ) //
-                    .toError();
+            throw Throw.propagate( e, ERR_AWS_SERVICE );
         }
 
         finally {
@@ -157,8 +154,7 @@ public class AWSServiceImpl implements AWSService {
         }
 
         catch (S3ServiceException e) {
-            throw logger.err( e, ERR_AWS_SERVICE ) //
-                    .toError();
+            throw Throw.propagate( e, ERR_AWS_SERVICE );
         }
 
         finally {

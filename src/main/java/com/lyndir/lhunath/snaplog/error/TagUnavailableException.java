@@ -15,7 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.error;
 
-import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
+import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 
 

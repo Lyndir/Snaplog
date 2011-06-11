@@ -16,9 +16,9 @@
 package com.lyndir.lhunath.snaplog.webapp.tab.model;
 
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.wayward.model.EmptyModelProvider;
-import com.lyndir.lhunath.lib.wayward.model.ModelProvider;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.wayward.model.EmptyModelProvider;
+import com.lyndir.lhunath.opal.wayward.model.ModelProvider;
 import com.lyndir.lhunath.snaplog.data.object.media.SourceType;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.webapp.tab.GalleryTabPanel;

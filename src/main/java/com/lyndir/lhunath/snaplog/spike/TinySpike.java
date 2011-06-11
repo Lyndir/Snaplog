@@ -1,7 +1,13 @@
 package com.lyndir.lhunath.snaplog.spike;
 
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import java.util.GregorianCalendar;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.model.Model;
+import org.apache.wicket.util.tester.FormTester;
+import org.apache.wicket.util.tester.WicketTester;
+import org.junit.Test;
 
 
 /**
@@ -15,12 +21,35 @@ public class TinySpike {
 
     static final Logger logger = Logger.get( TinySpike.class );
 
-    public static void main(final String... args)
+    @Test
+    public void testWicket()
             throws Exception {
 
-        GregorianCalendar calendar = new GregorianCalendar();
-        calendar.setLenient( false );
-        calendar.set( 2000, 1, 31 );
-        logger.inf( "%s", calendar.getTime() );
+        WicketTester tester = new WicketTester( TestPage.class );
+        tester.processRequestCycle();
+
+        FormTester form = tester.newFormTester( "form" );
+        form.submit();
+
+        tester.assertNoErrorMessage();
+    }
+
+    public static class TestPage extends WebPage {
+
+        @Override
+        protected void onInitialize() {
+
+            super.onInitialize();
+
+            add( new Form<Void>( "form" ) {
+                @Override
+                protected void onInitialize() {
+
+                    super.onInitialize();
+
+                    add( new TextField<String>( "field", Model.<String>of("") ).setConvertEmptyInputStringToNull( false ).setRequired( true ) );
+                }
+            } );
+        }
     }
 }

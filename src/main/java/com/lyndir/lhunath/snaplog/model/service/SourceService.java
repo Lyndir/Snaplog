@@ -16,7 +16,7 @@
 package com.lyndir.lhunath.snaplog.model.service;
 
 import com.google.common.base.Predicate;
-import com.lyndir.lhunath.lib.wayward.model.WicketInjected;
+import com.lyndir.lhunath.opal.wayward.model.WicketInjected;
 import com.lyndir.lhunath.snaplog.data.object.media.*;
 import com.lyndir.lhunath.snaplog.data.object.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;

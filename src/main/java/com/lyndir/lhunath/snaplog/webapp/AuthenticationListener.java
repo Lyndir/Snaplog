@@ -16,7 +16,7 @@
 package com.lyndir.lhunath.snaplog.webapp;
 
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.wayward.component.WicketUtils;
+import com.lyndir.lhunath.opal.wayward.component.WicketUtils;
 import com.lyndir.lhunath.snaplog.data.object.user.LinkID;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.model.service.UserService;

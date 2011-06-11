@@ -8,7 +8,7 @@ import com.db4o.diagnostic.Diagnostic;
 import com.db4o.diagnostic.DiagnosticListener;
 import com.db4o.reflect.jdk.JdkReflector;
 import com.db4o.ta.TransparentPersistenceSupport;
-import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.logging.Logger;
 import java.io.File;
 import java.util.LinkedHashMap;
 import java.util.Map;

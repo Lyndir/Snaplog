@@ -16,11 +16,11 @@
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
 import com.google.common.collect.ImmutableList;
-import com.lyndir.lhunath.lib.system.localization.UseKey;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
-import com.lyndir.lhunath.lib.wayward.navigation.AbstractFragmentState;
-import com.lyndir.lhunath.lib.wayward.navigation.IncompatibleStateException;
+import com.lyndir.lhunath.opal.system.localization.UseKey;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
+import com.lyndir.lhunath.opal.wayward.navigation.AbstractFragmentState;
+import com.lyndir.lhunath.opal.wayward.navigation.IncompatibleStateException;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import java.util.List;

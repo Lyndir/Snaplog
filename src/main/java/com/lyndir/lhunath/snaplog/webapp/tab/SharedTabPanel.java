@@ -18,11 +18,11 @@ package com.lyndir.lhunath.snaplog.webapp.tab;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.ImmutableList;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
-import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
-import com.lyndir.lhunath.lib.wayward.navigation.AbstractFragmentState;
-import com.lyndir.lhunath.lib.wayward.navigation.IncompatibleStateException;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.wayward.component.GenericPanel;
+import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
+import com.lyndir.lhunath.opal.wayward.navigation.AbstractFragmentState;
+import com.lyndir.lhunath.opal.wayward.navigation.IncompatibleStateException;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.media.MediaMapping;
 import com.lyndir.lhunath.snaplog.error.MediaMappingNotFoundException;

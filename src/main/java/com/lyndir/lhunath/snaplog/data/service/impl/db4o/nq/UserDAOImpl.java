@@ -7,7 +7,7 @@ import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.util.ObjectUtils;
+import com.lyndir.lhunath.opal.system.util.ObjectUtils;
 import com.lyndir.lhunath.snaplog.data.object.user.LinkID;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
@@ -54,7 +54,7 @@ public class UserDAOImpl implements UserDAO {
             @Override
             public boolean match(final User candidate) {
 
-                return ObjectUtils.equal( candidate.getLinkID(), linkID );
+                return ObjectUtils.isEqual( candidate.getLinkID(), linkID );
             }
         } );
 
@@ -78,7 +78,7 @@ public class UserDAOImpl implements UserDAO {
             @Override
             public boolean match(final UserProfile candidate) {
 
-                return ObjectUtils.equal( candidate.getUser(), user );
+                return ObjectUtils.isEqual( candidate.getUser(), user );
             }
         } );
 

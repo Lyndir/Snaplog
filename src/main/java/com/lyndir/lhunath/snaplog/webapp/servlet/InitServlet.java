@@ -18,9 +18,9 @@ package com.lyndir.lhunath.snaplog.webapp.servlet;
 import com.google.common.base.Predicates;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.system.util.DateUtils;
-import com.lyndir.lhunath.lib.system.util.ObjectUtils;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.util.DateUtils;
+import com.lyndir.lhunath.opal.system.util.ObjectUtils;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.media.Source;
 import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
@@ -83,7 +83,7 @@ public class InitServlet extends HttpServlet {
                         while (mediaIt.hasNext()) {
 
                             Media media = mediaIt.next();
-                            if (lastMedia != null && ObjectUtils.equal( media.getName(), lastMedia.getName() ))
+                            if (lastMedia != null && ObjectUtils.isEqual( media.getName(), lastMedia.getName() ))
                                 try {
                                     logger.inf( "Found duplicate: last=%s, current=%s.  Deleting current.", lastMedia, media );
                                     sourceDelegate.delete( SecurityToken.INTERNAL_USE_ONLY, media );
@@ -155,6 +155,7 @@ public class InitServlet extends HttpServlet {
         }
 
         catch (Throwable t) {
+            logger.err( t, "While running task %s", name );
             resp.getWriter().format( " error (%s - %s).\n", t.toString(), timer.logFinish( logger ) );
             resp.flushBuffer();
         }

@@ -17,13 +17,13 @@ package com.lyndir.lhunath.snaplog.webapp.tab;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.wayward.collection.IPredicate;
-import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
-import com.lyndir.lhunath.lib.wayward.i18n.BooleanKeyAppender;
-import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
-import com.lyndir.lhunath.lib.wayward.navigation.AbstractFragmentState;
-import com.lyndir.lhunath.lib.wayward.navigation.IncompatibleStateException;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.wayward.collection.IPredicate;
+import com.lyndir.lhunath.opal.wayward.component.GenericPanel;
+import com.lyndir.lhunath.opal.wayward.i18n.BooleanKeyAppender;
+import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
+import com.lyndir.lhunath.opal.wayward.navigation.AbstractFragmentState;
+import com.lyndir.lhunath.opal.wayward.navigation.IncompatibleStateException;
 import com.lyndir.lhunath.snaplog.data.object.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.object.media.Tag;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
@@ -72,7 +72,7 @@ public class HomeTabPanel extends GenericPanel<HomeTabModels> {
         super( id, new HomeTabModels().getModel() );
         getModelObject().attach( this );
 
-        add( new Label( "usersHelp", getModelObject().usersHelp() ) );
+        add( new Label( "tagsHelp", getModelObject().usersHelp() ) );
         add( new AbstractTagsView( "tags", new IPredicate<Tag>() {
             @Override
             public boolean apply(final Tag input) {

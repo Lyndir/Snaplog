@@ -16,7 +16,7 @@
 package com.lyndir.lhunath.snaplog.data.object.security;
 
 import com.lyndir.lhunath.snaplog.data.object.user.User;
-import net.link.safeonline.util.validation.annotation.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 
 /**

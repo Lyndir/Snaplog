@@ -3,7 +3,7 @@ package com.lyndir.lhunath.snaplog.job;
 import com.google.common.base.Predicates;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.object.media.Source;
 import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;

@@ -16,7 +16,7 @@
 package com.lyndir.lhunath.snaplog.webapp.listener;
 
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.job.MediaDataSynchronizationJob;
 import com.lyndir.lhunath.snaplog.job.MediaSynchronizationJob;
 import java.text.ParseException;

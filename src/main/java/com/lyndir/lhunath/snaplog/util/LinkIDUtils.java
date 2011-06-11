@@ -15,7 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.util;
 
-import com.lyndir.lhunath.lib.wayward.component.WicketUtils;
+import com.lyndir.lhunath.opal.wayward.component.WicketUtils;
 import java.util.Iterator;
 import java.util.Map;
 import net.link.safeonline.sdk.auth.filter.LoginManager;

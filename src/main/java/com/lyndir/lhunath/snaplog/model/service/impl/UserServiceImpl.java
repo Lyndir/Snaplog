@@ -19,9 +19,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Predicate;
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.collection.SizedListIterator;
-import com.lyndir.lhunath.lib.system.util.ObjectUtils;
-import com.lyndir.lhunath.lib.wayward.collection.IPredicate;
+import com.lyndir.lhunath.opal.system.collection.SizedListIterator;
+import com.lyndir.lhunath.opal.system.util.ObjectUtils;
+import com.lyndir.lhunath.opal.wayward.collection.IPredicate;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.object.user.LinkID;
@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserService {
             @Override
             public boolean apply(final User input) {
 
-                return input != null && ObjectUtils.equal( input.getUserName(), userName );
+                return input != null && ObjectUtils.isEqual( input.getUserName(), userName );
             }
         } );
         if (userQuery.hasNext())

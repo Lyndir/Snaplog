@@ -15,7 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab.model;
 
-import com.lyndir.lhunath.lib.wayward.model.ModelProvider;
+import com.lyndir.lhunath.opal.wayward.model.ModelProvider;
 import com.lyndir.lhunath.snaplog.data.object.media.*;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;

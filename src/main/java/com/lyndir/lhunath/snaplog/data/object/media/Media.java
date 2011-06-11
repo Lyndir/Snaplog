@@ -18,8 +18,8 @@ package com.lyndir.lhunath.snaplog.data.object.media;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Objects;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.object.security.AbstractSecureObject;
 import com.lyndir.lhunath.snaplog.model.service.WebUtil;
 import java.io.IOException;

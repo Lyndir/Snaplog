@@ -15,8 +15,8 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
-import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationTab;
-import com.lyndir.lhunath.lib.wayward.navigation.FragmentState;
+import com.lyndir.lhunath.opal.wayward.navigation.FragmentNavigationTab;
+import com.lyndir.lhunath.opal.wayward.navigation.FragmentState;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;

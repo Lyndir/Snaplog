@@ -7,7 +7,7 @@ import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Predicate;
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.util.ObjectUtils;
+import com.lyndir.lhunath.opal.system.util.ObjectUtils;
 import com.lyndir.lhunath.snaplog.data.object.Issue;
 import com.lyndir.lhunath.snaplog.data.service.IssueDAO;
 import java.util.List;
@@ -46,7 +46,7 @@ public class IssueDAOImpl implements IssueDAO {
             @Override
             public boolean match(final Issue candidate) {
 
-                return ObjectUtils.equal( candidate.getIssueCode(), issueCode );
+                return ObjectUtils.isEqual( candidate.getIssueCode(), issueCode );
             }
         } );
 

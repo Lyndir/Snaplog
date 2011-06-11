@@ -15,7 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.linkid;
 
-import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.logging.Logger;
 import net.link.safeonline.sdk.common.configuration.PropertiesWebappConfig;
 
 

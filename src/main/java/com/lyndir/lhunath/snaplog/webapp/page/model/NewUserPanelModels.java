@@ -15,7 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.page.model;
 
-import com.lyndir.lhunath.lib.wayward.model.EmptyModelProvider;
+import com.lyndir.lhunath.opal.wayward.model.EmptyModelProvider;
 import com.lyndir.lhunath.snaplog.util.LinkIDUtils;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;

@@ -15,10 +15,10 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.wayward.navigation.FragmentNavigationTab;
-import com.lyndir.lhunath.lib.wayward.navigation.FragmentState;
-import com.lyndir.lhunath.lib.wayward.navigation.IncompatibleStateException;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.wayward.navigation.FragmentNavigationTab;
+import com.lyndir.lhunath.opal.wayward.navigation.FragmentState;
+import com.lyndir.lhunath.opal.wayward.navigation.IncompatibleStateException;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 import org.apache.wicket.markup.html.panel.Panel;
 
@@ -140,7 +140,7 @@ public enum Tab {
             LayoutPage.getController().activateTabWithState( snaplogTab, state );
         }
         catch (IncompatibleStateException e) {
-            throw logger.bug( e ).toError();
+            throw logger.bug( e );
         }
     }
 
@@ -158,6 +158,6 @@ public enum Tab {
             if (enumTab.get().getClass().isInstance( tab ))
                 return enumTab;
 
-        throw logger.err( "No known tab provides: %s", tab ).toError( IllegalArgumentException.class );
+        throw new IllegalArgumentException( "No known tab provides: " + tab );
     }
 }

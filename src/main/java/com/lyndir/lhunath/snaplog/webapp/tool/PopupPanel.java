@@ -1,6 +1,6 @@
 package com.lyndir.lhunath.snaplog.webapp.tool;
 
-import com.lyndir.lhunath.lib.wayward.component.GenericPanel;
+import com.lyndir.lhunath.opal.wayward.component.GenericPanel;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.model.IModel;
 

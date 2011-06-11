@@ -15,7 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.util;
 
-import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.logging.Logger;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
@@ -46,7 +46,7 @@ public abstract class URLUtils {
             return URLEncoder.encode( str, "UTF-8" );
         }
         catch (UnsupportedEncodingException e) {
-            throw logger.bug( e ).toError();
+            throw logger.bug( e );
         }
     }
 }

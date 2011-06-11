@@ -15,8 +15,8 @@
  */
 package com.lyndir.lhunath.snaplog.model.service;
 
-import com.lyndir.lhunath.lib.system.collection.Pair;
-import com.lyndir.lhunath.lib.wayward.model.WicketInjected;
+import com.lyndir.lhunath.opal.system.collection.Pair;
+import com.lyndir.lhunath.opal.wayward.model.WicketInjected;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.data.object.security.SecureObject;
 import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;

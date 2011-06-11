@@ -1,6 +1,6 @@
 package com.lyndir.lhunath.snaplog.webapp.tool;
 
-import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
+import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.object.media.Source;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;

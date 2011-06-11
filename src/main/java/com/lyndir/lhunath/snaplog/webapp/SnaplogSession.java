@@ -16,7 +16,7 @@
 package com.lyndir.lhunath.snaplog.webapp;
 
 import com.google.common.base.Objects;
-import com.lyndir.lhunath.lib.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import org.apache.wicket.Request;

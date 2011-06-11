@@ -2,7 +2,7 @@ package com.lyndir.lhunath.snaplog.data.object.media;
 
 import com.lyndir.lhunath.snaplog.data.object.security.AbstractSecureObject;
 import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
-import net.link.safeonline.util.validation.annotation.NotNull;
+import org.jetbrains.annotations.NotNull;
 
 
 /**
@@ -17,6 +17,7 @@ public class Tag extends AbstractSecureObject<UserProfile> {
     private final UserProfile ownerProfile;
     private final String name;
     private final String description;
+    private final boolean untagged;
     private boolean advertise;
 
     public Tag(@NotNull final UserProfile ownerProfile, final String name, final String description) {
@@ -26,6 +27,7 @@ public class Tag extends AbstractSecureObject<UserProfile> {
         this.ownerProfile = ownerProfile;
         this.name = name;
         this.description = description;
+        untagged = "Untagged".equalsIgnoreCase( name );
     }
 
     @Override
@@ -66,5 +68,10 @@ public class Tag extends AbstractSecureObject<UserProfile> {
     public void setAdvertise(final boolean advertise) {
 
         this.advertise = advertise;
+    }
+
+    public boolean isUntagged() {
+
+        return untagged;
     }
 }

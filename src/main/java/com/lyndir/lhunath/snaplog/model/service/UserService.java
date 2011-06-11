@@ -17,8 +17,8 @@ package com.lyndir.lhunath.snaplog.model.service;
 
 import com.db4o.ObjectSet;
 import com.google.common.base.Predicate;
-import com.lyndir.lhunath.lib.system.collection.SizedListIterator;
-import com.lyndir.lhunath.lib.wayward.model.WicketInjected;
+import com.lyndir.lhunath.opal.system.collection.SizedListIterator;
+import com.lyndir.lhunath.opal.wayward.model.WicketInjected;
 import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.object.user.LinkID;

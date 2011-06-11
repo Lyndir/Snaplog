@@ -16,10 +16,10 @@
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
 import com.google.common.collect.ImmutableList;
-import com.lyndir.lhunath.lib.wayward.component.RedirectToPageException;
-import com.lyndir.lhunath.lib.wayward.model.ModelTemplates;
-import com.lyndir.lhunath.lib.wayward.navigation.AbstractFragmentState;
-import com.lyndir.lhunath.lib.wayward.navigation.IncompatibleStateException;
+import com.lyndir.lhunath.opal.wayward.component.RedirectToPageException;
+import com.lyndir.lhunath.opal.wayward.model.Models;
+import com.lyndir.lhunath.opal.wayward.navigation.AbstractFragmentState;
+import com.lyndir.lhunath.opal.wayward.navigation.IncompatibleStateException;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import java.util.List;
@@ -85,7 +85,7 @@ public class AccessDeniedErrorPage extends LayoutPage {
         @Override
         public IModel<String> getTitle() {
 
-            return ModelTemplates.unsupportedOperation();
+            return Models.unsupportedOperation();
         }
 
         @Override

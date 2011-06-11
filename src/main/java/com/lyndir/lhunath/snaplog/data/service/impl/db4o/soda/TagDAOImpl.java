@@ -1,16 +1,17 @@
 package com.lyndir.lhunath.snaplog.data.service.impl.db4o.soda;
 
-import static com.google.common.base.Preconditions.checkNotNull;
-import static com.google.common.base.Preconditions.checkState;
+import static com.google.common.base.Preconditions.*;
 
 import com.db4o.ObjectContainer;
 import com.db4o.ObjectSet;
 import com.db4o.query.Query;
 import com.google.common.base.Predicate;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.system.logging.exception.AlreadyCheckedException;
-import com.lyndir.lhunath.lib.system.util.DateUtils;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.logging.exception.AlreadyCheckedException;
+import com.lyndir.lhunath.opal.system.util.DateUtils;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.media.Tag;
 import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
@@ -68,9 +69,7 @@ public class TagDAOImpl implements TagDAO {
     public List<Media> listMedia(final Tag tag, final boolean ascending) {
 
         Query query = db.query();
-        query.constrain( Media.class ) //
-                .and( query.descend( "tags" ) //
-                              .constrain( tag ).contains() );
+        query.constrain( Media.class );
 
         // TODO: Set the sort order in nq. package too.
         if (ascending)
@@ -78,7 +77,23 @@ public class TagDAOImpl implements TagDAO {
         else
             query.descend( "name" ).orderDescending();
 
-        return query.execute();
+        if (tag.isUntagged()) {
+            query.descend( "owner" ) //
+                    .constrain( tag.getOwner() );
+
+            return ImmutableList.copyOf( Iterables.filter( query.<Media>execute(), new Predicate<Media>() {
+                @Override
+                public boolean apply(final Media input) {
+
+                    return input.getTags().isEmpty();
+                }
+            } ) );
+        } else {
+            query.descend( "tags" ) //
+                    .constrain( tag ).contains();
+
+            return query.execute();
+        }
     }
 
     @Override

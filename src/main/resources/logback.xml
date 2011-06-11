@@ -16,8 +16,8 @@
     <logger name="org.apache.wicket" level="DEBUG" />
     -->
     <logger name="com.lyndir.lhunath.snaplog.model.service.impl.SecurityServiceImpl" level="INFO" />
-    <logger name="com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory" level="INFO" />
-    <logger name="com.lyndir.lhunath.lib.wayward.i18n.internal" level="INFO" />
+    <logger name="com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory" level="INFO" />
+    <logger name="com.lyndir.lhunath.opal.wayward.i18n.internal" level="INFO" />
 
     <root level="WARN">
         <appender-ref ref="STDOUT" />

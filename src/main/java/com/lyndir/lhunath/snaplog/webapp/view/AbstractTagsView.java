@@ -2,10 +2,10 @@ package com.lyndir.lhunath.snaplog.webapp.view;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.system.util.ObjectUtils;
-import com.lyndir.lhunath.lib.wayward.collection.IPredicate;
-import com.lyndir.lhunath.lib.wayward.provider.AbstractListProvider;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.system.util.ObjectUtils;
+import com.lyndir.lhunath.opal.wayward.collection.IPredicate;
+import com.lyndir.lhunath.opal.wayward.provider.AbstractListProvider;
 import com.lyndir.lhunath.snaplog.data.object.media.*;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.model.service.TagService;
@@ -46,7 +46,7 @@ public abstract class AbstractTagsView extends DataView<Tag> {
             @Override
             public boolean apply(final Tag input) {
 
-                return ObjectUtils.equal( input.getOwner(), ownerUser.getObject() );
+                return ObjectUtils.isEqual( input.getOwner(), ownerUser.getObject() );
             }
         }, tagsPerPage );
     }

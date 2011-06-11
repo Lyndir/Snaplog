@@ -15,7 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.data.object.media.aws;
 
-import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
+import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.object.media.Source;
 import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
 

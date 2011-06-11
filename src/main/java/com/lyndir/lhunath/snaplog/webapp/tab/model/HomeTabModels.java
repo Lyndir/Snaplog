@@ -15,9 +15,9 @@
  */
 package com.lyndir.lhunath.snaplog.webapp.tab.model;
 
-import com.lyndir.lhunath.lib.system.logging.Logger;
-import com.lyndir.lhunath.lib.wayward.i18n.MessagesFactory;
-import com.lyndir.lhunath.lib.wayward.model.EmptyModelProvider;
+import com.lyndir.lhunath.opal.system.logging.Logger;
+import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
+import com.lyndir.lhunath.opal.wayward.model.EmptyModelProvider;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.tab.GalleryTabPanel;
 import com.lyndir.lhunath.snaplog.webapp.tab.HomeTabPanel.Messages;
