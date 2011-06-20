@@ -105,7 +105,7 @@ public enum Tab {
      *
      * @param tab The implementation of this tab.
      */
-    <P extends Panel, S extends FragmentState> Tab(final SnaplogTab<P, S> tab) {
+    Tab(final SnaplogTab<? extends Panel, ? extends FragmentState> tab) {
 
         this.tab = tab;
     }
@@ -133,10 +133,10 @@ public enum Tab {
      *
      * @param state The state to apply on the tab's new panel.
      */
-    public <P extends Panel, S extends FragmentState> void activateWithState(final S state) {
+    public void activateWithState(final FragmentState state) {
 
         try {
-            SnaplogTab<P, S> snaplogTab = get();
+            SnaplogTab<?, FragmentState> snaplogTab = get();
             LayoutPage.getController().activateTabWithState( snaplogTab, state );
         }
         catch (IncompatibleStateException e) {
@@ -149,7 +149,7 @@ public enum Tab {
      */
     public boolean isVisible() {
 
-        return get().isVisible();
+        return get().isInNavigation();
     }
 
     public static Tab of(final FragmentNavigationTab<?, ?> tab) {

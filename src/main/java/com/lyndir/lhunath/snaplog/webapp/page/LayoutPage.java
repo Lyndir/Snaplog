@@ -6,16 +6,11 @@ import com.google.common.collect.ImmutableList;
 import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.opal.wayward.behavior.CSSClassAttributeAppender;
 import com.lyndir.lhunath.opal.wayward.behavior.JSLink;
-import com.lyndir.lhunath.opal.wayward.component.AjaxLabelLink;
-import com.lyndir.lhunath.opal.wayward.component.GenericWebPage;
-import com.lyndir.lhunath.opal.wayward.component.LabelLink;
+import com.lyndir.lhunath.opal.wayward.component.*;
 import com.lyndir.lhunath.opal.wayward.i18n.KeyAppender;
 import com.lyndir.lhunath.opal.wayward.i18n.KeyMatch;
 import com.lyndir.lhunath.opal.wayward.js.AjaxHooks;
-import com.lyndir.lhunath.opal.wayward.navigation.FragmentNavigationListener;
-import com.lyndir.lhunath.opal.wayward.navigation.FragmentNavigationTab;
-import com.lyndir.lhunath.opal.wayward.navigation.FragmentState;
-import com.lyndir.lhunath.opal.wayward.navigation.IncompatibleStateException;
+import com.lyndir.lhunath.opal.wayward.navigation.*;
 import com.lyndir.lhunath.snaplog.data.object.media.Source;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
@@ -23,16 +18,12 @@ import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels;
 import com.lyndir.lhunath.snaplog.webapp.page.model.LayoutPageModels.TabItem;
 import com.lyndir.lhunath.snaplog.webapp.tab.SnaplogTab;
 import com.lyndir.lhunath.snaplog.webapp.tab.Tab;
-import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogLinkTool;
-import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogPanelTool;
-import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
+import com.lyndir.lhunath.snaplog.webapp.tool.*;
 import java.util.HashMap;
 import java.util.List;
 import net.link.safeonline.wicket.component.linkid.LinkIDLoginLink;
 import org.apache.wicket.*;
-import org.apache.wicket.ajax.AjaxEventBehavior;
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.IAjaxIndicatorAware;
+import org.apache.wicket.ajax.*;
 import org.apache.wicket.feedback.FeedbackMessage;
 import org.apache.wicket.feedback.IFeedbackMessageFilter;
 import org.apache.wicket.markup.ComponentTag;
@@ -48,6 +39,7 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.jetbrains.annotations.NotNull;
 
 
 /**
@@ -71,7 +63,7 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
     final WebMarkupContainer contentContainer;
     final WebMarkupContainer messages;
 
-    final HashMap<SnaplogPanelTool, Panel> toolPanels;
+    final HashMap<SnaplogPanelTool, Panel>                     toolPanels;
     final LoadableDetachableModel<List<? extends SnaplogTool>> tools;
 
     /**
@@ -111,53 +103,57 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
             }
         };
         userSummary.add( new Label( "userBadge", getModelObject().userBadge() ) );
-        userSummary.add( new BookmarkablePageLink<Page>( "userName", Page.class ) {
+        userSummary.add(
+                new BookmarkablePageLink<Page>( "userName", Page.class ) {
 
-            @Override
-            protected void onComponentTagBody(final MarkupStream markupStream, final ComponentTag openTag) {
+                    @Override
+                    protected void onComponentTagBody(final MarkupStream markupStream, final ComponentTag openTag) {
 
-                replaceComponentTagBody( markupStream, openTag, SnaplogSession.get().getActiveUser().getUserName() );
-            }
-        } );
-        userSummary.add( new LabelLink( "userMessages", getModelObject().userMessages() ) {
+                        replaceComponentTagBody( markupStream, openTag, SnaplogSession.get().getActiveUser().getUserName() );
+                    }
+                } );
+        userSummary.add(
+                new LabelLink( "userMessages", getModelObject().userMessages() ) {
 
-            @Override
-            public boolean isVisible() {
+                    @Override
+                    public boolean isVisible() {
 
-                // TODO: return messageCount > 0;
-                return true;
-            }
+                        // TODO: return messageCount > 0;
+                        return true;
+                    }
 
-            @Override
-            public void onClick() {
+                    @Override
+                    public void onClick() {
 
-                // TODO: do something.
-            }
-        } );
-        userSummary.add( new LabelLink( "userRequests", getModelObject().userRequests() ) {
+                        // TODO: do something.
+                    }
+                } );
+        userSummary.add(
+                new LabelLink( "userRequests", getModelObject().userRequests() ) {
 
-            @Override
-            public boolean isVisible() {
+                    @Override
+                    public boolean isVisible() {
 
-                // TODO: return requestCount > 0;
-                return true;
-            }
+                        // TODO: return requestCount > 0;
+                        return true;
+                    }
 
-            @Override
-            public void onClick() {
+                    @Override
+                    public void onClick() {
 
-                // TODO: do something.
-            }
-        } );
-        userSummary.add( new Link<Object>( "userLogout" ) {
+                        // TODO: do something.
+                    }
+                } );
+        userSummary.add(
+                new Link<Object>( "userLogout" ) {
 
-            @Override
-            public void onClick() {
+                    @Override
+                    public void onClick() {
 
-                Session.get().invalidate();
-                throw new RestartResponseException( LayoutPage.class );
-            }
-        } );
+                        Session.get().invalidate();
+                        throw new RestartResponseException( LayoutPage.class );
+                    }
+                } );
 
         // Page Tab.
         ListView<TabItem> headTabs = new ListView<TabItem>( "tabs", getModelObject().tabs() ) {
@@ -167,14 +163,15 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
 
                 final TabItem itemModel = item.getModelObject();
 
-                item.add( new AjaxLabelLink( "link", itemModel.title() ) {
+                item.add(
+                        new AjaxLabelLink( "link", itemModel.title() ) {
 
-                    @Override
-                    public void onClick(final AjaxRequestTarget target) {
+                            @Override
+                            public void onClick(final AjaxRequestTarget target) {
 
-                        itemModel.getObject().activateNew();
-                    }
-                } );
+                                itemModel.getObject().activateNew();
+                            }
+                        } );
                 item.add( CSSClassAttributeAppender.ofString( item.getModelObject().styleClass() ) );
                 item.setVisible( itemModel.getObject().isVisible() );
             }
@@ -214,7 +211,8 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
 
         tabsContainer = new WebMarkupContainer( "tabsContainer" );
         tabsContainer.setOutputMarkupId( true );
-        tabsContainer.add( headTabs, new ListView<SnaplogTool>( "tools", tools ) {
+        tabsContainer.add(
+                headTabs, new ListView<SnaplogTool>( "tools", tools ) {
 
             @Override
             protected void populateItem(final ListItem<SnaplogTool> item) {
@@ -228,14 +226,15 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
                     link.add( new JSLink( "popup", toolPanels.get( panelTool ).getMarkupId(), "toggle" ) );
                 } else if (tool instanceof SnaplogLinkTool) {
                     final SnaplogLinkTool linkTool = (SnaplogLinkTool) tool;
-                    link.add( new AjaxEventBehavior( "onClick" ) {
+                    link.add(
+                            new AjaxEventBehavior( "onClick" ) {
 
-                        @Override
-                        protected void onEvent(final AjaxRequestTarget target) {
+                                @Override
+                                protected void onEvent(final AjaxRequestTarget target) {
 
-                            linkTool.onClick( target );
-                        }
-                    } );
+                                    linkTool.onClick( target );
+                                }
+                            } );
                 }
 
                 item.add( link ).setVisible( tool.isVisible() );
@@ -253,67 +252,75 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
         } );
 
         // Global Messages.
-        add( messages = new WebMarkupContainer( "messages" ) {
+        add(
+                messages = new WebMarkupContainer( "messages" ) {
 
-            {
-                setOutputMarkupId( true );
+                    {
+                        setOutputMarkupId( true );
 
-                add( new FeedbackPanel( "errors", new IFeedbackMessageFilter() {
+                        add(
+                                new FeedbackPanel(
+                                        "errors", new IFeedbackMessageFilter() {
 
-                    @Override
-                    public boolean accept(final FeedbackMessage message) {
+                                    @Override
+                                    public boolean accept(final FeedbackMessage message) {
 
-                        return message.getLevel() >= FeedbackMessage.WARNING;
-                    }
-                } ) {
+                                        return message.getLevel() >= FeedbackMessage.WARNING;
+                                    }
+                                } ) {
 
-                    @Override
-                    public boolean isVisible() {
+                                    @Override
+                                    public boolean isVisible() {
 
-                        return anyMessage();
+                                        return anyMessage();
+                                    }
+                                } );
+                        add(
+                                new FeedbackPanel(
+                                        "infos", new IFeedbackMessageFilter() {
+
+                                    @Override
+                                    public boolean accept(final FeedbackMessage message) {
+
+                                        return message.getLevel() <= FeedbackMessage.INFO;
+                                    }
+                                } ) {
+
+                                    @Override
+                                    public boolean isVisible() {
+
+                                        return anyMessage();
+                                    }
+                                } );
                     }
                 } );
-                add( new FeedbackPanel( "infos", new IFeedbackMessageFilter() {
-
-                    @Override
-                    public boolean accept(final FeedbackMessage message) {
-
-                        return message.getLevel() <= FeedbackMessage.INFO;
-                    }
-                } ) {
-
-                    @Override
-                    public boolean isVisible() {
-
-                        return anyMessage();
-                    }
-                } );
-            }
-        } );
 
         // Page Content.
-        add( (contentContainer = new WebMarkupContainer( "contentContainer" ) {
+        add(
+                (contentContainer = new WebMarkupContainer( "contentContainer" ) {
 
-            {
-                add( new ListView<SnaplogPanelTool>( "toolPanels", new LoadableDetachableModel<List<? extends SnaplogPanelTool>>() {
+                    {
+                        add(
+                                new ListView<SnaplogPanelTool>(
+                                        "toolPanels", new LoadableDetachableModel<List<? extends SnaplogPanelTool>>() {
 
-                    @Override
-                    protected List<? extends SnaplogPanelTool> load() {
+                                    @Override
+                                    protected List<? extends SnaplogPanelTool> load() {
 
-                        return ImmutableList.copyOf( toolPanels.keySet() );
+                                        return ImmutableList.copyOf( toolPanels.keySet() );
+                                    }
+                                } ) {
+
+                                    @Override
+                                    protected void populateItem(final ListItem<SnaplogPanelTool> item) {
+
+                                        SnaplogPanelTool tool = item.getModelObject();
+                                        item.add( toolPanels.get( tool ).setVisible( tool.isVisible() ) );
+                                    }
+                                } );
+                        add( new WebComponent( CONTENT_PANEL ) );
                     }
-                } ) {
-
-                    @Override
-                    protected void populateItem(final ListItem<SnaplogPanelTool> item) {
-
-                        SnaplogPanelTool tool = item.getModelObject();
-                        item.add( toolPanels.get( tool ).setVisible( tool.isVisible() ) );
-                    }
-                } );
-                add( new WebComponent( CONTENT_PANEL ) );
-            }
-        }).setMarkupId( "content" /* TODO: Wicket should REALLY dig this out of the markup! */ ).setOutputMarkupId( true ) );
+                }).setMarkupId( "content" /* TODO: Wicket should REALLY dig this out of the markup! */ ).setOutputMarkupId( true ) );
 
         add( pageTitle, userEntry, userSummary, tabsContainer );
     }
@@ -335,8 +342,9 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
     public static SnaplogNavigationController<Panel, FragmentState> getController() {
 
         Page responsePage = RequestCycle.get().getResponsePage();
-        checkState( LayoutPage.class.isInstance( responsePage ), //
-                    "Can't access LayoutPage's controller, while it isn't the response page.  Response page is: %s.", responsePage );
+        checkState(
+                LayoutPage.class.isInstance( responsePage ), //
+                "Can't access LayoutPage's controller, while it isn't the response page.  Response page is: %s.", responsePage );
 
         return ((LayoutPage) responsePage).navigationController;
     }
@@ -418,43 +426,34 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
 
 
     public class SnaplogNavigationController<P extends Panel, S extends FragmentState>
-            extends FragmentNavigationListener.Controller<P, S, SnaplogTab<? extends P, ? extends S>> {
+            extends ContainerNavigationController<P, S> {
 
         @Override
-        protected Class<? extends Page> getTabExclusivePage() {
+        protected Class<? extends Page> getTabPage() {
 
             return LayoutPage.class;
         }
 
-        @Override
-        protected Component getActiveContent() {
-
-            return contentContainer.get( CONTENT_PANEL );
-        }
-
-        @Override
-        protected <TT extends FragmentNavigationTab<PP, SS>, PP extends P, SS extends S> void setActiveTab(final TT tab,
-                                                                                                           final Panel tabPanel) {
-
-            Panel contentPanel = tabPanel;
-            if (contentPanel == null)
-                contentPanel = tab.newPanel( CONTENT_PANEL );
-
-            contentContainer.addOrReplace( contentPanel );
-        }
-
+        @NotNull
         @Override
         protected Iterable<? extends Component> getNavigationComponents() {
 
-            return ImmutableList.of( tabsContainer, contentContainer );
+            return ImmutableList.<Component>builder().addAll( super.getNavigationComponents() ).add( tabsContainer ).build();
         }
 
         @Override
-        protected String getTabContentId() {
+        protected WebMarkupContainer getContainer() {
+
+            return contentContainer;
+        }
+
+        @Override
+        protected <TT extends FragmentNavigationTab<PP, ?>, PP extends P> String getContentId(@NotNull final TT tab) {
 
             return CONTENT_PANEL;
         }
 
+        @NotNull
         @Override
         protected Iterable<SnaplogTab<? extends P, ? extends S>> getTabs() {
 
@@ -465,14 +464,6 @@ public class LayoutPage extends GenericWebPage<LayoutPageModels> implements IAja
             }
 
             return tabsBuilder.build();
-        }
-
-        @Override
-        protected void onError(final IncompatibleStateException e) {
-
-            logger.err( e, "While navigating" );
-
-            error( e.getLocalizedMessage() );
         }
     }
 }

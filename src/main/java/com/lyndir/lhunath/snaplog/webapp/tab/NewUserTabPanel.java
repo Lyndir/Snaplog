@@ -40,6 +40,7 @@ import net.link.safeonline.sdk.auth.filter.LoginManager;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.model.IModel;
+import org.jetbrains.annotations.NotNull;
 
 
 /**
@@ -99,43 +100,42 @@ public class NewUserTabPanel extends GenericPanel<NewUserPanelModels> {
             return ImmutableList.of();
         }
 
+        @NotNull
         @Override
         public String getTabFragment() {
 
             return "newUser";
         }
 
+        @NotNull
         @Override
-        public NewUserTabState buildFragmentState(final NewUserTabPanel panel) {
+        public NewUserTabState buildFragmentState(@NotNull final NewUserTabPanel panel) {
 
             return new NewUserTabState();
         }
 
         @Override
-        public void applyFragmentState(final NewUserTabPanel panel, final NewUserTabState state)
+        public void applyFragmentState(@NotNull final NewUserTabPanel panel, @NotNull final NewUserTabState state)
                 throws IncompatibleStateException {
 
             // No state.
         }
 
+        @NotNull
         @Override
-        public NewUserTabPanel newPanel(final String panelId) {
-
-            return new NewUserTabPanel( panelId );
-        }
-
-        @Override
-        public Class<NewUserTabPanel> getPanelClass() {
+        public Class<NewUserTabPanel> getContentPanelClass() {
 
             return NewUserTabPanel.class;
         }
 
+        @NotNull
         @Override
-        public NewUserTabState getState(final String fragment) {
+        public NewUserTabState getState(@NotNull final String fragment) {
 
             return new NewUserTabState( fragment );
         }
 
+        @NotNull
         @Override
         public IModel<String> getTitle() {
 
@@ -143,7 +143,7 @@ public class NewUserTabPanel extends GenericPanel<NewUserPanelModels> {
         }
 
         @Override
-        public boolean isVisible() {
+        public boolean isInNavigation() {
 
             return false;
         }
@@ -168,12 +168,6 @@ public class NewUserTabPanel extends GenericPanel<NewUserPanelModels> {
 
             super( fragment );
         }
-
-        @Override
-        protected String getTabFragment() {
-
-            return NewUserTab.instance.getTabFragment();
-        }
     }
 
 
@@ -195,7 +189,7 @@ public class NewUserTabPanel extends GenericPanel<NewUserPanelModels> {
         }
 
         @Override
-        protected FragmentNavigationListener.Controller<? super NewUserTabPanel, ? super NewUserTabState, ? super NewUserTab> findController() {
+        protected FragmentNavigationListener.Controller<? super NewUserTabPanel, ? super NewUserTabState> findController() {
 
             return LayoutPage.getController();
         }

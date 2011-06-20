@@ -26,6 +26,7 @@ import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
+import org.jetbrains.annotations.NotNull;
 
 
 /**
@@ -76,29 +77,23 @@ public class AdministrationTabPanel extends Panel {
         /**
          * {@inheritDoc}
          */
+        @NotNull
         @Override
         public IModel<String> getTitle() {
 
             return msgs.tabTitle();
         }
 
-        /**
-         * {@inheritDoc}
-         */
+        @NotNull
         @Override
-        public AdministrationTabPanel newPanel(final String panelId) {
-
-            return new AdministrationTabPanel( panelId );
-        }
-
-        @Override
-        public Class<AdministrationTabPanel> getPanelClass() {
+        public Class<AdministrationTabPanel> getContentPanelClass() {
 
             return AdministrationTabPanel.class;
         }
 
+        @NotNull
         @Override
-        public AdministrationTabState getState(final String fragment) {
+        public AdministrationTabState getState(@NotNull final String fragment) {
 
             return new AdministrationTabState( fragment );
         }
@@ -107,7 +102,7 @@ public class AdministrationTabPanel extends Panel {
          * {@inheritDoc}
          */
         @Override
-        public boolean isVisible() {
+        public boolean isInNavigation() {
 
             return SnaplogSession.get().isAuthenticated();
         }
@@ -118,20 +113,22 @@ public class AdministrationTabPanel extends Panel {
             return ImmutableList.of();
         }
 
+        @NotNull
         @Override
         public String getTabFragment() {
 
             return "admin";
         }
 
+        @NotNull
         @Override
-        public AdministrationTabState buildFragmentState(final AdministrationTabPanel panel) {
+        public AdministrationTabState buildFragmentState(@NotNull final AdministrationTabPanel panel) {
 
             return new AdministrationTabState();
         }
 
         @Override
-        public void applyFragmentState(final AdministrationTabPanel panel, final AdministrationTabState state)
+        public void applyFragmentState(@NotNull final AdministrationTabPanel panel, @NotNull final AdministrationTabState state)
                 throws IncompatibleStateException {
 
             // No state.
@@ -148,12 +145,6 @@ public class AdministrationTabPanel extends Panel {
         public AdministrationTabState(final String fragment) {
 
             super( fragment );
-        }
-
-        @Override
-        protected String getTabFragment() {
-
-            return AdministrationTab.instance.getTabFragment();
         }
     }
 }

@@ -25,6 +25,7 @@ import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
+import org.jetbrains.annotations.NotNull;
 
 
 /**
@@ -63,25 +64,28 @@ public class AccessDeniedErrorPage extends LayoutPage {
             return ImmutableList.of();
         }
 
+        @NotNull
         @Override
         public String getTabFragment() {
 
             return "denied";
         }
 
+        @NotNull
         @Override
-        public AccessDeniedErrorState buildFragmentState(final AccessDeniedErrorTabPanel panel) {
+        public AccessDeniedErrorState buildFragmentState(@NotNull final AccessDeniedErrorTabPanel panel) {
 
             return new AccessDeniedErrorState();
         }
 
         @Override
-        public void applyFragmentState(final AccessDeniedErrorTabPanel panel, final AccessDeniedErrorState state)
+        public void applyFragmentState(@NotNull final AccessDeniedErrorTabPanel panel, @NotNull final AccessDeniedErrorState state)
                 throws IncompatibleStateException {
 
             // No state.
         }
 
+        @NotNull
         @Override
         public IModel<String> getTitle() {
 
@@ -89,25 +93,21 @@ public class AccessDeniedErrorPage extends LayoutPage {
         }
 
         @Override
-        public AccessDeniedErrorTabPanel newPanel(final String panelId) {
-
-            return new AccessDeniedErrorTabPanel( panelId );
-        }
-
-        @Override
-        public boolean isVisible() {
+        public boolean isInNavigation() {
 
             return true;
         }
 
+        @NotNull
         @Override
-        public Class<AccessDeniedErrorTabPanel> getPanelClass() {
+        public Class<AccessDeniedErrorTabPanel> getContentPanelClass() {
 
             return AccessDeniedErrorTabPanel.class;
         }
 
+        @NotNull
         @Override
-        public AccessDeniedErrorState getState(final String fragment) {
+        public AccessDeniedErrorState getState(@NotNull final String fragment) {
 
             return new AccessDeniedErrorState( fragment );
         }
@@ -121,12 +121,6 @@ public class AccessDeniedErrorPage extends LayoutPage {
 
         AccessDeniedErrorState(final String fragment) {
             super( fragment );
-        }
-
-        @Override
-        protected String getTabFragment() {
-
-            return AccessDeniedErrorTab.instance.getTabFragment();
         }
     }
 }

@@ -40,6 +40,7 @@ import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.*;
 import org.apache.wicket.util.string.AppendingStringBuffer;
+import org.jetbrains.annotations.NotNull;
 
 
 /**
@@ -294,29 +295,23 @@ public class HomeTabPanel extends GenericPanel<HomeTabModels> {
         /**
          * {@inheritDoc}
          */
+        @NotNull
         @Override
         public IModel<String> getTitle() {
 
             return msgs.tabTitle();
         }
 
-        /**
-         * {@inheritDoc}
-         */
+        @NotNull
         @Override
-        public HomeTabPanel newPanel(final String panelId) {
-
-            return new HomeTabPanel( panelId );
-        }
-
-        @Override
-        public Class<HomeTabPanel> getPanelClass() {
+        public Class<HomeTabPanel> getContentPanelClass() {
 
             return HomeTabPanel.class;
         }
 
+        @NotNull
         @Override
-        public HomeTabState getState(final String fragment) {
+        public HomeTabState getState(@NotNull final String fragment) {
 
             return new HomeTabState( fragment );
         }
@@ -325,7 +320,7 @@ public class HomeTabPanel extends GenericPanel<HomeTabModels> {
          * {@inheritDoc}
          */
         @Override
-        public boolean isVisible() {
+        public boolean isInNavigation() {
 
             return true;
         }
@@ -336,20 +331,22 @@ public class HomeTabPanel extends GenericPanel<HomeTabModels> {
             return ImmutableList.of();
         }
 
+        @NotNull
         @Override
         public String getTabFragment() {
 
             return "home";
         }
 
+        @NotNull
         @Override
-        public HomeTabState buildFragmentState(final HomeTabPanel panel) {
+        public HomeTabState buildFragmentState(@NotNull final HomeTabPanel panel) {
 
             return new HomeTabState();
         }
 
         @Override
-        public void applyFragmentState(final HomeTabPanel panel, final HomeTabState state)
+        public void applyFragmentState(@NotNull final HomeTabPanel panel, @NotNull final HomeTabState state)
                 throws IncompatibleStateException {
 
             // No state.
@@ -366,12 +363,6 @@ public class HomeTabPanel extends GenericPanel<HomeTabModels> {
         public HomeTabState(final String fragment) {
 
             super( fragment );
-        }
-
-        @Override
-        protected String getTabFragment() {
-
-            return HomeTab.instance.getTabFragment();
         }
     }
 }

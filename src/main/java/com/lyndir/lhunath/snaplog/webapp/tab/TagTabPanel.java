@@ -40,6 +40,8 @@ import com.lyndir.lhunath.snaplog.webapp.view.FocusedView;
 import java.util.List;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.model.*;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 
 /**
@@ -111,29 +113,23 @@ public class TagTabPanel extends GenericPanel<TagTabModels> {
         /**
          * {@inheritDoc}
          */
+        @NotNull
         @Override
         public IModel<String> getTitle() {
 
             return msgs.tabTitle();
         }
 
-        /**
-         * {@inheritDoc}
-         */
+        @NotNull
         @Override
-        public TagTabPanel newPanel(final String panelId) {
-
-            return new TagTabPanel( panelId, Model.<Tag>of() );
-        }
-
-        @Override
-        public Class<TagTabPanel> getPanelClass() {
+        public Class<TagTabPanel> getContentPanelClass() {
 
             return TagTabPanel.class;
         }
 
+        @NotNull
         @Override
-        public TagTabState getState(final String fragment) {
+        public TagTabState getState(@NotNull final String fragment) {
 
             return new TagTabState( fragment );
         }
@@ -150,14 +146,16 @@ public class TagTabPanel extends GenericPanel<TagTabModels> {
             );
         }
 
+        @NotNull
         @Override
         public String getTabFragment() {
 
             return "tag";
         }
 
+        @NotNull
         @Override
-        public TagTabState buildFragmentState(final TagTabPanel panel) {
+        public TagTabState buildFragmentState(@NotNull final TagTabPanel panel) {
 
             Media focusedMedia = panel.getModelObject().focusedMedia().getObject();
             if (focusedMedia == null)
@@ -167,7 +165,7 @@ public class TagTabPanel extends GenericPanel<TagTabModels> {
         }
 
         @Override
-        public void applyFragmentState(final TagTabPanel panel, final TagTabState state)
+        public void applyFragmentState(@NotNull final TagTabPanel panel, @NotNull final TagTabState state)
                 throws IncompatibleStateException {
 
             try {
@@ -191,7 +189,7 @@ public class TagTabPanel extends GenericPanel<TagTabModels> {
          * {@inheritDoc}
          */
         @Override
-        public boolean isVisible() {
+        public boolean isInNavigation() {
 
             return false;
         }
@@ -313,16 +311,11 @@ public class TagTabPanel extends GenericPanel<TagTabModels> {
             return tag;
         }
 
+        @Nullable
         public Media findMedia()
                 throws UserNotFoundException {
 
             return mediaName == null? null: sourceDelegate.findMediaWithName( SnaplogSession.get().newToken(), getUser(), mediaName );
-        }
-
-        @Override
-        protected String getTabFragment() {
-
-            return TagTab.instance.getTabFragment();
         }
     }
 }

@@ -36,6 +36,8 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 
 /**
@@ -124,14 +126,16 @@ public class InternalErrorPage extends LayoutPage {
             return ImmutableList.of();
         }
 
+        @NotNull
         @Override
         public String getTabFragment() {
 
             return "error";
         }
 
+        @NotNull
         @Override
-        public InternalErrorState buildFragmentState(final InternalErrorTabPanel panel) {
+        public InternalErrorState buildFragmentState(@NotNull final InternalErrorTabPanel panel) {
 
             if (panel.getIssue() == null)
                 return new InternalErrorState();
@@ -140,7 +144,7 @@ public class InternalErrorPage extends LayoutPage {
         }
 
         @Override
-        public void applyFragmentState(final InternalErrorTabPanel panel, final InternalErrorState state)
+        public void applyFragmentState(@NotNull final InternalErrorTabPanel panel, @NotNull final InternalErrorState state)
                 throws IncompatibleStateException {
 
             try {
@@ -155,6 +159,7 @@ public class InternalErrorPage extends LayoutPage {
             }
         }
 
+        @NotNull
         @Override
         public IModel<String> getTitle() {
 
@@ -162,25 +167,21 @@ public class InternalErrorPage extends LayoutPage {
         }
 
         @Override
-        public InternalErrorTabPanel newPanel(final String panelId) {
-
-            return new InternalErrorTabPanel( panelId );
-        }
-
-        @Override
-        public boolean isVisible() {
+        public boolean isInNavigation() {
 
             return true;
         }
 
+        @NotNull
         @Override
-        public Class<InternalErrorTabPanel> getPanelClass() {
+        public Class<InternalErrorTabPanel> getContentPanelClass() {
 
             return InternalErrorTabPanel.class;
         }
 
+        @NotNull
         @Override
-        public InternalErrorState getState(final String fragment) {
+        public InternalErrorState getState(@NotNull final String fragment) {
 
             return new InternalErrorState( fragment );
         }
@@ -214,6 +215,7 @@ public class InternalErrorPage extends LayoutPage {
             logger.dbg( "Created error state with fragments: %s", getStateFragments() );
         }
 
+        @Nullable
         public Issue findIssue()
                 throws IssueNotFoundException, PermissionDeniedException {
 
@@ -221,12 +223,6 @@ public class InternalErrorPage extends LayoutPage {
                 return null;
 
             return issueService.getIssue( SnaplogSession.get().newToken(), issueCode );
-        }
-
-        @Override
-        protected String getTabFragment() {
-
-            return InternalErrorTab.instance.getTabFragment();
         }
     }
 }

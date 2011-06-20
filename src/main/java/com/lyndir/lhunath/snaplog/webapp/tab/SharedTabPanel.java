@@ -35,6 +35,7 @@ import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import com.lyndir.lhunath.snaplog.webapp.view.FocusedView;
 import java.util.List;
 import org.apache.wicket.model.*;
+import org.jetbrains.annotations.NotNull;
 
 
 /**
@@ -50,11 +51,10 @@ public class SharedTabPanel extends GenericPanel<SharedTabModels> {
      * Create a new {@link SharedTabPanel} instance.
      *
      * @param id    The wicket ID that will hold the {@link SharedTabPanel}.
-     * @param model Provides the mapping to show.
      */
-    SharedTabPanel(final String id, final IModel<MediaMapping> model) {
+    SharedTabPanel(final String id) {
 
-        super( id, new SharedTabModels( model ).getModel() );
+        super( id, new SharedTabModels( Model.<MediaMapping>of() ).getModel() );
 
         add( new FocusedView( "focused", new AbstractReadOnlyModel<Media>() {
             @Override
@@ -91,29 +91,23 @@ public class SharedTabPanel extends GenericPanel<SharedTabModels> {
         /**
          * {@inheritDoc}
          */
+        @NotNull
         @Override
         public IModel<String> getTitle() {
 
             return msgs.tabTitle();
         }
 
-        /**
-         * {@inheritDoc}
-         */
+        @NotNull
         @Override
-        public SharedTabPanel newPanel(final String panelId) {
-
-            return new SharedTabPanel( panelId, Model.<MediaMapping>of() );
-        }
-
-        @Override
-        public Class<SharedTabPanel> getPanelClass() {
+        public Class<SharedTabPanel> getContentPanelClass() {
 
             return SharedTabPanel.class;
         }
 
+        @NotNull
         @Override
-        public SharedTabState getState(final String fragment) {
+        public SharedTabState getState(@NotNull final String fragment) {
 
             return new SharedTabState( fragment );
         }
@@ -127,20 +121,22 @@ public class SharedTabPanel extends GenericPanel<SharedTabModels> {
             return ImmutableList.of();
         }
 
+        @NotNull
         @Override
         public String getTabFragment() {
 
             return "shared";
         }
 
+        @NotNull
         @Override
-        public SharedTabState buildFragmentState(final SharedTabPanel panel) {
+        public SharedTabState buildFragmentState(@NotNull final SharedTabPanel panel) {
 
             return new SharedTabState( panel.getModelObject().getObject() );
         }
 
         @Override
-        public void applyFragmentState(final SharedTabPanel panel, final SharedTabState state)
+        public void applyFragmentState(@NotNull final SharedTabPanel panel, @NotNull final SharedTabState state)
                 throws IncompatibleStateException {
 
             try {
@@ -158,7 +154,7 @@ public class SharedTabPanel extends GenericPanel<SharedTabModels> {
          * {@inheritDoc}
          */
         @Override
-        public boolean isVisible() {
+        public boolean isInNavigation() {
 
             return false;
         }
@@ -212,12 +208,6 @@ public class SharedTabPanel extends GenericPanel<SharedTabModels> {
                 throw new MediaMappingNotFoundException( mapping );
 
             return mediaMapping;
-        }
-
-        @Override
-        protected String getTabFragment() {
-
-            return SharedTab.instance.getTabFragment();
         }
     }
 }

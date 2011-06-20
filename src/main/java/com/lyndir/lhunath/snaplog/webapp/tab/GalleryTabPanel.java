@@ -44,6 +44,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.jetbrains.annotations.NotNull;
 
 
 /**
@@ -77,9 +78,27 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
      * @param id        The wicket ID that will hold the {@link GalleryTabPanel}.
      * @param userModel The user whose gallery to show.
      */
-    public GalleryTabPanel(final String id, final IModel<User> userModel) {
+    public GalleryTabPanel(final String id) {
 
-        super( id, new GalleryTabModels( userModel ).getModel() );
+        super( id, new GalleryTabModels( new IModel<User>() {
+
+            @Override
+            public void detach() {
+
+            }
+
+            @Override
+            public User getObject() {
+
+                return SnaplogSession.get().getFocusedUser();
+            }
+
+            @Override
+            public void setObject(final User object) {
+
+                SnaplogSession.get().setFocusedUser( object );
+            }
+        } ).getModel() );
 
         // Page info
         add( new Label( "tagsTitleUsername", getModelObject().decoratedUsername() ) );
@@ -171,47 +190,23 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
         /**
          * {@inheritDoc}
          */
+        @NotNull
         @Override
         public IModel<String> getTitle() {
 
             return msgs.tabTitle();
         }
 
-        /**
-         * {@inheritDoc}
-         */
+        @NotNull
         @Override
-        public GalleryTabPanel newPanel(final String panelId) {
-
-            return new GalleryTabPanel( panelId, new IModel<User>() {
-
-                @Override
-                public void detach() {
-
-                }
-
-                @Override
-                public User getObject() {
-
-                    return SnaplogSession.get().getFocusedUser();
-                }
-
-                @Override
-                public void setObject(final User object) {
-
-                    SnaplogSession.get().setFocusedUser( object );
-                }
-            } );
-        }
-
-        @Override
-        public Class<GalleryTabPanel> getPanelClass() {
+        public Class<GalleryTabPanel> getContentPanelClass() {
 
             return GalleryTabPanel.class;
         }
 
+        @NotNull
         @Override
-        public GalleryTabState getState(final String fragment) {
+        public GalleryTabState getState(@NotNull final String fragment) {
 
             return new GalleryTabState( fragment );
         }
@@ -220,7 +215,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
          * {@inheritDoc}
          */
         @Override
-        public boolean isVisible() {
+        public boolean isInNavigation() {
 
             return SnaplogSession.get().getFocusedUser() != null;
         }
@@ -231,20 +226,22 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
             return ImmutableList.of();
         }
 
+        @NotNull
         @Override
         public String getTabFragment() {
 
             return "gallery";
         }
 
+        @NotNull
         @Override
-        public GalleryTabState buildFragmentState(final GalleryTabPanel panel) {
+        public GalleryTabState buildFragmentState(@NotNull final GalleryTabPanel panel) {
 
             return new GalleryTabState( SnaplogSession.get().getFocusedUser() );
         }
 
         @Override
-        public void applyFragmentState(final GalleryTabPanel panel, final GalleryTabState state)
+        public void applyFragmentState(@NotNull final GalleryTabPanel panel, @NotNull final GalleryTabState state)
                 throws IncompatibleStateException {
 
             try {
@@ -286,12 +283,6 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                 throws UserNotFoundException {
 
             return userService.getUserWithUserName( checkNotNull( userName, "Username must not be null in this state." ) );
-        }
-
-        @Override
-        protected String getTabFragment() {
-
-            return GalleryTab.instance.getTabFragment();
         }
     }
 }

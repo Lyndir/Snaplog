@@ -26,6 +26,7 @@ import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
+import org.jetbrains.annotations.NotNull;
 
 
 /**
@@ -76,29 +77,23 @@ public class AboutTabPanel extends Panel {
         /**
          * {@inheritDoc}
          */
+        @NotNull
         @Override
         public IModel<String> getTitle() {
 
             return msgs.tabTitle();
         }
 
-        /**
-         * {@inheritDoc}
-         */
+        @NotNull
         @Override
-        public AboutTabPanel newPanel(final String panelId) {
-
-            return new AboutTabPanel( panelId );
-        }
-
-        @Override
-        public Class<AboutTabPanel> getPanelClass() {
+        public Class<AboutTabPanel> getContentPanelClass() {
 
             return AboutTabPanel.class;
         }
 
+        @NotNull
         @Override
-        public AboutTabState getState(final String fragment) {
+        public AboutTabState getState(@NotNull final String fragment) {
 
             return new AboutTabState( fragment );
         }
@@ -107,7 +102,7 @@ public class AboutTabPanel extends Panel {
          * {@inheritDoc}
          */
         @Override
-        public boolean isVisible() {
+        public boolean isInNavigation() {
 
             return !SnaplogSession.get().isAuthenticated();
         }
@@ -118,20 +113,22 @@ public class AboutTabPanel extends Panel {
             return ImmutableList.of();
         }
 
+        @NotNull
         @Override
         public String getTabFragment() {
 
             return "about";
         }
 
+        @NotNull
         @Override
-        public AboutTabState buildFragmentState(final AboutTabPanel panel) {
+        public AboutTabState buildFragmentState(@NotNull final AboutTabPanel panel) {
 
             return new AboutTabState();
         }
 
         @Override
-        public void applyFragmentState(final AboutTabPanel panel, final AboutTabState state)
+        public void applyFragmentState(@NotNull final AboutTabPanel panel, @NotNull final AboutTabState state)
                 throws IncompatibleStateException {
 
             // No state.
@@ -148,12 +145,6 @@ public class AboutTabPanel extends Panel {
         public AboutTabState(final String fragment) {
 
             super( fragment );
-        }
-
-        @Override
-        protected String getTabFragment() {
-
-            return AboutTab.instance.getTabFragment();
         }
     }
 }

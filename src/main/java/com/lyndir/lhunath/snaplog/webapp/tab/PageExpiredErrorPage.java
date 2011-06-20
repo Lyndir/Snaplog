@@ -25,6 +25,7 @@ import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
 import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
+import org.jetbrains.annotations.NotNull;
 
 
 /**
@@ -64,25 +65,28 @@ public class PageExpiredErrorPage extends LayoutPage {
             return ImmutableList.of();
         }
 
+        @NotNull
         @Override
         public String getTabFragment() {
 
             return "expired";
         }
 
+        @NotNull
         @Override
-        public PageExpiredErrorState buildFragmentState(final PageExpiredErrorTabPanel panel) {
+        public PageExpiredErrorState buildFragmentState(@NotNull final PageExpiredErrorTabPanel panel) {
 
             return new PageExpiredErrorState();
         }
 
         @Override
-        public void applyFragmentState(final PageExpiredErrorTabPanel panel, final PageExpiredErrorState state)
+        public void applyFragmentState(@NotNull final PageExpiredErrorTabPanel panel, @NotNull final PageExpiredErrorState state)
                 throws IncompatibleStateException {
 
             // No state.
         }
 
+        @NotNull
         @Override
         public IModel<String> getTitle() {
 
@@ -90,25 +94,21 @@ public class PageExpiredErrorPage extends LayoutPage {
         }
 
         @Override
-        public PageExpiredErrorTabPanel newPanel(final String panelId) {
-
-            return new PageExpiredErrorTabPanel( panelId );
-        }
-
-        @Override
-        public boolean isVisible() {
+        public boolean isInNavigation() {
 
             return true;
         }
 
+        @NotNull
         @Override
-        public Class<PageExpiredErrorTabPanel> getPanelClass() {
+        public Class<PageExpiredErrorTabPanel> getContentPanelClass() {
 
             return PageExpiredErrorTabPanel.class;
         }
 
+        @NotNull
         @Override
-        public PageExpiredErrorState getState(final String fragment) {
+        public PageExpiredErrorState getState(@NotNull final String fragment) {
 
             return new PageExpiredErrorState( fragment );
         }
@@ -118,16 +118,12 @@ public class PageExpiredErrorPage extends LayoutPage {
     static class PageExpiredErrorState extends AbstractFragmentState {
 
         PageExpiredErrorState() {
+
         }
 
         PageExpiredErrorState(final String fragment) {
+
             super( fragment );
-        }
-
-        @Override
-        protected String getTabFragment() {
-
-            return PageExpiredErrorTab.instance.getTabFragment();
         }
     }
 }
