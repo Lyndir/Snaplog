@@ -17,10 +17,9 @@ package com.lyndir.lhunath.snaplog.data.object.media;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.lyndir.lhunath.opal.security.AbstractSecureObject;
 import com.lyndir.lhunath.opal.system.i18n.MessagesFactory;
-import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
+import com.lyndir.lhunath.snaplog.security.SSecureObject;
 
 
 /**
@@ -32,7 +31,7 @@ import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
  *
  * @author lhunath
  */
-public abstract class Source extends AbstractSecureObject<User, UserProfile> {
+public abstract class Source extends SSecureObject<UserProfile> {
 
     static final Messages msgs = MessagesFactory.create( Messages.class );
 

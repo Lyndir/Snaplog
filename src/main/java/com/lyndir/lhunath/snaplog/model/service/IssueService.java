@@ -16,7 +16,7 @@
 package com.lyndir.lhunath.snaplog.model.service;
 
 import com.google.common.base.Predicate;
-import com.lyndir.lhunath.snaplog.security.SnaplogST;
+import com.lyndir.lhunath.snaplog.security.SSecurityToken;
 import com.lyndir.lhunath.opal.security.error.PermissionDeniedException;
 import com.lyndir.lhunath.opal.wayward.model.WicketInjected;
 import com.lyndir.lhunath.snaplog.data.object.Issue;
@@ -48,7 +48,7 @@ public interface IssueService extends WicketInjected {
      *
      * @return All issues that the token grants VIEW permissions on and match the predicate if given.
      */
-    ListIterator<Issue> iterateIssues(SnaplogST token, Predicate<Issue> predicate);
+    ListIterator<Issue> iterateIssues(SSecurityToken token, Predicate<Issue> predicate);
 
     /**
      * Retrieve a specific issue by its issue code.
@@ -61,6 +61,6 @@ public interface IssueService extends WicketInjected {
      * @throws PermissionDeniedException The given token does not authorize VIEW permission on the requested issue.
      * @throws IssueNotFoundException    No issue was found for the given issue code.
      */
-    Issue getIssue(SnaplogST token, String issueCode)
+    Issue getIssue(SSecurityToken token, String issueCode)
             throws PermissionDeniedException, IssueNotFoundException;
 }

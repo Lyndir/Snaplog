@@ -3,7 +3,7 @@ package com.lyndir.lhunath.snaplog.model.service.impl;
 import com.google.common.base.Predicate;
 import com.google.common.collect.AbstractIterator;
 import com.google.common.collect.Iterators;
-import com.lyndir.lhunath.snaplog.security.SnaplogST;
+import com.lyndir.lhunath.snaplog.security.SSecurityToken;
 import com.lyndir.lhunath.opal.security.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.data.object.media.*;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
@@ -23,21 +23,21 @@ import java.util.ListIterator;
 public class SourceDelegate implements SourceService<Source, Media> {
 
     @Override
-    public void loadMedia(final SnaplogST token, final Source source)
+    public void loadMedia(final SSecurityToken token, final Source source)
             throws PermissionDeniedException {
 
         SourceType.of( source ).loadMedia( token, source );
     }
 
     @Override
-    public void loadMediaData(final SnaplogST token, final Source source)
+    public void loadMediaData(final SSecurityToken token, final Source source)
             throws PermissionDeniedException {
 
         SourceType.of( source ).loadMediaData( token, source );
     }
 
     @Override
-    public Iterator<Source> iterateSources(final SnaplogST token, final Predicate<Source> predicate) {
+    public Iterator<Source> iterateSources(final SSecurityToken token, final Predicate<Source> predicate) {
 
         return new AbstractIterator<Source>() {
 
@@ -60,13 +60,13 @@ public class SourceDelegate implements SourceService<Source, Media> {
     }
 
     @Override
-    public ListIterator<Media> iterateMedia(final SnaplogST token, final Source source, final boolean ascending) {
+    public ListIterator<Media> iterateMedia(final SSecurityToken token, final Source source, final boolean ascending) {
 
         return SourceType.of( source ).iterateMedia( token, source, ascending );
     }
 
     @Override
-    public Media findMediaWithName(final SnaplogST token, final User owner, final String mediaName) {
+    public Media findMediaWithName(final SSecurityToken token, final User owner, final String mediaName) {
 
         for (final SourceType sourceType : SourceType.values()) {
             Media media = sourceType.findMediaWithName( token, owner, mediaName );
@@ -78,14 +78,14 @@ public class SourceDelegate implements SourceService<Source, Media> {
     }
 
     @Override
-    public MediaMapping newMapping(final SnaplogST token, final Media media)
+    public MediaMapping newMapping(final SSecurityToken token, final Media media)
             throws PermissionDeniedException {
 
         return SourceType.of( media.getSource() ).newMapping( token, media );
     }
 
     @Override
-    public MediaMapping findMediaMapping(final SnaplogST token, final String mapping) {
+    public MediaMapping findMediaMapping(final SSecurityToken token, final String mapping) {
 
         for (final SourceType sourceType : SourceType.values()) {
             MediaMapping mediaMapping = sourceType.findMediaMapping( token, mapping );
@@ -97,21 +97,21 @@ public class SourceDelegate implements SourceService<Source, Media> {
     }
 
     @Override
-    public URL findResourceURL(final SnaplogST token, final Media media, final Media.Quality quality)
+    public URL findResourceURL(final SSecurityToken token, final Media media, final Media.Quality quality)
             throws PermissionDeniedException {
 
         return SourceType.of( media.getSource() ).findResourceURL( token, media, quality );
     }
 
     @Override
-    public void delete(final SnaplogST token, final Media media)
+    public void delete(final SSecurityToken token, final Media media)
             throws PermissionDeniedException {
 
         SourceType.of( media.getSource() ).delete( token, media );
     }
 
     @Override
-    public Source newSource(final SnaplogST token, final Source source) {
+    public Source newSource(final SSecurityToken token, final Source source) {
 
         return SourceType.of( source ).newSource( token, source );
     }

@@ -17,13 +17,12 @@ package com.lyndir.lhunath.snaplog.data.object;
 
 import com.google.common.base.Charsets;
 import com.lyndir.lhunath.opal.crypto.MessageDigests;
-import com.lyndir.lhunath.opal.security.AbstractSecureObject;
 import com.lyndir.lhunath.opal.system.i18n.MessagesFactory;
 import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.opal.system.util.StringUtils;
 import com.lyndir.lhunath.opal.wayward.js.JSUtils;
-import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
+import com.lyndir.lhunath.snaplog.security.SSecureObject;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.UUID;
@@ -37,7 +36,7 @@ import org.apache.wicket.Component;
  *
  * @author lhunath
  */
-public class Issue extends AbstractSecureObject<User, UserProfile> {
+public class Issue extends SSecureObject<UserProfile> {
 
     static final Logger logger = Logger.get( Issue.class );
 

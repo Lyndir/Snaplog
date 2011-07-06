@@ -1,6 +1,6 @@
 package com.lyndir.lhunath.snaplog.data.service;
 
-import com.lyndir.lhunath.opal.security.SecureObject;
+import com.lyndir.lhunath.snaplog.security.SSecureObject;
 
 
 /**
@@ -12,5 +12,5 @@ import com.lyndir.lhunath.opal.security.SecureObject;
  */
 public interface SecurityDAO {
 
-    void update(SecureObject<?, ?> secureObject);
+    void update(SSecureObject<?> secureObject);
 }

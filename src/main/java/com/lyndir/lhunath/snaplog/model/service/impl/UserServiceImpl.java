@@ -20,7 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Predicate;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.opal.security.Permission;
-import com.lyndir.lhunath.snaplog.security.SnaplogST;
+import com.lyndir.lhunath.snaplog.security.SSecurityToken;
 import com.lyndir.lhunath.opal.security.error.PermissionDeniedException;
 import com.lyndir.lhunath.opal.security.service.SecurityService;
 import com.lyndir.lhunath.opal.system.collection.SizedListIterator;
@@ -135,7 +135,7 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public UserProfile getProfile(final SnaplogST token, final User user)
+    public UserProfile getProfile(final SSecurityToken token, final User user)
             throws PermissionDeniedException {
 
         UserProfile userProfile = userDAO.findUserProfile( user );
@@ -146,7 +146,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean hasProfileAccess(final SnaplogST token, final User user) {
+    public boolean hasProfileAccess(final SSecurityToken token, final User user) {
 
         try {
             getProfile( token, user );

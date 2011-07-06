@@ -17,7 +17,7 @@ package com.lyndir.lhunath.snaplog.model.service;
 
 import com.google.common.base.Predicate;
 import com.lyndir.lhunath.opal.security.Permission;
-import com.lyndir.lhunath.snaplog.security.SnaplogST;
+import com.lyndir.lhunath.snaplog.security.SSecurityToken;
 import com.lyndir.lhunath.opal.security.error.PermissionDeniedException;
 import com.lyndir.lhunath.opal.wayward.model.WicketInjected;
 import com.lyndir.lhunath.snaplog.data.object.media.*;
@@ -48,7 +48,7 @@ public interface SourceService<S extends Source, M extends Media> extends Wicket
      *
      * @throws PermissionDeniedException When the token does not grant {@link Permission#ADMINISTER} to the source.
      */
-    void loadMedia(SnaplogST token, S source)
+    void loadMedia(SSecurityToken token, S source)
             throws PermissionDeniedException;
 
     /**
@@ -59,7 +59,7 @@ public interface SourceService<S extends Source, M extends Media> extends Wicket
      *
      * @throws PermissionDeniedException When the token does not grant {@link Permission#ADMINISTER} to the source.
      */
-    void loadMediaData(SnaplogST token, S source)
+    void loadMediaData(SSecurityToken token, S source)
             throws PermissionDeniedException;
 
     /**
@@ -69,7 +69,7 @@ public interface SourceService<S extends Source, M extends Media> extends Wicket
      *
      * @return An Iterator of sources that are viewable with the given token and are selected by the given predicate.
      */
-    Iterator<Source> iterateSources(SnaplogST token, Predicate<Source> predicate);
+    Iterator<Source> iterateSources(SSecurityToken token, Predicate<Source> predicate);
 
     /**
      * @param token     Request authentication token should authorize {@link Permission#VIEW} on the source's media to return.
@@ -78,7 +78,7 @@ public interface SourceService<S extends Source, M extends Media> extends Wicket
      *
      * @return An {@link Iterator} of media in the given source that are visible to the given observer.
      */
-    ListIterator<M> iterateMedia(SnaplogST token, S source, boolean ascending);
+    ListIterator<M> iterateMedia(SSecurityToken token, S source, boolean ascending);
 
     /**
      * Look for media in the given source.
@@ -90,7 +90,7 @@ public interface SourceService<S extends Source, M extends Media> extends Wicket
      * @return The media by the given name in the given source or <code>null</code> if no media exists by the given name in the given
      *         source.
      */
-    Media findMediaWithName(SnaplogST token, User owner, String mediaName);
+    Media findMediaWithName(SSecurityToken token, User owner, String mediaName);
 
     /**
      * Create a new public mapping for the given media.
@@ -102,7 +102,7 @@ public interface SourceService<S extends Source, M extends Media> extends Wicket
      *
      * @throws PermissionDeniedException When the token does not grant {@link Permission#ADMINISTER} to the media.
      */
-    MediaMapping newMapping(SnaplogST token, M media)
+    MediaMapping newMapping(SSecurityToken token, M media)
             throws PermissionDeniedException;
 
     /**
@@ -114,7 +114,7 @@ public interface SourceService<S extends Source, M extends Media> extends Wicket
      * @return The media mapping for the given mapping string or <code>null</code> if no such mapping could be found or the token does not
      *         authorize permission to view it.
      */
-    MediaMapping findMediaMapping(SnaplogST token, String mapping);
+    MediaMapping findMediaMapping(SSecurityToken token, String mapping);
 
     /**
      * Obtain a reference to the given media's resource of a given quality.
@@ -127,7 +127,7 @@ public interface SourceService<S extends Source, M extends Media> extends Wicket
      *
      * @throws PermissionDeniedException When the token does not grant {@link Permission#VIEW} to the media.
      */
-    URL findResourceURL(SnaplogST token, M media, Quality quality)
+    URL findResourceURL(SSecurityToken token, M media, Quality quality)
             throws PermissionDeniedException;
 
     /**
@@ -138,7 +138,7 @@ public interface SourceService<S extends Source, M extends Media> extends Wicket
      *
      * @throws PermissionDeniedException When the token does not grant {@link Permission#ADMINISTER} to the media.
      */
-    void delete(SnaplogST token, M media)
+    void delete(SSecurityToken token, M media)
             throws PermissionDeniedException;
 
     /**
@@ -149,5 +149,5 @@ public interface SourceService<S extends Source, M extends Media> extends Wicket
      *
      * @return The {@link Source}, persisted and ready for use.
      */
-    S newSource(SnaplogST token, S source);
+    S newSource(SSecurityToken token, S source);
 }

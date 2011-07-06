@@ -16,7 +16,7 @@
 package com.lyndir.lhunath.snaplog.webapp;
 
 import com.google.common.base.Objects;
-import com.lyndir.lhunath.snaplog.security.SnaplogST;
+import com.lyndir.lhunath.snaplog.security.SSecurityToken;
 import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import org.apache.wicket.Request;
@@ -107,10 +107,10 @@ public class SnaplogSession extends WebSession {
     }
 
     /**
-     * @return A new {@link SnaplogST} that represents the context of the currently active user.
+     * @return A new {@link SSecurityToken} that represents the context of the currently active user.
      */
-    public SnaplogST newToken() {
+    public SSecurityToken newToken() {
 
-        return new SnaplogST( getActiveUser() );
+        return new SSecurityToken( getActiveUser() );
     }
 }

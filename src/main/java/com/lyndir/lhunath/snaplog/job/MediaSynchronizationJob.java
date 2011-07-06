@@ -3,7 +3,7 @@ package com.lyndir.lhunath.snaplog.job;
 import com.google.common.base.Predicates;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
-import com.lyndir.lhunath.snaplog.security.SnaplogST;
+import com.lyndir.lhunath.snaplog.security.SSecurityToken;
 import com.lyndir.lhunath.opal.security.error.PermissionDeniedException;
 import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.data.object.media.Source;
@@ -37,13 +37,13 @@ public class MediaSynchronizationJob implements Job {
 
         SourceDelegate sourceDelegate = sourceDelegateProvider.get();
 
-        Iterator<Source> sourcesIt = sourceDelegate.iterateSources( SnaplogST.INTERNAL_USE_ONLY, Predicates.<Source>alwaysTrue() );
+        Iterator<Source> sourcesIt = sourceDelegate.iterateSources( SSecurityToken.INTERNAL_USE_ONLY, Predicates.<Source>alwaysTrue() );
         while (sourcesIt.hasNext())
             try {
-                sourceDelegate.loadMedia( SnaplogST.INTERNAL_USE_ONLY, sourcesIt.next() );
+                sourceDelegate.loadMedia( SSecurityToken.INTERNAL_USE_ONLY, sourcesIt.next() );
             }
             catch (PermissionDeniedException e) {
-                logger.bug( e, "Job should run with %s which should have had sufficient permissions." , SnaplogST.INTERNAL_USE_ONLY );
+                logger.bug( e, "Job should run with %s which should have had sufficient permissions." , SSecurityToken.INTERNAL_USE_ONLY );
             }
     }
 }

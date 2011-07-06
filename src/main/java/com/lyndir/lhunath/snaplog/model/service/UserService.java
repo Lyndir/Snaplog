@@ -17,7 +17,7 @@ package com.lyndir.lhunath.snaplog.model.service;
 
 import com.db4o.ObjectSet;
 import com.google.common.base.Predicate;
-import com.lyndir.lhunath.snaplog.security.SnaplogST;
+import com.lyndir.lhunath.snaplog.security.SSecurityToken;
 import com.lyndir.lhunath.opal.security.error.PermissionDeniedException;
 import com.lyndir.lhunath.opal.system.collection.SizedListIterator;
 import com.lyndir.lhunath.opal.wayward.model.WicketInjected;
@@ -95,7 +95,7 @@ public interface UserService extends WicketInjected {
      *
      * @throws PermissionDeniedException When the given token does not authorize access to the given user's profile.
      */
-    UserProfile getProfile(SnaplogST token, User user)
+    UserProfile getProfile(SSecurityToken token, User user)
             throws PermissionDeniedException;
 
     /**
@@ -104,5 +104,5 @@ public interface UserService extends WicketInjected {
      *
      * @return <code>true</code>: The token authorizes {@link Permission#VIEW} access on the given profile.
      */
-    boolean hasProfileAccess(SnaplogST token, User user);
+    boolean hasProfileAccess(SSecurityToken token, User user);
 }

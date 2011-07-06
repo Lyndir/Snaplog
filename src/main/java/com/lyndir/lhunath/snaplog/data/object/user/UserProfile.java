@@ -16,9 +16,9 @@
 package com.lyndir.lhunath.snaplog.data.object.user;
 
 import com.google.common.base.Objects;
-import com.lyndir.lhunath.opal.security.AbstractSecureObject;
-import com.lyndir.lhunath.opal.security.GlobalSecureObject;
 import com.lyndir.lhunath.opal.system.i18n.MessagesFactory;
+import com.lyndir.lhunath.snaplog.security.SGlobalSecureObject;
+import com.lyndir.lhunath.snaplog.security.SSecureObject;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
@@ -30,7 +30,7 @@ import java.io.ObjectInputStream;
  *
  * @author lhunath
  */
-public class UserProfile extends AbstractSecureObject<User, GlobalSecureObject<User>> {
+public class UserProfile extends SSecureObject<SGlobalSecureObject> {
 
     static final Messages msgs = MessagesFactory.create( Messages.class );
 
@@ -48,9 +48,9 @@ public class UserProfile extends AbstractSecureObject<User, GlobalSecureObject<U
      * {@inheritDoc}
      */
     @Override
-    public GlobalSecureObject<User> getParent() {
+    public SGlobalSecureObject getParent() {
 
-        return GlobalSecureObject.getDefault();
+        return SGlobalSecureObject.DEFAULT;
     }
 
     /**

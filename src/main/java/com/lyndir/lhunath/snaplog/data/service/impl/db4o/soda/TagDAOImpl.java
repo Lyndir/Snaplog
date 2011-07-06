@@ -9,7 +9,7 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
-import com.lyndir.lhunath.snaplog.security.SnaplogST;
+import com.lyndir.lhunath.snaplog.security.SSecurityToken;
 import com.lyndir.lhunath.opal.security.error.PermissionDeniedException;
 import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.opal.system.logging.exception.AlreadyCheckedException;
@@ -106,7 +106,7 @@ public class TagDAOImpl implements TagDAO {
                     .and( query.descend( "name" ) //
                                   .constrain( tagName ) ) //
                     .and( query.descend( "ownerProfile" ) //
-                                  .constrain( userService.getProfile( SnaplogST.INTERNAL_USE_ONLY, tagOwner ) ) );
+                                  .constrain( userService.getProfile( SSecurityToken.INTERNAL_USE_ONLY, tagOwner ) ) );
 
             ObjectSet<Tag> results = query.execute();
             if (results.hasNext()) {

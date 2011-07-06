@@ -1,7 +1,7 @@
 package com.lyndir.lhunath.snaplog.data.service.impl.neodatis.criteria;
 
 import com.google.inject.Inject;
-import com.lyndir.lhunath.opal.security.SecureObject;
+import com.lyndir.lhunath.snaplog.security.SSecureObject;
 import com.lyndir.lhunath.snaplog.data.service.SecurityDAO;
 import org.neodatis.odb.ODB;
 
@@ -24,7 +24,7 @@ public class SecurityDAOImpl implements SecurityDAO {
     }
 
     @Override
-    public void update(final SecureObject<?, ?> secureObject) {
+    public void update(final SSecureObject<?> secureObject) {
 
         db.store( secureObject );
     }

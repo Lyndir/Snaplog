@@ -1,8 +1,7 @@
 package com.lyndir.lhunath.snaplog.data.object.media;
 
-import com.lyndir.lhunath.opal.security.AbstractSecureObject;
-import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
+import com.lyndir.lhunath.snaplog.security.SSecureObject;
 import org.jetbrains.annotations.NotNull;
 
 
@@ -13,7 +12,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author lhunath
  */
-public class Tag extends AbstractSecureObject<User, UserProfile> {
+public class Tag extends SSecureObject<UserProfile> {
 
     private final UserProfile ownerProfile;
     private final String name;

@@ -21,7 +21,7 @@ import com.google.common.base.Splitter;
 import com.google.common.collect.*;
 import com.google.inject.Inject;
 import com.lyndir.lhunath.opal.security.Permission;
-import com.lyndir.lhunath.snaplog.security.SnaplogST;
+import com.lyndir.lhunath.snaplog.security.SSecurityToken;
 import com.lyndir.lhunath.opal.security.error.PermissionDeniedException;
 import com.lyndir.lhunath.opal.security.service.SecurityService;
 import com.lyndir.lhunath.opal.system.logging.Logger;
@@ -80,7 +80,7 @@ public class AWSSourceServiceImpl extends AbstractSourceService<S3Source, S3Medi
     }
 
     @Override
-    public void loadMedia(final SnaplogST token, final S3Source source)
+    public void loadMedia(final SSecurityToken token, final S3Source source)
             throws PermissionDeniedException {
 
         checkNotNull( source, "Given source must not be null." );
@@ -148,7 +148,7 @@ public class AWSSourceServiceImpl extends AbstractSourceService<S3Source, S3Medi
     }
 
     @Override
-    public void loadMediaData(final SnaplogST token, final S3Source source)
+    public void loadMediaData(final SSecurityToken token, final S3Source source)
             throws PermissionDeniedException {
 
         checkNotNull( source, "Given source must not be null." );
@@ -243,7 +243,7 @@ public class AWSSourceServiceImpl extends AbstractSourceService<S3Source, S3Medi
      * {@inheritDoc}
      */
     @Override
-    public URL findResourceURL(final SnaplogST token, final S3Media media, final Quality quality)
+    public URL findResourceURL(final SSecurityToken token, final S3Media media, final Quality quality)
             throws PermissionDeniedException {
 
         checkNotNull( media, "Given media must not be null." );

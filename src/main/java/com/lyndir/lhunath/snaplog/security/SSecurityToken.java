@@ -9,14 +9,14 @@ import com.lyndir.lhunath.snaplog.data.object.user.User;
  *
  * @author lhunath
  */
-public class SnaplogST extends SecurityToken<User> {
+public class SSecurityToken extends SecurityToken<User> {
 
     /**
      * Use this token <b>ONLY</b> for requests that the subject can't gain anything from. The result must not be given or hinted at to the
      * subject.
      */
     // TODO: Should this be moved into SecurityServiceImpl and made private?
-    public static final SnaplogST INTERNAL_USE_ONLY = new SnaplogST( null ) {
+    public static final SSecurityToken INTERNAL_USE_ONLY = new SSecurityToken( null ) {
 
         @Override
         public boolean isInternalUseOnly() {
@@ -28,7 +28,7 @@ public class SnaplogST extends SecurityToken<User> {
     /**
      * @param actor The subject that has requested or will gain access to the result of the operation.
      */
-    public SnaplogST(final User actor) {
+    public SSecurityToken(final User actor) {
 
         super( actor );
     }
