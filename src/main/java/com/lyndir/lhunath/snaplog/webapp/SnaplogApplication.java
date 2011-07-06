@@ -23,7 +23,7 @@ import com.lyndir.lhunath.opal.wayward.state.ComponentStateListener;
 import com.lyndir.lhunath.snaplog.data.object.Issue;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
-import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
+import com.lyndir.lhunath.opal.security.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.linkid.SnaplogWebappConfig;
 import com.lyndir.lhunath.snaplog.model.service.IssueService;
 import com.lyndir.lhunath.snaplog.model.service.UserService;

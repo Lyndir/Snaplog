@@ -4,6 +4,6 @@
 
     <entry key="type">Media</entry>
 
-    <entry key="description">media "{0}"</entry>
+    <entry key="instance">media "{0}"</entry>
 
 </properties>

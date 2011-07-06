@@ -18,7 +18,7 @@ package com.lyndir.lhunath.snaplog.webapp.tab;
 import com.google.common.collect.ImmutableList;
 import com.lyndir.lhunath.opal.wayward.component.RedirectToPageException;
 import com.lyndir.lhunath.opal.wayward.model.Models;
-import com.lyndir.lhunath.opal.wayward.navigation.AbstractFragmentState;
+import com.lyndir.lhunath.opal.wayward.navigation.AbstractTabState;
 import com.lyndir.lhunath.opal.wayward.navigation.IncompatibleStateException;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
@@ -40,7 +40,7 @@ public class AccessDeniedErrorPage extends LayoutPage {
     @Override
     protected void onBeforeRender() {
 
-        getController().activateNewTab( AccessDeniedErrorTab.instance );
+        getController().activateNewTab( AccessDeniedErrorTabDescriptor.instance );
 
         throw new RedirectToPageException( LayoutPage.class );
     }
@@ -54,9 +54,9 @@ public class AccessDeniedErrorPage extends LayoutPage {
     }
 
 
-    static class AccessDeniedErrorTab implements SnaplogTab<AccessDeniedErrorTabPanel, AccessDeniedErrorState> {
+    static class AccessDeniedErrorTabDescriptor implements SnaplogTabDescriptor<AccessDeniedErrorTabPanel, AccessDeniedErrorState> {
 
-        public static final AccessDeniedErrorTab instance = new AccessDeniedErrorTab();
+        public static final AccessDeniedErrorTabDescriptor instance = new AccessDeniedErrorTabDescriptor();
 
         @Override
         public List<? extends SnaplogTool> listTools(final AccessDeniedErrorTabPanel panel) {
@@ -66,23 +66,16 @@ public class AccessDeniedErrorPage extends LayoutPage {
 
         @NotNull
         @Override
-        public String getTabFragment() {
+        public String getFragment() {
 
             return "denied";
         }
 
         @NotNull
         @Override
-        public AccessDeniedErrorState buildFragmentState(@NotNull final AccessDeniedErrorTabPanel panel) {
+        public AccessDeniedErrorState newState(@NotNull final AccessDeniedErrorTabPanel panel) {
 
             return new AccessDeniedErrorState();
-        }
-
-        @Override
-        public void applyFragmentState(@NotNull final AccessDeniedErrorTabPanel panel, @NotNull final AccessDeniedErrorState state)
-                throws IncompatibleStateException {
-
-            // No state.
         }
 
         @NotNull
@@ -93,7 +86,7 @@ public class AccessDeniedErrorPage extends LayoutPage {
         }
 
         @Override
-        public boolean isInNavigation() {
+        public boolean shownInNavigation() {
 
             return true;
         }
@@ -107,20 +100,29 @@ public class AccessDeniedErrorPage extends LayoutPage {
 
         @NotNull
         @Override
-        public AccessDeniedErrorState getState(@NotNull final String fragment) {
+        public AccessDeniedErrorState newState(@NotNull final String fragment) {
 
             return new AccessDeniedErrorState( fragment );
         }
     }
 
 
-    static class AccessDeniedErrorState extends AbstractFragmentState {
+    static class AccessDeniedErrorState extends AbstractTabState<AccessDeniedErrorTabPanel> {
 
         AccessDeniedErrorState() {
+
         }
 
         AccessDeniedErrorState(final String fragment) {
+
             super( fragment );
+        }
+
+        @Override
+        public void apply(@NotNull final AccessDeniedErrorTabPanel panel)
+                throws IncompatibleStateException {
+
+            // No state.
         }
     }
 }

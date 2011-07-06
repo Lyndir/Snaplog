@@ -2,6 +2,8 @@
 
 <properties>
 
-    <entry key="message">Your request is not possible. Check whether your input is correct.</entry>
+    <entry key="type">User</entry>
+
+    <entry key="instance">{0}{1}</entry>
 
 </properties>

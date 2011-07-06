@@ -17,14 +17,11 @@ package com.lyndir.lhunath.snaplog.model.service;
 
 import com.db4o.ObjectSet;
 import com.google.common.base.Predicate;
+import com.lyndir.lhunath.snaplog.security.SnaplogST;
+import com.lyndir.lhunath.opal.security.error.PermissionDeniedException;
 import com.lyndir.lhunath.opal.system.collection.SizedListIterator;
 import com.lyndir.lhunath.opal.wayward.model.WicketInjected;
-import com.lyndir.lhunath.snaplog.data.object.security.Permission;
-import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
-import com.lyndir.lhunath.snaplog.data.object.user.LinkID;
-import com.lyndir.lhunath.snaplog.data.object.user.User;
-import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
-import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
+import com.lyndir.lhunath.snaplog.data.object.user.*;
 import com.lyndir.lhunath.snaplog.error.UserNotFoundException;
 import com.lyndir.lhunath.snaplog.error.UsernameTakenException;
 
@@ -98,7 +95,7 @@ public interface UserService extends WicketInjected {
      *
      * @throws PermissionDeniedException When the given token does not authorize access to the given user's profile.
      */
-    UserProfile getProfile(SecurityToken token, User user)
+    UserProfile getProfile(SnaplogST token, User user)
             throws PermissionDeniedException;
 
     /**
@@ -107,5 +104,5 @@ public interface UserService extends WicketInjected {
      *
      * @return <code>true</code>: The token authorizes {@link Permission#VIEW} access on the given profile.
      */
-    boolean hasProfileAccess(SecurityToken token, User user);
+    boolean hasProfileAccess(SnaplogST token, User user);
 }

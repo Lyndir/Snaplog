@@ -19,20 +19,18 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Predicate;
 import com.google.inject.Inject;
+import com.lyndir.lhunath.opal.security.Permission;
+import com.lyndir.lhunath.snaplog.security.SnaplogST;
+import com.lyndir.lhunath.opal.security.error.PermissionDeniedException;
+import com.lyndir.lhunath.opal.security.service.SecurityService;
 import com.lyndir.lhunath.opal.system.collection.SizedListIterator;
 import com.lyndir.lhunath.opal.system.util.ObjectUtils;
 import com.lyndir.lhunath.opal.wayward.collection.IPredicate;
-import com.lyndir.lhunath.snaplog.data.object.security.Permission;
-import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
-import com.lyndir.lhunath.snaplog.data.object.user.LinkID;
-import com.lyndir.lhunath.snaplog.data.object.user.User;
-import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
+import com.lyndir.lhunath.snaplog.data.object.user.*;
 import com.lyndir.lhunath.snaplog.data.service.UserDAO;
-import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.error.UserNotFoundException;
 import com.lyndir.lhunath.snaplog.error.UsernameTakenException;
 import com.lyndir.lhunath.snaplog.model.ServiceModule;
-import com.lyndir.lhunath.snaplog.model.service.SecurityService;
 import com.lyndir.lhunath.snaplog.model.service.UserService;
 
 
@@ -137,7 +135,7 @@ public class UserServiceImpl implements UserService {
      * {@inheritDoc}
      */
     @Override
-    public UserProfile getProfile(final SecurityToken token, final User user)
+    public UserProfile getProfile(final SnaplogST token, final User user)
             throws PermissionDeniedException {
 
         UserProfile userProfile = userDAO.findUserProfile( user );
@@ -148,7 +146,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean hasProfileAccess(final SecurityToken token, final User user) {
+    public boolean hasProfileAccess(final SnaplogST token, final User user) {
 
         try {
             getProfile( token, user );

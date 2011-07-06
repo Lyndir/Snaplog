@@ -16,10 +16,9 @@
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
 import com.google.common.collect.ImmutableList;
-import com.lyndir.lhunath.opal.system.localization.UseKey;
 import com.lyndir.lhunath.opal.system.logging.Logger;
-import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
-import com.lyndir.lhunath.opal.wayward.navigation.AbstractFragmentState;
+import com.lyndir.lhunath.opal.system.i18n.MessagesFactory;
+import com.lyndir.lhunath.opal.wayward.navigation.AbstractTabState;
 import com.lyndir.lhunath.opal.wayward.navigation.IncompatibleStateException;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
@@ -53,13 +52,12 @@ public class AboutTabPanel extends Panel {
         /**
          * @return Text on the interface tab to activate the {@link AboutTabPanel}.
          */
-        @UseKey
         IModel<String> tabTitle();
     }
 
 
     /**
-     * <h2>{@link AboutTab}<br> <sub>[in short] (TODO).</sub></h2>
+     * <h2>{@link AboutTabDescriptor}<br> <sub>[in short] (TODO).</sub></h2>
      *
      * <p> [description / usage]. </p>
      *
@@ -67,11 +65,11 @@ public class AboutTabPanel extends Panel {
      *
      * @author lhunath
      */
-    static class AboutTab implements SnaplogTab<AboutTabPanel, AboutTabState> {
+    static class AboutTabDescriptor implements SnaplogTabDescriptor<AboutTabPanel, AboutTabState> {
 
-        public static final AboutTab instance = new AboutTab();
+        public static final AboutTabDescriptor instance = new AboutTabDescriptor();
 
-        static final Logger logger = Logger.get( AboutTab.class );
+        static final Logger logger = Logger.get( AboutTabDescriptor.class );
         static final Messages msgs = MessagesFactory.create( Messages.class );
 
         /**
@@ -93,7 +91,7 @@ public class AboutTabPanel extends Panel {
 
         @NotNull
         @Override
-        public AboutTabState getState(@NotNull final String fragment) {
+        public AboutTabState newState(@NotNull final String fragment) {
 
             return new AboutTabState( fragment );
         }
@@ -102,7 +100,7 @@ public class AboutTabPanel extends Panel {
          * {@inheritDoc}
          */
         @Override
-        public boolean isInNavigation() {
+        public boolean shownInNavigation() {
 
             return !SnaplogSession.get().isAuthenticated();
         }
@@ -115,28 +113,21 @@ public class AboutTabPanel extends Panel {
 
         @NotNull
         @Override
-        public String getTabFragment() {
+        public String getFragment() {
 
             return "about";
         }
 
         @NotNull
         @Override
-        public AboutTabState buildFragmentState(@NotNull final AboutTabPanel panel) {
+        public AboutTabState newState(@NotNull final AboutTabPanel panel) {
 
             return new AboutTabState();
-        }
-
-        @Override
-        public void applyFragmentState(@NotNull final AboutTabPanel panel, @NotNull final AboutTabState state)
-                throws IncompatibleStateException {
-
-            // No state.
         }
     }
 
 
-    public static class AboutTabState extends AbstractFragmentState {
+    public static class AboutTabState extends AbstractTabState<AboutTabPanel> {
 
         public AboutTabState() {
 
@@ -145,6 +136,13 @@ public class AboutTabPanel extends Panel {
         public AboutTabState(final String fragment) {
 
             super( fragment );
+        }
+
+        @Override
+        public void apply(@NotNull final AboutTabPanel panel)
+                throws IncompatibleStateException {
+
+            // No state.
         }
     }
 }

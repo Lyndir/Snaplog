@@ -17,8 +17,9 @@ package com.lyndir.lhunath.snaplog.data.object.media;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
-import com.lyndir.lhunath.snaplog.data.object.security.AbstractSecureObject;
+import com.lyndir.lhunath.opal.security.AbstractSecureObject;
+import com.lyndir.lhunath.opal.system.i18n.MessagesFactory;
+import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
 
 
@@ -31,7 +32,7 @@ import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
  *
  * @author lhunath
  */
-public abstract class Source extends AbstractSecureObject<UserProfile> {
+public abstract class Source extends AbstractSecureObject<User, UserProfile> {
 
     static final Messages msgs = MessagesFactory.create( Messages.class );
 
@@ -41,8 +42,6 @@ public abstract class Source extends AbstractSecureObject<UserProfile> {
      * @param ownerProfile The profile of the user that owns this source.
      */
     protected Source(final UserProfile ownerProfile) {
-
-        super( null );
 
         this.ownerProfile = ownerProfile;
     }
@@ -74,7 +73,7 @@ public abstract class Source extends AbstractSecureObject<UserProfile> {
     }
 
     @Override
-    public String typeDescription() {
+    public String getLocalizedType() {
 
         return msgs.type();
     }

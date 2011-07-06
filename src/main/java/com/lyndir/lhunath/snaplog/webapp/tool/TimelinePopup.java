@@ -1,10 +1,11 @@
 package com.lyndir.lhunath.snaplog.webapp.tool;
 
 import com.google.common.collect.ImmutableList;
-import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
-import com.lyndir.lhunath.snaplog.data.object.media.*;
-import com.lyndir.lhunath.snaplog.data.object.security.Permission;
-import com.lyndir.lhunath.snaplog.model.service.SecurityService;
+import com.lyndir.lhunath.opal.security.Permission;
+import com.lyndir.lhunath.opal.security.service.SecurityService;
+import com.lyndir.lhunath.opal.system.i18n.MessagesFactory;
+import com.lyndir.lhunath.snaplog.data.object.media.Tag;
+import com.lyndir.lhunath.snaplog.data.object.media.TimeFrame;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 import java.util.List;

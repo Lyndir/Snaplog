@@ -1,16 +1,16 @@
 package com.lyndir.lhunath.snaplog.model.service.impl;
 
 import com.google.common.base.Predicate;
+import com.lyndir.lhunath.opal.security.Permission;
+import com.lyndir.lhunath.snaplog.security.SnaplogST;
+import com.lyndir.lhunath.opal.security.error.PermissionDeniedException;
+import com.lyndir.lhunath.opal.security.service.SecurityService;
 import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.opal.system.util.ObjectUtils;
 import com.lyndir.lhunath.snaplog.data.object.media.*;
-import com.lyndir.lhunath.snaplog.data.object.security.Permission;
-import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.data.service.MediaDAO;
 import com.lyndir.lhunath.snaplog.data.service.SourceDAO;
-import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
-import com.lyndir.lhunath.snaplog.model.service.SecurityService;
 import com.lyndir.lhunath.snaplog.model.service.SourceService;
 import java.util.*;
 import org.joda.time.Duration;
@@ -39,7 +39,7 @@ public abstract class AbstractSourceService<S extends Source, M extends Media> i
     }
 
     @Override
-    public S newSource(final SecurityToken token, final S source) {
+    public S newSource(final SnaplogST token, final S source) {
 
         sourceDAO.update( source );
 
@@ -47,7 +47,7 @@ public abstract class AbstractSourceService<S extends Source, M extends Media> i
     }
 
     @Override
-    public Media findMediaWithName(final SecurityToken token, final User owner, final String mediaName) {
+    public Media findMediaWithName(final SnaplogST token, final User owner, final String mediaName) {
 
         for (final Source source : sourceDAO.listSources( new Predicate<Source>() {
             @Override
@@ -68,7 +68,7 @@ public abstract class AbstractSourceService<S extends Source, M extends Media> i
     }
 
     @Override
-    public MediaMapping newMapping(final SecurityToken token, final M media)
+    public MediaMapping newMapping(final SnaplogST token, final M media)
             throws PermissionDeniedException {
 
         securityService.assertAccess( Permission.ADMINISTER, token, media );
@@ -79,7 +79,7 @@ public abstract class AbstractSourceService<S extends Source, M extends Media> i
     }
 
     @Override
-    public MediaMapping findMediaMapping(final SecurityToken token, final String mapping) {
+    public MediaMapping findMediaMapping(final SnaplogST token, final String mapping) {
 
         MediaMapping mediaMapping = mediaDAO.findMediaMapping( mapping );
         if (!securityService.hasAccess( Permission.VIEW, token, mediaMapping ))
@@ -89,20 +89,20 @@ public abstract class AbstractSourceService<S extends Source, M extends Media> i
     }
 
     @Override
-    public ListIterator<M> iterateMedia(final SecurityToken token, final S source, final boolean ascending) {
+    public ListIterator<M> iterateMedia(final SnaplogST token, final S source, final boolean ascending) {
 
         List<M> medias = mediaDAO.listMedia( source, ascending );
         return securityService.filterAccess( Permission.VIEW, token, medias.listIterator() );
     }
 
     @Override
-    public Iterator<Source> iterateSources(final SecurityToken token, final Predicate<Source> predicate) {
+    public Iterator<Source> iterateSources(final SnaplogST token, final Predicate<Source> predicate) {
 
         return securityService.filterAccess( Permission.VIEW, token, sourceDAO.listSources( predicate ).iterator() );
     }
 
     @Override
-    public void delete(final SecurityToken token, final M media)
+    public void delete(final SnaplogST token, final M media)
             throws PermissionDeniedException {
 
         securityService.assertAccess( Permission.ADMINISTER, token, media );

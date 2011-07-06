@@ -20,13 +20,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.collect.ImmutableList;
 import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.opal.wayward.component.GenericPanel;
-import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
-import com.lyndir.lhunath.opal.wayward.navigation.AbstractFragmentState;
+import com.lyndir.lhunath.opal.system.i18n.MessagesFactory;
+import com.lyndir.lhunath.opal.wayward.navigation.AbstractTabState;
 import com.lyndir.lhunath.opal.wayward.navigation.IncompatibleStateException;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.media.MediaMapping;
 import com.lyndir.lhunath.snaplog.error.MediaMappingNotFoundException;
-import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
+import com.lyndir.lhunath.opal.security.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.model.service.impl.SourceDelegate;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
@@ -75,17 +75,17 @@ public class SharedTabPanel extends GenericPanel<SharedTabModels> {
 
 
     /**
-     * <h2>{@link SharedTab}<br> <sub>The interface panel for viewing a shared media.</sub></h2>
+     * <h2>{@link SharedTabDescriptor}<br> <sub>The interface panel for viewing a shared media.</sub></h2>
      *
      * <p> <i>May 31, 2009</i> </p>
      *
      * @author lhunath
      */
-    static class SharedTab implements SnaplogTab<SharedTabPanel, SharedTabState> {
+    static class SharedTabDescriptor implements SnaplogTabDescriptor<SharedTabPanel, SharedTabState> {
 
-        public static final SharedTab instance = new SharedTab();
+        public static final SharedTabDescriptor instance = new SharedTabDescriptor();
 
-        static final Logger logger = Logger.get( SharedTab.class );
+        static final Logger logger = Logger.get( SharedTabDescriptor.class );
         static final Messages msgs = MessagesFactory.create( Messages.class );
 
         /**
@@ -107,7 +107,7 @@ public class SharedTabPanel extends GenericPanel<SharedTabModels> {
 
         @NotNull
         @Override
-        public SharedTabState getState(@NotNull final String fragment) {
+        public SharedTabState newState(@NotNull final String fragment) {
 
             return new SharedTabState( fragment );
         }
@@ -123,45 +123,30 @@ public class SharedTabPanel extends GenericPanel<SharedTabModels> {
 
         @NotNull
         @Override
-        public String getTabFragment() {
+        public String getFragment() {
 
             return "shared";
         }
 
         @NotNull
         @Override
-        public SharedTabState buildFragmentState(@NotNull final SharedTabPanel panel) {
+        public SharedTabState newState(@NotNull final SharedTabPanel panel) {
 
             return new SharedTabState( panel.getModelObject().getObject() );
-        }
-
-        @Override
-        public void applyFragmentState(@NotNull final SharedTabPanel panel, @NotNull final SharedTabState state)
-                throws IncompatibleStateException {
-
-            try {
-                logger.dbg( "Activating state: %s, on view tab.", state );
-                panel.getModelObject().setObject( state.getMapping() );
-                logger.dbg( "State is now: mapping=%s", panel.getModelObject().getObject() );
-            }
-
-            catch (MediaMappingNotFoundException e) {
-                throw new IncompatibleStateException( e );
-            }
         }
 
         /**
          * {@inheritDoc}
          */
         @Override
-        public boolean isInNavigation() {
+        public boolean shownInNavigation() {
 
             return false;
         }
     }
 
 
-    public static class SharedTabState extends AbstractFragmentState {
+    public static class SharedTabState extends AbstractTabState<SharedTabPanel> {
 
         static final Logger logger = Logger.get( SharedTabState.class );
 
@@ -208,6 +193,21 @@ public class SharedTabPanel extends GenericPanel<SharedTabModels> {
                 throw new MediaMappingNotFoundException( mapping );
 
             return mediaMapping;
+        }
+
+        @Override
+        public void apply(@NotNull final SharedTabPanel panel)
+                throws IncompatibleStateException {
+
+            try {
+                logger.dbg( "Activating state: %s, on view tab.", this );
+                panel.getModelObject().setObject( getMapping() );
+                logger.dbg( "State is now: mapping=%s", panel.getModelObject().getObject() );
+            }
+
+            catch (MediaMappingNotFoundException e) {
+                throw new IncompatibleStateException( e );
+            }
         }
     }
 }

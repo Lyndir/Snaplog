@@ -46,7 +46,7 @@ public abstract class AbstractTagsView extends DataView<Tag> {
             @Override
             public boolean apply(final Tag input) {
 
-                return ObjectUtils.isEqual( input.getOwner(), ownerUser.getObject() );
+                return ObjectUtils.isEqual( ownerUser.getObject(), input.getOwner() );
             }
         }, tagsPerPage );
     }

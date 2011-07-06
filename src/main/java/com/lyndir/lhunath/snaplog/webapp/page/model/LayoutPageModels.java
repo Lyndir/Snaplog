@@ -20,7 +20,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.base.Function;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
-import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
+import com.lyndir.lhunath.opal.system.i18n.MessagesFactory;
 import com.lyndir.lhunath.opal.wayward.model.EmptyModelProvider;
 import com.lyndir.lhunath.opal.wayward.model.ModelProvider;
 import com.lyndir.lhunath.snaplog.data.object.user.User;

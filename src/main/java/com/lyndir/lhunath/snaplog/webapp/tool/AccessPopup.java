@@ -3,19 +3,23 @@ package com.lyndir.lhunath.snaplog.webapp.tool;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterators;
 import com.google.inject.Inject;
+import com.lyndir.lhunath.opal.security.Permission;
+import com.lyndir.lhunath.opal.security.Subject;
+import com.lyndir.lhunath.opal.security.error.PermissionDeniedException;
+import com.lyndir.lhunath.opal.security.service.SecurityService;
 import com.lyndir.lhunath.opal.system.collection.Pair;
+import com.lyndir.lhunath.opal.system.error.IllegalRequestException;
+import com.lyndir.lhunath.opal.system.i18n.MessagesFactory;
 import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.opal.wayward.behavior.CSSClassAttributeAppender;
-import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.opal.wayward.provider.AbstractIteratorProvider;
 import com.lyndir.lhunath.snaplog.data.object.media.Source;
 import com.lyndir.lhunath.snaplog.data.object.media.Tag;
-import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
-import com.lyndir.lhunath.snaplog.error.*;
-import com.lyndir.lhunath.snaplog.model.service.SecurityService;
+import com.lyndir.lhunath.snaplog.error.UserNotFoundException;
 import com.lyndir.lhunath.snaplog.model.service.UserService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
+import com.lyndir.lhunath.snaplog.webapp.component.Sprites;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
 import java.util.Iterator;
 import org.apache.wicket.ajax.AjaxRequestTarget;
@@ -65,13 +69,13 @@ public class AccessPopup extends PopupPanel<Tag> {
     protected void initContent(final WebMarkupContainer content) {
 
         // TODO: We have three times a list of Permissions, perhaps this should be extracted into a View?
-        content.add( new DataView<Pair<User, Permission>>( "users", new AbstractIteratorProvider<Pair<User, Permission>>() {
+        content.add( new DataView<Pair<Subject, Permission>>( "users", new AbstractIteratorProvider<Pair<Subject, Permission>>() {
 
             @Override
-            protected Iterator<Pair<User, Permission>> load() {
+            protected Iterator<Pair<Subject, Permission>> load() {
 
                 try {
-                    return securityService.iterateUserPermissions( SnaplogSession.get().newToken(), getModelObject() );
+                    return securityService.iterateSubjectPermissions( SnaplogSession.get().newToken(), getModelObject() );
                 }
                 catch (PermissionDeniedException e) {
                     error( e.getLocalizedMessage() );
@@ -80,16 +84,16 @@ public class AccessPopup extends PopupPanel<Tag> {
             }
 
             @Override
-            public IModel<Pair<User, Permission>> model(final Pair<User, Permission> object) {
+            public IModel<Pair<Subject, Permission>> model(final Pair<Subject, Permission> object) {
 
-                return new Model<Pair<User, Permission>>( object );
+                return new Model<Pair<Subject, Permission>>( object );
             }
 
             @Override
             public int size() {
 
                 try {
-                    return securityService.countPermittedUsers( SnaplogSession.get().newToken(), getModelObject() );
+                    return securityService.countPermittedSubjects( SnaplogSession.get().newToken(), getModelObject() );
                 }
                 catch (PermissionDeniedException e) {
                     error( e.getLocalizedMessage() );
@@ -99,12 +103,12 @@ public class AccessPopup extends PopupPanel<Tag> {
         } ) {
 
             @Override
-            protected void populateItem(final Item<Pair<User, Permission>> userItem) {
+            protected void populateItem(final Item<Pair<Subject, Permission>> userItem) {
 
-                final User user = userItem.getModelObject().getKey();
+                final Subject subject = userItem.getModelObject().getKey();
                 final Permission userPermission = userItem.getModelObject().getValue();
 
-                userItem.add( new Label( "name", user.toString() ) );
+                userItem.add( new Label( "name", subject.getLocalizedInstance() ) );
                 userItem.add( new ListView<Permission>( "permissions", ImmutableList.copyOf( Permission.values() ) ) {
 
                     @Override
@@ -115,23 +119,23 @@ public class AccessPopup extends PopupPanel<Tag> {
                         permissionItem.add( new AjaxLink<Object>( "toggle" ) {
 
                             {
-                                add( permission.newSprite( "icon", 64 ) );
-                                add( new Label( "label", permission.objectDescription() ) );
+                                add( Sprites.of( permission, "icon", 64 ) );
+                                add( new Label( "label", permission.getLocalizedInstance() ) );
                             }
 
                             @Override
                             public void onClick(final AjaxRequestTarget target) {
 
                                 try {
-                                    securityService.setUserPermission( SnaplogSession.get().newToken(), AccessPopup.this.getModelObject(),
-                                                                       user, permission );
+                                    securityService.setPermission( SnaplogSession.get().newToken(), AccessPopup.this.getModelObject(),
+                                                                   subject, permission );
 
                                     target.addComponent( content );
                                 }
                                 catch (PermissionDeniedException e) {
                                     error( e.getLocalizedMessage() );
                                 }
-                                catch (IllegalOperationException e) {
+                                catch (IllegalRequestException e) {
                                     error( e.getLocalizedMessage() );
                                 }
                             }
@@ -155,8 +159,8 @@ public class AccessPopup extends PopupPanel<Tag> {
                         permissionItem.add( new AjaxLink<Object>( "toggle" ) {
 
                             {
-                                add( permission.newSprite( "icon", 64 ) );
-                                add( new Label( "label", permission.objectDescription() ) );
+                                add( Sprites.of( permission, "icon", 64 ) );
+                                add( new Label( "label", permission.getLocalizedInstance() ) );
                             }
 
                             @Override
@@ -212,8 +216,8 @@ public class AccessPopup extends PopupPanel<Tag> {
                         permissionItem.add( new WebMarkupContainer( "toggle" ) {
 
                             {
-                                add( permission.newSprite( "icon", 64 ) );
-                                add( new Label( "label", permission.objectDescription() ) );
+                                add( Sprites.of( permission, "icon", 64 ) );
+                                add( new Label( "label", permission.getLocalizedInstance() ) );
                             }
                         }.add( new SimpleAttributeModifier( "title", permission.info( AccessPopup.this.getModelObject() ) ) )
                          .add( new AjaxFormSubmitBehavior( "onClick" ) {
@@ -223,8 +227,8 @@ public class AccessPopup extends PopupPanel<Tag> {
 
                                  try {
                                      User user = userService.getUserWithUserName( name.getObject() );
-                                     securityService.setUserPermission( SnaplogSession.get().newToken(), AccessPopup.this.getModelObject(),
-                                                                        user, permission );
+                                     securityService.setPermission(
+                                             SnaplogSession.get().newToken(), AccessPopup.this.getModelObject(), user, permission );
 
                                      target.addComponent( content );
                                  }
@@ -234,7 +238,7 @@ public class AccessPopup extends PopupPanel<Tag> {
                                  catch (UserNotFoundException e) {
                                      error( e.getLocalizedMessage() );
                                  }
-                                 catch (IllegalOperationException e) {
+                                 catch (IllegalRequestException e) {
                                      error( e.getLocalizedMessage() );
                                  }
                              }

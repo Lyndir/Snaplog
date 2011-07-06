@@ -66,7 +66,7 @@ public class BrowserView extends GenericPanel<Tag> {
                     @Override
                     protected String load() {
 
-                        return yearItem.getModelObject().objectDescription();
+                        return yearItem.getModelObject().getLocalizedInstance();
                     }
                 } ) );
                 yearItem.add( new DataView<TimeFrame>( "months", new AbstractIteratorProvider<TimeFrame>() {
@@ -125,7 +125,7 @@ public class BrowserView extends GenericPanel<Tag> {
                             @Override
                             protected String load() {
 
-                                return frame.objectDescription();
+                                return frame.getLocalizedInstance();
                             }
                         } ) {
 

@@ -5,12 +5,12 @@ import com.db4o.ObjectSet;
 import com.db4o.ext.ExtObjectContainer;
 import com.db4o.query.Predicate;
 import com.google.inject.Inject;
+import com.lyndir.lhunath.opal.security.Permission;
 import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.opal.system.util.ObjectUtils;
 import com.lyndir.lhunath.snaplog.data.object.media.Source;
 import com.lyndir.lhunath.snaplog.data.object.media.Tag;
 import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Source;
-import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.data.object.user.*;
 import com.lyndir.lhunath.snaplog.data.service.*;
 import com.lyndir.lhunath.snaplog.util.SnaplogConstants;
@@ -98,7 +98,7 @@ public class InitDAOImpl implements InitDAO {
             @Override
             public boolean apply(final Source input) {
 
-                return ObjectUtils.isEqual( input.getOwner(), SnaplogConstants.DEFAULT_USER );
+                return ObjectUtils.isEqual( SnaplogConstants.DEFAULT_USER, input.getOwner() );
             }
         } );
         SnaplogConstants.DEFAULT_SOURCE =

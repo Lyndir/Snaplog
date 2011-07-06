@@ -22,10 +22,8 @@ import com.google.inject.Inject;
 import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.opal.wayward.component.GenericPanel;
 import com.lyndir.lhunath.opal.wayward.component.WicketUtils;
-import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
-import com.lyndir.lhunath.opal.wayward.navigation.AbstractFragmentState;
-import com.lyndir.lhunath.opal.wayward.navigation.FragmentNavigationListener;
-import com.lyndir.lhunath.opal.wayward.navigation.IncompatibleStateException;
+import com.lyndir.lhunath.opal.system.i18n.MessagesFactory;
+import com.lyndir.lhunath.opal.wayward.navigation.*;
 import com.lyndir.lhunath.opal.wayward.state.TabActivator;
 import com.lyndir.lhunath.snaplog.data.object.user.LinkID;
 import com.lyndir.lhunath.snaplog.error.UsernameTakenException;
@@ -88,9 +86,9 @@ public class NewUserTabPanel extends GenericPanel<NewUserPanelModels> {
         } );
     }
 
-    private static class NewUserTab implements SnaplogTab<NewUserTabPanel, NewUserTabState> {
+    private static class NewUserTabDescriptor implements SnaplogTabDescriptor<NewUserTabPanel, NewUserTabState> {
 
-        public static final NewUserTab instance = new NewUserTab();
+        public static final NewUserTabDescriptor instance = new NewUserTabDescriptor();
 
         static final Messages msgs = MessagesFactory.create( Messages.class );
 
@@ -102,23 +100,16 @@ public class NewUserTabPanel extends GenericPanel<NewUserPanelModels> {
 
         @NotNull
         @Override
-        public String getTabFragment() {
+        public String getFragment() {
 
             return "newUser";
         }
 
         @NotNull
         @Override
-        public NewUserTabState buildFragmentState(@NotNull final NewUserTabPanel panel) {
+        public NewUserTabState newState(@NotNull final NewUserTabPanel panel) {
 
             return new NewUserTabState();
-        }
-
-        @Override
-        public void applyFragmentState(@NotNull final NewUserTabPanel panel, @NotNull final NewUserTabState state)
-                throws IncompatibleStateException {
-
-            // No state.
         }
 
         @NotNull
@@ -130,7 +121,7 @@ public class NewUserTabPanel extends GenericPanel<NewUserPanelModels> {
 
         @NotNull
         @Override
-        public NewUserTabState getState(@NotNull final String fragment) {
+        public NewUserTabState newState(@NotNull final String fragment) {
 
             return new NewUserTabState( fragment );
         }
@@ -143,7 +134,7 @@ public class NewUserTabPanel extends GenericPanel<NewUserPanelModels> {
         }
 
         @Override
-        public boolean isInNavigation() {
+        public boolean shownInNavigation() {
 
             return false;
         }
@@ -159,7 +150,7 @@ public class NewUserTabPanel extends GenericPanel<NewUserPanelModels> {
     }
 
 
-    public static class NewUserTabState extends AbstractFragmentState {
+    public static class NewUserTabState extends AbstractTabState<NewUserTabPanel> {
 
         public NewUserTabState() {
         }
@@ -167,6 +158,13 @@ public class NewUserTabPanel extends GenericPanel<NewUserPanelModels> {
         public NewUserTabState(final String fragment) {
 
             super( fragment );
+        }
+
+        @Override
+        public void apply(@NotNull final NewUserTabPanel panel)
+                throws IncompatibleStateException {
+
+            // No state.
         }
     }
 
@@ -178,18 +176,18 @@ public class NewUserTabPanel extends GenericPanel<NewUserPanelModels> {
      *
      * @author lhunath
      */
-    public static class NewUserTabActivator extends TabActivator<NewUserTabPanel, NewUserTabState, NewUserTab> {
+    public static class NewUserTabActivator extends TabActivator<NewUserTabPanel, NewUserTabState, NewUserTabDescriptor> {
 
         /**
          * Create a new {@link NewUserTabActivator} instance.
          */
         public NewUserTabActivator() {
 
-            super( NewUserTab.instance );
+            super( NewUserTabDescriptor.instance );
         }
 
         @Override
-        protected FragmentNavigationListener.Controller<? super NewUserTabPanel, ? super NewUserTabState> findController() {
+        protected TabController findController() {
 
             return LayoutPage.getController();
         }

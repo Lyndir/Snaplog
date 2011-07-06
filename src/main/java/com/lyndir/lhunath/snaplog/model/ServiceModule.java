@@ -16,6 +16,8 @@
 package com.lyndir.lhunath.snaplog.model;
 
 import com.google.inject.AbstractModule;
+import com.lyndir.lhunath.opal.security.service.SecurityService;
+import com.lyndir.lhunath.opal.security.service.impl.SecurityServiceImpl;
 import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.snaplog.model.service.*;
 import com.lyndir.lhunath.snaplog.model.service.impl.*;

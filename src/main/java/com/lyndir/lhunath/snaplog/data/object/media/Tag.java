@@ -1,6 +1,7 @@
 package com.lyndir.lhunath.snaplog.data.object.media;
 
-import com.lyndir.lhunath.snaplog.data.object.security.AbstractSecureObject;
+import com.lyndir.lhunath.opal.security.AbstractSecureObject;
+import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author lhunath
  */
-public class Tag extends AbstractSecureObject<UserProfile> {
+public class Tag extends AbstractSecureObject<User, UserProfile> {
 
     private final UserProfile ownerProfile;
     private final String name;
@@ -37,14 +38,14 @@ public class Tag extends AbstractSecureObject<UserProfile> {
     }
 
     @Override
-    public String typeDescription() {
+    public String getLocalizedType() {
 
         // TODO: Fill in type description
         return null;
     }
 
     @Override
-    public String objectDescription() {
+    public String getLocalizedInstance() {
 
         // TODO: Fill in instance description
         return null;

@@ -17,11 +17,12 @@ package com.lyndir.lhunath.snaplog.data.object;
 
 import com.google.common.base.Charsets;
 import com.lyndir.lhunath.opal.crypto.MessageDigests;
+import com.lyndir.lhunath.opal.security.AbstractSecureObject;
+import com.lyndir.lhunath.opal.system.i18n.MessagesFactory;
 import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.opal.system.util.StringUtils;
-import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
 import com.lyndir.lhunath.opal.wayward.js.JSUtils;
-import com.lyndir.lhunath.snaplog.data.object.security.AbstractSecureObject;
+import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -36,7 +37,7 @@ import org.apache.wicket.Component;
  *
  * @author lhunath
  */
-public class Issue extends AbstractSecureObject<UserProfile> {
+public class Issue extends AbstractSecureObject<User, UserProfile> {
 
     static final Logger logger = Logger.get( Issue.class );
 
@@ -56,8 +57,6 @@ public class Issue extends AbstractSecureObject<UserProfile> {
      * @param subject The user that was authenticated when the issue occurred or <code>null</code> if no user was authenticated.
      */
     public Issue(final Component origin, final Exception cause, final UserProfile subject) {
-
-        super( null );
 
         logger.dbg( "New issue caused by: %s", cause );
 
@@ -124,15 +123,15 @@ public class Issue extends AbstractSecureObject<UserProfile> {
     }
 
     @Override
-    public String typeDescription() {
+    public String getLocalizedType() {
 
         return msgs.type();
     }
 
     @Override
-    public String objectDescription() {
+    public String getLocalizedInstance() {
 
-        return msgs.description( cause );
+        return msgs.instance( cause );
     }
 
     interface Messages {
@@ -147,6 +146,6 @@ public class Issue extends AbstractSecureObject<UserProfile> {
          *
          * @return A description of the issue using the given cause.
          */
-        String description(Exception cause);
+        String instance(Exception cause);
     }
 }

@@ -2,7 +2,7 @@ package com.lyndir.lhunath.snaplog.data.service.impl.db4o.soda;
 
 import com.db4o.ObjectContainer;
 import com.google.inject.Inject;
-import com.lyndir.lhunath.snaplog.data.object.security.SecureObject;
+import com.lyndir.lhunath.opal.security.SecureObject;
 import com.lyndir.lhunath.snaplog.data.service.SecurityDAO;
 
 
@@ -24,7 +24,7 @@ public class SecurityDAOImpl implements SecurityDAO {
     }
 
     @Override
-    public void update(final SecureObject<?> secureObject) {
+    public void update(final SecureObject<?, ?> secureObject) {
 
         db.store( secureObject );
     }

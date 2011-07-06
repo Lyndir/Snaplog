@@ -4,6 +4,6 @@
 
     <entry key="type">Media Mapping</entry>
 
-    <entry key="description">link to {0}</entry>
+    <entry key="instance">link to {0}</entry>
 
 </properties>

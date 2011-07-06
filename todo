@@ -1,2 +1,4 @@
 - Media/Tags is a mess.  Maybe completely rework it.
 - Maybe move away from db4o to graph db
+- SecurityServiceImpl was moved to opal-security and doesn't persist updates anymore.  Verify whether this doesn't cause problems.
+- GlobalSecureObject was moved to opal-security and doesn't persist DEFAULT anymore.  Verify whether this doesn't cause problems.

@@ -1,10 +1,11 @@
 package com.lyndir.lhunath.snaplog.data.object.media;
 
 import com.google.common.base.Objects;
-import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
-import com.lyndir.lhunath.snaplog.data.object.security.ACL;
-import com.lyndir.lhunath.snaplog.data.object.security.Permission;
+import com.lyndir.lhunath.opal.security.ACL;
+import com.lyndir.lhunath.opal.security.Permission;
+import com.lyndir.lhunath.opal.system.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
+import org.jetbrains.annotations.NotNull;
 import org.joda.time.*;
 
 
@@ -64,6 +65,7 @@ public class MediaMapping extends Media {
         return new Instant().isAfter( created.plus( validity ) );
     }
 
+    @NotNull
     @Override
     public User getOwner() {
 
@@ -134,15 +136,15 @@ public class MediaMapping extends Media {
     }
 
     @Override
-    public String typeDescription() {
+    public String getLocalizedType() {
 
         return msgs.type();
     }
 
     @Override
-    public String objectDescription() {
+    public String getLocalizedInstance() {
 
-        return msgs.description( getOriginal() );
+        return msgs.instance( getOriginal() );
     }
 
     @Override
@@ -168,6 +170,6 @@ public class MediaMapping extends Media {
          *
          * @return A description of this media mapping.
          */
-        String description(Media media);
+        String instance(Media media);
     }
 }

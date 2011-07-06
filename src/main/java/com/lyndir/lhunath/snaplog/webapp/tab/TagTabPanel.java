@@ -18,18 +18,20 @@ package com.lyndir.lhunath.snaplog.webapp.tab;
 import static com.google.common.base.Preconditions.*;
 
 import com.google.common.collect.ImmutableList;
+import com.lyndir.lhunath.opal.security.Permission;
+import com.lyndir.lhunath.opal.security.service.SecurityService;
+import com.lyndir.lhunath.opal.system.i18n.MessagesFactory;
 import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.opal.system.util.ObjectUtils;
 import com.lyndir.lhunath.opal.wayward.component.GenericPanel;
-import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
-import com.lyndir.lhunath.opal.wayward.navigation.AbstractFragmentState;
+import com.lyndir.lhunath.opal.wayward.navigation.AbstractTabState;
 import com.lyndir.lhunath.opal.wayward.navigation.IncompatibleStateException;
 import com.lyndir.lhunath.snaplog.data.object.media.*;
-import com.lyndir.lhunath.snaplog.data.object.security.Permission;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.error.TagUnavailableException;
 import com.lyndir.lhunath.snaplog.error.UserNotFoundException;
-import com.lyndir.lhunath.snaplog.model.service.*;
+import com.lyndir.lhunath.snaplog.model.service.TagService;
+import com.lyndir.lhunath.snaplog.model.service.UserService;
 import com.lyndir.lhunath.snaplog.model.service.impl.SourceDelegate;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
@@ -39,7 +41,8 @@ import com.lyndir.lhunath.snaplog.webapp.view.BrowserView;
 import com.lyndir.lhunath.snaplog.webapp.view.FocusedView;
 import java.util.List;
 import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.model.*;
+import org.apache.wicket.model.AbstractReadOnlyModel;
+import org.apache.wicket.model.IModel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -63,14 +66,15 @@ public class TagTabPanel extends GenericPanel<TagTabModels> {
 
         super( id, new TagTabModels( model ).getModel() );
 
-        add( new BrowserView( "browser", model ) {
+        add(
+                new BrowserView( "browser", model ) {
 
-            @Override
-            public boolean isVisible() {
+                    @Override
+                    public boolean isVisible() {
 
-                return super.isVisible() && TagTabPanel.this.getModelObject().focusedMedia().getObject() == null;
-            }
-        } );
+                        return super.isVisible() && TagTabPanel.this.getModelObject().focusedMedia().getObject() == null;
+                    }
+                } );
         add( new FocusedView( "focused", getModelObject().focusedMedia() ) );
     }
 
@@ -97,18 +101,18 @@ public class TagTabPanel extends GenericPanel<TagTabModels> {
 
 
     /**
-     * <h2>{@link TagTab}<br> <sub>The interface panel for browsing through the tag content.</sub></h2>
+     * <h2>{@link TagTabDescriptor}<br> <sub>The interface panel for browsing through the tag content.</sub></h2>
      *
      * <p> <i>May 31, 2009</i> </p>
      *
      * @author lhunath
      */
-    static class TagTab implements SnaplogTab<TagTabPanel, TagTabState> {
+    static class TagTabDescriptor implements SnaplogTabDescriptor<TagTabPanel, TagTabState> {
 
-        public static final TagTab instance = new TagTab();
+        public static final TagTabDescriptor instance = new TagTabDescriptor();
 
-        static final Logger logger = Logger.get( TagTab.class );
-        static final Messages msgs = MessagesFactory.create( Messages.class );
+        static final Logger   logger = Logger.get( TagTabDescriptor.class );
+        static final Messages msgs   = MessagesFactory.create( Messages.class );
 
         /**
          * {@inheritDoc}
@@ -129,7 +133,7 @@ public class TagTabPanel extends GenericPanel<TagTabModels> {
 
         @NotNull
         @Override
-        public TagTabState getState(@NotNull final String fragment) {
+        public TagTabState newState(@NotNull final String fragment) {
 
             return new TagTabState( fragment );
         }
@@ -140,22 +144,23 @@ public class TagTabPanel extends GenericPanel<TagTabModels> {
         @Override
         public List<? extends SnaplogTool> listTools(final TagTabPanel panel) {
 
-            return ImmutableList.of( new BackTool( panel.getModelObject() ), //
-                                     new TimelinePopup.Tool( panel.getModelObject() ), //
-                                     new AccessPopup.Tool( panel.getModelObject() ) //
+            return ImmutableList.of(
+                    new BackTool( panel.getModelObject() ), //
+                    new TimelinePopup.Tool( panel.getModelObject() ), //
+                    new AccessPopup.Tool( panel.getModelObject() ) //
             );
         }
 
         @NotNull
         @Override
-        public String getTabFragment() {
+        public String getFragment() {
 
             return "tag";
         }
 
         @NotNull
         @Override
-        public TagTabState buildFragmentState(@NotNull final TagTabPanel panel) {
+        public TagTabState newState(@NotNull final TagTabPanel panel) {
 
             Media focusedMedia = panel.getModelObject().focusedMedia().getObject();
             if (focusedMedia == null)
@@ -164,32 +169,11 @@ public class TagTabPanel extends GenericPanel<TagTabModels> {
             return new TagTabState( panel.getModelObject().getModelObject(), focusedMedia );
         }
 
-        @Override
-        public void applyFragmentState(@NotNull final TagTabPanel panel, @NotNull final TagTabState state)
-                throws IncompatibleStateException {
-
-            try {
-                logger.dbg( "Activating state: %s, on tag tab.", state );
-                SnaplogSession.get().setFocusedUser( state.getUser() );
-                panel.getModelObject().setModelObject( state.getTag() );
-                panel.getModelObject().focusedMedia().setObject( state.findMedia() );
-                logger.dbg( "State is now: focused tag=%s, focused media=%s", panel.getModelObject().getModelObject(),
-                            panel.getModelObject().focusedMedia().getObject() );
-            }
-
-            catch (UserNotFoundException e) {
-                throw new IncompatibleStateException( e );
-            }
-            catch (TagUnavailableException e) {
-                throw new IncompatibleStateException( e );
-            }
-        }
-
         /**
          * {@inheritDoc}
          */
         @Override
-        public boolean isInNavigation() {
+        public boolean shownInNavigation() {
 
             return false;
         }
@@ -198,8 +182,8 @@ public class TagTabPanel extends GenericPanel<TagTabModels> {
 
     static class BackTool implements SnaplogLinkTool {
 
-        static final Messages msgs = MessagesFactory.create( Messages.class );
-        static final Logger logger = Logger.get( BackTool.class );
+        static final Messages msgs   = MessagesFactory.create( Messages.class );
+        static final Logger   logger = Logger.get( BackTool.class );
 
         private final TagTabModels model;
 
@@ -243,13 +227,13 @@ public class TagTabPanel extends GenericPanel<TagTabModels> {
     }
 
 
-    public static class TagTabState extends AbstractFragmentState {
+    public static class TagTabState extends AbstractTabState<TagTabPanel> {
 
         static final Logger logger = Logger.get( TagTabState.class );
 
-        private final UserService userService = GuiceContext.getInstance( UserService.class );
+        private final UserService    userService    = GuiceContext.getInstance( UserService.class );
         private final SourceDelegate sourceDelegate = GuiceContext.getInstance( SourceDelegate.class );
-        private final TagService tagService = GuiceContext.getInstance( TagService.class );
+        private final TagService     tagService     = GuiceContext.getInstance( TagService.class );
 
         final String userName;
         final String tagName;
@@ -316,6 +300,27 @@ public class TagTabPanel extends GenericPanel<TagTabModels> {
                 throws UserNotFoundException {
 
             return mediaName == null? null: sourceDelegate.findMediaWithName( SnaplogSession.get().newToken(), getUser(), mediaName );
+        }
+
+        @Override
+        public void apply(@NotNull final TagTabPanel panel)
+                throws IncompatibleStateException {
+
+            try {
+                logger.dbg( "Activating state: %s, on tag tab.", this );
+                SnaplogSession.get().setFocusedUser( getUser() );
+                panel.getModelObject().setModelObject( getTag() );
+                panel.getModelObject().focusedMedia().setObject( findMedia() );
+                logger.dbg(
+                        "State is now: focused tag=%s, focused media=%s", panel.getModelObject().getModelObject(),
+                        panel.getModelObject().focusedMedia().getObject() );
+            }
+            catch (UserNotFoundException e) {
+                throw new IncompatibleStateException( e );
+            }
+            catch (TagUnavailableException e) {
+                throw new IncompatibleStateException( e );
+            }
         }
     }
 }

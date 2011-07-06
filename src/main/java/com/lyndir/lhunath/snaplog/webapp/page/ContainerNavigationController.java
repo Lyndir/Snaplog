@@ -17,18 +17,17 @@ import org.jetbrains.annotations.NotNull;
  *
  * @author lhunath
  */
-public abstract class ContainerNavigationController<P extends Panel, S extends FragmentState>
-        extends FragmentNavigationListener.Controller<P, S> {
+public abstract class ContainerNavigationController extends TabController {
 
     static final Logger logger = Logger.get( ContainerNavigationController.class );
 
     @NotNull
     @Override
     @SuppressWarnings({ "unchecked" })
-    protected <TT extends FragmentNavigationTab<PP, SS>, PP extends P, SS extends S> PP getContent(@NotNull final TT tab) {
+    protected <T extends TabDescriptor<P, ?>, P extends Panel> P getContent(@NotNull final T tab) {
 
-        if (ObjectUtils.isEqual( tab, (FragmentNavigationTab<PP, SS>) getActiveTab() ))
-            return (PP) getContainer().get( getContentId( tab ) );
+        if (ObjectUtils.isEqual( tab, getActiveTab() ))
+            return (P) getContainer().get( getContentId( tab ) );
 
         try {
             return tab.getContentPanelClass().getConstructor( String.class ).newInstance( getContentId( tab ) );
@@ -48,7 +47,7 @@ public abstract class ContainerNavigationController<P extends Panel, S extends F
     }
 
     @Override
-    protected <TT extends FragmentNavigationTab<?, ?>> void onTabActivated(@NotNull final TT tab, @NotNull final Panel tabPanel) {
+    protected <T extends TabDescriptor<P, ?>, P extends Panel> void onTabActivated(@NotNull final T tab, @NotNull final P tabPanel) {
 
         getContainer().addOrReplace( tabPanel );
     }
@@ -68,5 +67,5 @@ public abstract class ContainerNavigationController<P extends Panel, S extends F
 
     protected abstract WebMarkupContainer getContainer();
 
-    protected abstract <TT extends FragmentNavigationTab<PP, ?>, PP extends P> String getContentId(@NotNull TT tab);
+    protected abstract <T extends TabDescriptor<P, ?>, P extends Panel> String getContentId(@NotNull T tab);
 }

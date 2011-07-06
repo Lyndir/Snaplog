@@ -16,9 +16,9 @@
 package com.lyndir.lhunath.snaplog.data.object.user;
 
 import com.google.common.base.Objects;
-import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
-import com.lyndir.lhunath.snaplog.data.object.security.AbstractSecureObject;
-import com.lyndir.lhunath.snaplog.data.object.security.GlobalSecureObject;
+import com.lyndir.lhunath.opal.security.AbstractSecureObject;
+import com.lyndir.lhunath.opal.security.GlobalSecureObject;
+import com.lyndir.lhunath.opal.system.i18n.MessagesFactory;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 
@@ -30,7 +30,7 @@ import java.io.ObjectInputStream;
  *
  * @author lhunath
  */
-public class UserProfile extends AbstractSecureObject<GlobalSecureObject> {
+public class UserProfile extends AbstractSecureObject<User, GlobalSecureObject<User>> {
 
     static final Messages msgs = MessagesFactory.create( Messages.class );
 
@@ -48,9 +48,9 @@ public class UserProfile extends AbstractSecureObject<GlobalSecureObject> {
      * {@inheritDoc}
      */
     @Override
-    public GlobalSecureObject getParent() {
+    public GlobalSecureObject<User> getParent() {
 
-        return GlobalSecureObject.DEFAULT;
+        return GlobalSecureObject.getDefault();
     }
 
     /**
@@ -58,7 +58,7 @@ public class UserProfile extends AbstractSecureObject<GlobalSecureObject> {
      */
     public User getUser() {
 
-        return getOwner();
+        return (User) getOwner();
     }
 
     @Override
@@ -85,15 +85,15 @@ public class UserProfile extends AbstractSecureObject<GlobalSecureObject> {
     }
 
     @Override
-    public String typeDescription() {
+    public String getLocalizedType() {
 
         return msgs.type();
     }
 
     @Override
-    public String objectDescription() {
+    public String getLocalizedInstance() {
 
-        return msgs.description( getUser().getUserName() );
+        return msgs.instance( getUser().getUserName() );
     }
 
     private void readObject(final ObjectInputStream stream)
@@ -118,6 +118,6 @@ public class UserProfile extends AbstractSecureObject<GlobalSecureObject> {
          *
          * @return A description of this profile.
          */
-        String description(String userName);
+        String instance(String userName);
     }
 }

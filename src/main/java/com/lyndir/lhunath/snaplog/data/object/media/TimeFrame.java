@@ -22,8 +22,8 @@ import com.google.common.collect.Iterators;
 import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.opal.system.util.DateUtils;
 import com.lyndir.lhunath.opal.system.util.ObjectUtils;
-import com.lyndir.lhunath.opal.wayward.i18n.Localized;
-import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
+import com.lyndir.lhunath.opal.system.i18n.Localized;
+import com.lyndir.lhunath.opal.system.i18n.MessagesFactory;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.util.Collection;
@@ -132,13 +132,13 @@ public class TimeFrame implements Localized, Comparable<TimeFrame> {
     }
 
     @Override
-    public String typeDescription() {
+    public String getLocalizedType() {
 
         return msgs.type();
     }
 
     @Override
-    public String objectDescription() {
+    public String getLocalizedInstance() {
 
         String s = getFormatter().print( offset );
         logger.dbg( "frame: %s, starts with: %s, ends with: %s - desc: %s", this, media.iterator().next(),

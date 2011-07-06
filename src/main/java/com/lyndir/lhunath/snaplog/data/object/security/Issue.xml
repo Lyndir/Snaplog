@@ -4,6 +4,6 @@
 
     <entry key="type">Issue</entry>
 
-    <entry key="description">A problem caused by: ''{0}''</entry>
+    <entry key="instance">A problem caused by: ''{0}''</entry>
 
 </properties>

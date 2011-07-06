@@ -20,11 +20,11 @@ import static com.google.common.base.Preconditions.checkNotNull;
 import com.google.common.collect.ImmutableList;
 import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.opal.wayward.model.Models;
-import com.lyndir.lhunath.opal.wayward.navigation.AbstractFragmentState;
+import com.lyndir.lhunath.opal.wayward.navigation.AbstractTabState;
 import com.lyndir.lhunath.opal.wayward.navigation.IncompatibleStateException;
 import com.lyndir.lhunath.snaplog.data.object.Issue;
 import com.lyndir.lhunath.snaplog.error.IssueNotFoundException;
-import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
+import com.lyndir.lhunath.opal.security.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.model.service.IssueService;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
@@ -63,17 +63,17 @@ public class InternalErrorPage extends LayoutPage {
 
         try {
             if (issue != null)
-                getController().activateTabWithState( InternalErrorTab.instance, new InternalErrorState( issue ) );
+                getController().activateTabWithState( InternalErrorTabDescriptor.instance, new InternalErrorState( issue ) );
             else {
                 // No issue; odd - something must have gone wrong while building error context. Just display a new error page without state.
                 logger.wrn( "InternalErrorPage loaded without issue." );
-                getController().activateNewTab( InternalErrorTab.instance );
+                getController().activateNewTab( InternalErrorTabDescriptor.instance );
             }
         }
         catch (IncompatibleStateException e) {
             Session.get().error( e.getLocalizedMessage() );
 
-            getController().activateNewTab( InternalErrorTab.instance );
+            getController().activateNewTab( InternalErrorTabDescriptor.instance );
         }
 
         super.onBeforeRender();
@@ -116,9 +116,9 @@ public class InternalErrorPage extends LayoutPage {
     }
 
 
-    static class InternalErrorTab implements SnaplogTab<InternalErrorTabPanel, InternalErrorState> {
+    static class InternalErrorTabDescriptor implements SnaplogTabDescriptor<InternalErrorTabPanel, InternalErrorState> {
 
-        public static final InternalErrorTab instance = new InternalErrorTab();
+        public static final InternalErrorTabDescriptor instance = new InternalErrorTabDescriptor();
 
         @Override
         public List<? extends SnaplogTool> listTools(final InternalErrorTabPanel panel) {
@@ -128,35 +128,19 @@ public class InternalErrorPage extends LayoutPage {
 
         @NotNull
         @Override
-        public String getTabFragment() {
+        public String getFragment() {
 
             return "error";
         }
 
         @NotNull
         @Override
-        public InternalErrorState buildFragmentState(@NotNull final InternalErrorTabPanel panel) {
+        public InternalErrorState newState(@NotNull final InternalErrorTabPanel panel) {
 
             if (panel.getIssue() == null)
                 return new InternalErrorState();
 
             return new InternalErrorState( panel.getIssue() );
-        }
-
-        @Override
-        public void applyFragmentState(@NotNull final InternalErrorTabPanel panel, @NotNull final InternalErrorState state)
-                throws IncompatibleStateException {
-
-            try {
-                panel.setIssue( state.findIssue() );
-            }
-
-            catch (IssueNotFoundException e) {
-                throw new IncompatibleStateException( e );
-            }
-            catch (PermissionDeniedException e) {
-                throw new IncompatibleStateException( e );
-            }
         }
 
         @NotNull
@@ -167,7 +151,7 @@ public class InternalErrorPage extends LayoutPage {
         }
 
         @Override
-        public boolean isInNavigation() {
+        public boolean shownInNavigation() {
 
             return true;
         }
@@ -181,14 +165,14 @@ public class InternalErrorPage extends LayoutPage {
 
         @NotNull
         @Override
-        public InternalErrorState getState(@NotNull final String fragment) {
+        public InternalErrorState newState(@NotNull final String fragment) {
 
             return new InternalErrorState( fragment );
         }
     }
 
 
-    static class InternalErrorState extends AbstractFragmentState {
+    static class InternalErrorState extends AbstractTabState<InternalErrorTabPanel> {
 
         private final IssueService issueService = GuiceContext.getInstance( IssueService.class );
 
@@ -223,6 +207,22 @@ public class InternalErrorPage extends LayoutPage {
                 return null;
 
             return issueService.getIssue( SnaplogSession.get().newToken(), issueCode );
+        }
+
+        @Override
+        public void apply(@NotNull final InternalErrorTabPanel panel)
+                throws IncompatibleStateException {
+
+            try {
+                panel.setIssue( findIssue() );
+            }
+
+            catch (IssueNotFoundException e) {
+                throw new IncompatibleStateException( e );
+            }
+            catch (PermissionDeniedException e) {
+                throw new IncompatibleStateException( e );
+            }
         }
     }
 }

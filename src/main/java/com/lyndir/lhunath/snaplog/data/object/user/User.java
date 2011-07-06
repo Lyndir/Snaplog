@@ -18,7 +18,8 @@ package com.lyndir.lhunath.snaplog.data.object.user;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Objects;
-import java.io.Serializable;
+import com.lyndir.lhunath.opal.security.Subject;
+import com.lyndir.lhunath.opal.system.i18n.MessagesFactory;
 
 
 /**
@@ -28,7 +29,9 @@ import java.io.Serializable;
  *
  * @author lhunath
  */
-public class User implements Serializable {
+public class User implements Subject {
+
+    static final Messages msgs = MessagesFactory.create( Messages.class );
 
     private LinkID linkID;
 
@@ -118,12 +121,21 @@ public class User implements Serializable {
         return Objects.hashCode( getLinkID() );
     }
 
-    /**
-     * {@inheritDoc}
-     */
     @Override
-    public String toString() {
+    public String getLocalizedType() {
 
-        return String.format( "%s%s", getBadge(), getUserName() );
+        return msgs.type();
+    }
+
+    @Override
+    public String getLocalizedInstance() {
+
+        return msgs.instance( getBadge(), getUserName() );
+    }
+
+    interface Messages {
+        String type();
+
+        String instance(char badge, String userName);
     }
 }

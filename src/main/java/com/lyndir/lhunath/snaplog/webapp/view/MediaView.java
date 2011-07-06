@@ -16,14 +16,14 @@
 package com.lyndir.lhunath.snaplog.webapp.view;
 
 import com.google.inject.Inject;
+import com.lyndir.lhunath.opal.security.Permission;
+import com.lyndir.lhunath.opal.security.error.PermissionDeniedException;
+import com.lyndir.lhunath.opal.security.service.SecurityService;
 import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.opal.wayward.behavior.CSSClassAttributeAppender;
 import com.lyndir.lhunath.opal.wayward.component.GenericPanel;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.media.Media.Quality;
-import com.lyndir.lhunath.snaplog.data.object.security.Permission;
-import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
-import com.lyndir.lhunath.snaplog.model.service.SecurityService;
 import com.lyndir.lhunath.snaplog.model.service.impl.SourceDelegate;
 import com.lyndir.lhunath.snaplog.webapp.SnaplogSession;
 import com.lyndir.lhunath.snaplog.webapp.tab.SharedTabPanel;

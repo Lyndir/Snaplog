@@ -15,7 +15,7 @@
  */
 package com.lyndir.lhunath.snaplog.data.object.media.aws;
 
-import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
+import com.lyndir.lhunath.opal.system.i18n.MessagesFactory;
 import com.lyndir.lhunath.snaplog.data.object.media.Source;
 import com.lyndir.lhunath.snaplog.data.object.user.UserProfile;
 
@@ -61,13 +61,13 @@ public class S3Source extends Source {
     }
 
     @Override
-    public String objectDescription() {
+    public String getLocalizedInstance() {
 
-        return msgs.description( bucket, prefix );
+        return msgs.instance( bucket, prefix );
     }
 
     interface Messages {
 
-        String description(String bucket, String prefix);
+        String instance(String bucket, String prefix);
     }
 }

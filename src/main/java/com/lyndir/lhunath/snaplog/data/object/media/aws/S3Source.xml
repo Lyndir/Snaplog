@@ -2,6 +2,6 @@
 
 <properties>
 
-    <entry key="description">Amazon S3 bucket "{0}" at "{1}"</entry>
+    <entry key="instance">Amazon S3 bucket "{0}" at "{1}"</entry>
 
 </properties>

@@ -20,9 +20,9 @@ import com.google.inject.Inject;
 import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.opal.wayward.collection.IPredicate;
 import com.lyndir.lhunath.opal.wayward.component.GenericPanel;
-import com.lyndir.lhunath.opal.wayward.i18n.BooleanKeyAppender;
-import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
-import com.lyndir.lhunath.opal.wayward.navigation.AbstractFragmentState;
+import com.lyndir.lhunath.opal.system.i18n.BooleanKeyAppender;
+import com.lyndir.lhunath.opal.system.i18n.MessagesFactory;
+import com.lyndir.lhunath.opal.wayward.navigation.AbstractTabState;
 import com.lyndir.lhunath.opal.wayward.navigation.IncompatibleStateException;
 import com.lyndir.lhunath.snaplog.data.object.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.object.media.Tag;
@@ -278,7 +278,7 @@ public class HomeTabPanel extends GenericPanel<HomeTabModels> {
 
 
     /**
-     * <h2>{@link HomeTab}<br> <sub>[in short] (TODO).</sub></h2>
+     * <h2>{@link HomeTabDescriptor}<br> <sub>[in short] (TODO).</sub></h2>
      *
      * <p> [description / usage]. </p>
      *
@@ -286,11 +286,11 @@ public class HomeTabPanel extends GenericPanel<HomeTabModels> {
      *
      * @author lhunath
      */
-    static class HomeTab implements SnaplogTab<HomeTabPanel, HomeTabState> {
+    static class HomeTabDescriptor implements SnaplogTabDescriptor<HomeTabPanel, HomeTabState> {
 
-        public static final HomeTab instance = new HomeTab();
+        public static final HomeTabDescriptor instance = new HomeTabDescriptor();
 
-        static final Logger logger = Logger.get( HomeTab.class );
+        static final Logger logger = Logger.get( HomeTabDescriptor.class );
 
         /**
          * {@inheritDoc}
@@ -311,7 +311,7 @@ public class HomeTabPanel extends GenericPanel<HomeTabModels> {
 
         @NotNull
         @Override
-        public HomeTabState getState(@NotNull final String fragment) {
+        public HomeTabState newState(@NotNull final String fragment) {
 
             return new HomeTabState( fragment );
         }
@@ -320,7 +320,7 @@ public class HomeTabPanel extends GenericPanel<HomeTabModels> {
          * {@inheritDoc}
          */
         @Override
-        public boolean isInNavigation() {
+        public boolean shownInNavigation() {
 
             return true;
         }
@@ -333,28 +333,21 @@ public class HomeTabPanel extends GenericPanel<HomeTabModels> {
 
         @NotNull
         @Override
-        public String getTabFragment() {
+        public String getFragment() {
 
             return "home";
         }
 
         @NotNull
         @Override
-        public HomeTabState buildFragmentState(@NotNull final HomeTabPanel panel) {
+        public HomeTabState newState(@NotNull final HomeTabPanel panel) {
 
             return new HomeTabState();
-        }
-
-        @Override
-        public void applyFragmentState(@NotNull final HomeTabPanel panel, @NotNull final HomeTabState state)
-                throws IncompatibleStateException {
-
-            // No state.
         }
     }
 
 
-    public static class HomeTabState extends AbstractFragmentState {
+    public static class HomeTabState extends AbstractTabState<HomeTabPanel> {
 
         public HomeTabState() {
 
@@ -363,6 +356,13 @@ public class HomeTabPanel extends GenericPanel<HomeTabModels> {
         public HomeTabState(final String fragment) {
 
             super( fragment );
+        }
+
+        @Override
+        public void apply(@NotNull final HomeTabPanel panel)
+                throws IncompatibleStateException {
+
+            // No state.
         }
     }
 }

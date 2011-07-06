@@ -18,9 +18,10 @@ package com.lyndir.lhunath.snaplog.data.object.media;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.base.Objects;
+import com.lyndir.lhunath.opal.security.AbstractSecureObject;
+import com.lyndir.lhunath.opal.system.i18n.MessagesFactory;
 import com.lyndir.lhunath.opal.system.logging.Logger;
-import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
-import com.lyndir.lhunath.snaplog.data.object.security.AbstractSecureObject;
+import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.model.service.WebUtil;
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -38,7 +39,7 @@ import org.joda.time.format.*;
  *
  * @author lhunath
  */
-public abstract class Media extends AbstractSecureObject<Source> implements Comparable<Media> {
+public abstract class Media extends AbstractSecureObject<User, Source> implements Comparable<Media> {
 
     private static final Logger logger = Logger.get( Media.class );
     private static final Messages msgs = MessagesFactory.create( Messages.class );
@@ -177,15 +178,15 @@ public abstract class Media extends AbstractSecureObject<Source> implements Comp
     }
 
     @Override
-    public String typeDescription() {
+    public String getLocalizedType() {
 
         return msgs.type();
     }
 
     @Override
-    public String objectDescription() {
+    public String getLocalizedInstance() {
 
-        return msgs.description( name );
+        return msgs.instance( name );
     }
 
     private void readObject(final ObjectInputStream stream)
@@ -305,6 +306,6 @@ public abstract class Media extends AbstractSecureObject<Source> implements Comp
          *
          * @return A description of a media.
          */
-        String description(String name);
+        String instance(String name);
     }
 }

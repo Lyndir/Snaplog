@@ -19,12 +19,13 @@ import static com.google.common.base.Preconditions.checkNotNull;
 
 import com.google.common.collect.ImmutableList;
 import com.google.inject.Inject;
+import com.lyndir.lhunath.opal.security.service.SecurityService;
 import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.opal.system.util.ObjectUtils;
 import com.lyndir.lhunath.opal.wayward.component.GenericPanel;
-import com.lyndir.lhunath.opal.wayward.i18n.BooleanKeyAppender;
-import com.lyndir.lhunath.opal.wayward.i18n.MessagesFactory;
-import com.lyndir.lhunath.opal.wayward.navigation.AbstractFragmentState;
+import com.lyndir.lhunath.opal.system.i18n.BooleanKeyAppender;
+import com.lyndir.lhunath.opal.system.i18n.MessagesFactory;
+import com.lyndir.lhunath.opal.wayward.navigation.AbstractTabState;
 import com.lyndir.lhunath.opal.wayward.navigation.IncompatibleStateException;
 import com.lyndir.lhunath.snaplog.data.object.media.Media.Quality;
 import com.lyndir.lhunath.snaplog.data.object.media.Tag;
@@ -175,7 +176,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 
 
     /**
-     * <h2>{@link GalleryTab}<br> <sub>[in short] (TODO).</sub></h2>
+     * <h2>{@link GalleryTabDescriptor}<br> <sub>[in short] (TODO).</sub></h2>
      *
      * <p> [description / usage]. </p>
      *
@@ -183,9 +184,9 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
      *
      * @author lhunath
      */
-    static class GalleryTab implements SnaplogTab<GalleryTabPanel, GalleryTabState> {
+    static class GalleryTabDescriptor implements SnaplogTabDescriptor<GalleryTabPanel, GalleryTabState> {
 
-        public static final GalleryTab instance = new GalleryTab();
+        public static final GalleryTabDescriptor instance = new GalleryTabDescriptor();
 
         /**
          * {@inheritDoc}
@@ -206,7 +207,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 
         @NotNull
         @Override
-        public GalleryTabState getState(@NotNull final String fragment) {
+        public GalleryTabState newState(@NotNull final String fragment) {
 
             return new GalleryTabState( fragment );
         }
@@ -215,7 +216,7 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
          * {@inheritDoc}
          */
         @Override
-        public boolean isInNavigation() {
+        public boolean shownInNavigation() {
 
             return SnaplogSession.get().getFocusedUser() != null;
         }
@@ -228,34 +229,21 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
 
         @NotNull
         @Override
-        public String getTabFragment() {
+        public String getFragment() {
 
             return "gallery";
         }
 
         @NotNull
         @Override
-        public GalleryTabState buildFragmentState(@NotNull final GalleryTabPanel panel) {
+        public GalleryTabState newState(@NotNull final GalleryTabPanel panel) {
 
             return new GalleryTabState( SnaplogSession.get().getFocusedUser() );
-        }
-
-        @Override
-        public void applyFragmentState(@NotNull final GalleryTabPanel panel, @NotNull final GalleryTabState state)
-                throws IncompatibleStateException {
-
-            try {
-                SnaplogSession.get().setFocusedUser( state.getUser() );
-            }
-
-            catch (UserNotFoundException e) {
-                throw new IncompatibleStateException( e );
-            }
         }
     }
 
 
-    public static class GalleryTabState extends AbstractFragmentState {
+    public static class GalleryTabState extends AbstractTabState<GalleryTabPanel> {
 
         private final UserService userService = GuiceContext.getInstance( UserService.class );
 
@@ -283,6 +271,19 @@ public class GalleryTabPanel extends GenericPanel<GalleryTabModels> {
                 throws UserNotFoundException {
 
             return userService.getUserWithUserName( checkNotNull( userName, "Username must not be null in this state." ) );
+        }
+
+        @Override
+        public void apply(@NotNull final GalleryTabPanel panel)
+                throws IncompatibleStateException {
+
+            try {
+                SnaplogSession.get().setFocusedUser( getUser() );
+            }
+
+            catch (UserNotFoundException e) {
+                throw new IncompatibleStateException( e );
+            }
         }
     }
 }

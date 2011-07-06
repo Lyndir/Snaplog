@@ -18,13 +18,13 @@ package com.lyndir.lhunath.snaplog.webapp.servlet;
 import com.google.common.base.Predicates;
 import com.google.inject.Inject;
 import com.google.inject.Provider;
+import com.lyndir.lhunath.snaplog.security.SnaplogST;
+import com.lyndir.lhunath.opal.security.error.PermissionDeniedException;
 import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.opal.system.util.DateUtils;
 import com.lyndir.lhunath.opal.system.util.ObjectUtils;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.media.Source;
-import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
-import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.model.service.SourceService;
 import com.lyndir.lhunath.snaplog.model.service.impl.SourceDelegate;
 import java.io.IOException;
@@ -74,19 +74,20 @@ public class InitServlet extends HttpServlet {
                 public void run() {
 
                     SourceDelegate sourceDelegate = sourceDelegateProvider.get();
-                    Iterator<Source> sourceIt = sourceDelegate.iterateSources( SecurityToken.INTERNAL_USE_ONLY,
+                    Iterator<Source> sourceIt = sourceDelegate.iterateSources(
+                            SnaplogST.INTERNAL_USE_ONLY,
                                                                               Predicates.<Source>alwaysTrue() );
                     while (sourceIt.hasNext()) {
 
                         Media lastMedia = null;
-                        ListIterator<Media> mediaIt = sourceDelegate.iterateMedia( SecurityToken.INTERNAL_USE_ONLY, sourceIt.next(), true );
+                        ListIterator<Media> mediaIt = sourceDelegate.iterateMedia( SnaplogST.INTERNAL_USE_ONLY, sourceIt.next(), true );
                         while (mediaIt.hasNext()) {
 
                             Media media = mediaIt.next();
                             if (lastMedia != null && ObjectUtils.isEqual( media.getName(), lastMedia.getName() ))
                                 try {
                                     logger.inf( "Found duplicate: last=%s, current=%s.  Deleting current.", lastMedia, media );
-                                    sourceDelegate.delete( SecurityToken.INTERNAL_USE_ONLY, media );
+                                    sourceDelegate.delete( SnaplogST.INTERNAL_USE_ONLY, media );
                                 }
                                 catch (PermissionDeniedException e) {
                                     logger.bug( e );
@@ -105,12 +106,13 @@ public class InitServlet extends HttpServlet {
                 public void run() {
 
                     SourceDelegate sourceDelegate = sourceDelegateProvider.get();
-                    Iterator<Source> sourceIt = sourceDelegate.iterateSources( SecurityToken.INTERNAL_USE_ONLY,
+                    Iterator<Source> sourceIt = sourceDelegate.iterateSources(
+                            SnaplogST.INTERNAL_USE_ONLY,
                                                                               Predicates.<Source>alwaysTrue() );
                     while (sourceIt.hasNext()) {
                         Source source = sourceIt.next();
                         try {
-                            sourceDelegate.loadMedia( SecurityToken.INTERNAL_USE_ONLY, source );
+                            sourceDelegate.loadMedia( SnaplogST.INTERNAL_USE_ONLY, source );
                         }
                         catch (PermissionDeniedException e) {
                             logger.err( e, "While loading media for source %s", source );
@@ -125,12 +127,13 @@ public class InitServlet extends HttpServlet {
                 public void run() {
 
                     SourceDelegate sourceDelegate = sourceDelegateProvider.get();
-                    Iterator<Source> sourceIt = sourceDelegate.iterateSources( SecurityToken.INTERNAL_USE_ONLY,
+                    Iterator<Source> sourceIt = sourceDelegate.iterateSources(
+                            SnaplogST.INTERNAL_USE_ONLY,
                                                                               Predicates.<Source>alwaysTrue() );
                     while (sourceIt.hasNext()) {
                         Source source = sourceIt.next();
                         try {
-                            sourceDelegate.loadMediaData( SecurityToken.INTERNAL_USE_ONLY, sourceIt.next() );
+                            sourceDelegate.loadMediaData( SnaplogST.INTERNAL_USE_ONLY, sourceIt.next() );
                         }
                         catch (PermissionDeniedException e) {
                             logger.err( e, "While loading media data for source %s", source );

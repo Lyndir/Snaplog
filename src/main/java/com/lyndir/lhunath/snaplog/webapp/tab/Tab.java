@@ -16,15 +16,13 @@
 package com.lyndir.lhunath.snaplog.webapp.tab;
 
 import com.lyndir.lhunath.opal.system.logging.Logger;
-import com.lyndir.lhunath.opal.wayward.navigation.FragmentNavigationTab;
-import com.lyndir.lhunath.opal.wayward.navigation.FragmentState;
-import com.lyndir.lhunath.opal.wayward.navigation.IncompatibleStateException;
+import com.lyndir.lhunath.opal.wayward.navigation.*;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 import org.apache.wicket.markup.html.panel.Panel;
 
 
 /**
- * <h2>{@link SnaplogTab}<br> <sub>[in short] (TODO).</sub></h2>
+ * <h2>{@link SnaplogTabDescriptor}<br> <sub>[in short] (TODO).</sub></h2>
  *
  * <p> <i>Feb 28, 2010</i> </p>
  *
@@ -35,37 +33,37 @@ public enum Tab {
     /**
      * This tab provides a gateway to Snaplog's most needed functions and information.
      */
-    HOME( HomeTabPanel.HomeTab.instance ),
+    HOME( HomeTabPanel.HomeTabDescriptor.instance ),
 
     /**
      * This tab describes what Snaplog is.
      */
-    ABOUT( AboutTabPanel.AboutTab.instance ),
+    ABOUT( AboutTabPanel.AboutTabDescriptor.instance ),
 
     /**
      * This tab provides a summary view of a user's account.
      */
-    GALLERY( GalleryTabPanel.GalleryTab.instance ),
+    GALLERY( GalleryTabPanel.GalleryTabDescriptor.instance ),
 
     /**
      * This tab provides a way of browsing a specific tag.
      */
-    TAG( TagTabPanel.TagTab.instance ),
+    TAG( TagTabPanel.TagTabDescriptor.instance ),
 
     /**
      * This tab provides a way of viewing media mappings.
      */
-    SHARED( SharedTabPanel.SharedTab.instance ),
+    SHARED( SharedTabPanel.SharedTabDescriptor.instance ),
 
     /**
      * Using this tab, users can configure their profile and account settings.
      */
-    ADMINISTRATION( AdministrationTabPanel.AdministrationTab.instance ),
+    ADMINISTRATION( AdministrationTabPanel.AdministrationTabDescriptor.instance ),
 
     /**
      * This tab is shown when the user requests an expired page.
      */
-    EXPIRED( PageExpiredErrorPage.PageExpiredErrorTab.instance ) {
+    EXPIRED( PageExpiredErrorPage.PageExpiredErrorTabDescriptor.instance ) {
         @Override
         public boolean isVisible() {
 
@@ -76,7 +74,7 @@ public enum Tab {
     /**
      * This tab is shown when the user tries to access a page or resource to which he has no access.
      */
-    DENIED( AccessDeniedErrorPage.AccessDeniedErrorTab.instance ) {
+    DENIED( AccessDeniedErrorPage.AccessDeniedErrorTabDescriptor.instance ) {
         @Override
         public boolean isVisible() {
 
@@ -87,7 +85,7 @@ public enum Tab {
     /**
      * This tab details an error that occurred in the application.
      */
-    ERROR( InternalErrorPage.InternalErrorTab.instance ) {
+    ERROR( InternalErrorPage.InternalErrorTabDescriptor.instance ) {
         @Override
         public boolean isVisible() {
 
@@ -97,27 +95,24 @@ public enum Tab {
 
     static final Logger logger = Logger.get( Tab.class );
 
-    private final SnaplogTab<?, ?> tab;
-
+    private final SnaplogTabDescriptor<?, ?> tab;
 
     /**
-     * Create a new {@link Tab} instance.
-     *
      * @param tab The implementation of this tab.
      */
-    Tab(final SnaplogTab<? extends Panel, ? extends FragmentState> tab) {
+    <S extends TabState<P>, P extends Panel> Tab(final SnaplogTabDescriptor<P, S> tab) {
 
         this.tab = tab;
     }
 
     /**
-     * @return The {@link SnaplogTab} that describes the UI elements of this tab.
+     * @return The {@link SnaplogTabDescriptor} that describes the UI elements of this tab.
      */
     @SuppressWarnings({ "unchecked" })
-    public <P extends Panel, S extends FragmentState> SnaplogTab<P, S> get() {
+    public SnaplogTabDescriptor<?, ?> get() {
 
         // Since enum instances can't be generified we need to infer the generic type from the return value.
-        return (SnaplogTab<P, S>) tab;
+        return tab;
     }
 
     /**
@@ -133,10 +128,11 @@ public enum Tab {
      *
      * @param state The state to apply on the tab's new panel.
      */
-    public void activateWithState(final FragmentState state) {
+    public <S extends TabState<P>, P extends Panel> void activateWithState(final S state) {
 
         try {
-            SnaplogTab<?, FragmentState> snaplogTab = get();
+            @SuppressWarnings({ "unchecked" })
+            SnaplogTabDescriptor<P, S> snaplogTab = (SnaplogTabDescriptor<P, S>) get();
             LayoutPage.getController().activateTabWithState( snaplogTab, state );
         }
         catch (IncompatibleStateException e) {
@@ -149,10 +145,10 @@ public enum Tab {
      */
     public boolean isVisible() {
 
-        return get().isInNavigation();
+        return get().shownInNavigation();
     }
 
-    public static Tab of(final FragmentNavigationTab<?, ?> tab) {
+    public static Tab of(final TabDescriptor<?, ?> tab) {
 
         for (final Tab enumTab : values())
             if (enumTab.get().getClass().isInstance( tab ))

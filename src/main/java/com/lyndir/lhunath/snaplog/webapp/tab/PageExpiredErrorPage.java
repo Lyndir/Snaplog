@@ -18,7 +18,7 @@ package com.lyndir.lhunath.snaplog.webapp.tab;
 import com.google.common.collect.ImmutableList;
 import com.lyndir.lhunath.opal.wayward.component.RedirectToPageException;
 import com.lyndir.lhunath.opal.wayward.model.Models;
-import com.lyndir.lhunath.opal.wayward.navigation.AbstractFragmentState;
+import com.lyndir.lhunath.opal.wayward.navigation.AbstractTabState;
 import com.lyndir.lhunath.opal.wayward.navigation.IncompatibleStateException;
 import com.lyndir.lhunath.snaplog.webapp.page.LayoutPage;
 import com.lyndir.lhunath.snaplog.webapp.tool.SnaplogTool;
@@ -41,7 +41,7 @@ public class PageExpiredErrorPage extends LayoutPage {
     @Override
     protected void onBeforeRender() {
 
-        getController().activateNewTab( PageExpiredErrorTab.instance );
+        getController().activateNewTab( PageExpiredErrorTabDescriptor.instance );
 
         throw new RedirectToPageException( LayoutPage.class );
     }
@@ -55,9 +55,9 @@ public class PageExpiredErrorPage extends LayoutPage {
     }
 
 
-    static class PageExpiredErrorTab implements SnaplogTab<PageExpiredErrorTabPanel, PageExpiredErrorState> {
+    static class PageExpiredErrorTabDescriptor implements SnaplogTabDescriptor<PageExpiredErrorTabPanel, PageExpiredErrorState> {
 
-        public static final PageExpiredErrorTab instance = new PageExpiredErrorTab();
+        public static final PageExpiredErrorTabDescriptor instance = new PageExpiredErrorTabDescriptor();
 
         @Override
         public List<? extends SnaplogTool> listTools(final PageExpiredErrorTabPanel panel) {
@@ -67,23 +67,16 @@ public class PageExpiredErrorPage extends LayoutPage {
 
         @NotNull
         @Override
-        public String getTabFragment() {
+        public String getFragment() {
 
             return "expired";
         }
 
         @NotNull
         @Override
-        public PageExpiredErrorState buildFragmentState(@NotNull final PageExpiredErrorTabPanel panel) {
+        public PageExpiredErrorState newState(@NotNull final PageExpiredErrorTabPanel panel) {
 
             return new PageExpiredErrorState();
-        }
-
-        @Override
-        public void applyFragmentState(@NotNull final PageExpiredErrorTabPanel panel, @NotNull final PageExpiredErrorState state)
-                throws IncompatibleStateException {
-
-            // No state.
         }
 
         @NotNull
@@ -94,7 +87,7 @@ public class PageExpiredErrorPage extends LayoutPage {
         }
 
         @Override
-        public boolean isInNavigation() {
+        public boolean shownInNavigation() {
 
             return true;
         }
@@ -108,14 +101,14 @@ public class PageExpiredErrorPage extends LayoutPage {
 
         @NotNull
         @Override
-        public PageExpiredErrorState getState(@NotNull final String fragment) {
+        public PageExpiredErrorState newState(@NotNull final String fragment) {
 
             return new PageExpiredErrorState( fragment );
         }
     }
 
 
-    static class PageExpiredErrorState extends AbstractFragmentState {
+    static class PageExpiredErrorState extends AbstractTabState<PageExpiredErrorTabPanel> {
 
         PageExpiredErrorState() {
 
@@ -124,6 +117,13 @@ public class PageExpiredErrorPage extends LayoutPage {
         PageExpiredErrorState(final String fragment) {
 
             super( fragment );
+        }
+
+        @Override
+        public void apply(@NotNull final PageExpiredErrorTabPanel panel)
+                throws IncompatibleStateException {
+
+            // No state.
         }
     }
 }

@@ -16,10 +16,10 @@
 package com.lyndir.lhunath.snaplog.data.object.media;
 
 import com.google.common.base.Predicate;
+import com.lyndir.lhunath.snaplog.security.SnaplogST;
+import com.lyndir.lhunath.opal.security.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.data.object.media.aws.S3Source;
-import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
-import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.model.service.AWSSourceService;
 import com.lyndir.lhunath.snaplog.model.service.SourceService;
 import com.lyndir.lhunath.snaplog.webapp.listener.GuiceContext;
@@ -65,66 +65,66 @@ public enum SourceType implements SourceService<Source, Media> {
     }
 
     @Override
-    public void loadMedia(final SecurityToken token, final Source source)
+    public void loadMedia(final SnaplogST token, final Source source)
             throws PermissionDeniedException {
 
         GuiceContext.getInstance( mediaProviderService ).loadMediaData( token, source );
     }
 
     @Override
-    public void loadMediaData(final SecurityToken token, final Source source)
+    public void loadMediaData(final SnaplogST token, final Source source)
             throws PermissionDeniedException {
 
         GuiceContext.getInstance( mediaProviderService ).loadMediaData( token, source );
     }
 
     @Override
-    public Iterator<Source> iterateSources(final SecurityToken token, final Predicate<Source> predicate) {
+    public Iterator<Source> iterateSources(final SnaplogST token, final Predicate<Source> predicate) {
 
         return GuiceContext.getInstance( mediaProviderService ).iterateSources( token, predicate );
     }
 
     @Override
-    public ListIterator<Media> iterateMedia(final SecurityToken token, final Source source, final boolean ascending) {
+    public ListIterator<Media> iterateMedia(final SnaplogST token, final Source source, final boolean ascending) {
 
         return GuiceContext.getInstance( mediaProviderService ).iterateMedia( token, source, ascending );
     }
 
     @Override
-    public Media findMediaWithName(final SecurityToken token, final User owner, final String mediaName) {
+    public Media findMediaWithName(final SnaplogST token, final User owner, final String mediaName) {
 
         return GuiceContext.getInstance( mediaProviderService ).findMediaWithName( token, owner, mediaName );
     }
 
     @Override
-    public MediaMapping newMapping(final SecurityToken token, final Media media)
+    public MediaMapping newMapping(final SnaplogST token, final Media media)
             throws PermissionDeniedException {
 
         return GuiceContext.getInstance( mediaProviderService ).newMapping( token, media );
     }
 
     @Override
-    public MediaMapping findMediaMapping(final SecurityToken token, final String mapping) {
+    public MediaMapping findMediaMapping(final SnaplogST token, final String mapping) {
 
         return GuiceContext.getInstance( mediaProviderService ).findMediaMapping( token, mapping );
     }
 
     @Override
-    public URL findResourceURL(final SecurityToken token, final Media media, final Media.Quality quality)
+    public URL findResourceURL(final SnaplogST token, final Media media, final Media.Quality quality)
             throws PermissionDeniedException {
 
         return GuiceContext.getInstance( mediaProviderService ).findResourceURL( token, media, quality );
     }
 
     @Override
-    public void delete(final SecurityToken token, final Media media)
+    public void delete(final SnaplogST token, final Media media)
             throws PermissionDeniedException {
 
         GuiceContext.getInstance( mediaProviderService ).delete( token, media );
     }
 
     @Override
-    public Source newSource(final SecurityToken token, final Source source) {
+    public Source newSource(final SnaplogST token, final Source source) {
 
         return GuiceContext.getInstance( mediaProviderService ).newSource( token, source );
     }

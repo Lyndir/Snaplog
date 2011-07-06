@@ -9,15 +9,15 @@ import com.google.common.base.Predicate;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 import com.google.inject.Inject;
+import com.lyndir.lhunath.snaplog.security.SnaplogST;
+import com.lyndir.lhunath.opal.security.error.PermissionDeniedException;
 import com.lyndir.lhunath.opal.system.logging.Logger;
 import com.lyndir.lhunath.opal.system.logging.exception.AlreadyCheckedException;
 import com.lyndir.lhunath.opal.system.util.DateUtils;
 import com.lyndir.lhunath.snaplog.data.object.media.Media;
 import com.lyndir.lhunath.snaplog.data.object.media.Tag;
-import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import com.lyndir.lhunath.snaplog.data.service.TagDAO;
-import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.model.service.UserService;
 import java.util.List;
 
@@ -106,7 +106,7 @@ public class TagDAOImpl implements TagDAO {
                     .and( query.descend( "name" ) //
                                   .constrain( tagName ) ) //
                     .and( query.descend( "ownerProfile" ) //
-                                  .constrain( userService.getProfile( SecurityToken.INTERNAL_USE_ONLY, tagOwner ) ) );
+                                  .constrain( userService.getProfile( SnaplogST.INTERNAL_USE_ONLY, tagOwner ) ) );
 
             ObjectSet<Tag> results = query.execute();
             if (results.hasNext()) {

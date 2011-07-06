@@ -4,6 +4,6 @@
 
     <entry key="type">User's Profile</entry>
 
-    <entry key="description">{0}''s profile</entry>
+    <entry key="instance">{0}''s profile</entry>
 
 </properties>

@@ -1,10 +1,10 @@
 package com.lyndir.lhunath.snaplog.model.service;
 
+import com.lyndir.lhunath.opal.security.Permission;
+import com.lyndir.lhunath.snaplog.security.SnaplogST;
 import com.lyndir.lhunath.opal.wayward.collection.IPredicate;
 import com.lyndir.lhunath.opal.wayward.model.WicketInjected;
 import com.lyndir.lhunath.snaplog.data.object.media.*;
-import com.lyndir.lhunath.snaplog.data.object.security.Permission;
-import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.object.user.User;
 import java.util.Iterator;
 import org.joda.time.DateTimeFieldType;
@@ -19,11 +19,11 @@ import org.joda.time.DateTimeFieldType;
  */
 public interface TagService extends WicketInjected {
 
-    Iterator<Tag> iterateTags(SecurityToken token, IPredicate<Tag> predicate);
+    Iterator<Tag> iterateTags(SnaplogST token, IPredicate<Tag> predicate);
 
-    Iterator<Media> iterateMedia(SecurityToken token, Tag tag, boolean ascending);
+    Iterator<Media> iterateMedia(SnaplogST token, Tag tag, boolean ascending);
 
-    Tag findTagWithName(SecurityToken token, User tagOwner, String tagName);
+    Tag findTagWithName(SnaplogST token, User tagOwner, String tagName);
 
     /**
      * @param token     Request authentication token should authorize {@link Permission#VIEW} on the source's media to return.
@@ -34,7 +34,7 @@ public interface TagService extends WicketInjected {
      *
      * @return An {@link Iterator} of time frames that hold the source's media in a chronological ordering.
      */
-    Iterator<TimeFrame> iterateTimeFrames(SecurityToken token, Tag tag, DateTimeFieldType frame, boolean ascending);
+    Iterator<TimeFrame> iterateTimeFrames(SnaplogST token, Tag tag, DateTimeFieldType frame, boolean ascending);
 
     /**
      * @param token  Request authentication token should authorize {@link Permission#VIEW} on the media to return.
@@ -44,5 +44,5 @@ public interface TagService extends WicketInjected {
      *
      * @return An {@link Iterator} of time frames that hold the given media in a chronological ordering.
      */
-    Iterator<TimeFrame> iterateTimeFrames(SecurityToken token, Iterator<Media> source, DateTimeFieldType frame);
+    Iterator<TimeFrame> iterateTimeFrames(SnaplogST token, Iterator<Media> source, DateTimeFieldType frame);
 }

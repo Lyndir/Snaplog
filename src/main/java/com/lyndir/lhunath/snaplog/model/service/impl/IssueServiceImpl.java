@@ -17,16 +17,16 @@ package com.lyndir.lhunath.snaplog.model.service.impl;
 
 import com.google.common.base.Predicate;
 import com.google.inject.Inject;
+import com.lyndir.lhunath.opal.security.Permission;
+import com.lyndir.lhunath.snaplog.security.SnaplogST;
+import com.lyndir.lhunath.opal.security.error.PermissionDeniedException;
+import com.lyndir.lhunath.opal.security.service.SecurityService;
 import com.lyndir.lhunath.snaplog.data.DAOModule;
 import com.lyndir.lhunath.snaplog.data.object.Issue;
-import com.lyndir.lhunath.snaplog.data.object.security.Permission;
-import com.lyndir.lhunath.snaplog.data.object.security.SecurityToken;
 import com.lyndir.lhunath.snaplog.data.service.IssueDAO;
 import com.lyndir.lhunath.snaplog.error.IssueNotFoundException;
-import com.lyndir.lhunath.snaplog.error.PermissionDeniedException;
 import com.lyndir.lhunath.snaplog.model.ServiceModule;
 import com.lyndir.lhunath.snaplog.model.service.IssueService;
-import com.lyndir.lhunath.snaplog.model.service.SecurityService;
 import java.util.ListIterator;
 
 
@@ -60,13 +60,13 @@ public class IssueServiceImpl implements IssueService {
     }
 
     @Override
-    public ListIterator<Issue> iterateIssues(final SecurityToken token, final Predicate<Issue> predicate) {
+    public ListIterator<Issue> iterateIssues(final SnaplogST token, final Predicate<Issue> predicate) {
 
         return securityService.filterAccess( Permission.VIEW, token, issueDAO.listIssues( predicate ).listIterator() );
     }
 
     @Override
-    public Issue getIssue(final SecurityToken token, final String issueCode)
+    public Issue getIssue(final SnaplogST token, final String issueCode)
             throws PermissionDeniedException, IssueNotFoundException {
 
         Issue issue = issueDAO.findIssue( issueCode );
